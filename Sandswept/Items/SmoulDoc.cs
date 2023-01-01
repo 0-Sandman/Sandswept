@@ -5,8 +5,6 @@ using UnityEngine;
 using static Sandswept.Main;
 using static Sandswept.Items.SmoulDoc.DocBehaviour;
 using static Sandswept.Utils.Components.MaterialControllerComponents;
-using Sandswept.Utils;
-using UnityEngine.AddressableAssets;
 
 namespace Sandswept.Items
 {

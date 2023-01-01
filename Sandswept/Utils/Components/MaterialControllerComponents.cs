@@ -46,15 +46,12 @@ namespace Sandswept.Utils.Components
 
             public void Start()
             {
-                Debug.Log("RENDERER RENDERER RENDERER RENDERER RENDERER RENDERER RENDERER RENDERER RENDERER RENDERER ");
                 if (Renderer)
                 {
-                    Debug.Log("MATERIAL MATERIAL MATERIAL MATERIAL");
                     Material = Renderer.materials[0];
 
                     if (Material)
                     {
-                        Debug.Log("SHADER");
                         Debug.Log(Renderer.materials[0]);
                         Debug.Log(Material.shader.name);
 

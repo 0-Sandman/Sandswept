@@ -1,21 +1,60 @@
 ﻿using BepInEx.Configuration;
 using R2API;
 using RoR2;
-using Sandswept.Utils.Components;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using static R2API.RecalculateStatsAPI;
-using RoR2.Projectile;
+using static Sandswept.Utils.Components.MaterialControllerComponents;
 
 namespace Sandswept.Items
 {
     public class Plutonium : ItemBase<Plutonium>
     {
-        public class PlutoniumBehaviour : CharacterBody.ItemBehavior
+        public class ShieldedComponent : MonoBehaviour
         {
+            public int cachedInventoryCount = 0;
+
+            public bool cachedIsShielded = false;
+        }
+
+        public class PlutoniumBehaviour : MonoBehaviour
+        {
+            public bool active = true;
+            public CharacterBody body;
             public float Timer;
+            private GameObject PlutIndicator;
+
+            private bool indicatorEnabled
+            {
+                get
+                {
+                    return PlutIndicator;
+                }
+                set
+                {
+                    if (indicatorEnabled != value)
+                    {
+                        if (value)
+                        {
+                            PlutIndicator = Instantiate(PlutoniumZone, body.corePosition, Quaternion.identity);
+                            PlutIndicator.GetComponent<RoR2.NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(body.gameObject);
+                        }
+                        else
+                        {
+                            Destroy(PlutIndicator);
+                            PlutIndicator = null;
+                        }
+                    }
+                }
+            }
+
             public void FixedUpdate()
             {
+                if (!active)
+                {
+                    Destroy(this);
+                }
+
                 Timer += Time.fixedDeltaTime;
                 if (!(Timer >= 0.05))
                 {
@@ -35,14 +74,38 @@ namespace Sandswept.Items
                                 InflictDotInfo inflictDotInfo = default(InflictDotInfo);
                                 inflictDotInfo.victimObject = teamMember.gameObject;
                                 inflictDotInfo.attackerObject = body.gameObject;
-                                inflictDotInfo.totalDamage = body.damage * 0.25f;
+                                inflictDotInfo.totalDamage = body.damage;
                                 inflictDotInfo.dotIndex = IrradiatedIndex;
-                                inflictDotInfo.damageMultiplier = 1f;
+                                inflictDotInfo.duration = 0.1f;
+                                inflictDotInfo.maxStacksFromAttacker = 1;
+                                inflictDotInfo.damageMultiplier = 1f * body.inventory.GetItemCount(instance.ItemDef);
                                 InflictDotInfo dotInfo = inflictDotInfo;
-                                DotController.InflictDot(ref dotInfo);
+                                RoR2.DotController.InflictDot(ref dotInfo);
                             }
                         }
                     }
+                }
+            }
+
+            private void Start()
+            {
+                indicatorEnabled = true;
+                On.RoR2.CharacterBody.OnInventoryChanged += InventoryCheck;
+            }
+
+            private void OnDestroy()
+            {
+                indicatorEnabled = false;
+                On.RoR2.CharacterBody.OnInventoryChanged -= InventoryCheck;
+            }
+
+            public void InventoryCheck(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, RoR2.CharacterBody self)
+            {
+                orig(self);
+                int stack = body.inventory.GetItemCount(instance.ItemDef);
+                if (stack == 0)
+                {
+                    Destroy(this);
                 }
             }
         }
@@ -75,15 +138,32 @@ namespace Sandswept.Items
             CreateBuff();
             CreateDot();
             CreateItem();
-            PlutoniumZone = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>((object)"RoR2/Base/MiniMushroom/SporeGrenadeProjectileDotZone.prefab").WaitForCompletion(), "PlutoniumZone");
-            GameObject.Destroy(PlutoniumZone.GetComponent<ProjectileDotZone>());
-            GameObject.Destroy(PlutoniumZone.transform.GetChild(0).gameObject);
+            CreatePrefab();
+            Hooks();
+        }
+
+        public override void Hooks()
+        {
+            GetStatCoefficients += GrantBaseShield;
+            On.RoR2.CharacterBody.FixedUpdate += ShieldedCheck;
+            GetStatCoefficients += GrantEffect;
+        }
+
+        public void CreatePrefab()
+        {
+            PlutoniumZone = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/NearbyDamageBonusIndicator"), "PlutoniumZone");
             Transform val = PlutoniumZone.transform.Find("Radius, Spherical");
-            val.localScale = Vector3.one * 25f * 2f;
-            MaterialControllerComponents.HGIntersectionController hGIntersectionController = val.gameObject.AddComponent<MaterialControllerComponents.HGIntersectionController>();
+            val.localScale = Vector3.one * 15f * 2f;
+            HGIntersectionController hGIntersectionController = val.gameObject.AddComponent<HGIntersectionController>();
             hGIntersectionController.Renderer = val.GetComponent<MeshRenderer>();
-            MeshRenderer val2 = (MeshRenderer)hGIntersectionController.Renderer;
-            Material val3 = PlutoniumZone.
+            MeshRenderer val5 = (MeshRenderer)hGIntersectionController.Renderer;
+            Material val3 = Addressables.LoadAssetAsync<Material>("d0eb35f70367cdc4882f3bb794b65f2b").WaitForCompletion();
+            Material val4 = Object.Instantiate(val3);
+            val4.SetColor("_TintColor", new Color(20f, 30f, 10f));
+            val4.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>("385005992afbfce4089807386adc07b0").WaitForCompletion());
+            val5.material = val4;
+            hGIntersectionController.Material = val4;
+            PrefabAPI.RegisterNetworkPrefab(PlutoniumZone);
         }
 
         public void CreateBuff()
@@ -108,12 +188,53 @@ namespace Sandswept.Items
             };
             IrradiatedIndex = DotAPI.RegisterDotDef(IrradiatedDef, null, null);
         }
+
+        private void ShieldedCheck(On.RoR2.CharacterBody.orig_FixedUpdate orig, CharacterBody self)
+        {
+            orig.Invoke(self);
+            ShieldedComponent shieldedCoreComponent = self.GetComponent<ShieldedComponent>();
+            if (!shieldedCoreComponent)
+            {
+                shieldedCoreComponent = self.gameObject.AddComponent<ShieldedComponent>();
+            }
+            int count = GetCount(self);
+            bool flag = self.healthComponent.shield > 0f;
+            bool flag2 = false;
+            if (shieldedCoreComponent.cachedInventoryCount != count)
+            {
+                flag2 = true;
+                shieldedCoreComponent.cachedInventoryCount = count;
+            }
+            if (shieldedCoreComponent.cachedIsShielded != flag)
+            {
+                flag2 = true;
+                shieldedCoreComponent.cachedIsShielded = flag;
+            }
+            if (flag2)
+            {
+                self.statsDirty = true;
+            }
+        }
         private void GrantBaseShield(CharacterBody sender, StatHookEventArgs args)
         {
             if (GetCount(sender) > 0)
             {
-                HealthComponent component = ((Component)sender).GetComponent<HealthComponent>();
+                HealthComponent component = sender.GetComponent<RoR2.HealthComponent>();
                 args.baseShieldAdd += component.fullHealth * 0.03f;
+            }
+        }
+        private void GrantEffect(CharacterBody sender, StatHookEventArgs args)
+        {
+            ShieldedComponent component = sender.GetComponent<ShieldedComponent>();
+            PlutoniumBehaviour behaviourCheck = sender.GetComponent<PlutoniumBehaviour>();
+            if ((bool)component && component.cachedIsShielded && component.cachedInventoryCount > 0 && !behaviourCheck)
+            {
+                PlutoniumBehaviour behaviour = sender.gameObject.AddComponent<PlutoniumBehaviour>();
+                behaviour.body = sender;
+            }
+            if ((bool)component && component.cachedIsShielded == false && behaviourCheck)
+            {
+                behaviourCheck.active = false;
             }
         }
 

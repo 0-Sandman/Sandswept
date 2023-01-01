@@ -113,13 +113,13 @@ namespace Sandswept.Items
         }
         public override void Hooks()
         {
-            On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
+            On.RoR2.CharacterBody.OnInventoryChanged += InventoryChanged;
         }
 
-        private void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
+        private void InventoryChanged(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, CharacterBody self)
         {
-            orig(self, itemIndex, count);
-            int stack = self.GetItemCount(ItemDef);
+            orig(self);
+            int stack = GetCount(self);
             if (stack >= 1)
             {
             PassBehaviour behaviourCheck = self.GetComponent<PassBehaviour>();
