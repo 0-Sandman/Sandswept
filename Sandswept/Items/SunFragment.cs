@@ -12,8 +12,6 @@ namespace Sandswept.Items
 
         public static DamageAPI.ModdedDamageType SolarFlareDamageType;
 
-        public static BuffDef Blinded;
-
         public override string ItemName => "Sun Fragment";
 
         public override string ItemLangTokenName => "SUN_FRAGMENT";
@@ -26,9 +24,9 @@ namespace Sandswept.Items
 
         public override ItemTier Tier => ItemTier.Tier1;
 
-        public override GameObject ItemModel => null;
+        public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("FragmentPrefab.prefab");
 
-        public override Sprite ItemIcon => null;
+        public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("FragmentIcon.png");
 
 
         public override void Init(ConfigFile config)
@@ -102,12 +100,6 @@ namespace Sandswept.Items
                 }
             }
             orig(self, damageInfo, victim);
-        }
-
-        private void BuffCheck(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, RoR2.GlobalEventManager self, RoR2.DamageInfo damageInfo, GameObject victim)
-        {
-            var victimBody = victim.GetComponent<CharacterBody>();
-            
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()

@@ -130,9 +130,9 @@ namespace Sandswept.Items
 
         public override ItemTier Tier => ItemTier.Tier1;
 
-        public override GameObject ItemModel => null;
+        public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("PlutoniumPrefab.Prefab");
 
-        public override Sprite ItemIcon => null;
+        public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("PlutoniumIcon.png");
 
         public override void Init(ConfigFile config)
         {
