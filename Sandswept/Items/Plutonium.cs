@@ -37,7 +37,7 @@ namespace Sandswept.Items
                         if (value)
                         {
                             PlutIndicator = Instantiate(PlutoniumZone, body.corePosition, Quaternion.identity);
-                            PlutIndicator.GetComponent<RoR2.NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(body.gameObject);
+                            PlutIndicator.GetComponent<NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(body.gameObject);
                         }
                         else
                         {
@@ -69,18 +69,18 @@ namespace Sandswept.Items
                         foreach (TeamComponent teamMember in TeamComponent.GetTeamMembers(teamIndex2))
                         {
                             Vector3 val = teamMember.transform.position - body.corePosition;
-                            if (val.sqrMagnitude <= 500f)
+                            if (val.sqrMagnitude <= 300f)
                             {
-                                InflictDotInfo inflictDotInfo = default(InflictDotInfo);
+                                InflictDotInfo inflictDotInfo = default;
                                 inflictDotInfo.victimObject = teamMember.gameObject;
                                 inflictDotInfo.attackerObject = body.gameObject;
                                 inflictDotInfo.totalDamage = body.damage;
                                 inflictDotInfo.dotIndex = IrradiatedIndex;
                                 inflictDotInfo.duration = 0.1f;
                                 inflictDotInfo.maxStacksFromAttacker = 1;
-                                inflictDotInfo.damageMultiplier = 1f * body.inventory.GetItemCount(instance.ItemDef);
+                                inflictDotInfo.damageMultiplier = 0.5f * body.inventory.GetItemCount(instance.ItemDef);
                                 InflictDotInfo dotInfo = inflictDotInfo;
-                                RoR2.DotController.InflictDot(ref dotInfo);
+                                DotController.InflictDot(ref dotInfo);
                             }
                         }
                     }
@@ -109,6 +109,8 @@ namespace Sandswept.Items
                 }
             }
         }
+        public static DamageColorIndex IrradiateDamageColour = DamageColourHelper.RegisterDamageColor(new Color32(175, 255, 30, 255));
+
         public static DotController.DotDef IrradiatedDef;
 
         public static DotController.DotIndex IrradiatedIndex;
@@ -122,9 +124,9 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "Create an irradiating ring around you when you have active shield";
 
-        public override string ItemFullDescription => "I dont want to write this rn";
+        public override string ItemFullDescription => "Gain <style=cIsUtility>3%</style shield. While shields are active create a <style=cIsUtility>15m</style> radius that <style=cIsHealing>Irradiates</style> enemies for <style=cIsDamage>50%</style> <style=cStack>(+50% per stack)</style>.";
 
-        public override string ItemLore => "<style=cIsStack>funny quirky funny funny funny quirky</style>";
+        public override string ItemLore => "<style=cStack>funny quirky funny funny funny quirky</style>";
 
         public override ItemTier Tier => ItemTier.Tier1;
 
@@ -159,8 +161,9 @@ namespace Sandswept.Items
             MeshRenderer val5 = (MeshRenderer)hGIntersectionController.Renderer;
             Material val3 = Addressables.LoadAssetAsync<Material>("d0eb35f70367cdc4882f3bb794b65f2b").WaitForCompletion();
             Material val4 = Object.Instantiate(val3);
-            val4.SetColor("_TintColor", new Color(20f, 30f, 10f));
+            val4.SetColor("_TintColor", new Color(15f, 25f, 5f, 10f));
             val4.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>("385005992afbfce4089807386adc07b0").WaitForCompletion());
+            val4.SetFloat("_Boost", 0.2f);
             val5.material = val4;
             hGIntersectionController.Material = val4;
             PrefabAPI.RegisterNetworkPrefab(PlutoniumZone);
@@ -183,8 +186,8 @@ namespace Sandswept.Items
             {
                 associatedBuff = IrradiatedBuff,
                 damageCoefficient = 1f,
-                damageColorIndex = DamageColorIndex.Heal,
-                interval = 0.5f
+                damageColorIndex = IrradiateDamageColour,
+                interval = 1f
             };
             IrradiatedIndex = DotAPI.RegisterDotDef(IrradiatedDef, null, null);
         }

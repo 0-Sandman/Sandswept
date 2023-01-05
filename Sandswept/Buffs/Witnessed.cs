@@ -1,12 +1,8 @@
 ﻿using BepInEx.Configuration;
 using RoR2;
 using UnityEngine;
-using static Sandswept.Main;
 using static R2API.DotAPI;
 using static Sandswept.Items.BloodMask;
-using EntityStates.BrotherMonster;
-using Newtonsoft.Json.Utilities;
-using System.Linq;
 
 namespace Sandswept.Buffs
 {
@@ -18,15 +14,16 @@ namespace Sandswept.Buffs
 
         public override string BuffName => "Witnessed";
 
-        public override Color Color => new Color32(215, 0, 0, byte.MaxValue);
+        public override Color Color => new Color(215f, 0f, 0f, 255f);
 
-        public override Sprite BuffIcon => MainAssets.LoadAsset<Sprite>("WitnessedIcon.png");
+        public override Sprite BuffIcon => null;
 
-        public bool isDebuff => true;
+        public bool isDebuff => false;
+
+        public bool canStack => false;
 
         public override void Hooks()
         {
-            return;
         }
 
         public override void Init(ConfigFile config)

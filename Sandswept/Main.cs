@@ -10,7 +10,6 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using Sandswept.Buffs;
-using Sandswept.Utils.Components;
 
 namespace Sandswept
 {
@@ -18,6 +17,7 @@ namespace Sandswept
     [BepInDependency(R2API.DotAPI.PluginGUID, R2API.DotAPI.PluginVersion)]
     [BepInDependency(R2API.ItemAPI.PluginGUID, R2API.ItemAPI.PluginVersion)]
     [BepInDependency(R2API.EliteAPI.PluginGUID, R2API.EliteAPI.PluginVersion)]
+    [BepInDependency(R2API.DamageAPI.PluginGUID, R2API.DamageAPI.PluginVersion)]
     [BepInDependency(R2API.PrefabAPI.PluginGUID, R2API.PrefabAPI.PluginVersion)]
     [BepInDependency(R2API.LanguageAPI.PluginGUID, R2API.LanguageAPI.PluginVersion)]
     [BepInDependency(R2API.RecalculateStatsAPI.PluginGUID, R2API.RecalculateStatsAPI.PluginVersion)]
@@ -47,6 +47,8 @@ namespace Sandswept
         public List<BuffBase> Buffs = new List<BuffBase>();
         public List<EliteEquipmentBase> EliteEquipments = new List<EliteEquipmentBase>();
 
+        public static Dictionary<BuffBase, bool> BuffStatusDictionary = new Dictionary<BuffBase, bool>();
+
         //public static List<Material> SwappedMaterials = new List<Material>();
 
         //Provides a direct access to this plugin's logger for use in any of your other classes.
@@ -66,6 +68,7 @@ namespace Sandswept
             }
 
             Swapallshaders(MainAssets);
+            DamageColourHelper.Init();
             //ShaderConversion(MainAssets);
             //AttachControllerFinderToObjects(MainAssets);
 
@@ -122,8 +125,8 @@ namespace Sandswept
 
             foreach (var buffType in BuffTypes)
             {
-                BuffBase buff = (BuffBase)System.Activator.CreateInstance(buffType);
-                if (ValidateBuffs(buff, Buffs))
+                BuffBase buff = (BuffBase)Activator.CreateInstance(buffType);
+                if (ValidateBuff(buff, Buffs))
                 {
                     buff.Init(Config);
                 }
@@ -202,16 +205,17 @@ namespace Sandswept
             }
             return false;
         }
-        public bool ValidateBuffs(BuffBase buff, List<BuffBase> buffList)
+        public bool ValidateBuff(BuffBase buff, List<BuffBase> buffList)
         {
-            var enabled = Config.Bind<bool>("Equipment: " + buff.BuffName, "Enable Elite Equipment?", true, "Should this elite equipment appear in runs? If disabled, the associated elite will not appear in runs either.").Value;
+            var enabled = Config.Bind<bool>("Buff: " + buff.BuffName, "Enable Buff?", true, "Should this buff be registered for use in the game?").Value;
+
+            BuffStatusDictionary.Add(buff, enabled);
 
             if (enabled)
             {
                 buffList.Add(buff);
-                return true;
             }
-            return false;
+            return enabled;
         }
         public void Swapallshaders(AssetBundle bundle)
         {

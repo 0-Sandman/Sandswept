@@ -1,6 +1,5 @@
 ﻿using BepInEx.Configuration;
 using R2API;
-using R2API.Utils;
 using RoR2;
 using UnityEngine;
 using static Sandswept.Buffs.Witnessed;
@@ -46,7 +45,7 @@ namespace Sandswept.Items
             Hooks();
         }
 
-        public void Hooks()
+        public override void Hooks()
         {
             On.RoR2.DotController.InflictDot_GameObject_GameObject_DotIndex_float_float_Nullable1 += OnBleedProc;
         }
@@ -64,9 +63,9 @@ namespace Sandswept.Items
             {
                 attacker.gameObject.AddComponent<WitnessToken>();
 
-                if (dotIndex == DotController.DotIndex.Bleed || dotIndex == DotController.DotIndex.SuperBleed)
+                if (dotIndex == DotIndex.Bleed || dotIndex == DotIndex.SuperBleed)
                 {
-                    InflictDotInfo inflictDotInfo = default(InflictDotInfo);
+                    InflictDotInfo inflictDotInfo = default;
                     inflictDotInfo.victimObject = victimObject;
                     inflictDotInfo.attackerObject = attackerObject;
                     inflictDotInfo.totalDamage = null;
@@ -75,7 +74,7 @@ namespace Sandswept.Items
                     inflictDotInfo.damageMultiplier = 1f;
                     inflictDotInfo.maxStacksFromAttacker = 1;
                     InflictDotInfo dotInfo = inflictDotInfo;
-                    DotController.InflictDot(ref dotInfo);
+                    InflictDot(ref dotInfo);
                 }
             }
         }

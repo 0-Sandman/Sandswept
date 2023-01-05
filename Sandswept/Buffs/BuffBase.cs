@@ -12,29 +12,20 @@ namespace Sandswept.Buffs
 
         public BuffBase()
         {
-            if (instance != null)
-            {
-                throw new InvalidOperationException("Singleton class \"" + typeof(T).Name + "\" inheriting BuffBase was instantiated twice");
-            }
+            if (instance != null) throw new InvalidOperationException("Singleton class \"" + typeof(T).Name + "\" inheriting BuffBase was instantiated twice");
             instance = this as T;
         }
     }
 
     public abstract class BuffBase
     {
-        public BuffDef BuffDef;
-
         public abstract string BuffName { get; }
-
         public abstract Color Color { get; }
-
         public virtual bool CanStack { get; set; } = false;
-
-
         public virtual bool IsDebuff { get; set; } = false;
-
-
         public abstract Sprite BuffIcon { get; }
+
+        public BuffDef BuffDef;
 
         public abstract void Init(ConfigFile config);
 
@@ -46,6 +37,7 @@ namespace Sandswept.Buffs
             BuffDef.canStack = CanStack;
             BuffDef.isDebuff = IsDebuff;
             BuffDef.iconSprite = BuffIcon;
+
             ContentAddition.AddBuffDef(BuffDef);
         }
 
