@@ -124,7 +124,7 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "Create an irradiating ring around you when you have active shield";
 
-        public override string ItemFullDescription => "Gain <style=cIsUtility>3%</style shield. While shields are active create a <style=cIsUtility>15m</style> radius that <style=cIsHealing>Irradiates</style> enemies for <style=cIsDamage>50%</style> <style=cStack>(+50% per stack)</style>.";
+        public override string ItemFullDescription => "Gain a <style=cIsHealing>shield</style> equal to <style=cIsHealing>3%</style> of your maximum health. While shields are active create a <style=cIsUtility>15m</style> radius that <style=cIsHealing>Irradiates</style> enemies for <style=cIsDamage>50%</style> <style=cStack>(+50% per stack)</style> damage.";
 
         public override string ItemLore => "<style=cStack>funny quirky funny funny funny quirky</style>";
 

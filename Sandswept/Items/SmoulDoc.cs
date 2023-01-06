@@ -79,7 +79,7 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "DoTs reduce enemy armour and attack speed.";
 
-        public override string ItemFullDescription => "<style=cIsDamage>8%</style> chance to <style=cIsDamage>ignite</style> enemies on hit for <style=cIsDamage>100%</style> damage. <style=cIsDamage>DoT</style> effects <style=cIsDamage>Burden</style> enemies, ruducing their <style=cIsDamage>armour</style> by <style=cIsDamage>10</style> <style=cStack>(+5 per stack)</style> and <style=cIsDamage>attack speed</style> by <style=cIsDamage>10%</style><style=cStack>(+5% per stack)</style>.";
+        public override string ItemFullDescription => "<style=cIsDamage>8%</style> chance to <style=cIsDamage>ignite</style> enemies on hit for <style=cIsDamage>100%</style> damage. <style=cIsDamage>DoT</style> effects <style=cIsDamage>Burden</style> enemies, ruducing their <style=cIsDamage>armour</style> by <style=cIsDamage>10</style> <style=cStack>(+5 per stack)</style> and <style=cIsDamage>attack speed</style> by <style=cIsDamage>10%</style> <style=cStack>(+5% per stack)</style>.";
 
         public override string ItemLore => "<style=cStack>[insert sad story about corporate exploitation here]</style>";
 

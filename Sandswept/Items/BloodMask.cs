@@ -54,7 +54,6 @@ namespace Sandswept.Items
         {
             orig(victimObject, attackerObject, dotIndex, duration, damageMultiplier, maxStacksFromAttacker);
 
-            var victim = victimObject.GetComponent<CharacterBody>();
             var attacker = attackerObject.GetComponent<CharacterBody>();
 
             var stacks = GetCount(attacker);

@@ -18,7 +18,7 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "Create a blinding flash on hit that damages and stuns enemies";
 
-        public override string ItemFullDescription => "<style=cIsUtility>5%</style> chance to <style=cIsUtility>stun</style> enemies in a <style=cIsUtility>10m</style> <style=cStack>(+1m per stack)</style> area for <style=cIsUtility>0.25s</style>, dealing <style=cIsDamage>25%</style> <style=cStack>(+25% per stack)</style> total damage";
+        public override string ItemFullDescription => "<style=cIsUtility>5%</style> chance on hit to create a <style=cIsUtility>blinding flash</style> in a <style=cIsUtility>10m</style> <style=cStack>(+1m per stack)</style> area, dealing <style=cIsDamage>25%</style> <style=cStack>(+25% per stack)</style> TOTAL damage and <style=cIsUtility>stunning</style> enemies for <style=cIsUtility>0.25s</style>, ";
 
         public override string ItemLore => "Maybe less hell to code";
 
@@ -64,7 +64,7 @@ namespace Sandswept.Items
                         BlastAttack blastAttack = new BlastAttack
                         {
                             radius = 9f + stacks,
-                            baseDamage = damageInfo.damage * (0.25f * stacks),
+                            baseDamage = damageInfo.damage * (0.20f * stacks),
                             procCoefficient = 0f,
                             crit = damageInfo.crit,
                             damageColorIndex = SolarFlareColour,
