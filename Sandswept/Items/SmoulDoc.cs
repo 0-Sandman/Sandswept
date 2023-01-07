@@ -139,37 +139,37 @@ namespace Sandswept.Items
 
         private void GlobalEventManager_OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
         {
-            GameObject attacker = damageInfo.attacker;
-            if ((bool)attacker)
+            if ((bool)damageInfo.attacker)
             {
-                CharacterBody balls = attacker.GetComponent<CharacterBody>();
-                CharacterBody cum = victim.GetComponent<CharacterBody>();
+                CharacterBody attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
+                CharacterBody victimBody = victim.GetComponent<CharacterBody>();
 
-                float burnTotal = 1f * balls.damage;
+                float burnTotal = 1f * attackerBody.damage;
 
-                if ((bool)balls && (bool)cum)
+                if (attackerBody && victimBody)
                 {
-                    int stack = GetCount(balls);
+                    int stack = GetCount(attackerBody);
                     if (stack > 0)
                     {
-                        if (Util.CheckRoll(8f * damageInfo.procCoefficient))
+                        if (Util.CheckRoll(8f * damageInfo.procCoefficient, attackerBody.master))
                         {
                             InflictDotInfo inflictDotInfo = default(InflictDotInfo);
                             inflictDotInfo.victimObject = victim;
-                            inflictDotInfo.attackerObject = attacker;
+                            inflictDotInfo.attackerObject = damageInfo.attacker;
                             inflictDotInfo.totalDamage = burnTotal;
                             inflictDotInfo.dotIndex = DotController.DotIndex.Burn;
                             inflictDotInfo.damageMultiplier = 1f;
                             InflictDotInfo dotInfo = inflictDotInfo;
-                            if ((bool)balls?.inventory)
+                            if ((bool)attackerBody?.inventory)
                             {
-                                StrengthenBurnUtils.CheckDotForUpgrade(balls.inventory, ref dotInfo);
+                                StrengthenBurnUtils.CheckDotForUpgrade(attackerBody.inventory, ref dotInfo);
                             }
                             DotController.InflictDot(ref dotInfo);
                         }
                     }
                 }
-            } orig(self, damageInfo, victim);
+            } 
+            orig(self, damageInfo, victim);
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()

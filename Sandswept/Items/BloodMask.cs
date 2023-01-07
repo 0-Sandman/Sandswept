@@ -5,6 +5,7 @@ using UnityEngine;
 using static Sandswept.Buffs.Witnessed;
 using static Sandswept.Main;
 using static RoR2.DotController;
+using IL.RoR2.Achievements.Bandit2;
 
 namespace Sandswept.Items
 {
@@ -17,7 +18,7 @@ namespace Sandswept.Items
 
             public void Start()
             {
-                body = this.GetComponent<CharacterBody>();
+                body = GetComponent<CharacterBody>();
                 stacks = body.inventory.GetItemCount(instance.ItemDef);
             }
         }
@@ -28,7 +29,7 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "Your bleed effects deal max health based damage";
 
-        public override string ItemFullDescription => "<style=cIsDamage>5%</style> chance to <style=cIsDamage>bleed</style> enemies on hit. Your <style=cIsDamage>bleed</style> effects additionally deal <style=cIsHealth>1%</style> <style=cStack>(+1% per stack)</style> <style=cIsHealth>max health</style> as damage.";
+        public override string ItemFullDescription => "<style=cIsDamage>5%</style> chance to <style=cIsDamage>bleed</style> enemies for <style=cIsDamage>120%</style> damage. Your <style=cIsDamage>bleed</style> effects additionally deal <style=cIsHealth>1%</style> <style=cStack>(+1% per stack)</style> <style=cIsHealth>max health</style> as damage.";
 
         public override string ItemLore => "no";
 
@@ -48,6 +49,30 @@ namespace Sandswept.Items
         public override void Hooks()
         {
             On.RoR2.DotController.InflictDot_GameObject_GameObject_DotIndex_float_float_Nullable1 += OnBleedProc;
+            On.RoR2.GlobalEventManager.OnHitEnemy += OnHit;
+        }
+
+        private void OnHit(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
+        {
+            var attacker = damageInfo.attacker.GetComponent<CharacterBody>();
+            int stacks = GetCount(attacker);
+
+            if (stacks > 0 && victim)
+            {
+                if (Util.CheckRoll(5f * damageInfo.procCoefficient, attacker.master))
+                {
+                    InflictDotInfo inflictDotInfo = default;
+                    inflictDotInfo.victimObject = victim;
+                    inflictDotInfo.attackerObject = damageInfo.attacker;
+                    inflictDotInfo.totalDamage = attacker.damage * 1.2f;
+                    inflictDotInfo.dotIndex = DotIndex.Bleed;
+                    inflictDotInfo.duration = 3f;
+                    inflictDotInfo.damageMultiplier = 1f;
+                    InflictDotInfo dotInfo = inflictDotInfo;
+                    InflictDot(ref dotInfo);
+                }
+            }
+            orig(self, damageInfo, victim);
         }
 
         public void OnBleedProc(On.RoR2.DotController.orig_InflictDot_GameObject_GameObject_DotIndex_float_float_Nullable1 orig, GameObject victimObject, GameObject attackerObject, DotIndex dotIndex, float duration, float damageMultiplier, uint? maxStacksFromAttacker)

@@ -18,7 +18,7 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "Create a blinding flash on hit that damages and stuns enemies";
 
-        public override string ItemFullDescription => "<style=cIsUtility>5%</style> chance on hit to create a <style=cIsUtility>blinding flash</style> in a <style=cIsUtility>10m</style> <style=cStack>(+1m per stack)</style> area, dealing <style=cIsDamage>25%</style> <style=cStack>(+25% per stack)</style> TOTAL damage and <style=cIsUtility>stunning</style> enemies for <style=cIsUtility>0.25s</style>, ";
+        public override string ItemFullDescription => "<style=cIsUtility>5%</style> chance on hit to create a <style=cIsUtility>blinding flash</style> in a <style=cIsUtility>10m</style> <style=cStack>(+1m per stack)</style> area, dealing <style=cIsDamage>20%</style> <style=cStack>(+20% per stack)</style> TOTAL damage and <style=cIsUtility>stunning</style> enemies for <style=cIsUtility>0.25s</style>, ";
 
         public override string ItemLore => "Maybe less hell to code";
 
@@ -59,7 +59,7 @@ namespace Sandswept.Items
             {
                 if (stacks > 0)
                 {
-                    if (Util.CheckRoll(5f * damageInfo.procCoefficient))
+                    if (Util.CheckRoll(5f * damageInfo.procCoefficient, attackerbody.master))
                     {
                         BlastAttack blastAttack = new BlastAttack
                         {
@@ -86,15 +86,15 @@ namespace Sandswept.Items
                     if (stateMachine.state is StunState)
                     {
                         StunState stunState = stateMachine.state as StunState;
-                        if (stunState.timeRemaining < 0.25f)
+                        if (stunState.timeRemaining < 0.35f)
                         {
-                            stunState.ExtendStun(0.25f - stunState.timeRemaining);
+                            stunState.ExtendStun(0.35f - stunState.timeRemaining);
                         }
                     }
                     else
                     {
                         StunState state = new StunState();
-                        state.stunDuration = 0.25f;
+                        state.stunDuration = 0.35f;
                         stateMachine.SetInterruptState(state, InterruptPriority.Pain);
                     }
                 }

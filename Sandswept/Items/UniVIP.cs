@@ -64,7 +64,9 @@ namespace Sandswept.Items
             private void Inventory_RemoveItem_ItemIndex_int(On.RoR2.Inventory.orig_RemoveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
             {
                 orig(self, itemIndex, count);
+
                 int stack = self.GetItemCount(instance.ItemDef);
+
                 if (stack == 0)
                 {
                     PassBehaviour behaviourCheck = self.GetComponent<PassBehaviour>();
@@ -73,7 +75,6 @@ namespace Sandswept.Items
                         Destroy(this);
                     }
                 }
-                return;
             }
         }
 

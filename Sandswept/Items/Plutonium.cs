@@ -78,7 +78,7 @@ namespace Sandswept.Items
                                 inflictDotInfo.dotIndex = IrradiatedIndex;
                                 inflictDotInfo.duration = 0.1f;
                                 inflictDotInfo.maxStacksFromAttacker = 1;
-                                inflictDotInfo.damageMultiplier = 0.5f * body.inventory.GetItemCount(instance.ItemDef);
+                                inflictDotInfo.damageMultiplier = 0.75f + (0.5f * body.inventory.GetItemCount(instance.ItemDef));
                                 InflictDotInfo dotInfo = inflictDotInfo;
                                 DotController.InflictDot(ref dotInfo);
                             }
@@ -124,7 +124,7 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "Create an irradiating ring around you when you have active shield";
 
-        public override string ItemFullDescription => "Gain a <style=cIsHealing>shield</style> equal to <style=cIsHealing>3%</style> of your maximum health. While shields are active create a <style=cIsUtility>15m</style> radius that <style=cIsHealing>Irradiates</style> enemies for <style=cIsDamage>50%</style> <style=cStack>(+50% per stack)</style> damage.";
+        public override string ItemFullDescription => "Gain a <style=cIsHealing>shield</style> equal to <style=cIsHealing>3%</style> of your maximum health. While shields are active create a <style=cIsUtility>15m</style> radius that <style=cIsHealing>Irradiates</style> enemies for <style=cIsDamage>75%</style> <style=cStack>(+50% per stack)</style> damage.";
 
         public override string ItemLore => "<style=cStack>funny quirky funny funny funny quirky</style>";
 
@@ -161,9 +161,9 @@ namespace Sandswept.Items
             MeshRenderer val5 = (MeshRenderer)hGIntersectionController.Renderer;
             Material val3 = Addressables.LoadAssetAsync<Material>("d0eb35f70367cdc4882f3bb794b65f2b").WaitForCompletion();
             Material val4 = Object.Instantiate(val3);
-            val4.SetColor("_TintColor", new Color(15f, 25f, 5f, 10f));
+            val4.SetColor("_TintColor", new Color32(95, 255, 0, 255));
             val4.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>("385005992afbfce4089807386adc07b0").WaitForCompletion());
-            val4.SetFloat("_Boost", 0.2f);
+            val4.SetFloat("_Boost", 3);
             val5.material = val4;
             hGIntersectionController.Material = val4;
             PrefabAPI.RegisterNetworkPrefab(PlutoniumZone);
@@ -173,7 +173,7 @@ namespace Sandswept.Items
         {
             IrradiatedBuff = ScriptableObject.CreateInstance<BuffDef>();
             IrradiatedBuff.name = "Irradiated";
-            IrradiatedBuff.buffColor = new Color(175f, 255f, 30f, byte.MaxValue);
+            IrradiatedBuff.buffColor = new Color32(95, 255, 0, 255);
             IrradiatedBuff.canStack = false;
             IrradiatedBuff.isDebuff = true;
             IrradiatedBuff.iconSprite = Main.MainAssets.LoadAsset<Sprite>("IrradiatedIcon.png");
@@ -222,7 +222,7 @@ namespace Sandswept.Items
         {
             if (GetCount(sender) > 0)
             {
-                HealthComponent component = sender.GetComponent<RoR2.HealthComponent>();
+                HealthComponent component = sender.GetComponent<HealthComponent>();
                 args.baseShieldAdd += component.fullHealth * 0.03f;
             }
         }
