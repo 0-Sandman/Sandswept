@@ -2,6 +2,7 @@
 using R2API;
 using RoR2;
 using System;
+using System.Linq;
 using UnityEngine;
 
 namespace Sandswept.Items
@@ -14,7 +15,7 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "Your drones gain damage and attack speed.";
 
-        public override string ItemFullDescription => "Your drones gain 15% (+10% per stack) damage and 15% (+15% per stack) attack speed.";
+        public override string ItemFullDescription => "Your drones gain 10% (+10% per stack) damage and 5% (+5% per stack) attack speed.";
 
         public override string ItemLore => "";
 
@@ -49,9 +50,14 @@ namespace Sandswept.Items
 
                 if (stacks > 0)
                 {
-                    Debug.Log("diedie diedie ideideideiediiedieieiddeiedi");
-                    args.damageMultAdd = 15f + 10f * (stacks - 1);
-                    args.attackSpeedMultAdd = 15f * stacks;
+                    Debug.Log(sender.name);
+                    args.damageMultAdd = 10f * stacks;
+                    if (sender.name.Contains("Drone1Body"))
+                    {
+                        args.cooldownMultAdd = 5f * stacks;
+                        return;
+                    }
+                    args.attackSpeedMultAdd = 5f * stacks;
                 }
             }
         }

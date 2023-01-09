@@ -13,7 +13,7 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "Gain regen that increases in combat";
 
-        public override string ItemFullDescription => "Gain 0.4 (+0.2 per stack) base regen, this effect doubles in combat";
+        public override string ItemFullDescription => "Gain 0.5 (+0.5 per stack) base regen, this effect doubles in combat";
 
         public override string ItemLore => "";
 
@@ -43,11 +43,11 @@ namespace Sandswept.Items
             {
                 if (sender.outOfDanger)
                 {
-                    args.baseRegenAdd = 0.4f + 0.2f * (stacks - 1);
+                    args.baseRegenAdd = 0.5f + 0.5f * (stacks - 1);
                 }
                 if (!sender.outOfDanger)
                 {
-                    args.baseRegenAdd = 0.8f + 0.4f * (stacks - 1);
+                    args.baseRegenAdd = 1f + 1f * (stacks - 1);
                 }
             }
         }
