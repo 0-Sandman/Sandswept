@@ -163,7 +163,6 @@ namespace Sandswept.Items
             Material val4 = Object.Instantiate(val3);
             val4.SetColor("_TintColor", new Color32(95, 255, 0, 255));
             val4.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>("385005992afbfce4089807386adc07b0").WaitForCompletion());
-            val4.SetTexture("Cloud2Tex", Addressables.LoadAssetAsync<Texture>("RoR2 / DLC1 / GameModes / InfiniteTowerRun / InfiniteTowerAssets / crtexVoidSunCaustics").WaitForCompletion());
             val4.SetFloat("_Boost", 3);
             val5.material = val4;
             hGIntersectionController.Material = val4;
