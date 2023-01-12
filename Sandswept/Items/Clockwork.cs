@@ -45,8 +45,8 @@ namespace Sandswept.Items
 
             if (stacks > 0)
             {
-                args.cooldownMultAdd = 5f + 2.5f * (stacks - 1);
-                args.attackSpeedMultAdd = 10f + 5f * (stacks - 1);
+                args.cooldownMultAdd += 5f + 2.5f * (stacks - 1);
+                args.attackSpeedMultAdd += 10f + 5f * (stacks - 1);
             }
         }
 

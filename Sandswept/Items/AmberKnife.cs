@@ -42,7 +42,7 @@ namespace Sandswept.Items
             int stacks = GetCount(sender);
             if (stacks > 0)
             {
-                args.critAdd = 1f * stacks;
+                args.critAdd += 1f * stacks;
             }
         }
 

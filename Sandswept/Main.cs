@@ -10,6 +10,7 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using Sandswept.Buffs;
+using IL.RoR2;
 
 namespace Sandswept
 {
@@ -69,8 +70,7 @@ namespace Sandswept
 
             Swapallshaders(MainAssets);
             DamageColourHelper.Init();
-            //ShaderConversion(MainAssets);
-            //AttachControllerFinderToObjects(MainAssets);
+            //On.RoR2.GlobalEventManager.OnHitEnemy += GenericBodyTokenAddition;
 
             //This section automatically scans the project for all artifacts
             var ArtifactTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(ArtifactBase)));
@@ -134,6 +134,28 @@ namespace Sandswept
 
         }
 
+        /*public class BodyStorageToken : MonoBehaviour
+        {
+            public RoR2.CharacterBody victimBody;
+            public RoR2.CharacterBody attackerBody;
+        }
+
+        public void GenericBodyTokenAddition(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, RoR2.GlobalEventManager self, RoR2.DamageInfo damageInfo, GameObject victim)
+        {
+            if (victim && damageInfo.attacker)
+            {
+                var victimBody = victim.GetComponent<RoR2.CharacterBody>(); 
+                var attackerBody = damageInfo.attacker.GetComponent<RoR2.CharacterBody>();
+
+                if (victimBody && attackerBody)
+                {
+                    var token = victim.AddComponent<BodyStorageToken>();
+                    token.victimBody = victimBody;
+                    token.attackerBody= attackerBody;
+                }
+            }
+            orig(self, damageInfo, victim);
+        }*/
 
 
         /// <summary>

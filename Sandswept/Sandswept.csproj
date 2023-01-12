@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <BaseOutputPath>C:\Users\profd\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\ModTesting\BepInEx\plugins</BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>

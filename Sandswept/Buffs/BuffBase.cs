@@ -39,6 +39,7 @@ namespace Sandswept.Buffs
             BuffDef.iconSprite = BuffIcon;
 
             ContentAddition.AddBuffDef(BuffDef);
+
         }
 
         public abstract void Hooks();

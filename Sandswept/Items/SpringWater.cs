@@ -43,11 +43,11 @@ namespace Sandswept.Items
             {
                 if (sender.outOfDanger)
                 {
-                    args.baseRegenAdd = 0.5f + 0.5f * (stacks - 1);
+                    args.baseRegenAdd += 0.5f + 0.5f * (stacks - 1);
                 }
                 if (!sender.outOfDanger)
                 {
-                    args.baseRegenAdd = 1f + 1f * (stacks - 1);
+                    args.baseRegenAdd += 1f + 1f * (stacks - 1);
                 }
             }
         }

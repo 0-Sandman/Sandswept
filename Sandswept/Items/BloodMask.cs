@@ -2,10 +2,9 @@
 using R2API;
 using RoR2;
 using UnityEngine;
-using static Sandswept.Buffs.Witnessed;
 using static Sandswept.Main;
 using static RoR2.DotController;
-using IL.RoR2.Achievements.Bandit2;
+using static R2API.DotAPI;
 
 namespace Sandswept.Items
 {
@@ -22,6 +21,9 @@ namespace Sandswept.Items
                 stacks = body.inventory.GetItemCount(instance.ItemDef);
             }
         }
+        public static DotDef WitnessedDef;
+
+        public static DotIndex WitnessedIndex;
 
         public override string ItemName => "Bleeding Witness";
 
@@ -41,6 +43,7 @@ namespace Sandswept.Items
 
         public override void Init(ConfigFile config)
         {
+            CreateDot();
             CreateLang();
             CreateItem();
             Hooks();
@@ -50,6 +53,35 @@ namespace Sandswept.Items
         {
             On.RoR2.DotController.InflictDot_GameObject_GameObject_DotIndex_float_float_Nullable1 += OnBleedProc;
             On.RoR2.GlobalEventManager.OnHitEnemy += OnHit;
+        }
+
+        public void CreateDot()
+        {
+            WitnessedDef = new DotDef
+            {
+                associatedBuff = null,
+                damageCoefficient = 1f,
+                damageColorIndex = DamageColorIndex.Bleed,
+                interval = 0.25f
+            };
+            DotDef dotDef = WitnessedDef;
+            CustomDotBehaviour behaviour = delegate (DotController self, DotStack dotStack)
+            {
+                DotStack dotInfo = dotStack;
+
+                if (!self.victimBody.HasBuff(RoR2Content.Buffs.Bleeding) || !self.victimBody.HasBuff(RoR2Content.Buffs.SuperBleed))
+                {
+                    self.RemoveDotStackAtServer((int)dotInfo.dotIndex);
+                }
+
+                CharacterBody attacker = dotStack.attackerObject.GetComponent<CharacterBody>();
+                CharacterBody victim = self.victimObject.GetComponent<CharacterBody>();
+
+                var token = attacker.gameObject.GetComponent<WitnessToken>();
+
+                dotInfo.damage = (self.victimHealthComponent ? (self.victimHealthComponent.fullCombinedHealth * (0.01f * token.stacks)) : 0);
+            };
+            WitnessedIndex = RegisterDotDef(dotDef, behaviour, null);
         }
 
         private void OnHit(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)

@@ -24,9 +24,9 @@ namespace Sandswept.Items
 
         public override ItemTier Tier => ItemTier.Tier1;
 
-        public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("FragmentPrefab.prefab");
+        public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("SunFragmentPrefab.prefab");
 
-        public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("FragmentIcon.png");
+        public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("SunFragmentIcon.png");
 
 
         public override void Init(ConfigFile config)

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1390233459
+CRC: 553814982
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 008149105b3db7e26587cc8a51d6984d
+    Hash: 6636a5d324afc926e7a74f59f093e235
   TypeTreeHash:
     serializedVersion: 2
     Hash: 1fe3abd029edb3522ae5dbbc711d0a74
@@ -33,8 +33,10 @@ Assets:
 - Assets/Models/Items/UniVIP/UniVIPTex.mat
 - Assets/Models/Items/SmoulDoc/DocumentPrefab.prefab
 - Assets/Models/Items/SmoulDoc/DocumentTex.mat
+- Assets/Models/Items/Fragment/SunFragmentPrefab.prefab
 - Assets/Models/Items/Witness/WitnessPrefab.prefab
 - Assets/Icons/Items/UniVIPIcon.png
+- Assets/Models/Items/Fragment/SunFragmentTex.mat
 - Assets/Models/Items/UniVIP/UniVIPPrefab.prefab
 - Assets/Icons/Items/DocumentIcon.png
 Dependencies: []
