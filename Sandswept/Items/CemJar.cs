@@ -1,7 +1,6 @@
-﻿/*using BepInEx.Configuration;
+﻿using BepInEx.Configuration;
 using R2API;
 using RoR2;
-using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,88 +8,60 @@ namespace Sandswept.Items
 {
     public class CemJar : ItemBase<CemJar>
     {
-        public class BuffCount : MonoBehaviour
-        {
-            public int count;
-        }
         public class JarToken : MonoBehaviour
         {
-            public static Dictionary<CharacterBody, JarToken> ownerToComponentDict = new Dictionary<CharacterBody, JarToken>();
-            public static Dictionary<TeamIndex, List<JarToken>> marksPerTeam = new Dictionary<TeamIndex, List<JarToken>>();
-
             public CharacterBody attacker;
-
             public CharacterBody body;
-
-            public bool isActive = true;
-
-            public TeamComponent teamComponent;
-
-            public static JarToken GetForBody(CharacterBody owner)
-            {
-                if (!ownerToComponentDict.ContainsKey(owner))
-                {
-                    ownerToComponentDict[owner] = owner.gameObject.AddComponent<JarToken>();
-                }
-                return ownerToComponentDict[owner];
-            }
-
-            public static bool ExistsForBody(CharacterBody owner)
-            {
-                return ownerToComponentDict.ContainsKey(owner);
-            }
-
-            public void Awake()
-            {
-                body = GetComponent<CharacterBody>();
-                teamComponent = GetComponent<TeamComponent>();
-                if (!marksPerTeam.ContainsKey(teamComponent.teamIndex))
-                {
-                    marksPerTeam[teamComponent.teamIndex] = new List<JarToken>();
-                }
-                marksPerTeam[teamComponent.teamIndex].Add(this);
-            }
-
-            public void OnDestroy()
-            {
-                TeamIndex teamIndex = teamComponent.teamIndex;
-                if (marksPerTeam.ContainsKey(teamIndex))
-                {
-                    marksPerTeam[teamIndex].Remove(this);
-                }
-            }
+            public bool active = true;
+            public float timer;
 
             public void FixedUpdate()
             {
-                if (!isActive)
+                if (!active)
                 {
                     Destroy(this);
+                }
+
+                timer -= Time.fixedDeltaTime;
+                if (timer <= 0 || body.HasBuff(CeremonialCooldown))
+                {
+                    var token = attacker.gameObject.GetComponent<BuffToken>();
+                    token.list.Remove(body);
+                    active = false;
                 }
             }
         }
 
         public class BuffToken : MonoBehaviour
         {
-            public int buffCount;
+            public List<CharacterBody> list = new List<CharacterBody>();
 
             public void Start()
             {
                 On.RoR2.CharacterBody.RemoveBuff_BuffDef += RemoveCount;
+                On.RoR2.CharacterBody.OnDeathStart += CharacterBody_OnDeathStart;
+            }
+
+            private void CharacterBody_OnDeathStart(On.RoR2.CharacterBody.orig_OnDeathStart orig, CharacterBody self)
+            {
+                if (self.gameObject.GetComponent<JarToken>())
+                {
+                    list.Remove(self);
+                }
+                orig(self);
             }
 
             public void Destroy()
             {
                 On.RoR2.CharacterBody.RemoveBuff_BuffDef -= RemoveCount;
+                On.RoR2.CharacterBody.OnDeathStart -= CharacterBody_OnDeathStart;
             }
 
             private void RemoveCount(On.RoR2.CharacterBody.orig_RemoveBuff_BuffDef orig, CharacterBody self, BuffDef buffDef)
             {
                 if (buffDef = CeremonialDef)
                 {
-                    if (buffCount > 0)
-                    {
-                        buffCount--;
-                    }
+                    list.Remove(self);
                 }
                 orig(self, buffDef);
             }
@@ -135,8 +106,6 @@ namespace Sandswept.Items
         {
             On.RoR2.GlobalEventManager.OnHitEnemy += BuffApply;
             On.RoR2.CharacterBody.AddTimedBuff_BuffDef_float_int += BuffCheck;
-            TeamComponent.onJoinTeamGlobal += TeamComponent_onJoinTeamGlobal;
-            TeamComponent.onLeaveTeamGlobal += TeamComponent_onLeaveTeamGlobal;
         }
 
         public void CreateBuff()
@@ -165,43 +134,36 @@ namespace Sandswept.Items
                 var token = self.gameObject.GetComponent<JarToken>();
 
                 var attacker = token.attacker;
-                var buffCount = attacker.gameObject.GetComponent<BuffCount>();
+                var buffCount = attacker.gameObject.GetComponent<BuffToken>();
 
                 Debug.Log("buh");
 
-                if (!JarToken.marksPerTeam.ContainsKey(self.teamComponent.teamIndex))
+                if (buffCount.list.Count < 3 && !buffCount.list.Contains(self))
                 {
-                    return;
-                }
-                if (buffCount.count >= 3)
-                {
-                    buffCount.count = 0;
-                    Debug.Log("duh");
+                    buffCount.list.Add(self);
+                    Debug.Log(buffCount.list.Count);
 
-                    foreach (CharacterBody item in JarToken.marksPerTeam[self.teamComponent.teamIndex].Select((JarToken x) => x.body))
+                    if (buffCount.list.Count == 3)
                     {
-                        Debug.Log("guh");
-                        if (item.HasBuff(CeremonialDef))
+                        foreach (CharacterBody body in buffCount.list)
                         {
                             Debug.Log("should proc");
 
                             var stacks = GetCount(attacker);
-                            item.ClearTimedBuffs(CeremonialDef);
-                            self.ClearTimedBuffs(CeremonialDef);
-                            item.AddTimedBuff(CeremonialCooldown, 5f);
+                            body.RemoveBuff(CeremonialDef);
+                            body.AddTimedBuff(CeremonialCooldown, 5f);
 
-                            DamageInfo extraDamageInfo = new DamageInfo();
-                            extraDamageInfo.damage = attacker.damage * (3 + stacks);
-                            extraDamageInfo.attacker = attacker.gameObject;
-                            extraDamageInfo.procCoefficient = 0;
-                            extraDamageInfo.position = item.corePosition;
-                            extraDamageInfo.crit = false;
-                            extraDamageInfo.damageColorIndex = jarDamageColour;
-                            extraDamageInfo.damageType = DamageType.Silent;
-                            item.healthComponent.TakeDamage(extraDamageInfo);
-
-                            JarToken.ownerToComponentDict.Remove(item);
-                            token.isActive = false;
+                            DamageInfo extraDamageInfo = new DamageInfo
+                            {
+                                damage = attacker.damage * (3 + stacks),
+                                attacker = attacker.gameObject,
+                                procCoefficient = 0,
+                                position = self.corePosition,
+                                crit = false,
+                                damageColorIndex = jarDamageColour,
+                                damageType = DamageType.Silent
+                            };
+                            self.healthComponent.TakeDamage(extraDamageInfo);
                         }
                     }
                 }
@@ -213,48 +175,42 @@ namespace Sandswept.Items
         {
             var attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
             var victimBody = victim.GetComponent<CharacterBody>();
+
             var stacks = GetCount(attackerBody);
-            var buffCount = attackerBody.gameObject.GetComponent<BuffCount>();
+
+            var buffToken = attackerBody.gameObject.GetComponent<BuffToken>();
             if (damageInfo.procCoefficient > 0)
             {
                 if (stacks > 0 && victim && !victimBody.HasBuff(CeremonialDef) && !victimBody.HasBuff(CeremonialCooldown))
                 {
-                    if (!buffCount)
+                    if (!buffToken)
                     {
-                        attackerBody.gameObject.AddComponent<BuffCount>();
+                        attackerBody.gameObject.AddComponent<BuffToken>();
                         BuffApply(orig, self, damageInfo, victim);
+                        return;
                     }
-                    JarToken forBody = JarToken.GetForBody(victimBody);
-                    buffCount.count++;
-                    forBody.attacker = attackerBody;
-                    victimBody.AddTimedBuff(CeremonialDef, 3f + (0.5f * (stacks - 1f)));
+
+                    if (!buffToken.list.Contains(victimBody))
+                    {
+                        var token = victim.AddComponent<JarToken>();
+                        token.body = victimBody;
+                        token.attacker = attackerBody;
+                        token.timer = 3f + (0.5f * (stacks - 1f));
+
+                        if (buffToken.list.Count < 3)
+                        {
+                            victimBody.AddTimedBuff(CeremonialDef, 3f + (0.5f * (stacks - 1f)));
+                        }
+                    }
                 }
                 if (stacks > 0 && victim && victimBody.HasBuff(CeremonialDef) && !victimBody.HasBuff(CeremonialCooldown))
                 {
+                    var token = victim.GetComponent<JarToken>();
+                    token.timer = 3f + (0.5f * (stacks - 1f));
                     victimBody.AddTimedBuff(CeremonialDef, 3f + (0.5f * (stacks - 1f)), 1);
                 }
             }
             orig(self, damageInfo, victim);
-        }
-
-        private void TeamComponent_onJoinTeamGlobal(TeamComponent teamComponent, TeamIndex newTeamIndex)
-        {
-            if (JarToken.ExistsForBody(teamComponent.body))
-            {
-                if (!JarToken.marksPerTeam.ContainsKey(newTeamIndex))
-                {
-                    JarToken.marksPerTeam[newTeamIndex] = new List<JarToken>();
-                }
-                JarToken.marksPerTeam[newTeamIndex].Add(JarToken.GetForBody(teamComponent.body));
-            }
-        }
-
-        private void TeamComponent_onLeaveTeamGlobal(TeamComponent teamComponent, TeamIndex newTeamIndex)
-        {
-            if (JarToken.ExistsForBody(teamComponent.body) && JarToken.marksPerTeam.ContainsKey(newTeamIndex))
-            {
-                JarToken.marksPerTeam[newTeamIndex].Remove(JarToken.GetForBody(teamComponent.body));
-            }
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
@@ -262,4 +218,4 @@ namespace Sandswept.Items
             return new ItemDisplayRuleDict();
         }
     }
-}*/
+}

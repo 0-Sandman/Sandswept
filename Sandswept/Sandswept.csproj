@@ -25,4 +25,8 @@
     <PackageReference Include="RiskOfRain2.GameLibs" Version="1.2.4-r.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="WIP Content\" />
+  </ItemGroup>
+
 </Project>
