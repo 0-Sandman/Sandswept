@@ -3,7 +3,6 @@ using R2API;
 using RoR2;
 using Sandswept.Utils;
 using UnityEngine;
-using static Sandswept.Main;
 using static Sandswept.Utils.Components.MaterialControllerComponents;
 
 namespace Sandswept.Items
@@ -90,13 +89,13 @@ namespace Sandswept.Items
 
         public override string ItemFullDescription => "Store <style=cIsUtility>15%</style> <style=cStack>(+5% per stack)</style> of all used interactable costs, recieve the total stored amount on the next stage.";
 
-        public override string ItemLore => "Cum!!";
+        public override string ItemLore => "Funny pt.2";
 
         public override ItemTier Tier => ItemTier.Tier2;
 
-        public override GameObject ItemModel => MainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");
+        public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");
 
-        public override Sprite ItemIcon => MainAssets.LoadAsset<Sprite>("UniVIPIcon.png");
+        public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("UniVIPIcon.png");
 
 
         public override void Init(ConfigFile config)

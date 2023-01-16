@@ -2,7 +2,6 @@
 using R2API;
 using RoR2;
 using UnityEngine;
-using static Sandswept.Main;
 using static Sandswept.Items.SmoulDoc.DocBehaviour;
 using static Sandswept.Utils.Components.MaterialControllerComponents;
 
@@ -85,9 +84,9 @@ namespace Sandswept.Items
 
         public override ItemTier Tier => ItemTier.Tier2;
 
-        public override GameObject ItemModel => MainAssets.LoadAsset<GameObject>("DocumentPrefab.prefab");
+        public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("DocumentPrefab.prefab");
 
-        public override Sprite ItemIcon => MainAssets.LoadAsset<Sprite>("DocumentIcon.png");
+        public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("DocumentIcon.png");
 
 
         public override void Init(ConfigFile config)

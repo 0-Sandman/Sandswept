@@ -2,7 +2,6 @@
 using R2API;
 using RoR2;
 using UnityEngine;
-using static Sandswept.Main;
 using static RoR2.DotController;
 using static R2API.DotAPI;
 
@@ -37,9 +36,9 @@ namespace Sandswept.Items
 
         public override ItemTier Tier => ItemTier.Tier2;
 
-        public override GameObject ItemModel => MainAssets.LoadAsset<GameObject>("WitnessPrefab.prefab");
+        public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("WitnessPrefab.prefab");
 
-        public override Sprite ItemIcon => MainAssets.LoadAsset<Sprite>("WitnessIcon.png");
+        public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("WitnessIcon.png");
 
         public override void Init(ConfigFile config)
         {

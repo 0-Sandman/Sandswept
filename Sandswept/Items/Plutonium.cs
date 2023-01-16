@@ -3,6 +3,7 @@ using R2API;
 using RoR2;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using UnityEngine.Networking;
 using static R2API.RecalculateStatsAPI;
 using static Sandswept.Utils.Components.MaterialControllerComponents;
 
@@ -50,37 +51,41 @@ namespace Sandswept.Items
 
             public void FixedUpdate()
             {
+
                 if (!active)
                 {
                     Destroy(this);
                 }
 
-                Timer += Time.fixedDeltaTime;
-                if (!(Timer >= 0.05))
+                if (NetworkServer.active)
                 {
-                    return;
-                }
-                Timer = 0f;
-                TeamIndex teamIndex = body.teamComponent.teamIndex;
-                for (TeamIndex teamIndex2 = TeamIndex.Neutral; teamIndex2 < TeamIndex.Count; teamIndex2++)
-                {
-                    if (teamIndex2 != teamIndex && teamIndex2 != 0)
+                    Timer += Time.fixedDeltaTime;
+                    if (!(Timer >= 0.05))
                     {
-                        foreach (TeamComponent teamMember in TeamComponent.GetTeamMembers(teamIndex2))
+                        return;
+                    }
+                    Timer = 0f;
+                    TeamIndex teamIndex = body.teamComponent.teamIndex;
+                    for (TeamIndex teamIndex2 = TeamIndex.Neutral; teamIndex2 < TeamIndex.Count; teamIndex2++)
+                    {
+                        if (teamIndex2 != teamIndex && teamIndex2 != 0)
                         {
-                            Vector3 val = teamMember.transform.position - body.corePosition;
-                            if (val.sqrMagnitude <= 300f)
+                            foreach (TeamComponent teamMember in TeamComponent.GetTeamMembers(teamIndex2))
                             {
-                                InflictDotInfo inflictDotInfo = default;
-                                inflictDotInfo.victimObject = teamMember.gameObject;
-                                inflictDotInfo.attackerObject = body.gameObject;
-                                inflictDotInfo.totalDamage = body.damage;
-                                inflictDotInfo.dotIndex = IrradiatedIndex;
-                                inflictDotInfo.duration = 0.1f;
-                                inflictDotInfo.maxStacksFromAttacker = 1;
-                                inflictDotInfo.damageMultiplier = 0.75f + (0.5f * body.inventory.GetItemCount(instance.ItemDef));
-                                InflictDotInfo dotInfo = inflictDotInfo;
-                                DotController.InflictDot(ref dotInfo);
+                                Vector3 val = teamMember.transform.position - body.corePosition;
+                                if (val.sqrMagnitude <= 300f)
+                                {
+                                    InflictDotInfo inflictDotInfo = default;
+                                    inflictDotInfo.victimObject = teamMember.gameObject;
+                                    inflictDotInfo.attackerObject = body.gameObject;
+                                    inflictDotInfo.totalDamage = body.damage;
+                                    inflictDotInfo.dotIndex = IrradiatedIndex;
+                                    inflictDotInfo.duration = 0.1f;
+                                    inflictDotInfo.maxStacksFromAttacker = 1;
+                                    inflictDotInfo.damageMultiplier = 0.75f + (0.5f * body.inventory.GetItemCount(instance.ItemDef));
+                                    InflictDotInfo dotInfo = inflictDotInfo;
+                                    DotController.InflictDot(ref dotInfo);
+                                }
                             }
                         }
                     }
