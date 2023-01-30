@@ -1,9 +1,11 @@
 ﻿using BepInEx.Configuration;
 using R2API;
 using RoR2;
+using RoR2.ContentManagement;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using static Sandswept.Utils.TotallyNotStolenUtils;
 
 namespace Sandswept.Items
 {
@@ -31,6 +33,9 @@ namespace Sandswept.Items
         public abstract string ItemFullDescription { get; }
         public abstract string ItemLore { get; }
 
+        public virtual string UnlockName { get; }
+        public virtual string UnlockDesc { get; }
+
         public abstract ItemTier Tier { get; }
         public virtual ItemTag[] ItemTags { get; set; } = new ItemTag[] { };
 
@@ -40,8 +45,14 @@ namespace Sandswept.Items
         public ItemDef ItemDef;
 
         public virtual bool CanRemove { get; } = true;
-
         public virtual bool AIBlacklisted { get; set; } = false;
+
+        public virtual string AchievementName { get; }
+        public virtual string AchievementDesc { get; }
+        public virtual Func<string> GetHowToUnlock => () => AchievementName + "\n<style=cStack>" + AchievementDesc + "</style>";
+        public virtual Func<string> GetUnlocked => () => AchievementName + "\n<style=cStack>" + AchievementDesc + "</style>";
+
+        public UnlockableDef UnlockableDef;
 
         /// <summary>
         /// This method structures your code execution of this class. An example implementation inside of it would be:
@@ -64,6 +75,11 @@ namespace Sandswept.Items
             LanguageAPI.Add("ITEM_" + ItemLangTokenName + "_DESCRIPTION", ItemFullDescription);
             LanguageAPI.Add("ITEM_" + ItemLangTokenName + "_LORE", ItemLore);
         }
+        protected virtual void CreateUnlockLang()
+        {
+            LanguageAPI.Add("ACHIEVEMENT_" + ItemLangTokenName + "_NAME", AchievementName);
+            LanguageAPI.Add("ACHIEVEMENT_" + ItemLangTokenName + "_DESCRIPTION", AchievementDesc);
+        }
 
         public abstract ItemDisplayRuleDict CreateItemDisplayRules();
         protected void CreateItem()
@@ -85,9 +101,28 @@ namespace Sandswept.Items
             ItemDef.canRemove = CanRemove;
             ItemDef.deprecatedTier = Tier;
 
+            if  (AchievementName!= null)
+            {
+                ItemDef.unlockableDef = CreateUnlock();
+            }
+
             if (ItemTags.Length > 0) { ItemDef.tags = ItemTags; }
 
             ItemAPI.Add(new CustomItem(ItemDef, CreateItemDisplayRules()));
+        }
+
+        protected UnlockableDef CreateUnlock()
+        {
+            ItemDef.unlockableDef = ScriptableObject.CreateInstance<UnlockableDef>();
+            ItemDef.unlockableDef.cachedName = "ITEM_" + ItemLangTokenName;
+            ItemDef.unlockableDef.nameToken = "ITEM_" + ItemLangTokenName + "_NAME";
+            ItemDef.unlockableDef.getHowToUnlockString = GetHowToUnlock;
+            ItemDef.unlockableDef.getUnlockedString = GetUnlocked;
+
+            ItemDef.unlockableDef.achievementIcon = CreateItemIconWithBackgroundFromItem(ItemDef);
+            var unlockDef = ItemDef.unlockableDef;
+            Main.Unlocks.Add(unlockDef);
+            return unlockDef;
         }
 
         public virtual void Hooks() { }
