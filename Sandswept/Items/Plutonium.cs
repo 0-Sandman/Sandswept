@@ -1,6 +1,8 @@
 ﻿using BepInEx.Configuration;
+using HG;
 using R2API;
 using RoR2;
+using Sandswept.Utils;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Networking;
@@ -21,9 +23,12 @@ namespace Sandswept.Items
         public class PlutoniumBehaviour : MonoBehaviour
         {
             public bool active = true;
-            public CharacterBody body;
-            public float Timer;
             private GameObject PlutIndicator;
+            public CharacterBody body;
+
+            public float Timer;
+            private float velocity;
+            public float x;
 
             private bool indicatorEnabled
             {
@@ -52,9 +57,10 @@ namespace Sandswept.Items
             public void FixedUpdate()
             {
 
-                if (!active)
+                if (!active || body.inventory.GetItemCount(instance.ItemDef) == 0)
                 {
                     Destroy(this);
+                    return;
                 }
 
                 if (NetworkServer.active)
@@ -64,6 +70,7 @@ namespace Sandswept.Items
                     {
                         return;
                     }
+
                     Timer = 0f;
                     TeamIndex teamIndex = body.teamComponent.teamIndex;
                     for (TeamIndex teamIndex2 = TeamIndex.Neutral; teamIndex2 < TeamIndex.Count; teamIndex2++)
@@ -73,16 +80,16 @@ namespace Sandswept.Items
                             foreach (TeamComponent teamMember in TeamComponent.GetTeamMembers(teamIndex2))
                             {
                                 Vector3 val = teamMember.transform.position - body.corePosition;
-                                if (val.sqrMagnitude <= 300f)
+                                if (val.sqrMagnitude <= 225f)
                                 {
                                     InflictDotInfo inflictDotInfo = default;
                                     inflictDotInfo.victimObject = teamMember.gameObject;
                                     inflictDotInfo.attackerObject = body.gameObject;
                                     inflictDotInfo.totalDamage = body.damage;
                                     inflictDotInfo.dotIndex = IrradiatedIndex;
-                                    inflictDotInfo.duration = 0.1f;
+                                    inflictDotInfo.duration = 0f;
                                     inflictDotInfo.maxStacksFromAttacker = 1;
-                                    inflictDotInfo.damageMultiplier = 0.75f + (0.5f * body.inventory.GetItemCount(instance.ItemDef));
+                                    inflictDotInfo.damageMultiplier = 1.25f + (0.75f * (body.inventory.GetItemCount(instance.ItemDef) - 1));
                                     InflictDotInfo dotInfo = inflictDotInfo;
                                     DotController.InflictDot(ref dotInfo);
                                 }
@@ -92,26 +99,29 @@ namespace Sandswept.Items
                 }
             }
 
+            public void Update()
+            {
+                if (PlutIndicator && x != 30f)
+                {
+                    Transform zone = PlutIndicator.transform.Find("Radius, Spherical");
+                    x = Mathf.SmoothDamp(zone.localScale.x, 30f, ref velocity, 0.2f);
+                    zone.localScale = new Vector3(x, x, x);
+                }
+            }
+
+            public void Awake()
+            {
+                body = GetComponent<CharacterBody>();
+            }
+
             private void Start()
             {
                 indicatorEnabled = true;
-                On.RoR2.CharacterBody.OnInventoryChanged += InventoryCheck;
             }
 
             private void OnDestroy()
             {
                 indicatorEnabled = false;
-                On.RoR2.CharacterBody.OnInventoryChanged -= InventoryCheck;
-            }
-
-            public void InventoryCheck(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, RoR2.CharacterBody self)
-            {
-                orig(self);
-                int stack = body.inventory.GetItemCount(instance.ItemDef);
-                if (stack == 0)
-                {
-                    Destroy(this);
-                }
             }
         }
         public static DamageColorIndex IrradiateDamageColour = DamageColourHelper.RegisterDamageColor(new Color32(175, 255, 30, 255));
@@ -129,7 +139,7 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "Create an irradiating ring around you when you have active shield";
 
-        public override string ItemFullDescription => "Gain a <style=cIsHealing>shield</style> equal to <style=cIsHealing>3%</style> of your maximum health. While shields are active create a <style=cIsUtility>15m</style> radius that <style=cIsHealing>Irradiates</style> enemies for <style=cIsDamage>75%</style> <style=cStack>(+50% per stack)</style> damage.";
+        public override string ItemFullDescription => "Gain a <style=cIsHealing>shield</style> equal to <style=cIsHealing>3%</style> of your maximum health. While shields are active create a <style=cIsUtility>15m</style> radius that <style=cIsHealing>Irradiates</style> enemies for <style=cIsDamage>125%</style> <style=cStack>(+75% per stack)</style> damage.";
 
         public override string ItemLore => "<style=cStack>funny quirky funny funny funny quirky</style>";
 
@@ -160,15 +170,20 @@ namespace Sandswept.Items
         {
             PlutoniumZone = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/NearbyDamageBonusIndicator"), "PlutoniumZone");
             Transform val = PlutoniumZone.transform.Find("Radius, Spherical");
-            val.localScale = Vector3.one * 15f * 2f;
+            val.localScale = Vector3.one * 0f;
             HGIntersectionController hGIntersectionController = val.gameObject.AddComponent<HGIntersectionController>();
             hGIntersectionController.Renderer = val.GetComponent<MeshRenderer>();
             MeshRenderer val5 = (MeshRenderer)hGIntersectionController.Renderer;
             Material val3 = Addressables.LoadAssetAsync<Material>("d0eb35f70367cdc4882f3bb794b65f2b").WaitForCompletion();
             Material val4 = Object.Instantiate(val3);
             val4.SetColor("_TintColor", new Color32(95, 255, 0, 255));
-            val4.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>("385005992afbfce4089807386adc07b0").WaitForCompletion());
-            val4.SetFloat("_Boost", 3);
+            val4.SetTexture("_Cloud1Tex", Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Common/texCloudOrganic2.png").WaitForCompletion());
+            val4.SetTextureScale("_Cloud1Tex", new Vector2(0.5f, 0.5f));
+            val4.SetTexture("_Cloud2Tex", null);
+            val4.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Engi/texUIEngiMissileLockedOn.png").WaitForCompletion());
+
+            val4.SetFloat("_InvFade", 0.5f);
+            val4.SetFloat("_Boost", 0.5f);
             val5.material = val4;
             hGIntersectionController.Material = val4;
             PrefabAPI.RegisterNetworkPrefab(PlutoniumZone);
@@ -238,7 +253,6 @@ namespace Sandswept.Items
             if ((bool)component && component.cachedIsShielded && component.cachedInventoryCount > 0 && !behaviourCheck)
             {
                 PlutoniumBehaviour behaviour = sender.gameObject.AddComponent<PlutoniumBehaviour>();
-                behaviour.body = sender;
             }
             if ((bool)component && component.cachedIsShielded == false && behaviourCheck)
             {

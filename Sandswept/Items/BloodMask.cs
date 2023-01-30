@@ -108,8 +108,6 @@ namespace Sandswept.Items
 
         public void OnBleedProc(On.RoR2.DotController.orig_InflictDot_GameObject_GameObject_DotIndex_float_float_Nullable1 orig, GameObject victimObject, GameObject attackerObject, DotIndex dotIndex, float duration, float damageMultiplier, uint? maxStacksFromAttacker)
         {
-            orig(victimObject, attackerObject, dotIndex, duration, damageMultiplier, maxStacksFromAttacker);
-
             var attacker = attackerObject.GetComponent<CharacterBody>();
 
             var stacks = GetCount(attacker);
@@ -132,6 +130,7 @@ namespace Sandswept.Items
                     InflictDot(ref dotInfo);
                 }
             }
+            orig(victimObject, attackerObject, dotIndex, duration, damageMultiplier, maxStacksFromAttacker);
         }
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {

@@ -11,9 +11,9 @@ namespace Sandswept.Items
 
         public override string ItemLangTokenName => "RED_SPRING_WATER";
 
-        public override string ItemPickupDesc => "Gain regen that increases in combat";
+        public override string ItemPickupDesc => "Increased regen that doubles in combat";
 
-        public override string ItemFullDescription => "Gain 0.5 (+0.5 per stack) base regen, this effect doubles in combat";
+        public override string ItemFullDescription => "Increase base health regeneration by 0.5 hp/s (+0.5 hp/s per stack), this effect doubles in combat";
 
         public override string ItemLore => "";
 

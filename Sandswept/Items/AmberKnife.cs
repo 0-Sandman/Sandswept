@@ -14,7 +14,7 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "Gain temporary barrier on crit";
 
-        public override string ItemFullDescription => "Gain <style=cIsDamage>1%</style> <style=cStack>(+1% per stack)</style> <style=cIsDamage>critical chance</style>. <style=cIsDamage>Critical Strikes</style> grant a <style=cIsHealing>temporary barrier</style> for <style=cIsHealing>10</style> <style=cStack>(+5 per stack)</style> <style=cIsHealing>health</style>.";
+        public override string ItemFullDescription => "Gain <style=cIsDamage>5%</style> <style=cStack>(+5% per stack)</style> <style=cIsDamage>critical chance</style>. <style=cIsDamage>Critical Strikes</style> grant a <style=cIsHealing>temporary barrier</style> for <style=cIsHealing>10</style> <style=cStack>(+5 per stack)</style> <style=cIsHealing>health</style>.";
 
         public override string ItemLore => "";
 
@@ -42,7 +42,7 @@ namespace Sandswept.Items
             int stacks = GetCount(sender);
             if (stacks > 0)
             {
-                args.critAdd += 1f * stacks;
+                args.critAdd += 5f * stacks;
             }
         }
 
@@ -54,10 +54,8 @@ namespace Sandswept.Items
 
             int stacks = GetCount(attackerBody);
 
-            Debug.Log("Crit check");
             if (stacks > 0 && damageInfo.procCoefficient > 0)
             {
-                Debug.Log("Has critted");
                 attackerBody.healthComponent.AddBarrier(5 + (5 * stacks));
             }
         }
