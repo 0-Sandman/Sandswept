@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 553814982
+CRC: 933379078
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 6636a5d324afc926e7a74f59f093e235
+    Hash: aeebca84fbb4d1b26aba551fcbb61df5
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 1fe3abd029edb3522ae5dbbc711d0a74
+    Hash: a86f78335e5f2f8d9b0f367daea406f6
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -25,17 +25,27 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 48
   Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
 SerializeReferenceClassIdentifiers: []
 Assets:
+- Assets/VFX/FragmentFX/FragmentFXSphere.prefab
+- Assets/VFX/FragmentFX/FragmentFXRing.prefab
 - Assets/Models/Items/Witness/WitnessTex.mat
 - Assets/Models/Items/UniVIP/UniVIPTex.mat
+- Assets/Models/Items/MakeshiftPlate/MakeshiftPlatePrefab.prefab
 - Assets/Models/Items/SmoulDoc/DocumentPrefab.prefab
 - Assets/Models/Items/SmoulDoc/DocumentTex.mat
 - Assets/Models/Items/Fragment/SunFragmentPrefab.prefab
+- Assets/VFX/FragmentFX/FragmentFXSphere.mat
 - Assets/Models/Items/Witness/WitnessPrefab.prefab
 - Assets/Icons/Items/UniVIPIcon.png
+- Assets/Icons/Items/SunFragmentIcon.png
+- Assets/Models/Items/MakeshiftPlate/MakeshiftplateTex.mat
 - Assets/Models/Items/Fragment/SunFragmentTex.mat
 - Assets/Models/Items/UniVIP/UniVIPPrefab.prefab
 - Assets/Icons/Items/DocumentIcon.png

@@ -10,7 +10,8 @@ using System.Linq;
 using System.Reflection;
 using UnityEngine;
 using Sandswept.Buffs;
-using IL.RoR2;
+using RoR2;
+using Sandswept.Utils;
 
 namespace Sandswept
 {
@@ -47,6 +48,8 @@ namespace Sandswept
         public List<EquipmentBase> Equipments = new List<EquipmentBase>();
         public List<BuffBase> Buffs = new List<BuffBase>();
         public List<EliteEquipmentBase> EliteEquipments = new List<EliteEquipmentBase>();
+        public static List<UnlockableDef> Unlocks = new List<UnlockableDef>();
+        public static List<GameObject> EffectPrefabs = new List<GameObject>();
 
         public static Dictionary<BuffBase, bool> BuffStatusDictionary = new Dictionary<BuffBase, bool>();
 
@@ -117,7 +120,6 @@ namespace Sandswept
                 if (ValidateEliteEquipment(eliteEquipment, EliteEquipments))
                 {
                     eliteEquipment.Init(Config);
-
                 }
             }
 
@@ -131,31 +133,8 @@ namespace Sandswept
                     buff.Init(Config);
                 }
             }
-
+            new ContentPacks().Initialize();
         }
-
-        /*public class BodyStorageToken : MonoBehaviour
-        {
-            public RoR2.CharacterBody victimBody;
-            public RoR2.CharacterBody attackerBody;
-        }
-
-        public void GenericBodyTokenAddition(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, RoR2.GlobalEventManager self, RoR2.DamageInfo damageInfo, GameObject victim)
-        {
-            if (victim && damageInfo.attacker)
-            {
-                var victimBody = victim.GetComponent<RoR2.CharacterBody>(); 
-                var attackerBody = damageInfo.attacker.GetComponent<RoR2.CharacterBody>();
-
-                if (victimBody && attackerBody)
-                {
-                    var token = victim.AddComponent<BodyStorageToken>();
-                    token.victimBody = victimBody;
-                    token.attackerBody= attackerBody;
-                }
-            }
-            orig(self, damageInfo, victim);
-        }*/
 
 
         /// <summary>
