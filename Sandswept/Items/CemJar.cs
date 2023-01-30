@@ -1,7 +1,9 @@
 ﻿using BepInEx.Configuration;
 using R2API;
 using RoR2;
+using Sandswept.Utils;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Sandswept.Items
@@ -12,58 +14,46 @@ namespace Sandswept.Items
         {
             public CharacterBody attacker;
             public CharacterBody body;
-            public bool active = true;
-            public float timer;
+            public TeamComponent teamComponent;
+
+            public float timer = 99;
+
+            public void Awake()
+            {
+                body = GetComponent<CharacterBody>();
+                teamComponent = GetComponent<TeamComponent>();
+                if (!AppliedBuff.ContainsKey(teamComponent.teamIndex))
+                {
+                    AppliedBuff[teamComponent.teamIndex] = new List<JarToken>();
+                }
+                AppliedBuff[teamComponent.teamIndex].Add(this);
+                if (!list.Contains(body))
+                {
+                    list.Add(body);
+                }
+            }
 
             public void FixedUpdate()
             {
-                if (!active)
-                {
-                    Destroy(this);
-                }
-
                 timer -= Time.fixedDeltaTime;
                 if (timer <= 0 || body.HasBuff(CeremonialCooldown))
                 {
-                    var token = attacker.gameObject.GetComponent<BuffToken>();
-                    token.list.Remove(body);
-                    active = false;
+                    Destroy(this);
                 }
             }
-        }
 
-        public class BuffToken : MonoBehaviour
-        {
-            public List<CharacterBody> list = new List<CharacterBody>();
-
-            public void Start()
+            public void OnDestroy()
             {
-                On.RoR2.CharacterBody.RemoveBuff_BuffDef += RemoveCount;
-                On.RoR2.CharacterBody.OnDeathStart += CharacterBody_OnDeathStart;
-            }
-
-            private void CharacterBody_OnDeathStart(On.RoR2.CharacterBody.orig_OnDeathStart orig, CharacterBody self)
-            {
-                if (self.gameObject.GetComponent<JarToken>())
+                body.ClearTimedBuffs(CeremonialDef);
+                TeamIndex teamIndex = teamComponent.teamIndex;
+                if (AppliedBuff.ContainsKey(teamIndex))
                 {
-                    list.Remove(self);
+                    AppliedBuff[teamIndex].Remove(this);
+                    if (list.Contains(body))
+                    {
+                        list.Remove(body);
+                    }
                 }
-                orig(self);
-            }
-
-            public void Destroy()
-            {
-                On.RoR2.CharacterBody.RemoveBuff_BuffDef -= RemoveCount;
-                On.RoR2.CharacterBody.OnDeathStart -= CharacterBody_OnDeathStart;
-            }
-
-            private void RemoveCount(On.RoR2.CharacterBody.orig_RemoveBuff_BuffDef orig, CharacterBody self, BuffDef buffDef)
-            {
-                if (buffDef = CeremonialDef)
-                {
-                    list.Remove(self);
-                }
-                orig(self, buffDef);
             }
         }
 
@@ -73,7 +63,7 @@ namespace Sandswept.Items
 
         public static DamageAPI.ModdedDamageType jarDamageType;
 
-        public static DamageColorIndex jarDamageColour = DamageColourHelper.RegisterDamageColor(new Color32(175, 255, 30, 255));
+        public static DamageColorIndex jarDamageColour = DamageColourHelper.RegisterDamageColor(new Color32(0, 150, 255, 255));
 
         public override string ItemName => "Ceremonial Jar";
 
@@ -91,7 +81,9 @@ namespace Sandswept.Items
 
         public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("CemJarIcon.png");
 
-        public int buffCount = 0;
+        public static List<CharacterBody> list = new List<CharacterBody>();
+
+        public static Dictionary<TeamIndex, List<JarToken>> AppliedBuff = new Dictionary<TeamIndex, List<JarToken>>();
 
         public override void Init(ConfigFile config)
         {
@@ -106,6 +98,7 @@ namespace Sandswept.Items
         {
             On.RoR2.GlobalEventManager.OnHitEnemy += BuffApply;
             On.RoR2.CharacterBody.AddTimedBuff_BuffDef_float_int += BuffCheck;
+            On.RoR2.CharacterBody.OnDeathStart += DeathRemove;
         }
 
         public void CreateBuff()
@@ -127,44 +120,47 @@ namespace Sandswept.Items
             ContentAddition.AddBuffDef(CeremonialCooldown);
         }
 
+        private void DeathRemove(On.RoR2.CharacterBody.orig_OnDeathStart orig, CharacterBody self)
+        {
+            if (self.gameObject.GetComponent<JarToken>())
+            {
+                list.Remove(self);
+                AppliedBuff[self.teamComponent.teamIndex].Remove(GetToken(self));
+            }
+            orig(self);
+        }
+
         private void BuffCheck(On.RoR2.CharacterBody.orig_AddTimedBuff_BuffDef_float_int orig, CharacterBody self, BuffDef buffDef, float duration, int maxStacks)
         {
             if (buffDef = CeremonialDef)
             {
-                var token = self.gameObject.GetComponent<JarToken>();
+                var token = GetToken(self);
 
                 var attacker = token.attacker;
-                var buffCount = attacker.gameObject.GetComponent<BuffToken>();
 
-                Debug.Log("buh");
-
-                if (buffCount.list.Count < 3 && !buffCount.list.Contains(self))
+                if (list.Contains(self))
                 {
-                    buffCount.list.Add(self);
-                    Debug.Log(buffCount.list.Count);
-
-                    if (buffCount.list.Count == 3)
+                    if (AppliedBuff[self.teamComponent.teamIndex].Count == 3)
                     {
-                        foreach (CharacterBody body in buffCount.list)
+                        foreach (CharacterBody body in AppliedBuff[self.teamComponent.teamIndex].Select((JarToken x) => x.body))
                         {
-                            Debug.Log("should proc");
-
                             var stacks = GetCount(attacker);
-                            body.RemoveBuff(CeremonialDef);
+
                             body.AddTimedBuff(CeremonialCooldown, 5f);
 
                             DamageInfo extraDamageInfo = new DamageInfo
                             {
-                                damage = attacker.damage * (3 + stacks),
+                                damage = attacker.damage * (5f + (2.5f * --stacks)),
                                 attacker = attacker.gameObject,
                                 procCoefficient = 0,
-                                position = self.corePosition,
+                                position = body.corePosition,
                                 crit = false,
                                 damageColorIndex = jarDamageColour,
                                 damageType = DamageType.Silent
                             };
-                            self.healthComponent.TakeDamage(extraDamageInfo);
+                            body.healthComponent.TakeDamage(extraDamageInfo);
                         }
+                        AppliedBuff[self.teamComponent.teamIndex].RemoveAll((JarToken x) => x.body);
                     }
                 }
             }
@@ -178,39 +174,35 @@ namespace Sandswept.Items
 
             var stacks = GetCount(attackerBody);
 
-            var buffToken = attackerBody.gameObject.GetComponent<BuffToken>();
             if (damageInfo.procCoefficient > 0)
             {
-                if (stacks > 0 && victim && !victimBody.HasBuff(CeremonialDef) && !victimBody.HasBuff(CeremonialCooldown))
+                if (stacks > 0 && !victimBody.HasBuff(CeremonialDef) && !victimBody.HasBuff(CeremonialCooldown))
                 {
-                    if (!buffToken)
+                    if (list.Count < 3)
                     {
-                        attackerBody.gameObject.AddComponent<BuffToken>();
-                        BuffApply(orig, self, damageInfo, victim);
-                        return;
-                    }
-
-                    if (!buffToken.list.Contains(victimBody))
-                    {
-                        var token = victim.AddComponent<JarToken>();
-                        token.body = victimBody;
+                        victimBody.AddTimedBuff(CeremonialDef, 3f + (0.5f * (stacks - 1f)));
+                        var token = GetToken(victimBody);
                         token.attacker = attackerBody;
                         token.timer = 3f + (0.5f * (stacks - 1f));
-
-                        if (buffToken.list.Count < 3)
-                        {
-                            victimBody.AddTimedBuff(CeremonialDef, 3f + (0.5f * (stacks - 1f)));
-                        }
                     }
                 }
-                if (stacks > 0 && victim && victimBody.HasBuff(CeremonialDef) && !victimBody.HasBuff(CeremonialCooldown))
+                if (stacks > 0 && victim.GetComponent<JarToken>())
                 {
-                    var token = victim.GetComponent<JarToken>();
+                    var token = GetToken(victimBody);
                     token.timer = 3f + (0.5f * (stacks - 1f));
                     victimBody.AddTimedBuff(CeremonialDef, 3f + (0.5f * (stacks - 1f)), 1);
                 }
             }
             orig(self, damageInfo, victim);
+        }
+
+        public static JarToken GetToken(CharacterBody body)
+        {
+            if (!body.gameObject.GetComponent<JarToken>())
+            {
+                body.gameObject.AddComponent<JarToken>();
+            }
+            return body.gameObject.GetComponent<JarToken>();
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()

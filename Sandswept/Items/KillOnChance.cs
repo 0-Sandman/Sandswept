@@ -9,7 +9,7 @@ namespace Sandswept.Items
     {
         public override string ItemName => "Graceful Hand";
 
-        public override string ItemLangTokenName => "Graceful Hand";
+        public override string ItemLangTokenName => "GRACEFUL_HAND";
 
         public override string ItemPickupDesc => "Chance to trigger On-Kill effects on hit.";
 
