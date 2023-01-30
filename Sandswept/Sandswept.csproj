@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <BaseOutputPath>C:\Users\profd\AppData\Roaming\r2modmanPlus-local\RiskOfRain2\profiles\ModTesting\BepInEx\plugins</BaseOutputPath>
+    <BaseOutputPath></BaseOutputPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -23,10 +23,6 @@
     <PackageReference Include="R2API.Prefab" Version="1.0.1" />
     <PackageReference Include="R2API.RecalculateStats" Version="1.0.0" />
     <PackageReference Include="RiskOfRain2.GameLibs" Version="1.2.4-r.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="WIP Content\" />
   </ItemGroup>
 
 </Project>
