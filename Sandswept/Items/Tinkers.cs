@@ -51,13 +51,13 @@ namespace Sandswept.Items
                 if (stacks > 0)
                 {
                     Debug.Log(sender.name);
-                    args.damageMultAdd += 10f * stacks;
-                    if (sender.name.Contains("Drone1Body"))
+                    args.damageMultAdd += 0.10f * stacks;
+                    if (sender.name.Contains("Drone1Body") || sender.name.Contains("Drone2Body"))
                     {
-                        args.cooldownMultAdd += 5f * stacks;
+                        args.cooldownMultAdd += 1f - 0.05f * stacks;
                         return;
                     }
-                    args.attackSpeedMultAdd += 5f * stacks;
+                    args.attackSpeedMultAdd += 0.05f * stacks;
                 }
             }
         }

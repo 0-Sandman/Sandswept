@@ -2,72 +2,16 @@
 using R2API;
 using RoR2;
 using UnityEngine;
-using static Sandswept.Items.SmoulDoc.DocBehaviour;
 using static Sandswept.Utils.Components.MaterialControllerComponents;
 
 namespace Sandswept.Items
 {
     internal class SmoulDoc : ItemBase<SmoulDoc>
     {
-        public class DocBehaviour : MonoBehaviour
+        public class InfoStorage : MonoBehaviour
         {
-            public class ProcStorage : MonoBehaviour
-            {
-                public int procCount;
-            }
             public CharacterBody body;
             public int stacks;
-
-            public void Start()
-            {
-                var procSet = body.gameObject.GetComponent<ProcStorage>();
-                procSet.procCount = 1;
-                body.armor += (-10f + (stacks - 1) * -5);
-                body.attackSpeed *= (0.9f - (stacks - 1) * 0.05f);
-                On.RoR2.DotController.OnDotStackRemovedServer += DotRemove;
-                RecalculateStatsAPI.GetStatCoefficients += ApplyArmourChange;
-                On.RoR2.DotController.InflictDot_refInflictDotInfo += DotInflict;
-            }
-
-            public void OnDestroy() 
-            {
-                On.RoR2.DotController.OnDotStackRemovedServer -= DotRemove;
-                RecalculateStatsAPI.GetStatCoefficients -= ApplyArmourChange;
-                On.RoR2.DotController.InflictDot_refInflictDotInfo -= DotInflict;
-                body.RemoveBuff(SmoulderingDocumentDebuff);
-            }
-
-            public void DotInflict(On.RoR2.DotController.orig_InflictDot_refInflictDotInfo orig, ref InflictDotInfo inflictDotInfo)
-            {
-                orig(ref inflictDotInfo);
-
-                var stacks = inflictDotInfo.victimObject.GetComponent<ProcStorage>();
-                ++stacks.procCount;
-            }
-
-            public void DotRemove(On.RoR2.DotController.orig_OnDotStackRemovedServer orig, DotController self, object dotStack)
-            {
-                orig(self, dotStack);
-                
-                CharacterBody body = self.victimBody.GetComponent<CharacterBody>();
-
-                var stacks = body.gameObject.GetComponent<ProcStorage>();
-                --stacks.procCount;
-                
-                if(stacks.procCount == 0 && body.HasBuff(SmoulderingDocumentDebuff))
-                {
-                    Destroy(this);
-                }
-            }
-
-            public void ApplyArmourChange(CharacterBody sender, RecalculateStatsAPI.StatHookEventArgs args)
-            {
-                if (sender.HasBuff(SmoulderingDocumentDebuff))
-                {
-                    args.armorAdd += (-10f + (stacks - 1) * -5);
-                    args.attackSpeedMultAdd *= (0.9f - (stacks - 1) * 0.05f);
-                }
-            }
         }
 
         public static BuffDef SmoulderingDocumentDebuff;
@@ -78,7 +22,7 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "DoTs reduce enemy armour and attack speed.";
 
-        public override string ItemFullDescription => "<style=cIsDamage>8%</style> chance to <style=cIsDamage>ignite</style> enemies on hit for <style=cIsDamage>100%</style> damage. <style=cIsDamage>DoT</style> effects <style=cIsDamage>Burden</style> enemies, ruducing their <style=cIsDamage>armour</style> by <style=cIsDamage>10</style> <style=cStack>(+5 per stack)</style> and <style=cIsDamage>attack speed</style> by <style=cIsDamage>10%</style> <style=cStack>(+5% per stack)</style>.";
+        public override string ItemFullDescription => "<style=cIsDamage>8%</style> chance to <style=cIsDamage>ignite</style> enemies on hit for <style=cIsDamage>100%</style> damage. <style=cIsDamage>DoT</style> effects <style=cIsDamage>burden</style> enemies, ruducing their <style=cIsDamage>armour</style> by <style=cIsDamage>10</style> <style=cStack>(+5 per stack)</style> and <style=cIsDamage>attack speed</style> by <style=cIsDamage>10%</style> <style=cStack>(+5% per stack)</style>.";
 
         public override string ItemLore => "<style=cStack>[insert sad story about corporate exploitation here]</style>";
 
@@ -112,28 +56,40 @@ namespace Sandswept.Items
         public override void Hooks()
         {
             On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnHitEnemy;
+            RecalculateStatsAPI.GetStatCoefficients += ApplyArmourChange;
             On.RoR2.DotController.InflictDot_refInflictDotInfo += DotCheck;
+        }
+
+        public void ApplyArmourChange(CharacterBody sender, RecalculateStatsAPI.StatHookEventArgs args)
+        {
+            if (sender.HasBuff(SmoulderingDocumentDebuff))
+            {
+                var token = sender.gameObject.GetComponent<InfoStorage>();
+                args.armorAdd += -10f + ((token.stacks - 1) * -5);
+                args.attackSpeedMultAdd *= 0.9f - ((token.stacks - 1) * 0.05f);
+            }
         }
 
         private void DotCheck(On.RoR2.DotController.orig_InflictDot_refInflictDotInfo orig, ref InflictDotInfo inflictDotInfo)
         {
-            orig(ref inflictDotInfo);
-
             CharacterBody attacker = inflictDotInfo.attackerObject.GetComponent<CharacterBody>();
             CharacterBody victim = inflictDotInfo.victimObject.GetComponent<CharacterBody>();
 
-            DocBehaviour behaviour = victim.gameObject.GetComponent<DocBehaviour>();
             int stacks = GetCount(attacker);
 
-            if (stacks > 0 && !behaviour)
+            if (stacks > 0)
             {
-                victim.AddBuff(SmoulderingDocumentDebuff);
-                behaviour = victim.gameObject.AddComponent<DocBehaviour>();
+                var behaviour = (bool)victim.gameObject.GetComponent<InfoStorage>() ? victim.gameObject.GetComponent<InfoStorage>() : victim.gameObject.AddComponent<InfoStorage>();
                 behaviour.body = victim;
                 behaviour.stacks = GetCount(attacker);
-                victim.gameObject.AddComponent<ProcStorage>();
-                
+                if (inflictDotInfo.dotIndex == DotController.DotIndex.Burn)
+                {
+                    victim.AddTimedBuff(SmoulderingDocumentDebuff, (float)inflictDotInfo.totalDamage / inflictDotInfo.attackerObject.GetComponent<CharacterBody>().damage);
+                    return;
+                }
+                victim.AddTimedBuff(SmoulderingDocumentDebuff, inflictDotInfo.duration);
             }
+            orig(ref inflictDotInfo);
         }
 
         private void GlobalEventManager_OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
@@ -143,8 +99,6 @@ namespace Sandswept.Items
                 CharacterBody attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
                 CharacterBody victimBody = victim.GetComponent<CharacterBody>();
 
-                float burnTotal = 1f * attackerBody.damage;
-
                 if (attackerBody && victimBody)
                 {
                     int stack = GetCount(attackerBody);
@@ -152,10 +106,11 @@ namespace Sandswept.Items
                     {
                         if (Util.CheckRoll(8f * damageInfo.procCoefficient, attackerBody.master))
                         {
-                            InflictDotInfo inflictDotInfo = default(InflictDotInfo);
+                            InflictDotInfo inflictDotInfo = default;
                             inflictDotInfo.victimObject = victim;
                             inflictDotInfo.attackerObject = damageInfo.attacker;
-                            inflictDotInfo.totalDamage = burnTotal;
+                            inflictDotInfo.totalDamage = attackerBody.damage;
+                            inflictDotInfo.duration = default;
                             inflictDotInfo.dotIndex = DotController.DotIndex.Burn;
                             inflictDotInfo.damageMultiplier = 1f;
                             InflictDotInfo dotInfo = inflictDotInfo;

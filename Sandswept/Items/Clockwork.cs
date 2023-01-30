@@ -13,7 +13,7 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "Gain attack speed and cooldown reduction";
 
-        public override string ItemFullDescription => "Gain 10% (+5% per stack) and 5% (+2.5% per stack) cooldown reduction.";
+        public override string ItemFullDescription => "Gain 10% (+7.5% per stack) attack speed and 5% (+2.5% per stack) cooldown reduction.";
 
         public override string ItemLore => "";
 
@@ -42,8 +42,8 @@ namespace Sandswept.Items
 
             if (stacks > 0)
             {
-                args.cooldownMultAdd += 5f + 2.5f * (stacks - 1);
-                args.attackSpeedMultAdd += 10f + 5f * (stacks - 1);
+                args.cooldownMultAdd *= 1f - (0.05f + (0.025f * (stacks - 1)));
+                args.attackSpeedMultAdd += 0.1f + (0.75f * (stacks - 1));
             }
         }
 

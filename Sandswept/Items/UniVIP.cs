@@ -1,15 +1,13 @@
 ﻿using BepInEx.Configuration;
 using R2API;
 using RoR2;
-using Sandswept.Utils;
 using UnityEngine;
-using static Sandswept.Utils.Components.MaterialControllerComponents;
 
 namespace Sandswept.Items
 {
     public class UniVIP : ItemBase<UniVIP>
     {
-        public class PassBehaviour : CharacterBody.ItemBehavior 
+        public class PassBehaviour : MonoBehaviour
         {
             public CharacterBody body;
             public float storedTotal;
@@ -17,77 +15,49 @@ namespace Sandswept.Items
             public void Start()
             {
                 On.RoR2.PurchaseInteraction.OnInteractionBegin += PurchaseInteraction_OnInteractionBegin1;
-                On.RoR2.Inventory.RemoveItem_ItemIndex_int += Inventory_RemoveItem_ItemIndex_int;
-                On.RoR2.Stage.Start += Stage_Start;
+                Stage.onStageStartGlobal += Stage_onStageStartGlobal;
             }
 
-            public void OnDestroy()
+            private void Stage_onStageStartGlobal(Stage obj)
             {
-                Debug.Log("Item removed");
-                On.RoR2.PurchaseInteraction.OnInteractionBegin -= PurchaseInteraction_OnInteractionBegin1;
-                On.RoR2.Inventory.RemoveItem_ItemIndex_int -= Inventory_RemoveItem_ItemIndex_int;
-                On.RoR2.Stage.Start -= Stage_Start;
+                CharacterMaster bodyMaster = body.master;
+                var check = body.inventory.GetItemCount(instance.ItemDef);
+                if (check == 0)
+                {
+                    Destroy(this);
+                }
+
+                if (bodyMaster)
+                {
+                    bodyMaster.GiveMoney((uint)storedTotal);
+                    storedTotal = 0;
+                }
             }
 
             private void PurchaseInteraction_OnInteractionBegin1(On.RoR2.PurchaseInteraction.orig_OnInteractionBegin orig, PurchaseInteraction self, Interactor activator)
             {
-                orig(self, activator);
-                if (!activator || self.costType != CostTypeIndex.Money)
+                if (activator && self.costType == CostTypeIndex.Money)
                 {
-                    return;
-                }
-
-                body = activator.GetComponent<CharacterBody>();
-                int stacks = body.inventory.GetItemCount(instance.ItemDef);
-                if (stacks > 0)
-                {
-                    storedTotal += Util.ConvertAmplificationPercentageIntoReductionPercentage((((float)stacks - 1) * stackScaler) + (float)moneyScaler) * self.cost;
-                    Debug.Log(storedTotal);
-                    return;
-                }
-                return;
-            }
-
-            private void Stage_Start(On.RoR2.Stage.orig_Start orig, Stage self)
-            {
-                orig(self);
-
-                CharacterMaster bodyMaster = base.GetComponent<CharacterMaster>();
-
-                bodyMaster.GiveMoney((uint)storedTotal);
-                storedTotal= 0;
-
-                return;
-            }
-
-            private void Inventory_RemoveItem_ItemIndex_int(On.RoR2.Inventory.orig_RemoveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
-            {
-                orig(self, itemIndex, count);
-
-                int stack = self.GetItemCount(instance.ItemDef);
-
-                if (stack == 0)
-                {
-                    PassBehaviour behaviourCheck = self.GetComponent<PassBehaviour>();
-                    if (behaviourCheck)
+                    var funnyBody = activator.GetComponent<CharacterBody>();
+                    if (funnyBody = body)
                     {
-                        Destroy(this);
+                        int stacks = body.inventory.GetItemCount(instance.ItemDef);
+                        if (stacks > 0)
+                        {
+                            storedTotal += self.cost * Util.ConvertAmplificationPercentageIntoReductionPercentage(0.15f + 0.10f * (stacks - 1));
+                        }
                     }
                 }
+                orig(self, activator);
             }
         }
-
-        public static ConfigOption<float> moneyScaler;
-
-        public static ConfigOption<float> stackScaler;
-
         public override string ItemName => "Universal VIP Pass";
 
         public override string ItemLangTokenName => "VIP_PASS";
 
         public override string ItemPickupDesc => "Store interactable costs as a bonus next stage.";
 
-        public override string ItemFullDescription => "Store <style=cIsUtility>15%</style> <style=cStack>(+5% per stack)</style> of all used interactable costs, recieve the total stored amount on the next stage.";
+        public override string ItemFullDescription => "Store <style=cIsUtility>15%</style> <style=cStack>(+10% per stack)</style> of all used interactable costs, recieve the total stored amount on the next stage.";
 
         public override string ItemLore => "Funny pt.2";
 
@@ -100,17 +70,11 @@ namespace Sandswept.Items
 
         public override void Init(ConfigFile config)
         {
-            CreateConfig(config);
             CreateLang();
             CreateItem();
             Hooks();
         }
 
-        public override void CreateConfig(ConfigFile config)
-        {
-            moneyScaler = config.ActiveBind("Item: " + ItemName, "Cost value stored", 0.15f, "Set preferred money value stored");
-            stackScaler = config.ActiveBind("Item: " + ItemName, "Value stored per stack", 0.05f, "Set preferred item scaling");
-        }
         public override void Hooks()
         {
             On.RoR2.CharacterBody.OnInventoryChanged += InventoryChanged;
@@ -122,20 +86,18 @@ namespace Sandswept.Items
             int stack = GetCount(self);
             if (stack >= 1)
             {
-            PassBehaviour behaviourCheck = self.GetComponent<PassBehaviour>();
-            if (!behaviourCheck)
-            {
-                self.gameObject.AddComponent<PassBehaviour>();
-            }
+                PassBehaviour behaviourCheck = self.GetComponent<PassBehaviour>();
+                if (!behaviourCheck)
+                {
+                    var token = self.gameObject.AddComponent<PassBehaviour>();
+                    token.body = self;
+                }
             }
             return;
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
-            MeshRenderer component = ItemModel.transform.Find("UniVIP").GetComponent<MeshRenderer>();
-            var materialAssign = ItemModel.gameObject.AddComponent<HGControllerFinder>();
-            materialAssign.Renderer = component;
             return new ItemDisplayRuleDict();
         }
     }
