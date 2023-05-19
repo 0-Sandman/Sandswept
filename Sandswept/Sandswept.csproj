@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>preview</LangVersion>
     <BaseOutputPath></BaseOutputPath>
   </PropertyGroup>
 
@@ -11,7 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MMHOOK.RoR2" Version="2022.9.20" />
+    <PackageReference Include="MMHOOK.RoR2" Version="2022.9.20">
+      <NoWarn>NU1701</NoWarn>
+    </PackageReference>
     <PackageReference Include="R2API.ContentManagement" Version="1.0.1" />
     <PackageReference Include="R2API.Core" Version="5.0.4" />
     <PackageReference Include="R2API.DamageType" Version="1.0.0" />

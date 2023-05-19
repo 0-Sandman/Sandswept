@@ -25,7 +25,7 @@ namespace Sandswept.Items
             instance = this as T;
         }
     }
-    public abstract class ItemBase
+    public abstract class ItemBase : IConfigurable
     {
         public abstract string ItemName { get; }
         public abstract string ItemLangTokenName { get; }
@@ -64,7 +64,12 @@ namespace Sandswept.Items
         /// <para>P.S. CreateItemDisplayRules(); does not have to be called in this, as it already gets called in CreateItem();</para>
         /// </summary>
         /// <param name="config">The config file that will be passed into this from the main class.</param>
-        public abstract void Init(ConfigFile config);
+        public virtual void Init(ConfigFile config) {
+            CreateConfig(config);
+            CreateLang();
+            CreateItem();
+            Hooks();
+        }
 
         public virtual void CreateConfig(ConfigFile config) { }
 
@@ -99,7 +104,9 @@ namespace Sandswept.Items
             ItemDef.pickupIconSprite = ItemIcon;
             ItemDef.hidden = false;
             ItemDef.canRemove = CanRemove;
+            #pragma warning disable
             ItemDef.deprecatedTier = Tier;
+            #pragma warning enable
 
             if  (AchievementName!= null)
             {
@@ -147,6 +154,11 @@ namespace Sandswept.Items
             if (!body || !body.inventory) { return 0; }
 
             return body.inventory.GetItemCount(itemDef);
+        }
+
+        public string GetConfigName()
+        {
+            return ItemName;
         }
     }
 }
