@@ -1,4 +1,4 @@
-# 1.0.0
+## 1.0.0
 
 - Release
 - Added 1 Survivor
