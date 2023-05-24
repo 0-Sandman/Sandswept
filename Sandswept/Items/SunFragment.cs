@@ -37,7 +37,7 @@ namespace Sandswept.Items
 
         public GameObject FragmentVFX;
 
-        public GameObject FragmentVFXSphere;
+        public static GameObject FragmentVFXSphere;
 
 
         public override void Init(ConfigFile config)

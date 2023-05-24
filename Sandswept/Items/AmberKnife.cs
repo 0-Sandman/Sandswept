@@ -2,7 +2,9 @@
 using R2API;
 using RoR2;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using static R2API.RecalculateStatsAPI;
+using static Sandswept.Utils.Components.MaterialControllerComponents;
 
 namespace Sandswept.Items
 {
@@ -26,6 +28,21 @@ namespace Sandswept.Items
 
         public override void Init(ConfigFile config)
         {
+            // this is horrid I wish I knew what I was doing //
+            var component = ItemModel.transform.Find("AmberKnife").Find("Knife").gameObject;
+            var renderer = component.GetComponent<MeshRenderer>();
+            var controller = component.AddComponent<HGStandardController>();
+            controller.Renderer = renderer;
+            controller.Material = renderer.materials[0];
+            var material = controller.Material;
+            material.SetTexture("_EmTex", Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Grandparent/texGrandparentDetailGDiffuse.png").WaitForCompletion());
+            material.SetFloat("_EmPower", 10f);
+            material.SetColor("_EmColor", new Color32(50, 0, 0, 255));
+            material.SetTexture("_FresnelRamp", Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Common/ColorRamps/texRampTwotone.jpg").WaitForCompletion());
+            material.SetFloat("_FresnelPower", 13f);
+            material.SetFloat("_FresnelBoost", 2.5f);
+            material.EnableKeyword("FRESNEL_EMISSION");
+            renderer.material = material;
             CreateLang();
             CreateItem();
             Hooks();

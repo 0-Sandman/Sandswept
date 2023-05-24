@@ -1,8 +1,6 @@
 ﻿using BepInEx.Configuration;
 using R2API;
 using RoR2;
-using System;
-using System.Linq;
 using UnityEngine;
 
 namespace Sandswept.Items
@@ -54,7 +52,7 @@ namespace Sandswept.Items
                     args.damageMultAdd += 0.10f * stacks;
                     if (sender.name.Contains("Drone1Body") || sender.name.Contains("Drone2Body"))
                     {
-                        args.cooldownMultAdd += 1f - 0.05f * stacks;
+                        args.cooldownMultAdd -= 0.15f * stacks;
                         return;
                     }
                     args.attackSpeedMultAdd += 0.05f * stacks;

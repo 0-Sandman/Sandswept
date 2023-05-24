@@ -7,7 +7,7 @@ namespace Sandswept.Items
 {
     public class Clockwork : ItemBase<Clockwork>
     {
-        public override string ItemName => "Clockwork";
+        public override string ItemName => "Fractured Timepiece";
 
         public override string ItemLangTokenName => "CLOCKWORK";
 
@@ -42,8 +42,8 @@ namespace Sandswept.Items
 
             if (stacks > 0)
             {
-                args.cooldownMultAdd *= 1f - (0.05f + (0.025f * (stacks - 1)));
-                args.attackSpeedMultAdd += 0.1f + (0.75f * (stacks - 1));
+                args.cooldownMultAdd -= 0.075f + (0.075f * --stacks);
+                args.attackSpeedMultAdd += 0.08f + (0.08f * --stacks);
             }
         }
 

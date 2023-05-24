@@ -1,6 +1,7 @@
 ﻿using BepInEx.Configuration;
 using R2API;
 using RoR2;
+using Sandswept.Utils;
 using UnityEngine;
 
 namespace Sandswept.Items
@@ -27,6 +28,9 @@ namespace Sandswept.Items
                 }
             }
         }
+
+        public static BuffDef MakeshiftPlateCount;
+        
         public override string ItemName => "Makeshift Plate";
 
         public override string ItemLangTokenName => "MAKESHIFT_PLATE";
@@ -48,6 +52,7 @@ namespace Sandswept.Items
         {
             CreateLang();
             CreateItem();
+            CreateBuff();
             Hooks();
         }
 
@@ -55,6 +60,17 @@ namespace Sandswept.Items
         {
             On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
             RecalculateStatsAPI.GetStatCoefficients += AddArmour;
+        }
+
+        public void CreateBuff()
+        {
+            MakeshiftPlateCount = ScriptableObject.CreateInstance<BuffDef>();
+            MakeshiftPlateCount.name = "Plated";
+            MakeshiftPlateCount.buffColor = Color.white;
+            MakeshiftPlateCount.canStack = true;
+            MakeshiftPlateCount.isDebuff = false;
+            MakeshiftPlateCount.iconSprite = Main.MainAssets.LoadAsset<Sprite>("MakeshiftPlateBuffIcon.png");
+            ContentAddition.AddBuffDef(MakeshiftPlateCount);
         }
 
         private void CharacterBody_OnInventoryChanged(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, CharacterBody self)
@@ -79,6 +95,32 @@ namespace Sandswept.Items
             {
                 var stackScaling = 5 * stacks;
                 args.armorAdd += stackScaling + (sender.armor - sender.armor % 25) / 25 * (5 + (1 * stacks - 1));
+
+                int count = (int)((sender.armor - sender.armor % 25) / 25);
+                AddBuffs(sender, count);
+            }
+        }
+
+        public void AddBuffs(CharacterBody body, int count)
+        {
+            int buffCount = body.GetBuffCount(MakeshiftPlateCount);
+            if (buffCount == count)
+            {
+                return;
+            }
+            if (buffCount < count)
+            {
+                for (int i = 0; i < count - buffCount; i++)
+                {
+                    body.AddBuff(MakeshiftPlateCount);
+                }
+            }
+            else if (buffCount > count)
+            {
+                for (int i = 0; i < buffCount - count; i++)
+                {
+                    body.RemoveBuff(MakeshiftPlateCount);
+                }
             }
         }
 

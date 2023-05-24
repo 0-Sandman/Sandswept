@@ -58,7 +58,7 @@ namespace Sandswept.Items
                 orig(self, damageInfo, victim);
             }
         }
-        public static DamageColorIndex betrayalDamageColour = DamageColourHelper.RegisterDamageColor(new Color32(175, 255, 30, 255));
+        public static DamageColorIndex betrayalDamageColour = DamageColourHelper.RegisterDamageColor(new Color32(30, 150, 255, 255));
 
         public override string ItemName => "Betrayal";
 
@@ -66,7 +66,7 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "Repeated strikes on enemies crush them";
 
-        public override string ItemFullDescription => "Hitting an enemy 3 consecutive times sunders them for 300% (+300% per proc) damage.";
+        public override string ItemFullDescription => "Hitting an enemy 3 consecutive times <color=#1e96ff>sunders</color> them for <style=cIsDamage>300%</style> <style=cStack>(+300% per proc)</style> damage.";
 
         public override string ItemLore => "";
 

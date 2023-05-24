@@ -5,6 +5,7 @@ using Sandswept.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using HarmonyLib;
 
 namespace Sandswept.Items
 {
@@ -63,7 +64,7 @@ namespace Sandswept.Items
 
         public static DamageAPI.ModdedDamageType jarDamageType;
 
-        public static DamageColorIndex jarDamageColour = DamageColourHelper.RegisterDamageColor(new Color32(0, 150, 255, 255));
+        public static DamageColorIndex jarDamageColour = DamageColourHelper.RegisterDamageColor(new Color32(0, 255, 204, 255));
 
         public override string ItemName => "Ceremonial Jar";
 
@@ -71,7 +72,7 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "Hits link enemies, link multiple to damage them";
 
-        public override string ItemFullDescription => "";
+        public override string ItemFullDescription => "<color=#00ffcc></color>";
 
         public override string ItemLore => "";
 
@@ -87,7 +88,7 @@ namespace Sandswept.Items
 
         public override void Init(ConfigFile config)
         {
-            jarDamageType = DamageAPI.ReserveDamageType();
+            //jarDamageType = DamageAPI.ReserveDamageType();
             CreateLang();
             CreateItem();
             CreateBuff();
@@ -105,24 +106,25 @@ namespace Sandswept.Items
         {
             CeremonialDef = ScriptableObject.CreateInstance<BuffDef>();
             CeremonialDef.name = "Linked";
-            CeremonialDef.buffColor = new Color32(245, 153, 80, 255);
             CeremonialDef.canStack = false;
             CeremonialDef.isDebuff = false;
-            CeremonialDef.iconSprite = Main.MainAssets.LoadAsset<Sprite>("Linked.png");
+            CeremonialDef.iconSprite = Main.MainAssets.LoadAsset<Sprite>("LinkedIcon.png");
             ContentAddition.AddBuffDef(CeremonialDef);
+            BuffCatalog.buffDefs.AddItem(CeremonialDef);
 
             CeremonialCooldown = ScriptableObject.CreateInstance<BuffDef>();
             CeremonialCooldown.name = "Cleansed";
-            CeremonialCooldown.buffColor = new Color32(140, 153, 60, 255);
+            CeremonialCooldown.buffColor = Color.white;
             CeremonialCooldown.canStack = false;
             CeremonialCooldown.isDebuff = false;
+            CeremonialCooldown.isCooldown = true;
             CeremonialCooldown.iconSprite = Main.MainAssets.LoadAsset<Sprite>("Cleansed.png");
             ContentAddition.AddBuffDef(CeremonialCooldown);
         }
 
         private void DeathRemove(On.RoR2.CharacterBody.orig_OnDeathStart orig, CharacterBody self)
         {
-            if (self.gameObject.GetComponent<JarToken>())
+            if ((bool)self.gameObject.GetComponent<JarToken>())
             {
                 list.Remove(self);
                 AppliedBuff[self.teamComponent.teamIndex].Remove(GetToken(self));
@@ -132,7 +134,7 @@ namespace Sandswept.Items
 
         private void BuffCheck(On.RoR2.CharacterBody.orig_AddTimedBuff_BuffDef_float_int orig, CharacterBody self, BuffDef buffDef, float duration, int maxStacks)
         {
-            if (buffDef = CeremonialDef)
+            if (buffDef == CeremonialDef)
             {
                 var token = GetToken(self);
 

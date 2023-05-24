@@ -24,6 +24,7 @@ namespace Sandswept.Utils
         public IEnumerator LoadStaticContentAsync(LoadStaticContentAsyncArgs args)
         {
             contentPack.identifier = identifier;
+            //contentPack.buffDefs.Add(Main.Buffs.ToArray());
             contentPack.unlockableDefs.Add(Main.Unlocks.ToArray());
             contentPack.effectDefs.Add(Main.EffectPrefabs.ConvertAll((GameObject x) => new EffectDef(x)).ToArray());
             args.ReportProgress(1f);

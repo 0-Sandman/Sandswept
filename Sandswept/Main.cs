@@ -46,8 +46,8 @@ namespace Sandswept
         public List<ArtifactBase> Artifacts = new List<ArtifactBase>();
         public List<ItemBase> Items = new List<ItemBase>();
         public List<EquipmentBase> Equipments = new List<EquipmentBase>();
-        public List<BuffBase> Buffs = new List<BuffBase>();
         public List<EliteEquipmentBase> EliteEquipments = new List<EliteEquipmentBase>();
+        //public static List<BuffDef> Buffs = new List<BuffDef>();
         public static List<UnlockableDef> Unlocks = new List<UnlockableDef>();
         public static List<GameObject> EffectPrefabs = new List<GameObject>();
 
@@ -123,7 +123,7 @@ namespace Sandswept
                 }
             }
 
-            var BuffTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(BuffBase)));
+            /*var BuffTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(BuffBase)));
 
             foreach (var buffType in BuffTypes)
             {
@@ -132,7 +132,7 @@ namespace Sandswept
                 {
                     buff.Init(Config);
                 }
-            }
+            }*/
             new ContentPacks().Initialize();
         }
 
@@ -206,7 +206,7 @@ namespace Sandswept
             }
             return false;
         }
-        public bool ValidateBuff(BuffBase buff, List<BuffBase> buffList)
+        /*public bool ValidateBuff(BuffBase buff, List<BuffBase> buffList)
         {
             var enabled = Config.Bind<bool>("Buff: " + buff.BuffName, "Enable Buff?", true, "Should this buff be registered for use in the game?").Value;
 
@@ -217,7 +217,8 @@ namespace Sandswept
                 buffList.Add(buff);
             }
             return enabled;
-        }
+        }*/
+
         public void Swapallshaders(AssetBundle bundle)
         {
             Material[] array = bundle.LoadAllAssets<Material>();

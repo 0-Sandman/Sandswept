@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 933379078
+CRC: 1758680598
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: aeebca84fbb4d1b26aba551fcbb61df5
+    Hash: 2f4f541acdc2f28ef26afc713613455f
   TypeTreeHash:
     serializedVersion: 2
     Hash: a86f78335e5f2f8d9b0f367daea406f6
@@ -42,9 +42,12 @@ Assets:
 - Assets/Models/Items/SmoulDoc/DocumentTex.mat
 - Assets/Models/Items/Fragment/SunFragmentPrefab.prefab
 - Assets/VFX/FragmentFX/FragmentFXSphere.mat
+- Assets/Models/Items/AmberKnife/AmberKnifePrefab.prefab
+- Assets/Icons/Buffs/LinkedIcon.png
 - Assets/Models/Items/Witness/WitnessPrefab.prefab
 - Assets/Icons/Items/UniVIPIcon.png
 - Assets/Icons/Items/SunFragmentIcon.png
+- Assets/Models/Items/AmberKnife/AmberKnifeTex.mat
 - Assets/Models/Items/MakeshiftPlate/MakeshiftplateTex.mat
 - Assets/Models/Items/Fragment/SunFragmentTex.mat
 - Assets/Models/Items/UniVIP/UniVIPPrefab.prefab

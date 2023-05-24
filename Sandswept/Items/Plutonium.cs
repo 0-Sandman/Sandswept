@@ -80,16 +80,18 @@ namespace Sandswept.Items
                             foreach (TeamComponent teamMember in TeamComponent.GetTeamMembers(teamIndex2))
                             {
                                 Vector3 val = teamMember.transform.position - body.corePosition;
-                                if (val.sqrMagnitude <= 225f)
+                                if (val.sqrMagnitude <= 100f)
                                 {
-                                    InflictDotInfo inflictDotInfo = default;
-                                    inflictDotInfo.victimObject = teamMember.gameObject;
-                                    inflictDotInfo.attackerObject = body.gameObject;
-                                    inflictDotInfo.totalDamage = body.damage;
-                                    inflictDotInfo.dotIndex = IrradiatedIndex;
-                                    inflictDotInfo.duration = 0f;
-                                    inflictDotInfo.maxStacksFromAttacker = 1;
-                                    inflictDotInfo.damageMultiplier = 1.25f + (0.75f * (body.inventory.GetItemCount(instance.ItemDef) - 1));
+                                    InflictDotInfo inflictDotInfo = new InflictDotInfo
+                                    {
+                                        victimObject = teamMember.gameObject,
+                                        attackerObject = body.gameObject,
+                                        totalDamage = body.damage,
+                                        dotIndex = IrradiatedIndex,
+                                        duration = 2f,
+                                        maxStacksFromAttacker = 1,
+                                        damageMultiplier = 1.25f + (0.75f * (body.inventory.GetItemCount(instance.ItemDef) - 1))
+                                    };
                                     InflictDotInfo dotInfo = inflictDotInfo;
                                     DotController.InflictDot(ref dotInfo);
                                 }
@@ -101,10 +103,10 @@ namespace Sandswept.Items
 
             public void Update()
             {
-                if (PlutIndicator && x != 30f)
+                if (PlutIndicator && x != 20f)
                 {
                     Transform zone = PlutIndicator.transform.Find("Radius, Spherical");
-                    x = Mathf.SmoothDamp(zone.localScale.x, 30f, ref velocity, 0.2f);
+                    x = Mathf.SmoothDamp(zone.localScale.x, 20f, ref velocity, 0.2f);
                     zone.localScale = new Vector3(x, x, x);
                 }
             }
@@ -139,7 +141,7 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "Create an irradiating ring around you when you have active shield";
 
-        public override string ItemFullDescription => "Gain a <style=cIsHealing>shield</style> equal to <style=cIsHealing>3%</style> of your maximum health. While shields are active create a <style=cIsUtility>15m</style> radius that <style=cIsHealing>Irradiates</style> enemies for <style=cIsDamage>125%</style> <style=cStack>(+75% per stack)</style> damage.";
+        public override string ItemFullDescription => "Gain a <style=cIsHealing>shield</style> equal to <style=cIsHealing>5%</style> of your maximum health. While shields are active create a <style=cIsUtility>15m</style> radius that <color=#afff1e>Irradiates</color> enemies for <style=cIsDamage>125%</style> <style=cStack>(+75% per stack)</style> damage.";
 
         public override string ItemLore => "<style=cStack>funny quirky funny funny funny quirky</style>";
 
@@ -181,7 +183,7 @@ namespace Sandswept.Items
             val4.SetTextureScale("_Cloud1Tex", new Vector2(0.5f, 0.5f));
             val4.SetTexture("_Cloud2Tex", null);
             val4.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Engi/texUIEngiMissileLockedOn.png").WaitForCompletion());
-
+            val4.SetFloat("_AlphaBoost", 2f);
             val4.SetFloat("_InvFade", 0.5f);
             val4.SetFloat("_Boost", 0.5f);
             val5.material = val4;
@@ -243,7 +245,7 @@ namespace Sandswept.Items
             if (GetCount(sender) > 0)
             {
                 HealthComponent component = sender.GetComponent<HealthComponent>();
-                args.baseShieldAdd += component.fullHealth * 0.03f;
+                args.baseShieldAdd += component.fullHealth * 0.05f;
             }
         }
         private void GrantEffect(CharacterBody sender, StatHookEventArgs args)
@@ -252,11 +254,33 @@ namespace Sandswept.Items
             PlutoniumBehaviour behaviourCheck = sender.GetComponent<PlutoniumBehaviour>();
             if ((bool)component && component.cachedIsShielded && component.cachedInventoryCount > 0 && !behaviourCheck)
             {
-                PlutoniumBehaviour behaviour = sender.gameObject.AddComponent<PlutoniumBehaviour>();
+                sender.gameObject.AddComponent<PlutoniumBehaviour>();
             }
             if ((bool)component && component.cachedIsShielded == false && behaviourCheck)
             {
                 behaviourCheck.active = false;
+
+                EffectData effectData2 = new EffectData
+                {
+                    origin = sender.corePosition,
+                    scale = 17.5f
+                };
+                EffectManager.SpawnEffect(SunFragment.FragmentVFXSphere, effectData2, true);
+
+                BlastAttack blastAttack = new BlastAttack
+                {
+                    radius = 15f,
+                    baseDamage = sender.maxShield * 2.5f,
+                    procCoefficient = 0.1f,
+                    crit = false,
+                    damageColorIndex = IrradiateDamageColour,
+                    attackerFiltering = AttackerFiltering.NeverHitSelf,
+                    falloffModel = BlastAttack.FalloffModel.None,
+                    attacker = sender.gameObject,
+                    teamIndex = sender.teamComponent.teamIndex,
+                    position = sender.corePosition,
+                };
+                blastAttack.Fire();
             }
         }
 
