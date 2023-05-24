@@ -15,9 +15,10 @@ namespace Sandswept.Unlocks
 
         private void ScrapperController_BeginScrapping(On.RoR2.ScrapperController.orig_BeginScrapping orig, ScrapperController self, int intPickupIndex)
         {
-            if (self.interactor != null)
+            var pickupDef = PickupCatalog.GetPickupDef(new PickupIndex(intPickupIndex));
+            if (self.interactor != null && pickupDef != null)
             {
-                if (intPickupIndex == 146)
+                if (pickupDef == PickupCatalog.FindPickupIndex(RoR2Content.Items.ParentEgg.itemIndex).pickupDef)
                 {
                     Grant();
                 }
