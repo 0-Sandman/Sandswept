@@ -12,6 +12,8 @@ using UnityEngine;
 using Sandswept.Buffs;
 using RoR2;
 using Sandswept.Utils;
+using Sandswept.Skills;
+using Sandswept.Survivors;
 
 namespace Sandswept
 {
@@ -46,8 +48,8 @@ namespace Sandswept
         public List<ArtifactBase> Artifacts = new List<ArtifactBase>();
         public List<ItemBase> Items = new List<ItemBase>();
         public List<EquipmentBase> Equipments = new List<EquipmentBase>();
+        public List<BuffBase> Buffs = new List<BuffBase>();
         public List<EliteEquipmentBase> EliteEquipments = new List<EliteEquipmentBase>();
-        //public static List<BuffDef> Buffs = new List<BuffDef>();
         public static List<UnlockableDef> Unlocks = new List<UnlockableDef>();
         public static List<GameObject> EffectPrefabs = new List<GameObject>();
 
@@ -61,6 +63,10 @@ namespace Sandswept
         private void Awake()
         {
             ModLogger = Logger;
+
+            AutoRunCollector.HandleAutoRun();
+            ConfigManager.HandleConfigAttributes(Assembly.GetExecutingAssembly(), Config);
+
 
             // Don't know how to create/use an asset bundle, or don't have a unity project set up?
             // Look here for info on how to set these up: https://github.com/KomradeSpectre/AetheriumMod/blob/rewrite-master/Tutorials/Item%20Mod%20Creation.md#unity-project
@@ -123,17 +129,30 @@ namespace Sandswept
                 }
             }
 
-            /*var BuffTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(BuffBase)));
+            var BuffTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(BuffBase)));
 
             foreach (var buffType in BuffTypes)
             {
                 BuffBase buff = (BuffBase)Activator.CreateInstance(buffType);
                 if (ValidateBuff(buff, Buffs))
                 {
-                    buff.Init(Config);
+                    buff.Init();
                 }
-            }*/
+            }
+
+            ScanTypes<SkillBase>((x) => x.Init());
+            ScanTypes<SurvivorBase>((x) => x.Init());
+
             new ContentPacks().Initialize();
+        }
+
+        internal static void ScanTypes<T>(Action<T> action) {
+            IEnumerable<Type> types = Assembly.GetExecutingAssembly().GetTypes().Where(x => !x.IsAbstract && x.IsSubclassOf(typeof(T)));
+
+            foreach (Type type in types) {
+                T instance = (T)Activator.CreateInstance(type);
+                action(instance);
+            }
         }
 
 
@@ -206,7 +225,7 @@ namespace Sandswept
             }
             return false;
         }
-        /*public bool ValidateBuff(BuffBase buff, List<BuffBase> buffList)
+        public bool ValidateBuff(BuffBase buff, List<BuffBase> buffList)
         {
             var enabled = Config.Bind<bool>("Buff: " + buff.BuffName, "Enable Buff?", true, "Should this buff be registered for use in the game?").Value;
 
@@ -217,8 +236,7 @@ namespace Sandswept
                 buffList.Add(buff);
             }
             return enabled;
-        }*/
-
+        }
         public void Swapallshaders(AssetBundle bundle)
         {
             Material[] array = bundle.LoadAllAssets<Material>();

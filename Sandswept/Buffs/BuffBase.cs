@@ -27,7 +27,10 @@ namespace Sandswept.Buffs
 
         public BuffDef BuffDef;
 
-        public abstract void Init(ConfigFile config);
+        public virtual void Init() {
+            CreateBuff();
+            Hooks();
+        }
 
         public void CreateBuff()
         {
@@ -42,6 +45,8 @@ namespace Sandswept.Buffs
 
         }
 
-        public abstract void Hooks();
+        public virtual void Hooks() {
+
+        }
     }
 }
