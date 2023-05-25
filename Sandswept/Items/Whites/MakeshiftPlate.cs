@@ -1,7 +1,4 @@
-﻿using BepInEx.Configuration;
-using R2API;
-using RoR2;
-using UnityEngine;
+﻿using static Sandswept.Items.Greens.BleedingWitness;
 
 namespace Sandswept.Items.Whites
 {
@@ -12,6 +9,11 @@ namespace Sandswept.Items.Whites
             public CharacterBody body;
             public float armor = 0;
             public float timer;
+
+            public void Start()
+            {
+                body = GetComponent<CharacterBody>();
+            }
 
             public void FixedUpdate()
             {
@@ -35,7 +37,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "Grants bonus armor based on current armor";
 
-        public override string ItemFullDescription => "Gain $sh5$se $ss(+5 per stack)$se armor. Grants an additional $sh5$se $ss(+1 per stack)$se $sharmor$se for every $sh25 armor$se you have.";
+        public override string ItemFullDescription => StringExtensions.AutoFormat("Gain $sh5$se $ss(+5 per stack)$se armor. Grants an additional $sh5$se $ss(+1 per stack)$se $sharmor$se for every $sh25 armor$se you have.");
 
         public override string ItemLore => "I hope ceremonial jar is coded soon :Yeah3D:";
 
@@ -47,33 +49,28 @@ namespace Sandswept.Items.Whites
 
         public override void Init(ConfigFile config)
         {
-            CreateLang();
-            CreateItem();
-            Hooks();
         }
 
         public override void Hooks()
         {
-            On.RoR2.CharacterBody.OnInventoryChanged += CharacterBody_OnInventoryChanged;
-            GetStatCoefficients += AddArmour;
+            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
+            GetStatCoefficients += AddArmor;
         }
 
-        private void CharacterBody_OnInventoryChanged(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, CharacterBody self)
+        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
-            var check = self.gameObject.GetComponent<UpdateToken>();
-            if (!check)
+            var stack = GetCount(body);
+            if (stack > 0 && !body.GetComponent<UpdateToken>())
             {
-                var stacks = GetCount(self);
-                if (stacks > 0)
-                {
-                    var token = self.gameObject.AddComponent<UpdateToken>();
-                    token.body = self;
-                }
+                body.AddComponent<UpdateToken>();
             }
-            orig(self);
+            else if (stack <= 0 && body.GetComponent<UpdateToken>())
+            {
+                body.RemoveComponent<UpdateToken>();
+            }
         }
 
-        private void AddArmour(CharacterBody sender, StatHookEventArgs args)
+        private void AddArmor(CharacterBody sender, StatHookEventArgs args)
         {
             var stacks = GetCount(sender);
             if (stacks > 0)

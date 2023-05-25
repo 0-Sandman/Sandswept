@@ -115,6 +115,8 @@ namespace Sandswept.Items.Whites
             }
         }
 
+        // I see you copied noop's wool code trolley
+
         public static DamageColorIndex IrradiateDamageColour = DamageColourHelper.RegisterDamageColor(new Color32(175, 255, 30, 255));
 
         public static DotController.DotDef IrradiatedDef;
@@ -130,7 +132,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "While shields are active, create an irradiating ring around you.";
 
-        public override string ItemFullDescription => "Gain a $shshield$se equal to $sh3%$se of your maximum health. While shields are active, $sdirradiate$se all enemies within $sd15m$se for $sd125%$se $ss(+75% per stack)$se $sddamage per second$se.";
+        public override string ItemFullDescription => StringExtensions.AutoFormat("Gain a $shshield$se equal to $sh3%$se of your maximum health. While shields are active, $sdirradiate$se all enemies within $sd15m$se for $sd125%$se $ss(+75% per stack)$se $sddamage per second$se.");
 
         public override string ItemLore => "<style=cStack>funny quirky funny funny funny quirky</style>";
 

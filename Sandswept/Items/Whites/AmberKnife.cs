@@ -8,7 +8,7 @@
 
         public override string ItemPickupDesc => "'Critical Strikes' give temporary barrier.";
 
-        public override string ItemFullDescription => "Gain $sd5%$se $ss(+5% per stack)$se $sdcritical chance$se. $sdCritical Strikes$se give a $shtemporary barrier$se for $sh10$se $ss(+5 per stack)$se $shhealth$se.";
+        public override string ItemFullDescription => StringExtensions.AutoFormat("Gain $sd5%$se $ss(+5% per stack)$se $sdcritical chance$se. $sdCritical Strikes$se give a $shtemporary barrier$se for $sh10$se $ss(+5 per stack)$se $shhealth$se.");
 
         public override string ItemLore => "";
 
@@ -24,7 +24,7 @@
 
         public override void Hooks()
         {
-            RoR2.GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
+            GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
             GetStatCoefficients += GiveCrit;
         }
 

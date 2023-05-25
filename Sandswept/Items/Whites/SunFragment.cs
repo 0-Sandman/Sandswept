@@ -15,7 +15,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "Create a blinding flash on hit that damages and stuns enemies";
 
-        public override string ItemFullDescription => "$su10%$se chance on hit to create a $sublinding flash$se in a $su10m$se $ss(+1m per stack)$se area, dealing $sd75%$se $ss(+50% per stack)$se TOTAL damage and $sustunning$se enemies for $su1s$se.\n\n$seThis effect deals a minimum of 150% (+150% per stack) damage$se.";
+        public override string ItemFullDescription => StringExtensions.AutoFormat("$su10%$se chance on hit to create a $sublinding flash$se in a $su10m$se $ss(+1m per stack)$se area, dealing $sd75%$se $ss(+50% per stack)$se TOTAL damage and $sustunning$se enemies for $su1s$se.\n\n$seThis effect deals a minimum of 150% (+150% per stack) damage$se.");
 
         public override string ItemLore => "Maybe less hell to code";
 
@@ -68,6 +68,7 @@ namespace Sandswept.Items.Whites
             On.RoR2.GlobalEventManager.OnHitEnemy += EnemyHit;
         }
 
+        // what the shit :Trolley
         public void EnemyHit(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
         {
             if (!damageInfo.attacker || !victim)
