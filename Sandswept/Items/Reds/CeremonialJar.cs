@@ -1,14 +1,8 @@
-﻿using BepInEx.Configuration;
-using R2API;
-using RoR2;
-using Sandswept.Utils;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using System.Linq;
 
-namespace Sandswept.Items
+namespace Sandswept.Items.Reds
 {
-    public class CemJar : ItemBase<CemJar>
+    public class CeremonialJar : ItemBase<CeremonialJar>
     {
         public class JarToken : MonoBehaviour
         {
@@ -88,10 +82,7 @@ namespace Sandswept.Items
         public override void Init(ConfigFile config)
         {
             jarDamageType = DamageAPI.ReserveDamageType();
-            CreateLang();
-            CreateItem();
             CreateBuff();
-            Hooks();
         }
 
         public override void Hooks()
@@ -142,15 +133,15 @@ namespace Sandswept.Items
                 {
                     if (AppliedBuff[self.teamComponent.teamIndex].Count == 3)
                     {
-                        foreach (CharacterBody body in AppliedBuff[self.teamComponent.teamIndex].Select((JarToken x) => x.body))
+                        foreach (CharacterBody body in AppliedBuff[self.teamComponent.teamIndex].Select((x) => x.body))
                         {
                             var stacks = GetCount(attacker);
 
                             body.AddTimedBuff(CeremonialCooldown, 5f);
 
-                            DamageInfo extraDamageInfo = new DamageInfo
+                            DamageInfo extraDamageInfo = new()
                             {
-                                damage = attacker.damage * (5f + (2.5f * --stacks)),
+                                damage = attacker.damage * (5f + 2.5f * --stacks),
                                 attacker = attacker.gameObject,
                                 procCoefficient = 0,
                                 position = body.corePosition,
@@ -160,7 +151,7 @@ namespace Sandswept.Items
                             };
                             body.healthComponent.TakeDamage(extraDamageInfo);
                         }
-                        AppliedBuff[self.teamComponent.teamIndex].RemoveAll((JarToken x) => x.body);
+                        AppliedBuff[self.teamComponent.teamIndex].RemoveAll((x) => x.body);
                     }
                 }
             }
@@ -180,17 +171,17 @@ namespace Sandswept.Items
                 {
                     if (list.Count < 3)
                     {
-                        victimBody.AddTimedBuff(CeremonialDef, 3f + (0.5f * (stacks - 1f)));
+                        victimBody.AddTimedBuff(CeremonialDef, 3f + 0.5f * (stacks - 1f));
                         var token = GetToken(victimBody);
                         token.attacker = attackerBody;
-                        token.timer = 3f + (0.5f * (stacks - 1f));
+                        token.timer = 3f + 0.5f * (stacks - 1f);
                     }
                 }
                 if (stacks > 0 && victim.GetComponent<JarToken>())
                 {
                     var token = GetToken(victimBody);
-                    token.timer = 3f + (0.5f * (stacks - 1f));
-                    victimBody.AddTimedBuff(CeremonialDef, 3f + (0.5f * (stacks - 1f)), 1);
+                    token.timer = 3f + 0.5f * (stacks - 1f);
+                    victimBody.AddTimedBuff(CeremonialDef, 3f + 0.5f * (stacks - 1f), 1);
                 }
             }
             orig(self, damageInfo, victim);

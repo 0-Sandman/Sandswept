@@ -32,7 +32,6 @@ namespace Sandswept.Equipment
 
         protected override void CreateConfig(ConfigFile config)
         {
-
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
@@ -44,7 +43,5 @@ namespace Sandswept.Equipment
         {
             return false;
         }
-
-
     }
 }*/

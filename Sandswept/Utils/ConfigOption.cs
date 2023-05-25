@@ -22,5 +22,4 @@ namespace Sandswept.Utils
             return Bind.Value.ToString();
         }
     }
-
 }

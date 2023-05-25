@@ -1,7 +1,9 @@
 using System;
 
-namespace Sandswept.Utils {
-    public static class Scenes {
+namespace Sandswept.Utils
+{
+    public static class Scenes
+    {
         public static string AphelianSanctuary = "ancientloft";
         public static string VoidFields = "arena";
         public static string DistantRoost = "blackbeach";

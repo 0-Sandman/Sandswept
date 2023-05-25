@@ -61,7 +61,6 @@ namespace Sandswept.Utils
             }
 
             return pointArray;
-
         }
 
         /// <summary>

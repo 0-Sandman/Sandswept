@@ -1,17 +1,10 @@
-﻿using BepInEx.Configuration;
-using R2API;
-using RoR2;
-using System;
-using System.Linq;
-using UnityEngine;
-
-namespace Sandswept.Items
+﻿namespace Sandswept.Items.Whites
 {
     public class Tinkers : ItemBase<Tinkers>
     {
         public override string ItemName => "Tinkers";
 
-        public override string ItemLangTokenName => "TINKERS_";
+        public override string ItemLangTokenName => "TINKERS";
 
         public override string ItemPickupDesc => "Your drones gain damage and attack speed.";
 
@@ -25,7 +18,6 @@ namespace Sandswept.Items
 
         public override Sprite ItemIcon => null;
 
-
         public override void Init(ConfigFile config)
         {
             CreateLang();
@@ -35,14 +27,15 @@ namespace Sandswept.Items
 
         public override void Hooks()
         {
-            RecalculateStatsAPI.GetStatCoefficients += GiveStats;
+            GetStatCoefficients += GiveStats;
         }
 
-        private void GiveStats(CharacterBody sender, RecalculateStatsAPI.StatHookEventArgs args)
+        private void GiveStats(CharacterBody body, StatHookEventArgs args)
         {
-            if (sender.bodyFlags == CharacterBody.BodyFlags.Mechanical)
+            var isDrone = body.master && body.master.minionOwnership && body.master.minionOwnership.group != null && body.master.minionOwnership.group.isMinion;
+            if (isDrone)
             {
-                var master = sender.master.minionOwnership.ownerMaster;
+                var master = body.master.minionOwnership.ownerMaster;
 
                 var masterBody = master.GetBody();
 
@@ -50,13 +43,16 @@ namespace Sandswept.Items
 
                 if (stacks > 0)
                 {
-                    Debug.Log(sender.name);
+                    // Debug.Log(body.name);
                     args.damageMultAdd += 0.10f * stacks;
-                    if (sender.name.Contains("Drone1Body") || sender.name.Contains("Drone2Body"))
+                    /*
+                    if (sender.name.Contains("Drone1Body") || sender.name.Contains("Drone2Body")) // :despair:
                     {
                         args.cooldownMultAdd += 1f - 0.05f * stacks;
                         return;
                     }
+                    */
+                    // :despair:
                     args.attackSpeedMultAdd += 0.05f * stacks;
                 }
             }

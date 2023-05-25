@@ -1,8 +1,10 @@
 using System;
 
-namespace Sandswept.Utils {
-    public static class Keywords {
-        public static string Poison =  "KEYWORD_POISON";
+namespace Sandswept.Utils
+{
+    public static class Keywords
+    {
+        public static string Poison = "KEYWORD_POISON";
         public static string Regenerative = "KEYWORD_RAPID_REGEN";
         public static string Agile = "KEYWORD_AGILE";
         public static string HealthCost = "KEYWORD_PERCENT_HP";
@@ -19,11 +21,13 @@ namespace Sandswept.Utils {
         public static string Weakpoint = "KEYWORD_WEAKPOINT";
         public static string ActiveReload = "KEYWORD_ACTIVERELOAD";
         public static string VoidCorruption = "KEYWORD_VOIDCORRUPTION";
+
         // custom
         public static string Charged = "SANDSWEPT_KEYWORD_CHARGED";
 
         [AutoRun]
-        public static void SetupKeywords() {
+        public static void SetupKeywords()
+        {
             Charged.Add("<style=cKeywordName>Charged</style>Each stack of <style=cIsUtility>Charge</style> reduces the cooldown of this skill by <style=cIsDamage>1 second</style>");
         }
     }

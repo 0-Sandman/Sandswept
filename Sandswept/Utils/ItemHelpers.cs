@@ -18,7 +18,6 @@ namespace Sandswept.Utils
         /// <returns>Returns an array full of RendererInfos for GameObject.</returns>
         public static CharacterModel.RendererInfo[] ItemDisplaySetup(GameObject obj, bool debugmode = false)
         {
-
             List<Renderer> AllRenderers = new List<Renderer>();
 
             var meshRenderers = obj.GetComponentsInChildren<MeshRenderer>();
@@ -106,7 +105,7 @@ namespace Sandswept.Utils
         }
 
         /// <summary>
-        /// Refreshes stacks of a timed buff on a body for a specified duration, but spreads their time to decay after a set start duration and interval afterwards. 
+        /// Refreshes stacks of a timed buff on a body for a specified duration, but spreads their time to decay after a set start duration and interval afterwards.
         /// <para>Will refresh the entire stack pool of the buff at once.</para>
         /// </summary>
         /// <param name="body">The body to check.</param>

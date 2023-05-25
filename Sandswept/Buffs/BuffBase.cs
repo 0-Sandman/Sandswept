@@ -1,10 +1,4 @@
-﻿using BepInEx.Configuration;
-using R2API;
-using RoR2;
-using System;
-using UnityEngine;
-
-namespace Sandswept.Buffs
+﻿namespace Sandswept.Buffs
 {
     public abstract class BuffBase<T> : BuffBase where T : BuffBase<T>
     {
@@ -27,7 +21,8 @@ namespace Sandswept.Buffs
 
         public BuffDef BuffDef;
 
-        public virtual void Init() {
+        public virtual void Init()
+        {
             CreateBuff();
             Hooks();
         }
@@ -42,11 +37,10 @@ namespace Sandswept.Buffs
             BuffDef.iconSprite = BuffIcon;
 
             ContentAddition.AddBuffDef(BuffDef);
-
         }
 
-        public virtual void Hooks() {
-
+        public virtual void Hooks()
+        {
         }
     }
 }
