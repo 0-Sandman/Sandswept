@@ -29,6 +29,5 @@ Join our discord: (link)
 - psuedopulse - Code.
 - Smxrez - Models.
 - IcieTea - Concept art.
-- Jaysian - Lore.
 ### Previous Contributions
 - GEMO - Ranger model.
