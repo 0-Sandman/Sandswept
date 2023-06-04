@@ -3,13 +3,13 @@ using R2API.Utils;
 using Sandswept.Items;
 using Sandswept.Artifact;
 using Sandswept.Equipment;
-using Sandswept.Equipment.EliteEquipment;
 using System.Linq;
 using System.Reflection;
 using Sandswept.Buffs;
 using Sandswept.Skills;
 using Sandswept.Survivors;
 using System.Diagnostics;
+using Sandswept.Elites;
 
 namespace Sandswept
 {
