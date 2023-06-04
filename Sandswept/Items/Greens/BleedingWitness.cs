@@ -1,25 +1,9 @@
 ﻿using static RoR2.DotController;
-using static R2API.DotAPI;
 
 namespace Sandswept.Items.Greens
 {
     internal class BleedingWitness : ItemBase<BleedingWitness>
     {
-        public class WitnessToken : MonoBehaviour
-        {
-            public CharacterBody body;
-            public int stacks;
-
-            public void Start()
-            {
-                body = GetComponent<CharacterBody>();
-            }
-        }
-
-        public static DotDef WitnessedDef;
-
-        public DotIndex WitnessIndex;
-
         public override string ItemName => "Bleeding Witness";
 
         public override string ItemLangTokenName => "BLEEDING_WITNESS";
@@ -40,28 +24,66 @@ namespace Sandswept.Items.Greens
         {
             CreateLang();
             CreateItem();
-            CreateDot();
             Hooks();
         }
 
         public override void Hooks()
         {
-            On.RoR2.DotController.InflictDot_GameObject_GameObject_DotIndex_float_float_Nullable1 += OnBleedProc;
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
-            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
+            onDotInflictedServerGlobal += DotController_onDotInflictedServerGlobal;
         }
 
-        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
+        private void DotController_onDotInflictedServerGlobal(DotController dotController, ref InflictDotInfo inflictDotInfo)
         {
-            var stack = GetCount(body);
-            if (stack > 0 && !body.GetComponent<WitnessToken>())
+            if (inflictDotInfo.dotIndex != DotIndex.Bleed)
             {
-                body.AddComponent<WitnessToken>();
+                return;
             }
-            else if (stack <= 0 && body.GetComponent<WitnessToken>())
+
+            var victim = inflictDotInfo.victimObject;
+            if (!victim)
             {
-                body.RemoveComponent<WitnessToken>();
+                return;
             }
+
+            var victimBody = victim.GetComponent<CharacterBody>();
+            if (!victimBody)
+            {
+                return;
+            }
+
+            var victimHc = victimBody.healthComponent;
+            if (!victimHc)
+            {
+                return;
+            }
+
+            var attacker = inflictDotInfo.attackerObject;
+            if (!attacker)
+            {
+                return;
+            }
+
+            var attackerBody = attacker.GetComponent<CharacterBody>();
+            if (!attackerBody)
+            {
+                return;
+            }
+
+            var stack = GetCount(attackerBody);
+            var increase = 0.01f * stack;
+
+            InflictDotInfo maxHpDamage = new()
+            {
+                victimObject = victim,
+                attackerObject = attacker,
+                totalDamage = increase * victimHc.fullCombinedHealth,
+                dotIndex = DotIndex.Poison,
+                duration = 3f,
+                damageMultiplier = 1f,
+                maxStacksFromAttacker = 1
+            };
+            InflictDot(ref maxHpDamage);
         }
 
         private void GlobalEventManager_onServerDamageDealt(DamageReport report)
@@ -74,8 +96,13 @@ namespace Sandswept.Items.Greens
                 return;
             }
 
-            var victim = report.victim;
-            if (!victim)
+            var victimBody = report.victimBody;
+            if (!victimBody)
+            {
+                return;
+            }
+
+            if (!victimBody.healthComponent)
             {
                 return;
             }
@@ -86,135 +113,17 @@ namespace Sandswept.Items.Greens
             {
                 if (Util.CheckRoll(5f * damageInfo.procCoefficient, attackerBody.master))
                 {
-                    InflictDotInfo inflictDotInfo = default;
-                    inflictDotInfo.victimObject = victim.gameObject;
-                    inflictDotInfo.attackerObject = attackerBody.gameObject;
-                    inflictDotInfo.totalDamage = attackerBody.damage * 1.2f;
-                    inflictDotInfo.dotIndex = DotIndex.Bleed;
-                    inflictDotInfo.duration = 3f;
-                    inflictDotInfo.damageMultiplier = 1f;
-                    InflictDotInfo dotInfo = inflictDotInfo;
-                    InflictDot(ref dotInfo);
-                }
-            }
-        }
-
-        public void CreateDot()
-        {
-            WitnessedDef = new DotDef
-            {
-                associatedBuff = null,
-                damageCoefficient = 1f,
-                damageColorIndex = DamageColorIndex.Bleed,
-                interval = 0.25f
-            };
-            CustomDotBehaviour behaviour = delegate (DotController self, DotStack dotStack)
-            {
-                if (!self.victimBody.HasBuff(RoR2Content.Buffs.Bleeding) && !self.victimBody.HasBuff(RoR2Content.Buffs.SuperBleed))
-                {
-                    self.RemoveDotStackAtServer((int)WitnessIndex);
-                }
-                var attackerBody = dotStack.attackerObject.GetComponent<CharacterBody>();
-
-                CharacterBody attacker = dotStack.attackerObject.GetComponent<CharacterBody>();
-                CharacterBody victim = self.victimObject.GetComponent<CharacterBody>();
-
-                var token = attacker.gameObject.GetComponent<WitnessToken>();
-
-                dotStack.damage = self.victimHealthComponent ? self.victimHealthComponent.fullCombinedHealth * (0.01f * GetCount(attackerBody)) : 0;
-            };
-            WitnessIndex = RegisterDotDef(WitnessedDef, behaviour);
-        }
-
-        public void OnBleedProc(On.RoR2.DotController.orig_InflictDot_GameObject_GameObject_DotIndex_float_float_Nullable1 orig, GameObject victimObject, GameObject attackerObject, DotIndex dotIndex, float duration, float damageMultiplier, uint? maxStacksFromAttacker)
-        {
-            var attacker = attackerObject.GetComponent<CharacterBody>();
-            if (attacker)
-            {
-                var stacks = GetCount(attacker);
-
-                if (stacks > 0)
-                {
-                    if (dotIndex == DotIndex.Bleed || dotIndex == DotIndex.SuperBleed)
+                    InflictDotInfo baseDamage = new()
                     {
-                        InflictDotInfo inflictDotInfo = new()
-                        {
-                            victimObject = victimObject,
-                            attackerObject = attackerObject,
-                            totalDamage = null,
-                            dotIndex = WitnessIndex,
-                            duration = duration,
-                            damageMultiplier = 1f,
-                            maxStacksFromAttacker = 1
-                        };
+                        victimObject = victimBody.gameObject,
+                        attackerObject = attackerBody.gameObject,
+                        totalDamage = attackerBody.damage * 1.2f,
+                        dotIndex = DotIndex.Bleed,
+                        duration = 3f,
+                        damageMultiplier = 1f
+                    };
 
-                        InflictDot(ref inflictDotInfo);
-                    }
-                }
-            }
-            orig(victimObject, attackerObject, dotIndex, duration, damageMultiplier, maxStacksFromAttacker);
-        }
-
-        public void OnHit(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
-        {
-            if (damageInfo.attacker)
-            {
-                var attacker = damageInfo.attacker.GetComponent<CharacterBody>();
-                int stacks = GetCount(attacker);
-
-                if (stacks > 0 && (bool)victim)
-                {
-                    if (Util.CheckRoll(5f * damageInfo.procCoefficient, attacker.master))
-                    {
-                        InflictDotInfo inflictDotInfo = new InflictDotInfo
-                        {
-                            victimObject = victim,
-                            attackerObject = damageInfo.attacker,
-                            totalDamage = attacker.damage * 1.2f,
-                            dotIndex = DotIndex.Bleed,
-                            duration = 3f,
-                            damageMultiplier = 1f
-                        };
-                        InflictDot(ref inflictDotInfo);
-                    }
-                }
-            }
-            orig(self, damageInfo, victim);
-        }
-
-        public void OnBleedProc(On.RoR2.DotController.orig_InflictDot_refInflictDotInfo orig, ref InflictDotInfo inflictDotInfo)
-        {
-            orig(ref inflictDotInfo);
-
-            if (inflictDotInfo.attackerObject != inflictDotInfo.victimObject && inflictDotInfo.dotIndex != WitnessIndex)
-            {
-                Debug.Log((int)WitnessIndex);
-                var attacker = inflictDotInfo.attackerObject.GetComponent<CharacterBody>();
-
-                var stacks = GetCount(attacker);
-
-                if (stacks > 0)
-                {
-                    Debug.Log("Ass");
-                    if (!attacker.gameObject.GetComponent<WitnessToken>())
-                    {
-                        attacker.gameObject.AddComponent<WitnessToken>();
-                    }
-                    if (inflictDotInfo.dotIndex == DotIndex.Bleed || inflictDotInfo.dotIndex == DotIndex.SuperBleed)
-                    {
-                        Debug.Log("Dick");
-                        InflictDotInfo dotInfo = new InflictDotInfo
-                        {
-                            victimObject = inflictDotInfo.victimObject,
-                            attackerObject = inflictDotInfo.attackerObject,
-                            totalDamage = null,
-                            dotIndex = WitnessIndex,
-                            duration = inflictDotInfo.duration,
-                            damageMultiplier = 1f,
-                            maxStacksFromAttacker = 1
-                        };
-                        InflictDot(ref dotInfo);
-                    }
+                    InflictDot(ref baseDamage);
                 }
             }
         }
