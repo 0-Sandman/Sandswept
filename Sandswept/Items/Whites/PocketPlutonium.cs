@@ -70,16 +70,19 @@ namespace Sandswept.Items.Whites
                             foreach (TeamComponent teamMember in TeamComponent.GetTeamMembers(teamIndex2))
                             {
                                 Vector3 val = teamMember.transform.position - body.corePosition;
-                                if (val.sqrMagnitude <= 225f)
+                                if (val.sqrMagnitude <= 100f)
                                 {
-                                    InflictDotInfo inflictDotInfo = default;
-                                    inflictDotInfo.victimObject = teamMember.gameObject;
-                                    inflictDotInfo.attackerObject = body.gameObject;
-                                    inflictDotInfo.totalDamage = body.damage;
-                                    inflictDotInfo.dotIndex = IrradiatedIndex;
-                                    inflictDotInfo.duration = 0f;
-                                    inflictDotInfo.maxStacksFromAttacker = 1;
-                                    inflictDotInfo.damageMultiplier = 1.25f + 0.75f * (body.inventory.GetItemCount(instance.ItemDef) - 1);
+                                    InflictDotInfo inflictDotInfo = new()
+                                    {
+                                        victimObject = teamMember.gameObject,
+                                        attackerObject = body.gameObject,
+                                        totalDamage = body.damage,
+                                        dotIndex = IrradiatedIndex,
+                                        duration = 2f,
+                                        maxStacksFromAttacker = 1,
+                                        damageMultiplier = 1.25f + (0.75f * (body.inventory.GetItemCount(instance.ItemDef) - 1))
+                                    };
+
                                     InflictDotInfo dotInfo = inflictDotInfo;
                                     DotController.InflictDot(ref dotInfo);
                                 }
@@ -91,10 +94,10 @@ namespace Sandswept.Items.Whites
 
             public void Update()
             {
-                if (PlutIndicator && x != 30f)
+                if (PlutIndicator && x != 20f)
                 {
                     Transform zone = PlutIndicator.transform.Find("Radius, Spherical");
-                    x = Mathf.SmoothDamp(zone.localScale.x, 30f, ref velocity, 0.2f);
+                    x = Mathf.SmoothDamp(zone.localScale.x, 20f, ref velocity, 0.2f);
                     zone.localScale = new Vector3(x, x, x);
                 }
             }
@@ -171,7 +174,7 @@ namespace Sandswept.Items.Whites
             val4.SetTextureScale("_Cloud1Tex", new Vector2(0.5f, 0.5f));
             val4.SetTexture("_Cloud2Tex", null);
             val4.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Engi/texUIEngiMissileLockedOn.png").WaitForCompletion());
-
+            val4.SetFloat("_AlphaBoost", 2f);
             val4.SetFloat("_InvFade", 0.5f);
             val4.SetFloat("_Boost", 0.5f);
             val5.material = val4;
@@ -234,7 +237,7 @@ namespace Sandswept.Items.Whites
             if (GetCount(sender) > 0)
             {
                 HealthComponent component = sender.GetComponent<HealthComponent>();
-                args.baseShieldAdd += component.fullHealth * 0.03f;
+                args.baseShieldAdd += component.fullHealth * 0.05f;
             }
         }
 
@@ -244,11 +247,33 @@ namespace Sandswept.Items.Whites
             PlutoniumBehaviour behaviourCheck = sender.GetComponent<PlutoniumBehaviour>();
             if ((bool)component && component.cachedIsShielded && component.cachedInventoryCount > 0 && !behaviourCheck)
             {
-                PlutoniumBehaviour behaviour = sender.gameObject.AddComponent<PlutoniumBehaviour>();
+                sender.gameObject.AddComponent<PlutoniumBehaviour>();
             }
             if ((bool)component && component.cachedIsShielded == false && behaviourCheck)
             {
                 behaviourCheck.active = false;
+
+                EffectData effectData2 = new EffectData
+                {
+                    origin = sender.corePosition,
+                    scale = 17.5f
+                };
+                EffectManager.SpawnEffect(SunFragment.FragmentVFXSphere, effectData2, true);
+
+                BlastAttack blastAttack = new BlastAttack
+                {
+                    radius = 15f,
+                    baseDamage = sender.maxShield * 2.5f,
+                    procCoefficient = 0.1f,
+                    crit = false,
+                    damageColorIndex = IrradiateDamageColour,
+                    attackerFiltering = AttackerFiltering.NeverHitSelf,
+                    falloffModel = BlastAttack.FalloffModel.None,
+                    attacker = sender.gameObject,
+                    teamIndex = sender.teamComponent.teamIndex,
+                    position = sender.corePosition,
+                };
+                blastAttack.Fire();
             }
         }
 
