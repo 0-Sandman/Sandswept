@@ -1,6 +1,5 @@
 ﻿using static RoR2.DotController;
 using static R2API.DotAPI;
-using static RoR2.OverlapAttack;
 
 namespace Sandswept.Items.Greens
 {
@@ -16,12 +15,8 @@ namespace Sandswept.Items.Greens
                 body = GetComponent<CharacterBody>();
             }
         }
-<<<<<<< HEAD:Sandswept/Items/Greens/BleedingWitness.cs
 
         public static DotDef WitnessedDef;
-=======
-        public DotDef WitnessDef;
->>>>>>> 334fad715698be9c31abf5a7629f323580689be3:Sandswept/Items/BloodMask.cs
 
         public DotIndex WitnessIndex;
 
@@ -48,7 +43,6 @@ namespace Sandswept.Items.Greens
 
         public override void Hooks()
         {
-<<<<<<< HEAD:Sandswept/Items/Greens/BleedingWitness.cs
             On.RoR2.DotController.InflictDot_GameObject_GameObject_DotIndex_float_float_Nullable1 += OnBleedProc;
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
@@ -100,15 +94,11 @@ namespace Sandswept.Items.Greens
                     InflictDot(ref dotInfo);
                 }
             }
-=======
-            On.RoR2.DotController.InflictDot_refInflictDotInfo += OnBleedProc;
-            On.RoR2.GlobalEventManager.OnHitEnemy += OnHit;
->>>>>>> 334fad715698be9c31abf5a7629f323580689be3:Sandswept/Items/BloodMask.cs
         }
 
         public void CreateDot()
         {
-            WitnessDef = new DotDef
+            WitnessedDef = new DotDef
             {
                 associatedBuff = null,
                 damageCoefficient = 1f,
@@ -123,21 +113,16 @@ namespace Sandswept.Items.Greens
                 }
                 var attackerBody = dotStack.attackerObject.GetComponent<CharacterBody>();
 
-<<<<<<< HEAD:Sandswept/Items/Greens/BleedingWitness.cs
                 CharacterBody attacker = dotStack.attackerObject.GetComponent<CharacterBody>();
                 CharacterBody victim = self.victimObject.GetComponent<CharacterBody>();
 
                 var token = attacker.gameObject.GetComponent<WitnessToken>();
 
-                dotInfo.damage = self.victimHealthComponent ? self.victimHealthComponent.fullCombinedHealth * (0.01f * token.stacks) : 0;
-=======
                 dotStack.damage = self.victimHealthComponent ? self.victimHealthComponent.fullCombinedHealth * (0.01f * GetCount(attackerBody)) : 0;
->>>>>>> 334fad715698be9c31abf5a7629f323580689be3:Sandswept/Items/BloodMask.cs
             };
-            WitnessIndex = RegisterDotDef(WitnessDef, behaviour);
+            WitnessIndex = RegisterDotDef(WitnessedDef, behaviour);
         }
 
-<<<<<<< HEAD:Sandswept/Items/Greens/BleedingWitness.cs
         public void OnBleedProc(On.RoR2.DotController.orig_InflictDot_GameObject_GameObject_DotIndex_float_float_Nullable1 orig, GameObject victimObject, GameObject attackerObject, DotIndex dotIndex, float duration, float damageMultiplier, uint? maxStacksFromAttacker)
         {
             var attacker = attackerObject.GetComponent<CharacterBody>();
@@ -154,7 +139,7 @@ namespace Sandswept.Items.Greens
                             victimObject = victimObject,
                             attackerObject = attackerObject,
                             totalDamage = null,
-                            dotIndex = WitnessedIndex,
+                            dotIndex = WitnessIndex,
                             duration = duration,
                             damageMultiplier = 1f,
                             maxStacksFromAttacker = 1
@@ -164,9 +149,9 @@ namespace Sandswept.Items.Greens
                     }
                 }
             }
-
             orig(victimObject, attackerObject, dotIndex, duration, damageMultiplier, maxStacksFromAttacker);
-=======
+        }
+
         public void OnHit(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
         {
             if (damageInfo.attacker)
@@ -200,7 +185,6 @@ namespace Sandswept.Items.Greens
 
             if (inflictDotInfo.attackerObject != inflictDotInfo.victimObject && inflictDotInfo.dotIndex != WitnessIndex)
             {
-                Debug.Log("Cum");
                 Debug.Log((int)WitnessIndex);
                 var attacker = inflictDotInfo.attackerObject.GetComponent<CharacterBody>();
 
@@ -230,7 +214,6 @@ namespace Sandswept.Items.Greens
                     }
                 }
             }
->>>>>>> 334fad715698be9c31abf5a7629f323580689be3:Sandswept/Items/BloodMask.cs
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
