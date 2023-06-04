@@ -2,13 +2,13 @@
 {
     public class Clockwork : ItemBase<Clockwork>
     {
-        public override string ItemName => "Clockwork";
+        public override string ItemName => "Fractured Timepiece";
 
         public override string ItemLangTokenName => "CLOCKWORK";
 
         public override string ItemPickupDesc => "Gain attack speed and cooldown reduction";
 
-        public override string ItemFullDescription => "Gain 10% (+7.5% per stack) attack speed and 5% (+2.5% per stack) cooldown reduction.";
+        public override string ItemFullDescription => StringExtensions.AutoFormat("Gain $sd10%$se $ss(+7.5% per stack)$se attack speed and $su5%$se $ss(+2.5% per stack)$se cooldown reduction.");
 
         public override string ItemLore => "";
 

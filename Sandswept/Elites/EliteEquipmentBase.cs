@@ -177,7 +177,7 @@ namespace Sandswept.Elites
             ContentAddition.AddBuffDef(EliteBuffDef);
         }
 
-        protected bool PerformEquipmentAction(On.RoR2.EquipmentSlot.orig_PerformEquipmentAction orig, RoR2.EquipmentSlot self, EquipmentDef equipmentDef)
+        protected bool PerformEquipmentAction(On.RoR2.EquipmentSlot.orig_PerformEquipmentAction orig, EquipmentSlot self, EquipmentDef equipmentDef)
         {
             if (equipmentDef == EliteEquipmentDef)
             {
@@ -200,8 +200,8 @@ namespace Sandswept.Elites
 
         public virtual GameObject CreateAffixModel(Color32 color, bool tier2 = false)
         {
-            GameObject gameObject = PrefabAPI.InstantiateClone(tier2 ? hauntedPrefab : firePrefab, "PickupAffix" + EliteEquipmentName, false);
-            Material material = GameObject.Instantiate<Material>(gameObject.GetComponentInChildren<MeshRenderer>().material);
+            GameObject gameObject = (tier2 ? hauntedPrefab : firePrefab).InstantiateClone("PickupAffix" + EliteEquipmentName, false);
+            Material material = Object.Instantiate(gameObject.GetComponentInChildren<MeshRenderer>().material);
             material.color = color;
             foreach (Renderer renderer in gameObject.GetComponentsInChildren<Renderer>())
                 renderer.material = material;
@@ -241,11 +241,11 @@ namespace Sandswept.Elites
                 {
                     switch (TargetingTypeEnum)
                     {
-                        case (TargetingType.Enemies):
+                        case TargetingType.Enemies:
                             targetingComponent.ConfigureTargetFinderForEnemies(self);
                             break;
 
-                        case (TargetingType.Friendlies):
+                        case TargetingType.Friendlies:
                             targetingComponent.ConfigureTargetFinderForFriendlies(self);
                             break;
                     }

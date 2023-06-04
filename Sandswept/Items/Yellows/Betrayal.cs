@@ -17,7 +17,7 @@
 
         public override string ItemPickupDesc => "Repeated strikes on enemies sunder them.";
 
-        public override string ItemFullDescription => "Hitting an enemy $sd3$se times $sdsunders$se them for $sd300%$se damage, increasing by $sd300%$se each time they are $sdsundered$se.";
+        public override string ItemFullDescription => StringExtensions.AutoFormat("Hitting an enemy $sd3$se times $sdsunders$se them for $sd300%$se damage, increasing by $sd300%$se each time they are $sdsundered$se.");
 
         public override string ItemLore => "";
 

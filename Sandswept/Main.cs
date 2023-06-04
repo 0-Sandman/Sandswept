@@ -49,7 +49,7 @@ namespace Sandswept
         public static List<UnlockableDef> Unlocks = new();
         public static List<GameObject> EffectPrefabs = new();
 
-        public static Dictionary<BuffBase, bool> BuffStatusDictionary = new Dictionary<BuffBase, bool>();
+        public static Dictionary<BuffBase, bool> BuffStatusDictionary = new();
 
         //public static List<Material> SwappedMaterials = new List<Material>();
 

@@ -8,7 +8,7 @@
 
         public override string ItemPickupDesc => "Your drones gain damage and attack speed.";
 
-        public override string ItemFullDescription => "Your drones gain 10% (+10% per stack) damage and 5% (+5% per stack) attack speed.";
+        public override string ItemFullDescription => StringExtensions.AutoFormat("Your drones gain $sd10%$se $ss(+10% per stack)$se damage and $sd5%$se $ss(+5% per stack)$se attack speed.");
 
         public override string ItemLore => "";
 
