@@ -147,9 +147,12 @@ namespace Sandswept.Items.Whites
 
         public override void Init(ConfigFile config)
         {
+            CreateLang();
+            CreateItem();
             CreateBuff();
             CreateDot();
             CreatePrefab();
+            Hooks();
         }
 
         public override void Hooks()

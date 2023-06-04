@@ -28,6 +28,8 @@ namespace Sandswept.Elites
         public override float DamageMultiplier => 2f;
         public override float HealthMultiplier => 4f;
 
+        public static GameObject warbanner;
+
         public override CombatDirector.EliteTierDef[] CanAppearInEliteTiers => EliteAPI.GetCombatDirectorEliteTiers().Where(x => x.eliteTypes.Contains(Addressables.LoadAssetAsync<EliteDef>("RoR2/Base/EliteFire/edFire.asset").WaitForCompletion())).ToArray();
 
         public override void Init(ConfigFile config)
@@ -55,6 +57,9 @@ namespace Sandswept.Elites
 
         public override void Hooks()
         {
+            warbanner = Utils.Assets.GameObject.WarbannerWard;
+            warbanner.AddComponent<NetworkedBodyAttachment>();
+
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
         }
@@ -135,7 +140,7 @@ namespace Sandswept.Elites
             warbannerInstance = Instantiate(warbannerPrefab, body.transform.position, Quaternion.identity);
             warbannerInstance.GetComponent<TeamFilter>().teamIndex = body.teamComponent.teamIndex;
             warbannerInstance.GetComponent<BuffWard>().Networkradius = warbannerRadius;
-            NetworkServer.Spawn(warbannerInstance);
+            warbannerInstance.GetComponent<NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(gameObject);
 
             motivatorControllers.Add(this);
         }
@@ -172,10 +177,10 @@ namespace Sandswept.Elites
                 var hurtBox = hurtBoxBuffer[i];
                 if (hurtBox.healthComponent)
                 {
-                    var body = hurtBox.healthComponent.body;
-                    if (body && !body.HasBuff(Motivator.Instance.EliteBuffDef) && body.teamComponent.teamIndex == body.teamComponent.teamIndex)
+                    var targetBody = hurtBox.healthComponent.body;
+                    if (targetBody && !targetBody.HasBuff(Motivator.Instance.EliteBuffDef) && targetBody.teamComponent.teamIndex == body.teamComponent.teamIndex)
                     {
-                        body.AddTimedBuff(RoR2Content.Buffs.TeamWarCry, 3f);
+                        targetBody.AddTimedBuff(RoR2Content.Buffs.TeamWarCry, 3f);
                     }
                 }
             }

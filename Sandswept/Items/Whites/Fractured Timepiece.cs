@@ -20,6 +20,9 @@
 
         public override void Init(ConfigFile config)
         {
+            CreateLang();
+            CreateItem();
+            Hooks();
         }
 
         public override void Hooks()

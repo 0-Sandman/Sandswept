@@ -36,6 +36,9 @@ namespace Sandswept.Items.Whites
             material.SetFloat("_FresnelBoost", 2.5f);
             material.EnableKeyword("FRESNEL_EMISSION");
             renderer.material = material;
+            CreateLang();
+            CreateItem();
+            Hooks();
         }
 
         public override void Hooks()

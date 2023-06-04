@@ -37,7 +37,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "Grants bonus armor based on current armor";
 
-        public override string ItemFullDescription => StringExtensions.AutoFormat("Gain $sh5$se $ss(+5 per stack)$se armor. Grants an additional $sh5$se $ss(+1 per stack)$se $sharmor$se for every $sh25 armor$se you have.");
+        public override string ItemFullDescription => StringExtensions.AutoFormat("Gain $sh5$se $ss(+5 per stack)$se armor. Grants an additional $sh5$se $sharmor$se for every $sh25 armor$se you have.");
 
         public override string ItemLore => "I hope ceremonial jar is coded soon :Yeah3D:";
 

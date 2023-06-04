@@ -66,7 +66,7 @@ namespace Sandswept.Items.Reds
 
         public override string ItemPickupDesc => "Hits link enemies, link multiple to damage them";
 
-        public override string ItemFullDescription => "<color=#00ffcc></color>";
+        public override string ItemFullDescription => "<color=#00ffcc>J</color>";
 
         public override string ItemLore => "";
 

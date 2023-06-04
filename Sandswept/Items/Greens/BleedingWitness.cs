@@ -38,7 +38,10 @@ namespace Sandswept.Items.Greens
 
         public override void Init(ConfigFile config)
         {
+            CreateLang();
+            CreateItem();
             CreateDot();
+            Hooks();
         }
 
         public override void Hooks()
