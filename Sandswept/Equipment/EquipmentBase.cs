@@ -1,10 +1,4 @@
-﻿using BepInEx.Configuration;
-using R2API;
-using RoR2;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using System.Linq;
 
 namespace Sandswept.Equipment
 {
@@ -18,6 +12,7 @@ namespace Sandswept.Equipment
             instance = this as T;
         }
     }
+
     public abstract class EquipmentBase
     {
         public abstract string EquipmentName { get; }
@@ -59,8 +54,8 @@ namespace Sandswept.Equipment
         /// <param name="config">The config file that will be passed into this from the main class.</param>
         public abstract void Init(ConfigFile config);
 
-        protected virtual void CreateConfig(ConfigFile config) { }
-
+        protected virtual void CreateConfig(ConfigFile config)
+        { }
 
         /// <summary>
         /// Take care to call base.CreateLang()!
@@ -109,17 +104,22 @@ namespace Sandswept.Equipment
 
         protected abstract bool ActivateEquipment(EquipmentSlot slot);
 
-        public virtual void Hooks() { }
+        public virtual void Hooks()
+        { }
 
         #region Targeting Setup
+
         //Targeting Support
         public virtual bool UseTargeting { get; } = false;
+
         public GameObject TargetingIndicatorPrefabBase = null;
+
         public enum TargetingType
         {
             Enemies,
             Friendlies,
         }
+
         public virtual TargetingType TargetingTypeEnum { get; } = TargetingType.Enemies;
 
         //Based on MysticItem's targeting code.
@@ -143,6 +143,7 @@ namespace Sandswept.Equipment
                         case (TargetingType.Enemies):
                             targetingComponent.ConfigureTargetFinderForEnemies(self);
                             break;
+
                         case (TargetingType.Friendlies):
                             targetingComponent.ConfigureTargetFinderForFriendlies(self);
                             break;
@@ -214,7 +215,6 @@ namespace Sandswept.Equipment
                 TargetFinder.FilterOutGameObject(self.gameObject);
                 AdditionalBullseyeFunctionality(TargetFinder);
                 PlaceTargetingIndicator(TargetFinder.GetResults());
-
             }
 
             public void PlaceTargetingIndicator(IEnumerable<HurtBox> TargetFinderResults)

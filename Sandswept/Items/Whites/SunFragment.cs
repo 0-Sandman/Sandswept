@@ -1,13 +1,7 @@
 ﻿using BepInEx.Configuration;
-using EntityStates;
-using R2API;
-using RoR2;
-using Sandswept.Utils;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
 using static Sandswept.Utils.Components.MaterialControllerComponents;
 
-namespace Sandswept.Items
+namespace Sandswept.Items.Whites
 {
     public class SunFragment : ItemBase<SunFragment>
     {
@@ -21,7 +15,7 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "Create a blinding flash on hit that damages and stuns enemies";
 
-        public override string ItemFullDescription => "<style=cIsUtility>10%</style> chance on hit to create a <style=cIsUtility>blinding flash</style> in a <style=cIsUtility>10m</style> <style=cStack>(+1m per stack)</style> area, dealing <style=cIsDamage>75%</style> <style=cStack>(+50% per stack)</style> TOTAL damage and <style=cIsUtility>stunning</style> enemies for <style=cIsUtility>1s</style>. \n\n<style=cStack>This effect deals a minimum of 150% (+150% per stack) damage.</style>";
+        public override string ItemFullDescription => StringExtensions.AutoFormat("$su10%$se chance on hit to create a $sublinding flash$se in a $su10m$se $ss(+1m per stack)$se area, dealing $sd75%$se $ss(+50% per stack)$se TOTAL damage and $sustunning$se enemies for $su1s$se.\n\n$seThis effect deals a minimum of 150% (+150% per stack) damage$se.");
 
         public override string ItemLore => "Maybe less hell to code";
 
@@ -37,8 +31,7 @@ namespace Sandswept.Items
 
         public GameObject FragmentVFX;
 
-        public GameObject FragmentVFXSphere;
-
+        public static GameObject FragmentVFXSphere;
 
         public override void Init(ConfigFile config)
         {
@@ -75,13 +68,14 @@ namespace Sandswept.Items
             On.RoR2.GlobalEventManager.OnHitEnemy += EnemyHit;
         }
 
+        // what the shit :Trolley
         public void EnemyHit(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
         {
             if (!damageInfo.attacker || !victim)
             {
                 return;
             }
-            bool fromProc = DamageAPI.HasModdedDamageType(damageInfo, SolarFlareDamageType);
+            bool fromProc = damageInfo.HasModdedDamageType(SolarFlareDamageType);
 
             CharacterBody attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
             CharacterBody victimBody = victim.GetComponent<CharacterBody>();
@@ -98,18 +92,18 @@ namespace Sandswept.Items
                         EffectData effectData = new EffectData
                         {
                             origin = victimBody.corePosition,
-                            rotation = Util.QuaternionSafeLookRotation((damageInfo.force != Vector3.zero) ? damageInfo.force : Random.onUnitSphere),
-                            scale = 9f + (float)stacks
+                            rotation = Util.QuaternionSafeLookRotation(damageInfo.force != Vector3.zero ? damageInfo.force : Random.onUnitSphere),
+                            scale = 9f + stacks
                         };
                         EffectData effectData2 = new EffectData
                         {
                             origin = victimBody.corePosition,
-                            scale = 9f + (float)stacks
+                            scale = 9f + stacks
                         };
                         EffectManager.SpawnEffect(FragmentVFX, effectData, true);
                         EffectManager.SpawnEffect(FragmentVFXSphere, effectData2, true);
 
-                        float effectDamage = damageInfo.damage * (0.75f + (0.50f * (stacks - 1)));
+                        float effectDamage = damageInfo.damage * (0.75f + 0.50f * (stacks - 1));
 
                         if (effectDamage < attackerBody.damage * (1.5f * stacks))
                         {
@@ -128,7 +122,7 @@ namespace Sandswept.Items
                             teamIndex = attackerBody.teamComponent.teamIndex,
                             position = damageInfo.position,
                         };
-                        DamageAPI.AddModdedDamageType(blastAttack, SolarFlareDamageType);
+                        blastAttack.AddModdedDamageType(SolarFlareDamageType);
                         blastAttack.Fire();
                     }
                 }

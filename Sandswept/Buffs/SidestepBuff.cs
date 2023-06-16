@@ -1,6 +1,7 @@
 using System;
 
-namespace Sandswept.Buffs {
+namespace Sandswept.Buffs
+{
     public class SidestepBuff : BuffBase<SidestepBuff>
     {
         public override string BuffName => "Sidestep Boost";

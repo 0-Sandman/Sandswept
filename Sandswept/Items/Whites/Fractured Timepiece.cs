@@ -1,19 +1,14 @@
-﻿using BepInEx.Configuration;
-using R2API;
-using RoR2;
-using UnityEngine;
-
-namespace Sandswept.Items
+﻿namespace Sandswept.Items.Whites
 {
     public class Clockwork : ItemBase<Clockwork>
     {
-        public override string ItemName => "Clockwork";
+        public override string ItemName => "Fractured Timepiece";
 
         public override string ItemLangTokenName => "CLOCKWORK";
 
         public override string ItemPickupDesc => "Gain attack speed and cooldown reduction";
 
-        public override string ItemFullDescription => "Gain 10% (+7.5% per stack) attack speed and 5% (+2.5% per stack) cooldown reduction.";
+        public override string ItemFullDescription => StringExtensions.AutoFormat("Gain $sd10%$se $ss(+7.5% per stack)$se attack speed and $su5%$se $ss(+2.5% per stack)$se cooldown reduction.");
 
         public override string ItemLore => "";
 
@@ -22,7 +17,6 @@ namespace Sandswept.Items
         public override GameObject ItemModel => null;
 
         public override Sprite ItemIcon => null;
-
 
         public override void Init(ConfigFile config)
         {
@@ -33,17 +27,17 @@ namespace Sandswept.Items
 
         public override void Hooks()
         {
-            RecalculateStatsAPI.GetStatCoefficients += GiveStats;
+            GetStatCoefficients += GiveStats;
         }
 
-        private void GiveStats(CharacterBody sender, RecalculateStatsAPI.StatHookEventArgs args)
+        private void GiveStats(CharacterBody sender, StatHookEventArgs args)
         {
             int stacks = GetCount(sender);
 
             if (stacks > 0)
             {
-                args.cooldownMultAdd *= 1f - (0.05f + (0.025f * (stacks - 1)));
-                args.attackSpeedMultAdd += 0.1f + (0.75f * (stacks - 1));
+                args.cooldownMultAdd *= 1f - (0.05f + 0.025f * (stacks - 1));
+                args.attackSpeedMultAdd += 0.1f + 0.075f * (stacks - 1);
             }
         }
 

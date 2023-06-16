@@ -116,7 +116,6 @@ namespace Sandswept.Utils
         {
             if (damageInfo.rejected || !damageInfo.attacker) { return null; }
 
-
             var attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
 
             if (attackerBody)
@@ -147,7 +146,6 @@ namespace Sandswept.Utils
                             return closestPointOnBounds + (Vector3.up * distanceAboveTarget);
                         }
                     }
-
                 }
             }
 

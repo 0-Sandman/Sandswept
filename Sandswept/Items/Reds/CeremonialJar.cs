@@ -1,14 +1,9 @@
-﻿using BepInEx.Configuration;
-using R2API;
-using RoR2;
-using Sandswept.Utils;
-using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using HarmonyLib;
 
-namespace Sandswept.Items
+namespace Sandswept.Items.Reds
 {
-    public class CemJar : ItemBase<CemJar>
+    public class CeremonialJar : ItemBase<CeremonialJar>
     {
         public class JarToken : MonoBehaviour
         {
@@ -63,7 +58,7 @@ namespace Sandswept.Items
 
         public static DamageAPI.ModdedDamageType jarDamageType;
 
-        public static DamageColorIndex jarDamageColour = DamageColourHelper.RegisterDamageColor(new Color32(0, 150, 255, 255));
+        public static DamageColorIndex jarDamageColour = DamageColourHelper.RegisterDamageColor(new Color32(0, 255, 204, 255));
 
         public override string ItemName => "Ceremonial Jar";
 
@@ -71,7 +66,7 @@ namespace Sandswept.Items
 
         public override string ItemPickupDesc => "Hits link enemies, link multiple to damage them";
 
-        public override string ItemFullDescription => "";
+        public override string ItemFullDescription => "<color=#00ffcc>J</color>";
 
         public override string ItemLore => "";
 
@@ -91,7 +86,6 @@ namespace Sandswept.Items
             CreateLang();
             CreateItem();
             CreateBuff();
-            Hooks();
         }
 
         public override void Hooks()
@@ -105,24 +99,25 @@ namespace Sandswept.Items
         {
             CeremonialDef = ScriptableObject.CreateInstance<BuffDef>();
             CeremonialDef.name = "Linked";
-            CeremonialDef.buffColor = new Color32(245, 153, 80, 255);
             CeremonialDef.canStack = false;
             CeremonialDef.isDebuff = false;
-            CeremonialDef.iconSprite = Main.MainAssets.LoadAsset<Sprite>("Linked.png");
+            CeremonialDef.iconSprite = Main.MainAssets.LoadAsset<Sprite>("LinkedIcon.png");
             ContentAddition.AddBuffDef(CeremonialDef);
+            BuffCatalog.buffDefs.AddItem(CeremonialDef);
 
             CeremonialCooldown = ScriptableObject.CreateInstance<BuffDef>();
             CeremonialCooldown.name = "Cleansed";
-            CeremonialCooldown.buffColor = new Color32(140, 153, 60, 255);
+            CeremonialCooldown.buffColor = Color.white;
             CeremonialCooldown.canStack = false;
             CeremonialCooldown.isDebuff = false;
+            CeremonialCooldown.isCooldown = true;
             CeremonialCooldown.iconSprite = Main.MainAssets.LoadAsset<Sprite>("Cleansed.png");
             ContentAddition.AddBuffDef(CeremonialCooldown);
         }
 
         private void DeathRemove(On.RoR2.CharacterBody.orig_OnDeathStart orig, CharacterBody self)
         {
-            if (self.gameObject.GetComponent<JarToken>())
+            if ((bool)self.gameObject.GetComponent<JarToken>())
             {
                 list.Remove(self);
                 AppliedBuff[self.teamComponent.teamIndex].Remove(GetToken(self));
@@ -132,7 +127,7 @@ namespace Sandswept.Items
 
         private void BuffCheck(On.RoR2.CharacterBody.orig_AddTimedBuff_BuffDef_float_int orig, CharacterBody self, BuffDef buffDef, float duration, int maxStacks)
         {
-            if (buffDef = CeremonialDef)
+            if (buffDef == CeremonialDef)
             {
                 var token = GetToken(self);
 
@@ -142,15 +137,15 @@ namespace Sandswept.Items
                 {
                     if (AppliedBuff[self.teamComponent.teamIndex].Count == 3)
                     {
-                        foreach (CharacterBody body in AppliedBuff[self.teamComponent.teamIndex].Select((JarToken x) => x.body))
+                        foreach (CharacterBody body in AppliedBuff[self.teamComponent.teamIndex].Select((x) => x.body))
                         {
                             var stacks = GetCount(attacker);
 
                             body.AddTimedBuff(CeremonialCooldown, 5f);
 
-                            DamageInfo extraDamageInfo = new DamageInfo
+                            DamageInfo extraDamageInfo = new()
                             {
-                                damage = attacker.damage * (5f + (2.5f * --stacks)),
+                                damage = attacker.damage * (5f + 2.5f * --stacks),
                                 attacker = attacker.gameObject,
                                 procCoefficient = 0,
                                 position = body.corePosition,
@@ -160,7 +155,7 @@ namespace Sandswept.Items
                             };
                             body.healthComponent.TakeDamage(extraDamageInfo);
                         }
-                        AppliedBuff[self.teamComponent.teamIndex].RemoveAll((JarToken x) => x.body);
+                        AppliedBuff[self.teamComponent.teamIndex].RemoveAll((x) => x.body);
                     }
                 }
             }
@@ -180,17 +175,17 @@ namespace Sandswept.Items
                 {
                     if (list.Count < 3)
                     {
-                        victimBody.AddTimedBuff(CeremonialDef, 3f + (0.5f * (stacks - 1f)));
+                        victimBody.AddTimedBuff(CeremonialDef, 3f + 0.5f * (stacks - 1f));
                         var token = GetToken(victimBody);
                         token.attacker = attackerBody;
-                        token.timer = 3f + (0.5f * (stacks - 1f));
+                        token.timer = 3f + 0.5f * (stacks - 1f);
                     }
                 }
                 if (stacks > 0 && victim.GetComponent<JarToken>())
                 {
                     var token = GetToken(victimBody);
-                    token.timer = 3f + (0.5f * (stacks - 1f));
-                    victimBody.AddTimedBuff(CeremonialDef, 3f + (0.5f * (stacks - 1f)), 1);
+                    token.timer = 3f + 0.5f * (stacks - 1f);
+                    victimBody.AddTimedBuff(CeremonialDef, 3f + 0.5f * (stacks - 1f), 1);
                 }
             }
             orig(self, damageInfo, victim);

@@ -1,22 +1,16 @@
-﻿using BepInEx.Configuration;
-using R2API;
-using RoR2;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using System.Linq;
 using static RoR2.CombatDirector;
 
-namespace Sandswept.Equipment.EliteEquipment
+namespace Sandswept.Elites
 {
     public abstract class EliteEquipmentBase<T> : EliteEquipmentBase where T : EliteEquipmentBase<T>
     {
-        public static T instance { get; private set; }
+        public static T Instance { get; private set; }
 
         public EliteEquipmentBase()
         {
-            if (instance != null) throw new InvalidOperationException("Singleton class \"" + typeof(T).Name + "\" inheriting EliteEquipmentBase was instantiated twice");
-            instance = this as T;
+            if (Instance != null) throw new InvalidOperationException("Singleton class \"" + typeof(T).Name + "\" inheriting EliteEquipmentBase was instantiated twice");
+            Instance = this as T;
         }
     }
 
@@ -29,6 +23,7 @@ namespace Sandswept.Equipment.EliteEquipment
         /// <para>E.g.: AFFIX_HYPERCHARGED</para>
         /// </summary>
         public abstract string EliteAffixToken { get; }
+
         public abstract string EliteEquipmentPickupDesc { get; }
         public abstract string EliteEquipmentFullDescription { get; }
         public abstract string EliteEquipmentLore { get; }
@@ -43,15 +38,11 @@ namespace Sandswept.Equipment.EliteEquipment
 
         public virtual bool AppearsInMultiPlayer { get; } = true;
 
+        public virtual bool Hidden { get; } = true;
+
         public virtual bool CanDrop { get; } = false;
 
         public virtual float Cooldown { get; } = 60f;
-
-        public virtual bool EnigmaCompatible { get; } = false;
-
-        public virtual bool IsBoss { get; } = false;
-
-        public virtual bool IsLunar { get; } = false;
 
         public abstract GameObject EliteEquipmentModel { get; }
         public abstract Sprite EliteEquipmentIcon { get; }
@@ -65,6 +56,8 @@ namespace Sandswept.Equipment.EliteEquipment
         /// </summary>
         public abstract Sprite EliteBuffIcon { get; }
 
+        public virtual Color EliteBuffColor { get; set; } = new Color32(255, 255, 255, byte.MaxValue);
+
         /// <summary>
         /// If not overriden, the elite can spawn in all tiers defined.
         /// </summary>
@@ -73,19 +66,19 @@ namespace Sandswept.Equipment.EliteEquipment
         /// <summary>
         /// If you want the elite to have an overlay with your custom material.
         /// </summary>
-        public virtual Material EliteMaterial { get; set; } = null;
-
-        /// <summary>
-        /// How many more/less times the health should the elite have compared to its standard form?
-        /// </summary>
-        public virtual float HealthMultiplier { get; set; } = 1;
-
-        /// <summary>
-        /// How many more/less times the damage should the elite have compared to its standard form?
-        /// </summary>
-        public virtual float DamageMultiplier { get; set; } = 1;
+        public abstract Texture2D EliteRampTexture { get; }
 
         public EliteDef EliteDef;
+
+        /// <summary>
+        /// Elite stat multiplier, defaults to 4 (Tier 1) here.
+        /// </summary>
+        public virtual float HealthMultiplier { get; set; } = 4;
+
+        /// <summary>
+        /// Elite stat multiplier, defaults to 2 (Tier 1) here.
+        /// </summary>
+        public virtual float DamageMultiplier { get; set; } = 2;
 
         /// <summary>
         /// This method structures your code execution of this class. An example implementation inside of it would be:
@@ -101,39 +94,41 @@ namespace Sandswept.Equipment.EliteEquipment
         /// <param name="config">The config file that will be passed into this from the main class.</param>
         public abstract void Init(ConfigFile config);
 
+        private static GameObject hauntedPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/EliteHaunted/PickupEliteHaunted.prefab").WaitForCompletion();
+
+        private static GameObject firePrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/EliteFire/PickupEliteFire.prefab").WaitForCompletion();
+
         public abstract ItemDisplayRuleDict CreateItemDisplayRules();
 
         protected void CreateLang()
         {
             LanguageAPI.Add("ELITE_EQUIPMENT_" + EliteAffixToken + "_NAME", EliteEquipmentName);
-            LanguageAPI.Add("ELITE_EQUIPMENT_" + EliteAffixToken + "_PICKUP", EliteEquipmentName);
-            LanguageAPI.Add("ELITE_EQUIPMENT_" + EliteAffixToken + "_DESCRIPTION", EliteEquipmentName);
+            LanguageAPI.Add("ELITE_EQUIPMENT_" + EliteAffixToken + "_PICKUP", EliteEquipmentPickupDesc);
+            LanguageAPI.Add("ELITE_EQUIPMENT_" + EliteAffixToken + "_DESCRIPTION", EliteEquipmentFullDescription);
+            LanguageAPI.Add("ELITE_EQUIPMENT_" + EliteAffixToken + "_LORE", EliteEquipmentLore);
             LanguageAPI.Add("ELITE_" + EliteAffixToken + "_MODIFIER", EliteModifier + " {0}");
-
         }
 
         protected void CreateEquipment()
         {
             EliteBuffDef = ScriptableObject.CreateInstance<BuffDef>();
             EliteBuffDef.name = EliteAffixToken;
-            EliteBuffDef.buffColor = new Color32(255, 255, 255, byte.MaxValue);
-            EliteBuffDef.iconSprite = EliteBuffIcon;
+            EliteBuffDef.buffColor = EliteBuffColor;
             EliteBuffDef.canStack = false;
+            EliteBuffDef.iconSprite = EliteBuffIcon;
 
             EliteEquipmentDef = ScriptableObject.CreateInstance<EquipmentDef>();
             EliteEquipmentDef.name = "ELITE_EQUIPMENT_" + EliteAffixToken;
             EliteEquipmentDef.nameToken = "ELITE_EQUIPMENT_" + EliteAffixToken + "_NAME";
             EliteEquipmentDef.pickupToken = "ELITE_EQUIPMENT_" + EliteAffixToken + "_PICKUP";
             EliteEquipmentDef.descriptionToken = "ELITE_EQUIPMENT_" + EliteAffixToken + "_DESCRIPTION";
+            EliteEquipmentDef.loreToken = "ELITE_EQUIPMENT_" + EliteAffixToken + "_LORE";
             EliteEquipmentDef.pickupModelPrefab = EliteEquipmentModel;
             EliteEquipmentDef.pickupIconSprite = EliteEquipmentIcon;
             EliteEquipmentDef.appearsInSinglePlayer = AppearsInSinglePlayer;
             EliteEquipmentDef.appearsInMultiPlayer = AppearsInMultiPlayer;
             EliteEquipmentDef.canDrop = CanDrop;
             EliteEquipmentDef.cooldown = Cooldown;
-            EliteEquipmentDef.enigmaCompatible = EnigmaCompatible;
-            EliteEquipmentDef.isBoss = IsBoss;
-            EliteEquipmentDef.isLunar = IsLunar;
             EliteEquipmentDef.passiveBuffDef = EliteBuffDef;
 
             ItemAPI.Add(new CustomEquipment(EliteEquipmentDef, CreateItemDisplayRules()));
@@ -144,68 +139,6 @@ namespace Sandswept.Equipment.EliteEquipment
             {
                 On.RoR2.EquipmentSlot.Update += UpdateTargeting;
             }
-
-            if (EliteMaterial)
-            {
-                On.RoR2.CharacterBody.FixedUpdate += OverlayManager;
-            }
-
-        }
-
-        private void OverlayManager(On.RoR2.CharacterBody.orig_FixedUpdate orig, CharacterBody self)
-        {
-            if (self.modelLocator && self.modelLocator.modelTransform && self.HasBuff(EliteBuffDef))
-            {
-                var eliteOverlayManagers = self.gameObject.GetComponents<EliteOverlayManager>();
-                EliteOverlayManager eliteOverlayManager = null;
-                if (!eliteOverlayManagers.Any())
-                {
-                    eliteOverlayManager = self.gameObject.AddComponent<EliteOverlayManager>();
-                }
-                else
-                {
-                    foreach (EliteOverlayManager overlayManager in eliteOverlayManagers)
-                    {
-                        if (overlayManager.EliteBuffDef == EliteBuffDef)
-                        {
-                            orig(self);
-                            return;
-                        }
-                    }
-
-                    RoR2.TemporaryOverlay overlay = self.modelLocator.modelTransform.gameObject.AddComponent<RoR2.TemporaryOverlay>();
-                    overlay.duration = float.PositiveInfinity;
-                    overlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
-                    overlay.animateShaderAlpha = true;
-                    overlay.destroyComponentOnEnd = true;
-                    overlay.originalMaterial = EliteMaterial;
-                    overlay.AddToCharacerModel(self.modelLocator.modelTransform.GetComponent<RoR2.CharacterModel>());
-
-                    if (!eliteOverlayManager) { eliteOverlayManager = self.gameObject.AddComponent<EliteOverlayManager>(); }
-                    eliteOverlayManager.Overlay = overlay;
-                    eliteOverlayManager.Body = self;
-                    eliteOverlayManager.EliteBuffDef = EliteBuffDef;
-
-                }
-
-            }
-            orig(self);
-        }
-
-        public class EliteOverlayManager : MonoBehaviour
-        {
-            public RoR2.TemporaryOverlay Overlay;
-            public RoR2.CharacterBody Body;
-            public BuffDef EliteBuffDef;
-
-            public void FixedUpdate()
-            {
-                if (!Body.HasBuff(EliteBuffDef))
-                {
-                    UnityEngine.Object.Destroy(Overlay);
-                    UnityEngine.Object.Destroy(this);
-                }
-            }
         }
 
         protected void CreateElite()
@@ -214,6 +147,9 @@ namespace Sandswept.Equipment.EliteEquipment
             EliteDef.name = "ELITE_" + EliteAffixToken;
             EliteDef.modifierToken = "ELITE_" + EliteAffixToken + "_MODIFIER";
             EliteDef.eliteEquipmentDef = EliteEquipmentDef;
+            EliteDef.healthBoostCoefficient = HealthMultiplier;
+            EliteDef.damageBoostCoefficient = DamageMultiplier;
+            EliteDef.shaderEliteRampIndex = 0;
 
             var baseEliteTierDefs = EliteAPI.GetCombatDirectorEliteTiers();
             if (!CanAppearInEliteTiers.All(x => baseEliteTierDefs.Contains(x)))
@@ -235,15 +171,13 @@ namespace Sandswept.Equipment.EliteEquipment
                 }
             }
 
-            EliteAPI.Add(new CustomElite(EliteDef, CanAppearInEliteTiers));
+            EliteAPI.Add(new CustomElite(EliteDef, CanAppearInEliteTiers, EliteRampTexture));
 
             EliteBuffDef.eliteDef = EliteDef;
             ContentAddition.AddBuffDef(EliteBuffDef);
         }
 
-
-
-        protected bool PerformEquipmentAction(On.RoR2.EquipmentSlot.orig_PerformEquipmentAction orig, RoR2.EquipmentSlot self, EquipmentDef equipmentDef)
+        protected bool PerformEquipmentAction(On.RoR2.EquipmentSlot.orig_PerformEquipmentAction orig, EquipmentSlot self, EquipmentDef equipmentDef)
         {
             if (equipmentDef == EliteEquipmentDef)
             {
@@ -264,15 +198,29 @@ namespace Sandswept.Equipment.EliteEquipment
 
         public abstract void Hooks();
 
+        public virtual GameObject CreateAffixModel(Color32 color, bool tier2 = false)
+        {
+            GameObject gameObject = (tier2 ? hauntedPrefab : firePrefab).InstantiateClone("PickupAffix" + EliteEquipmentName, false);
+            Material material = Object.Instantiate(gameObject.GetComponentInChildren<MeshRenderer>().material);
+            material.color = color;
+            foreach (Renderer renderer in gameObject.GetComponentsInChildren<Renderer>())
+                renderer.material = material;
+            return gameObject;
+        }
+
         #region Targeting Setup
+
         //Targeting Support
         public virtual bool UseTargeting { get; } = false;
+
         public GameObject TargetingIndicatorPrefabBase = null;
+
         public enum TargetingType
         {
             Enemies,
             Friendlies,
         }
+
         public virtual TargetingType TargetingTypeEnum { get; } = TargetingType.Enemies;
 
         //Based on MysticItem's targeting code.
@@ -293,10 +241,11 @@ namespace Sandswept.Equipment.EliteEquipment
                 {
                     switch (TargetingTypeEnum)
                     {
-                        case (TargetingType.Enemies):
+                        case TargetingType.Enemies:
                             targetingComponent.ConfigureTargetFinderForEnemies(self);
                             break;
-                        case (TargetingType.Friendlies):
+
+                        case TargetingType.Friendlies:
                             targetingComponent.ConfigureTargetFinderForFriendlies(self);
                             break;
                     }
@@ -320,10 +269,6 @@ namespace Sandswept.Equipment.EliteEquipment
             public void Awake()
             {
                 Indicator = new Indicator(gameObject, null);
-            }
-
-            public void OnDestroy()
-            {
                 Invalidate();
             }
 
@@ -367,7 +312,6 @@ namespace Sandswept.Equipment.EliteEquipment
                 TargetFinder.FilterOutGameObject(self.gameObject);
                 AdditionalBullseyeFunctionality(TargetFinder);
                 PlaceTargetingIndicator(TargetFinder.GetResults());
-
             }
 
             public void PlaceTargetingIndicator(IEnumerable<HurtBox> TargetFinderResults)

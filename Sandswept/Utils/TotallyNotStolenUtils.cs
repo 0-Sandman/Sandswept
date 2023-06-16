@@ -17,6 +17,7 @@ namespace Sandswept.Utils
             Lunar,
             Survivor
         }
+
         private static Dictionary<ItemTier, ItemIconBackgroundType> itemTierToIconBackgroundType = new Dictionary<ItemTier, ItemIconBackgroundType>()
         {
             { ItemTier.Tier1, ItemIconBackgroundType.Tier1 },
@@ -25,6 +26,7 @@ namespace Sandswept.Utils
             { ItemTier.Boss, ItemIconBackgroundType.Boss },
             { ItemTier.Lunar, ItemIconBackgroundType.Lunar }
         };
+
         public static ItemIconBackgroundType GetItemIconBackgroundTypeFromTier(ItemTier tier)
         {
             if (itemTierToIconBackgroundType.ContainsKey(tier)) return itemTierToIconBackgroundType[tier];
@@ -52,24 +54,31 @@ namespace Sandswept.Utils
                 case ItemIconBackgroundType.Tier1:
                     loadedBackground = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/texTier1BGIcon.png").WaitForCompletion();
                     break;
+
                 case ItemIconBackgroundType.Tier2:
                     loadedBackground = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/texTier2BGIcon.png").WaitForCompletion();
                     break;
+
                 case ItemIconBackgroundType.Tier3:
                     loadedBackground = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/texTier3BGIcon.png").WaitForCompletion();
                     break;
+
                 case ItemIconBackgroundType.Boss:
                     loadedBackground = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/texBossBGIcon.png").WaitForCompletion();
                     break;
+
                 case ItemIconBackgroundType.Equipment:
                     loadedBackground = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/texEquipmentBGIcon.png").WaitForCompletion();
                     break;
+
                 case ItemIconBackgroundType.Lunar:
                     loadedBackground = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/texLunarBGIcon.png").WaitForCompletion();
                     break;
+
                 case ItemIconBackgroundType.Survivor:
                     loadedBackground = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/texSurvivorBGIcon.png").WaitForCompletion();
                     break;
+
                 default:
                     loadedBackground = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/texTier1BGIcon.png").WaitForCompletion();
                     break;

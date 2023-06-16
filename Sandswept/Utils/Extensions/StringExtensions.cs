@@ -4,23 +4,28 @@ using System.Collections.Generic;
 using RoR2;
 using UnityEngine.AddressableAssets;
 
-namespace Sandswept.Utils {
-    public static class StringExtensions {
-        
+namespace Sandswept.Utils
+{
+    public static class StringExtensions
+    {
         /// <summary>Adds a string-value pair to the ROR2 language strings</summary>
         /// <param name="text">the value when the string is searched</param>
-        public static void Add(this string str, string text) {
+        public static void Add(this string str, string text)
+        {
             LanguageAPI.Add(str, text);
         }
-        
+
         /// <summary>Attempts to load the string through AddressableAssets</summary>
         /// <returns>the asset if it was found, otherwise returns default(T)</returns>
-        public static T Load<T>(this string str) {
-            try {
+        public static T Load<T>(this string str)
+        {
+            try
+            {
                 T asset = Addressables.LoadAssetAsync<T>(str).WaitForCompletion();
                 return asset;
             }
-            catch {
+            catch
+            {
                 return default(T);
             }
         }
@@ -29,11 +34,13 @@ namespace Sandswept.Utils {
         /// Filters unsafe characters from a string. Default characters: \n ' (whitespace) ! ` - () {} | @ . \
         /// </summary>
         /// <returns>the filtered string</returns>
-        public static string RemoveUnsafeCharacters(this string str) {
-            string[] unsafeCharacters = { "\n", "'", " ", "!", "`", "&", "-", ")", "(", "{", "}", "|", "@", "<", ">", ".", "\\"};
+        public static string RemoveUnsafeCharacters(this string str)
+        {
+            string[] unsafeCharacters = { "\n", "'", " ", "!", "`", "&", "-", ")", "(", "{", "}", "|", "@", "<", ">", ".", "\\" };
             string filtered = str;
 
-            foreach (string c in unsafeCharacters) {
+            foreach (string c in unsafeCharacters)
+            {
                 filtered = filtered.Replace(c, "");
             }
 
@@ -45,10 +52,12 @@ namespace Sandswept.Utils {
         /// </summary>
         /// <param name="unsafeChars">an array of characters to filter out</param>
         /// <returns>the filtered string</returns>
-        public static string RemoveUnsafeCharacters(this string str, string[] unsafeChars) {
+        public static string RemoveUnsafeCharacters(this string str, string[] unsafeChars)
+        {
             string filtered = str;
 
-            foreach (string c in unsafeChars) {
+            foreach (string c in unsafeChars)
+            {
                 filtered = filtered.Replace(c, "");
             }
 
@@ -59,13 +68,16 @@ namespace Sandswept.Utils {
         /// Uses a list of pre-defined matches to attempt to automatically format a string
         /// </summary>
         /// <returns>the formatted string</returns>
-        public static string AutoFormat(this string str) {
+        public static string AutoFormat(this string str)
+        {
             return Formatter.FormatString(str);
         }
-    }   
+    }
 
-    internal class Formatter {
-        internal struct Format {
+    internal class Formatter
+    {
+        internal struct Format
+        {
             public string match;
             public string expanded;
         }
@@ -89,7 +101,7 @@ namespace Sandswept.Utils {
             },
             new Format {
                 match = "$sh",
-                expanded = "<style=cIsHealth>"
+                expanded = "<style=cIsHealing>"
             },
             new Format {
                 match = "$se",
@@ -97,8 +109,10 @@ namespace Sandswept.Utils {
             },
         };
 
-        internal static string FormatString(string str) {
-            foreach (Format format in formats) {
+        internal static string FormatString(string str)
+        {
+            foreach (Format format in formats)
+            {
                 str = str.Replace(format.match, format.expanded);
             }
 

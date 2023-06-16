@@ -3,28 +3,25 @@ using R2API.Utils;
 using Sandswept.Items;
 using Sandswept.Artifact;
 using Sandswept.Equipment;
-using Sandswept.Equipment.EliteEquipment;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using UnityEngine;
 using Sandswept.Buffs;
-using RoR2;
-using Sandswept.Utils;
 using Sandswept.Skills;
 using Sandswept.Survivors;
+using System.Diagnostics;
+using Sandswept.Elites;
 
 namespace Sandswept
 {
     [BepInPlugin(ModGuid, ModName, ModVer)]
-    [BepInDependency(R2API.DotAPI.PluginGUID, R2API.DotAPI.PluginVersion)]
-    [BepInDependency(R2API.ItemAPI.PluginGUID, R2API.ItemAPI.PluginVersion)]
-    [BepInDependency(R2API.EliteAPI.PluginGUID, R2API.EliteAPI.PluginVersion)]
-    [BepInDependency(R2API.DamageAPI.PluginGUID, R2API.DamageAPI.PluginVersion)]
-    [BepInDependency(R2API.PrefabAPI.PluginGUID, R2API.PrefabAPI.PluginVersion)]
-    [BepInDependency(R2API.LanguageAPI.PluginGUID, R2API.LanguageAPI.PluginVersion)]
-    [BepInDependency(R2API.RecalculateStatsAPI.PluginGUID, R2API.RecalculateStatsAPI.PluginVersion)]
+    [BepInDependency(DotAPI.PluginGUID, DotAPI.PluginVersion)]
+    [BepInDependency(ItemAPI.PluginGUID, ItemAPI.PluginVersion)]
+    [BepInDependency(EliteAPI.PluginGUID, EliteAPI.PluginVersion)]
+    [BepInDependency(DamageAPI.PluginGUID, DamageAPI.PluginVersion)]
+    [BepInDependency(PrefabAPI.PluginGUID, PrefabAPI.PluginVersion)]
+    [BepInDependency(LanguageAPI.PluginGUID, LanguageAPI.PluginVersion)]
+    [BepInDependency(RecalculateStatsAPI.PluginGUID, RecalculateStatsAPI.PluginVersion)]
+    [BepInDependency(PluginGUID, PluginVersion)]
     [BepInDependency(R2API.Networking.NetworkingAPI.PluginGUID, R2API.Networking.NetworkingAPI.PluginVersion)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
@@ -45,15 +42,15 @@ namespace Sandswept
         { "stubbed hopoo games/fx/hgsolid parallax", "shaders/fx/hgsolidparallax" }
     };
 
-        public List<ArtifactBase> Artifacts = new List<ArtifactBase>();
-        public List<ItemBase> Items = new List<ItemBase>();
-        public List<EquipmentBase> Equipments = new List<EquipmentBase>();
-        public List<BuffBase> Buffs = new List<BuffBase>();
-        public List<EliteEquipmentBase> EliteEquipments = new List<EliteEquipmentBase>();
-        public static List<UnlockableDef> Unlocks = new List<UnlockableDef>();
-        public static List<GameObject> EffectPrefabs = new List<GameObject>();
+        public List<ArtifactBase> Artifacts = new();
+        public List<ItemBase> Items = new();
+        public List<EquipmentBase> Equipments = new();
+        public List<BuffBase> Buffs = new();
+        public List<EliteEquipmentBase> EliteEquipments = new();
+        public static List<UnlockableDef> Unlocks = new();
+        public static List<GameObject> EffectPrefabs = new();
 
-        public static Dictionary<BuffBase, bool> BuffStatusDictionary = new Dictionary<BuffBase, bool>();
+        public static Dictionary<BuffBase, bool> BuffStatusDictionary = new();
 
         //public static List<Material> SwappedMaterials = new List<Material>();
 
@@ -62,11 +59,12 @@ namespace Sandswept
 
         private void Awake()
         {
+            var stopwatch = Stopwatch.StartNew();
+
             ModLogger = Logger;
 
             AutoRunCollector.HandleAutoRun();
             ConfigManager.HandleConfigAttributes(Assembly.GetExecutingAssembly(), Config);
-
 
             // Don't know how to create/use an asset bundle, or don't have a unity project set up?
             // Look here for info on how to set these up: https://github.com/KomradeSpectre/AetheriumMod/blob/rewrite-master/Tutorials/Item%20Mod%20Creation.md#unity-project
@@ -77,7 +75,7 @@ namespace Sandswept
                 MainAssets = AssetBundle.LoadFromStream(stream);
             }
 
-            Swapallshaders(MainAssets);
+            SwapAllShaders(MainAssets);
             DamageColourHelper.Init();
             //On.RoR2.GlobalEventManager.OnHitEnemy += GenericBodyTokenAddition;
 
@@ -98,7 +96,7 @@ namespace Sandswept
 
             foreach (var itemType in ItemTypes)
             {
-                ItemBase item = (ItemBase)System.Activator.CreateInstance(itemType);
+                ItemBase item = (ItemBase)Activator.CreateInstance(itemType);
                 if (ValidateItem(item, Items))
                 {
                     item.Init(Config);
@@ -110,7 +108,7 @@ namespace Sandswept
 
             foreach (var equipmentType in EquipmentTypes)
             {
-                EquipmentBase equipment = (EquipmentBase)System.Activator.CreateInstance(equipmentType);
+                EquipmentBase equipment = (EquipmentBase)Activator.CreateInstance(equipmentType);
                 if (ValidateEquipment(equipment, Equipments))
                 {
                     equipment.Init(Config);
@@ -122,7 +120,7 @@ namespace Sandswept
 
             foreach (var eliteEquipmentType in EliteEquipmentTypes)
             {
-                EliteEquipmentBase eliteEquipment = (EliteEquipmentBase)System.Activator.CreateInstance(eliteEquipmentType);
+                EliteEquipmentBase eliteEquipment = (EliteEquipmentBase)Activator.CreateInstance(eliteEquipmentType);
                 if (ValidateEliteEquipment(eliteEquipment, EliteEquipments))
                 {
                     eliteEquipment.Init(Config);
@@ -144,17 +142,21 @@ namespace Sandswept
             ScanTypes<SurvivorBase>((x) => x.Init());
 
             new ContentPacks().Initialize();
+
+            ModLogger.LogDebug("#SANDSWEEP");
+            ModLogger.LogDebug("Initialized mod in " + stopwatch.ElapsedMilliseconds + "ms");
         }
 
-        internal static void ScanTypes<T>(Action<T> action) {
+        internal static void ScanTypes<T>(Action<T> action)
+        {
             IEnumerable<Type> types = Assembly.GetExecutingAssembly().GetTypes().Where(x => !x.IsAbstract && x.IsSubclassOf(typeof(T)));
 
-            foreach (Type type in types) {
+            foreach (Type type in types)
+            {
                 T instance = (T)Activator.CreateInstance(type);
                 action(instance);
             }
         }
-
 
         /// <summary>
         /// A helper to easily set up and initialize an artifact from your artifact classes if the user has it enabled in their configuration files.
@@ -225,6 +227,7 @@ namespace Sandswept
             }
             return false;
         }
+
         public bool ValidateBuff(BuffBase buff, List<BuffBase> buffList)
         {
             var enabled = Config.Bind<bool>("Buff: " + buff.BuffName, "Enable Buff?", true, "Should this buff be registered for use in the game?").Value;
@@ -237,35 +240,42 @@ namespace Sandswept
             }
             return enabled;
         }
-        public void Swapallshaders(AssetBundle bundle)
+
+        public void SwapAllShaders(AssetBundle bundle)
         {
             Material[] array = bundle.LoadAllAssets<Material>();
-            Material[] array2 = array;
-            foreach (Material val in array2)
+            foreach (Material val in array)
             {
                 switch (val.shader.name)
                 {
                     case "Stubbed Hopoo Games/Deferred/Standard":
                         val.shader = Resources.Load<Shader>("shaders/deferred/hgstandard");
                         break;
+
                     case "Stubbed Hopoo Games/Deferred/Snow Topped":
                         val.shader = Resources.Load<Shader>("shaders/deferred/hgsnowtopped");
                         break;
+
                     case "Stubbed Hopoo Games/FX/Cloud Remap":
                         val.shader = Resources.Load<Shader>("shaders/fx/hgcloudremap");
                         break;
+
                     case "Stubbed Hopoo Games/FX/Cloud Intersection Remap":
                         val.shader = Resources.Load<Shader>("shaders/fx/hgintersectioncloudremap");
                         break;
+
                     case "Stubbed Hopoo Games/FX/Opaque Cloud Remap":
                         val.shader = Resources.Load<Shader>("shaders/fx/hgopaquecloudremap");
                         break;
+
                     case "Stubbed Hopoo Games/FX/Distortion":
                         val.shader = Resources.Load<Shader>("shaders/fx/hgdistortion");
                         break;
+
                     case "Stubbed Hopoo Games/FX/Solid Parallax":
                         val.shader = Resources.Load<Shader>("shaders/fx/hgsolidparallax");
                         break;
+
                     case "Stubbed Hopoo Games/Environment/Distant Water":
                         val.shader = Resources.Load<Shader>("shaders/environment/hgdistantwater");
                         break;

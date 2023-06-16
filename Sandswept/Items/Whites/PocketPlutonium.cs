@@ -1,17 +1,8 @@
-﻿using BepInEx.Configuration;
-using HG;
-using R2API;
-using RoR2;
-using Sandswept.Utils;
-using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.Networking;
-using static R2API.RecalculateStatsAPI;
-using static Sandswept.Utils.Components.MaterialControllerComponents;
+﻿using static Sandswept.Utils.Components.MaterialControllerComponents;
 
-namespace Sandswept.Items
+namespace Sandswept.Items.Whites
 {
-    public class Plutonium : ItemBase<Plutonium>
+    public class PocketPlutonium : ItemBase<PocketPlutonium>
     {
         public class ShieldedComponent : MonoBehaviour
         {
@@ -56,7 +47,6 @@ namespace Sandswept.Items
 
             public void FixedUpdate()
             {
-
                 if (!active || body.inventory.GetItemCount(instance.ItemDef) == 0)
                 {
                     Destroy(this);
@@ -80,16 +70,19 @@ namespace Sandswept.Items
                             foreach (TeamComponent teamMember in TeamComponent.GetTeamMembers(teamIndex2))
                             {
                                 Vector3 val = teamMember.transform.position - body.corePosition;
-                                if (val.sqrMagnitude <= 225f)
+                                if (val.sqrMagnitude <= 100f)
                                 {
-                                    InflictDotInfo inflictDotInfo = default;
-                                    inflictDotInfo.victimObject = teamMember.gameObject;
-                                    inflictDotInfo.attackerObject = body.gameObject;
-                                    inflictDotInfo.totalDamage = body.damage;
-                                    inflictDotInfo.dotIndex = IrradiatedIndex;
-                                    inflictDotInfo.duration = 0f;
-                                    inflictDotInfo.maxStacksFromAttacker = 1;
-                                    inflictDotInfo.damageMultiplier = 1.25f + (0.75f * (body.inventory.GetItemCount(instance.ItemDef) - 1));
+                                    InflictDotInfo inflictDotInfo = new()
+                                    {
+                                        victimObject = teamMember.gameObject,
+                                        attackerObject = body.gameObject,
+                                        totalDamage = body.damage,
+                                        dotIndex = IrradiatedIndex,
+                                        duration = 2f,
+                                        maxStacksFromAttacker = 1,
+                                        damageMultiplier = 1.25f + (0.75f * (body.inventory.GetItemCount(instance.ItemDef) - 1))
+                                    };
+
                                     InflictDotInfo dotInfo = inflictDotInfo;
                                     DotController.InflictDot(ref dotInfo);
                                 }
@@ -101,10 +94,10 @@ namespace Sandswept.Items
 
             public void Update()
             {
-                if (PlutIndicator && x != 30f)
+                if (PlutIndicator && x != 20f)
                 {
                     Transform zone = PlutIndicator.transform.Find("Radius, Spherical");
-                    x = Mathf.SmoothDamp(zone.localScale.x, 30f, ref velocity, 0.2f);
+                    x = Mathf.SmoothDamp(zone.localScale.x, 20f, ref velocity, 0.2f);
                     zone.localScale = new Vector3(x, x, x);
                 }
             }
@@ -124,6 +117,9 @@ namespace Sandswept.Items
                 indicatorEnabled = false;
             }
         }
+
+        // I see you copied noop's wool code trolley
+
         public static DamageColorIndex IrradiateDamageColour = DamageColourHelper.RegisterDamageColor(new Color32(175, 255, 30, 255));
 
         public static DotController.DotDef IrradiatedDef;
@@ -137,9 +133,9 @@ namespace Sandswept.Items
 
         public override string ItemLangTokenName => "POCKET_PLUTONIUM";
 
-        public override string ItemPickupDesc => "Create an irradiating ring around you when you have active shield";
+        public override string ItemPickupDesc => "While shields are active, create an irradiating ring around you.";
 
-        public override string ItemFullDescription => "Gain a <style=cIsHealing>shield</style> equal to <style=cIsHealing>3%</style> of your maximum health. While shields are active create a <style=cIsUtility>15m</style> radius that <style=cIsHealing>Irradiates</style> enemies for <style=cIsDamage>125%</style> <style=cStack>(+75% per stack)</style> damage.";
+        public override string ItemFullDescription => StringExtensions.AutoFormat("Gain a $shshield$se equal to $sh3%$se of your maximum health. While shields are active, $sdirradiate$se all enemies within $sd15m$se for $sd125%$se $ss(+75% per stack)$se $sddamage per second$se.");
 
         public override string ItemLore => "<style=cStack>funny quirky funny funny funny quirky</style>";
 
@@ -152,9 +148,9 @@ namespace Sandswept.Items
         public override void Init(ConfigFile config)
         {
             CreateLang();
+            CreateItem();
             CreateBuff();
             CreateDot();
-            CreateItem();
             CreatePrefab();
             Hooks();
         }
@@ -168,7 +164,7 @@ namespace Sandswept.Items
 
         public void CreatePrefab()
         {
-            PlutoniumZone = PrefabAPI.InstantiateClone(LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/NearbyDamageBonusIndicator"), "PlutoniumZone");
+            PlutoniumZone = LegacyResourcesAPI.Load<GameObject>("Prefabs/NetworkedObjects/NearbyDamageBonusIndicator").InstantiateClone("PlutoniumZone");
             Transform val = PlutoniumZone.transform.Find("Radius, Spherical");
             val.localScale = Vector3.one * 0f;
             HGIntersectionController hGIntersectionController = val.gameObject.AddComponent<HGIntersectionController>();
@@ -181,12 +177,12 @@ namespace Sandswept.Items
             val4.SetTextureScale("_Cloud1Tex", new Vector2(0.5f, 0.5f));
             val4.SetTexture("_Cloud2Tex", null);
             val4.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Engi/texUIEngiMissileLockedOn.png").WaitForCompletion());
-
+            val4.SetFloat("_AlphaBoost", 2f);
             val4.SetFloat("_InvFade", 0.5f);
             val4.SetFloat("_Boost", 0.5f);
             val5.material = val4;
             hGIntersectionController.Material = val4;
-            PrefabAPI.RegisterNetworkPrefab(PlutoniumZone);
+            PlutoniumZone.RegisterNetworkPrefab();
         }
 
         public void CreateBuff()
@@ -238,25 +234,49 @@ namespace Sandswept.Items
                 self.statsDirty = true;
             }
         }
+
         private void GrantBaseShield(CharacterBody sender, StatHookEventArgs args)
         {
             if (GetCount(sender) > 0)
             {
                 HealthComponent component = sender.GetComponent<HealthComponent>();
-                args.baseShieldAdd += component.fullHealth * 0.03f;
+                args.baseShieldAdd += component.fullHealth * 0.05f;
             }
         }
+
         private void GrantEffect(CharacterBody sender, StatHookEventArgs args)
         {
             ShieldedComponent component = sender.GetComponent<ShieldedComponent>();
             PlutoniumBehaviour behaviourCheck = sender.GetComponent<PlutoniumBehaviour>();
             if ((bool)component && component.cachedIsShielded && component.cachedInventoryCount > 0 && !behaviourCheck)
             {
-                PlutoniumBehaviour behaviour = sender.gameObject.AddComponent<PlutoniumBehaviour>();
+                sender.gameObject.AddComponent<PlutoniumBehaviour>();
             }
             if ((bool)component && component.cachedIsShielded == false && behaviourCheck)
             {
                 behaviourCheck.active = false;
+
+                EffectData effectData2 = new EffectData
+                {
+                    origin = sender.corePosition,
+                    scale = 17.5f
+                };
+                EffectManager.SpawnEffect(SunFragment.FragmentVFXSphere, effectData2, true);
+
+                BlastAttack blastAttack = new BlastAttack
+                {
+                    radius = 15f,
+                    baseDamage = sender.maxShield * 2.5f,
+                    procCoefficient = 0.1f,
+                    crit = false,
+                    damageColorIndex = IrradiateDamageColour,
+                    attackerFiltering = AttackerFiltering.NeverHitSelf,
+                    falloffModel = BlastAttack.FalloffModel.None,
+                    attacker = sender.gameObject,
+                    teamIndex = sender.teamComponent.teamIndex,
+                    position = sender.corePosition,
+                };
+                blastAttack.Fire();
             }
         }
 
@@ -264,6 +284,5 @@ namespace Sandswept.Items
         {
             return new ItemDisplayRuleDict();
         }
-
     }
 }

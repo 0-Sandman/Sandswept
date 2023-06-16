@@ -1,6 +1,7 @@
 using System;
 
-namespace Sandswept.Survivors {
+namespace Sandswept.Survivors
+{
     public class Ranger : SurvivorBase<Ranger>
     {
         public override string Name => "Ranger";
@@ -23,12 +24,14 @@ namespace Sandswept.Survivors {
             GameObject DisplayPrefab = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.CommandoDisplay, "RangerDisplay", false);
 
             ModelSkinController controller = DisplayPrefab.GetComponentInChildren<ModelSkinController>();
-            if (controller) {
+            if (controller)
+            {
                 GameObject.Destroy(controller);
             }
 
             controller = Body.GetComponentInChildren<ModelSkinController>();
-            if (controller) {
+            if (controller)
+            {
                 GameObject.Destroy(controller);
             }
 

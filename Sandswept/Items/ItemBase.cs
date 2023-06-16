@@ -1,11 +1,4 @@
-﻿using BepInEx.Configuration;
-using R2API;
-using RoR2;
-using RoR2.ContentManagement;
-using System;
-using System.Collections.Generic;
-using UnityEngine;
-using static Sandswept.Utils.TotallyNotStolenUtils;
+﻿using static Sandswept.Utils.TotallyNotStolenUtils;
 
 namespace Sandswept.Items
 {
@@ -25,6 +18,7 @@ namespace Sandswept.Items
             instance = this as T;
         }
     }
+
     public abstract class ItemBase : IConfigurable
     {
         public abstract string ItemName { get; }
@@ -64,29 +58,33 @@ namespace Sandswept.Items
         /// <para>P.S. CreateItemDisplayRules(); does not have to be called in this, as it already gets called in CreateItem();</para>
         /// </summary>
         /// <param name="config">The config file that will be passed into this from the main class.</param>
-        public virtual void Init(ConfigFile config) {
+        public virtual void Init(ConfigFile config)
+        {
             CreateConfig(config);
             CreateLang();
             CreateItem();
             Hooks();
         }
 
-        public virtual void CreateConfig(ConfigFile config) { }
+        public virtual void CreateConfig(ConfigFile config)
+        { }
 
         protected virtual void CreateLang()
         {
-            LanguageAPI.Add("ITEM_" + ItemLangTokenName + "_NAME", ItemName);
-            LanguageAPI.Add("ITEM_" + ItemLangTokenName + "_PICKUP", ItemPickupDesc);
-            LanguageAPI.Add("ITEM_" + ItemLangTokenName + "_DESCRIPTION", ItemFullDescription);
-            LanguageAPI.Add("ITEM_" + ItemLangTokenName + "_LORE", ItemLore);
+            LanguageAPI.Add("ITEM_SANDSWEPT_" + ItemLangTokenName + "_NAME", ItemName);
+            LanguageAPI.Add("ITEM_SANDSWEPT_" + ItemLangTokenName + "_PICKUP", ItemPickupDesc);
+            LanguageAPI.Add("ITEM_SANDSWEPT_" + ItemLangTokenName + "_DESCRIPTION", ItemFullDescription);
+            LanguageAPI.Add("ITEM_SANDSWEPT_" + ItemLangTokenName + "_LORE", ItemLore);
         }
+
         protected virtual void CreateUnlockLang()
         {
-            LanguageAPI.Add("ACHIEVEMENT_" + ItemLangTokenName + "_NAME", AchievementName);
-            LanguageAPI.Add("ACHIEVEMENT_" + ItemLangTokenName + "_DESCRIPTION", AchievementDesc);
+            LanguageAPI.Add("ACHIEVEMENT_SANDSWEPT_" + ItemLangTokenName + "_NAME", AchievementName);
+            LanguageAPI.Add("ACHIEVEMENT_SANDSWEPT_" + ItemLangTokenName + "_DESCRIPTION", AchievementDesc);
         }
 
         public abstract ItemDisplayRuleDict CreateItemDisplayRules();
+
         protected void CreateItem()
         {
             if (AIBlacklisted)
@@ -95,20 +93,20 @@ namespace Sandswept.Items
             }
 
             ItemDef = ScriptableObject.CreateInstance<ItemDef>();
-            ItemDef.name = "ITEM_" + ItemLangTokenName;
-            ItemDef.nameToken = "ITEM_" + ItemLangTokenName + "_NAME";
-            ItemDef.pickupToken = "ITEM_" + ItemLangTokenName + "_PICKUP";
-            ItemDef.descriptionToken = "ITEM_" + ItemLangTokenName + "_DESCRIPTION";
-            ItemDef.loreToken = "ITEM_" + ItemLangTokenName + "_LORE";
+            ItemDef.name = "ITEM_SANDSWEPT_" + ItemLangTokenName;
+            ItemDef.nameToken = "ITEM_SANDSWEPT_" + ItemLangTokenName + "_NAME";
+            ItemDef.pickupToken = "ITEM_SANDSWEPT_" + ItemLangTokenName + "_PICKUP";
+            ItemDef.descriptionToken = "ITEM_SANDSWEPT_" + ItemLangTokenName + "_DESCRIPTION";
+            ItemDef.loreToken = "ITEM_SANDSWEPT_" + ItemLangTokenName + "_LORE";
             ItemDef.pickupModelPrefab = ItemModel;
             ItemDef.pickupIconSprite = ItemIcon;
             ItemDef.hidden = false;
             ItemDef.canRemove = CanRemove;
-            #pragma warning disable
+#pragma warning disable
             ItemDef.deprecatedTier = Tier;
-            #pragma warning enable
+#pragma warning enable
 
-            if  (AchievementName!= null)
+            if (AchievementName != null)
             {
                 ItemDef.unlockableDef = CreateUnlock();
             }
@@ -121,8 +119,8 @@ namespace Sandswept.Items
         protected UnlockableDef CreateUnlock()
         {
             ItemDef.unlockableDef = ScriptableObject.CreateInstance<UnlockableDef>();
-            ItemDef.unlockableDef.cachedName = "ITEM_" + ItemLangTokenName;
-            ItemDef.unlockableDef.nameToken = "ITEM_" + ItemLangTokenName + "_NAME";
+            ItemDef.unlockableDef.cachedName = "ITEM_SANDSWEPT_" + ItemLangTokenName;
+            ItemDef.unlockableDef.nameToken = "ITEM_SANDSWEPT_" + ItemLangTokenName + "_NAME";
             ItemDef.unlockableDef.getHowToUnlockString = GetHowToUnlock;
             ItemDef.unlockableDef.getUnlockedString = GetUnlocked;
 
@@ -132,7 +130,8 @@ namespace Sandswept.Items
             return unlockDef;
         }
 
-        public virtual void Hooks() { }
+        public virtual void Hooks()
+        { }
 
         //Based on ThinkInvis' methods
         public int GetCount(CharacterBody body)

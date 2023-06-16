@@ -1,7 +1,8 @@
 using System;
 using BepInEx.Configuration;
 
-namespace Sandswept.Buffs {
+namespace Sandswept.Buffs
+{
     public class Charged : BuffBase<Charged>
     {
         public override string BuffName => "Charged";
@@ -14,8 +15,10 @@ namespace Sandswept.Buffs {
         public override void Init()
         {
             base.Init();
-            RecalculateStatsAPI.GetStatCoefficients += (body, args) => {
-                if (NetworkServer.active && body) {
+            RecalculateStatsAPI.GetStatCoefficients += (body, args) =>
+            {
+                if (NetworkServer.active && body)
+                {
                     args.attackSpeedMultAdd += 0.025f * body.GetBuffCount(BuffDef);
                 }
             };

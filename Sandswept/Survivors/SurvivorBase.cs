@@ -1,14 +1,19 @@
 using System;
 
-namespace Sandswept.Survivors {
-    public abstract class SurvivorBase<T> : SurvivorBase where T : SurvivorBase<T> {
+namespace Sandswept.Survivors
+{
+    public abstract class SurvivorBase<T> : SurvivorBase where T : SurvivorBase<T>
+    {
         public static T instance;
-        public SurvivorBase() {
+
+        public SurvivorBase()
+        {
             instance = this as T;
         }
     }
 
-    public abstract class SurvivorBase : IConfigurable {
+    public abstract class SurvivorBase : IConfigurable
+    {
         public abstract string Name { get; }
         public abstract string Description { get; }
         public abstract string Subtitle { get; }
@@ -18,7 +23,8 @@ namespace Sandswept.Survivors {
         public GameObject Master;
         public SurvivorDef SurvivorDef;
 
-        public virtual void Init() {
+        public virtual void Init()
+        {
             LoadAssets();
             CreateLang();
 
@@ -27,11 +33,12 @@ namespace Sandswept.Survivors {
             ContentAddition.AddSurvivorDef(SurvivorDef);
         }
 
-        public virtual void LoadAssets() {
-            
+        public virtual void LoadAssets()
+        {
         }
 
-        public void CreateLang() {
+        public void CreateLang()
+        {
             CharacterBody body = Body.GetComponent<CharacterBody>();
             body.baseNameToken.Add(Name);
             body.subtitleNameToken.Add(Subtitle);
@@ -70,12 +77,15 @@ namespace Sandswept.Survivors {
             }
         }
 
-        public void ReplaceSkills(GenericSkill slot, SkillDef[] skills) {
+        public void ReplaceSkills(GenericSkill slot, SkillDef[] skills)
+        {
             SkillFamily family = ScriptableObject.CreateInstance<SkillFamily>();
             (family as ScriptableObject).name = slot.skillName ?? "default";
             List<SkillFamily.Variant> variants = new();
-            foreach (SkillDef skill in skills) {
-                variants.Add(new SkillFamily.Variant {
+            foreach (SkillDef skill in skills)
+            {
+                variants.Add(new SkillFamily.Variant
+                {
                     skillDef = skill,
                     viewableNode = new(skill.skillNameToken, false, null)
                 });
@@ -85,7 +95,8 @@ namespace Sandswept.Survivors {
             ContentAddition.AddSkillFamily(family);
         }
 
-        public string GetConfigName() {
+        public string GetConfigName()
+        {
             return Name;
         }
     }
