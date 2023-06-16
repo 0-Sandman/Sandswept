@@ -16,10 +16,5 @@ namespace Sandswept.Skills.Ranger {
         public override Sprite Icon => null;
         public override string[] Keywords => new string[] { Utils.Keywords.Charged };
         public override bool Agile => true;
-
-        public override void CreateSkillDef()
-        {
-            skillDef = ScriptableObject.CreateInstance<ChargedSkillDef>();
-        }
     }
 }

@@ -41,6 +41,13 @@ namespace Sandswept.States.Ranger {
                     characterBody.AddBuff(Buffs.Charged.instance.BuffDef);
                 }
 
+                if (totalHit >= 2) {
+                    GenericSkill util = base.skillLocator.utility;
+                    if (util && util.skillDef == Skills.Ranger.Sidestep.instance.skillDef) {
+                        util.rechargeStopwatch += 1f;
+                    }
+                }
+
                 outer.SetNextStateToMain();
             }
         }

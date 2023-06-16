@@ -14,8 +14,8 @@ namespace Sandswept.States.Ranger {
             SkillLocator locator = base.skillLocator;
             locator.primary.SetSkillOverride(base.gameObject, PrimarySkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.secondary.SetSkillOverride(base.gameObject, HeatSkill, GenericSkill.SkillOverridePriority.Contextual);
-            locator.secondary.stock = 100;
-            locator.utility.SetSkillOverride(base.gameObject, NullSkill, GenericSkill.SkillOverridePriority.Contextual);
+            locator.secondary.stock = 0;
+            // locator.utility.SetSkillOverride(base.gameObject, NullSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.SetSkillOverride(base.gameObject, CancelSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.DeductStock(1);
         }
@@ -27,7 +27,7 @@ namespace Sandswept.States.Ranger {
             SkillLocator locator = base.skillLocator;
             locator.primary.UnsetSkillOverride(base.gameObject, PrimarySkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.secondary.UnsetSkillOverride(base.gameObject, HeatSkill, GenericSkill.SkillOverridePriority.Contextual);
-            locator.utility.UnsetSkillOverride(base.gameObject, NullSkill, GenericSkill.SkillOverridePriority.Contextual);
+            // locator.utility.UnsetSkillOverride(base.gameObject, NullSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.UnsetSkillOverride(base.gameObject, CancelSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.DeductStock(1);
         }

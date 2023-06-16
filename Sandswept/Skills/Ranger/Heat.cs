@@ -11,7 +11,7 @@ namespace Sandswept.Skills.Ranger {
 
         public override string ActivationMachineName => "Sidestep";
 
-        public override float Cooldown => 20000;
+        public override float Cooldown => 0;
 
         public override Sprite Icon => null;
         public override int StockToConsume => 10000;
