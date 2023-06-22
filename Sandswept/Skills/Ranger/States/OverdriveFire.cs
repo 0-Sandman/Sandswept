@@ -6,23 +6,22 @@ namespace Sandswept.States.Ranger {
         public static float DamageCoeff = 2f;
         public static float SelfDamageCoeff = 0.1f;
         public static float ProcCoeff = 1f;
-        public static int HeatPerSecond = 20;
         public static GameObject TracerEffect => Utils.Assets.GameObject.TracerCommandoShotgun;
-
         private float shots;
         private float shotDelay => 1f / shots;
         private float stopwatch = 0f;
-
-        private GenericSkill heat;
+        private Components.RangerHeatManager heat;
 
         public override void OnEnter()
         {
             base.OnEnter();
-            heat = base.skillLocator.secondary;
             shots = ShotsPerSecond * base.attackSpeedStat;
+            heat = GetComponent<Components.RangerHeatManager>();
+            heat.isFiring = true;
         }
 
         public void Exit() {
+            heat.isFiring = false;
             outer.SetNextStateToMain();
         }
 
@@ -42,28 +41,15 @@ namespace Sandswept.States.Ranger {
                 FireShot();
             }
 
-            base.fixedAge += Time.fixedDeltaTime;
-            if (base.fixedAge >= (1f / HeatPerSecond)) {
-                base.fixedAge = 0f;
-                if (base.inputBank.skill1.down) {
-                    heat.stock += 1;
-                    if (heat.stock > 200) {
-                        heat.stock = 200;
-                    }
-                }
-                else {
-                    heat.stock -= 1;
-                    if (heat.stock < 0) {
-                        heat.stock = 0;
-                    }
-                }
+            if (!base.inputBank.skill1.down) {
+                Exit();
             }
         }
 
         public void FireShot() {
             AkSoundEngine.PostEvent(Events.Play_commando_M2, base.gameObject);
 
-            if (heat.stock > 100) {
+            if (heat.IsOverheating) {
                 DamageInfo info = new();
                 info.attacker = base.gameObject;
                 info.procCoefficient = 0;
@@ -89,7 +75,7 @@ namespace Sandswept.States.Ranger {
             attack.isCrit = base.RollCrit();
             attack.damageType = DamageType.Generic;
             attack.owner = base.gameObject;
-            attack.muzzleName = "MuzzleR";
+            attack.muzzleName = "Muzzle";
             attack.origin = base.GetAimRay().origin;
             attack.tracerEffectPrefab = TracerEffect;
             attack.procCoefficient = ProcCoeff;

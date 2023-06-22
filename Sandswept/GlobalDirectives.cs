@@ -15,3 +15,4 @@ global using Object = UnityEngine.Object;
 global using UnityEngine.Networking;
 global using BepInEx.Configuration;
 global using static R2API.RecalculateStatsAPI;
+global using Assets = Sandswept.Utils.Assets;

@@ -9,11 +9,11 @@ namespace Sandswept.Skills.Ranger {
 
         public override Type ActivationStateType => typeof(States.Ranger.Sidestep);
 
-        public override string ActivationMachineName => "Sidestep";
+        public override string ActivationMachineName => "Dash";
 
         public override float Cooldown => 5;
 
-        public override Sprite Icon => null;
+        public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("Dash.png");
         public override string[] Keywords => new string[] { Utils.Keywords.Charged };
         public override bool Agile => true;
     }

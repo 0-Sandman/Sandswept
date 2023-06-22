@@ -13,7 +13,7 @@ namespace Sandswept.Skills.Ranger {
 
         public override float Cooldown => 0;
 
-        public override Sprite Icon => null;
+        public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("Pew.png");
         public override int StockToConsume => 0;
     }
 }

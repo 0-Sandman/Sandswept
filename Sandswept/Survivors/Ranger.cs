@@ -18,56 +18,21 @@ namespace Sandswept.Survivors
         {
             base.LoadAssets();
 
-            Body = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.CommandoBody, "RangerBody");
+            Body = Main.Assets.LoadAsset<GameObject>("RangerBody.prefab");
             Master = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.CommandoMonsterMaster, "RangerMaster");
 
-            GameObject DisplayPrefab = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.CommandoDisplay, "RangerDisplay", false);
+            Body.GetComponent<CameraTargetParams>().cameraParams = Assets.CharacterCameraParams.ccpStandard;
 
-            ModelSkinController controller = DisplayPrefab.GetComponentInChildren<ModelSkinController>();
-            if (controller)
-            {
-                GameObject.Destroy(controller);
-            }
-
-            controller = Body.GetComponentInChildren<ModelSkinController>();
-            if (controller)
-            {
-                GameObject.Destroy(controller);
-            }
-
-            CharacterBody body = Body.GetComponent<CharacterBody>();
-            body.baseNameToken = "SANDSWEPT_SURVIVOR_RANGER_NAME";
-            body.subtitleNameToken = "SANDSWEPT_SURVIVOR_RANGER_SUBTITLE";
-            body.portraitIcon = null;
-            body.bodyColor = Color.cyan;
-
-            CharacterMaster master = Master.GetComponent<CharacterMaster>();
-            master.bodyPrefab = Body;
-
-            SurvivorDef = ScriptableObject.CreateInstance<SurvivorDef>();
-            (SurvivorDef as ScriptableObject).name = "sdRanger";
-            SurvivorDef.bodyPrefab = Body;
-            SurvivorDef.descriptionToken = "SANDSWEPT_SURVIVOR_RANGER_DESCRIPTION";
-            SurvivorDef.outroFlavorToken = "SANDSWEPT_SURVIVOR_RANGER_OUTRO";
-            SurvivorDef.mainEndingEscapeFailureFlavorToken = "SANDSWEPT_SURVIVOR_RANGER_FAIL";
-            SurvivorDef.displayPrefab = DisplayPrefab;
-            SurvivorDef.displayNameToken = body.baseNameToken;
-            SurvivorDef.desiredSortPosition = 20;
-
-            SwapMaterials(Body, Utils.Assets.Material.matVoidBubble, true);
-            SwapMaterials(DisplayPrefab, Utils.Assets.Material.matVoidBubble, true);
-
-            SerializableEntityStateType idle = new(typeof(Idle));
-
-            AddESM(Body, "Overdrive", idle);
-            AddESM(Body, "Sidestep", idle);
+            SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdRanger.asset");
 
             SkillLocator locator = Body.GetComponent<SkillLocator>();
-            Debug.Log(Skills.Ranger.OverdriveEnter.instance == null);
             ReplaceSkills(locator.primary, new SkillDef[] { Skills.Ranger.PewPew.instance.skillDef });
             ReplaceSkills(locator.secondary, new SkillDef[] { Skills.Ranger.Blast.instance.skillDef });
             ReplaceSkills(locator.utility, new SkillDef[] { Skills.Ranger.Sidestep.instance.skillDef });
             ReplaceSkills(locator.special, new SkillDef[] { Skills.Ranger.OverdriveEnter.instance.skillDef });
+
+            "SS_RANGER_PASSIVE_NAME".Add("Power Surge");
+            "SS_RANGER_PASSIVE_DESC".Add("Gain 2.5% attack speed for each stack of Charge currently held. Charge stacks have a max cap of 10");
         }
     }
 }

@@ -31,6 +31,7 @@ namespace Sandswept
         public const string ModVer = "0.0.1";
 
         public static AssetBundle MainAssets;
+        public static AssetBundle Assets;
 
         public static Dictionary<string, string> ShaderLookup = new Dictionary<string, string>
     {
@@ -74,6 +75,8 @@ namespace Sandswept
             {
                 MainAssets = AssetBundle.LoadFromStream(stream);
             }
+
+            Assets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweptassets2"));
 
             SwapAllShaders(MainAssets);
             DamageColourHelper.Init();

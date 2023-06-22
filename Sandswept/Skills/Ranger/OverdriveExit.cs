@@ -13,7 +13,7 @@ namespace Sandswept.Skills.Ranger {
 
         public override float Cooldown => 2;
 
-        public override Sprite Icon => null;
+        public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("OverheatPrimary.png");
         public override InterruptPriority InterruptPriority => InterruptPriority.PrioritySkill;
 
         public override void Init()
