@@ -124,9 +124,8 @@ namespace Sandswept.Items.Whites
             public void Start() {
                 info = new();
                 info.enabled = false;
-                info.color = Color.grey;
                 info.imageType = Image.Type.Tiled;
-                info.sprite = sprite;
+                info.color = new Color32(255, 105, 95, 200);
             }
         }
 
