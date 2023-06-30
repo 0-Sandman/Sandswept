@@ -1,6 +1,7 @@
 using System;
 
-namespace Sandswept.Skills.Ranger {
+namespace Sandswept.Skills.Ranger
+{
     public class OverdriveFire : SkillBase<OverdriveFire>
     {
         public override string Name => "Gun Go Brrrrr";
@@ -11,7 +12,7 @@ namespace Sandswept.Skills.Ranger {
 
         public override string ActivationMachineName => "Weapon";
 
-        public override float Cooldown => 0;
+        public override float Cooldown => 0f;
 
         public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("Pew.png");
         public override int StockToConsume => 0;

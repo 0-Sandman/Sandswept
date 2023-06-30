@@ -126,6 +126,7 @@ namespace Sandswept.Elites
         public static readonly SphereSearch sphereSearch = new();
         public static readonly List<HurtBox> hurtBoxBuffer = new();
         public static List<MotivatorController> motivatorControllers = new();
+        public GameObject warbannerOffset = new("Motivator Warbanner Offset");
 
         public void Start()
         {
@@ -136,11 +137,12 @@ namespace Sandswept.Elites
                 warbannerRadius += body.radius;
                 onHitRadius += body.radius;
             }
-
+            warbannerOffset.transform.parent = gameObject.transform;
+            warbannerOffset.transform.localPosition = new Vector3(0f, 2.5f, 0f) * body.radius;
             warbannerInstance = Instantiate(warbannerPrefab, body.transform.position, Quaternion.identity);
             warbannerInstance.GetComponent<TeamFilter>().teamIndex = body.teamComponent.teamIndex;
             warbannerInstance.GetComponent<BuffWard>().Networkradius = warbannerRadius;
-            warbannerInstance.GetComponent<NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(gameObject);
+            warbannerInstance.GetComponent<NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(warbannerOffset);
 
             motivatorControllers.Add(this);
         }

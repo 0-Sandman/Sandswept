@@ -1,10 +1,13 @@
 using System.Text.RegularExpressions;
 using System;
 
-namespace Sandswept.States.Ranger {
-    public class OverdriveEnter : BaseState {
+namespace Sandswept.States.Ranger
+{
+    public class OverdriveEnter : BaseState
+    {
         public static SkillDef PrimarySkill => Skills.Ranger.OverdriveFire.instance.skillDef;
         public static SkillDef CancelSkill => Skills.Ranger.OverdriveExit.instance.skillDef;
+
         public override void OnEnter()
         {
             base.OnEnter();
@@ -32,17 +35,20 @@ namespace Sandswept.States.Ranger {
             return InterruptPriority.PrioritySkill;
         }
 
-        public void Exit() {
+        public void Exit()
+        {
             outer.SetNextStateToMain();
         }
     }
 
-    public class OverdriveExit : BaseState { 
+    public class OverdriveExit : BaseState
+    {
         public override void OnEnter()
         {
             base.OnEnter();
             EntityStateMachine machine = EntityStateMachine.FindByCustomName(base.gameObject, "Overdrive");
-            if (machine.state is OverdriveEnter) {
+            if (machine.state is OverdriveEnter)
+            {
                 (machine.state as OverdriveEnter).Exit();
             }
             outer.SetNextStateToMain();
