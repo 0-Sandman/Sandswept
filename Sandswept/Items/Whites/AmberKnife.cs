@@ -2,6 +2,7 @@
 using UnityEngine.Events;
 using static Sandswept.Utils.Components.MaterialControllerComponents;
 
+// ss2 ahh code
 namespace Sandswept.Items.Whites
 {
     public class AmberKnife : ItemBase<AmberKnife>
@@ -35,6 +36,7 @@ namespace Sandswept.Items.Whites
         public override void Init(ConfigFile config)
         {
             amberKnifeGhost = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Bandit2/Bandit2ShivGhostAlt.prefab").WaitForCompletion(), "Amber Knife Ghost", false);
+            AmberKnifeProjectile.impactSpark = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/OmniImpactVFXLarge.prefab").WaitForCompletion();
 
             amberKnifeGhost.transform.localScale = new Vector3(2f, 2f, 2f);
             /*
@@ -50,6 +52,7 @@ namespace Sandswept.Items.Whites
 
             var rigidBody = amberKnifeProjectile.GetComponent<Rigidbody>();
             rigidBody.useGravity = false;
+            rigidBody.freezeRotation = true;
 
             var sphereCollider = amberKnifeProjectile.GetComponent<SphereCollider>();
             sphereCollider.material = Addressables.LoadAssetAsync<PhysicMaterial>("RoR2/Base/Common/physmatDefault.physicMaterial").WaitForCompletion();
@@ -58,13 +61,10 @@ namespace Sandswept.Items.Whites
             projectileDamage.damageType = DamageType.Generic;
 
             amberKnifeProjectile.RemoveComponent<ProjectileSingleTargetImpact>();
-            // amberKnifeProjectile.RemoveComponent<ProjectileStickOnImpact>();
+            amberKnifeProjectile.RemoveComponent<ProjectileStickOnImpact>();
 
-            var projectileStickOnImpact = amberKnifeProjectile.GetComponent<ProjectileStickOnImpact>();
-            projectileStickOnImpact.ignoreCharacters = true;
-
-            // amberKnifeProjectile.RemoveComponent<DelayedEvent>();
-            // amberKnifeProjectile.RemoveComponent<EventFunctions>();
+            amberKnifeProjectile.RemoveComponent<DelayedEvent>();
+            amberKnifeProjectile.RemoveComponent<EventFunctions>();
 
             var hitBox = amberKnifeProjectile.AddComponent<HitBox>();
 
@@ -75,13 +75,14 @@ namespace Sandswept.Items.Whites
             projectileOverlapAttack.damageCoefficient = 1f;
             projectileOverlapAttack.impactEffect = null; // change this probably
             projectileOverlapAttack.forceVector = Vector3.zero;
-            UnityGames.AddListener(OnServerHit);
 
             // amberKnifeProjectile.transform.localScale = new Vector3(2f, 2f, 2f);
 
             var projectileController = amberKnifeProjectile.GetComponent<ProjectileController>();
 
             projectileController.ghostPrefab = amberKnifeGhost;
+
+            amberKnifeProjectile.AddComponent<AmberKnifeProjectile>();
 
             PrefabAPI.RegisterNetworkPrefab(amberKnifeProjectile);
 
@@ -99,11 +100,13 @@ namespace Sandswept.Items.Whites
             material.SetFloat("_FresnelBoost", 2.5f);
             material.EnableKeyword("FRESNEL_EMISSION");
             renderer.material = material;
+
             CreateLang();
             CreateItem();
             Hooks();
         }
 
+        /*
         public void OnServerHit()
         {
             // what the fuck it doesn't work I love unity
@@ -125,6 +128,7 @@ namespace Sandswept.Items.Whites
                 }
             }
         }
+        */
 
         public override void Hooks()
         {
@@ -149,21 +153,29 @@ namespace Sandswept.Items.Whites
             var knifeDamage = 1.2f * stack;
             if (stack > 0)
             {
-                if (!report.damageInfo.procChainMask.HasProc(amberKnife) && Util.CheckRoll(10f, master))
+                if (!report.damageInfo.procChainMask.HasProc(amberKnife))
                 {
-                    var fpi = new FireProjectileInfo()
+                    if (Util.CheckRoll(10f, master))
                     {
-                        damage = attackerBody.damage * knifeDamage,
-                        crit = attackerBody.RollCrit(),
-                        position = attackerBody.inputBank.GetAimRay().origin,
-                        rotation = Util.QuaternionSafeLookRotation(attackerBody.inputBank.GetAimRay().direction),
-                        force = 500f,
-                        owner = attackerBody.gameObject,
-                        procChainMask = default,
-                        projectilePrefab = amberKnifeProjectile
-                    };
-                    report.damageInfo.procChainMask.AddProc(amberKnife);
-                    ProjectileManager.instance.FireProjectile(fpi);
+                        var fpi = new FireProjectileInfo()
+                        {
+                            damage = attackerBody.damage * knifeDamage,
+                            crit = attackerBody.RollCrit(),
+                            position = attackerBody.inputBank.GetAimRay().origin,
+                            rotation = Util.QuaternionSafeLookRotation(attackerBody.inputBank.GetAimRay().direction),
+                            force = 0f,
+                            owner = attackerBody.gameObject,
+                            procChainMask = default,
+                            projectilePrefab = amberKnifeProjectile
+                        };
+                        report.damageInfo.procChainMask.AddProc(amberKnife);
+                        fpi.projectilePrefab.GetComponent<AmberKnifeProjectile>().owner = attackerBody;
+                        ProjectileManager.instance.FireProjectile(fpi);
+                    }
+                }
+                else
+                {
+                    report.damageInfo.damageColorIndex = DamageColorIndex.SuperBleed;
                 }
             }
         }
@@ -171,6 +183,39 @@ namespace Sandswept.Items.Whites
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
+        }
+
+        public class AmberKnifeProjectile : NetworkBehaviour, IProjectileImpactBehavior
+        {
+            public static GameObject impactSpark;
+
+            public CharacterBody owner;
+
+            public float stopwatch = 0;
+
+            public void FixedUpdate()
+            {
+                if (!NetworkServer.active) return;
+                GetComponent<Rigidbody>().velocity = transform.forward.normalized * 40f;
+                stopwatch += Time.fixedDeltaTime;
+                if (stopwatch > 10) Object.Destroy(base.gameObject);
+            }
+
+            public void OnProjectileImpact(ProjectileImpactInfo impactInfo)
+            {
+                if (!impactInfo.collider.GetComponent<HurtBox>())
+                {
+                    Object.Destroy(base.gameObject);
+                    return;
+                }
+                Physics.IgnoreCollision(GetComponent<Collider>(), impactInfo.collider);
+                EffectManager.SimpleImpactEffect(impactSpark, impactInfo.estimatedPointOfImpact, -base.transform.forward, transmit: true);
+                if ((bool)owner)
+                {
+                    owner.healthComponent.AddBarrier(10f);
+                    owner.healthComponent.AddBarrier(owner.healthComponent.fullHealth * 0.02f);
+                }
+            }
         }
     }
 }

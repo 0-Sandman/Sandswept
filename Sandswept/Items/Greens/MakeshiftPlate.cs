@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using MonoMod.RuntimeDetour;
 using System.Reflection;
 
-namespace Sandswept.Items.Whites
+namespace Sandswept.Items.Greens
 {
     public class MakeshiftPlate : ItemBase<MakeshiftPlate>
     {

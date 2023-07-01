@@ -1,6 +1,8 @@
 using System.Linq;
-using HarmonyLib;
+using HG;
+using TMPro;
 
+// ay are we sure this a red? this feels very underwhelming esp. in single stack
 namespace Sandswept.Items.Reds
 {
     public class CeremonialJar : ItemBase<CeremonialJar>
@@ -56,6 +58,8 @@ namespace Sandswept.Items.Reds
 
         public static BuffDef CeremonialCooldown;
 
+        public static GameObject JarVFX;
+
         public static DamageAPI.ModdedDamageType jarDamageType;
 
         public static DamageColorIndex jarDamageColour = DamageColourHelper.RegisterDamageColor(new Color32(0, 255, 204, 255));
@@ -83,9 +87,65 @@ namespace Sandswept.Items.Reds
         public override void Init(ConfigFile config)
         {
             jarDamageType = DamageAPI.ReserveDamageType();
+
+            // full on 6hr code incoming
+
+            JarVFX = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Nullifier/NullifyStack3Effect.prefab").WaitForCompletion().InstantiateClone("CeremonialJarEffect", false);
+            JarVFX.name = "CeremonialJarEffect";
+
+            Object.Destroy(JarVFX.transform.Find("Visual").Find("Stack 2").gameObject);
+            Object.Destroy(JarVFX.transform.Find("Visual").Find("Stack 3").gameObject);
+            GameObject stack = JarVFX.transform.Find("Visual").Find("Stack 1").gameObject;
+            stack.name = "Donuts";
+            stack.GetComponent<MeshFilter>().mesh = Main.Asset2s.LoadAsset<Mesh>("assets/jardonuts.obj");
+            ObjectScaleCurve osc = stack.AddComponent<ObjectScaleCurve>();
+            osc.enabled = false;
+            AnimationCurve curve = new();
+            curve.AddKey(0, 1);
+            curve.keys[0].inTangent = 4;
+            curve.keys[0].outTangent = 4;
+            curve.AddKey(0.5f, 4);
+            curve.keys[1].inTangent = 0;
+            curve.keys[1].outTangent = 0;
+            osc.curveX = curve;
+            osc.curveY = curve;
+            osc.curveZ = curve;
+            osc.overallCurve = curve;
+            Object.Destroy(stack.GetComponent<AnimateShaderAlpha>());
+            GuhAlpha guh = stack.AddComponent<GuhAlpha>();
+            AnimationCurve curve2 = new();
+            curve2.AddKey(0, 1);
+            curve2.AddKey(0.5f, 0);
+            guh.alphaCurve = curve2;
+            guh.timeMax = 0.5f;
+            guh.destroyOnEnd = true;
+            guh.enabled = false;
+            Material mat = Object.Instantiate(stack.GetComponent<MeshRenderer>().material);
+            mat.name = "matJarDonuts";
+            mat.SetTexture("_RemapTex", Main.Asset2s.LoadAsset<Texture2D>("assets/jarramp.png"));
+            stack.GetComponent<MeshRenderer>().material = mat;
+
+            GameObject parts = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/LevelUpEffect.prefab").WaitForCompletion().transform.Find("Dust Explosion").gameObject);
+            parts.name = "Particles";
+            Color c_sandsweep = new Color(0.1333f, 1f, 0.5f, 1f);
+            ParticleSystem ps = parts.GetComponent<ParticleSystem>();
+            ps.colorOverLifetime.color.gradient.colorKeys[0].color = c_sandsweep;
+            ps.colorOverLifetime.color.gradientMax.colorKeys[0].color = c_sandsweep;
+            ps.loop = true;
+            ps.gravityModifier = 0.2f;
+            ps.emissionRate = 20;
+            ps.maxParticles = 20;
+            parts.transform.localScale *= 0.75f;
+            parts.transform.Translate(0f, 0f, -2f);
+            parts.transform.parent = JarVFX.transform;
+
+            // JarVFX.AddComponent<EffectComponent>().applyScale = true;
+            // Main.EffectPrefabs.Add(JarVFX);
+
             CreateLang();
             CreateItem();
             CreateBuff();
+            Hooks();
         }
 
         public override void Hooks()
@@ -93,6 +153,7 @@ namespace Sandswept.Items.Reds
             On.RoR2.GlobalEventManager.OnHitEnemy += BuffApply;
             On.RoR2.CharacterBody.AddTimedBuff_BuffDef_float_int += BuffCheck;
             On.RoR2.CharacterBody.OnDeathStart += DeathRemove;
+            On.RoR2.CharacterBody.UpdateAllTemporaryVisualEffects += UpdateVFX;
         }
 
         public void CreateBuff()
@@ -100,10 +161,10 @@ namespace Sandswept.Items.Reds
             CeremonialDef = ScriptableObject.CreateInstance<BuffDef>();
             CeremonialDef.name = "Linked";
             CeremonialDef.canStack = false;
-            CeremonialDef.isDebuff = false;
+            CeremonialDef.isDebuff = true;
             CeremonialDef.iconSprite = Main.MainAssets.LoadAsset<Sprite>("LinkedIcon.png");
             ContentAddition.AddBuffDef(CeremonialDef);
-            BuffCatalog.buffDefs.AddItem(CeremonialDef);
+            // BuffCatalog.buffDefs.AddItem(CeremonialDef);
 
             CeremonialCooldown = ScriptableObject.CreateInstance<BuffDef>();
             CeremonialCooldown.name = "Cleansed";
@@ -113,6 +174,7 @@ namespace Sandswept.Items.Reds
             CeremonialCooldown.isCooldown = true;
             CeremonialCooldown.iconSprite = Main.MainAssets.LoadAsset<Sprite>("Cleansed.png");
             ContentAddition.AddBuffDef(CeremonialCooldown);
+            // BuffCatalog.buffDefs.AddItem(CeremonialCooldown);
         }
 
         private void DeathRemove(On.RoR2.CharacterBody.orig_OnDeathStart orig, CharacterBody self)
@@ -127,6 +189,7 @@ namespace Sandswept.Items.Reds
 
         private void BuffCheck(On.RoR2.CharacterBody.orig_AddTimedBuff_BuffDef_float_int orig, CharacterBody self, BuffDef buffDef, float duration, int maxStacks)
         {
+            orig(self, buffDef, duration, maxStacks);
             if (buffDef == CeremonialDef)
             {
                 var token = GetToken(self);
@@ -135,8 +198,9 @@ namespace Sandswept.Items.Reds
 
                 if (list.Contains(self))
                 {
-                    if (AppliedBuff[self.teamComponent.teamIndex].Count == 3)
+                    if (AppliedBuff[self.teamComponent.teamIndex].Count >= 3)
                     {
+                        UpdateVFX((_) => { }, self); // final enemy have vfx as well
                         foreach (CharacterBody body in AppliedBuff[self.teamComponent.teamIndex].Select((x) => x.body))
                         {
                             var stacks = GetCount(attacker);
@@ -154,12 +218,24 @@ namespace Sandswept.Items.Reds
                                 damageType = DamageType.Silent
                             };
                             body.healthComponent.TakeDamage(extraDamageInfo);
+
+                            EffectManager.SpawnEffect(GlobalEventManager.CommonAssets.igniteOnKillExplosionEffectPrefab, new EffectData
+                            {
+                                origin = body.corePosition,
+                                scale = body.radius * 2
+                            }, transmit: false);
+                            if (!JarVFXList.ContainsKey(body) || !(bool)JarVFXList[body]) continue;
+                            GameObject _JarVFX = JarVFXList[body].gameObject;
+                            GameObject stack = _JarVFX.transform.Find("Visual").Find("Donuts").gameObject;
+                            ArrayUtils.ArrayAppend(ref _JarVFX.GetComponent<TemporaryVisualEffect>().exitComponents, stack.GetComponent<GuhAlpha>());
+                            ArrayUtils.ArrayAppend(ref _JarVFX.GetComponent<TemporaryVisualEffect>().exitComponents, stack.GetComponent<ObjectScaleCurve>());
+                            _JarVFX.transform.Find("Particles").gameObject.SetActive(false);
+                            _JarVFX.GetComponent<DestroyOnTimer>().duration = 0.5f;
                         }
                         AppliedBuff[self.teamComponent.teamIndex].RemoveAll((x) => x.body);
                     }
                 }
             }
-            orig(self, buffDef, duration, maxStacks);
         }
 
         private void BuffApply(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
@@ -203,6 +279,44 @@ namespace Sandswept.Items.Reds
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
+        }
+
+        private Dictionary<CharacterBody, TemporaryVisualEffect> JarVFXList = new();
+        public void UpdateVFX(On.RoR2.CharacterBody.orig_UpdateAllTemporaryVisualEffects orig, CharacterBody self)
+        {
+            orig(self);
+            TemporaryVisualEffect _JarVFX;
+            if (JarVFXList.ContainsKey(self)) _JarVFX = JarVFXList[self];
+            else _JarVFX = new();
+            self.UpdateSingleTemporaryVisualEffect(ref _JarVFX, JarVFX, self.radius, self.HasBuff(CeremonialDef));
+            if (!self.HasBuff(CeremonialDef)) return;
+            ParticleSystem ps = _JarVFX.transform.Find("Particles").GetComponent<ParticleSystem>();
+            ps.maxParticles = (int)(ps.maxParticles * self.radius);
+            ps.emissionRate *= self.radius;
+            JarVFXList[self] = _JarVFX;
+        }
+
+        public class GuhAlpha : AnimateShaderAlpha
+        {
+            private void Update()
+            {
+                if (!pauseTime) time = Mathf.Min(timeMax, time + Time.deltaTime);
+                float num = alphaCurve.Evaluate(time / timeMax);
+                Material[] array = materials;
+                for (int i = 0; i < array.Length; i++)
+                {
+                    _ = array[i];
+                    _propBlock = new MaterialPropertyBlock();
+                    targetRenderer.GetPropertyBlock(_propBlock);
+                    _propBlock.SetColor("_TintColor", Color.white.AlphaMultiplied(num));
+                    targetRenderer.SetPropertyBlock(_propBlock);
+                }
+                if (time >= timeMax)
+                {
+                    if (disableOnEnd) enabled = false;
+                    if (destroyOnEnd) Destroy(gameObject);
+                }
+            }
         }
     }
 }
