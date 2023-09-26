@@ -1,5 +1,8 @@
-﻿using static Sandswept.Utils.Components.MaterialControllerComponents;
+﻿using RoR2.EntityLogic;
+using UnityEngine.Events;
+using static Sandswept.Utils.Components.MaterialControllerComponents;
 
+// ss2 ahh code
 namespace Sandswept.Items.Whites
 {
     public class AmberKnife : ItemBase<AmberKnife>
@@ -10,7 +13,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "'Critical Strikes' give temporary barrier.";
 
-        public override string ItemFullDescription => StringExtensions.AutoFormat("Gain $sd5%$se $ss(+5% per stack)$se $sdcritical chance$se. $sdCritical Strikes$se give a $shtemporary barrier$se for $sh10$se $ss(+5 per stack)$se $shhealth$se.");
+        public override string ItemFullDescription => StringExtensions.AutoFormat("Gain a $sd10%$se chance on hit to fire a $sdknife$se for $sd120%$se $ss(+120% per stack)$se base damage that $sdpierces$se, gain $sh10$se plus an additional $sh2% barrier$se for every pierce with the knife.");
 
         public override string ItemLore => "";
 
@@ -20,8 +23,69 @@ namespace Sandswept.Items.Whites
 
         public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("AmberKnifeIcon.png");
 
+        public static ProcType amberKnife = (ProcType)12785281;
+
+        public static GameObject amberKnifeProjectile;
+        public static GameObject amberKnifeGhost;
+
+        public UnityEvent UnityGames = new();
+        public static ProjectileOverlapAttack projectileOverlapAttack;
+
+        // why tf does it bounce so oddly
+        // also the unity event doesnt work bruhhhh
         public override void Init(ConfigFile config)
         {
+            amberKnifeGhost = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Bandit2/Bandit2ShivGhostAlt.prefab").WaitForCompletion(), "Amber Knife Ghost", false);
+            AmberKnifeProjectile.impactSpark = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/OmniImpactVFXLarge.prefab").WaitForCompletion();
+
+            amberKnifeGhost.transform.localScale = new Vector3(2f, 2f, 2f);
+            /*
+            var mesh = amberKnifeProjectile.transform.GetChild(0);
+
+            var mf = mesh.GetComponent<MeshFilter>(); // couldnt resist naming it mf
+            mf.mesh = Addressables.LoadAssetAsync<Mesh>("").WaitForCompletion();
+
+            var meshRenderer = mesh.GetComponent<MeshRenderer>();
+            meshRenderer.material = Addressables.LoadAssetAsync<Material>("RoR2/Base/Bandit2/matBandit2Knife.mat").WaitForCompletion();
+            */
+            amberKnifeProjectile = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Bandit2/Bandit2ShivProjectile.prefab").WaitForCompletion(), "Amber Knife Projectile", true);
+
+            var rigidBody = amberKnifeProjectile.GetComponent<Rigidbody>();
+            rigidBody.useGravity = false;
+            rigidBody.freezeRotation = true;
+
+            var sphereCollider = amberKnifeProjectile.GetComponent<SphereCollider>();
+            sphereCollider.material = Addressables.LoadAssetAsync<PhysicMaterial>("RoR2/Base/Common/physmatDefault.physicMaterial").WaitForCompletion();
+
+            var projectileDamage = amberKnifeProjectile.GetComponent<ProjectileDamage>();
+            projectileDamage.damageType = DamageType.Generic;
+
+            amberKnifeProjectile.RemoveComponent<ProjectileSingleTargetImpact>();
+            amberKnifeProjectile.RemoveComponent<ProjectileStickOnImpact>();
+
+            amberKnifeProjectile.RemoveComponent<DelayedEvent>();
+            amberKnifeProjectile.RemoveComponent<EventFunctions>();
+
+            var hitBox = amberKnifeProjectile.AddComponent<HitBox>();
+
+            var hitBoxGroup = amberKnifeProjectile.AddComponent<HitBoxGroup>();
+            hitBoxGroup.hitBoxes = new HitBox[] { hitBox };
+
+            projectileOverlapAttack = amberKnifeProjectile.AddComponent<ProjectileOverlapAttack>();
+            projectileOverlapAttack.damageCoefficient = 1f;
+            projectileOverlapAttack.impactEffect = null; // change this probably
+            projectileOverlapAttack.forceVector = Vector3.zero;
+
+            // amberKnifeProjectile.transform.localScale = new Vector3(2f, 2f, 2f);
+
+            var projectileController = amberKnifeProjectile.GetComponent<ProjectileController>();
+
+            projectileController.ghostPrefab = amberKnifeGhost;
+
+            amberKnifeProjectile.AddComponent<AmberKnifeProjectile>();
+
+            PrefabAPI.RegisterNetworkPrefab(amberKnifeProjectile);
+
             var component = ItemModel.transform.Find("AmberKnife").Find("Knife").gameObject;
             var renderer = component.GetComponent<MeshRenderer>();
             var controller = component.AddComponent<HGStandardController>();
@@ -36,56 +100,122 @@ namespace Sandswept.Items.Whites
             material.SetFloat("_FresnelBoost", 2.5f);
             material.EnableKeyword("FRESNEL_EMISSION");
             renderer.material = material;
+
             CreateLang();
             CreateItem();
             Hooks();
         }
 
+        /*
+        public void OnServerHit()
+        {
+            // what the fuck it doesn't work I love unity
+            Main.ModLogger.LogError("projectile overlap attack is " + projectileOverlapAttack);
+            Main.ModLogger.LogError("unity games is " + UnityGames);
+            if (projectileOverlapAttack && UnityGames != null)
+            {
+                var owner = projectileOverlapAttack.projectileController.owner;
+                if (owner)
+                {
+                    Main.ModLogger.LogError("owner exists, " + owner);
+                    var ownerHc = owner.GetComponent<HealthComponent>();
+                    if (ownerHc)
+                    {
+                        Main.ModLogger.LogError("owner hc exists");
+                        ownerHc.AddBarrier(10f);
+                        ownerHc.AddBarrier(ownerHc.fullCombinedHealth * 0.02f);
+                    }
+                }
+            }
+        }
+        */
+
         public override void Hooks()
         {
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
-            GetStatCoefficients += GiveCrit;
         }
 
         private void GlobalEventManager_onServerDamageDealt(DamageReport report)
         {
-            var damageInfo = report.damageInfo;
-            if (!damageInfo.crit)
-            {
-                return;
-            }
-
-            if (damageInfo.procCoefficient <= 0)
-            {
-                return;
-            }
-
             var attackerBody = report.attackerBody;
             if (!attackerBody)
             {
                 return;
             }
 
-            int stacks = GetCount(attackerBody);
-
-            if (stacks > 0)
+            var master = attackerBody.master;
+            if (!master)
             {
-                attackerBody.healthComponent.AddBarrier(5f + (5f * stacks));
+                return;
             }
-        }
 
-        public void GiveCrit(CharacterBody sender, StatHookEventArgs args)
-        {
-            int stacks = GetCount(sender);
-            if (stacks > 0)
+            var stack = GetCount(attackerBody);
+            var knifeDamage = 1.2f * stack;
+            if (stack > 0)
             {
-                args.critAdd += 5f * stacks;
+                if (!report.damageInfo.procChainMask.HasProc(amberKnife))
+                {
+                    if (Util.CheckRoll(10f, master))
+                    {
+                        var fpi = new FireProjectileInfo()
+                        {
+                            damage = attackerBody.damage * knifeDamage,
+                            crit = attackerBody.RollCrit(),
+                            position = attackerBody.inputBank.GetAimRay().origin,
+                            rotation = Util.QuaternionSafeLookRotation(attackerBody.inputBank.GetAimRay().direction),
+                            force = 0f,
+                            owner = attackerBody.gameObject,
+                            procChainMask = default,
+                            projectilePrefab = amberKnifeProjectile
+                        };
+                        report.damageInfo.procChainMask.AddProc(amberKnife);
+                        fpi.projectilePrefab.GetComponent<AmberKnifeProjectile>().owner = attackerBody;
+                        ProjectileManager.instance.FireProjectile(fpi);
+                    }
+                }
+                else
+                {
+                    report.damageInfo.damageColorIndex = DamageColorIndex.SuperBleed;
+                }
             }
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
+        }
+
+        public class AmberKnifeProjectile : NetworkBehaviour, IProjectileImpactBehavior
+        {
+            public static GameObject impactSpark;
+
+            public CharacterBody owner;
+
+            public float stopwatch = 0;
+
+            public void FixedUpdate()
+            {
+                if (!NetworkServer.active) return;
+                GetComponent<Rigidbody>().velocity = transform.forward.normalized * 40f;
+                stopwatch += Time.fixedDeltaTime;
+                if (stopwatch > 10) Object.Destroy(base.gameObject);
+            }
+
+            public void OnProjectileImpact(ProjectileImpactInfo impactInfo)
+            {
+                if (!impactInfo.collider.GetComponent<HurtBox>())
+                {
+                    Object.Destroy(base.gameObject);
+                    return;
+                }
+                Physics.IgnoreCollision(GetComponent<Collider>(), impactInfo.collider);
+                EffectManager.SimpleImpactEffect(impactSpark, impactInfo.estimatedPointOfImpact, -base.transform.forward, transmit: true);
+                if ((bool)owner)
+                {
+                    owner.healthComponent.AddBarrier(10f);
+                    owner.healthComponent.AddBarrier(owner.healthComponent.fullHealth * 0.02f);
+                }
+            }
         }
     }
 }

@@ -1,7 +1,9 @@
 using System;
 
-namespace Sandswept.States.Ranger {
-    public class OverdriveFire : BaseState {
+namespace Sandswept.States.Ranger
+{
+    public class OverdriveFire : BaseState
+    {
         public static int ShotsPerSecond = 5;
         public static float DamageCoeff = 2f;
         public static float SelfDamageCoeff = 0.1f;
@@ -20,7 +22,8 @@ namespace Sandswept.States.Ranger {
             heat.isFiring = true;
         }
 
-        public void Exit() {
+        public void Exit()
+        {
             heat.isFiring = false;
             outer.SetNextStateToMain();
         }
@@ -36,35 +39,41 @@ namespace Sandswept.States.Ranger {
 
             stopwatch += Time.fixedDeltaTime;
 
-            if (base.inputBank.skill1.down && stopwatch >= shotDelay) {
+            if (base.inputBank.skill1.down && stopwatch >= shotDelay)
+            {
                 stopwatch = 0f;
                 FireShot();
             }
 
-            if (!base.inputBank.skill1.down) {
+            if (!base.inputBank.skill1.down)
+            {
                 Exit();
             }
         }
 
-        public void FireShot() {
+        public void FireShot()
+        {
             AkSoundEngine.PostEvent(Events.Play_commando_M2, base.gameObject);
 
-            if (heat.IsOverheating) {
+            if (heat.IsOverheating)
+            {
                 DamageInfo info = new();
                 info.attacker = base.gameObject;
                 info.procCoefficient = 0;
                 info.damage = base.damageStat * SelfDamageCoeff;
                 info.crit = false;
                 info.position = base.transform.position;
-                
-                if (NetworkServer.active) {
+
+                if (NetworkServer.active)
+                {
                     healthComponent.TakeDamage(info);
                 }
 
                 AkSoundEngine.PostEvent(Events.Play_item_proc_igniteOnKill, base.gameObject);
             }
 
-            if (!base.isAuthority) {
+            if (!base.isAuthority)
+            {
                 return;
             }
 

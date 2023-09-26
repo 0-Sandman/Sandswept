@@ -1,13 +1,16 @@
 using System;
 
-namespace Sandswept.States.Ranger {
-    public class Blast : BaseState {
+namespace Sandswept.States.Ranger
+{
+    public class Blast : BaseState
+    {
         public static float DamageCoefficient = 5f;
         public static float ProcCoefficient = 1f;
         public static GameObject TracerEffect => Utils.Assets.GameObject.TracerHuntressSnipe;
         private float damageCoeff;
 
-        public override void OnEnter() {
+        public override void OnEnter()
+        {
             base.OnEnter();
             float extraDamageCoeff = characterBody.GetBuffCount(Buffs.Charged.instance.BuffDef) * 1f;
             damageCoeff = DamageCoefficient + extraDamageCoeff;
@@ -21,10 +24,12 @@ namespace Sandswept.States.Ranger {
             outer.SetNextStateToMain();
         }
 
-        public void FireShot() {
+        public void FireShot()
+        {
             AkSoundEngine.PostEvent(Events.Play_commando_M2, base.gameObject);
 
-            if (!base.isAuthority) {
+            if (!base.isAuthority)
+            {
                 return;
             }
 

@@ -32,7 +32,7 @@ namespace Sandswept.Survivors
             ReplaceSkills(locator.special, new SkillDef[] { Skills.Ranger.OverdriveEnter.instance.skillDef });
 
             "SS_RANGER_PASSIVE_NAME".Add("Power Surge");
-            "SS_RANGER_PASSIVE_DESC".Add("Gain 2.5% attack speed for each stack of Charge currently held. Charge stacks have a max cap of 10");
+            "SS_RANGER_PASSIVE_DESC".Add("Gain $sd2.5% attack speed$se for each $suCharge$se currently held. You can have up to 10 $suCharge$se.");
         }
     }
 }

@@ -16,9 +16,11 @@ namespace Sandswept.Buffs
             RecalculateStatsAPI.GetStatCoefficients += BoostDamage;
         }
 
-        public void BoostDamage(CharacterBody body, RecalculateStatsAPI.StatHookEventArgs args) {
-            if (NetworkServer.active && body.HasBuff(BuffDef)) {
-                args.damageMultAdd += 2;
+        public void BoostDamage(CharacterBody body, RecalculateStatsAPI.StatHookEventArgs args)
+        {
+            if (NetworkServer.active && body.HasBuff(BuffDef))
+            {
+                args.damageMultAdd += 2f;
             }
         }
     }

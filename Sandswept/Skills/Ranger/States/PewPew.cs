@@ -1,7 +1,9 @@
 using System;
 
-namespace Sandswept.States.Ranger {
-    public class PewPew : BaseState {
+namespace Sandswept.States.Ranger
+{
+    public class PewPew : BaseState
+    {
         public static float DamageCoefficient = 3f;
         public static float ShotDelay = 0.3f;
         public static float TotalDuration => ShotDelay * 2;
@@ -13,7 +15,8 @@ namespace Sandswept.States.Ranger {
         private float shotDelay;
         private float duration;
 
-        public override void OnEnter() {
+        public override void OnEnter()
+        {
             base.OnEnter();
             FireShot();
 
@@ -30,20 +33,24 @@ namespace Sandswept.States.Ranger {
         {
             base.FixedUpdate();
             stopwatch += Time.fixedDeltaTime;
-            if (!fired && stopwatch >= shotDelay) {
+            if (!fired && stopwatch >= shotDelay)
+            {
                 fired = true;
                 FireShot();
             }
 
-            if (base.fixedAge >= duration) {
-                
-                if (totalHit >= 2 && NetworkServer.active && characterBody.GetBuffCount(Buffs.Charged.instance.BuffDef) <= 10) {
+            if (base.fixedAge >= duration)
+            {
+                if (totalHit >= 2 && NetworkServer.active && characterBody.GetBuffCount(Buffs.Charged.instance.BuffDef) <= 10)
+                {
                     characterBody.AddBuff(Buffs.Charged.instance.BuffDef);
                 }
 
-                if (totalHit >= 2) {
+                if (totalHit >= 2)
+                {
                     GenericSkill util = base.skillLocator.utility;
-                    if (util && util.skillDef == Skills.Ranger.Sidestep.instance.skillDef) {
+                    if (util && util.skillDef == Skills.Ranger.Sidestep.instance.skillDef)
+                    {
                         util.rechargeStopwatch += 1f;
                     }
                 }
@@ -52,10 +59,12 @@ namespace Sandswept.States.Ranger {
             }
         }
 
-        public void FireShot() {
+        public void FireShot()
+        {
             AkSoundEngine.PostEvent(Events.Play_commando_M2, base.gameObject);
 
-            if (!NetworkServer.active) {
+            if (!NetworkServer.active)
+            {
                 return;
             }
 
@@ -71,8 +80,10 @@ namespace Sandswept.States.Ranger {
             attack.tracerEffectPrefab = TracerEffect;
             attack.procCoefficient = ProcCoefficient;
 
-            attack.hitCallback = (BulletAttack attack, ref BulletAttack.BulletHit hit) => {
-                if (hit.hitHurtBox) {
+            attack.hitCallback = (BulletAttack attack, ref BulletAttack.BulletHit hit) =>
+            {
+                if (hit.hitHurtBox)
+                {
                     totalHit++;
                 }
                 return BulletAttack.defaultHitCallback(attack, ref hit);

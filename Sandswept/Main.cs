@@ -21,7 +21,6 @@ namespace Sandswept
     [BepInDependency(PrefabAPI.PluginGUID, PrefabAPI.PluginVersion)]
     [BepInDependency(LanguageAPI.PluginGUID, LanguageAPI.PluginVersion)]
     [BepInDependency(RecalculateStatsAPI.PluginGUID, RecalculateStatsAPI.PluginVersion)]
-    [BepInDependency(PluginGUID, PluginVersion)]
     [BepInDependency(R2API.Networking.NetworkingAPI.PluginGUID, R2API.Networking.NetworkingAPI.PluginVersion)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
@@ -32,6 +31,7 @@ namespace Sandswept
 
         public static AssetBundle MainAssets;
         public static AssetBundle Assets;
+        public static AssetBundle Asset2s;
 
         public static Dictionary<string, string> ShaderLookup = new Dictionary<string, string>
     {
@@ -77,6 +77,7 @@ namespace Sandswept
             }
 
             Assets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweptassets2"));
+            Asset2s = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // temporary assetbundle bc i didnt have the other two unity projects, please merge into the other assets
 
             SwapAllShaders(MainAssets);
             DamageColourHelper.Init();
