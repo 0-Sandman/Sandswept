@@ -15,9 +15,7 @@ namespace Sandswept.States.Ranger {
             FireShot();
 
             if (NetworkServer.active) {
-                for (int i = 0; i < characterBody.GetBuffCount(Buffs.Charged.instance.BuffDef); i++) {
-                    characterBody.RemoveBuff(Buffs.Charged.instance.BuffDef);
-                }
+                characterBody.SetBuffCount(Buffs.Charged.instance.BuffDef.buffIndex, 0);
             }
 
             outer.SetNextStateToMain();
@@ -33,7 +31,7 @@ namespace Sandswept.States.Ranger {
             BulletAttack attack = new();
             attack.aimVector = base.GetAimRay().direction;
             attack.falloffModel = BulletAttack.FalloffModel.DefaultBullet;
-            attack.damage = base.damageStat * DamageCoefficient;
+            attack.damage = base.damageStat * damageCoeff;
             attack.isCrit = base.RollCrit();
             attack.minSpread = 0;
             attack.maxSpread = 0;

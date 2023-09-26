@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics;
 using RoR2.UI;
 using BarInfo = RoR2.UI.HealthBar.BarInfo;
@@ -16,9 +17,9 @@ namespace Sandswept.Items.Whites
 
         public override string ItemLangTokenName => "MAKESHIFT_PLATE";
 
-        public override string ItemPickupDesc => "Gain plating on stage entry.";
+        public override string ItemPickupDesc => "Gain plating on stage entry. Plating absorbs damage and retaliates with debris shards.";
 
-        public override string ItemFullDescription => StringExtensions.AutoFormat("Begin each stage with $sd1000$se $ss(+1000 per stack)$se plating. Plating acts as secondary health. Plating cannot be recovered in any way.");
+        public override string ItemFullDescription => StringExtensions.AutoFormat("Begin each stage with $sd1000%$se $ss(+1000 per stack)$se of your maximum health as plating. Plating acts as secondary health. Plating cannot be recovered in any way. Taking plating damage fires debris shards at nearby enemies dealing $sd2x120% damage$se.");
 
         public override string ItemLore => "I hope ceremonial jar is coded soon :Yeah3D:";
 
@@ -133,7 +134,9 @@ namespace Sandswept.Items.Whites
             orig(self);
 
             if (self.inventory) {
-                int plating = self.inventory.GetItemCount(ItemDef) * 1000;
+                float platingMult = 10f * self.inventory.GetItemCount(ItemDef);
+
+                int plating = Mathf.RoundToInt(self.maxHealth * platingMult);
 
                 if (plating == 0) {
                     return;
@@ -148,7 +151,8 @@ namespace Sandswept.Items.Whites
         public void TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info) {
             if (self.body.GetComponent<PlatingManager>()) {
                 int plating = self.body.GetComponent<PlatingManager>().CurrentPlating;
-                int toRemove = 0;
+                int toRemove;
+
                 if (plating > info.damage) {
                     toRemove = Mathf.RoundToInt(info.damage);
                     info.damage = 0;
@@ -159,6 +163,32 @@ namespace Sandswept.Items.Whites
                 }
 
                 self.body.GetComponent<PlatingManager>().CurrentPlating -= toRemove;
+
+                if (plating > 0 && Util.CheckRoll(100f * info.procCoefficient)) {
+                    SphereSearch search = new();
+                    search.origin = self.transform.position;
+                    search.radius = 50;
+                    search.mask = LayerIndex.entityPrecise.mask;
+                    search.RefreshCandidates();
+                    search.OrderCandidatesByDistance();
+                    search.FilterCandidatesByDistinctHurtBoxEntities();
+                    search.FilterCandidatesByHurtBoxTeam(TeamMask.GetUnprotectedTeams(self.body.teamComponent.teamIndex));
+
+                    foreach (HurtBox box in search.GetHurtBoxes()) {
+                        BulletAttack attack = new();
+                        attack.damage = self.body.damage * 1.2f;
+                        attack.bulletCount = 2;
+                        attack.maxSpread = 2;
+                        attack.damageColorIndex = DamageColorIndex.Item;
+                        attack.origin = self.transform.position;
+                        attack.aimVector = (box.transform.position - self.transform.position).normalized;
+                        attack.procCoefficient = 0.2f;
+                        attack.tracerEffectPrefab = Assets.GameObject.TracerToolbotNails;
+                        attack.owner = self.gameObject;
+
+                        attack.Fire();
+                    }
+                }
             }
 
             orig(self, info);
