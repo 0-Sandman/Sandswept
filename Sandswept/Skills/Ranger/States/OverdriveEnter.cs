@@ -17,6 +17,8 @@ namespace Sandswept.States.Ranger
             // locator.utility.SetSkillOverride(base.gameObject, NullSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.SetSkillOverride(base.gameObject, CancelSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.DeductStock(1);
+
+            Util.PlaySound("Play_item_use_BFG_charge", gameObject);
         }
 
         public override void OnExit()
@@ -28,6 +30,8 @@ namespace Sandswept.States.Ranger
             // locator.utility.UnsetSkillOverride(base.gameObject, NullSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.UnsetSkillOverride(base.gameObject, CancelSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.DeductStock(1);
+
+            Util.PlaySound("Play_lunar_wisp_attack2_windDown", gameObject);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

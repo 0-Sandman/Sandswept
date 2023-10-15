@@ -10,6 +10,7 @@ using Sandswept.Skills;
 using Sandswept.Survivors;
 using System.Diagnostics;
 using Sandswept.Elites;
+using Sandswept.Skills.Ranger.VFX;
 
 namespace Sandswept
 {
@@ -26,14 +27,15 @@ namespace Sandswept
     public class Main : BaseUnityPlugin
     {
         public const string ModGuid = "com.Sandman.Sandswept";
-        public const string ModName = "Sandswept Content";
+        public const string ModName = "Sandswept";
         public const string ModVer = "0.0.1";
 
         public static AssetBundle MainAssets;
         public static AssetBundle Assets;
         public static AssetBundle Asset2s;
+        public static AssetBundle hifuSandswept;
 
-        public static Dictionary<string, string> ShaderLookup = new Dictionary<string, string>
+        public static Dictionary<string, string> ShaderLookup = new()
     {
         { "stubbed hopoo games/deferred/hgstandard", "shaders/deferred/hgstandard" },
         { "stubbed hopoo games/fx/hgcloud intersection remap", "shaders/fx/hgintersectioncloudremap" },
@@ -64,6 +66,10 @@ namespace Sandswept
 
             ModLogger = Logger;
 
+            ReleaseVFX.Init();
+            GunGoShootVFX.Init();
+            SidestepVFX.Init();
+
             AutoRunCollector.HandleAutoRun();
             ConfigManager.HandleConfigAttributes(Assembly.GetExecutingAssembly(), Config);
 
@@ -78,6 +84,7 @@ namespace Sandswept
 
             Assets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweptassets2"));
             Asset2s = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // temporary assetbundle bc i didnt have the other two unity projects, please merge into the other assets
+            hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
 
             SwapAllShaders(MainAssets);
             DamageColourHelper.Init();
