@@ -1,3 +1,4 @@
+using Sandswept.Skills.Ranger.VFX;
 using System;
 
 namespace Sandswept.States.Ranger
@@ -8,7 +9,7 @@ namespace Sandswept.States.Ranger
         public static float DamageCoeff = 2f;
         public static float SelfDamageCoeff = 0.1f;
         public static float ProcCoeff = 1f;
-        public static GameObject TracerEffect => Utils.Assets.GameObject.TracerCommandoShotgun;
+        public static GameObject TracerEffect => GunGoShootVFX.tracerPrefab; // beef this up later
         private float shots;
         private float shotDelay => 1f / shots;
         private float stopwatch = 0f;
