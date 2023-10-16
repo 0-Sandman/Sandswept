@@ -1,14 +1,15 @@
+using Sandswept.Skills.Ranger.VFX;
 using System;
 
 namespace Sandswept.States.Ranger
 {
-    public class PewPew : BaseState
+    public class GunGoShoot : BaseState
     {
         public static float DamageCoefficient = 3f;
         public static float ShotDelay = 0.3f;
         public static float TotalDuration => ShotDelay * 2;
         public static float ProcCoefficient = 1f;
-        public static GameObject TracerEffect => Utils.Assets.GameObject.TracerCommandoShotgun;
+        public static GameObject TracerEffect => GunGoShootVFX.tracerPrefab;
         private int totalHit = 0;
         private float stopwatch = 0f;
         private bool fired = false;
@@ -63,7 +64,10 @@ namespace Sandswept.States.Ranger
 
         public void FireShot()
         {
-            AkSoundEngine.PostEvent(Events.Play_commando_M2, base.gameObject);
+            // AkSoundEngine.PostEvent(Events.Play_commando_M2, base.gameObject);
+            Util.PlayAttackSpeedSound("Play_commando_M2", gameObject, attackSpeedStat);
+            Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
+            Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
 
             if (!NetworkServer.active)
             {
@@ -86,6 +90,7 @@ namespace Sandswept.States.Ranger
             {
                 if (hit.hitHurtBox)
                 {
+                    Util.PlaySound("Play_lunar_wisp_attack1_shoot_impact", hit.hitHurtBox.gameObject);
                     totalHit++;
                 }
                 return BulletAttack.defaultHitCallback(attack, ref hit);

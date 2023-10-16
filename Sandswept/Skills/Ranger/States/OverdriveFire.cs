@@ -1,3 +1,4 @@
+using Sandswept.Skills.Ranger.VFX;
 using System;
 
 namespace Sandswept.States.Ranger
@@ -8,7 +9,7 @@ namespace Sandswept.States.Ranger
         public static float DamageCoeff = 2f;
         public static float SelfDamageCoeff = 0.1f;
         public static float ProcCoeff = 1f;
-        public static GameObject TracerEffect => Utils.Assets.GameObject.TracerCommandoShotgun;
+        public static GameObject TracerEffect => GunGoShootVFX.tracerPrefab; // beef this up later
         private float shots;
         private float shotDelay => 1f / shots;
         private float stopwatch = 0f;
@@ -57,12 +58,15 @@ namespace Sandswept.States.Ranger
 
             if (heat.IsOverheating)
             {
-                DamageInfo info = new();
-                info.attacker = base.gameObject;
-                info.procCoefficient = 0;
-                info.damage = base.damageStat * SelfDamageCoeff;
-                info.crit = false;
-                info.position = base.transform.position;
+                DamageInfo info = new()
+                {
+                    attacker = base.gameObject,
+                    procCoefficient = 0,
+                    damage = base.damageStat * SelfDamageCoeff,
+                    crit = false,
+                    position = base.transform.position,
+                    damageColorIndex = DamageColorIndex.Bleed
+                };
 
                 if (NetworkServer.active)
                 {
@@ -79,17 +83,19 @@ namespace Sandswept.States.Ranger
                 return;
             }
 
-            BulletAttack attack = new();
-            attack.aimVector = base.GetAimRay().direction;
-            attack.falloffModel = BulletAttack.FalloffModel.DefaultBullet;
-            attack.damage = base.damageStat * DamageCoeff;
-            attack.isCrit = base.RollCrit();
-            attack.damageType = DamageType.Generic;
-            attack.owner = base.gameObject;
-            attack.muzzleName = "Muzzle";
-            attack.origin = base.GetAimRay().origin;
-            attack.tracerEffectPrefab = TracerEffect;
-            attack.procCoefficient = ProcCoeff;
+            BulletAttack attack = new()
+            {
+                aimVector = base.GetAimRay().direction,
+                falloffModel = BulletAttack.FalloffModel.DefaultBullet,
+                damage = base.damageStat * DamageCoeff,
+                isCrit = base.RollCrit(),
+                damageType = DamageType.Generic,
+                owner = base.gameObject,
+                muzzleName = "Muzzle",
+                origin = base.GetAimRay().origin,
+                tracerEffectPrefab = TracerEffect,
+                procCoefficient = ProcCoeff
+            };
 
             attack.Fire();
         }

@@ -26,13 +26,13 @@ namespace Sandswept.Survivors
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdRanger.asset");
 
             SkillLocator locator = Body.GetComponent<SkillLocator>();
-            ReplaceSkills(locator.primary, new SkillDef[] { Skills.Ranger.PewPew.instance.skillDef });
-            ReplaceSkills(locator.secondary, new SkillDef[] { Skills.Ranger.Blast.instance.skillDef });
+            ReplaceSkills(locator.primary, new SkillDef[] { Skills.Ranger.GunGoShoot.instance.skillDef });
+            ReplaceSkills(locator.secondary, new SkillDef[] { Skills.Ranger.Release.instance.skillDef });
             ReplaceSkills(locator.utility, new SkillDef[] { Skills.Ranger.Sidestep.instance.skillDef });
             ReplaceSkills(locator.special, new SkillDef[] { Skills.Ranger.OverdriveEnter.instance.skillDef });
 
             "SS_RANGER_PASSIVE_NAME".Add("Power Surge");
-            "SS_RANGER_PASSIVE_DESC".Add("Gain $sd2.5% attack speed$se for each $suCharge$se currently held. You can have up to 10 $suCharge$se.");
+            "SS_RANGER_PASSIVE_DESC".Add("Gain $sd2.5% attack speed$se for each $suCharge$se currently held. You can have up to 10 $suCharge$se.".AutoFormat());
         }
     }
 }

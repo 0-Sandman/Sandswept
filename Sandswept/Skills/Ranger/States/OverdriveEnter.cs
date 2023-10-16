@@ -19,6 +19,7 @@ namespace Sandswept.States.Ranger
             locator.special.DeductStock(1);
 
             PlayAnimation("Gesture, Override", "EnterOverdrive");
+            Util.PlaySound("Play_item_use_BFG_charge", gameObject);
         }
 
         public override void OnExit()
@@ -32,6 +33,7 @@ namespace Sandswept.States.Ranger
             locator.special.DeductStock(1);
 
             PlayAnimation("Gesture, Override", "ExitOverdrive");
+            Util.PlaySound("Play_lunar_wisp_attack2_windDown", gameObject);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

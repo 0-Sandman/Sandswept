@@ -23,7 +23,7 @@ namespace Sandswept.Elites
 
         public override Sprite EliteBuffIcon => null;
 
-        public override Texture2D EliteRampTexture => null;
+        public override Texture2D EliteRampTexture => Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampMotivator.png");
 
         public override float DamageMultiplier => 2f;
         public override float HealthMultiplier => 4f;
