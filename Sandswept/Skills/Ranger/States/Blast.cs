@@ -17,6 +17,8 @@ namespace Sandswept.States.Ranger
 
             FireShot();
 
+            PlayAnimation("Gesture, Override", "Blast", "Blast.playbackRate", 1f);
+
             if (NetworkServer.active) {
                 characterBody.SetBuffCount(Buffs.Charged.instance.BuffDef.buffIndex, 0);
             }

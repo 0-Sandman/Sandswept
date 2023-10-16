@@ -72,6 +72,8 @@ namespace Sandswept.States.Ranger
                 AkSoundEngine.PostEvent(Events.Play_item_proc_igniteOnKill, base.gameObject);
             }
 
+            PlayAnimation("Gesture, Override", "OverdriveFire");
+
             if (!base.isAuthority)
             {
                 return;

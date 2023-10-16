@@ -17,6 +17,8 @@ namespace Sandswept.States.Ranger
             // locator.utility.SetSkillOverride(base.gameObject, NullSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.SetSkillOverride(base.gameObject, CancelSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.DeductStock(1);
+
+            PlayAnimation("Gesture, Override", "EnterOverdrive");
         }
 
         public override void OnExit()
@@ -28,6 +30,8 @@ namespace Sandswept.States.Ranger
             // locator.utility.UnsetSkillOverride(base.gameObject, NullSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.UnsetSkillOverride(base.gameObject, CancelSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.DeductStock(1);
+
+            PlayAnimation("Gesture, Override", "ExitOverdrive");
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

@@ -22,6 +22,8 @@ namespace Sandswept.States.Ranger
 
             shotDelay = ShotDelay / base.attackSpeedStat;
             duration = shotDelay * 2;
+
+            PlayAnimation("Gesture, Override", "Fire", "Fire.playbackRate", duration);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -75,7 +77,7 @@ namespace Sandswept.States.Ranger
             attack.isCrit = base.RollCrit();
             attack.damageType = DamageType.Generic;
             attack.owner = base.gameObject;
-            attack.muzzleName = "MuzzleR";
+            attack.muzzleName = "Muzzle";
             attack.origin = base.GetAimRay().origin;
             attack.tracerEffectPrefab = TracerEffect;
             attack.procCoefficient = ProcCoefficient;

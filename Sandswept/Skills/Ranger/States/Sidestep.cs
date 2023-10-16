@@ -13,6 +13,8 @@ namespace Sandswept.States.Ranger
         {
             base.OnEnter();
             stepVector = (base.inputBank.moveVector == Vector3.zero) ? base.characterDirection.forward : base.inputBank.moveVector;
+
+            PlayAnimation("FullBody, Override", "Twirl");
         }
 
         public override void FixedUpdate()

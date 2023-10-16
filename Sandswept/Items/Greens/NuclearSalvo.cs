@@ -33,18 +33,22 @@ namespace Sandswept.Items.Greens {
 
             SalvoPrefab = Main.Assets.LoadAsset<GameObject>("SalvoBehaviour.prefab");
             SalvoMissile = Main.Assets.LoadAsset<GameObject>("Missile.prefab");
-            On.RoR2.Inventory.GiveItem_ItemDef_int += GiveItem;
+            ContentAddition.AddProjectile(SalvoMissile);
+            ContentAddition.AddNetworkedObject(SalvoPrefab);
+            On.RoR2.CharacterBody.RecalculateStats += GiveItem;
             On.RoR2.CharacterBody.OnInventoryChanged += RecheckItems;
         }
 
-        public void GiveItem(On.RoR2.Inventory.orig_GiveItem_ItemDef_int orig, Inventory self, ItemDef def, int count) {
-            orig(self, def, count);
-            if (NetworkServer.active && def == ItemDef && self.GetComponent<PlayerCharacterMasterController>()) {
-                List<CharacterMaster> masters = CharacterMaster.readOnlyInstancesList.Where(x => x.minionOwnership && x.minionOwnership.ownerMaster == self.GetComponent<CharacterMaster>()).ToList();
+        public void GiveItem(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self) {
+            orig(self);
+            if (NetworkServer.active && self.isPlayerControlled && self.inventory.GetItemCount(ItemDef) > 0) {
+                List<CharacterMaster> masters = CharacterMaster.readOnlyInstancesList.Where(x => x.minionOwnership && x.minionOwnership.ownerMaster == self.master).ToList();
 
                 foreach (CharacterMaster cm in masters) {
-                    if (cm.inventory.GetItemCount(def) == 0) {
-                        cm.inventory.GiveItem(def);
+                    if (cm.inventory.GetItemCount(ItemDef) < self.inventory.GetItemCount(ItemDef)) {
+                        Debug.Log("giving salvo to drone");
+                        cm.inventory.ResetItem(ItemDef);
+                        cm.inventory.GiveItem(ItemDef, self.inventory.GetItemCount(ItemDef));
                         GameObject attachment = GameObject.Instantiate(SalvoPrefab);
                         attachment.GetComponent<NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(cm.GetBodyObject());
                     }
@@ -59,7 +63,7 @@ namespace Sandswept.Items.Greens {
                 List<CharacterMaster> masters = CharacterMaster.readOnlyInstancesList.Where(x => x.minionOwnership && x.minionOwnership.ownerMaster == self.master).ToList();
 
                 foreach (CharacterMaster cm in masters) {
-                    cm.inventory.RemoveItem(ItemDef);
+                    cm.inventory.RemoveItem(ItemDef, cm.inventory.GetItemCount(ItemDef));
                 }
             }
         }
@@ -71,7 +75,7 @@ namespace Sandswept.Items.Greens {
         public GameObject MissilePrefab;
         public float MissileDamageCoefficient;
         public float BaseMissileDelay;
-        private float MissileDelay => BaseMissileDelay * Mathf.Pow(0.75f, attachment.attachedBody.inventory.GetItemCount(NuclearSalvo.instance.ItemDef));
+        private float MissileDelay => BaseMissileDelay * Mathf.Pow(0.75f, attachment.attachedBody.inventory.GetItemCount(NuclearSalvo.instance.ItemDef) - 1);
         private float stopwatch = 0f;
 
         public void Start() {
@@ -85,13 +89,16 @@ namespace Sandswept.Items.Greens {
                 stopwatch = MissileDelay;
 
                 for (int i = 0; i < MissileCount; i++) {
+                    Debug.Log("firing salvo missile");
                     FireProjectileInfo info = new();
                     info.crit = false;
                     info.damage = attachment.attachedBody.damage * MissileDamageCoefficient;
-                    info.rotation = Util.QuaternionSafeLookRotation(Util.ApplySpread(attachment.attachedBody.inputBank.aimDirection, -3f, 3f, 1f, 1f));
+                    info.rotation = Util.QuaternionSafeLookRotation(Util.ApplySpread(attachment.attachedBody.inputBank.aimDirection, -10f, 10f, 1f, 1f));
                     info.position = attachment.attachedBody.transform.position;
                     info.owner = attachment.attachedBody.gameObject;
                     info.projectilePrefab = MissilePrefab;
+
+                    Debug.Log(attachment.attachedBody);
                     
                     ProjectileManager.instance.FireProjectile(info);
                 }
@@ -99,6 +106,10 @@ namespace Sandswept.Items.Greens {
                 if (attachment.attachedBody.inventory.GetItemCount(NuclearSalvo.instance.ItemDef) == 0) {
                     Destroy(this.gameObject);
                 }
+            }
+
+            if (attachment.attachedBody.inventory.GetItemCount(NuclearSalvo.instance.ItemDef) == 0) {
+                Destroy(this.gameObject);
             }
         }
     }
