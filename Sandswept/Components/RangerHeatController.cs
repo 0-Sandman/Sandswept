@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Linq;
 using System;
 using RoR2.UI;
@@ -44,12 +45,22 @@ namespace Sandswept.Components
 
         public void Start()
         {
+            element = GetComponent<HudElement>();
+            ifc = GetComponentInChildren<ImageFillController>();
             target = element._targetBodyObject.GetComponent<RangerHeatManager>();
         }
 
         public void FixedUpdate()
         {
             ifc.SetTValue(target.CurrentHeat / RangerHeatManager.MaxHeat);
+        }
+    }
+
+    public class FUCKINGKILLYOURSELF : MonoBehaviour {
+        public void FixedUpdate() {
+            if (base.transform.localPosition.y != -1) {
+                base.transform.transform.localPosition = new(base.transform.localPosition.x, -1, base.transform.localPosition.z);
+            }
         }
     }
 }
