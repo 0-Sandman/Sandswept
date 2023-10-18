@@ -7,7 +7,7 @@
 
         public static void Init()
         {
-            tracerPrefab = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.TracerHuntressSnipe, "Release Tracer", false);
+            tracerPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.TracerHuntressSnipe, "Release Tracer", false);
 
             var destroyOnTimer = tracerPrefab.AddComponent<DestroyOnTimer>();
             destroyOnTimer.duration = 3f;
@@ -32,9 +32,9 @@
 
             tracerHead.colorGradient = gradient;
 
-            var newMat = Object.Instantiate(Utils.Assets.Material.matHuntressArrowBig);
+            var newMat = Object.Instantiate(Assets.Material.matHuntressArrowBig);
             newMat.SetColor("_TintColor", new Color32(51, 234, 140, 255));
-            newMat.SetTexture("_MainTex", Utils.Assets.Texture2D.texCrosshairBullets1);
+            newMat.SetTexture("_MainTex", Assets.Texture2D.texCrosshairBullets1);
 
             tracerHead.material = newMat;
 
@@ -62,12 +62,12 @@
 
             var particleSystemRenderer = beamObject.GetComponent<ParticleSystemRenderer>();
 
-            var newMat2 = Object.Instantiate(Utils.Assets.Material.matHuntressSwingTrail);
+            var newMat2 = Object.Instantiate(Assets.Material.matHuntressSwingTrail);
             newMat2.SetColor("_TintColor", new Color32(92, 224, 125, 255));
 
             // particleSystemRenderer.material = newMat2;
 
-            var newMat3 = Object.Instantiate(Utils.Assets.Material.matHuntressSwingTrail);
+            var newMat3 = Object.Instantiate(Assets.Material.matHuntressSwingTrail);
             newMat3.SetColor("_TintColor", new Color32(0, 255, 99, 255));
             newMat3.SetFloat("_Boost", 1.94f);
             newMat3.SetFloat("_AlphaBoost", 4.6f);
@@ -80,7 +80,7 @@
 
             ContentAddition.AddEffect(tracerPrefab);
 
-            impactPrefab = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.OmniExplosionCrowstorm, "Release Impact", false);
+            impactPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.OmniExplosionCrowstorm, "Release Impact", false);
 
             var effectComponent = impactPrefab.GetComponent<EffectComponent>();
             effectComponent.soundName = "Play_lunar_wisp_attack2_explode";
@@ -117,7 +117,7 @@
 
             //
 
-            var ramp = Utils.Assets.Texture2D.texRampAncientWisp;
+            var ramp = Assets.Texture2D.texRampAncientWisp;
 
             // scaled smoke ring mesh
 
@@ -127,10 +127,10 @@
 
             var particleSystemRenderer2 = scaledSmokeRingMesh.GetComponent<ParticleSystemRenderer>();
 
-            var newMat4 = Object.Instantiate(Utils.Assets.Material.matCrowstormFeatherRepeated);
+            var newMat4 = Object.Instantiate(Assets.Material.matCrowstormFeatherRepeated);
 
             newMat4.SetColor("_TintColor", geen2);
-            newMat4.SetTexture("_MainTex", Utils.Assets.Texture2D.texShockwaveRing3Mask);
+            newMat4.SetTexture("_MainTex", Assets.Texture2D.texShockwaveRing3Mask);
             // newMat4.SetTexture("_RemapTex", ramp);
 
             particleSystemRenderer2.material = newMat4;
@@ -148,7 +148,7 @@
 
             var areaIndicatorRingBillboard = trans.GetChild(5).GetComponent<ParticleSystemRenderer>();
 
-            var newMat5 = Object.Instantiate(Utils.Assets.Material.matOmniRing2Loader);
+            var newMat5 = Object.Instantiate(Assets.Material.matOmniRing2Loader);
 
             // newMat5.SetTexture("_RemapTex", ramp);
 
@@ -179,9 +179,9 @@
 
             var particleSystemRenderer3 = dashBright.GetComponent<ParticleSystemRenderer>();
 
-            var newMat6 = Object.Instantiate(Utils.Assets.Material.matCrowstormFeather);
+            var newMat6 = Object.Instantiate(Assets.Material.matCrowstormFeather);
             newMat6.SetColor("_TintColor", geen2);
-            newMat6.SetTexture("_MainTex", Utils.Assets.Texture2D.texShockwaveRing3Mask);
+            newMat6.SetTexture("_MainTex", Assets.Texture2D.texShockwaveRing3Mask);
             // newMat6.SetTexture("_RemapTex", ramp);
 
             particleSystemRenderer3.material = newMat6;

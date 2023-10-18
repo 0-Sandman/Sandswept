@@ -19,7 +19,7 @@ namespace Sandswept.Survivors
             base.LoadAssets();
 
             Body = Main.Assets.LoadAsset<GameObject>("RangerBody.prefab");
-            Master = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.CommandoMonsterMaster, "RangerMaster");
+            Master = PrefabAPI.InstantiateClone(Assets.GameObject.CommandoMonsterMaster, "RangerMaster");
 
             Body.GetComponent<CameraTargetParams>().cameraParams = Assets.CharacterCameraParams.ccpStandard;
 

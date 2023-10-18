@@ -6,10 +6,10 @@ namespace Sandswept.States.Ranger
     public class OverdriveFire : BaseState
     {
         public static int ShotsPerSecond = 5;
-        public static float DamageCoeff = 2f;
-        public static float SelfDamageCoeff = 0.1f;
+        public static float SelfDamageCoeff = 0.11f;
         public static float ProcCoeff = 1f;
         public static GameObject TracerEffect => GunGoShootVFX.tracerPrefab; // beef this up later
+        private float damageCoeff = 0f;
         private float shots;
         private float shotDelay => 1f / shots;
         private float stopwatch = 0f;
@@ -18,9 +18,12 @@ namespace Sandswept.States.Ranger
         public override void OnEnter()
         {
             base.OnEnter();
-            shots = ShotsPerSecond * base.attackSpeedStat;
+
             heat = GetComponent<Components.RangerHeatManager>();
             heat.isFiring = true;
+
+            damageCoeff = 1.5f + 0.0075f * heat.CurrentHeat;
+            shots = ShotsPerSecond * attackSpeedStat;
         }
 
         public void Exit()
@@ -40,13 +43,13 @@ namespace Sandswept.States.Ranger
 
             stopwatch += Time.fixedDeltaTime;
 
-            if (base.inputBank.skill1.down && stopwatch >= shotDelay)
+            if (inputBank.skill1.down && stopwatch >= shotDelay)
             {
                 stopwatch = 0f;
                 FireShot();
             }
 
-            if (!base.inputBank.skill1.down)
+            if (!inputBank.skill1.down)
             {
                 Exit();
             }
@@ -54,18 +57,19 @@ namespace Sandswept.States.Ranger
 
         public void FireShot()
         {
-            AkSoundEngine.PostEvent(Events.Play_commando_M2, base.gameObject);
+            AkSoundEngine.PostEvent(Events.Play_commando_M2, gameObject);
 
             if (heat.IsOverheating)
             {
                 DamageInfo info = new()
                 {
-                    attacker = base.gameObject,
+                    attacker = gameObject,
                     procCoefficient = 0,
-                    damage = base.damageStat * SelfDamageCoeff,
+                    damage = damageStat * SelfDamageCoeff,
                     crit = false,
-                    position = base.transform.position,
-                    damageColorIndex = DamageColorIndex.Bleed
+                    position = transform.position,
+                    damageColorIndex = DamageColorIndex.Bleed,
+                    damageType = DamageType.BypassArmor // makes rap fake and cheesing guh
                 };
 
                 if (NetworkServer.active)
@@ -73,28 +77,30 @@ namespace Sandswept.States.Ranger
                     healthComponent.TakeDamage(info);
                 }
 
-                AkSoundEngine.PostEvent(Events.Play_item_proc_igniteOnKill, base.gameObject);
+                AkSoundEngine.PostEvent(Events.Play_item_proc_igniteOnKill, gameObject);
             }
 
             PlayAnimation("Gesture, Override", "OverdriveFire");
 
-            if (!base.isAuthority)
+            if (!isAuthority)
             {
                 return;
             }
 
             BulletAttack attack = new()
             {
-                aimVector = base.GetAimRay().direction,
+                aimVector = GetAimRay().direction,
                 falloffModel = BulletAttack.FalloffModel.DefaultBullet,
-                damage = base.damageStat * DamageCoeff,
-                isCrit = base.RollCrit(),
+                damage = damageStat * damageCoeff,
+                isCrit = RollCrit(),
                 damageType = DamageType.Generic,
-                owner = base.gameObject,
+                owner = gameObject,
                 muzzleName = "Muzzle",
-                origin = base.GetAimRay().origin,
+                origin = GetAimRay().origin,
                 tracerEffectPrefab = TracerEffect,
-                procCoefficient = ProcCoeff
+                procCoefficient = ProcCoeff,
+                spreadPitchScale = 1f + (0.01f * heat.CurrentHeat),
+                spreadYawScale = 1f + (0.01f * heat.CurrentHeat)
             };
 
             attack.Fire();

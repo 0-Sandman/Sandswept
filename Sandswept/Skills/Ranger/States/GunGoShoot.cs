@@ -21,7 +21,7 @@ namespace Sandswept.States.Ranger
             base.OnEnter();
             FireShot();
 
-            shotDelay = ShotDelay / base.attackSpeedStat;
+            shotDelay = ShotDelay / attackSpeedStat;
             duration = shotDelay * 2;
 
             PlayAnimation("Gesture, Override", "Fire", "Fire.playbackRate", duration);
@@ -42,7 +42,7 @@ namespace Sandswept.States.Ranger
                 FireShot();
             }
 
-            if (base.fixedAge >= duration)
+            if (fixedAge >= duration)
             {
                 if (totalHit >= 2 && NetworkServer.active && characterBody.GetBuffCount(Buffs.Charged.instance.BuffDef) <= 10)
                 {
@@ -51,7 +51,7 @@ namespace Sandswept.States.Ranger
 
                 if (totalHit >= 2)
                 {
-                    GenericSkill util = base.skillLocator.utility;
+                    GenericSkill util = skillLocator.utility;
                     if (util && util.skillDef == Skills.Ranger.Sidestep.instance.skillDef)
                     {
                         util.rechargeStopwatch += 1f;
@@ -75,14 +75,14 @@ namespace Sandswept.States.Ranger
             }
 
             BulletAttack attack = new();
-            attack.aimVector = base.GetAimRay().direction;
+            attack.aimVector = GetAimRay().direction;
             attack.falloffModel = BulletAttack.FalloffModel.DefaultBullet;
-            attack.damage = base.damageStat * DamageCoefficient;
-            attack.isCrit = base.RollCrit();
+            attack.damage = damageStat * DamageCoefficient;
+            attack.isCrit = RollCrit();
             attack.damageType = DamageType.Generic;
-            attack.owner = base.gameObject;
+            attack.owner = gameObject;
             attack.muzzleName = "Muzzle";
-            attack.origin = base.GetAimRay().origin;
+            attack.origin = GetAimRay().origin;
             attack.tracerEffectPrefab = TracerEffect;
             attack.procCoefficient = ProcCoefficient;
 

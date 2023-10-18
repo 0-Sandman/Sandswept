@@ -21,7 +21,7 @@ namespace Sandswept
     [BepInDependency(DamageAPI.PluginGUID, DamageAPI.PluginVersion)]
     [BepInDependency(PrefabAPI.PluginGUID, PrefabAPI.PluginVersion)]
     [BepInDependency(LanguageAPI.PluginGUID, LanguageAPI.PluginVersion)]
-    [BepInDependency(RecalculateStatsAPI.PluginGUID, RecalculateStatsAPI.PluginVersion)]
+    [BepInDependency(PluginGUID, PluginVersion)]
     [BepInDependency(R2API.Networking.NetworkingAPI.PluginGUID, R2API.Networking.NetworkingAPI.PluginVersion)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin

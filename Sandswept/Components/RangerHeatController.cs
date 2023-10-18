@@ -17,11 +17,6 @@ namespace Sandswept.Components
         public bool IsOverheating => CurrentHeat > OverheatThreshold;
         public bool isFiring = false;
 
-        public void Start()
-        {
-            CharacterBody cb = GetComponent<CharacterBody>();
-        }
-
         public void FixedUpdate()
         {
             if (isFiring && CurrentHeat < MaxHeat)
@@ -56,10 +51,13 @@ namespace Sandswept.Components
         }
     }
 
-    public class FUCKINGKILLYOURSELF : MonoBehaviour {
-        public void FixedUpdate() {
-            if (base.transform.localPosition.y != -1) {
-                base.transform.transform.localPosition = new(base.transform.localPosition.x, -1, base.transform.localPosition.z);
+    public class FUCKINGKILLYOURSELF : MonoBehaviour
+    {
+        public void FixedUpdate()
+        {
+            if (transform.localPosition.y != -1)
+            {
+                transform.transform.localPosition = new(transform.localPosition.x, -1, transform.localPosition.z);
             }
         }
     }

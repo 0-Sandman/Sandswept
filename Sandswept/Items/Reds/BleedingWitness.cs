@@ -1,6 +1,6 @@
 ﻿using static RoR2.DotController;
 
-namespace Sandswept.Items.Greens
+namespace Sandswept.Items.Reds
 {
     internal class BleedingWitness : ItemBase<BleedingWitness>
     {
@@ -10,15 +10,15 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Your bleed effects deal a percentage of the enemy's maximum health.";
 
-        public override string ItemFullDescription => StringExtensions.AutoFormat("$sd5%$se chance to $sdbleed$se enemies for $sd120%$se base damage. Your $sdbleed$se effects additionally deal $sd1%$se $ss(+1% per stack)$se of the enemy's $sdmaximum health$se as damage.");
+        public override string ItemFullDescription => "$sd5%$se chance to $sdbleed$se enemies for $sd240%$se base damage. Your $sdbleed$se effects additionally deal $sd1%$se $ss(+1% per stack)$se of the enemy's $sdmaximum health$se as damage.".AutoFormat();
 
         public override string ItemLore => "no";
 
-        public override ItemTier Tier => ItemTier.Tier2;
+        public override ItemTier Tier => ItemTier.Tier3;
 
         public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("WitnessPrefab.prefab");
 
-        public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("WitnessIcon.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texBleedingWitness.png");
 
         public override void Init(ConfigFile config)
         {
@@ -71,19 +71,22 @@ namespace Sandswept.Items.Greens
             }
 
             var stack = GetCount(attackerBody);
-            var increase = 0.01f * stack;
-
-            InflictDotInfo maxHpDamage = new()
+            if (stack > 0)
             {
-                victimObject = victim,
-                attackerObject = attacker,
-                totalDamage = increase * victimHc.fullCombinedHealth,
-                dotIndex = DotIndex.Poison,
-                duration = 3f,
-                damageMultiplier = 1f,
-                maxStacksFromAttacker = 1
-            };
-            InflictDot(ref maxHpDamage);
+                var increase = 0.01f * stack;
+
+                InflictDotInfo maxHpDamage = new()
+                {
+                    victimObject = victim,
+                    attackerObject = attacker,
+                    totalDamage = increase * victimHc.fullCombinedHealth,
+                    dotIndex = DotIndex.Poison,
+                    duration = 3f,
+                    damageMultiplier = 1f,
+                    maxStacksFromAttacker = 1
+                };
+                InflictDot(ref maxHpDamage);
+            }
         }
 
         private void GlobalEventManager_onServerDamageDealt(DamageReport report)
@@ -117,7 +120,7 @@ namespace Sandswept.Items.Greens
                     {
                         victimObject = victimBody.gameObject,
                         attackerObject = attackerBody.gameObject,
-                        totalDamage = attackerBody.damage * 1.2f,
+                        totalDamage = attackerBody.damage * 2.4f,
                         dotIndex = DotIndex.Bleed,
                         duration = 3f,
                         damageMultiplier = 1f

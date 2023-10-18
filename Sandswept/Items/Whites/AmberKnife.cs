@@ -11,7 +11,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemLangTokenName => "AMBER_KNIFE";
 
-        public override string ItemPickupDesc => "'Critical Strikes' give temporary barrier.";
+        public override string ItemPickupDesc => "Chance to fire a piercing knife that gives barrier on pierce.";
 
         public override string ItemFullDescription => StringExtensions.AutoFormat("Gain a $sd10%$se chance on hit to fire a $sdknife$se for $sd120%$se $ss(+120% per stack)$se base damage that $sdpierces$se, gain $sh10$se plus an additional $sh2% barrier$se for every pierce with the knife.");
 
@@ -21,7 +21,7 @@ namespace Sandswept.Items.Whites
 
         public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("AmberKnifePrefab.prefab");
 
-        public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("AmberKnifeIcon.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texAmberKnife.png");
 
         public static ProcType amberKnife = (ProcType)12785281;
 
@@ -137,6 +137,11 @@ namespace Sandswept.Items.Whites
 
         private void GlobalEventManager_onServerDamageDealt(DamageReport report)
         {
+            if (report.damageInfo.procChainMask.HasProc(amberKnife))
+            {
+                return;
+            }
+
             var attackerBody = report.attackerBody;
             if (!attackerBody)
             {
@@ -153,29 +158,24 @@ namespace Sandswept.Items.Whites
             var knifeDamage = 1.2f * stack;
             if (stack > 0)
             {
-                if (!report.damageInfo.procChainMask.HasProc(amberKnife))
+                if (Util.CheckRoll(10f, master))
                 {
-                    if (Util.CheckRoll(10f, master))
+                    var fpi = new FireProjectileInfo()
                     {
-                        var fpi = new FireProjectileInfo()
-                        {
-                            damage = attackerBody.damage * knifeDamage,
-                            crit = attackerBody.RollCrit(),
-                            position = attackerBody.inputBank.GetAimRay().origin,
-                            rotation = Util.QuaternionSafeLookRotation(attackerBody.inputBank.GetAimRay().direction),
-                            force = 0f,
-                            owner = attackerBody.gameObject,
-                            procChainMask = default,
-                            projectilePrefab = amberKnifeProjectile
-                        };
-                        report.damageInfo.procChainMask.AddProc(amberKnife);
-                        fpi.projectilePrefab.GetComponent<AmberKnifeProjectile>().owner = attackerBody;
-                        ProjectileManager.instance.FireProjectile(fpi);
-                    }
-                }
-                else
-                {
-                    report.damageInfo.damageColorIndex = DamageColorIndex.SuperBleed;
+                        damage = attackerBody.damage * knifeDamage,
+                        crit = attackerBody.RollCrit(),
+                        position = attackerBody.inputBank.GetAimRay().origin,
+                        rotation = Util.QuaternionSafeLookRotation(attackerBody.inputBank.GetAimRay().direction),
+                        force = 0f,
+                        owner = attackerBody.gameObject,
+                        procChainMask = default,
+                        projectilePrefab = amberKnifeProjectile
+                    };
+
+                    report.damageInfo.procChainMask.AddProc(amberKnife);
+
+                    fpi.projectilePrefab.GetComponent<AmberKnifeProjectile>().owner = attackerBody;
+                    ProjectileManager.instance.FireProjectile(fpi);
                 }
             }
         }
@@ -198,19 +198,19 @@ namespace Sandswept.Items.Whites
                 if (!NetworkServer.active) return;
                 GetComponent<Rigidbody>().velocity = transform.forward.normalized * 40f;
                 stopwatch += Time.fixedDeltaTime;
-                if (stopwatch > 10) Object.Destroy(base.gameObject);
+                if (stopwatch > 10) Destroy(gameObject);
             }
 
             public void OnProjectileImpact(ProjectileImpactInfo impactInfo)
             {
                 if (!impactInfo.collider.GetComponent<HurtBox>())
                 {
-                    Object.Destroy(base.gameObject);
+                    Destroy(gameObject);
                     return;
                 }
                 Physics.IgnoreCollision(GetComponent<Collider>(), impactInfo.collider);
-                EffectManager.SimpleImpactEffect(impactSpark, impactInfo.estimatedPointOfImpact, -base.transform.forward, transmit: true);
-                if ((bool)owner)
+                EffectManager.SimpleImpactEffect(impactSpark, impactInfo.estimatedPointOfImpact, -transform.forward, transmit: true);
+                if (owner != null)
                 {
                     owner.healthComponent.AddBarrier(10f);
                     owner.healthComponent.AddBarrier(owner.healthComponent.fullHealth * 0.02f);

@@ -16,12 +16,12 @@ namespace Sandswept.States.Ranger
         public override void OnEnter()
         {
             base.OnEnter();
-            if (base.modelLocator)
+            if (modelLocator)
             {
             }
-            if (base.characterBody)
+            if (characterBody)
             {
-                base.characterBody.isSprinting = true;
+                characterBody.isSprinting = true;
             }
 
             modelTransform = GetModelTransform();
@@ -30,7 +30,7 @@ namespace Sandswept.States.Ranger
             Util.PlaySound("Play_engi_M2_spider_dash", gameObject);
             Util.PlaySound("Play_lunar_wisp_attack1_shoot_impact", gameObject);
 
-            stepVector = (base.inputBank.moveVector == Vector3.zero) ? base.characterDirection.forward : base.inputBank.moveVector;
+            stepVector = (inputBank.moveVector == Vector3.zero) ? characterDirection.forward : inputBank.moveVector;
 
             PlayAnimation("FullBody, Override", "Twirl");
         }
@@ -39,15 +39,15 @@ namespace Sandswept.States.Ranger
         {
             base.FixedUpdate();
 
-            if (base.characterMotor && base.characterDirection)
+            if (characterMotor && characterDirection)
             {
-                base.characterMotor.velocity = Vector3.zero;
-                base.characterMotor.rootMotion += stepVector * (base.moveSpeedStat * SpeedCoefficient * Time.fixedDeltaTime);
+                characterMotor.velocity = Vector3.zero;
+                characterMotor.rootMotion += stepVector * (moveSpeedStat * SpeedCoefficient * Time.fixedDeltaTime);
             }
 
-            if (base.characterBody)
+            if (characterBody)
             {
-                base.characterBody.isSprinting = true;
+                characterBody.isSprinting = true;
             }
 
             if (modelTransform)
@@ -69,7 +69,7 @@ namespace Sandswept.States.Ranger
                 temporaryOverlay2.AddToCharacerModel(this.modelTransform.GetComponent<CharacterModel>());
             }
 
-            if (base.fixedAge >= Duration)
+            if (fixedAge >= Duration)
             {
                 outer.SetNextStateToMain();
             }
@@ -79,14 +79,14 @@ namespace Sandswept.States.Ranger
         {
             base.OnExit();
 
-            if (base.characterBody)
+            if (characterBody)
             {
-                base.characterBody.isSprinting = true;
+                characterBody.isSprinting = true;
             }
 
-            if (base.isAuthority)
+            if (isAuthority)
             {
-                base.characterBody.AddTimedBuffAuthority(Buffs.SidestepBuff.instance.BuffDef.buffIndex, BuffDuration);
+                characterBody.AddTimedBuffAuthority(Buffs.SidestepBuff.instance.BuffDef.buffIndex, BuffDuration);
             }
         }
     }

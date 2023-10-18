@@ -10,7 +10,7 @@ namespace Sandswept.Skills.Ranger.VFX
 
         public static void Init()
         {
-            tracerPrefab = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.TracerCommandoShotgun, "Gun Go Shoot Tracer", false);
+            tracerPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.TracerCommandoShotgun, "Gun Go Shoot Tracer", false);
 
             var tracer = tracerPrefab.GetComponent<Tracer>();
             tracer.length = 16f;
@@ -34,7 +34,7 @@ namespace Sandswept.Skills.Ranger.VFX
 
             lineRenderer.colorGradient = geenGradient;
 
-            var newMat = Object.Instantiate(Utils.Assets.Material.matCommandoShotgunTracerCore);
+            var newMat = Object.Instantiate(Assets.Material.matCommandoShotgunTracerCore);
             newMat.SetColor("_TintColor", new Color32(0, 255, 195, 255));
             newMat.SetFloat("_Boost", 4.77f);
 

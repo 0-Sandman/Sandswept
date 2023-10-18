@@ -95,13 +95,13 @@ namespace Sandswept.Utils
                 {
                     EffectManager.SimpleEffect(teleportEffectPrefab, gameObject.transform.position, Quaternion.identity, true);
                 }
-                UnityEngine.Object.Destroy(gameObject);
-                UnityEngine.Object.Destroy(spawnCard);
+                Object.Destroy(gameObject);
+                Object.Destroy(spawnCard);
                 return true;
             }
             else
             {
-                UnityEngine.Object.Destroy(spawnCard);
+                Object.Destroy(spawnCard);
                 return false;
             }
         }
@@ -120,11 +120,11 @@ namespace Sandswept.Utils
 
             if (attackerBody)
             {
-                RoR2.TeamMask enemyTeams = RoR2.TeamMask.GetEnemyTeams(attackerBody.teamComponent.teamIndex);
+                RoR2.TeamMask enemyTeams = TeamMask.GetEnemyTeams(attackerBody.teamComponent.teamIndex);
                 HurtBox hurtBox = new RoR2.SphereSearch
                 {
                     radius = 1,
-                    mask = RoR2.LayerIndex.entityPrecise.mask,
+                    mask = LayerIndex.entityPrecise.mask,
                     origin = damageInfo.position
                 }.RefreshCandidates().FilterCandidatesByHurtBoxTeam(enemyTeams).OrderCandidatesByDistance().FilterCandidatesByDistinctHurtBoxEntities().GetHurtBoxes().FirstOrDefault();
 

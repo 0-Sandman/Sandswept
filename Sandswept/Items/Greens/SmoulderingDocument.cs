@@ -1,4 +1,4 @@
-﻿using static Sandswept.Items.Greens.BleedingWitness;
+﻿using static Sandswept.Items.Reds.BleedingWitness;
 using static Sandswept.Utils.Components.MaterialControllerComponents;
 using R2API;
 
@@ -6,12 +6,6 @@ namespace Sandswept.Items.Greens
 {
     internal class SmoulderingDocument : ItemBase<SmoulderingDocument>
     {
-        public class InfoStorage : MonoBehaviour
-        {
-            public CharacterBody body;
-            public int stacks;
-        }
-
         public static BuffDef SmoulderingDocumentDebuff;
 
         public override string ItemName => "Smouldering Document";
@@ -20,7 +14,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Damage over time effects reduce enemy armor and attack speed.";
 
-        public override string ItemFullDescription => StringExtensions.AutoFormat("$sd8%$se chance to $sdignite$se enemies on hit for $sd100%$se TOTAL damage. $sdDamage over time$se effects $sdburden$se enemies, reducing their $sdarmor$se by $sd10$se $ss(+5 per stack)$se and $sdattack speed$se by $sd10%$se $ss(+5% per stack)$se.");
+        public override string ItemFullDescription => StringExtensions.AutoFormat("$sd8%$se chance to $sdignite$se enemies on hit for $sd150%$se TOTAL damage. $sdDamage over time$se effects $sdburden$se enemies, reducing their $sdarmor$se by $sd15$se $ss(+10 per stack)$se and $sdattack speed$se by $sd15%$se $ss(+7.5% per stack)$se.");
 
         public override string ItemLore => "<style=cStack>[insert sad story about corporate exploitation here]</style>";
 
@@ -74,7 +68,7 @@ namespace Sandswept.Items.Greens
 
             if (stacks > 0)
             {
-                var infoStorage = victimBody.GetComponent<InfoStorage>() ? victimBody.GetComponent<InfoStorage>() : victimBody.AddComponent<InfoStorage>();
+                var infoStorage = victimBody.GetComponent<SmoulderingDocumentController>() ? victimBody.GetComponent<SmoulderingDocumentController>() : victimBody.AddComponent<SmoulderingDocumentController>();
 
                 infoStorage.body = victimBody;
                 infoStorage.stacks = GetCount(attackerBody);
@@ -110,12 +104,13 @@ namespace Sandswept.Items.Greens
             {
                 if (Util.CheckRoll(8f * damageInfo.procCoefficient, attackerBody.master))
                 {
+                    var totalDamage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, 1.5f);
                     InflictDotInfo inflictDotInfo = new()
                     {
                         attackerObject = attackerBody.gameObject,
                         victimObject = victim.gameObject,
-                        totalDamage = attackerBody.damage,
-                        damageMultiplier = 1f,
+                        totalDamage = attackerBody.damage * totalDamage,
+                        damageMultiplier = 2f,
                         dotIndex = DotController.DotIndex.Burn
                     };
 
@@ -133,9 +128,9 @@ namespace Sandswept.Items.Greens
         {
             if (sender.HasBuff(SmoulderingDocumentDebuff))
             {
-                var token = sender.gameObject.GetComponent<InfoStorage>();
-                args.armorAdd += -10f + (token.stacks - 1) * -5;
-                args.attackSpeedMultAdd -= 0.1f + 0.05f * (token.stacks - 1);
+                var token = sender.gameObject.GetComponent<SmoulderingDocumentController>();
+                args.armorAdd += -15f - 10f * (token.stacks - 1);
+                args.attackSpeedMultAdd -= 0.15f + 0.075f * (token.stacks - 1);
             }
         }
 
@@ -146,5 +141,11 @@ namespace Sandswept.Items.Greens
             rendererAssign.Renderer = component;
             return new ItemDisplayRuleDict();
         }
+    }
+
+    public class SmoulderingDocumentController : MonoBehaviour
+    {
+        public CharacterBody body;
+        public int stacks;
     }
 }

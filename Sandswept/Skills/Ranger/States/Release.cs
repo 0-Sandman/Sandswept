@@ -9,62 +9,58 @@ namespace Sandswept.States.Ranger
         public static float ProcCoefficient = 1f;
         public static GameObject TracerEffect => ReleaseVFX.tracerPrefab;
         public static GameObject ImpactEffect => ReleaseVFX.impactPrefab;
-        private float damageCoeff;
 
         public override void OnEnter()
         {
             base.OnEnter();
-            float extraDamageCoeff = characterBody.GetBuffCount(Buffs.Charged.instance.BuffDef) * 1f;
-            damageCoeff = DamageCoefficient + extraDamageCoeff;
+            var chargedCount = characterBody.GetBuffCount(Buffs.Charged.instance.BuffDef);
 
-            FireShot();
-
-            if (NetworkServer.active)
-            {
-                for (int i = 0; i < characterBody.GetBuffCount(Buffs.Charged.instance.BuffDef); i++)
-                {
-                    characterBody.RemoveBuff(Buffs.Charged.instance.BuffDef);
-                }
-            }
+            FireShot(chargedCount);
 
             outer.SetNextStateToMain();
         }
 
-        public void FireShot()
+        public void FireShot(int buffCount)
         {
-            AkSoundEngine.PostEvent(Events.Play_lunar_wisp_attack2_launch, base.gameObject);
+            AkSoundEngine.PostEvent(Events.Play_lunar_wisp_attack2_launch, gameObject);
 
-            if (!base.isAuthority)
+            if (isAuthority)
             {
-                return;
+                var aimDirection = GetAimRay().direction;
+
+                BulletAttack attack = new()
+                {
+                    aimVector = aimDirection,
+                    falloffModel = BulletAttack.FalloffModel.DefaultBullet,
+                    damage = damageStat * DamageCoefficient + 1f * buffCount,
+                    isCrit = RollCrit(),
+                    minSpread = 0,
+                    maxSpread = 0,
+                    owner = gameObject,
+                    muzzleName = "MuzzleR",
+                    origin = transform.position,
+                    tracerEffectPrefab = TracerEffect,
+                    hitEffectPrefab = ImpactEffect,
+                    procCoefficient = ProcCoefficient,
+                    weapon = gameObject,
+                    radius = 3f,
+                    smartCollision = true,
+                    stopperMask = LayerIndex.CommonMasks.bullet,
+                    force = 2500f + 200f * buffCount,
+                };
+
+                characterMotor?.ApplyForce((-2500f - 200f * buffCount) * aimDirection, false, false);
+
+                attack.Fire();
             }
 
-            var aimDirection = GetAimRay().direction;
-
-            BulletAttack attack = new()
+            if (NetworkServer.active)
             {
-                aimVector = aimDirection,
-                falloffModel = BulletAttack.FalloffModel.DefaultBullet,
-                damage = base.damageStat * DamageCoefficient,
-                isCrit = base.RollCrit(),
-                minSpread = 0,
-                maxSpread = 0,
-                owner = base.gameObject,
-                muzzleName = "MuzzleR",
-                origin = base.transform.position,
-                tracerEffectPrefab = TracerEffect,
-                hitEffectPrefab = ImpactEffect,
-                procCoefficient = ProcCoefficient,
-                weapon = base.gameObject,
-                radius = 3f,
-                smartCollision = true,
-                stopperMask = LayerIndex.CommonMasks.bullet,
-                force = 2500f,
-            };
-
-            characterMotor?.ApplyForce(-2500f * aimDirection, false, false);
-
-            attack.Fire();
+                for (int i = 0; i < buffCount; i++)
+                {
+                    characterBody.RemoveBuff(Buffs.Charged.instance.BuffDef);
+                }
+            }
         }
     }
 }
