@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using HG;
 using TMPro;
@@ -7,53 +8,6 @@ namespace Sandswept.Items.Reds
 {
     public class CeremonialJar : ItemBase<CeremonialJar>
     {
-        public class JarToken : MonoBehaviour
-        {
-            public CharacterBody attacker;
-            public CharacterBody body;
-            public TeamComponent teamComponent;
-
-            public float timer = 99;
-
-            public void Awake()
-            {
-                body = GetComponent<CharacterBody>();
-                teamComponent = GetComponent<TeamComponent>();
-                if (!AppliedBuff.ContainsKey(teamComponent.teamIndex))
-                {
-                    AppliedBuff[teamComponent.teamIndex] = new List<JarToken>();
-                }
-                AppliedBuff[teamComponent.teamIndex].Add(this);
-                if (!list.Contains(body))
-                {
-                    list.Add(body);
-                }
-            }
-
-            public void FixedUpdate()
-            {
-                timer -= Time.fixedDeltaTime;
-                if (timer <= 0 || body.HasBuff(CeremonialCooldown))
-                {
-                    Destroy(this);
-                }
-            }
-
-            public void OnDestroy()
-            {
-                body.ClearTimedBuffs(CeremonialDef);
-                TeamIndex teamIndex = teamComponent.teamIndex;
-                if (AppliedBuff.ContainsKey(teamIndex))
-                {
-                    AppliedBuff[teamIndex].Remove(this);
-                    if (list.Contains(body))
-                    {
-                        list.Remove(body);
-                    }
-                }
-            }
-        }
-
         public static BuffDef CeremonialDef;
 
         public static BuffDef CeremonialCooldown;
@@ -80,9 +34,9 @@ namespace Sandswept.Items.Reds
 
         public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("CemJarIcon.png");
 
-        public static List<CharacterBody> list = new List<CharacterBody>();
+        public static List<CharacterBody> list = new();
 
-        public static Dictionary<TeamIndex, List<JarToken>> AppliedBuff = new Dictionary<TeamIndex, List<JarToken>>();
+        public static Dictionary<TeamIndex, List<JarToken>> AppliedBuff = new();
 
         public override void Init(ConfigFile config)
         {
@@ -209,7 +163,7 @@ namespace Sandswept.Items.Reds
 
                             DamageInfo extraDamageInfo = new()
                             {
-                                damage = attacker.damage * (5f + 2.5f * --stacks),
+                                damage = attacker.damage * 5f + 2.5f * (stacks - 1),
                                 attacker = attacker.gameObject,
                                 procCoefficient = 0,
                                 position = body.corePosition,
@@ -282,6 +236,7 @@ namespace Sandswept.Items.Reds
         }
 
         private Dictionary<CharacterBody, TemporaryVisualEffect> JarVFXList = new();
+
         public void UpdateVFX(On.RoR2.CharacterBody.orig_UpdateAllTemporaryVisualEffects orig, CharacterBody self)
         {
             orig(self);
@@ -315,6 +270,53 @@ namespace Sandswept.Items.Reds
                 {
                     if (disableOnEnd) enabled = false;
                     if (destroyOnEnd) Destroy(gameObject);
+                }
+            }
+        }
+    }
+
+    public class JarToken : MonoBehaviour
+    {
+        public CharacterBody attacker;
+        public CharacterBody body;
+        public TeamComponent teamComponent;
+
+        public float timer = 99;
+
+        public void Awake()
+        {
+            body = GetComponent<CharacterBody>();
+            teamComponent = GetComponent<TeamComponent>();
+            if (!CeremonialJar.AppliedBuff.ContainsKey(teamComponent.teamIndex))
+            {
+                CeremonialJar.AppliedBuff[teamComponent.teamIndex] = new List<JarToken>();
+            }
+            CeremonialJar.AppliedBuff[teamComponent.teamIndex].Add(this);
+            if (!CeremonialJar.list.Contains(body))
+            {
+                CeremonialJar.list.Add(body);
+            }
+        }
+
+        public void FixedUpdate()
+        {
+            timer -= Time.fixedDeltaTime;
+            if (timer <= 0 || body.HasBuff(CeremonialJar.CeremonialCooldown))
+            {
+                Destroy(this);
+            }
+        }
+
+        public void OnDestroy()
+        {
+            body.ClearTimedBuffs(CeremonialJar.CeremonialDef);
+            TeamIndex teamIndex = teamComponent.teamIndex;
+            if (CeremonialJar.AppliedBuff.ContainsKey(teamIndex))
+            {
+                CeremonialJar.AppliedBuff[teamIndex].Remove(this);
+                if (CeremonialJar.list.Contains(body))
+                {
+                    CeremonialJar.list.Remove(body);
                 }
             }
         }

@@ -137,12 +137,12 @@ namespace Sandswept.Utils
         {
             if (!NetworkServer.active) { return; }
 
-            RoR2.DotController.DotIndex index = (RoR2.DotController.DotIndex)Array.FindIndex(RoR2.DotController.dotDefs, (dotDef) => dotDef.associatedBuff == buff);
+            RoR2.DotController.DotIndex index = (RoR2.DotController.DotIndex)Array.FindIndex(DotController.dotDefs, (dotDef) => dotDef.associatedBuff == buff);
             for (int y = 0; y < stackCount; y++)
             {
-                if (index != RoR2.DotController.DotIndex.None)
+                if (index != DotController.DotIndex.None)
                 {
-                    RoR2.DotController.InflictDot(body.gameObject, body.gameObject, index, duration, 0.25f);
+                    DotController.InflictDot(body.gameObject, body.gameObject, index, duration, 0.25f);
                 }
                 else
                 {
@@ -158,7 +158,7 @@ namespace Sandswept.Utils
         /// <returns>A dotindex of the DotController the target buff is associated with, else, it will return an invalid index.</returns>
         public static DotController.DotIndex FindAssociatedDotForBuff(BuffDef buff)
         {
-            RoR2.DotController.DotIndex index = (RoR2.DotController.DotIndex)Array.FindIndex(RoR2.DotController.dotDefs, (dotDef) => dotDef.associatedBuff == buff);
+            RoR2.DotController.DotIndex index = (RoR2.DotController.DotIndex)Array.FindIndex(DotController.dotDefs, (dotDef) => dotDef.associatedBuff == buff);
 
             return index;
         }

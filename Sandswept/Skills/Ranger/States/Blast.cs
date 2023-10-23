@@ -29,7 +29,7 @@ namespace Sandswept.States.Ranger
 
         public void FireShot()
         {
-            AkSoundEngine.PostEvent(Events.Play_commando_M2, base.gameObject);
+            AkSoundEngine.PostEvent(Events.Play_commando_M2, gameObject);
 
             base.characterDirection.forward = base.GetAimRay().direction;
 
@@ -39,19 +39,19 @@ namespace Sandswept.States.Ranger
             }
 
             BulletAttack attack = new();
-            attack.aimVector = base.GetAimRay().direction;
+            attack.aimVector = GetAimRay().direction;
             attack.falloffModel = BulletAttack.FalloffModel.DefaultBullet;
-            attack.damage = base.damageStat * damageCoeff;
-            attack.isCrit = base.RollCrit();
+            attack.damage = damageStat * damageCoeff;
+            attack.isCrit = RollCrit();
             attack.minSpread = 0;
             attack.maxSpread = 0;
-            attack.owner = base.gameObject;
+            attack.owner = gameObject;
             attack.muzzleName = "MuzzleR";
-            attack.origin = base.transform.position;
+            attack.origin = transform.position;
             attack.tracerEffectPrefab = TracerEffect;
             attack.hitEffectPrefab = ReleaseVFX.impactPrefab;
             attack.procCoefficient = ProcCoefficient;
-            attack.weapon = base.gameObject;
+            attack.weapon = gameObject;
             attack.radius = 0.1f;
             attack.smartCollision = true;
 

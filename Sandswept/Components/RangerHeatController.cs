@@ -65,10 +65,13 @@ namespace Sandswept.Components
         }
     }
 
-    public class FUCKINGKILLYOURSELF : MonoBehaviour {
-        public void FixedUpdate() {
-            if (base.transform.localPosition.y != -1) {
-                base.transform.transform.localPosition = new(base.transform.localPosition.x, -1, base.transform.localPosition.z);
+    public class FUCKINGKILLYOURSELF : MonoBehaviour
+    {
+        public void FixedUpdate()
+        {
+            if (transform.localPosition.y != -1)
+            {
+                transform.transform.localPosition = new(transform.localPosition.x, -1, transform.localPosition.z);
             }
         }
     }

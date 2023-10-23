@@ -1,5 +1,3 @@
-using System;
-using System.Diagnostics;
 using RoR2.UI;
 using BarInfo = RoR2.UI.HealthBar.BarInfo;
 using UnityEngine.UI;
@@ -18,7 +16,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Gain plating on stage entry. Plating absorbs damage and retaliates with debris shards.";
 
-        public override string ItemFullDescription => StringExtensions.AutoFormat("Begin each stage with $sd1000%$se $ss(+1000 per stack)$se of your maximum health as plating. Plating acts as secondary health. Plating cannot be recovered in any way. Taking plating damage fires debris shards at nearby enemies dealing $sd2x120% damage$se.");
+        public override string ItemFullDescription => "Begin each stage with $sh1000$se $ss(+1000 per stack)$se plating. Plating acts as $shsecondary health$se, but cannot be recovered in any way. Taking damage with plating fires $sddebris shards$se at nearby enemies for $sd2x120%$se base damage.".AutoFormat();
 
         public override string ItemLore => "I hope ceremonial jar is coded soon :Yeah3D:";
 
@@ -26,7 +24,7 @@ namespace Sandswept.Items.Greens
 
         public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("MakeshiftPlatePrefab.prefab");
 
-        public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("MakeshiftPlateIcon.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texMakeshiftPlate.png");
 
         public override void Init(ConfigFile config)
         {
@@ -133,10 +131,12 @@ namespace Sandswept.Items.Greens
 
             public void Start()
             {
-                info = new();
-                info.enabled = false;
-                info.imageType = Image.Type.Tiled;
-                info.color = new Color32(255, 105, 95, 200);
+                info = new()
+                {
+                    enabled = false,
+                    imageType = Image.Type.Tiled,
+                    color = new Color32(255, 105, 95, 200)
+                };
             }
         }
 
@@ -178,27 +178,33 @@ namespace Sandswept.Items.Greens
 
                 self.body.GetComponent<PlatingManager>().CurrentPlating -= toRemove;
 
-                if (plating > 0 && Util.CheckRoll(100f * info.procCoefficient)) {
-                    SphereSearch search = new();
-                    search.origin = self.transform.position;
-                    search.radius = 50;
-                    search.mask = LayerIndex.entityPrecise.mask;
+                if (plating > 0 && Util.CheckRoll(100f * info.procCoefficient))
+                {
+                    SphereSearch search = new()
+                    {
+                        origin = self.transform.position,
+                        radius = 50,
+                        mask = LayerIndex.entityPrecise.mask
+                    };
                     search.RefreshCandidates();
                     search.OrderCandidatesByDistance();
                     search.FilterCandidatesByDistinctHurtBoxEntities();
                     search.FilterCandidatesByHurtBoxTeam(TeamMask.GetUnprotectedTeams(self.body.teamComponent.teamIndex));
 
-                    foreach (HurtBox box in search.GetHurtBoxes()) {
-                        BulletAttack attack = new();
-                        attack.damage = self.body.damage * 1.2f;
-                        attack.bulletCount = 2;
-                        attack.maxSpread = 2;
-                        attack.damageColorIndex = DamageColorIndex.Item;
-                        attack.origin = self.transform.position;
-                        attack.aimVector = (box.transform.position - self.transform.position).normalized;
-                        attack.procCoefficient = 0.2f;
-                        attack.tracerEffectPrefab = Assets.GameObject.TracerToolbotNails;
-                        attack.owner = self.gameObject;
+                    foreach (HurtBox box in search.GetHurtBoxes())
+                    {
+                        BulletAttack attack = new()
+                        {
+                            damage = self.body.damage * 1.2f,
+                            bulletCount = 2,
+                            maxSpread = 2,
+                            damageColorIndex = DamageColorIndex.Item,
+                            origin = self.transform.position,
+                            aimVector = (box.transform.position - self.transform.position).normalized,
+                            procCoefficient = 0.2f,
+                            tracerEffectPrefab = Assets.GameObject.TracerToolbotNails,
+                            owner = self.gameObject
+                        };
 
                         attack.Fire();
                     }

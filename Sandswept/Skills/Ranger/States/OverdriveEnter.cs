@@ -12,10 +12,10 @@ namespace Sandswept.States.Ranger
         {
             base.OnEnter();
 
-            SkillLocator locator = base.skillLocator;
-            locator.primary.SetSkillOverride(base.gameObject, PrimarySkill, GenericSkill.SkillOverridePriority.Contextual);
+            SkillLocator locator = skillLocator;
+            locator.primary.SetSkillOverride(gameObject, PrimarySkill, GenericSkill.SkillOverridePriority.Contextual);
             // locator.utility.SetSkillOverride(base.gameObject, NullSkill, GenericSkill.SkillOverridePriority.Contextual);
-            locator.special.SetSkillOverride(base.gameObject, CancelSkill, GenericSkill.SkillOverridePriority.Contextual);
+            locator.special.SetSkillOverride(gameObject, CancelSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.DeductStock(1);
 
             PlayAnimation("Gesture, Override", "EnterOverdrive");
@@ -26,10 +26,10 @@ namespace Sandswept.States.Ranger
         {
             base.OnExit();
 
-            SkillLocator locator = base.skillLocator;
-            locator.primary.UnsetSkillOverride(base.gameObject, PrimarySkill, GenericSkill.SkillOverridePriority.Contextual);
+            SkillLocator locator = skillLocator;
+            locator.primary.UnsetSkillOverride(gameObject, PrimarySkill, GenericSkill.SkillOverridePriority.Contextual);
             // locator.utility.UnsetSkillOverride(base.gameObject, NullSkill, GenericSkill.SkillOverridePriority.Contextual);
-            locator.special.UnsetSkillOverride(base.gameObject, CancelSkill, GenericSkill.SkillOverridePriority.Contextual);
+            locator.special.UnsetSkillOverride(gameObject, CancelSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.DeductStock(1);
 
             PlayAnimation("Gesture, Override", "ExitOverdrive");
@@ -52,7 +52,7 @@ namespace Sandswept.States.Ranger
         public override void OnEnter()
         {
             base.OnEnter();
-            EntityStateMachine machine = EntityStateMachine.FindByCustomName(base.gameObject, "Overdrive");
+            EntityStateMachine machine = EntityStateMachine.FindByCustomName(gameObject, "Overdrive");
             if (machine.state is OverdriveEnter)
             {
                 (machine.state as OverdriveEnter).Exit();

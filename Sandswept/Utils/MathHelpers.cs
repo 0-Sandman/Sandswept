@@ -90,8 +90,8 @@ namespace Sandswept.Utils
 
         public static Vector3 GetPointOnUnitSphereCap(Quaternion targetDirection, float angle)
         {
-            var angleInRad = UnityEngine.Random.Range(0.0f, angle) * Mathf.Deg2Rad;
-            var PointOnCircle = (UnityEngine.Random.insideUnitCircle.normalized) * Mathf.Sin(angleInRad);
+            var angleInRad = Random.Range(0.0f, angle) * Mathf.Deg2Rad;
+            var PointOnCircle = (Random.insideUnitCircle.normalized) * Mathf.Sin(angleInRad);
             var V = new Vector3(PointOnCircle.x, PointOnCircle.y, Mathf.Cos(angleInRad));
             return targetDirection * V;
         }

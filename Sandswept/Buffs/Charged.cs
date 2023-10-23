@@ -15,7 +15,7 @@ namespace Sandswept.Buffs
         public override void Init()
         {
             base.Init();
-            RecalculateStatsAPI.GetStatCoefficients += (body, args) =>
+            GetStatCoefficients += (body, args) =>
             {
                 if (NetworkServer.active && body)
                 {

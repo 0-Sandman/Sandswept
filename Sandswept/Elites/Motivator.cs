@@ -57,7 +57,7 @@ namespace Sandswept.Elites
 
         public override void Hooks()
         {
-            warbanner = Utils.Assets.GameObject.WarbannerWard;
+            warbanner = Assets.GameObject.WarbannerWard;
             warbanner.AddComponent<NetworkedBodyAttachment>();
 
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
@@ -116,7 +116,7 @@ namespace Sandswept.Elites
 
     public class MotivatorController : MonoBehaviour
     {
-        public GameObject warbannerPrefab = Utils.Assets.GameObject.WarbannerWard;
+        public GameObject warbannerPrefab = Assets.GameObject.WarbannerWard;
         public GameObject warbannerInstance;
         public float warbannerRadius = 20f;
         public float onHitRadius = 13f;

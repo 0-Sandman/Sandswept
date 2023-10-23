@@ -8,12 +8,12 @@ namespace Sandswept.Buffs
 
         public override Color Color => new Color32(45, 188, 148, 255);
 
-        public override Sprite BuffIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texBuffSidestep2.png");
+        public override Sprite BuffIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texBuffSidestep.png");
 
         public override void Hooks()
         {
             base.Hooks();
-            RecalculateStatsAPI.GetStatCoefficients += BoostDamage;
+            GetStatCoefficients += BoostDamage;
         }
 
         public void BoostDamage(CharacterBody body, RecalculateStatsAPI.StatHookEventArgs args)

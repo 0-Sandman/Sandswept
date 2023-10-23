@@ -8,7 +8,7 @@ namespace Sandswept.Utils
     {
         public static void RemoveComponent<T>(this GameObject self) where T : Component
         {
-            GameObject.Destroy(self.GetComponent<T>());
+            Object.Destroy(self.GetComponent<T>());
         }
 
         public static void RemoveComponents<T>(this GameObject self) where T : Component
@@ -16,13 +16,13 @@ namespace Sandswept.Utils
             T[] coms = self.GetComponents<T>();
             for (int i = 0; i < coms.Length; i++)
             {
-                GameObject.Destroy(coms[i]);
+                Object.Destroy(coms[i]);
             }
         }
 
         public static void RemoveComponent<T>(this Component self) where T : Component
         {
-            GameObject.Destroy(self.GetComponent<T>());
+            Object.Destroy(self.GetComponent<T>());
         }
 
         public static void RemoveComponents<T>(this Component self) where T : Component
@@ -30,7 +30,7 @@ namespace Sandswept.Utils
             T[] coms = self.GetComponents<T>();
             for (int i = 0; i < coms.Length; i++)
             {
-                GameObject.Destroy(coms[i]);
+                Object.Destroy(coms[i]);
             }
         }
 
