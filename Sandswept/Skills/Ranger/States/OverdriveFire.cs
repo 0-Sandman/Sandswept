@@ -40,6 +40,8 @@ namespace Sandswept.States.Ranger
 
             stopwatch += Time.fixedDeltaTime;
 
+            base.characterDirection.forward = base.GetAimRay().direction;
+
             if (base.inputBank.skill1.down && stopwatch >= shotDelay)
             {
                 stopwatch = 0f;

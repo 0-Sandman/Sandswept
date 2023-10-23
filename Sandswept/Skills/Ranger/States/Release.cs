@@ -19,6 +19,8 @@ namespace Sandswept.States.Ranger
 
             FireShot();
 
+            base.characterDirection.forward = base.GetAimRay().direction;
+
             if (NetworkServer.active)
             {
                 for (int i = 0; i < characterBody.GetBuffCount(Buffs.Charged.instance.BuffDef); i++)

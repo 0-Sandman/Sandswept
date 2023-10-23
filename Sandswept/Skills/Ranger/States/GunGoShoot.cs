@@ -24,7 +24,7 @@ namespace Sandswept.States.Ranger
             shotDelay = ShotDelay / base.attackSpeedStat;
             duration = shotDelay * 2;
 
-            PlayAnimation("Gesture, Override", "Fire", "Fire.playbackRate", duration);
+            PlayAnimation("Gesture, Override", "Fire", "Fire.playbackRate", shotDelay);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -36,6 +36,7 @@ namespace Sandswept.States.Ranger
         {
             base.FixedUpdate();
             stopwatch += Time.fixedDeltaTime;
+            base.characterDirection.forward = base.GetAimRay().direction;
             if (!fired && stopwatch >= shotDelay)
             {
                 fired = true;
@@ -60,6 +61,8 @@ namespace Sandswept.States.Ranger
 
                 outer.SetNextStateToMain();
             }
+
+            base.GetModelAnimator().SetBool("isFiring", true);
         }
 
         public void FireShot()
