@@ -11,6 +11,7 @@ using Sandswept.Survivors;
 using System.Diagnostics;
 using Sandswept.Elites;
 using Sandswept.Skills.Ranger.VFX;
+using MonoMod.Cil;
 
 namespace Sandswept
 {

@@ -21,12 +21,14 @@ namespace Sandswept.Survivors
             Body = Main.Assets.LoadAsset<GameObject>("RangerBody.prefab");
             var characterBody = Body.GetComponent<CharacterBody>();
             characterBody.portraitIcon = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRangerIcon.png");
+            characterBody.bodyColor = new Color32(54, 215, 169, 255);
+
             Master = PrefabAPI.InstantiateClone(Assets.GameObject.CommandoMonsterMaster, "RangerMaster");
 
             Body.GetComponent<CameraTargetParams>().cameraParams = Assets.CharacterCameraParams.ccpStandard;
 
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdRanger.asset");
-            SurvivorDef.cachedName = "Ranger";
+            SurvivorDef.cachedName = "Ranger"; // for eclipse fix
 
             SkillLocator locator = Body.GetComponent<SkillLocator>();
             ReplaceSkills(locator.primary, new SkillDef[] { Skills.Ranger.Skilldefs.DirectCurrent.instance.skillDef });
@@ -35,7 +37,7 @@ namespace Sandswept.Survivors
             ReplaceSkills(locator.special, new SkillDef[] { Skills.Ranger.Skilldefs.OverdriveEnter.instance.skillDef });
 
             "SS_RANGER_PASSIVE_NAME".Add("Power Surge");
-            "SS_RANGER_PASSIVE_DESC".Add("Gain $sd2.5% attack speed$se for each $suCharge$se currently held. You can have up to 10 $suCharge$se.".AutoFormat());
+            "SS_RANGER_PASSIVE_DESC".Add("Gain $sd2.5% attack speed$se for each $rcCharge$erc currently held. You can have up to 10 $rcCharge$erc.".AutoFormat());
         }
     }
 }

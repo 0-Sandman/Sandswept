@@ -80,9 +80,9 @@ namespace Sandswept.States.Ranger
                     force = 5000f + 500f * buffCount,
                 };
 
-                AddRecoil(2f + 0.2f * buffCount, 2f + 0.2f * buffCount, 0f, 0f);
+                AddRecoil(3f + 0.3f * buffCount, 3f + 0.3f * buffCount, 0f, 0f);
 
-                characterMotor?.ApplyForce((-5000f - 500f * buffCount) * aimDirection, false, false);
+                characterMotor?.ApplyForce((-4000f - 400f * buffCount) * aimDirection, false, false);
 
                 attack.Fire();
             }

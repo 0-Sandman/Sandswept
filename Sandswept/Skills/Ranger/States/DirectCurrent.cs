@@ -106,6 +106,8 @@ namespace Sandswept.States.Ranger
                 return BulletAttack.defaultHitCallback(attack, ref hit);
             };
 
+            AddRecoil(0.6f, 0.8f, 0.05f, 0.1f);
+
             attack.Fire();
         }
     }

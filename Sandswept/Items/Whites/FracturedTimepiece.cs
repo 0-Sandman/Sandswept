@@ -4,7 +4,7 @@
     {
         public override string ItemName => "Fractured Timepiece";
 
-        public override string ItemLangTokenName => "CLOCKWORK";
+        public override string ItemLangTokenName => "FRACTURED_TIMEPIECE";
 
         public override string ItemPickupDesc => "Using your utility skill heals you and reduces special cooldown.";
 
@@ -14,9 +14,9 @@
 
         public override ItemTier Tier => ItemTier.Tier1;
 
-        public override GameObject ItemModel => null;
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/FracturedTimepieceHolder.prefab");
 
-        public override Sprite ItemIcon => null;
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texFracturedTimepiece.png");
 
         public override void Init(ConfigFile config)
         {

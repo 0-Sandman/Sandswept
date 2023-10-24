@@ -3,6 +3,7 @@ using System.Linq;
 using System;
 using RoR2.UI;
 using TMPro;
+using UnityEngine.UI;
 
 namespace Sandswept.Components
 {
@@ -18,7 +19,7 @@ namespace Sandswept.Components
         public bool IsOverheating => CurrentHeat > OverheatThreshold;
         public bool isFiring = false;
         internal Animator anim;
-        CharacterBody cb;
+        private CharacterBody cb;
 
         public void Start()
         {
@@ -42,7 +43,8 @@ namespace Sandswept.Components
             KillYourself();
         }
 
-        public void KillYourself() {
+        public void KillYourself()
+        {
             anim.SetBool("isFiring", cb.inputBank.skill1.down);
         }
     }
@@ -52,9 +54,28 @@ namespace Sandswept.Components
         public ImageFillController ifc;
         public RangerHeatManager target;
         public HudElement element;
+        public Image image;
+        public Image backdropImage;
+        public RawImage actualCrosshair;
+        public Animator animator;
+        public Transform heatMeterBackdrop;
+        public Transform heatMeter;
+        public static RuntimeAnimatorController runtimeAnimatorController;
 
         public void Start()
         {
+            actualCrosshair = GetComponent<RawImage>();
+            actualCrosshair.enabled = false;
+
+            heatMeter = transform.GetChild(0).GetChild(1);
+            heatMeterBackdrop = transform.GetChild(0).GetChild(0);
+
+            image = heatMeter.GetComponent<Image>();
+            image.sprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texHeatMeter.png");
+
+            backdropImage = heatMeterBackdrop.GetComponent<Image>();
+            backdropImage.sprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texHeatMeterOutline.png");
+
             element = GetComponent<HudElement>();
             ifc = GetComponentInChildren<ImageFillController>();
             target = element._targetBodyObject.GetComponent<RangerHeatManager>();
@@ -62,6 +83,7 @@ namespace Sandswept.Components
 
         public void FixedUpdate()
         {
+            image.color = new Color32(255, (byte)Mathf.Lerp(200, 70, target.CurrentHeat / RangerHeatManager.MaxHeat), 0, 255);
             ifc.SetTValue(target.CurrentHeat / RangerHeatManager.MaxHeat);
         }
     }

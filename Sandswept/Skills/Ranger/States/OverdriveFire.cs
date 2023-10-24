@@ -75,7 +75,7 @@ namespace Sandswept.States.Ranger
                     damage = damageStat * (selfDamageCoeff + 0.0008f * heat.CurrentHeat),
                     crit = false,
                     position = transform.position,
-                    damageColorIndex = DamageColorIndex.Bleed,
+                    damageColorIndex = DamageColorIndex.Fragile,
                     damageType = DamageType.BypassArmor, // makes rap fake and cheesing guh
                     rejected = false
                 };
@@ -112,6 +112,8 @@ namespace Sandswept.States.Ranger
                 minSpread = heat.CurrentHeat * 0.009f,
                 maxSpread = heat.CurrentHeat * 0.01f
             };
+
+            AddRecoil(0.3f + heat.CurrentHeat * 0.005f, -0.3f - heat.CurrentHeat * 0.005f, 0.1f + heat.CurrentHeat * 0.005f, -0.1f - heat.CurrentHeat * 0.005f);
 
             attack.Fire();
 
