@@ -5,11 +5,11 @@ namespace Sandswept.States.Ranger
 {
     public class OverdriveFire : BaseState
     {
-        public static int ShotsPerSecond = 5;
-        public static float SelfDamageCoeff = 0.11f;
+        public static int ShotsPerSecond = 8;
         public static float ProcCoeff = 1f;
-        public static GameObject TracerEffect => GunGoShootVFX.tracerPrefab; // beef this up later
-        private float damageCoeff = 0f;
+        public static float DamageCoeff = 1f;
+        public static GameObject TracerEffect => DirectCurrentVFX.tracerPrefab; // beef this up later
+        private float selfDamageCoeff = 0.08f;
         private float shots;
         private float shotDelay => 1f / shots;
         private float stopwatch = 0f;
@@ -20,10 +20,13 @@ namespace Sandswept.States.Ranger
             base.OnEnter();
 
             heat = GetComponent<Components.RangerHeatManager>();
-            heat.isFiring = true;
-
-            damageCoeff = 1.5f + 0.0075f * heat.CurrentHeat;
+            heat.isFiring = false;
             shots = ShotsPerSecond * attackSpeedStat;
+
+            if (characterBody)
+            {
+                characterBody.isSprinting = true;
+            }
         }
 
         public void Exit()
@@ -57,7 +60,9 @@ namespace Sandswept.States.Ranger
 
         public void FireShot()
         {
-            AkSoundEngine.PostEvent(Events.Play_commando_M2, gameObject);
+            Util.PlayAttackSpeedSound("Play_commando_M2", gameObject, attackSpeedStat);
+            Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
+            Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
 
             if (heat.IsOverheating)
             {
@@ -65,11 +70,12 @@ namespace Sandswept.States.Ranger
                 {
                     attacker = gameObject,
                     procCoefficient = 0,
-                    damage = damageStat * SelfDamageCoeff,
+                    damage = damageStat * (selfDamageCoeff + 0.0008f * heat.CurrentHeat),
                     crit = false,
                     position = transform.position,
                     damageColorIndex = DamageColorIndex.Bleed,
-                    damageType = DamageType.BypassArmor // makes rap fake and cheesing guh
+                    damageType = DamageType.BypassArmor, // makes rap fake and cheesing guh
+                    rejected = false
                 };
 
                 if (NetworkServer.active)
@@ -87,23 +93,27 @@ namespace Sandswept.States.Ranger
                 return;
             }
 
+            var aimDiretion = GetAimRay().direction;
+
             BulletAttack attack = new()
             {
-                aimVector = GetAimRay().direction,
+                aimVector = aimDiretion,
                 falloffModel = BulletAttack.FalloffModel.DefaultBullet,
-                damage = damageStat * damageCoeff,
+                damage = damageStat * DamageCoeff,
                 isCrit = RollCrit(),
-                damageType = DamageType.Generic,
                 owner = gameObject,
                 muzzleName = "Muzzle",
                 origin = GetAimRay().origin,
                 tracerEffectPrefab = TracerEffect,
                 procCoefficient = ProcCoeff,
-                spreadPitchScale = 1f + (0.01f * heat.CurrentHeat),
-                spreadYawScale = 1f + (0.01f * heat.CurrentHeat)
+                damageType = Util.CheckRoll(heat.CurrentHeat * 0.5f) ? DamageType.IgniteOnHit : DamageType.Generic,
+                minSpread = heat.CurrentHeat * 0.009f,
+                maxSpread = heat.CurrentHeat * 0.01f
             };
 
             attack.Fire();
+
+            heat.isFiring = true;
         }
     }
 }

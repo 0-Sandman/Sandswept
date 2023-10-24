@@ -20,7 +20,7 @@ namespace Sandswept.Buffs
         {
             if (NetworkServer.active && body.HasBuff(BuffDef))
             {
-                args.damageMultAdd += 2f;
+                args.damageMultAdd += 1f;
             }
         }
     }

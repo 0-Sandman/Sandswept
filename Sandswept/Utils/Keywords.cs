@@ -28,7 +28,7 @@ namespace Sandswept.Utils
         [AutoRun]
         public static void SetupKeywords()
         {
-            Charged.Add("<style=cKeywordName>Charged</style>Each stack of <style=cIsUtility>Charge</style> reduces the cooldown of this skill by <style=cIsDamage>1 second</style>");
+            Charged.Add("<style=cKeywordName>Charged</style>Each stack of <style=cIsUtility>Charge</style> reduces the cooldown of this skill by <style=cIsDamage>1 second</style>.");
         }
     }
 }

@@ -17,11 +17,11 @@ namespace Sandswept.Elites
 
         public override string EliteModifier => "Motivator";
 
-        public override GameObject EliteEquipmentModel => CreateAffixModel(new Color32(0, 0, 0, 255));
+        public override GameObject EliteEquipmentModel => CreateAffixModel(new Color32(200, 101, 105, 255));
 
-        public override Sprite EliteEquipmentIcon => null;
+        public override Sprite EliteEquipmentIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texMotivatorAffix.png");
 
-        public override Sprite EliteBuffIcon => null;
+        public override Sprite EliteBuffIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texMotivatorBuff.png");
 
         public override Texture2D EliteRampTexture => Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampMotivator.png");
 
@@ -31,6 +31,8 @@ namespace Sandswept.Elites
         public static GameObject warbanner;
 
         public override CombatDirector.EliteTierDef[] CanAppearInEliteTiers => EliteAPI.GetCombatDirectorEliteTiers().Where(x => x.eliteTypes.Contains(Addressables.LoadAssetAsync<EliteDef>("RoR2/Base/EliteFire/edFire.asset").WaitForCompletion())).ToArray();
+
+        public override Color EliteBuffColor => new Color32(200, 101, 105, 255);
 
         public override void Init(ConfigFile config)
         {
@@ -57,8 +59,23 @@ namespace Sandswept.Elites
 
         public override void Hooks()
         {
-            warbanner = Assets.GameObject.WarbannerWard;
-            warbanner.AddComponent<NetworkedBodyAttachment>();
+            warbanner = PrefabAPI.InstantiateClone(Assets.GameObject.WarbannerWard, "Motivator Warbanner");
+            var mdlWarbanner = warbanner.transform.GetChild(1);
+            mdlWarbanner.RemoveComponent<ObjectScaleCurve>();
+
+            var cylinder = mdlWarbanner.GetChild(0).GetComponent<MeshRenderer>();
+            var newMat = Object.Instantiate(Assets.Material.matWarbannerPole);
+            newMat.SetColor("_TintColor", new Color32(160, 79, 60, 255));
+
+            cylinder.material = newMat;
+
+            var plane = mdlWarbanner.GetChild(1).GetComponent<SkinnedMeshRenderer>();
+            var newMat2 = Object.Instantiate(Assets.Material.matWarbannerFlag);
+            newMat2.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texMotivatorWarbanner.png"));
+
+            plane.material = newMat2;
+
+            PrefabAPI.RegisterNetworkPrefab(warbanner);
 
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
@@ -116,35 +133,77 @@ namespace Sandswept.Elites
 
     public class MotivatorController : MonoBehaviour
     {
-        public GameObject warbannerPrefab = Assets.GameObject.WarbannerWard;
+        public GameObject warbannerPrefab = Motivator.warbanner;
         public GameObject warbannerInstance;
         public float warbannerRadius = 20f;
         public float onHitRadius = 13f;
         public CharacterBody body;
+        public Transform modelTransform;
         public HealthComponent healthComponent;
         public TeamIndex team;
         public static readonly SphereSearch sphereSearch = new();
         public static readonly List<HurtBox> hurtBoxBuffer = new();
         public static List<MotivatorController> motivatorControllers = new();
         public GameObject warbannerOffset = new("Motivator Warbanner Offset");
+        public Transform mdlWarbanner;
 
         public void Start()
         {
             body = GetComponent<CharacterBody>();
             healthComponent = body?.healthComponent;
+            modelTransform = body?.modelLocator?.modelTransform;
             if (body)
             {
                 warbannerRadius += body.radius;
                 onHitRadius += body.radius;
             }
-            warbannerOffset.transform.parent = gameObject.transform;
-            warbannerOffset.transform.localPosition = new Vector3(0f, 2.5f, 0f) * body.radius;
-            warbannerInstance = Instantiate(warbannerPrefab, body.transform.position, Quaternion.identity);
-            warbannerInstance.GetComponent<TeamFilter>().teamIndex = body.teamComponent.teamIndex;
-            warbannerInstance.GetComponent<BuffWard>().Networkradius = warbannerRadius;
+            if (modelTransform)
+            {
+                warbannerOffset.transform.parent = modelTransform;
+                warbannerOffset.transform.localPosition = new Vector3(0f, 5f, 0f) * body.radius;
+                warbannerOffset.transform.eulerAngles = Vector3.zero;
+
+                warbannerInstance = Instantiate(warbannerPrefab, modelTransform.position, Quaternion.identity);
+                warbannerInstance.transform.parent = warbannerOffset.transform;
+                warbannerOffset.transform.eulerAngles = Vector3.zero;
+
+                warbannerInstance.GetComponent<TeamFilter>().teamIndex = body.teamComponent.teamIndex;
+                warbannerInstance.GetComponent<BuffWard>().Networkradius = warbannerRadius;
+
+                NetworkServer.Spawn(warbannerInstance);
+
+                mdlWarbanner = warbannerInstance.transform.GetChild(1);
+                if (body)
+                {
+                    mdlWarbanner.localScale = Vector3.one * body.radius * 0.5f;
+                    if (body.isPlayerControlled)
+                        mdlWarbanner.gameObject.SetActive(false);
+                }
+            }
+
+            /*
+            Main.ModLogger.LogError("motivator warbanner is " + Motivator.warbanner);
+            Main.ModLogger.LogError("warbanner instance is " + warbannerInstance);
+            Main.ModLogger.LogError("warbanner instance networked body attaachment is " + warbannerInstance.GetComponent<NetworkedBodyAttachment>());
+            * none null
+            * */
+
+            /*
+            var networkedBodyAttachment = warbannerInstance.GetComponent<NetworkedBodyAttachment>();
+            networkedBodyAttachment.AttachToGameObjectAndSpawn(warbannerOffset);
+
             warbannerInstance.GetComponent<NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(warbannerOffset);
+            */
 
             motivatorControllers.Add(this);
+        }
+
+        public void FixedUpdate()
+        {
+            if (warbannerOffset && modelTransform)
+                warbannerOffset.transform.rotation = modelTransform.rotation;
+            if (warbannerInstance)
+                warbannerInstance.transform.localPosition = Vector3.zero;
         }
 
         public void Proc()

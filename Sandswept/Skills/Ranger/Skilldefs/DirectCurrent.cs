@@ -1,14 +1,14 @@
 using System;
 
-namespace Sandswept.Skills.Ranger
+namespace Sandswept.Skills.Ranger.Skilldefs
 {
-    public class GunGoShoot : SkillBase<GunGoShoot>
+    public class DirectCurrent : SkillBase<DirectCurrent>
     {
-        public override string Name => "Gun Go Shoot";
+        public override string Name => "Direct Current";
 
         public override string Description => "Fire your rifle in a $suburst$se for $sd2x300% damage$se. Landing both hits will give $su1 Charge$se.".AutoFormat();
 
-        public override Type ActivationStateType => typeof(States.Ranger.GunGoShoot);
+        public override Type ActivationStateType => typeof(States.Ranger.DirectCurrent);
 
         public override string ActivationMachineName => "Weapon";
 

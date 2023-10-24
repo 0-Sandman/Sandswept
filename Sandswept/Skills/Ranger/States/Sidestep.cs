@@ -1,3 +1,4 @@
+using Sandswept.Components;
 using Sandswept.Skills.Ranger.VFX;
 using System;
 
@@ -12,13 +13,11 @@ namespace Sandswept.States.Ranger
         private Transform modelTransform;
         public static Material overlayMat1 = SidestepVFX.dashMat1;
         public static Material overlayMat2 = SidestepVFX.dashMat2;
+        private RangerHeatManager heat;
 
         public override void OnEnter()
         {
             base.OnEnter();
-            if (modelLocator)
-            {
-            }
             if (characterBody)
             {
                 characterBody.isSprinting = true;
@@ -83,10 +82,18 @@ namespace Sandswept.States.Ranger
             {
                 characterBody.isSprinting = true;
             }
-
+            /*
             if (isAuthority)
             {
                 characterBody.AddTimedBuffAuthority(Buffs.SidestepBuff.instance.BuffDef.buffIndex, BuffDuration);
+            }
+            */
+
+            // also commented this out because yeah
+
+            if (characterMotor)
+            {
+                SmallHop(characterMotor, 12f);
             }
         }
     }
