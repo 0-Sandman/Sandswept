@@ -17,6 +17,14 @@ namespace Sandswept.Components
 
         public bool IsOverheating => CurrentHeat > OverheatThreshold;
         public bool isFiring = false;
+        internal Animator anim;
+        CharacterBody cb;
+
+        public void Start()
+        {
+            cb = GetComponent<CharacterBody>();
+            anim = GetComponent<CharacterDirection>().modelAnimator;
+        }
 
         public void FixedUpdate()
         {
@@ -30,6 +38,12 @@ namespace Sandswept.Components
             }
 
             CurrentHeat = Mathf.Clamp(CurrentHeat, 0, MaxHeat);
+
+            KillYourself();
+        }
+
+        public void KillYourself() {
+            anim.SetBool("isFiring", cb.inputBank.skill1.down);
         }
     }
 

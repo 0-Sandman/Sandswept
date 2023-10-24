@@ -1,4 +1,5 @@
 using System;
+using Sandswept.Skills.Ranger.VFX;
 
 namespace Sandswept.States.Ranger
 {
@@ -6,7 +7,7 @@ namespace Sandswept.States.Ranger
     {
         public static float DamageCoefficient = 5f;
         public static float ProcCoefficient = 1f;
-        public static GameObject TracerEffect => Assets.GameObject.TracerHuntressSnipe;
+        public static GameObject TracerEffect => ReleaseVFX.tracerPrefab;
         private float damageCoeff;
 
         public override void OnEnter()
@@ -30,7 +31,9 @@ namespace Sandswept.States.Ranger
         {
             AkSoundEngine.PostEvent(Events.Play_commando_M2, gameObject);
 
-            if (!isAuthority)
+            base.characterDirection.forward = base.GetAimRay().direction;
+
+            if (!base.isAuthority)
             {
                 return;
             }
@@ -46,6 +49,7 @@ namespace Sandswept.States.Ranger
             attack.muzzleName = "MuzzleR";
             attack.origin = transform.position;
             attack.tracerEffectPrefab = TracerEffect;
+            attack.hitEffectPrefab = ReleaseVFX.impactPrefab;
             attack.procCoefficient = ProcCoefficient;
             attack.weapon = gameObject;
             attack.radius = 0.1f;
