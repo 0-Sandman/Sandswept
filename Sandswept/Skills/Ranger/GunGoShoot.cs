@@ -4,7 +4,7 @@ namespace Sandswept.Skills.Ranger
 {
     public class GunGoShoot : SkillBase<GunGoShoot>
     {
-        public override string Name => "Gun Go Shoot";
+        public override string Name => "Direct Current";
 
         public override string Description => "Fire your rifle in a $suburst$se for $sd2x300% damage$se. Landing both hits will give $su1 Charge$se.".AutoFormat();
 

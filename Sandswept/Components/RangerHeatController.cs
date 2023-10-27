@@ -3,6 +3,8 @@ using System.Linq;
 using System;
 using RoR2.UI;
 using TMPro;
+using RoR2;
+using RoR2.HudOverlay;
 
 namespace Sandswept.Components
 {
@@ -18,11 +20,22 @@ namespace Sandswept.Components
         public bool isFiring = false;
         internal Animator anim;
         CharacterBody cb;
+        public GameObject overlayPrefab;
+        internal GameObject overlayInstance;
 
         public void Start()
         {
             cb = GetComponent<CharacterBody>();
             anim = GetComponent<CharacterDirection>().modelAnimator;
+            OverlayCreationParams p = new();
+            p.prefab = overlayPrefab;
+            p.childLocatorEntry = "CrosshairExtras";
+            
+            OverlayController controller = HudOverlayManager.AddOverlay(base.gameObject, p);
+            controller.onInstanceAdded += (c, i) => {
+                overlayInstance = i;
+                overlayInstance.GetComponent<RangerCrosshairManager>().target = this;
+            };
         }
 
         public void FixedUpdate()
@@ -54,13 +67,14 @@ namespace Sandswept.Components
 
         public void Start()
         {
-            element = GetComponent<HudElement>();
             ifc = GetComponentInChildren<ImageFillController>();
-            target = element._targetBodyObject.GetComponent<RangerHeatManager>();
         }
 
         public void FixedUpdate()
         {
+            if (!target) {
+                return;
+            }
             ifc.SetTValue(target.CurrentHeat / RangerHeatManager.MaxHeat);
         }
     }
