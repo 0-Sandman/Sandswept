@@ -19,7 +19,7 @@ namespace Sandswept.Items.Whites
 
         public override ItemTier Tier => ItemTier.Tier1;
 
-        public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("AmberKnifePrefab.prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/AmberKnifeHolder.prefab");
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texAmberKnife.png");
 
@@ -85,21 +85,6 @@ namespace Sandswept.Items.Whites
             amberKnifeProjectile.AddComponent<AmberKnifeProjectile>();
 
             PrefabAPI.RegisterNetworkPrefab(amberKnifeProjectile);
-
-            var component = ItemModel.transform.Find("AmberKnife").Find("Knife").gameObject;
-            var renderer = component.GetComponent<MeshRenderer>();
-            var controller = component.AddComponent<HGStandardController>();
-            controller.Renderer = renderer;
-            controller.Material = renderer.materials[0];
-            var material = controller.Material;
-            material.SetTexture("_EmTex", Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Grandparent/texGrandparentDetailGDiffuse.png").WaitForCompletion());
-            material.SetFloat("_EmPower", 10f);
-            material.SetColor("_EmColor", new Color32(50, 0, 0, 255));
-            material.SetTexture("_FresnelRamp", Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Common/ColorRamps/texRampTwotone.jpg").WaitForCompletion());
-            material.SetFloat("_FresnelPower", 13f);
-            material.SetFloat("_FresnelBoost", 2.5f);
-            material.EnableKeyword("FRESNEL_EMISSION");
-            renderer.material = material;
 
             CreateLang();
             CreateItem();

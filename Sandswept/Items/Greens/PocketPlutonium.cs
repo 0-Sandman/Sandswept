@@ -24,9 +24,9 @@
 
         public override ItemTier Tier => ItemTier.Tier2;
 
-        public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("PlutoniumPrefab.Prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/PocketPlutoniumHolder.Prefab");
 
-        public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("PlutoniumIcon.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texPocketPlutonium.png");
 
         public static GameObject indicator;
 

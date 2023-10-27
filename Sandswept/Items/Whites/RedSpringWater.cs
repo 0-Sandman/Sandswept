@@ -8,7 +8,7 @@
 
         public override string ItemPickupDesc => "Increase health regeneration for every buff you have.";
 
-        public override string ItemFullDescription => "Increase $shhealth regeneration$se by $sh0.4 hp/s$se Sss(+0.4 per stack)$se for $suevery buff you have$se.".AutoFormat();
+        public override string ItemFullDescription => "Increase $shhealth regeneration$se by $sh0.4 hp/s$se $ss(+0.4hp/s per stack)$se for $suevery buff you have$se.".AutoFormat();
 
         public override string ItemLore => "";
 

@@ -5,13 +5,15 @@ using RoR2.UI;
 using TMPro;
 using RoR2;
 using RoR2.HudOverlay;
+using UnityEngine.UI;
 
 namespace Sandswept.Components
 {
     public class RangerHeatManager : MonoBehaviour
     {
         public static float MaxHeat = 200f;
-        public static float HeatDecayRate = 20f;
+        public static float HeatDecayRate = 25f;
+        public static float HeatIncreaseRate = 30f;
         public static float OverheatThreshold = 100f;
 
         public float CurrentHeat = 0f;
@@ -42,7 +44,7 @@ namespace Sandswept.Components
         {
             if (isFiring && CurrentHeat < MaxHeat)
             {
-                CurrentHeat += HeatDecayRate * Time.fixedDeltaTime;
+                CurrentHeat += HeatIncreaseRate * Time.fixedDeltaTime;
             }
             else if (!isFiring && CurrentHeat > 0)
             {
@@ -54,7 +56,8 @@ namespace Sandswept.Components
             KillYourself();
         }
 
-        public void KillYourself() {
+        public void KillYourself()
+        {
             anim.SetBool("isFiring", cb.inputBank.skill1.down);
         }
     }
@@ -64,9 +67,29 @@ namespace Sandswept.Components
         public ImageFillController ifc;
         public RangerHeatManager target;
         public HudElement element;
+        public Image image;
+        public Image backdropImage;
+        public RawImage actualCrosshair;
+        public Animator animator;
+        public Transform heatMeterBackdrop;
+        public Transform heatMeter;
+        public static RuntimeAnimatorController runtimeAnimatorController;
 
         public void Start()
         {
+            actualCrosshair = GetComponent<RawImage>();
+            actualCrosshair.enabled = false;
+
+            heatMeter = transform.GetChild(0).GetChild(1);
+            heatMeterBackdrop = transform.GetChild(0).GetChild(0);
+
+            image = heatMeter.GetComponent<Image>();
+            image.sprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texHeatMeter.png");
+
+            backdropImage = heatMeterBackdrop.GetComponent<Image>();
+            backdropImage.sprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texHeatMeterOutline.png");
+
+            element = GetComponent<HudElement>();
             ifc = GetComponentInChildren<ImageFillController>();
         }
 
@@ -75,6 +98,7 @@ namespace Sandswept.Components
             if (!target) {
                 return;
             }
+            image.color = new Color32(255, (byte)Mathf.Lerp(200, 70, target.CurrentHeat / RangerHeatManager.MaxHeat), 0, 255);
             ifc.SetTValue(target.CurrentHeat / RangerHeatManager.MaxHeat);
         }
     }

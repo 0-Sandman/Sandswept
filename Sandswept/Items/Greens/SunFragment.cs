@@ -14,7 +14,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Create a blinding flash on hit that stuns and ignites enemies";
 
-        public override string ItemFullDescription => "$su7%$se chance on hit to create a $sublinding flash$se in a $su12m$se area, $sustunning$se for $su2s$se and $signiting$se enemies for $sd150%$se $ss(+150% per stack)$se TOTAL damage.".AutoFormat();
+        public override string ItemFullDescription => "$su7%$se chance on hit to create a $sublinding flash$se in a $su12m$se area, $sustunning$se for $su2s$se and $sdigniting$se enemies for $sd150%$se $ss(+150% per stack)$se TOTAL damage.".AutoFormat();
 
         public override string ItemLore => "Maybe less hell to code";
 

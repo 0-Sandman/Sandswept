@@ -5,6 +5,8 @@
         public static GameObject tracerPrefab;
         public static GameObject impactPrefab;
 
+        // replace with railgunner m2/special later
+
         public static void Init()
         {
             tracerPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.TracerHuntressSnipe, "Release Tracer", false);

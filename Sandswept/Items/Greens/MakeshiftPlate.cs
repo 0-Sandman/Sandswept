@@ -99,19 +99,19 @@ namespace Sandswept.Items.Greens
 
         public void HopooWhatIsThisShitWhyGuh(On.RoR2.UI.HealthBar.orig_UpdateBarInfos orig, HealthBar self)
         {
-            ButHeresTheHopoo guh = self.GetComponent<ButHeresTheHopoo>(); // NRE if guh not null checked
+            var guh = self.GetComponent<ButHeresTheHopoo>(); // NRE if guh not null checked
 
             if (guh)
             {
-                if (self.source.GetComponent<PlatingManager>())
+                if (self.source && self.source.GetComponent<PlatingManager>())
                 {
-                    PlatingManager manager = self.source.GetComponent<PlatingManager>();
+                    var platingManager = self.source.GetComponent<PlatingManager>();
                     ref BarInfo info = ref guh.info;
 
-                    info.enabled = manager.CurrentPlating > 0;
+                    info.enabled = platingManager.CurrentPlating > 0;
 
                     info.normalizedXMin = 0f;
-                    info.normalizedXMax = manager.CurrentPlating == 0 ? 0 : (float)manager.CurrentPlating / (float)manager.MaxPlating;
+                    info.normalizedXMax = platingManager.CurrentPlating == 0 ? 0 : (float)platingManager.CurrentPlating / (float)platingManager.MaxPlating;
 
                     // UnityEngine.Debug.Log($"-----\nEnabled: {guh.enabled}\nXMax: {info.normalizedXMax}\n----");
                 }
@@ -135,7 +135,9 @@ namespace Sandswept.Items.Greens
                 {
                     enabled = false,
                     imageType = Image.Type.Tiled,
-                    color = new Color32(255, 105, 95, 200)
+                    color = Color.white,
+                    // color = new Color32(255, 105, 95, 200),
+                    sprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texMakeshiftPlateHealthbar.png")
                 };
             }
         }

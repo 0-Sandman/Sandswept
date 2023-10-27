@@ -11,6 +11,7 @@ using Sandswept.Survivors;
 using System.Diagnostics;
 using Sandswept.Elites;
 using Sandswept.Skills.Ranger.VFX;
+using MonoMod.Cil;
 
 namespace Sandswept
 {
@@ -67,7 +68,7 @@ namespace Sandswept
             ModLogger = Logger;
 
             ReleaseVFX.Init();
-            GunGoShootVFX.Init();
+            DirectCurrentVFX.Init();
             SidestepVFX.Init();
 
             AutoRunCollector.HandleAutoRun();
@@ -87,6 +88,9 @@ namespace Sandswept
             hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
 
             SwapAllShaders(MainAssets);
+            SwapAllShaders(Assets);
+            SwapAllShaders(Asset2s);
+            SwapAllShaders(hifuSandswept);
             DamageColourHelper.Init();
             //On.RoR2.GlobalEventManager.OnHitEnemy += GenericBodyTokenAddition;
 
@@ -260,6 +264,10 @@ namespace Sandswept
                 switch (val.shader.name)
                 {
                     case "Stubbed Hopoo Games/Deferred/Standard":
+                        val.shader = Resources.Load<Shader>("shaders/deferred/hgstandard");
+                        break;
+
+                    case "StubbedShader/deferred/hgstandard":
                         val.shader = Resources.Load<Shader>("shaders/deferred/hgstandard");
                         break;
 

@@ -5,8 +5,8 @@ namespace Sandswept.States.Ranger
 {
     public class OverdriveEnter : BaseState
     {
-        public static SkillDef PrimarySkill => Skills.Ranger.OverdriveFire.instance.skillDef;
-        public static SkillDef CancelSkill => Skills.Ranger.OverdriveExit.instance.skillDef;
+        public static SkillDef PrimarySkill => Skills.Ranger.Skilldefs.OverdriveFire.instance.skillDef;
+        public static SkillDef CancelSkill => Skills.Ranger.Skilldefs.OverdriveExit.instance.skillDef;
 
         public override void OnEnter()
         {
@@ -34,6 +34,11 @@ namespace Sandswept.States.Ranger
 
             PlayAnimation("Gesture, Override", "ExitOverdrive");
             Util.PlaySound("Play_lunar_wisp_attack2_windDown", gameObject);
+
+            if (characterBody)
+            {
+                characterBody.isSprinting = true;
+            }
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -58,6 +63,11 @@ namespace Sandswept.States.Ranger
                 (machine.state as OverdriveEnter).Exit();
             }
             outer.SetNextStateToMain();
+
+            if (characterBody)
+            {
+                characterBody.isSprinting = true;
+            }
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

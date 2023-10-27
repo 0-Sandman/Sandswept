@@ -3,18 +3,20 @@ using System;
 
 namespace Sandswept.States.Ranger
 {
-    public class GunGoShoot : BaseState
+    public class DirectCurrent : BaseState
     {
         public static float DamageCoefficient = 3f;
         public static float ShotDelay = 0.3f;
         public static float TotalDuration => ShotDelay * 2;
         public static float ProcCoefficient = 1f;
-        public static GameObject TracerEffect => GunGoShootVFX.tracerPrefab;
+        public static GameObject TracerEffect => DirectCurrentVFX.tracerPrefab;
         private int totalHit = 0;
         private float stopwatch = 0f;
         private bool fired = false;
         private float shotDelay;
         private float duration;
+
+        // change to fast projectile later, maybe make it slightly arc
 
         public override void OnEnter()
         {
@@ -45,19 +47,22 @@ namespace Sandswept.States.Ranger
 
             if (fixedAge >= duration)
             {
-                if (totalHit >= 2 && NetworkServer.active && characterBody.GetBuffCount(Buffs.Charged.instance.BuffDef) <= 10)
+                if (totalHit >= 2 && NetworkServer.active && characterBody.GetBuffCount(Buffs.Charged.instance.BuffDef) <= 9)
                 {
                     characterBody.AddBuff(Buffs.Charged.instance.BuffDef);
                 }
-
+                /*
                 if (totalHit >= 2)
                 {
                     GenericSkill util = skillLocator.utility;
-                    if (util && util.skillDef == Skills.Ranger.Sidestep.instance.skillDef)
+                    if (util && util.skillDef == Skills.Ranger.Skilldefs.Sidestep.instance.skillDef)
                     {
                         util.rechargeStopwatch += 1f;
                     }
                 }
+                */
+
+                // commented this out because it incentivizes holding charge and never using m2 for more mobility
 
                 outer.SetNextStateToMain();
             }
@@ -77,17 +82,19 @@ namespace Sandswept.States.Ranger
                 return;
             }
 
-            BulletAttack attack = new();
-            attack.aimVector = GetAimRay().direction;
-            attack.falloffModel = BulletAttack.FalloffModel.DefaultBullet;
-            attack.damage = damageStat * DamageCoefficient;
-            attack.isCrit = RollCrit();
-            attack.damageType = DamageType.Generic;
-            attack.owner = gameObject;
-            attack.muzzleName = "Muzzle";
-            attack.origin = GetAimRay().origin;
-            attack.tracerEffectPrefab = TracerEffect;
-            attack.procCoefficient = ProcCoefficient;
+            BulletAttack attack = new()
+            {
+                aimVector = GetAimRay().direction,
+                falloffModel = BulletAttack.FalloffModel.DefaultBullet,
+                damage = damageStat * DamageCoefficient,
+                isCrit = RollCrit(),
+                damageType = DamageType.Generic,
+                owner = gameObject,
+                muzzleName = "Muzzle",
+                origin = GetAimRay().origin,
+                tracerEffectPrefab = TracerEffect,
+                procCoefficient = ProcCoefficient
+            };
 
             attack.hitCallback = (BulletAttack attack, ref BulletAttack.BulletHit hit) =>
             {
@@ -98,6 +105,8 @@ namespace Sandswept.States.Ranger
                 }
                 return BulletAttack.defaultHitCallback(attack, ref hit);
             };
+
+            AddRecoil(0.6f, 0.8f, 0.05f, 0.1f);
 
             attack.Fire();
         }

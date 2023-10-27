@@ -4,16 +4,17 @@ using System.Text;
 
 namespace Sandswept.Skills.Ranger.VFX
 {
-    public static class GunGoShootVFX
+    public static class DirectCurrentVFX
     {
         public static GameObject tracerPrefab;
 
         public static void Init()
         {
-            tracerPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.TracerCommandoShotgun, "Gun Go Shoot Tracer", false);
+            tracerPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.TracerCommandoShotgun, "Direct Current Tracer", false);
 
             var tracer = tracerPrefab.GetComponent<Tracer>();
-            tracer.length = 16f;
+            tracer.length = 16f; // 14
+            tracer.speed = 240f; // 160
 
             var effectComponent = tracerPrefab.GetComponent<EffectComponent>();
             effectComponent.soundName = "Play_wHeavyShoot1";

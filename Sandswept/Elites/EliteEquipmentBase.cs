@@ -18,10 +18,6 @@ namespace Sandswept.Elites
     {
         public abstract string EliteEquipmentName { get; }
 
-        /// <summary>
-        /// The lang token that will be used in registering most of your strings.
-        /// <para>E.g.: AFFIX_HYPERCHARGED</para>
-        /// </summary>
         public abstract string EliteAffixToken { get; }
 
         public abstract string EliteEquipmentPickupDesc { get; }
@@ -37,9 +33,6 @@ namespace Sandswept.Elites
         public virtual bool AppearsInSinglePlayer { get; } = true;
 
         public virtual bool AppearsInMultiPlayer { get; } = true;
-
-        public virtual bool Hidden { get; } = true;
-
         public virtual bool CanDrop { get; } = false;
 
         public virtual float Cooldown { get; } = 60f;
@@ -56,7 +49,7 @@ namespace Sandswept.Elites
         /// </summary>
         public abstract Sprite EliteBuffIcon { get; }
 
-        public virtual Color EliteBuffColor { get; set; } = new Color32(255, 255, 255, byte.MaxValue);
+        public abstract Color EliteBuffColor { get; }
 
         /// <summary>
         /// If not overriden, the elite can spawn in all tiers defined.

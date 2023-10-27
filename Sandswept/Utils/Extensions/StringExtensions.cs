@@ -82,12 +82,15 @@ namespace Sandswept.Utils
             public string expanded;
         }
 
-        private static List<Format> formats = new() {
-            new Format {
+        private static List<Format> formats = new()
+        {
+            new Format
+            {
                 match = "$su",
                 expanded = "<style=cIsUtility>"
             },
-            new Format {
+            new Format
+            {
                 match = "$sd",
                 expanded = "<style=cIsDamage>"
             },
@@ -107,6 +110,16 @@ namespace Sandswept.Utils
                 match = "$se",
                 expanded = "</style>"
             },
+            new Format
+            {
+                match = "$rc",
+                expanded = "<color=#36D7A9>"
+            },
+            new Format
+            {
+                match = "$erc",
+                expanded = "</color>"
+            }
         };
 
         internal static string FormatString(string str)
