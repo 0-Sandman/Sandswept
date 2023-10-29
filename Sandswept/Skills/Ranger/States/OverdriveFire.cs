@@ -70,7 +70,7 @@ namespace Sandswept.States.Ranger
             {
                 DamageInfo info = new()
                 {
-                    attacker = gameObject,
+                    attacker = null,
                     procCoefficient = 0,
                     damage = damageStat * (selfDamageCoeff + 0.0008f * heat.CurrentHeat),
                     crit = false,
