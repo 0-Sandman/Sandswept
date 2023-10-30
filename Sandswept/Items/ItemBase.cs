@@ -155,6 +155,11 @@ namespace Sandswept.Items
             return body.inventory.GetItemCount(itemDef);
         }
 
+        public string d(float f)
+        {
+            return (f * 100f).ToString() + "%";
+        }
+
         public string GetConfigName()
         {
             return ItemName;

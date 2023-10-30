@@ -12,7 +12,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Create a nuclear pool after losing shields.";
 
-        public override string ItemFullDescription => "Gain a $shshield$se equal to $sh10%$se of your maximum health. Upon losing all $shshield$se, create a nuclear pool in a $sd16m$se area that deals $sd1000%$se $ss(+500% per stack)$se base damage, plus an additional $sd300%$se $ss(+150% per stack)$se of $shshields$se.".AutoFormat();
+        public override string ItemFullDescription => "Gain a $shshield$se equal to $sh10%$se of your maximum health. Upon losing all $shshield$se, create a nuclear pool in a $sd16m$se area that deals $sd1000%$se $ss(+500% per stack)$se base damage, plus an additional $sd300%$se $ss(+200% per stack)$se of $shshields$se.".AutoFormat();
 
         public override string ItemLore => "you have no idea how many times I reworked this item";
 
@@ -31,7 +31,7 @@ namespace Sandswept.Items.Greens
         public static float baseDamage = 10f;
         public static float damagePerStack = 5f;
         public static float baseShieldPercent = 3f;
-        public static float shieldPercentStack = 1.5f;
+        public static float shieldPercentStack = 2f;
 
         public static BuffDef pocketPlutoniumRecharge;
 
@@ -49,6 +49,7 @@ namespace Sandswept.Items.Greens
             pocketPlutoniumRecharge.isDebuff = false;
             pocketPlutoniumRecharge.canStack = false;
             pocketPlutoniumRecharge.buffColor = new Color32(115, 204, 71, 255);
+            pocketPlutoniumRecharge.isHidden = true;
             pocketPlutoniumRecharge.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texProtogen3.png");
 
             ContentAddition.AddBuffDef(pocketPlutoniumRecharge);
@@ -61,8 +62,8 @@ namespace Sandswept.Items.Greens
             var projectileDotZone = poolPrefab.GetComponent<ProjectileDotZone>();
             projectileDotZone.damageCoefficient = 0.25f;
             projectileDotZone.resetFrequency = 4f;
-            projectileDotZone.lifetime = 3f;
-            // hits 4x per sec for 25% of the damage, that is multiplied by 0.33 (down in the component) so does its full damage in 3s aka the entire lifetime
+            projectileDotZone.lifetime = 5f;
+            // hits 4x per sec for 25% of the damage, that is multiplied by 0.2 (down in the component) so does its full damage in 5s aka the entire lifetime
 
             // hitbox x,z scale of 0.9145525 = 7.5m radius
             // so 16m = (16 / 7.5) * 0.9145525
@@ -116,16 +117,16 @@ namespace Sandswept.Items.Greens
                     {
                         var damageFromBase = body.damage * (baseDamage + damagePerStack * (stack - 1));
                         var damageFromShields = body.maxShield * (baseShieldPercent + shieldPercentStack * (stack - 1));
-                        var damage = (damageFromBase + damageFromShields) * (1f / 3f);
+                        var damage = (damageFromBase + damageFromShields) * 0.2f;
                         Main.ModLogger.LogError("damage from base is " + damageFromBase);
                         Main.ModLogger.LogError("damage from shields is " + damageFromShields);
-                        Main.ModLogger.LogError("FINAL damage is " + damage);
-                        Main.ModLogger.LogError("FULL FINAL FUCKING damage, in 3s should be " + damage * 3f);
+                        Main.ModLogger.LogError("damage is " + damage);
+                        Main.ModLogger.LogError("FULL FINAL FUCKING, in 5s should be " + damage * 5f);
                         ProjectileManager.instance.FireProjectile(poolPrefab, raycast.point, Quaternion.identity, self.gameObject, damage, 0f, body.RollCrit(), DamageColorIndex.Poison, null, -1f);
 
                         Util.PlaySound("Play_item_use_molotov_impact_big", self.gameObject);
                     }
-                    self.body.AddTimedBuffAuthority(pocketPlutoniumRecharge.buffIndex, 7f);
+                    self.body.AddTimedBuffAuthority(pocketPlutoniumRecharge.buffIndex, 1f);
                 }
             }
         }

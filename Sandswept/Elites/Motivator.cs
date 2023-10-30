@@ -5,13 +5,13 @@ namespace Sandswept.Elites
 {
     internal class Motivator : EliteEquipmentBase<Motivator>
     {
-        public override string EliteEquipmentName => "He is Kill Yourself";
+        public override string EliteEquipmentName => "John Hopoo";
 
         public override string EliteAffixToken => "MOTIVATOR";
 
-        public override string EliteEquipmentPickupDesc => "Become an aspect of low tier god.";
+        public override string EliteEquipmentPickupDesc => "Omg OwO <3 hiii :3 x3 hiiii heyyy :3 :3 :3 UwU meow mrrraow OwO";
 
-        public override string EliteEquipmentFullDescription => "Become an aspect of low tier god.";
+        public override string EliteEquipmentFullDescription => "Omg OwO <3 hiii :3 x3 hiiii heyyy :3 :3 :3 UwU meow mrrraow OwO";
 
         public override string EliteEquipmentLore => "";
 

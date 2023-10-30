@@ -20,7 +20,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "Gain plating on stage entry. Plating absorbs damage, but cannot be recovered.";
 
-        public override string ItemFullDescription => "Begin each stage with $sh30%$se, plus an additional $sh50$se $ss(+30% per stack)$se $pcplating$ec. $pcPlating acts$ec as $shsecondary health$se, but cannot be recovered in any way.".AutoFormat();
+        public override string ItemFullDescription => "Begin each stage with $sh1000$se $ss(+1000 per stack)$se plating. Plating acts as $shsecondary health$se, but cannot be recovered in any way. Taking damage with plating fires $sddebris shards$se at nearby enemies for $sd2x120%$se base damage.".AutoFormat();
 
         public override string ItemLore => "I hope ceremonial jar is coded soon :Yeah3D:";
 
@@ -54,26 +54,22 @@ namespace Sandswept.Items.Whites
             );
         }
 
-        public void GameMakerStudio2(On.RoR2.UI.HealthBar.orig_Awake orig, HealthBar self)
-        {
+        public void GameMakerStudio2(On.RoR2.UI.HealthBar.orig_Awake orig, HealthBar self) {
             orig(self);
             ButHeresTheHopoo hopoo = self.AddComponent<ButHeresTheHopoo>();
             hopoo.info.sprite = self.barInfoCollection.instantHealthbarInfo.sprite;
         }
 
-        public static int FuckingWhy(orig_GetActiveCount orig, ref HealthBar.BarInfoCollection self)
-        {
+        public static int FuckingWhy(orig_GetActiveCount orig, ref HealthBar.BarInfoCollection self) {
             return orig(ref self) + 1;
         }
 
-        public void SeriouslyWhy(On.RoR2.UI.HealthBar.orig_ApplyBars orig, HealthBar self)
-        {
+        public void SeriouslyWhy(On.RoR2.UI.HealthBar.orig_ApplyBars orig, HealthBar self) {
             orig(self);
 
             ButHeresTheHopoo guh = self.GetComponent<ButHeresTheHopoo>();
 
-            if (!guh)
-            {
+            if (!guh) {
                 return;
             }
 
@@ -91,8 +87,7 @@ namespace Sandswept.Items.Whites
                     image.color = barInfo.color;
                     SetRectPosition((RectTransform)image.transform, barInfo.normalizedXMin, barInfo.normalizedXMax, barInfo.sizeDelta);
                 }
-                else
-                {
+                else {
                     image.enabled = false;
                 }
             }
@@ -106,37 +101,32 @@ namespace Sandswept.Items.Whites
             }
         }
 
-        public void HopooWhatIsThisShitWhyGuh(On.RoR2.UI.HealthBar.orig_UpdateBarInfos orig, HealthBar self)
-        {
+        public void HopooWhatIsThisShitWhyGuh(On.RoR2.UI.HealthBar.orig_UpdateBarInfos orig, HealthBar self) {
             orig(self);
 
             ButHeresTheHopoo guh = self.GetComponent<ButHeresTheHopoo>();
 
-            if (self.source && self.source.GetComponent<PlatingManager>() && guh)
-            {
+            if (self.source && self.source.GetComponent<PlatingManager>() && guh) {
                 PlatingManager manager = self.source.GetComponent<PlatingManager>();
                 ref BarInfo info = ref guh.info;
 
                 info.enabled = manager.CurrentPlating > 0;
 
-                info.normalizedXMin = 0f;
-                info.normalizedXMax = manager.CurrentPlating == 0 ? 0 : (float)manager.CurrentPlating / (float)manager.MaxPlating;
+                    info.normalizedXMin = 0f;
+                    info.normalizedXMax = platingManager.CurrentPlating == 0 ? 0 : (float)platingManager.CurrentPlating / (float)platingManager.MaxPlating;
 
                 // UnityEngine.Debug.Log($"-----\nEnabled: {guh.enabled}\nXMax: {info.normalizedXMax}\n----");
             }
-            else
-            {
+            else {
                 guh.enabled = false;
             }
         }
 
-        public class ButHeresTheHopoo : MonoBehaviour
-        {
+        public class ButHeresTheHopoo : MonoBehaviour {
             public BarInfo info;
             public Sprite sprite;
 
-            public void Start()
-            {
+            public void Start() {
                 info = new();
                 info.enabled = false;
                 info.imageType = Image.Type.Tiled;
@@ -144,34 +134,14 @@ namespace Sandswept.Items.Whites
             }
         }
 
-        public void OnBodySpawn(On.RoR2.CharacterBody.orig_Start orig, CharacterBody self)
-        {
+        public void OnBodySpawn(On.RoR2.CharacterBody.orig_Start orig, CharacterBody self) {
             orig(self);
 
-            var stack = GetCount(self);
-
-            if (stack > 0)
+            if (self.inventory)
             {
-                int plating = 0;
-                var hc = self.healthComponent;
-                if (hc)
-                {
-                    var maxHp = hc.fullCombinedHealth;
+                int plating = self.inventory.GetItemCount(ItemDef) * 1000;
 
-                    var max = maxHp * 2f;
-
-                    var percentHp = 0.3f;
-
-                    var flat = 50;
-
-                    var amp = maxHp * stack * percentHp;
-
-                    var increase = flat + Mathf.CeilToInt(MathHelpers.CustomHyperbolic(amp, max));
-                    plating = increase;
-                }
-
-                if (plating == 0)
-                {
+                if (plating == 0) {
                     return;
                 }
 
@@ -181,25 +151,50 @@ namespace Sandswept.Items.Whites
             }
         }
 
-        public void TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
-        {
-            if (self.body.GetComponent<PlatingManager>())
-            {
+        public void TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info) {
+            if (self.body.GetComponent<PlatingManager>()) {
                 int plating = self.body.GetComponent<PlatingManager>().CurrentPlating;
                 int toRemove;
 
-                if (plating > info.damage)
-                {
+                if (plating > info.damage) {
                     toRemove = Mathf.RoundToInt(info.damage);
                     info.damage = 0;
                 }
-                else
-                {
+                else {
                     toRemove = Mathf.RoundToInt(info.damage) - plating;
                     info.damage -= plating;
                 }
 
                 self.body.GetComponent<PlatingManager>().CurrentPlating -= toRemove;
+
+                if (plating > 0 && Util.CheckRoll(100f * info.procCoefficient))
+                {
+                    SphereSearch search = new()
+                    {
+                        origin = self.transform.position,
+                        radius = 50,
+                        mask = LayerIndex.entityPrecise.mask
+                    };
+                    search.RefreshCandidates();
+                    search.OrderCandidatesByDistance();
+                    search.FilterCandidatesByDistinctHurtBoxEntities();
+                    search.FilterCandidatesByHurtBoxTeam(TeamMask.GetUnprotectedTeams(self.body.teamComponent.teamIndex));
+
+                    foreach (HurtBox box in search.GetHurtBoxes()) {
+                        BulletAttack attack = new();
+                        attack.damage = self.body.damage * 1.2f;
+                        attack.bulletCount = 2;
+                        attack.maxSpread = 2;
+                        attack.damageColorIndex = DamageColorIndex.Item;
+                        attack.origin = self.transform.position;
+                        attack.aimVector = (box.transform.position - self.transform.position).normalized;
+                        attack.procCoefficient = 0.2f;
+                        attack.tracerEffectPrefab = Assets.GameObject.TracerToolbotNails;
+                        attack.owner = self.gameObject;
+
+                        attack.Fire();
+                    }
+                }
             }
 
             orig(self, info);
@@ -216,8 +211,7 @@ namespace Sandswept.Items.Whites
             ContentAddition.AddBuffDef(MakeshiftPlateCount);
         }
 
-        public class PlatingManager : MonoBehaviour
-        {
+        public class PlatingManager : MonoBehaviour {
             public int CurrentPlating = 0;
             public int MaxPlating = 0;
         }

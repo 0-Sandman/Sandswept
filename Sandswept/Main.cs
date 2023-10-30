@@ -198,14 +198,11 @@ namespace Sandswept
         public bool ValidateItem(ItemBase item, List<ItemBase> itemList)
         {
             var enabled = Config.Bind<bool>("Item: " + item.ItemName, "Enable Item?", true, "Should this item appear in runs?").Value;
-            var aiBlacklist = Config.Bind<bool>("Item: " + item.ItemName, "Blacklist Item from AI Use?", false, "Should the AI not be able to obtain this item?").Value;
+            var aiBlacklist = Config.Bind<bool>("Item: " + item.ItemName, "Blacklist Item from AI Use?", item.AIBlacklisted, "Should the AI not be able to obtain this item?").Value;
             if (enabled)
             {
                 itemList.Add(item);
-                if (aiBlacklist)
-                {
-                    item.AIBlacklisted = true;
-                }
+                item.AIBlacklisted = aiBlacklist;
             }
             return enabled;
         }
@@ -245,15 +242,11 @@ namespace Sandswept
 
         public bool ValidateBuff(BuffBase buff, List<BuffBase> buffList)
         {
-            var enabled = Config.Bind<bool>("Buff: " + buff.BuffName, "Enable Buff?", true, "Should this buff be registered for use in the game?").Value;
+            BuffStatusDictionary.Add(buff, true);
 
-            BuffStatusDictionary.Add(buff, enabled);
+            buffList.Add(buff);
 
-            if (enabled)
-            {
-                buffList.Add(buff);
-            }
-            return enabled;
+            return true;
         }
 
         public void SwapAllShaders(AssetBundle bundle)
