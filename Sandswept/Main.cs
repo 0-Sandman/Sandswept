@@ -271,6 +271,10 @@ namespace Sandswept
                         val.shader = Resources.Load<Shader>("shaders/deferred/hgstandard");
                         break;
 
+                    case "StubbedShader/fx/hgintersectioncloudremap":
+                        val.shader = Resources.Load<Shader>("shaders/fx/hgintersectioncloudremap");
+                        break;
+
                     case "Stubbed Hopoo Games/Deferred/Snow Topped":
                         val.shader = Resources.Load<Shader>("shaders/deferred/hgsnowtopped");
                         break;

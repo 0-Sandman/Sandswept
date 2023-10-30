@@ -117,8 +117,13 @@ namespace Sandswept.Utils
             },
             new Format
             {
-                match = "$erc",
+                match = "$ec",
                 expanded = "</color>"
+            },
+            new Format
+            {
+                match = "$pc",
+                expanded = "<color=#406096>"
             }
         };
 

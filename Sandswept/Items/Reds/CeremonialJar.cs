@@ -22,9 +22,9 @@ namespace Sandswept.Items.Reds
 
         public override string ItemLangTokenName => "CEREMONIAL_JAR";
 
-        public override string ItemPickupDesc => "Hits link enemies, link multiple to damage them";
+        public override string ItemPickupDesc => "Link enemies on hit. Linked enemies take massive damage.";
 
-        public override string ItemFullDescription => "<color=#00ffcc>J</color>";
+        public override string ItemFullDescription => "On hit, $sdlink$se enemies up to $sd3$se times. $sdLinked$se enemies take $sd1500%$se $ss(+750% per stack)$se base damage each.".AutoFormat();
 
         public override string ItemLore => "";
 
@@ -48,12 +48,16 @@ namespace Sandswept.Items.Reds
             JarVFX.name = "CeremonialJarEffect";
 
             Object.Destroy(JarVFX.transform.Find("Visual").Find("Stack 2").gameObject);
+
             Object.Destroy(JarVFX.transform.Find("Visual").Find("Stack 3").gameObject);
+
             GameObject stack = JarVFX.transform.Find("Visual").Find("Stack 1").gameObject;
             stack.name = "Donuts";
             stack.GetComponent<MeshFilter>().mesh = Main.Asset2s.LoadAsset<Mesh>("assets/jardonuts.obj");
+
             ObjectScaleCurve osc = stack.AddComponent<ObjectScaleCurve>();
             osc.enabled = false;
+
             AnimationCurve curve = new();
             curve.AddKey(0, 1);
             curve.keys[0].inTangent = 4;
@@ -65,15 +69,20 @@ namespace Sandswept.Items.Reds
             osc.curveY = curve;
             osc.curveZ = curve;
             osc.overallCurve = curve;
+
             Object.Destroy(stack.GetComponent<AnimateShaderAlpha>());
+
             GuhAlpha guh = stack.AddComponent<GuhAlpha>();
+
             AnimationCurve curve2 = new();
             curve2.AddKey(0, 1);
             curve2.AddKey(0.5f, 0);
+
             guh.alphaCurve = curve2;
             guh.timeMax = 0.5f;
             guh.destroyOnEnd = true;
             guh.enabled = false;
+
             Material mat = Object.Instantiate(stack.GetComponent<MeshRenderer>().material);
             mat.name = "matJarDonuts";
             mat.SetTexture("_RemapTex", Main.Asset2s.LoadAsset<Texture2D>("assets/jarramp.png"));
@@ -116,17 +125,18 @@ namespace Sandswept.Items.Reds
             CeremonialDef.name = "Linked";
             CeremonialDef.canStack = false;
             CeremonialDef.isDebuff = true;
-            CeremonialDef.iconSprite = Main.MainAssets.LoadAsset<Sprite>("LinkedIcon.png");
+            CeremonialDef.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texGaySex.png");
+            CeremonialDef.buffColor = new Color32(244, 255, 221, 255);
             ContentAddition.AddBuffDef(CeremonialDef);
             // BuffCatalog.buffDefs.AddItem(CeremonialDef);
 
             CeremonialCooldown = ScriptableObject.CreateInstance<BuffDef>();
             CeremonialCooldown.name = "Cleansed";
-            CeremonialCooldown.buffColor = Color.white;
+            CeremonialCooldown.buffColor = new Color32(47, 60, 76, 255);
             CeremonialCooldown.canStack = false;
             CeremonialCooldown.isDebuff = false;
             CeremonialCooldown.isCooldown = true;
-            CeremonialCooldown.iconSprite = Main.MainAssets.LoadAsset<Sprite>("Cleansed.png");
+            CeremonialCooldown.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texLesbianFurry.png");
             ContentAddition.AddBuffDef(CeremonialCooldown);
             // BuffCatalog.buffDefs.AddItem(CeremonialCooldown);
         }
@@ -149,44 +159,47 @@ namespace Sandswept.Items.Reds
                 var token = GetToken(self);
 
                 var attacker = token.attacker;
-
-                if (list.Contains(self))
+                //if (!attacker.HasBuff(CeremonialCooldown))
                 {
-                    if (AppliedBuff[self.teamComponent.teamIndex].Count >= 3)
+                    if (list.Contains(self))
                     {
-                        UpdateVFX((_) => { }, self); // final enemy have vfx as well
-                        foreach (CharacterBody body in AppliedBuff[self.teamComponent.teamIndex].Select((x) => x.body))
+                        if (AppliedBuff[self.teamComponent.teamIndex].Count >= 3)
                         {
-                            var stacks = GetCount(attacker);
+                            UpdateVFX((_) => { }, self); // final enemy have vfx as well
 
-                            body.AddTimedBuff(CeremonialCooldown, 5f);
-
-                            DamageInfo extraDamageInfo = new()
+                            foreach (CharacterBody body in AppliedBuff[self.teamComponent.teamIndex].Select((x) => x.body))
                             {
-                                damage = attacker.damage * 5f + 2.5f * (stacks - 1),
-                                attacker = attacker.gameObject,
-                                procCoefficient = 0,
-                                position = body.corePosition,
-                                crit = false,
-                                damageColorIndex = jarDamageColour,
-                                damageType = DamageType.Silent
-                            };
-                            body.healthComponent.TakeDamage(extraDamageInfo);
+                                var stacks = GetCount(attacker);
 
-                            EffectManager.SpawnEffect(GlobalEventManager.CommonAssets.igniteOnKillExplosionEffectPrefab, new EffectData
-                            {
-                                origin = body.corePosition,
-                                scale = body.radius * 2
-                            }, transmit: false);
-                            if (!JarVFXList.ContainsKey(body) || !(bool)JarVFXList[body]) continue;
-                            GameObject _JarVFX = JarVFXList[body].gameObject;
-                            GameObject stack = _JarVFX.transform.Find("Visual").Find("Donuts").gameObject;
-                            ArrayUtils.ArrayAppend(ref _JarVFX.GetComponent<TemporaryVisualEffect>().exitComponents, stack.GetComponent<GuhAlpha>());
-                            ArrayUtils.ArrayAppend(ref _JarVFX.GetComponent<TemporaryVisualEffect>().exitComponents, stack.GetComponent<ObjectScaleCurve>());
-                            _JarVFX.transform.Find("Particles").gameObject.SetActive(false);
-                            _JarVFX.GetComponent<DestroyOnTimer>().duration = 0.5f;
+                                DamageInfo extraDamageInfo = new()
+                                {
+                                    damage = attacker.damage * 15f + 7.5f * (stacks - 1),
+                                    attacker = attacker.gameObject,
+                                    procCoefficient = 0,
+                                    position = body.corePosition,
+                                    crit = false,
+                                    damageColorIndex = jarDamageColour,
+                                    damageType = DamageType.Silent
+                                };
+                                body.healthComponent.TakeDamage(extraDamageInfo);
+
+                                EffectManager.SpawnEffect(GlobalEventManager.CommonAssets.igniteOnKillExplosionEffectPrefab, new EffectData
+                                {
+                                    origin = body.corePosition,
+                                    scale = body.radius * 2
+                                }, transmit: false);
+                                if (!JarVFXList.ContainsKey(body) || !(bool)JarVFXList[body]) continue;
+                                GameObject _JarVFX = JarVFXList[body].gameObject;
+                                GameObject stack = _JarVFX.transform.Find("Visual").Find("Donuts").gameObject;
+                                ArrayUtils.ArrayAppend(ref _JarVFX.GetComponent<TemporaryVisualEffect>().exitComponents, stack.GetComponent<GuhAlpha>());
+                                ArrayUtils.ArrayAppend(ref _JarVFX.GetComponent<TemporaryVisualEffect>().exitComponents, stack.GetComponent<ObjectScaleCurve>());
+                                _JarVFX.transform.Find("Particles").gameObject.SetActive(false);
+                                _JarVFX.GetComponent<DestroyOnTimer>().duration = 0.5f;
+                            }
+                            AppliedBuff[self.teamComponent.teamIndex].RemoveAll((x) => x.body);
+
+                            //attacker.AddTimedBuff(CeremonialCooldown, 5f);
                         }
-                        AppliedBuff[self.teamComponent.teamIndex].RemoveAll((x) => x.body);
                     }
                 }
             }
@@ -201,22 +214,28 @@ namespace Sandswept.Items.Reds
 
             if (damageInfo.procCoefficient > 0)
             {
-                if (stacks > 0 && !victimBody.HasBuff(CeremonialDef) && !victimBody.HasBuff(CeremonialCooldown))
+                if (stacks > 0 && !victimBody.HasBuff(CeremonialDef))
                 {
                     if (list.Count < 3)
                     {
-                        victimBody.AddTimedBuff(CeremonialDef, 3f + 0.5f * (stacks - 1f));
+                        victimBody.AddTimedBuff(CeremonialDef, 3f);
                         var token = GetToken(victimBody);
                         token.attacker = attackerBody;
-                        token.timer = 3f + 0.5f * (stacks - 1f);
+                        token.timer = 3f;
                     }
                 }
+                /*
                 if (stacks > 0 && victim.GetComponent<JarToken>())
                 {
                     var token = GetToken(victimBody);
-                    token.timer = 3f + 0.5f * (stacks - 1f);
-                    victimBody.AddTimedBuff(CeremonialDef, 3f + 0.5f * (stacks - 1f), 1);
+                    token.timer = 3f;
+                    victimBody.AddTimedBuff(CeremonialDef, 3f, 1);
                 }
+                */
+
+                // so commenting this makes it properly reapply the buff but makes it do no damage guhhh
+                // if uncommented, it's jank, the damage works fine but every enemy has at least a 3s cooldown, extended whenever you hit them so it feels pretty awful
+                // so idk fix both of these maybe :smirk_cat:
             }
             orig(self, damageInfo, victim);
         }
@@ -281,7 +300,7 @@ namespace Sandswept.Items.Reds
         public CharacterBody body;
         public TeamComponent teamComponent;
 
-        public float timer = 99;
+        public float timer = 3f;
 
         public void Awake()
         {
@@ -301,7 +320,7 @@ namespace Sandswept.Items.Reds
         public void FixedUpdate()
         {
             timer -= Time.fixedDeltaTime;
-            if (timer <= 0 || body.HasBuff(CeremonialJar.CeremonialCooldown))
+            if (timer <= 0)
             {
                 Destroy(this);
             }

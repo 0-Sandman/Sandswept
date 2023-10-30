@@ -14,9 +14,9 @@ namespace Sandswept.Items.Greens
 
         public override string ItemLangTokenName => "MAKESHIFT_PLATE";
 
-        public override string ItemPickupDesc => "Gain plating on stage entry. Plating absorbs damage and retaliates with debris shards.";
+        public override string ItemPickupDesc => "Gain plating on stage entry. Plating absorbs damage, but cannot be recovered.";
 
-        public override string ItemFullDescription => "Begin each stage with $sh1000$se $ss(+1000 per stack)$se plating. Plating acts as $shsecondary health$se, but cannot be recovered in any way. Taking damage with plating fires $sddebris shards$se at nearby enemies for $sd2x120%$se base damage.".AutoFormat();
+        public override string ItemFullDescription => "Begin each stage with $sh30%$se, plus an additional $sh50$se $ss(+30% per stack)$se $pcplating$ec. $pcPlating acts$ec as $shsecondary health$se, but cannot be recovered in any way.".AutoFormat();
 
         public override string ItemLore => "I hope ceremonial jar is coded soon :Yeah3D:";
 
@@ -111,7 +111,7 @@ namespace Sandswept.Items.Greens
                     info.enabled = platingManager.CurrentPlating > 0;
 
                     info.normalizedXMin = 0f;
-                    info.normalizedXMax = platingManager.CurrentPlating == 0 ? 0 : (float)platingManager.CurrentPlating / (float)platingManager.MaxPlating;
+                    info.normalizedXMax = platingManager.CurrentPlating == 0 ? 0 : platingManager.CurrentPlating / (float)platingManager.MaxPlating;
 
                     // UnityEngine.Debug.Log($"-----\nEnabled: {guh.enabled}\nXMax: {info.normalizedXMax}\n----");
                 }
@@ -146,9 +146,27 @@ namespace Sandswept.Items.Greens
         {
             orig(self);
 
-            if (self.inventory)
+            var stack = GetCount(self);
+
+            if (stack > 0)
             {
-                int plating = self.inventory.GetItemCount(ItemDef) * 1000;
+                int plating = 0;
+                var hc = self.healthComponent;
+                if (hc)
+                {
+                    var maxHp = hc.fullCombinedHealth;
+
+                    var max = maxHp * 2f;
+
+                    var percentHp = 0.3f;
+
+                    var flat = 50;
+
+                    var amp = maxHp * stack * percentHp;
+
+                    var increase = flat + Mathf.CeilToInt(MathHelpers.CustomHyperbolic(amp, max));
+                    plating = increase;
+                }
 
                 if (plating == 0)
                 {
@@ -180,6 +198,7 @@ namespace Sandswept.Items.Greens
 
                 self.body.GetComponent<PlatingManager>().CurrentPlating -= toRemove;
 
+                /*
                 if (plating > 0 && Util.CheckRoll(100f * info.procCoefficient))
                 {
                     SphereSearch search = new()
@@ -211,6 +230,7 @@ namespace Sandswept.Items.Greens
                         attack.Fire();
                     }
                 }
+                */
             }
 
             orig(self, info);

@@ -5,7 +5,7 @@ namespace Sandswept.States.Ranger
 {
     public class Release : BaseState
     {
-        public static float DamageCoefficient = 5f;
+        public static float DamageCoefficient = 8f;
         public static float ProcCoefficient = 1f;
         public static float baseDuration = 0.25f;
         public float duration;

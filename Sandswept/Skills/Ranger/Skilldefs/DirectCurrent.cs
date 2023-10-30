@@ -6,7 +6,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
     {
         public override string Name => "Direct Current";
 
-        public override string Description => "Fire your rifle in a $suburst$se for $sd2x300% damage$se. Landing both hits will give $rc1 Charge$erc.".AutoFormat();
+        public override string Description => "Fire your rifle in a $suburst$se for $sd2x200% damage$se. Landing both hits will give $rc1 Charge$ec.".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Ranger.DirectCurrent);
 

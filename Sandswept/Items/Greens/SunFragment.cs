@@ -73,7 +73,7 @@ namespace Sandswept.Items.Greens
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
         {
             var attacker = damageInfo.attacker;
-            if (!damageInfo.procChainMask.HasProc(sunFragmentDoTProcType) && attacker && DamageAPI.HasModdedDamageType(damageInfo, SunFragmentDamageType))
+            if (!damageInfo.procChainMask.HasProc(sunFragmentDoTProcType) && attacker && damageInfo.HasModdedDamageType(SunFragmentDamageType))
             {
                 var attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
                 if (attackerBody)

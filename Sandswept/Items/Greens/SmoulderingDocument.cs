@@ -1,6 +1,4 @@
-﻿using static Sandswept.Items.Reds.BleedingWitness;
-using static Sandswept.Utils.Components.MaterialControllerComponents;
-using R2API;
+﻿using static Sandswept.Utils.Components.MaterialControllerComponents;
 
 namespace Sandswept.Items.Greens
 {
@@ -14,7 +12,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Damage over time effects reduce enemy armor and attack speed.";
 
-        public override string ItemFullDescription => StringExtensions.AutoFormat("$sd8%$se chance to $sdignite$se enemies on hit for $sd150%$se TOTAL damage. $sdDamage over time$se effects $sdburden$se enemies, reducing their $sdarmor$se by $sd15$se $ss(+10 per stack)$se and $sdattack speed$se by $sd15%$se $ss(+7.5% per stack)$se.");
+        public override string ItemFullDescription => "$sd5%$se chance to $sdignite$se enemies on hit for $sd250%$se TOTAL damage. $sdDamage over time$se effects $sdburden$se enemies, reducing their $sddamage$se by $sd15%$se $ss(+10% per stack)$se and $sdattack speed$se by $sd15%$se $ss(+10% per stack)$se.".AutoFormat();
 
         public override string ItemLore => "<style=cStack>[insert sad story about corporate exploitation here]</style>";
 
@@ -102,15 +100,16 @@ namespace Sandswept.Items.Greens
             var stack = GetCount(attackerBody);
             if (stack > 0)
             {
-                if (Util.CheckRoll(8f * damageInfo.procCoefficient, attackerBody.master))
+                if (Util.CheckRoll(5f * damageInfo.procCoefficient, attackerBody.master))
                 {
-                    var totalDamage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, 1.5f);
+                    var totalDamage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, 2.5f);
+
                     InflictDotInfo inflictDotInfo = new()
                     {
                         attackerObject = attackerBody.gameObject,
                         victimObject = victim.gameObject,
                         totalDamage = attackerBody.damage * totalDamage,
-                        damageMultiplier = 2f,
+                        damageMultiplier = 4f,
                         dotIndex = DotController.DotIndex.Burn
                     };
 
@@ -129,8 +128,9 @@ namespace Sandswept.Items.Greens
             if (sender.HasBuff(SmoulderingDocumentDebuff))
             {
                 var token = sender.gameObject.GetComponent<SmoulderingDocumentController>();
-                args.armorAdd += -15f - 10f * (token.stacks - 1);
-                args.attackSpeedMultAdd -= 0.15f + 0.075f * (token.stacks - 1);
+                var damageReduction = Util.ConvertAmplificationPercentageIntoReductionPercentage(15f + 10f * (token.stacks - 1)) * -0.01f;
+                args.damageMultAdd += damageReduction;
+                args.attackSpeedMultAdd -= 0.15f + 0.1f * (token.stacks - 1);
             }
         }
 

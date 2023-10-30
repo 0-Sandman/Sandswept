@@ -7,7 +7,7 @@ namespace Sandswept.Items.Greens
     {
         public override string ItemName => "Nucler Salvo";
 
-        public override string ItemLangTokenName => "SS_SALVO";
+        public override string ItemLangTokenName => "NUCLEAR_SALVO";
 
         public override string ItemPickupDesc => "Mechanical allies fire nuclear warheads periodically.";
 
@@ -120,13 +120,13 @@ namespace Sandswept.Items.Greens
 
                 if (attachment.attachedBody.inventory.GetItemCount(NuclearSalvo.instance.ItemDef) <= 0)
                 {
-                    Destroy(this.gameObject);
+                    Destroy(gameObject);
                 }
             }
 
             if (attachment.attachedBody.inventory.GetItemCount(NuclearSalvo.instance.ItemDef) <= 0)
             {
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
         }
     }

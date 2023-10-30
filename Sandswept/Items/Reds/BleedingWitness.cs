@@ -1,4 +1,5 @@
-﻿using static RoR2.DotController;
+﻿/*
+using static RoR2.DotController;
 
 namespace Sandswept.Items.Reds
 {
@@ -16,7 +17,7 @@ namespace Sandswept.Items.Reds
 
         public override ItemTier Tier => ItemTier.Tier3;
 
-        public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("WitnessPrefab.prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/BleedingWitnessHolder.prefab");
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texBleedingWitness.png");
 
@@ -137,3 +138,4 @@ namespace Sandswept.Items.Reds
         }
     }
 }
+*/

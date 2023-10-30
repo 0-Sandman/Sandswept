@@ -20,7 +20,8 @@ namespace Sandswept.States.Ranger
 
             PlayAnimation("Gesture, Override", "Blast", "Blast.playbackRate", 1f);
 
-            if (NetworkServer.active) {
+            if (NetworkServer.active)
+            {
                 characterBody.SetBuffCount(Buffs.Charged.instance.BuffDef.buffIndex, 0);
             }
 
@@ -38,22 +39,24 @@ namespace Sandswept.States.Ranger
                 return;
             }
 
-            BulletAttack attack = new();
-            attack.aimVector = GetAimRay().direction;
-            attack.falloffModel = BulletAttack.FalloffModel.DefaultBullet;
-            attack.damage = damageStat * damageCoeff;
-            attack.isCrit = RollCrit();
-            attack.minSpread = 0;
-            attack.maxSpread = 0;
-            attack.owner = gameObject;
-            attack.muzzleName = "MuzzleR";
-            attack.origin = transform.position;
-            attack.tracerEffectPrefab = TracerEffect;
-            attack.hitEffectPrefab = ReleaseVFX.impactPrefab;
-            attack.procCoefficient = ProcCoefficient;
-            attack.weapon = gameObject;
-            attack.radius = 0.1f;
-            attack.smartCollision = true;
+            BulletAttack attack = new()
+            {
+                aimVector = GetAimRay().direction,
+                falloffModel = BulletAttack.FalloffModel.DefaultBullet,
+                damage = damageStat * damageCoeff,
+                isCrit = RollCrit(),
+                minSpread = 0,
+                maxSpread = 0,
+                owner = gameObject,
+                muzzleName = "MuzzleR",
+                origin = transform.position,
+                tracerEffectPrefab = TracerEffect,
+                hitEffectPrefab = ReleaseVFX.impactPrefab,
+                procCoefficient = ProcCoefficient,
+                weapon = gameObject,
+                radius = 0.1f,
+                smartCollision = true
+            };
 
             attack.Fire();
         }

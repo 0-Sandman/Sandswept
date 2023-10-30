@@ -34,6 +34,11 @@ namespace Sandswept.Elites
 
         public override Color EliteBuffColor => new Color32(200, 101, 105, 255);
 
+        public static ItemDisplayRule copiedBlazingIDRS = new();
+
+        public static BuffDef wrbnnerBuff;
+        public static BuffDef warcryBuff;
+
         public override void Init(ConfigFile config)
         {
             CreateConfig(config);
@@ -59,9 +64,75 @@ namespace Sandswept.Elites
 
         public override void Hooks()
         {
+            wrbnnerBuff = ScriptableObject.CreateInstance<BuffDef>();
+            wrbnnerBuff.isHidden = false;
+            wrbnnerBuff.canStack = false;
+            wrbnnerBuff.isCooldown = false;
+            wrbnnerBuff.isDebuff = false;
+            wrbnnerBuff.iconSprite = Assets.BuffDef.bdWarbanner.iconSprite;
+            wrbnnerBuff.buffColor = Assets.BuffDef.bdWarbanner.buffColor;
+
+            warcryBuff = ScriptableObject.CreateInstance<BuffDef>();
+            warcryBuff.isHidden = false;
+            warcryBuff.canStack = false;
+            warcryBuff.isCooldown = false;
+            warcryBuff.isDebuff = false;
+            warcryBuff.iconSprite = Assets.BuffDef.bdTeamWarCry.iconSprite;
+            warcryBuff.buffColor = Assets.BuffDef.bdTeamWarCry.buffColor;
+
+            ContentAddition.AddBuffDef(wrbnnerBuff);
+            ContentAddition.AddBuffDef(warcryBuff);
+
+            /*
+            foreach (ItemDisplayRuleSet itemDisplayRuleSet in ItemDisplayRuleSet.instancesList)
+            {
+                var keyAssetRuleGroupArray = itemDisplayRuleSet.keyAssetRuleGroups;
+                for (int i = 0; i < keyAssetRuleGroupArray.Length; i++)
+                {
+                    var index = keyAssetRuleGroupArray[i];
+                    var keyAsset = index.keyAsset;
+
+                    Main.ModLogger.LogError("==============");
+                    Main.ModLogger.LogError(keyAsset);
+
+                    var rules = index.displayRuleGroup.rules;
+                    for (int j = 0; j < rules.Length; j++)
+                    {
+                        var rule = rules[j];
+
+                        Main.ModLogger.LogError(rule);
+                        Main.ModLogger.LogError(rule.childName);
+                        Main.ModLogger.LogError(rule.followerPrefab);
+                        Main.ModLogger.LogError(rule.limbMask);
+                        Main.ModLogger.LogError(rule.localAngles);
+                        Main.ModLogger.LogError(rule.localPos);
+                        Main.ModLogger.LogError(rule.localScale);
+                        Main.ModLogger.LogError(rule.ruleType);
+
+                        if (keyAsset == Assets.EquipmentDef.EliteFireEquipment)
+                        {
+                            copiedBlazingIDRS.childName = rule.childName;
+                            copiedBlazingIDRS.followerPrefab = rule.followerPrefab;
+                            copiedBlazingIDRS.limbMask = rule.limbMask;
+                            copiedBlazingIDRS.localAngles = rule.localAngles;
+                            copiedBlazingIDRS.localPos = rule.localPos;
+                            copiedBlazingIDRS.localScale = rule.localScale;
+                            copiedBlazingIDRS.ruleType = rule.ruleType;
+                            break;
+                        }
+                    }
+
+                    Main.ModLogger.LogError("==============");
+                }
+            }
+*/
+
             warbanner = PrefabAPI.InstantiateClone(Assets.GameObject.WarbannerWard, "Motivator Warbanner");
             var mdlWarbanner = warbanner.transform.GetChild(1);
             mdlWarbanner.RemoveComponent<ObjectScaleCurve>();
+
+            var buffWard = warbanner.GetComponent<BuffWard>();
+            buffWard.buffDef = wrbnnerBuff;
 
             var cylinder = mdlWarbanner.GetChild(0).GetComponent<MeshRenderer>();
             var newMat = Object.Instantiate(Assets.Material.matWarbannerPole);
@@ -175,7 +246,7 @@ namespace Sandswept.Elites
                 mdlWarbanner = warbannerInstance.transform.GetChild(1);
                 if (body)
                 {
-                    mdlWarbanner.localScale = Vector3.one * body.radius * 0.5f;
+                    mdlWarbanner.localScale = Vector3.one * body.radius * 0.25f;
                     if (body.isPlayerControlled)
                         mdlWarbanner.gameObject.SetActive(false);
                 }
@@ -241,7 +312,7 @@ namespace Sandswept.Elites
                     var targetBody = hurtBox.healthComponent.body;
                     if (targetBody && !targetBody.HasBuff(Motivator.Instance.EliteBuffDef) && targetBody.teamComponent.teamIndex == body.teamComponent.teamIndex)
                     {
-                        targetBody.AddTimedBuff(RoR2Content.Buffs.TeamWarCry, 3f);
+                        targetBody.AddTimedBuff(Motivator.warcryBuff, 3f);
                     }
                 }
             }

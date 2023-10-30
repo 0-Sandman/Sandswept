@@ -1,26 +1,20 @@
-﻿namespace Sandswept.Items.Greens
+﻿using UnityEngine.XR;
+
+namespace Sandswept.Items.Greens
 {
     public class PocketPlutonium : ItemBase<PocketPlutonium>
     {
         // I see you copied noop's wool code trolley
 
-        public static DamageColorIndex IrradiateDamageColour = DamageColourHelper.RegisterDamageColor(new Color32(175, 255, 30, 255));
-
-        public static DotController.DotDef IrradiatedDef;
-
-        public static DotController.DotIndex IrradiatedIndex;
-
-        public static BuffDef IrradiatedBuff;
-
         public override string ItemName => "Pocket Plutonium";
 
         public override string ItemLangTokenName => "POCKET_PLUTONIUM";
 
-        public override string ItemPickupDesc => "While shields are active, create an irradiating ring around you.";
+        public override string ItemPickupDesc => "Create a nuclear pool after losing shields.";
 
-        public override string ItemFullDescription => "Gain a $shshield$se equal to $sh10%$se of your maximum health. While shields are active, $sdirradiate$se all enemies within $sd13m$se for $sd350%$se $ss(+200% per stack)$se $sddamage per second$se.".AutoFormat();
+        public override string ItemFullDescription => "Gain a $shshield$se equal to $sh10%$se of your maximum health. Upon losing all $shshield$se, create a nuclear pool in a $sd16m$se area that deals $sd1000%$se $ss(+500% per stack)$se base damage, plus an additional $sd300%$se $ss(+150% per stack)$se of $shshields$se.".AutoFormat();
 
-        public override string ItemLore => "<style=cStack>funny quirky funny funny funny quirky</style>";
+        public override string ItemLore => "you have no idea how many times I reworked this item";
 
         public override ItemTier Tier => ItemTier.Tier2;
 
@@ -30,24 +24,115 @@
 
         public static GameObject indicator;
 
-        public static float radius = 13f;
+        public static GameObject poolPrefab;
 
-        public static float baseDamage = 3.5f;
-        public static float damagePerStack = 2f;
+        public static float radius = 16f;
+
+        public static float baseDamage = 10f;
+        public static float damagePerStack = 5f;
+        public static float baseShieldPercent = 3f;
+        public static float shieldPercentStack = 1.5f;
+
+        public static BuffDef pocketPlutoniumRecharge;
 
         public override void Init(ConfigFile config)
         {
             CreateLang();
             CreateItem();
-            CreateBuff();
-            CreatePrefab();
+            // CreatePrefab();
             Hooks();
         }
 
         public override void Hooks()
         {
+            pocketPlutoniumRecharge = ScriptableObject.CreateInstance<BuffDef>();
+            pocketPlutoniumRecharge.isDebuff = false;
+            pocketPlutoniumRecharge.canStack = false;
+            pocketPlutoniumRecharge.buffColor = new Color32(115, 204, 71, 255);
+            pocketPlutoniumRecharge.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texProtogen3.png");
+
+            ContentAddition.AddBuffDef(pocketPlutoniumRecharge);
+
+            poolPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.HuntressArrowRain, "Pocket Plutonium Pool");
+            poolPrefab.transform.localScale = Vector3.one * 32f;
+            var projectileDamage = poolPrefab.GetComponent<ProjectileDamage>();
+            projectileDamage.damageType = DamageType.Generic;
+
+            var projectileDotZone = poolPrefab.GetComponent<ProjectileDotZone>();
+            projectileDotZone.damageCoefficient = 0.25f;
+            projectileDotZone.resetFrequency = 4f;
+            projectileDotZone.lifetime = 3f;
+            // hits 4x per sec for 25% of the damage, that is multiplied by 0.33 (down in the component) so does its full damage in 3s aka the entire lifetime
+
+            // hitbox x,z scale of 0.9145525 = 7.5m radius
+            // so 16m = (16 / 7.5) * 0.9145525
+            // prefab has a scale of 15,15,15 = 7.5m radius, so 32,32,32 = 16m radius hopefully
+
+            foreach (AkEvent akEvent in poolPrefab.GetComponents<AkEvent>())
+            {
+                Object.Destroy(akEvent);
+            }
+
+            var fx = poolPrefab.transform.GetChild(0);
+
+            var radiusIndicator = fx.GetChild(0).GetComponent<MeshRenderer>();
+
+            radiusIndicator.material = Main.hifuSandswept.LoadAsset<Material>("Assets/Sandswept/matPocketPlutoniumPool.mat");
+
+            var hitbox1 = fx.GetChild(3);
+
+            hitbox1.transform.localPosition = Vector3.zero;
+            hitbox1.transform.localScale = new Vector3(0.9145522f, 0.1f, 0.9145525f);
+
+            var hitbox2 = fx.GetChild(4);
+            hitbox2.transform.localScale = new Vector3(0.914552f, 0.1f, 0.9145527f);
+
+            hitbox2.transform.localPosition = Vector3.zero;
+
+            var arrowsFalling = fx.GetChild(1);
+            arrowsFalling.gameObject.SetActive(false);
+
+            var impaledArrow = fx.GetChild(5);
+            impaledArrow.gameObject.SetActive(false);
+
+            PrefabAPI.RegisterNetworkPrefab(poolPrefab);
+
             GetStatCoefficients += GrantBaseShield;
-            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
+            On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
+        }
+
+        private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
+        {
+            var hasShieldPre = HasShield(self);
+            var body = self.body;
+            var stack = GetCount(body);
+            orig(self, damageInfo);
+            var what = hasShieldPre && !HasShield(self) && self.alive;
+            if (what && body)
+            {
+                if (stack > 0 && !body.HasBuff(pocketPlutoniumRecharge))
+                {
+                    if (Physics.Raycast(body.transform.position, Vector3.down, out var raycast, 500f, LayerIndex.world.mask))
+                    {
+                        var damageFromBase = body.damage * (baseDamage + damagePerStack * (stack - 1));
+                        var damageFromShields = body.maxShield * (baseShieldPercent + shieldPercentStack * (stack - 1));
+                        var damage = (damageFromBase + damageFromShields) * (1f / 3f);
+                        Main.ModLogger.LogError("damage from base is " + damageFromBase);
+                        Main.ModLogger.LogError("damage from shields is " + damageFromShields);
+                        Main.ModLogger.LogError("FINAL damage is " + damage);
+                        Main.ModLogger.LogError("FULL FINAL FUCKING damage, in 3s should be " + damage * 3f);
+                        ProjectileManager.instance.FireProjectile(poolPrefab, raycast.point, Quaternion.identity, self.gameObject, damage, 0f, body.RollCrit(), DamageColorIndex.Poison, null, -1f);
+
+                        Util.PlaySound("Play_item_use_molotov_impact_big", self.gameObject);
+                    }
+                    self.body.AddTimedBuffAuthority(pocketPlutoniumRecharge.buffIndex, 7f);
+                }
+            }
+        }
+
+        private static bool HasShield(HealthComponent hc)
+        {
+            return hc.shield > 1f;
         }
 
         public void CreatePrefab()
@@ -64,18 +149,7 @@
 
             radiusTrans.GetComponent<MeshRenderer>().material = razorMat;
 
-            indicator.RegisterNetworkPrefab();
-        }
-
-        public void CreateBuff()
-        {
-            IrradiatedBuff = ScriptableObject.CreateInstance<BuffDef>();
-            IrradiatedBuff.name = "Irradiated";
-            IrradiatedBuff.buffColor = new Color32(95, 255, 0, 255);
-            IrradiatedBuff.canStack = false;
-            IrradiatedBuff.isDebuff = true;
-            IrradiatedBuff.iconSprite = Main.MainAssets.LoadAsset<Sprite>("IrradiatedIcon.png");
-            ContentAddition.AddBuffDef(IrradiatedBuff);
+            PrefabAPI.RegisterNetworkPrefab(indicator);
         }
 
         private void GrantBaseShield(CharacterBody sender, StatHookEventArgs args)
@@ -83,136 +157,14 @@
             if (sender && GetCount(sender) > 0)
             {
                 var healthComponent = sender.healthComponent;
-                args.baseShieldAdd += healthComponent.fullHealth * 0.1f;
+                if (healthComponent)
+                    args.baseShieldAdd += healthComponent.fullHealth * 0.1f;
             }
-        }
-
-        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody characterBody)
-        {
-            if (NetworkServer.active)
-                characterBody.AddItemBehavior<PocketPlutoniumController>(characterBody.inventory.GetItemCount(instance.ItemDef));
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
-        }
-
-        public class PocketPlutoniumController : CharacterBody.ItemBehavior
-        {
-            public float damageInterval = 0.2f;
-            public float damage;
-            public float timer;
-            public float radiusSquared = radius * radius;
-            public float distance = radius;
-            public TeamIndex ownerIndex;
-            public GameObject radiusIndicator;
-
-            private void Start()
-            {
-                ownerIndex = body.teamComponent.teamIndex;
-                enableRadiusIndicator = true;
-                var radiusTrans = radiusIndicator.transform.GetChild(1);
-                radiusTrans.localScale = new Vector3(radius * 2f, radius * 2f, radius * 2f);
-                if (stack > 0)
-                {
-                    damage = (baseDamage + damagePerStack * (stack - 1)) * damageInterval;
-                }
-                else damage = 0;
-            }
-
-            private void FixedUpdate()
-            {
-                timer += Time.fixedDeltaTime;
-                if (timer < damageInterval || body.healthComponent.shield <= 0f) // blinks for some reason??
-                {
-                    enableRadiusIndicator = false;
-                    return;
-                }
-
-                enableRadiusIndicator = true;
-
-                for (TeamIndex firstIndex = TeamIndex.Neutral; firstIndex < TeamIndex.Count; firstIndex++)
-                {
-                    if (firstIndex == ownerIndex || firstIndex <= TeamIndex.Neutral)
-                    {
-                        continue;
-                    }
-
-                    foreach (TeamComponent teamComponent in TeamComponent.GetTeamMembers(firstIndex))
-                    {
-                        var enemyPosition = teamComponent.transform.position;
-                        var corePosition = body.corePosition;
-                        if ((enemyPosition - corePosition).sqrMagnitude <= radiusSquared)
-                        {
-                            Damage(teamComponent);
-                        }
-                    }
-                }
-
-                timer = 0f;
-            }
-
-            private void Damage(TeamComponent teamComponent)
-            {
-                var victimBody = teamComponent.body;
-                if (!victimBody)
-                {
-                    return;
-                }
-
-                var victimHealthComponent = victimBody.healthComponent;
-                if (!victimHealthComponent)
-                {
-                    return;
-                }
-
-                if (victimHealthComponent)
-                {
-                    var info = new DamageInfo()
-                    {
-                        attacker = gameObject,
-                        crit = false,
-                        damage = damage * body.damage,
-                        force = Vector3.zero,
-                        procCoefficient = 0f,
-                        damageType = DamageType.Generic,
-                        position = victimBody.corePosition,
-                        inflictor = gameObject
-                    };
-                    victimBody.AddTimedBuffAuthority(IrradiatedBuff.buffIndex, 0.2f);
-                    victimHealthComponent.TakeDamage(info);
-                }
-            }
-
-            public bool enableRadiusIndicator
-            {
-                get
-                {
-                    return radiusIndicator;
-                }
-                set
-                {
-                    if (enableRadiusIndicator != value)
-                    {
-                        if (value)
-                        {
-                            radiusIndicator = Instantiate(indicator, body.corePosition, Quaternion.identity);
-                            radiusIndicator.GetComponent<NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(gameObject, null);
-                        }
-                        else
-                        {
-                            Destroy(radiusIndicator);
-                            radiusIndicator = null;
-                        }
-                    }
-                }
-            }
-
-            private void OnDisable()
-            {
-                enableRadiusIndicator = false;
-            }
         }
     }
 }
