@@ -5,7 +5,7 @@ namespace Sandswept.Items.Greens
 {
     public class NuclearSalvo : ItemBase<NuclearSalvo>
     {
-        public override string ItemName => "Nucler Salvo";
+        public override string ItemName => "Nuclear Salvo";
 
         public override string ItemLangTokenName => "NUCLEAR_SALVO";
 
