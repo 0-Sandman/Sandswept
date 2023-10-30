@@ -3,6 +3,8 @@ using System.Linq;
 using System;
 using RoR2.UI;
 using TMPro;
+using RoR2;
+using RoR2.HudOverlay;
 using UnityEngine.UI;
 
 namespace Sandswept.Components
@@ -19,12 +21,23 @@ namespace Sandswept.Components
         public bool IsOverheating => CurrentHeat > OverheatThreshold;
         public bool isFiring = false;
         internal Animator anim;
-        private CharacterBody cb;
+        CharacterBody cb;
+        public GameObject overlayPrefab;
+        internal GameObject overlayInstance;
 
         public void Start()
         {
             cb = GetComponent<CharacterBody>();
             anim = GetComponent<CharacterDirection>().modelAnimator;
+            OverlayCreationParams p = new();
+            p.prefab = overlayPrefab;
+            p.childLocatorEntry = "CrosshairExtras";
+            
+            OverlayController controller = HudOverlayManager.AddOverlay(base.gameObject, p);
+            controller.onInstanceAdded += (c, i) => {
+                overlayInstance = i;
+                overlayInstance.GetComponent<RangerCrosshairManager>().target = this;
+            };
         }
 
         public void FixedUpdate()
@@ -78,11 +91,13 @@ namespace Sandswept.Components
 
             element = GetComponent<HudElement>();
             ifc = GetComponentInChildren<ImageFillController>();
-            target = element._targetBodyObject.GetComponent<RangerHeatManager>();
         }
 
         public void FixedUpdate()
         {
+            if (!target) {
+                return;
+            }
             image.color = new Color32(255, (byte)Mathf.Lerp(200, 70, target.CurrentHeat / RangerHeatManager.MaxHeat), 0, 255);
             ifc.SetTValue(target.CurrentHeat / RangerHeatManager.MaxHeat);
         }

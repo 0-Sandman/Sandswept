@@ -26,6 +26,7 @@ namespace Sandswept.Survivors
             Master = PrefabAPI.InstantiateClone(Assets.GameObject.CommandoMonsterMaster, "RangerMaster");
 
             Body.GetComponent<CameraTargetParams>().cameraParams = Assets.CharacterCameraParams.ccpStandard;
+            Body.GetComponent<CharacterBody>()._defaultCrosshairPrefab = Assets.GameObject.StandardCrosshair;
 
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdRanger.asset");
             SurvivorDef.cachedName = "Ranger"; // for eclipse fix

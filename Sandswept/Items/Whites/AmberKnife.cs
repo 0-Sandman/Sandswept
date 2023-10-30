@@ -153,11 +153,12 @@ namespace Sandswept.Items.Whites
                         rotation = Util.QuaternionSafeLookRotation(attackerBody.inputBank.GetAimRay().direction),
                         force = 0f,
                         owner = attackerBody.gameObject,
-                        procChainMask = default,
+                        procChainMask = new(),
                         projectilePrefab = amberKnifeProjectile
                     };
 
-                    report.damageInfo.procChainMask.AddProc(amberKnife);
+                    fpi.procChainMask.AddProc(amberKnife);
+
 
                     fpi.projectilePrefab.GetComponent<AmberKnifeProjectile>().owner = attackerBody;
                     ProjectileManager.instance.FireProjectile(fpi);
