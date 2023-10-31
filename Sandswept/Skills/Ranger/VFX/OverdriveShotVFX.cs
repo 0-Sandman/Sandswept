@@ -4,28 +4,22 @@ using System.Text;
 
 namespace Sandswept.Skills.Ranger.VFX
 {
-    public static class DirectCurrentVFX
+    public static class OverdriveShotVFX
     {
-        public static GameObject ghostPrefab;
+        public static GameObject tracerPrefab;
 
         public static void Init()
         {
-            ghostPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.TracerCommandoShotgun, "Direct Current Ghost", false);
+            tracerPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.TracerCommandoShotgun, "Overdrive Shot Tracer", false);
 
-            ghostPrefab.AddComponent<ProjectileGhostController>();
+            var tracer = tracerPrefab.GetComponent<Tracer>();
+            tracer.length = 16f; // 14
+            tracer.speed = 240f; // 160
 
-            ghostPrefab.AddComponent<VFXAttributes>();
-
-            var tracer = ghostPrefab.GetComponent<Tracer>();
-            tracer.length = 16f; // 14 vaniller
-            tracer.speed = 140f; // 160 vaniller, 140 to be accurate with projectile speed
-
-            // ghostPrefab.RemoveComponent<EffectComponent>();
-
-            var effectComponent = ghostPrefab.GetComponent<EffectComponent>();
+            var effectComponent = tracerPrefab.GetComponent<EffectComponent>();
             effectComponent.soundName = "Play_wHeavyShoot1";
 
-            var lineRenderer = ghostPrefab.GetComponent<LineRenderer>();
+            var lineRenderer = tracerPrefab.GetComponent<LineRenderer>();
 
             var geenGradient = new Gradient();
 
@@ -47,7 +41,7 @@ namespace Sandswept.Skills.Ranger.VFX
 
             lineRenderer.material = newMat;
 
-            ContentAddition.AddEffect(ghostPrefab);
+            ContentAddition.AddEffect(tracerPrefab);
         }
     }
 }

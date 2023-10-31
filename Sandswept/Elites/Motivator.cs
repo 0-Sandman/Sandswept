@@ -17,11 +17,11 @@ namespace Sandswept.Elites
 
         public override string EliteModifier => "Motivator";
 
-        public override GameObject EliteEquipmentModel => CreateAffixModel(new Color32(200, 101, 105, 255));
+        public override GameObject EliteEquipmentModel => CreateAffixModel(new Color32(255, 131, 20, 255));
 
         public override Sprite EliteEquipmentIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texMotivatorAffix.png");
 
-        public override Sprite EliteBuffIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texMotivatorBuff.png");
+        public override Sprite EliteBuffIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texMotivatorBuff2.png");
 
         public override Texture2D EliteRampTexture => Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampMotivator.png");
 
@@ -32,7 +32,7 @@ namespace Sandswept.Elites
 
         public override CombatDirector.EliteTierDef[] CanAppearInEliteTiers => EliteAPI.GetCombatDirectorEliteTiers().Where(x => x.eliteTypes.Contains(Addressables.LoadAssetAsync<EliteDef>("RoR2/Base/EliteFire/edFire.asset").WaitForCompletion())).ToArray();
 
-        public override Color EliteBuffColor => new Color32(200, 101, 105, 255);
+        public override Color EliteBuffColor => Color.white; /*new Color32(200, 101, 105, 255);*/
 
         public static ItemDisplayRule copiedBlazingIDRS = new();
 

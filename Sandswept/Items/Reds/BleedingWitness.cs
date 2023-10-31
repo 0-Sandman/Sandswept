@@ -10,7 +10,7 @@ namespace Sandswept.Items.Reds
 
         public override string ItemPickupDesc => "Your damage over time effects heal all allies.";
 
-        public override string ItemFullDescription => "$sd" + hemorrhageChance.Value + "%$se chance to $sdhemorrhage$se enemies for $sd" + d(hemorrhageDamage.Value) + "$se base damage. Your $sddamage over time effects$se $shheal$se all allies for $sh" + d(baseDoTHealing.Value) + "$se $ss(+" + d(stackDoTHealing.Value) + " per stack)$se of their $sdmaximum health$se.".AutoFormat();
+        public override string ItemFullDescription => "$sd" + hemorrhageChance + "%$se chance to $sdhemorrhage$se enemies for $sd" + d(hemorrhageDamage) + "$se base damage. Your $sddamage over time effects$se $shheal$se all allies for $sh" + d(baseDoTHealing) + "$se $ss(+" + d(stackDoTHealing) + " per stack)$se of their $sdmaximum health$se.".AutoFormat();
 
         public override string ItemLore => "no";
 
@@ -20,21 +20,27 @@ namespace Sandswept.Items.Reds
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texBleedingWitness.png");
 
-        public static ConfigEntry<float> hemorrhageChance { get; private set; }
-        public static ConfigEntry<float> hemorrhageDamage { get; private set; }
-        public static ConfigEntry<float> hemorrhageDuration { get; private set; }
-        public static ConfigEntry<float> baseDoTHealing { get; private set; }
-        public static ConfigEntry<float> stackDoTHealing { get; private set; }
+        [ConfigField("Hemorrhage Chance", "", 5f)]
+        public static float hemorrhageChance;
+
+        [ConfigField("Hemorrhage Damage", "Decimal.", 4.8f)]
+        public static float hemorrhageDamage;
+
+        [ConfigField("Hemorrhage Duration", "", 3f)]
+        public static float hemorrhageDuration;
+
+        [ConfigField("Base DoT Healing", "Decimal.", 0.005f)]
+        public static float baseDoTHealing;
+
+        [ConfigField("Stack DoT Healing", "Decimal.", 0.0025f)]
+        public static float stackDoTHealing;
 
         public override bool AIBlacklisted => true;
 
         public override void Init(ConfigFile config)
         {
-            hemorrhageChance = config.Bind("Items :: Reds :: Bleeding Witness", "Hemorrhage Chance", 5f);
-            hemorrhageDamage = config.Bind("Items :: Reds :: Bleeding Witness", "Hemorrhage Damage", 4.8f, "Decimal.");
-            hemorrhageDuration = config.Bind("Items :: Reds :: Bleeding Witness", "Hemorrhage Duration", 3f, "");
-            baseDoTHealing = config.Bind("Items :: Reds :: Bleeding Witness", "Base DoT Healing", 0.005f, "Decimal.");
-            stackDoTHealing = config.Bind("Items :: Reds :: Bleeding Witness", "Stack DoT Healing", 0.0025f, "Decimal.");
+            CreateConfig(config);
+            CreateConfig(config);
             CreateLang();
             CreateItem();
             Hooks();
@@ -60,22 +66,18 @@ namespace Sandswept.Items.Reds
             orig(self);
             if (NetworkServer.active && stack > 0)
             {
-                var healAmount = baseDoTHealing.Value + stackDoTHealing.Value * (stack - 1);
-                for (var dotIndex = DotController.DotIndex.Bleed; dotIndex < DotController.DotIndex.Count; dotIndex++)
+                var healAmount = baseDoTHealing + stackDoTHealing * (stack - 1);
+                for (int i = 0; i < self.dotStackList.Count; i++)
                 {
-                    uint num = 1U << (int)dotIndex;
-                    if ((self.activeDotFlags & num) > 0U)
+                    var dot = self.dotStackList[i];
+                    if (dot.timer <= 0f)
                     {
-                        var lastDotTimer = self.dotTimers[(int)dotIndex] - Time.fixedDeltaTime;
-                        if (lastDotTimer <= 0f)
+                        for (int j = 0; i < CharacterBody.instancesList.Count; j++)
                         {
-                            for (int i = 0; i < CharacterBody.instancesList.Count; i++)
+                            var body = CharacterBody.instancesList[j];
+                            if (body.teamComponent.teamIndex == TeamIndex.Player)
                             {
-                                var body = CharacterBody.instancesList[i];
-                                if (body.teamComponent.teamIndex == TeamIndex.Player)
-                                {
-                                    body.healthComponent?.HealFraction(healAmount, default);
-                                }
+                                body.healthComponent?.HealFraction(healAmount, default);
                             }
                         }
                     }
@@ -108,15 +110,15 @@ namespace Sandswept.Items.Reds
 
             if (stacks > 0)
             {
-                if (Util.CheckRoll(hemorrhageChance.Value * damageInfo.procCoefficient, attackerBody.master))
+                if (Util.CheckRoll(hemorrhageChance * damageInfo.procCoefficient, attackerBody.master))
                 {
                     InflictDotInfo baseDamage = new()
                     {
                         victimObject = victimBody.gameObject,
                         attackerObject = attackerBody.gameObject,
-                        totalDamage = attackerBody.damage * hemorrhageDamage.Value,
+                        totalDamage = attackerBody.damage * hemorrhageDamage,
                         dotIndex = DotIndex.SuperBleed,
-                        duration = hemorrhageDuration.Value,
+                        duration = hemorrhageDuration,
                         damageMultiplier = 1f
                     };
 

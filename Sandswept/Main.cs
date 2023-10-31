@@ -69,7 +69,10 @@ namespace Sandswept
 
             ReleaseVFX.Init();
             DirectCurrentVFX.Init();
+            OverdriveShotVFX.Init();
             SidestepVFX.Init();
+
+            Skills.Ranger.Projectiles.DirectCurrent.Init();
 
             AutoRunCollector.HandleAutoRun();
             ConfigManager.HandleConfigAttributes(Assembly.GetExecutingAssembly(), Config);

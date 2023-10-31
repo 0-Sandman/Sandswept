@@ -9,7 +9,7 @@ namespace Sandswept.States.Ranger
         public static float ShotDelay = 0.3f;
         public static float TotalDuration => ShotDelay * 2;
         public static float ProcCoefficient = 1f;
-        public static GameObject TracerEffect => DirectCurrentVFX.tracerPrefab;
+        public static GameObject TracerEffect => DirectCurrentVFX.ghostPrefab;
         private int totalHit = 0;
         private float stopwatch = 0f;
         private bool fired = false;

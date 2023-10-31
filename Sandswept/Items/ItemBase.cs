@@ -162,6 +162,7 @@ namespace Sandswept.Items
 
         public string GetConfigName()
         {
+            Main.ModLogger.LogError(ItemName);
             return ItemName;
         }
     }

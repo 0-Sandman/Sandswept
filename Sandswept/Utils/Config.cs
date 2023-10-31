@@ -59,6 +59,11 @@ namespace Sandswept.Utils
 
                     MethodInfo method = typeof(ConfigFile).GetMethods().Where(x => x.Name == nameof(ConfigFile.Bind)).First();
                     method = method.MakeGenericMethod(t);
+                    Main.ModLogger.LogError("configurable is " + configurable);
+                    Main.ModLogger.LogError("getconfigname is " + configurable.GetConfigName());
+                    Main.ModLogger.LogError("configattr name is " + configattr.name);
+                    Main.ModLogger.LogError("configattr default value is " + configattr.defaultValue);
+                    Main.ModLogger.LogError("configattr description is " + configattr.desc);
                     ConfigEntryBase val = (ConfigEntryBase)method.Invoke(config, new object[] { new ConfigDefinition(configurable.GetConfigName(), configattr.name), configattr.defaultValue, new ConfigDescription(configattr.desc) });
 
                     field.SetValue(null, val.BoxedValue);

@@ -8,7 +8,7 @@ namespace Sandswept.States.Ranger
         public static int ShotsPerSecond = 8;
         public static float ProcCoeff = 1f;
         public static float DamageCoeff = 1f;
-        public static GameObject TracerEffect => DirectCurrentVFX.tracerPrefab; // beef this up later
+        public static GameObject TracerEffect => OverdriveShotVFX.tracerPrefab; // beef this up later
         private float selfDamageCoeff = 0.08f;
         private float shots;
         private float shotDelay => 1f / shots;
@@ -76,8 +76,7 @@ namespace Sandswept.States.Ranger
                     crit = false,
                     position = transform.position,
                     damageColorIndex = DamageColorIndex.Fragile,
-                    damageType = DamageType.BypassArmor, // makes rap fake and cheesing guh
-                    rejected = false
+                    damageType = DamageType.BypassArmor | DamageType.BypassBlock
                 };
 
                 if (NetworkServer.active)
@@ -109,8 +108,8 @@ namespace Sandswept.States.Ranger
                 tracerEffectPrefab = TracerEffect,
                 procCoefficient = ProcCoeff,
                 damageType = Util.CheckRoll(heat.CurrentHeat * 0.5f) ? DamageType.IgniteOnHit : DamageType.Generic,
-                minSpread = heat.CurrentHeat * 0.009f,
-                maxSpread = heat.CurrentHeat * 0.01f
+                minSpread = heat.CurrentHeat * 0.005f,
+                maxSpread = heat.CurrentHeat * 0.006f
             };
 
             AddRecoil(0.3f + heat.CurrentHeat * 0.005f, -0.3f - heat.CurrentHeat * 0.005f, 0.1f + heat.CurrentHeat * 0.005f, -0.1f - heat.CurrentHeat * 0.005f);
