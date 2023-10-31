@@ -8,7 +8,8 @@ namespace Sandswept.States.Ranger
         public static int ShotsPerSecond = 8;
         public static float ProcCoeff = 1f;
         public static float DamageCoeff = 1f;
-        public static GameObject TracerEffect => DirectCurrentVFX.tracerPrefab; // beef this up later
+        public static GameObject TracerEffect => OverdriveShotVFX.tracerPrefab; // beef this up later
+        public static GameObject TracerEffectHeated => OverdriveShotHeatedVFX.tracerPrefab; // beef this up later
         private float selfDamageCoeff = 0.08f;
         private float shots;
         private float shotDelay => 1f / shots;
@@ -40,13 +41,17 @@ namespace Sandswept.States.Ranger
             return InterruptPriority.PrioritySkill;
         }
 
+        public override void Update()
+        {
+            base.Update();
+            characterDirection.forward = GetAimRay().direction;
+        }
+
         public override void FixedUpdate()
         {
             base.FixedUpdate();
 
             stopwatch += Time.fixedDeltaTime;
-
-            base.characterDirection.forward = base.GetAimRay().direction;
 
             if (base.inputBank.skill1.down && stopwatch >= shotDelay)
             {
@@ -76,8 +81,7 @@ namespace Sandswept.States.Ranger
                     crit = false,
                     position = transform.position,
                     damageColorIndex = DamageColorIndex.Fragile,
-                    damageType = DamageType.BypassArmor, // makes rap fake and cheesing guh
-                    rejected = false
+                    damageType = DamageType.BypassArmor | DamageType.BypassBlock
                 };
 
                 if (NetworkServer.active)
@@ -97,6 +101,8 @@ namespace Sandswept.States.Ranger
 
             var aimDiretion = GetAimRay().direction;
 
+            var isHeatedShot = Util.CheckRoll(heat.CurrentHeat * 0.5f);
+
             BulletAttack attack = new()
             {
                 aimVector = aimDiretion,
@@ -106,11 +112,12 @@ namespace Sandswept.States.Ranger
                 owner = gameObject,
                 muzzleName = "Muzzle",
                 origin = GetAimRay().origin,
-                tracerEffectPrefab = TracerEffect,
+                tracerEffectPrefab = isHeatedShot ? TracerEffectHeated : TracerEffect,
                 procCoefficient = ProcCoeff,
-                damageType = Util.CheckRoll(heat.CurrentHeat * 0.5f) ? DamageType.IgniteOnHit : DamageType.Generic,
-                minSpread = heat.CurrentHeat * 0.009f,
-                maxSpread = heat.CurrentHeat * 0.01f
+                damageType = isHeatedShot ? DamageType.IgniteOnHit : DamageType.Generic,
+                minSpread = heat.CurrentHeat * 0.005f,
+                maxSpread = heat.CurrentHeat * 0.006f,
+                damageColorIndex = isHeatedShot ? DamageColorIndex.Fragile : DamageColorIndex.Default
             };
 
             AddRecoil(0.3f + heat.CurrentHeat * 0.005f, -0.3f - heat.CurrentHeat * 0.005f, 0.1f + heat.CurrentHeat * 0.005f, -0.1f - heat.CurrentHeat * 0.005f);

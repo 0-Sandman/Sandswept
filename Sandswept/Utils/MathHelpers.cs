@@ -120,5 +120,10 @@ namespace Sandswept.Utils
         {
             return baseValue + (maxValue - baseValue) * (1 - 1 / (1 + additionalValue * (itemCount - 1)));
         }
+
+        public static float CustomHyperbolic(float amplificationPercentage, float max = 100f)
+        {
+            return (1f - max / (max + amplificationPercentage)) * max;
+        }
     }
 }

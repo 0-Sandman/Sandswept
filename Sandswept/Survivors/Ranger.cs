@@ -38,7 +38,7 @@ namespace Sandswept.Survivors
             ReplaceSkills(locator.special, new SkillDef[] { Skills.Ranger.Skilldefs.OverdriveEnter.instance.skillDef });
 
             "SS_RANGER_PASSIVE_NAME".Add("Power Surge");
-            "SS_RANGER_PASSIVE_DESC".Add("Gain $sd2.5% attack speed$se for each $rcCharge$erc currently held. You can have up to 10 $rcCharge$erc.".AutoFormat());
+            "SS_RANGER_PASSIVE_DESC".Add("Gain $sd2.5% attack speed$se for each $rcCharge$ec currently held. You can have up to 10 $rcCharge$ec.".AutoFormat());
         }
     }
 }

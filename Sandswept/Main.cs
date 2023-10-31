@@ -11,7 +11,8 @@ using Sandswept.Survivors;
 using System.Diagnostics;
 using Sandswept.Elites;
 using Sandswept.Skills.Ranger.VFX;
-using MonoMod.Cil;
+using Sandswept.Skills.Ranger.Projectiles;
+using Sandswept.Skills.Ranger.Hooks;
 
 namespace Sandswept
 {
@@ -71,14 +72,20 @@ namespace Sandswept
 
             ReleaseVFX.Init();
             DirectCurrentVFX.Init();
+            OverdriveShotVFX.Init();
+            OverdriveShotHeatedVFX.Init();
             SidestepVFX.Init();
+            HeatSinkVFX.Init();
+            HeatSignatureVFX.Init();
+
+            HeatSignatureCooldown.Init();
+
+            DirectCurrent.Init();
 
             AutoRunCollector.HandleAutoRun();
-            ConfigManager.HandleConfigAttributes(Assembly.GetExecutingAssembly(), Config);
+            // ConfigManager.HandleConfigAttributes(Assembly.GetExecutingAssembly(), Config);
 
-            // Don't know how to create/use an asset bundle, or don't have a unity project set up?
-            // Look here for info on how to set these up: https://github.com/KomradeSpectre/AetheriumMod/blob/rewrite-master/Tutorials/Item%20Mod%20Creation.md#unity-project
-            // (This is a bit old now, but the information on setting the unity asset bundle should be the same.)
+            // config doesnt work pseudopulse ! ! nre @ L63 utils/config.cs
 
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Sandswept.sandsweptassets"))
             {
@@ -204,10 +211,7 @@ namespace Sandswept
             if (enabled)
             {
                 itemList.Add(item);
-                if (aiBlacklist)
-                {
-                    item.AIBlacklisted = true;
-                }
+                item.AIBlacklisted = aiBlacklist;
             }
             return enabled;
         }
@@ -247,17 +251,11 @@ namespace Sandswept
 
         public bool ValidateBuff(BuffBase buff, List<BuffBase> buffList)
         {
-            return true; // why ??????
+            BuffStatusDictionary.Add(buff, true);
 
-            var enabled = Config.Bind<bool>("Buff: " + buff.BuffName, "Enable Buff?", true, "Should this buff be registered for use in the game?").Value;
+            buffList.Add(buff);
 
-            BuffStatusDictionary.Add(buff, enabled);
-
-            if (enabled)
-            {
-                buffList.Add(buff);
-            }
-            return enabled;
+            return true;
         }
 
         public void SwapAllShaders(AssetBundle bundle)
@@ -273,6 +271,10 @@ namespace Sandswept
 
                     case "StubbedShader/deferred/hgstandard":
                         val.shader = Resources.Load<Shader>("shaders/deferred/hgstandard");
+                        break;
+
+                    case "StubbedShader/fx/hgintersectioncloudremap":
+                        val.shader = Resources.Load<Shader>("shaders/fx/hgintersectioncloudremap");
                         break;
 
                     case "Stubbed Hopoo Games/Deferred/Snow Topped":

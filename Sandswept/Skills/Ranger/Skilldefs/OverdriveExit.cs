@@ -6,7 +6,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
     {
         public override string Name => "Cancel";
 
-        public override string Description => "$suAgile$se. Return your rifle to normal.";
+        public override string Description => "$suAgile$se. Return your rifle to normal.".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Ranger.OverdriveExit);
 

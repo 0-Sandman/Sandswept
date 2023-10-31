@@ -13,7 +13,6 @@ namespace Sandswept.States.Ranger
         private Transform modelTransform;
         public static Material overlayMat1 = SidestepVFX.dashMat1;
         public static Material overlayMat2 = SidestepVFX.dashMat2;
-        private RangerHeatManager heat;
 
         public override void OnEnter()
         {
@@ -21,9 +20,30 @@ namespace Sandswept.States.Ranger
             if (characterBody)
             {
                 characterBody.isSprinting = true;
+                if (NetworkServer.active)
+                    characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
             }
 
             modelTransform = GetModelTransform();
+
+            if (modelTransform)
+            {
+                var temporaryOverlay = this.modelTransform.gameObject.AddComponent<TemporaryOverlay>();
+                temporaryOverlay.duration = 0.9f;
+                temporaryOverlay.animateShaderAlpha = true;
+                temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                temporaryOverlay.destroyComponentOnEnd = true;
+                temporaryOverlay.originalMaterial = overlayMat1;
+                temporaryOverlay.AddToCharacerModel(this.modelTransform.GetComponent<CharacterModel>());
+
+                var temporaryOverlay2 = this.modelTransform.gameObject.AddComponent<TemporaryOverlay>();
+                temporaryOverlay2.duration = 1f;
+                temporaryOverlay2.animateShaderAlpha = true;
+                temporaryOverlay2.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                temporaryOverlay2.destroyComponentOnEnd = true;
+                temporaryOverlay2.originalMaterial = overlayMat2;
+                temporaryOverlay2.AddToCharacerModel(this.modelTransform.GetComponent<CharacterModel>());
+            }
 
             Util.PlaySound("Play_huntress_shift_mini_blink", gameObject);
             Util.PlaySound("Play_engi_M2_spider_dash", gameObject);
@@ -49,25 +69,6 @@ namespace Sandswept.States.Ranger
                 characterBody.isSprinting = true;
             }
 
-            if (modelTransform)
-            {
-                var temporaryOverlay = this.modelTransform.gameObject.AddComponent<TemporaryOverlay>();
-                temporaryOverlay.duration = 0.9f;
-                temporaryOverlay.animateShaderAlpha = true;
-                temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
-                temporaryOverlay.destroyComponentOnEnd = true;
-                temporaryOverlay.originalMaterial = overlayMat1;
-                temporaryOverlay.AddToCharacerModel(this.modelTransform.GetComponent<CharacterModel>());
-
-                var temporaryOverlay2 = this.modelTransform.gameObject.AddComponent<TemporaryOverlay>();
-                temporaryOverlay2.duration = 1f;
-                temporaryOverlay2.animateShaderAlpha = true;
-                temporaryOverlay2.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
-                temporaryOverlay2.destroyComponentOnEnd = true;
-                temporaryOverlay2.originalMaterial = overlayMat2;
-                temporaryOverlay2.AddToCharacerModel(this.modelTransform.GetComponent<CharacterModel>());
-            }
-
             if (fixedAge >= Duration)
             {
                 outer.SetNextStateToMain();
@@ -81,15 +82,9 @@ namespace Sandswept.States.Ranger
             if (characterBody)
             {
                 characterBody.isSprinting = true;
+                if (NetworkServer.active)
+                    characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
             }
-            /*
-            if (isAuthority)
-            {
-                characterBody.AddTimedBuffAuthority(Buffs.SidestepBuff.instance.BuffDef.buffIndex, BuffDuration);
-            }
-            */
-
-            // also commented this out because yeah
 
             if (characterMotor)
             {

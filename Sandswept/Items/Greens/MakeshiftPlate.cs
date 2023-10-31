@@ -1,3 +1,4 @@
+/*
 using System;
 using System.Diagnostics;
 using RoR2.UI;
@@ -12,16 +13,15 @@ namespace Sandswept.Items.Whites
     [ConfigSection("Item: Makeshift Plate")]
     public class MakeshiftPlate : ItemBase<MakeshiftPlate>
     {
-
         public static BuffDef MakeshiftPlateCount;
 
         public override string ItemName => "Makeshift Plate";
 
         public override string ItemLangTokenName => "MAKESHIFT_PLATE";
 
-        public override string ItemPickupDesc => "Gain plating on stage entry. Plating absorbs damage and retaliates with debris shards.";
+        public override string ItemPickupDesc => "Gain plating on stage entry. Plating absorbs damage, but cannot be recovered.";
 
-        public override string ItemFullDescription => StringExtensions.AutoFormat("Begin each stage with $sd1000%$se $ss(+1000 per stack)$se of your maximum health as plating. Plating acts as secondary health. Plating cannot be recovered in any way. Taking plating damage fires debris shards at nearby enemies dealing $sd2x120% damage$se.");
+        public override string ItemFullDescription => "Begin each stage with $sh1000$se $ss(+1000 per stack)$se plating. Plating acts as $shsecondary health$se, but cannot be recovered in any way. Taking damage with plating fires $sddebris shards$se at nearby enemies for $sd2x120%$se base damage.".AutoFormat();
 
         public override string ItemLore => "I hope ceremonial jar is coded soon :Yeah3D:";
 
@@ -65,7 +65,7 @@ namespace Sandswept.Items.Whites
 
         public static int FuckingWhy(orig_GetActiveCount orig, ref HealthBar.BarInfoCollection self) {
             return orig(ref self) + 1;
-        } 
+        }
 
         public void SeriouslyWhy(On.RoR2.UI.HealthBar.orig_ApplyBars orig, HealthBar self) {
             orig(self);
@@ -77,7 +77,6 @@ namespace Sandswept.Items.Whites
             }
 
             HandleBar(ref guh.info);
-            
 
             void HandleBar(ref BarInfo barInfo)
             {
@@ -103,7 +102,7 @@ namespace Sandswept.Items.Whites
                 rectTransform.anchoredPosition = Vector2.zero;
                 rectTransform.sizeDelta = new Vector2(sizeDelta * 0.5f + 1f, sizeDelta + 1f);
             }
-        } 
+        }
 
         public void HopooWhatIsThisShitWhyGuh(On.RoR2.UI.HealthBar.orig_UpdateBarInfos orig, HealthBar self) {
             orig(self);
@@ -116,8 +115,8 @@ namespace Sandswept.Items.Whites
 
                 info.enabled = manager.CurrentPlating > 0;
 
-                info.normalizedXMin = 0f;
-                info.normalizedXMax = manager.CurrentPlating == 0 ? 0 : (float)manager.CurrentPlating / (float)manager.MaxPlating;
+                    info.normalizedXMin = 0f;
+                    info.normalizedXMax = platingManager.CurrentPlating == 0 ? 0 : (float)platingManager.CurrentPlating / (float)platingManager.MaxPlating;
 
                 // UnityEngine.Debug.Log($"-----\nEnabled: {guh.enabled}\nXMax: {info.normalizedXMax}\n----");
             }
@@ -141,10 +140,16 @@ namespace Sandswept.Items.Whites
         public void OnBodySpawn(On.RoR2.CharacterBody.orig_Start orig, CharacterBody self) {
             orig(self);
 
+<<<<<<< HEAD
             if (self.inventory) {
                 float platingMult = (PlatingPerStack / 100f) * self.inventory.GetItemCount(ItemDef);
 
                 int plating = Mathf.RoundToInt(self.maxHealth * platingMult);
+=======
+            if (self.inventory)
+            {
+                int plating = self.inventory.GetItemCount(ItemDef) * 1000;
+>>>>>>> b211ede4de6b2a3d6a5331773fe6375761e63f49
 
                 if (plating == 0) {
                     return;
@@ -172,11 +177,14 @@ namespace Sandswept.Items.Whites
 
                 self.body.GetComponent<PlatingManager>().CurrentPlating -= toRemove;
 
-                if (plating > 0 && Util.CheckRoll(100f * info.procCoefficient)) {
-                    SphereSearch search = new();
-                    search.origin = self.transform.position;
-                    search.radius = 50;
-                    search.mask = LayerIndex.entityPrecise.mask;
+                if (plating > 0 && Util.CheckRoll(100f * info.procCoefficient))
+                {
+                    SphereSearch search = new()
+                    {
+                        origin = self.transform.position,
+                        radius = 50,
+                        mask = LayerIndex.entityPrecise.mask
+                    };
                     search.RefreshCandidates();
                     search.OrderCandidatesByDistance();
                     search.FilterCandidatesByDistinctHurtBoxEntities();
@@ -224,3 +232,4 @@ namespace Sandswept.Items.Whites
         }
     }
 }
+*/

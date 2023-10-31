@@ -8,20 +8,39 @@ namespace Sandswept.Items.Reds
 
         public override string ItemLangTokenName => "BLEEDING_WITNESS";
 
-        public override string ItemPickupDesc => "Your bleed effects deal a percentage of the enemy's maximum health.";
+        public override string ItemPickupDesc => "Your damage over time effects heal all allies.";
 
-        public override string ItemFullDescription => "$sd5%$se chance to $sdbleed$se enemies for $sd240%$se base damage. Your $sdbleed$se effects additionally deal $sd1%$se $ss(+1% per stack)$se of the enemy's $sdmaximum health$se as damage.".AutoFormat();
+        public override string ItemFullDescription => "$sd" + hemorrhageChance + "%$se chance to $sdhemorrhage$se enemies for $sd" + d(hemorrhageDamage) + "$se base damage. Your $sddamage over time effects$se $shheal$se all allies for $sh" + d(baseDoTHealing) + "$se $ss(+" + d(stackDoTHealing) + " per stack)$se of their $sdmaximum health$se.".AutoFormat();
 
         public override string ItemLore => "no";
 
         public override ItemTier Tier => ItemTier.Tier3;
 
-        public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("WitnessPrefab.prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/BleedingWitnessHolder.prefab");
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texBleedingWitness.png");
 
+        [ConfigField("Hemorrhage Chance", "", 5f)]
+        public static float hemorrhageChance;
+
+        [ConfigField("Hemorrhage Damage", "Decimal.", 4.8f)]
+        public static float hemorrhageDamage;
+
+        [ConfigField("Hemorrhage Duration", "", 3f)]
+        public static float hemorrhageDuration;
+
+        [ConfigField("Base DoT Healing", "Decimal.", 0.005f)]
+        public static float baseDoTHealing;
+
+        [ConfigField("Stack DoT Healing", "Decimal.", 0.0025f)]
+        public static float stackDoTHealing;
+
+        public override bool AIBlacklisted => true;
+
         public override void Init(ConfigFile config)
         {
+            CreateConfig(config);
+            CreateConfig(config);
             CreateLang();
             CreateItem();
             Hooks();
@@ -30,62 +49,39 @@ namespace Sandswept.Items.Reds
         public override void Hooks()
         {
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
-            onDotInflictedServerGlobal += DotController_onDotInflictedServerGlobal;
+            // RoR2.DotController.onDotInflictedServerGlobal += DotController_onDotInflictedServerGlobal;
+            On.RoR2.DotController.FixedUpdate += DotController_FixedUpdate;
+            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
         }
 
-        private void DotController_onDotInflictedServerGlobal(DotController dotController, ref InflictDotInfo inflictDotInfo)
+        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
-            if (inflictDotInfo.dotIndex != DotIndex.Bleed)
-            {
-                return;
-            }
+            stack = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
+        }
 
-            var victim = inflictDotInfo.victimObject;
-            if (!victim)
-            {
-                return;
-            }
+        public static int stack = 0;
 
-            var victimBody = victim.GetComponent<CharacterBody>();
-            if (!victimBody)
+        private void DotController_FixedUpdate(On.RoR2.DotController.orig_FixedUpdate orig, DotController self)
+        {
+            orig(self);
+            if (NetworkServer.active && stack > 0)
             {
-                return;
-            }
-
-            var victimHc = victimBody.healthComponent;
-            if (!victimHc)
-            {
-                return;
-            }
-
-            var attacker = inflictDotInfo.attackerObject;
-            if (!attacker)
-            {
-                return;
-            }
-
-            var attackerBody = attacker.GetComponent<CharacterBody>();
-            if (!attackerBody)
-            {
-                return;
-            }
-
-            var stack = GetCount(attackerBody);
-            if (stack > 0)
-            {
-                var increase = 0.01f * stack;
-
-                InflictDotInfo maxHpDamage = new()
+                var healAmount = baseDoTHealing + stackDoTHealing * (stack - 1);
+                for (int i = 0; i < self.dotStackList.Count; i++)
                 {
-                    victimObject = victim,
-                    attackerObject = attacker,
-                    totalDamage = increase * victimHc.fullCombinedHealth,
-                    dotIndex = DotIndex.Poison,
-                    duration = 3f,
-                    damageMultiplier = 1f,
-                    maxStacksFromAttacker = 1
-                };
-                InflictDot(ref maxHpDamage);
+                    var dot = self.dotStackList[i];
+                    if (dot.timer <= 0f)
+                    {
+                        for (int j = 0; i < CharacterBody.instancesList.Count; j++)
+                        {
+                            var body = CharacterBody.instancesList[j];
+                            if (body.teamComponent.teamIndex == TeamIndex.Player)
+                            {
+                                body.healthComponent?.HealFraction(healAmount, default);
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -114,15 +110,15 @@ namespace Sandswept.Items.Reds
 
             if (stacks > 0)
             {
-                if (Util.CheckRoll(5f * damageInfo.procCoefficient, attackerBody.master))
+                if (Util.CheckRoll(hemorrhageChance * damageInfo.procCoefficient, attackerBody.master))
                 {
                     InflictDotInfo baseDamage = new()
                     {
                         victimObject = victimBody.gameObject,
                         attackerObject = attackerBody.gameObject,
-                        totalDamage = attackerBody.damage * 2.4f,
-                        dotIndex = DotIndex.Bleed,
-                        duration = 3f,
+                        totalDamage = attackerBody.damage * hemorrhageDamage,
+                        dotIndex = DotIndex.SuperBleed,
+                        duration = hemorrhageDuration,
                         damageMultiplier = 1f
                     };
 

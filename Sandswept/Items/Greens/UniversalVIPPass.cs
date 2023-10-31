@@ -13,7 +13,7 @@
 
         public override string ItemPickupDesc => "Store a portion of spent gold as a bonus on the next stage.";
 
-        public override string ItemFullDescription => StringExtensions.AutoFormat("Whenever you make a $sugold purchase$se, store $su15%$se $ss(+10% per stack)$se of the spent gold as $sucredit$se. $suReceive money$se equal to $sucredit$se on the next stage.");
+        public override string ItemFullDescription => "Whenever you make a $sugold purchase$se, store $su15%$se $ss(+10% per stack)$se of the spent gold as $sucredit$se. $suReceive money$se equal to $sucredit$se on the next stage.".AutoFormat();
 
         public override string ItemLore => "Funny pt.2";
 
@@ -22,6 +22,8 @@
         public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");
 
         public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("UniVIPIcon.png");
+
+        public override bool AIBlacklisted => true;
 
         public override void Init(ConfigFile config)
         {

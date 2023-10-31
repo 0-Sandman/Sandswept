@@ -40,7 +40,7 @@ namespace Sandswept.Items
         public ItemDef ItemDef;
 
         public virtual bool CanRemove { get; } = true;
-        public virtual bool AIBlacklisted { get; set; } = false;
+        public virtual bool AIBlacklisted { get; set; } = true;
 
         public virtual string AchievementName { get; }
         public virtual string AchievementDesc { get; }
@@ -180,8 +180,14 @@ namespace Sandswept.Items
             return body.inventory.GetItemCount(itemDef);
         }
 
+        public string d(float f)
+        {
+            return (f * 100f).ToString() + "%";
+        }
+
         public string GetConfigName()
         {
+            Main.ModLogger.LogError(ItemName);
             return ItemName;
         }
     }

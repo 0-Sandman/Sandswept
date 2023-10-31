@@ -24,7 +24,15 @@ namespace Sandswept.States.Ranger
             Util.PlaySound("Play_voidBarnacle_m1_chargeUp", gameObject);
             Util.PlaySound("Play_voidBarnacle_m1_chargeUp", gameObject);
             Util.PlaySound("Play_voidBarnacle_m1_chargeUp", gameObject);
-            Util.PlaySound("Play_railgunner_R_gun_chargeUp", gameObject);
+            // Util.PlaySound("Play_railgunner_R_gun_chargeUp", gameObject);
+
+            PlayAnimation("Gesture, Override", "Fire", "Fire.playbackRate", duration);
+        }
+
+        public override void Update()
+        {
+            base.Update();
+            characterDirection.forward = GetAimRay().direction;
         }
 
         public override void FixedUpdate()
@@ -62,7 +70,7 @@ namespace Sandswept.States.Ranger
                 BulletAttack attack = new()
                 {
                     aimVector = aimDirection,
-                    falloffModel = BulletAttack.FalloffModel.DefaultBullet,
+                    falloffModel = BulletAttack.FalloffModel.None,
                     damage = damageStat * (DamageCoefficient + 1f * buffCount),
                     isCrit = RollCrit(),
                     minSpread = 0,
@@ -74,7 +82,7 @@ namespace Sandswept.States.Ranger
                     hitEffectPrefab = ImpactEffect,
                     procCoefficient = ProcCoefficient,
                     weapon = gameObject,
-                    radius = 2.5f,
+                    radius = 3f,
                     smartCollision = true,
                     stopperMask = LayerIndex.world.mask,
                     force = 5000f + 500f * buffCount,

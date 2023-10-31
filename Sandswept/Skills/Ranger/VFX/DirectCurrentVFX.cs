@@ -6,20 +6,32 @@ namespace Sandswept.Skills.Ranger.VFX
 {
     public static class DirectCurrentVFX
     {
-        public static GameObject tracerPrefab;
+        public static GameObject ghostPrefab;
 
         public static void Init()
         {
-            tracerPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.TracerCommandoShotgun, "Direct Current Tracer", false);
+            ghostPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.TracerCommandoShotgun, "Direct Current Ghost", false);
 
-            var tracer = tracerPrefab.GetComponent<Tracer>();
-            tracer.length = 16f; // 14
-            tracer.speed = 240f; // 160
+            var projectileGhostControlller = ghostPrefab.AddComponent<ProjectileGhostController>();
+            projectileGhostControlller.authorityTransform = ghostPrefab.transform;
 
-            var effectComponent = tracerPrefab.GetComponent<EffectComponent>();
+            var vfxAttributes = ghostPrefab.AddComponent<VFXAttributes>();
+            vfxAttributes.vfxPriority = VFXAttributes.VFXPriority.Always;
+            vfxAttributes.vfxIntensity = VFXAttributes.VFXIntensity.Medium;
+
+            var tracer = ghostPrefab.GetComponent<Tracer>();
+            // Main.ModLogger.LogError("tracer is " + tracer); exists
+            tracer.length = 16f; // 14 vaniller
+            tracer.speed = 140f; // 160 vaniller, 140 to be accurate with projectile speed
+
+            // ghostPrefab.RemoveComponent<EffectComponent>();
+
+            var effectComponent = ghostPrefab.GetComponent<EffectComponent>();
+            // Main.ModLogger.LogError("effect component is " + effectComponent); exists
             effectComponent.soundName = "Play_wHeavyShoot1";
+            effectComponent.effectData = new EffectData() { origin = ghostPrefab.transform.position };
 
-            var lineRenderer = tracerPrefab.GetComponent<LineRenderer>();
+            var lineRenderer = ghostPrefab.GetComponent<LineRenderer>();
 
             var geenGradient = new Gradient();
 
@@ -41,7 +53,7 @@ namespace Sandswept.Skills.Ranger.VFX
 
             lineRenderer.material = newMat;
 
-            ContentAddition.AddEffect(tracerPrefab);
+            ContentAddition.AddEffect(ghostPrefab);
         }
     }
 }

@@ -5,23 +5,28 @@ namespace Sandswept.Items.Greens
 {
     public class NuclearSalvo : ItemBase<NuclearSalvo>
     {
-        public override string ItemName => "Nucler Salvo";
+        public override string ItemName => "Nuclear Salvo";
 
-        public override string ItemLangTokenName => "SS_SALVO";
+        public override string ItemLangTokenName => "NUCLEAR_SALVO";
 
         public override string ItemPickupDesc => "Mechanical allies fire nuclear warheads periodically.";
 
-        public override string ItemFullDescription => "Every $sd10 seconds$se $ss(-25% per stack)$se, mechanical allies fire $sunuclear missiles$se that deal $sd3x100%$se base damage and $sdignite$se on hit.".AutoFormat();
+        public override string ItemFullDescription => "Every $sd10 seconds$se $ss(-25% per stack)$se, all mechanical allies fire $sunuclear missiles$se that deal $sd3x100%$se base damage and $sdignite$se on hit.".AutoFormat();
 
         public override string ItemLore => "TBD";
 
         public override ItemTier Tier => ItemTier.Tier2;
 
-        public override GameObject ItemModel => null;
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/NuclearSalvoHolder.prefab");
 
-        public override Sprite ItemIcon => null;
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texNuclearSalvo.png");
+
+        public override bool AIBlacklisted => true;
+
         public GameObject SalvoPrefab;
         public GameObject SalvoMissile;
+
+        // for salvo display you can instantiate Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/NuclearSalvo.prefab");
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
@@ -120,13 +125,13 @@ namespace Sandswept.Items.Greens
 
                 if (attachment.attachedBody.inventory.GetItemCount(NuclearSalvo.instance.ItemDef) <= 0)
                 {
-                    Destroy(this.gameObject);
+                    Destroy(gameObject);
                 }
             }
 
             if (attachment.attachedBody.inventory.GetItemCount(NuclearSalvo.instance.ItemDef) <= 0)
             {
-                Destroy(this.gameObject);
+                Destroy(gameObject);
             }
         }
     }
