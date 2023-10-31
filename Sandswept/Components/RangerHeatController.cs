@@ -13,6 +13,7 @@ namespace Sandswept.Components
     {
         public static float MaxHeat = 200f;
         public static float HeatDecayRate = 25f;
+        public static float HeatSignatureHeatDecayRate = 60f;
         public static float HeatIncreaseRate = 30f;
         public static float OverheatThreshold = 100f;
 
@@ -20,8 +21,9 @@ namespace Sandswept.Components
 
         public bool IsOverheating => CurrentHeat > OverheatThreshold;
         public bool isFiring = false;
+        public bool isUsingHeatSignature = false;
         internal Animator anim;
-        CharacterBody cb;
+        private CharacterBody cb;
         public GameObject overlayPrefab;
         internal GameObject overlayInstance;
 
@@ -32,9 +34,10 @@ namespace Sandswept.Components
             OverlayCreationParams p = new();
             p.prefab = overlayPrefab;
             p.childLocatorEntry = "CrosshairExtras";
-            
+
             OverlayController controller = HudOverlayManager.AddOverlay(base.gameObject, p);
-            controller.onInstanceAdded += (c, i) => {
+            controller.onInstanceAdded += (c, i) =>
+            {
                 overlayInstance = i;
                 overlayInstance.GetComponent<RangerCrosshairManager>().target = this;
             };
@@ -46,7 +49,13 @@ namespace Sandswept.Components
             {
                 CurrentHeat += HeatIncreaseRate * Time.fixedDeltaTime;
             }
-            else if (!isFiring && CurrentHeat > 0)
+
+            if (isUsingHeatSignature && CurrentHeat < MaxHeat)
+            {
+                CurrentHeat -= HeatSignatureHeatDecayRate * Time.fixedDeltaTime;
+            }
+
+            if (!isFiring && CurrentHeat > 0)
             {
                 CurrentHeat -= HeatDecayRate * Time.fixedDeltaTime;
             }
@@ -95,7 +104,8 @@ namespace Sandswept.Components
 
         public void FixedUpdate()
         {
-            if (!target) {
+            if (!target)
+            {
                 return;
             }
             image.color = new Color32(255, (byte)Mathf.Lerp(200, 70, target.CurrentHeat / RangerHeatManager.MaxHeat), 0, 255);

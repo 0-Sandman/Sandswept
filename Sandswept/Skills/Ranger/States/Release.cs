@@ -70,7 +70,7 @@ namespace Sandswept.States.Ranger
                 BulletAttack attack = new()
                 {
                     aimVector = aimDirection,
-                    falloffModel = BulletAttack.FalloffModel.DefaultBullet,
+                    falloffModel = BulletAttack.FalloffModel.None,
                     damage = damageStat * (DamageCoefficient + 1f * buffCount),
                     isCrit = RollCrit(),
                     minSpread = 0,

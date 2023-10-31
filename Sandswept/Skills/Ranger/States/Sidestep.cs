@@ -13,7 +13,6 @@ namespace Sandswept.States.Ranger
         private Transform modelTransform;
         public static Material overlayMat1 = SidestepVFX.dashMat1;
         public static Material overlayMat2 = SidestepVFX.dashMat2;
-        private RangerHeatManager heat;
 
         public override void OnEnter()
         {
@@ -21,6 +20,8 @@ namespace Sandswept.States.Ranger
             if (characterBody)
             {
                 characterBody.isSprinting = true;
+                if (NetworkServer.active)
+                    characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
             }
 
             modelTransform = GetModelTransform();
@@ -81,15 +82,9 @@ namespace Sandswept.States.Ranger
             if (characterBody)
             {
                 characterBody.isSprinting = true;
+                if (NetworkServer.active)
+                    characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
             }
-            /*
-            if (isAuthority)
-            {
-                characterBody.AddTimedBuffAuthority(Buffs.SidestepBuff.instance.BuffDef.buffIndex, BuffDuration);
-            }
-            */
-
-            // also commented this out because yeah
 
             if (characterMotor)
             {

@@ -75,13 +75,6 @@ namespace Sandswept.States.Ranger
                 rotation = Quaternion.identity
             }, true);
 
-            EffectManager.SpawnEffect(GlobalEventManager.CommonAssets.explodeOnDeathPrefab, new EffectData
-            {
-                origin = transform.position,
-                scale = 16f,
-                rotation = Quaternion.identity
-            }, true);
-
             Util.PlaySound("Play_magmaWorm_death_small_explos", gameObject);
 
             if (isAuthority)

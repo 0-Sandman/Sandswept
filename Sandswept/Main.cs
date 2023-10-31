@@ -12,6 +12,7 @@ using System.Diagnostics;
 using Sandswept.Elites;
 using Sandswept.Skills.Ranger.VFX;
 using Sandswept.Skills.Ranger.Projectiles;
+using Sandswept.Skills.Ranger.Hooks;
 
 namespace Sandswept
 {
@@ -73,6 +74,9 @@ namespace Sandswept
             OverdriveShotHeatedVFX.Init();
             SidestepVFX.Init();
             HeatSinkVFX.Init();
+            HeatSignatureVFX.Init();
+
+            HeatSignatureCooldown.Init();
 
             DirectCurrent.Init();
 
