@@ -18,6 +18,8 @@
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texFracturedTimepiece.png");
 
+        public override bool AIBlacklisted => true;
+
         public override void Init(ConfigFile config)
         {
             CreateLang();

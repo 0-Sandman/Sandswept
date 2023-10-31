@@ -23,6 +23,8 @@
 
         public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("UniVIPIcon.png");
 
+        public override bool AIBlacklisted => true;
+
         public override void Init(ConfigFile config)
         {
             CreateLang();

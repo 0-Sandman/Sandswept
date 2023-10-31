@@ -5,7 +5,7 @@ namespace Sandswept.States.Ranger
 {
     public class Release : BaseState
     {
-        public static float DamageCoefficient = 8f;
+        public static float DamageCoefficient = 5f;
         public static float ProcCoefficient = 1f;
         public static float baseDuration = 0.25f;
         public float duration;
@@ -24,7 +24,15 @@ namespace Sandswept.States.Ranger
             Util.PlaySound("Play_voidBarnacle_m1_chargeUp", gameObject);
             Util.PlaySound("Play_voidBarnacle_m1_chargeUp", gameObject);
             Util.PlaySound("Play_voidBarnacle_m1_chargeUp", gameObject);
-            Util.PlaySound("Play_railgunner_R_gun_chargeUp", gameObject);
+            // Util.PlaySound("Play_railgunner_R_gun_chargeUp", gameObject);
+
+            PlayAnimation("Gesture, Override", "Fire", "Fire.playbackRate", duration);
+        }
+
+        public override void Update()
+        {
+            base.Update();
+            characterDirection.forward = GetAimRay().direction;
         }
 
         public override void FixedUpdate()
@@ -74,7 +82,7 @@ namespace Sandswept.States.Ranger
                     hitEffectPrefab = ImpactEffect,
                     procCoefficient = ProcCoefficient,
                     weapon = gameObject,
-                    radius = 2.5f,
+                    radius = 3f,
                     smartCollision = true,
                     stopperMask = LayerIndex.world.mask,
                     force = 5000f + 500f * buffCount,

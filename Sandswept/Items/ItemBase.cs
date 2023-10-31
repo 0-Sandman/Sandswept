@@ -39,7 +39,7 @@ namespace Sandswept.Items
         public ItemDef ItemDef;
 
         public virtual bool CanRemove { get; } = true;
-        public virtual bool AIBlacklisted { get; set; } = false;
+        public virtual bool AIBlacklisted { get; set; } = true;
 
         public virtual string AchievementName { get; }
         public virtual string AchievementDesc { get; }

@@ -23,6 +23,8 @@ namespace Sandswept.Items.Whites
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texAmberKnife.png");
 
+        public override bool AIBlacklisted => false;
+
         public static ProcType amberKnife = (ProcType)12785281;
 
         public static GameObject amberKnifeProjectile;
@@ -158,7 +160,6 @@ namespace Sandswept.Items.Whites
                     };
 
                     fpi.procChainMask.AddProc(amberKnife);
-
 
                     fpi.projectilePrefab.GetComponent<AmberKnifeProjectile>().owner = attackerBody;
                     ProjectileManager.instance.FireProjectile(fpi);

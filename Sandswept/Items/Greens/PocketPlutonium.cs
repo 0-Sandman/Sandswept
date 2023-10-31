@@ -22,6 +22,8 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texPocketPlutonium.png");
 
+        public override bool AIBlacklisted => true;
+
         public static GameObject indicator;
 
         public static GameObject poolPrefab;

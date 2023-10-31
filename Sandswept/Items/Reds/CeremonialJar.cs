@@ -34,6 +34,8 @@ namespace Sandswept.Items.Reds
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texCeremonialJar.png");
 
+        public override bool AIBlacklisted => true;
+
         public static List<CharacterBody> list = new();
 
         public static Dictionary<TeamIndex, List<JarToken>> AppliedBuff = new();

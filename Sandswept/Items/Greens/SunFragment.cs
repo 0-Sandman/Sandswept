@@ -28,6 +28,8 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texSunFragment.png");
 
+        public override bool AIBlacklisted => true;
+
         public GameObject FragmentVFX;
 
         public static GameObject FragmentVFXSphere;

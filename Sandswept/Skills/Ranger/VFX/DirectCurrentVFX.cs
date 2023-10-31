@@ -12,18 +12,24 @@ namespace Sandswept.Skills.Ranger.VFX
         {
             ghostPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.TracerCommandoShotgun, "Direct Current Ghost", false);
 
-            ghostPrefab.AddComponent<ProjectileGhostController>();
+            var projectileGhostControlller = ghostPrefab.AddComponent<ProjectileGhostController>();
+            projectileGhostControlller.authorityTransform = ghostPrefab.transform;
 
-            ghostPrefab.AddComponent<VFXAttributes>();
+            var vfxAttributes = ghostPrefab.AddComponent<VFXAttributes>();
+            vfxAttributes.vfxPriority = VFXAttributes.VFXPriority.Always;
+            vfxAttributes.vfxIntensity = VFXAttributes.VFXIntensity.Medium;
 
             var tracer = ghostPrefab.GetComponent<Tracer>();
+            // Main.ModLogger.LogError("tracer is " + tracer); exists
             tracer.length = 16f; // 14 vaniller
             tracer.speed = 140f; // 160 vaniller, 140 to be accurate with projectile speed
 
             // ghostPrefab.RemoveComponent<EffectComponent>();
 
             var effectComponent = ghostPrefab.GetComponent<EffectComponent>();
+            // Main.ModLogger.LogError("effect component is " + effectComponent); exists
             effectComponent.soundName = "Play_wHeavyShoot1";
+            effectComponent.effectData = new EffectData() { origin = ghostPrefab.transform.position };
 
             var lineRenderer = ghostPrefab.GetComponent<LineRenderer>();
 

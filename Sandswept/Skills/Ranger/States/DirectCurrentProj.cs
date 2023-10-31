@@ -1,14 +1,10 @@
-﻿using Sandswept.Skills.Ranger.VFX;
-
-namespace Sandswept.States.Ranger
+﻿namespace Sandswept.States.Ranger
 {
     public class DirectCurrentProj : BaseState
     {
         public static float damageCoefficient = 3.5f;
         public static float baseDuration = 0.5f;
-        public static GameObject GhostEffect => DirectCurrentVFX.ghostPrefab;
         private float duration;
-        private float stopwatch = 0f;
 
         public static GameObject directCurrentProjectile = Skills.Ranger.Projectiles.DirectCurrent.prefab;
 
@@ -27,11 +23,15 @@ namespace Sandswept.States.Ranger
             return InterruptPriority.PrioritySkill;
         }
 
+        public override void Update()
+        {
+            base.Update();
+            characterDirection.forward = GetAimRay().direction;
+        }
+
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-            stopwatch += Time.fixedDeltaTime;
-            characterDirection.forward = GetAimRay().direction;
 
             if (fixedAge >= duration)
             {

@@ -37,7 +37,12 @@ namespace Sandswept.Skills.Ranger.Projectiles
 
             var effectComponent = newImpact.GetComponent<EffectComponent>();
             effectComponent.soundName = "Play_engi_M1_explo";
-            effectComponent.applyScale = true;
+
+            for (int i = 0; i < newImpact.transform.childCount; i++)
+            {
+                var trans = newImpact.transform.GetChild(i);
+                trans.localScale *= 0.14285714285f;
+            }
 
             ContentAddition.AddEffect(newImpact);
 
@@ -53,7 +58,7 @@ namespace Sandswept.Skills.Ranger.Projectiles
             var projectileController = prefab.GetComponent<ProjectileController>();
 
             var newGhost = DirectCurrentVFX.ghostPrefab;
-            Main.ModLogger.LogError("direct current vfx ghost prefab is " + DirectCurrentVFX.ghostPrefab);
+            // Main.ModLogger.LogError("direct current vfx ghost prefab is " + DirectCurrentVFX.ghostPrefab); exists
 
             projectileController.ghostPrefab = newGhost;
 
