@@ -60,10 +60,12 @@ namespace Sandswept
 
         //Provides a direct access to this plugin's logger for use in any of your other classes.
         public static BepInEx.Logging.ManualLogSource ModLogger;
-
+        public static ConfigFile config;
         private void Awake()
         {
             var stopwatch = Stopwatch.StartNew();
+
+            config = Config;
 
             ModLogger = Logger;
 
@@ -180,7 +182,7 @@ namespace Sandswept
         /// <param name="artifactList">The list you would like to add this to if it passes the config check.</param>
         public bool ValidateArtifact(ArtifactBase artifact, List<ArtifactBase> artifactList)
         {
-            var enabled = Config.Bind<bool>("Artifact: " + artifact.ArtifactName, "Enable Artifact?", true, "Should this artifact appear for selection?").Value;
+            var enabled = ArtifactBase.DefaultEnabledCallback(artifact);
 
             if (enabled)
             {
@@ -197,8 +199,8 @@ namespace Sandswept
         /// <param name="itemList">The list you would like to add this to if it passes the config check.</param>
         public bool ValidateItem(ItemBase item, List<ItemBase> itemList)
         {
-            var enabled = Config.Bind<bool>("Item: " + item.ItemName, "Enable Item?", true, "Should this item appear in runs?").Value;
-            var aiBlacklist = Config.Bind<bool>("Item: " + item.ItemName, "Blacklist Item from AI Use?", false, "Should the AI not be able to obtain this item?").Value;
+            var enabled = ItemBase.DefaultEnabledCallback(item);
+            var aiBlacklist = Config.Bind<bool>(item.GetConfName(), "Blacklist Item from AI Use?", false, "Should the AI not be able to obtain this item?").Value;
             if (enabled)
             {
                 itemList.Add(item);
@@ -217,7 +219,7 @@ namespace Sandswept
         /// <param name="equipmentList">The list you would like to add this to if it passes the config check.</param>
         public bool ValidateEquipment(EquipmentBase equipment, List<EquipmentBase> equipmentList)
         {
-            if (Config.Bind<bool>("Equipment: " + equipment.EquipmentName, "Enable Equipment?", true, "Should this equipment appear in runs?").Value)
+            if (EquipmentBase.DefaultEnabledCallback(equipment))
             {
                 equipmentList.Add(equipment);
                 return true;
@@ -233,7 +235,7 @@ namespace Sandswept
         /// <returns></returns>
         public bool ValidateEliteEquipment(EliteEquipmentBase eliteEquipment, List<EliteEquipmentBase> eliteEquipmentList)
         {
-            var enabled = Config.Bind<bool>("Equipment: " + eliteEquipment.EliteEquipmentName, "Enable Elite Equipment?", true, "Should this elite equipment appear in runs? If disabled, the associated elite will not appear in runs either.").Value;
+            var enabled = EliteEquipmentBase.DefaultEnabledCallback(eliteEquipment);
 
             if (enabled)
             {
@@ -245,6 +247,8 @@ namespace Sandswept
 
         public bool ValidateBuff(BuffBase buff, List<BuffBase> buffList)
         {
+            return true; // why ??????
+
             var enabled = Config.Bind<bool>("Buff: " + buff.BuffName, "Enable Buff?", true, "Should this buff be registered for use in the game?").Value;
 
             BuffStatusDictionary.Add(buff, enabled);

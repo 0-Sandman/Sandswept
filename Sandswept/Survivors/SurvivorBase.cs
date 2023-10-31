@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 
 namespace Sandswept.Survivors
 {
@@ -12,7 +13,7 @@ namespace Sandswept.Survivors
         }
     }
 
-    public abstract class SurvivorBase : IConfigurable
+    public abstract class SurvivorBase
     {
         public abstract string Name { get; }
         public abstract string Description { get; }
@@ -22,6 +23,20 @@ namespace Sandswept.Survivors
         public GameObject Body;
         public GameObject Master;
         public SurvivorDef SurvivorDef;
+
+        public static bool DefaultEnabledCallback(SurvivorBase self) {
+            ConfigSectionAttribute attribute = self.GetType().GetCustomAttribute<ConfigSectionAttribute>();
+            if (attribute != null) {
+                bool isValid = Main.config.Bind<bool>(attribute.name, "Enabled", true, "Allow this survivor to appear?").Value;
+                if (isValid) {
+                    return true;
+                }
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
 
         public virtual void Init()
         {

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Reflection;
 
 namespace Sandswept.Equipment
 {
@@ -39,6 +40,20 @@ namespace Sandswept.Equipment
         public virtual bool IsLunar { get; } = false;
 
         public EquipmentDef EquipmentDef;
+
+        public static bool DefaultEnabledCallback(EquipmentBase self) {
+            ConfigSectionAttribute attribute = self.GetType().GetCustomAttribute<ConfigSectionAttribute>();
+            if (attribute != null) {
+                bool isValid = Main.config.Bind<bool>(attribute.name, "Enabled", true, "Allow this equipment to appear in runs?").Value;
+                if (isValid) {
+                    return true;
+                }
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
 
         public abstract ItemDisplayRuleDict CreateItemDisplayRules();
 

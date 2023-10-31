@@ -9,6 +9,7 @@ using System.Linq;
 
 namespace Sandswept.Items.Whites
 {
+    [ConfigSection("Item: Makeshift Plate")]
     public class MakeshiftPlate : ItemBase<MakeshiftPlate>
     {
 
@@ -29,6 +30,8 @@ namespace Sandswept.Items.Whites
         public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("MakeshiftPlatePrefab.prefab");
 
         public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("MakeshiftPlateIcon.png");
+        [ConfigField("Plating Per Stack", "The amount of plating to gain per stack, in percentage of max health", 1000)]
+        public static float PlatingPerStack;
 
         public override void Init(ConfigFile config)
         {
@@ -139,7 +142,7 @@ namespace Sandswept.Items.Whites
             orig(self);
 
             if (self.inventory) {
-                float platingMult = 10f * self.inventory.GetItemCount(ItemDef);
+                float platingMult = (PlatingPerStack / 100f) * self.inventory.GetItemCount(ItemDef);
 
                 int plating = Mathf.RoundToInt(self.maxHealth * platingMult);
 

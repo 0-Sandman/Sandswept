@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 
 namespace Sandswept.Skills {
     public abstract class SkillBase<T> : SkillBase where T : SkillBase<T> {
@@ -9,7 +10,7 @@ namespace Sandswept.Skills {
         }
     }
 
-    public abstract class SkillBase : IConfigurable {
+    public abstract class SkillBase {
         public abstract string Name { get; }
         public abstract string Description { get; }
         public virtual string LangToken => this.GetType().Name.ToUpper();
@@ -27,6 +28,20 @@ namespace Sandswept.Skills {
         public virtual InterruptPriority InterruptPriority => InterruptPriority.Skill;
         public abstract Sprite Icon { get; }
         public SkillDef skillDef;
+
+        private static bool DefaultEnabledCallback(SkillBase self) {
+            ConfigSectionAttribute attribute = self.GetType().GetCustomAttribute<ConfigSectionAttribute>();
+            if (attribute != null) {
+                bool isValid = Main.config.Bind<bool>(attribute.name, "Enabled", true, "Allow this item to appear in runs?").Value;
+                if (isValid) {
+                    return true;
+                }
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
 
         public virtual void Init() {
             CreateSkillDef();

@@ -1,4 +1,5 @@
-﻿using static Sandswept.Utils.TotallyNotStolenUtils;
+﻿using System.Reflection;
+using static Sandswept.Utils.TotallyNotStolenUtils;
 
 namespace Sandswept.Items
 {
@@ -19,7 +20,7 @@ namespace Sandswept.Items
         }
     }
 
-    public abstract class ItemBase : IConfigurable
+    public abstract class ItemBase
     {
         public abstract string ItemName { get; }
         public abstract string ItemLangTokenName { get; }
@@ -45,6 +46,30 @@ namespace Sandswept.Items
         public virtual string AchievementDesc { get; }
         public virtual Func<string> GetHowToUnlock => () => AchievementName + "\n<style=cStack>" + AchievementDesc + "</style>";
         public virtual Func<string> GetUnlocked => () => AchievementName + "\n<style=cStack>" + AchievementDesc + "</style>";
+
+        public static bool DefaultEnabledCallback(ItemBase self) {
+            ConfigSectionAttribute attribute = self.GetType().GetCustomAttribute<ConfigSectionAttribute>();
+            if (attribute != null) {
+                bool isValid = Main.config.Bind<bool>(attribute.name, "Enabled", true, "Allow this item to appear in runs?").Value;
+                if (isValid) {
+                    return true;
+                }
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        public string GetConfName() {
+            ConfigSectionAttribute attribute = this.GetType().GetCustomAttribute<ConfigSectionAttribute>();
+            if (attribute != null) {
+                return attribute.name;
+            }
+            else {
+                return "Items :: " + ItemName;
+            }
+        }
 
         public UnlockableDef UnlockableDef;
 

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Reflection;
 using static RoR2.CombatDirector;
 
 namespace Sandswept.Elites
@@ -92,6 +93,20 @@ namespace Sandswept.Elites
         private static GameObject firePrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/EliteFire/PickupEliteFire.prefab").WaitForCompletion();
 
         public abstract ItemDisplayRuleDict CreateItemDisplayRules();
+
+        public static bool DefaultEnabledCallback(EliteEquipmentBase self) {
+            ConfigSectionAttribute attribute = self.GetType().GetCustomAttribute<ConfigSectionAttribute>();
+            if (attribute != null) {
+                bool isValid = Main.config.Bind<bool>(attribute.name, "Enabled", true, "Allow this elite to appear in runs?").Value;
+                if (isValid) {
+                    return true;
+                }
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
 
         protected void CreateLang()
         {
