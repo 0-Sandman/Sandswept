@@ -1,5 +1,5 @@
 using System;
-using Sandswept.Components;
+using Sandswept2.Components;
 
 namespace Sandswept2.Survivors
 {
