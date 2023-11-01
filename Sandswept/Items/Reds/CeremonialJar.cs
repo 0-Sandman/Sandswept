@@ -3,30 +3,16 @@ using System.Linq;
 using HG;
 using TMPro;
 
-// ay are we sure this a red? this feels very underwhelming esp. in single stack
-namespace Sandswept.Items.Reds
-{
+namespace Sandswept.Items.Reds {
     public class CeremonialJar : ItemBase<CeremonialJar>
     {
-        public static BuffDef CeremonialDef;
-
-        public static BuffDef CeremonialCooldown;
-
-        public static GameObject JarVFX;
-
-        public static DamageAPI.ModdedDamageType jarDamageType;
-
-        public static DamageColorIndex jarDamageColour = DamageColourHelper.RegisterDamageColor(new Color32(0, 255, 204, 255));
-
-        public override string ItemName => "Ceremonial Jar";
-
         public override string ItemLangTokenName => "CEREMONIAL_JAR";
 
         public override string ItemPickupDesc => "Link enemies on hit. Linked enemies take massive damage.";
 
         public override string ItemFullDescription => "On hit, $sdlink$se enemies up to $sd3$se times. $sdLinked$se enemies take $sd1500%$se $ss(+750% per stack)$se base damage each.".AutoFormat();
 
-        public override string ItemLore => "";
+        public override string ItemLore => "texLesbianFurry.png";
 
         public override ItemTier Tier => ItemTier.Tier3;
 
@@ -34,18 +20,101 @@ namespace Sandswept.Items.Reds
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texCeremonialJar.png");
 
-        public override bool AIBlacklisted => true;
+        public override string ItemName => "Ceremonial Jar";
 
-        public static List<CharacterBody> list = new();
+        public static BuffDef CereJarLinkedBuff;
+        public static BuffDef CereJarCDBuff;
+        public static DamageColorIndex JarDamageColor = DamageColourHelper.RegisterDamageColor(new Color32(0, 255, 204, 255));
+        public static GameObject JarVFX;
 
-        public static Dictionary<TeamIndex, List<JarToken>> AppliedBuff = new();
+        public override ItemDisplayRuleDict CreateItemDisplayRules()
+        {
+            return null;
+        }
 
         public override void Init(ConfigFile config)
         {
-            jarDamageType = DamageAPI.ReserveDamageType();
+            base.Init(config);
+            SetupVFX();
+            SetupBuffs();
+        }
 
-            // full on 6hr code incoming
+        public void SetupBuffs() {
+            CereJarLinkedBuff = ScriptableObject.CreateInstance<BuffDef>();
+            CereJarLinkedBuff.name = "Ceremonial Jar Link";
+            CereJarLinkedBuff.canStack = false;
+            CereJarLinkedBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texGaySex.png");
 
+            CereJarCDBuff = ScriptableObject.CreateInstance<BuffDef>();
+            CereJarCDBuff.name = "Ceremonial Jar Cooldown";
+            CereJarCDBuff.canStack = false;
+            CereJarCDBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texLesbianFurry.png");
+
+            ContentAddition.AddBuffDef(CereJarLinkedBuff);
+            ContentAddition.AddBuffDef(CereJarCDBuff);
+        }
+
+        public override void Hooks()
+        {
+            base.Hooks();
+            On.RoR2.GlobalEventManager.OnHitEnemy += OnHitEnemy;
+        }
+
+        public void OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo info, GameObject victim) {
+            orig(self, info, victim);
+
+            GameObject attackerGO = info.attacker;
+
+            if (!attackerGO || !attackerGO.GetComponent<CharacterBody>()) {
+                return;
+            }
+
+            CharacterBody attacker = attackerGO.GetComponent<CharacterBody>();
+
+            if (GetCount(attacker) <= 0) {
+                return;
+            }
+
+            CharacterBody victimBody = victim.GetComponent<CharacterBody>();
+
+            if (victimBody.HasBuff(CereJarCDBuff)) {
+                return;
+            }
+
+            victimBody.AddTimedBuff(CereJarLinkedBuff, 5f);
+
+            List<CharacterBody> bodies = new();
+
+            for (int i = 0; i < CharacterBody.readOnlyInstancesList.Count; i++) {
+                if (CharacterBody.readOnlyInstancesList[i].HasBuff(CereJarLinkedBuff)) {
+                    bodies.Add(CharacterBody.readOnlyInstancesList[i]);
+                }
+            }
+
+            if (bodies.Count >= 3) {
+                bodies.ForEach(x => {
+                    x.RemoveBuff(CereJarLinkedBuff);
+                    x.AddTimedBuff(CereJarCDBuff, 5f);
+
+                    DamageInfo info = new();
+                    info.damage = attacker.damage * (15 + (7 * (GetCount(attacker) - 1)));
+                    info.crit = false;
+                    info.damageColorIndex = JarDamageColor;
+                    info.attacker = attacker.gameObject;
+                    info.position = x.corePosition;
+                    info.procCoefficient = 0;
+
+                    x.healthComponent.TakeDamage(info);
+
+                    EffectManager.SpawnEffect(Assets.GameObject.IgniteExplosionVFX, new EffectData {
+                        scale = 2f,
+                        origin = x.corePosition
+                    }, true);
+                });
+            }
+        }
+
+        public void SetupVFX() {
             JarVFX = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Nullifier/NullifyStack3Effect.prefab").WaitForCompletion().InstantiateClone("CeremonialJarEffect", false);
             JarVFX.name = "CeremonialJarEffect";
 
@@ -106,183 +175,10 @@ namespace Sandswept.Items.Reds
 
             // JarVFX.AddComponent<EffectComponent>().applyScale = true;
             // Main.EffectPrefabs.Add(JarVFX);
-
-            CreateLang();
-            CreateItem();
-            CreateBuff();
-            Hooks();
         }
+    }
 
-        public override void Hooks()
-        {
-            On.RoR2.GlobalEventManager.OnHitEnemy += BuffApply;
-            On.RoR2.CharacterBody.AddTimedBuff_BuffDef_float_int += BuffCheck;
-            On.RoR2.CharacterBody.OnDeathStart += DeathRemove;
-            On.RoR2.CharacterBody.UpdateAllTemporaryVisualEffects += UpdateVFX;
-        }
-
-        public void CreateBuff()
-        {
-            CeremonialDef = ScriptableObject.CreateInstance<BuffDef>();
-            CeremonialDef.name = "Linked";
-            CeremonialDef.canStack = false;
-            CeremonialDef.isDebuff = true;
-            CeremonialDef.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texGaySex.png");
-            CeremonialDef.buffColor = new Color32(244, 255, 221, 255);
-            ContentAddition.AddBuffDef(CeremonialDef);
-            // BuffCatalog.buffDefs.AddItem(CeremonialDef);
-
-            CeremonialCooldown = ScriptableObject.CreateInstance<BuffDef>();
-            CeremonialCooldown.name = "Cleansed";
-            CeremonialCooldown.buffColor = new Color32(47, 60, 76, 255);
-            CeremonialCooldown.canStack = false;
-            CeremonialCooldown.isDebuff = false;
-            CeremonialCooldown.isCooldown = true;
-            CeremonialCooldown.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texLesbianFurry.png");
-            ContentAddition.AddBuffDef(CeremonialCooldown);
-            // BuffCatalog.buffDefs.AddItem(CeremonialCooldown);
-        }
-
-        private void DeathRemove(On.RoR2.CharacterBody.orig_OnDeathStart orig, CharacterBody self)
-        {
-            if ((bool)self.gameObject.GetComponent<JarToken>())
-            {
-                list.Remove(self);
-                AppliedBuff[self.teamComponent.teamIndex].Remove(GetToken(self));
-            }
-            orig(self);
-        }
-
-        private void BuffCheck(On.RoR2.CharacterBody.orig_AddTimedBuff_BuffDef_float_int orig, CharacterBody self, BuffDef buffDef, float duration, int maxStacks)
-        {
-            orig(self, buffDef, duration, maxStacks);
-            if (buffDef == CeremonialDef)
-            {
-                var token = GetToken(self);
-
-                var attacker = token.attacker;
-                //if (!attacker.HasBuff(CeremonialCooldown))
-                {
-                    if (list.Contains(self))
-                    {
-                        if (AppliedBuff[self.teamComponent.teamIndex].Count >= 3)
-                        {
-                            UpdateVFX((_) => { }, self); // final enemy have vfx as well
-
-                            foreach (CharacterBody body in AppliedBuff[self.teamComponent.teamIndex].Select((x) => x.body))
-                            {
-                                var stacks = GetCount(attacker);
-
-                                DamageInfo extraDamageInfo = new()
-                                {
-                                    damage = attacker.damage * 15f + 7.5f * (stacks - 1),
-                                    attacker = attacker.gameObject,
-                                    procCoefficient = 0,
-                                    position = body.corePosition,
-                                    crit = false,
-                                    damageColorIndex = jarDamageColour,
-                                    damageType = DamageType.Silent
-                                };
-                                body.healthComponent.TakeDamage(extraDamageInfo);
-
-                                EffectManager.SpawnEffect(GlobalEventManager.CommonAssets.igniteOnKillExplosionEffectPrefab, new EffectData
-                                {
-                                    origin = body.corePosition,
-                                    scale = body.radius * 2
-                                }, transmit: false);
-                                if (!JarVFXList.ContainsKey(body) || !(bool)JarVFXList[body]) continue;
-                                GameObject _JarVFX = JarVFXList[body].gameObject;
-                                GameObject stack = _JarVFX.transform.Find("Visual").Find("Donuts").gameObject;
-                                ArrayUtils.ArrayAppend(ref _JarVFX.GetComponent<TemporaryVisualEffect>().exitComponents, stack.GetComponent<GuhAlpha>());
-                                ArrayUtils.ArrayAppend(ref _JarVFX.GetComponent<TemporaryVisualEffect>().exitComponents, stack.GetComponent<ObjectScaleCurve>());
-                                _JarVFX.transform.Find("Particles").gameObject.SetActive(false);
-                                _JarVFX.GetComponent<DestroyOnTimer>().duration = 0.5f;
-                            }
-                            AppliedBuff[self.teamComponent.teamIndex].RemoveAll((x) => x.body);
-
-                            //attacker.AddTimedBuff(CeremonialCooldown, 5f);
-                        }
-                    }
-                }
-            }
-        }
-
-        private void BuffApply(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
-        {
-            orig(self, damageInfo, victim);
-
-            if (!damageInfo.attacker) {
-                return;
-            }
-
-
-            var attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
-            var victimBody = victim.GetComponent<CharacterBody>();
-
-            if (!attackerBody || !victimBody) {
-                return;
-            }
-
-            var stacks = GetCount(attackerBody);
-
-            if (damageInfo.procCoefficient > 0)
-            {
-                if (stacks > 0 && !victimBody.HasBuff(CeremonialDef))
-                {
-                    if (list.Count < 3)
-                    {
-                        victimBody.AddTimedBuff(CeremonialDef, 3f);
-                        var token = GetToken(victimBody);
-                        token.attacker = attackerBody;
-                        token.timer = 3f;
-                    }
-                }
-                /*
-                if (stacks > 0 && victim.GetComponent<JarToken>())
-                {
-                    var token = GetToken(victimBody);
-                    token.timer = 3f;
-                    victimBody.AddTimedBuff(CeremonialDef, 3f, 1);
-                }
-                */
-
-                // so commenting this makes it properly reapply the buff but makes it do no damage guhhh
-                // if uncommented, it's jank, the damage works fine but every enemy has at least a 3s cooldown, extended whenever you hit them so it feels pretty awful
-                // so idk fix both of these maybe :smirk_cat:
-            }
-        }
-
-        public static JarToken GetToken(CharacterBody body)
-        {
-            if (!body.gameObject.GetComponent<JarToken>())
-            {
-                body.gameObject.AddComponent<JarToken>();
-            }
-            return body.gameObject.GetComponent<JarToken>();
-        }
-
-        public override ItemDisplayRuleDict CreateItemDisplayRules()
-        {
-            return new ItemDisplayRuleDict();
-        }
-
-        private Dictionary<CharacterBody, TemporaryVisualEffect> JarVFXList = new();
-
-        public void UpdateVFX(On.RoR2.CharacterBody.orig_UpdateAllTemporaryVisualEffects orig, CharacterBody self)
-        {
-            orig(self);
-            TemporaryVisualEffect _JarVFX;
-            if (JarVFXList.ContainsKey(self)) _JarVFX = JarVFXList[self];
-            else _JarVFX = new();
-            self.UpdateSingleTemporaryVisualEffect(ref _JarVFX, JarVFX, self.radius, self.HasBuff(CeremonialDef));
-            if (!self.HasBuff(CeremonialDef)) return;
-            ParticleSystem ps = _JarVFX.transform.Find("Particles").GetComponent<ParticleSystem>();
-            ps.maxParticles = (int)(ps.maxParticles * self.radius);
-            ps.emissionRate *= self.radius;
-            JarVFXList[self] = _JarVFX;
-        }
-
-        public class GuhAlpha : AnimateShaderAlpha
+    public class GuhAlpha : AnimateShaderAlpha
         {
             private void Update()
             {
@@ -304,52 +200,4 @@ namespace Sandswept.Items.Reds
                 }
             }
         }
-    }
-
-    public class JarToken : MonoBehaviour
-    {
-        public CharacterBody attacker;
-        public CharacterBody body;
-        public TeamComponent teamComponent;
-
-        public float timer = 3f;
-
-        public void Awake()
-        {
-            body = GetComponent<CharacterBody>();
-            teamComponent = GetComponent<TeamComponent>();
-            if (!CeremonialJar.AppliedBuff.ContainsKey(teamComponent.teamIndex))
-            {
-                CeremonialJar.AppliedBuff[teamComponent.teamIndex] = new List<JarToken>();
-            }
-            CeremonialJar.AppliedBuff[teamComponent.teamIndex].Add(this);
-            if (!CeremonialJar.list.Contains(body))
-            {
-                CeremonialJar.list.Add(body);
-            }
-        }
-
-        public void FixedUpdate()
-        {
-            timer -= Time.fixedDeltaTime;
-            if (timer <= 0)
-            {
-                Destroy(this);
-            }
-        }
-
-        public void OnDestroy()
-        {
-            body.ClearTimedBuffs(CeremonialJar.CeremonialDef);
-            TeamIndex teamIndex = teamComponent.teamIndex;
-            if (CeremonialJar.AppliedBuff.ContainsKey(teamIndex))
-            {
-                CeremonialJar.AppliedBuff[teamIndex].Remove(this);
-                if (CeremonialJar.list.Contains(body))
-                {
-                    CeremonialJar.list.Remove(body);
-                }
-            }
-        }
-    }
 }

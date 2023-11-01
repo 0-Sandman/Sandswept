@@ -26,13 +26,14 @@ namespace Sandswept.States.Ranger
             }
 
             outer.SetNextStateToMain();
+            characterBody.SetAimTimer(0.4f);
         }
 
         public void FireShot()
         {
             AkSoundEngine.PostEvent(Events.Play_commando_M2, gameObject);
 
-            base.characterDirection.forward = base.GetAimRay().direction;
+            // base.characterDirection.forward = base.GetAimRay().direction;
 
             if (!base.isAuthority)
             {

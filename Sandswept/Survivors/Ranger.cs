@@ -24,8 +24,6 @@ namespace Sandswept.Survivors
             characterBody.portraitIcon = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRangerIcon.png");
             characterBody.bodyColor = new Color32(54, 215, 169, 255);
 
-            Body.GetComponent<ModelLocator>()._modelTransform.AddComponent<FUCKINGKILLYOURSELF>();
-
             Master = PrefabAPI.InstantiateClone(Assets.GameObject.CommandoMonsterMaster, "RangerMaster");
 
             Body.GetComponent<CameraTargetParams>().cameraParams = Assets.CharacterCameraParams.ccpStandard;

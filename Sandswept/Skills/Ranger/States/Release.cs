@@ -28,6 +28,8 @@ namespace Sandswept.States.Ranger
             // Util.PlaySound("Play_railgunner_R_gun_chargeUp", gameObject);
 
             PlayAnimation("Gesture, Override", "Fire", "Fire.playbackRate", duration);
+
+            characterBody.SetAimTimer(0.4f);
         }
 
         public override void Update()

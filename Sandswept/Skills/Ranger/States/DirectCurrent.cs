@@ -38,7 +38,7 @@ namespace Sandswept.States.Ranger
         {
             base.FixedUpdate();
             stopwatch += Time.fixedDeltaTime;
-            base.characterDirection.forward = base.GetAimRay().direction;
+            // base.characterDirection.forward = base.GetAimRay().direction;
             if (!fired && stopwatch >= shotDelay)
             {
                 fired = true;

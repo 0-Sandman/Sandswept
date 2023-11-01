@@ -44,12 +44,14 @@ namespace Sandswept.States.Ranger
         public override void Update()
         {
             base.Update();
-            characterDirection.forward = GetAimRay().direction;
+            // characterDirection.forward = GetAimRay().direction;
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+
+            characterBody.SetAimTimer(0.4f);
 
             stopwatch += Time.fixedDeltaTime;
 

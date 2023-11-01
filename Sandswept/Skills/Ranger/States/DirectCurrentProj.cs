@@ -26,7 +26,9 @@
         public override void Update()
         {
             base.Update();
-            characterDirection.forward = GetAimRay().direction;
+            // characterDirection.forward = GetAimRay().direction;
+
+            characterBody.SetAimTimer(0.2f);
         }
 
         public override void FixedUpdate()
@@ -56,7 +58,7 @@
                 damageColorIndex = DamageColorIndex.Default,
                 owner = gameObject,
                 rotation = Quaternion.LookRotation(aimRay.direction),
-                position = aimRay.origin,
+                position = GetModelChildLocator().FindChild("Muzzle").position,
                 force = 500f,
                 procChainMask = default,
                 projectilePrefab = directCurrentProjectile
