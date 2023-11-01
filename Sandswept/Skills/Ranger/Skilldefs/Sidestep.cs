@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 
 namespace Sandswept.Skills.Ranger.Skilldefs
@@ -6,7 +7,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
     {
         public override string Name => "Sidestep";
 
-        public override string Description => "$suAgile$se. Do a quick sidestep in a direction. $sdShots taken immediately after do stuff$se.".AutoFormat();
+        public override string Description => "$suAgile$se. Do a quick $susidestep$se in a direction.".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Ranger.Sidestep);
 
@@ -17,5 +18,6 @@ namespace Sandswept.Skills.Ranger.Skilldefs
         public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("Dash.png");
         public override string[] Keywords => new string[] { "KEYWORD_AGILE" };
         public override bool Agile => true;
+        public override bool IsCombat => false;
     }
 }

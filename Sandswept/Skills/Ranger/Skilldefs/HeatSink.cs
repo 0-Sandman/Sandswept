@@ -6,7 +6,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
     {
         public override string Name => "Heat Sink";
 
-        public override string Description => "Release a $sdfire nova$se around you that ignites and deals $sd250%$se base damage, increasing up to $sd1000%$se in full heat. $srConsumes all heat$se, $srdamages you$se for $sr25% max health$se and $srexits overdrive$se.".AutoFormat();
+        public override string Description => "$suAgile$se. Release a $sdfire nova$se around you that ignites and deals $sd250%$se base damage, increasing up to $sd1000%$se in full heat. $srConsumes all heat$se, $srdamages you$se for $sr15% max health$se and $srexits overdrive$se.".AutoFormat();
 
         // 16m radius?
         public override Type ActivationStateType => typeof(States.Ranger.HeatSink);
@@ -17,5 +17,10 @@ namespace Sandswept.Skills.Ranger.Skilldefs
 
         public override Sprite Icon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texHeatSink.png");
         public override int StockToConsume => 0;
+
+        public override bool MustKeyPress => true;
+        public override bool Agile => true;
+
+        public override string[] Keywords => new string[] { "KEYWORD_AGILE" };
     }
 }

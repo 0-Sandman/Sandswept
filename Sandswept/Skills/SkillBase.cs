@@ -1,16 +1,20 @@
 using System;
 using System.Reflection;
 
-namespace Sandswept.Skills {
-    public abstract class SkillBase<T> : SkillBase where T : SkillBase<T> {
+namespace Sandswept.Skills
+{
+    public abstract class SkillBase<T> : SkillBase where T : SkillBase<T>
+    {
         public static T instance;
 
-        public SkillBase() {
+        public SkillBase()
+        {
             instance = this as T;
         }
     }
 
-    public abstract class SkillBase {
+    public abstract class SkillBase
+    {
         public abstract string Name { get; }
         public abstract string Description { get; }
         public virtual string LangToken => this.GetType().Name.ToUpper();
@@ -19,6 +23,8 @@ namespace Sandswept.Skills {
         public abstract Type ActivationStateType { get; }
         public abstract string ActivationMachineName { get; }
         public abstract float Cooldown { get; }
+        public virtual bool BeginCooldownOnSkillEnd { get; } = false;
+        public virtual bool MustKeyPress { get; } = false;
         public virtual int MaxStock { get; } = 1;
         public virtual int StockToConsume { get; } = 1;
         public virtual bool Agile { get; } = false;
@@ -29,31 +35,38 @@ namespace Sandswept.Skills {
         public abstract Sprite Icon { get; }
         public SkillDef skillDef;
 
-        private static bool DefaultEnabledCallback(SkillBase self) {
+        private static bool DefaultEnabledCallback(SkillBase self)
+        {
             ConfigSectionAttribute attribute = self.GetType().GetCustomAttribute<ConfigSectionAttribute>();
-            if (attribute != null) {
+            if (attribute != null)
+            {
                 bool isValid = Main.config.Bind<bool>(attribute.name, "Enabled", true, "Allow this item to appear in runs?").Value;
-                if (isValid) {
+                if (isValid)
+                {
                     return true;
                 }
                 return false;
             }
-            else {
+            else
+            {
                 return true;
             }
         }
 
-        public virtual void Init() {
+        public virtual void Init()
+        {
             CreateSkillDef();
             SetupSkillDef();
             CreateLang();
         }
 
-        public virtual void CreateSkillDef() {
+        public virtual void CreateSkillDef()
+        {
             skillDef = ScriptableObject.CreateInstance<SkillDef>();
         }
 
-        public virtual void SetupSkillDef() {
+        public virtual void SetupSkillDef()
+        {
             skillDef.skillName = Name;
             skillDef.skillNameToken = NameToken;
             skillDef.skillDescriptionToken = DescToken;
@@ -68,16 +81,20 @@ namespace Sandswept.Skills {
             skillDef.isCombatSkill = IsCombat;
             skillDef.keywordTokens = Keywords;
             skillDef.interruptPriority = InterruptPriority;
-            
+            skillDef.beginSkillCooldownOnSkillEnd = BeginCooldownOnSkillEnd;
+            skillDef.mustKeyPress = MustKeyPress;
+
             ContentAddition.AddSkillDef(skillDef);
         }
 
-        public virtual void CreateLang() {
+        public virtual void CreateLang()
+        {
             NameToken.Add(Name);
             DescToken.Add(Description);
         }
 
-        public string GetConfigName() {
+        public string GetConfigName()
+        {
             return Name;
         }
     }

@@ -4,9 +4,9 @@ namespace Sandswept.Buffs
 {
     public class HeatSignatureBuff : BuffBase<HeatSignatureBuff>
     {
-        public override string BuffName => "Sidestep Boost";
+        public override string BuffName => "Heat Signature Speed";
 
-        public override Color Color => new Color32(188, 96, 45, 255);
+        public override Color Color => new Color32(246, 119, 32, 255);
 
         public override Sprite BuffIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texBuffSidestep.png");
 

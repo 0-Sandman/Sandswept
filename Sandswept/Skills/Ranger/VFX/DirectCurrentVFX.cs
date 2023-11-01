@@ -10,50 +10,63 @@ namespace Sandswept.Skills.Ranger.VFX
 
         public static void Init()
         {
-            ghostPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.TracerCommandoShotgun, "Direct Current Ghost", false);
+            ghostPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.LunarSunProjectileGhost, "Direct Current Ghost", false);
 
-            var projectileGhostControlller = ghostPrefab.AddComponent<ProjectileGhostController>();
-            projectileGhostControlller.authorityTransform = ghostPrefab.transform;
+            var ramp = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampDirectCurrent.png");
+            var fresnel = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampDirectCurrentFresnel.png");
 
-            var vfxAttributes = ghostPrefab.AddComponent<VFXAttributes>();
-            vfxAttributes.vfxPriority = VFXAttributes.VFXPriority.Always;
-            vfxAttributes.vfxIntensity = VFXAttributes.VFXIntensity.Medium;
+            var green = new Color32(0, 255, 167, 255);
 
-            var tracer = ghostPrefab.GetComponent<Tracer>();
-            // Main.ModLogger.LogError("tracer is " + tracer); exists
-            tracer.length = 16f; // 14 vaniller
-            tracer.speed = 140f; // 160 vaniller, 140 to be accurate with projectile speed
+            var mdl = ghostPrefab.transform.GetChild(0);
+            var objectScaleCurve = mdl.GetComponent<ObjectScaleCurve>();
+            objectScaleCurve.overallCurve = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.15f, 0.75f), new Keyframe(1f, 2.5f));
 
-            // ghostPrefab.RemoveComponent<EffectComponent>();
+            var backdrop = mdl.GetChild(0).GetComponent<ParticleSystemRenderer>();
 
-            var effectComponent = ghostPrefab.GetComponent<EffectComponent>();
-            // Main.ModLogger.LogError("effect component is " + effectComponent); exists
-            effectComponent.soundName = "Play_wHeavyShoot1";
-            effectComponent.effectData = new EffectData() { origin = ghostPrefab.transform.position };
+            var newBackdropMat = Object.Instantiate(Assets.Material.matLunarSunProjectileBackdrop);
 
-            var lineRenderer = ghostPrefab.GetComponent<LineRenderer>();
+            newBackdropMat.SetTexture("_RemapTex", ramp);
+            newBackdropMat.SetInt("_Cull", 1); // used to appear as a white square behind terrain so I fixed it
 
-            var geenGradient = new Gradient();
+            backdrop.material = newBackdropMat;
 
-            var alphas = new GradientAlphaKey[1];
-            alphas[0] = new GradientAlphaKey(1.0f, 0.0f);
+            var quad = mdl.GetChild(1).GetComponent<MeshRenderer>();
 
-            var colors = new GradientColorKey[3];
-            colors[0] = new GradientColorKey(new Color32(0, 115, 82, 255), 0f);
-            colors[1] = new GradientColorKey(new Color32(0, 255, 230, 255), 0.912f);
-            colors[2] = new GradientColorKey(Color.white, 1f);
+            var newQuadMat = Object.Instantiate(Assets.Material.matLunarSunProjectile);
 
-            geenGradient.SetKeys(colors, alphas);
+            newQuadMat.SetColor("_EmColor", green); // 0, 187, 255, 255
+            newQuadMat.SetTexture("_FresnelRamp", fresnel);
 
-            lineRenderer.colorGradient = geenGradient;
+            quad.material = newQuadMat;
 
-            var newMat = Object.Instantiate(Assets.Material.matCommandoShotgunTracerCore);
-            newMat.SetColor("_TintColor", new Color32(0, 255, 195, 255));
-            newMat.SetFloat("_Boost", 4.77f);
+            var particles = ghostPrefab.transform.GetChild(1);
 
-            lineRenderer.material = newMat;
+            var closeParticles = particles.GetChild(0).GetComponent<ParticleSystem>().main.startColor;
+            closeParticles.colorMin = green;
+            closeParticles.colorMax = new Color32(0, 141, 197, 255);
 
-            ContentAddition.AddEffect(ghostPrefab);
+            var distantParticles = particles.GetChild(1).GetComponent<ParticleSystem>().main.startColor;
+            distantParticles.color = green;
+
+            var pop = particles.GetChild(2).GetComponent<ParticleSystem>().main.startColor;
+            pop.color = green;
+
+            var trail = particles.GetChild(3).GetComponent<TrailRenderer>();
+            trail.startWidth = 0.6f;
+            trail.endWidth = 0.25f;
+            trail.widthMultiplier = 0.5f;
+            trail.time = 0.2f;
+
+            var newTrailMat = Object.Instantiate(Assets.Material.matLunarSunProjectileTrail);
+
+            newTrailMat.SetTexture("_RemapTex", ramp);
+            newTrailMat.SetFloat("_Boost", 1f);
+            newTrailMat.SetFloat("_AlphaBoost", 4.710526f);
+            newTrailMat.SetFloat("_AlphaBias", 0.3349282f);
+            newTrailMat.SetTexture("_MainTex", Assets.Texture2D.texAlphaGradient1);
+            newTrailMat.SetColor("_TintColor", new Color32(111, 170, 151, 154));
+
+            trail.material = newTrailMat;
         }
     }
 }

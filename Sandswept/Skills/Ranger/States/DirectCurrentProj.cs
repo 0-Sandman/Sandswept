@@ -2,7 +2,7 @@
 {
     public class DirectCurrentProj : BaseState
     {
-        public static float damageCoefficient = 3.2f;
+        public static float damageCoefficient = 2.8f;
         public static float baseDuration = 0.5f;
         private float duration;
 
@@ -43,7 +43,7 @@
 
         public void FireShot()
         {
-            Util.PlayAttackSpeedSound("Play_commando_M2", gameObject, attackSpeedStat);
+            Util.PlayAttackSpeedSound("Play_commando_M2", gameObject, 0.85f);
             Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
             Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
 

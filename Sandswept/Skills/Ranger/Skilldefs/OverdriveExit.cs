@@ -14,10 +14,11 @@ namespace Sandswept.Skills.Ranger.Skilldefs
 
         public override float Cooldown => 2f;
 
-        public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("OverheatPrimary.png");
+        public override Sprite Icon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texOverdriveExit.png");
         public override InterruptPriority InterruptPriority => InterruptPriority.PrioritySkill;
         public override string[] Keywords => new string[] { Utils.Keywords.Agile };
         public override bool Agile => true;
+        public override bool IsCombat => false;
 
         public override void Init()
         {

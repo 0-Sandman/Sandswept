@@ -3,14 +3,8 @@ using static Sandswept.Utils.TotallyNotStolenUtils;
 
 namespace Sandswept.Items
 {
-    // The directly below is entirely from TILER2 API (by ThinkInvis) specifically the Item module. Utilized to implement instancing for classes.
-    // TILER2 API can be found at the following places:
-    // https://github.com/ThinkInvis/RoR2-TILER2
-    // https://thunderstore.io/package/ThinkInvis/TILER2/
-
     public abstract class ItemBase<T> : ItemBase where T : ItemBase<T>
     {
-        //This, which you will see on all the -base classes, will allow both you and other modders to enter through any class with this to access internal fields/properties/etc as if they were a member inheriting this -Base too from this class.
         public static T instance { get; private set; }
 
         public ItemBase()
@@ -47,26 +41,33 @@ namespace Sandswept.Items
         public virtual Func<string> GetHowToUnlock => () => AchievementName + "\n<style=cStack>" + AchievementDesc + "</style>";
         public virtual Func<string> GetUnlocked => () => AchievementName + "\n<style=cStack>" + AchievementDesc + "</style>";
 
-        public static bool DefaultEnabledCallback(ItemBase self) {
+        public static bool DefaultEnabledCallback(ItemBase self)
+        {
             ConfigSectionAttribute attribute = self.GetType().GetCustomAttribute<ConfigSectionAttribute>();
-            if (attribute != null) {
+            if (attribute != null)
+            {
                 bool isValid = Main.config.Bind<bool>(attribute.name, "Enabled", true, "Allow this item to appear in runs?").Value;
-                if (isValid) {
+                if (isValid)
+                {
                     return true;
                 }
                 return false;
             }
-            else {
+            else
+            {
                 return true;
             }
         }
 
-        public string GetConfName() {
+        public string GetConfName()
+        {
             ConfigSectionAttribute attribute = this.GetType().GetCustomAttribute<ConfigSectionAttribute>();
-            if (attribute != null) {
+            if (attribute != null)
+            {
                 return attribute.name;
             }
-            else {
+            else
+            {
                 return "Items :: " + ItemName;
             }
         }

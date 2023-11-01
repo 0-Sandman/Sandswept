@@ -14,12 +14,14 @@ namespace Sandswept.Skills.Ranger.Projectiles
         public static void Init()
         {
             prefab = PrefabAPI.InstantiateClone(Assets.GameObject.MageLightningBombProjectile, "Direct Current Projectile");
-            prefab.transform.localScale = Vector3.one * 1.5f; // easier to hit
 
             prefab.RemoveComponent<ProjectileProximityBeamController>();
 
             prefab.RemoveComponent<AkEvent>();
             prefab.RemoveComponent<AkGameObj>();
+
+            var sphereCollider = prefab.GetComponent<SphereCollider>();
+            sphereCollider.material = Assets.PhysicMaterial.physmatEngiGrenade;
 
             var projectileDamage = prefab.GetComponent<ProjectileDamage>();
             projectileDamage.damageType = DamageType.Generic;
@@ -29,7 +31,7 @@ namespace Sandswept.Skills.Ranger.Projectiles
 
             var projectileImpactExplosion = prefab.GetComponent<ProjectileImpactExplosion>();
             projectileImpactExplosion.falloffModel = BlastAttack.FalloffModel.None;
-            projectileImpactExplosion.blastRadius = 2f; // easier to hit
+            projectileImpactExplosion.blastRadius = 2.5f; // easier to hit
             projectileImpactExplosion.bonusBlastForce = Vector3.zero;
             projectileImpactExplosion.lifetime = 5f;
 
@@ -38,10 +40,19 @@ namespace Sandswept.Skills.Ranger.Projectiles
             var effectComponent = newImpact.GetComponent<EffectComponent>();
             effectComponent.soundName = "Play_engi_M1_explo";
 
+            var sphereExpanding = newImpact.transform.Find("Sphere, Expanding").GetComponent<ParticleSystemRenderer>();
+
+            var newMat = Object.Instantiate(Assets.Material.matLightningSphere);
+
+            newMat.SetColor("_TintColor", new Color32(17, 17, 17, 255));
+            newMat.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampDirectCurrentImpact.png"));
+
+            sphereExpanding.material = newMat;
+
             for (int i = 0; i < newImpact.transform.childCount; i++)
             {
                 var trans = newImpact.transform.GetChild(i);
-                trans.localScale *= 0.14285714285f;
+                trans.localScale *= 0.1785714285f; // 1/14 * 2.5m radius
             }
 
             ContentAddition.AddEffect(newImpact);
@@ -50,10 +61,10 @@ namespace Sandswept.Skills.Ranger.Projectiles
 
             var projectileSimple = prefab.GetComponent<ProjectileSimple>();
             projectileSimple.lifetime = 5f;
-            projectileSimple.desiredForwardSpeed = 140f;
+            projectileSimple.desiredForwardSpeed = 170f;
 
             var antiGravityForce = prefab.GetComponent<AntiGravityForce>();
-            antiGravityForce.antiGravityCoefficient = 0.9f;
+            antiGravityForce.antiGravityCoefficient = -0.2f;
 
             var projectileController = prefab.GetComponent<ProjectileController>();
 

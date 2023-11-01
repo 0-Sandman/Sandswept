@@ -1,11 +1,8 @@
-using System;
-using BepInEx.Configuration;
-
 namespace Sandswept.Buffs
 {
     public class Charged : BuffBase<Charged>
     {
-        public override string BuffName => "Charged";
+        public override string BuffName => "Charge";
 
         public override Color Color => new Color32(45, 187, 188, 255);
 
@@ -15,13 +12,16 @@ namespace Sandswept.Buffs
         public override void Init()
         {
             base.Init();
-            GetStatCoefficients += (body, args) =>
+            GetStatCoefficients += Charged_GetStatCoefficients;
+        }
+
+        private void Charged_GetStatCoefficients(CharacterBody body, StatHookEventArgs args)
+        {
+            if (NetworkServer.active && body)
             {
-                if (NetworkServer.active && body)
-                {
-                    args.attackSpeedMultAdd += 0.025f * body.GetBuffCount(BuffDef);
-                }
-            };
+                var levelScale = 0.2f * 0.2f * (body.level - 1);
+                args.baseRegenAdd += (0.2f + levelScale) * body.GetBuffCount(BuffDef);
+            }
         }
     }
 }

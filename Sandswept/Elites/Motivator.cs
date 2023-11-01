@@ -150,6 +150,20 @@ namespace Sandswept.Elites
 
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
+            RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
+        }
+
+        private void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender, StatHookEventArgs args)
+        {
+            if (sender.HasBuff(wrbnnerBuff))
+            {
+                args.moveSpeedMultAdd += 0.25f;
+                args.attackSpeedMultAdd += 0.25f;
+            }
+            if (sender.HasBuff(warcryBuff))
+            {
+                args.attackSpeedMultAdd += 0.25f;
+            }
         }
 
         private void GlobalEventManager_onServerDamageDealt(DamageReport report)
