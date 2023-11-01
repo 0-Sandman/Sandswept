@@ -1,7 +1,7 @@
 ﻿using HG;
 using System.Linq;
 
-namespace Sandswept2.Elites
+namespace Sandswept.Elites
 {
     internal class Motivator : EliteEquipmentBase<Motivator>
     {

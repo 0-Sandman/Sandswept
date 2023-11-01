@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace Sandswept2.Survivors
+namespace Sandswept.Survivors
 {
     public abstract class SurvivorBase<T> : SurvivorBase where T : SurvivorBase<T>
     {

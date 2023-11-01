@@ -1,7 +1,7 @@
-using Sandswept2.Skills.Ranger.VFX;
+using Sandswept.Skills.Ranger.VFX;
 using System;
 
-namespace Sandswept2.States.Ranger
+namespace Sandswept.States.Ranger
 {
     public class DirectCurrent : BaseState
     {

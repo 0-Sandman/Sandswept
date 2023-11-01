@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sandswept2.Skills.Ranger.Hooks
+namespace Sandswept.Skills.Ranger.Hooks
 {
     public static class DamageTrail
     {

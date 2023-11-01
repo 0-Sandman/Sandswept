@@ -1,8 +1,8 @@
-using Sandswept2.Components;
-using Sandswept2.Skills.Ranger.VFX;
+using Sandswept.Components;
+using Sandswept.Skills.Ranger.VFX;
 using System;
 
-namespace Sandswept2.States.Ranger
+namespace Sandswept.States.Ranger
 {
     public class Sidestep : BaseState
     {

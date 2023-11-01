@@ -1,4 +1,4 @@
-﻿namespace Sandswept2.States.Ranger
+﻿namespace Sandswept.States.Ranger
 {
     public class DirectCurrentProj : BaseState
     {

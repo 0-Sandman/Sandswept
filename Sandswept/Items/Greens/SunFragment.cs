@@ -1,6 +1,6 @@
-﻿using static Sandswept2.Utils.Components.MaterialControllerComponents;
+﻿using static Sandswept.Utils.Components.MaterialControllerComponents;
 
-namespace Sandswept2.Items.Greens
+namespace Sandswept.Items.Greens
 {
     public class SunFragment : ItemBase<SunFragment>
     {

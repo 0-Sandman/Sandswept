@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace Sandswept2.Utils
+namespace Sandswept.Utils
 {
     public static class EnumeratorExtensions
     {

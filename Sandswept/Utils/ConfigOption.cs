@@ -1,7 +1,7 @@
 ﻿using BepInEx.Configuration;
-using Sandswept2.Utils;
+using Sandswept.Utils;
 
-namespace Sandswept2.Utils
+namespace Sandswept.Utils
 {
     public class ConfigOption<T>
     {

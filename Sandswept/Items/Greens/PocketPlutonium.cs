@@ -1,6 +1,6 @@
 ﻿using UnityEngine.XR;
 
-namespace Sandswept2.Items.Greens
+namespace Sandswept.Items.Greens
 {
     public class PocketPlutonium : ItemBase<PocketPlutonium>
     {

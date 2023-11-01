@@ -1,4 +1,4 @@
-﻿namespace Sandswept2.Items.Whites
+﻿namespace Sandswept.Items.Whites
 {
     public class FracturedTimepiece : ItemBase<FracturedTimepiece>
     {

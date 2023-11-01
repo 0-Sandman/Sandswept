@@ -2,7 +2,7 @@
 using RoR2;
 using BepInEx.Configuration;
 
-namespace Sandswept2.Unlocks
+namespace Sandswept.Unlocks
 {
     [RegisterAchievement("SUN_FRAGMENT", "ITEM_SUN_FRAGMENT", null, null)]
     public class Tracker : BaseAchievement

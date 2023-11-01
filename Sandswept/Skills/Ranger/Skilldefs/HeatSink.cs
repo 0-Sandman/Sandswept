@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sandswept2.Skills.Ranger.Skilldefs
+namespace Sandswept.Skills.Ranger.Skilldefs
 {
     public class HeatSink : SkillBase<HeatSink>
     {

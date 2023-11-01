@@ -1,9 +1,9 @@
 ﻿using RoR2.EntityLogic;
 using UnityEngine.Events;
-using static Sandswept2.Utils.Components.MaterialControllerComponents;
+using static Sandswept.Utils.Components.MaterialControllerComponents;
 
 // ss2 ahh code
-namespace Sandswept2.Items.Whites
+namespace Sandswept.Items.Whites
 {
     public class AmberKnife : ItemBase<AmberKnife>
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Sandswept2.Buffs
+namespace Sandswept.Buffs
 {
     public class HeatSignatureBuff : BuffBase<HeatSignatureBuff>
     {

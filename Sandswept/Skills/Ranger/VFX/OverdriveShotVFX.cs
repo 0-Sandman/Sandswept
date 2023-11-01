@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sandswept2.Skills.Ranger.VFX
+namespace Sandswept.Skills.Ranger.VFX
 {
     public static class OverdriveShotVFX
     {

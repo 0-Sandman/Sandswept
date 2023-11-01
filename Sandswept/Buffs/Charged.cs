@@ -1,4 +1,4 @@
-namespace Sandswept2.Buffs
+namespace Sandswept.Buffs
 {
     public class Charged : BuffBase<Charged>
     {

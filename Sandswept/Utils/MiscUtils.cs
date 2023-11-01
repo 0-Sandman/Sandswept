@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Sandswept2.Utils
+namespace Sandswept.Utils
 {
     public static class MiscUtils
     {

@@ -1,7 +1,7 @@
 using System;
-using Sandswept2.Components;
+using Sandswept.Components;
 
-namespace Sandswept2.Survivors
+namespace Sandswept.Survivors
 {
     public class Ranger : SurvivorBase<Ranger>
     {

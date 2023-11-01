@@ -3,7 +3,7 @@ using RoR2;
 using System.Collections;
 using UnityEngine;
 
-namespace Sandswept2.Utils
+namespace Sandswept.Utils
 {
     public class ContentPacks : IContentPackProvider
     {

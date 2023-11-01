@@ -1,4 +1,4 @@
-﻿namespace Sandswept2.Buffs
+﻿namespace Sandswept.Buffs
 {
     public abstract class BuffBase<T> : BuffBase where T : BuffBase<T>
     {

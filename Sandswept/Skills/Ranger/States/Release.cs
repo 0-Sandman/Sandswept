@@ -1,8 +1,8 @@
-using Sandswept2.Skills.Ranger.VFX;
+using Sandswept.Skills.Ranger.VFX;
 using System;
 using static UnityEngine.SendMouseEvents;
 
-namespace Sandswept2.States.Ranger
+namespace Sandswept.States.Ranger
 {
     public class Release : BaseState
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace Sandswept2.Skills
+namespace Sandswept.Skills
 {
     public abstract class SkillBase<T> : SkillBase where T : SkillBase<T>
     {

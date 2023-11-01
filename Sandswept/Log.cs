@@ -1,6 +1,6 @@
 ﻿using BepInEx.Logging;
 
-namespace Sandswept2
+namespace Sandswept
 {
     internal static class Log
     {

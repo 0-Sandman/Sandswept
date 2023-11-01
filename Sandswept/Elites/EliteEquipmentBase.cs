@@ -2,7 +2,7 @@
 using System.Reflection;
 using static RoR2.CombatDirector;
 
-namespace Sandswept2.Elites
+namespace Sandswept.Elites
 {
     public abstract class EliteEquipmentBase<T> : EliteEquipmentBase where T : EliteEquipmentBase<T>
     {

@@ -1,7 +1,7 @@
 using System;
-using Sandswept2.Skills.Ranger.VFX;
+using Sandswept.Skills.Ranger.VFX;
 
-namespace Sandswept2.States.Ranger
+namespace Sandswept.States.Ranger
 {
     public class Blast : BaseState
     {

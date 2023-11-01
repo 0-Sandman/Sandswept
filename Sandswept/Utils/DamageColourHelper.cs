@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-namespace Sandswept2.Utils
+namespace Sandswept.Utils
 {
     public static class DamageColourHelper
     {

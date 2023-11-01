@@ -5,7 +5,7 @@ using System.Linq;
 using BepInEx.Configuration;
 using HG.Reflection;
 
-namespace Sandswept2
+namespace Sandswept
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
     public class ConfigFieldAttribute : SearchableAttribute

@@ -6,9 +6,9 @@ using TMPro;
 using RoR2;
 using RoR2.HudOverlay;
 using UnityEngine.UI;
-using Sandswept2.States.Ranger;
+using Sandswept.States.Ranger;
 
-namespace Sandswept2.Components
+namespace Sandswept.Components
 {
     public class RangerHeatManager : MonoBehaviour
     {

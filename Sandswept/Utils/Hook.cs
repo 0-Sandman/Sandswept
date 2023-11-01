@@ -6,7 +6,7 @@ using BepInEx.Configuration;
 using HG.Reflection;
 using System.Collections.Generic;
 
-namespace Sandswept2.Utils
+namespace Sandswept.Utils
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class HookAttribute : SearchableAttribute

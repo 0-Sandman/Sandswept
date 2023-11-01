@@ -4,7 +4,7 @@ using HG;
 using TMPro;
 
 // ay are we sure this a red? this feels very underwhelming esp. in single stack
-namespace Sandswept2.Items.Reds
+namespace Sandswept.Items.Reds
 {
     public class CeremonialJar : ItemBase<CeremonialJar>
     {
@@ -211,15 +211,16 @@ namespace Sandswept2.Items.Reds
         {
             orig(self, damageInfo, victim);
 
-            if (!damageInfo.attacker) {
+            if (!damageInfo.attacker)
+            {
                 return;
             }
-
 
             var attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
             var victimBody = victim.GetComponent<CharacterBody>();
 
-            if (!attackerBody || !victimBody) {
+            if (!attackerBody || !victimBody)
+            {
                 return;
             }
 

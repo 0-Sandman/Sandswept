@@ -1,19 +1,19 @@
 ﻿using BepInEx;
 using R2API.Utils;
-using Sandswept2.Items;
-using Sandswept2.Artifact;
-using Sandswept2.Equipment;
+using Sandswept.Items;
+using Sandswept.Artifact;
+using Sandswept.Equipment;
 using System.Linq;
 using System.Reflection;
-using Sandswept2.Buffs;
-using Sandswept2.Skills;
-using Sandswept2.Survivors;
+using Sandswept.Buffs;
+using Sandswept.Skills;
+using Sandswept.Survivors;
 using System.Diagnostics;
-using Sandswept2.Elites;
-using Sandswept2.Skills.Ranger.VFX;
-using Sandswept2.Skills.Ranger.Projectiles;
+using Sandswept.Elites;
+using Sandswept.Skills.Ranger.VFX;
+using Sandswept.Skills.Ranger.Projectiles;
 
-namespace Sandswept2
+namespace Sandswept
 {
     [BepInPlugin(ModGuid, ModName, ModVer)]
     [BepInDependency(DotAPI.PluginGUID, DotAPI.PluginVersion)]
