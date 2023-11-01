@@ -1,6 +1,7 @@
 using System.Text.RegularExpressions;
 using System;
 using Sandswept.Components;
+using UnityEngine.TextCore;
 
 namespace Sandswept.States.Ranger
 {
@@ -62,6 +63,31 @@ namespace Sandswept.States.Ranger
     }
 
     public class OverdriveExit : BaseState
+    {
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            EntityStateMachine machine = EntityStateMachine.FindByCustomName(gameObject, "Overdrive");
+            if (machine.state is OverdriveEnter)
+            {
+                (machine.state as OverdriveEnter).Exit();
+            }
+            outer.SetNextStateToMain();
+
+            if (characterBody)
+            {
+                characterBody.isSprinting = true;
+                characterBody.SetBuffCount(Buffs.Charged.instance.BuffDef.buffIndex, Mathf.Min(characterBody.GetBuffCount(Buffs.Charged.instance.BuffDef) + 3, 10));
+            }
+        }
+
+        public override InterruptPriority GetMinimumInterruptPriority()
+        {
+            return InterruptPriority.PrioritySkill;
+        }
+    }
+
+    public class OverdriveExitHeatSink : BaseState
     {
         public override void OnEnter()
         {

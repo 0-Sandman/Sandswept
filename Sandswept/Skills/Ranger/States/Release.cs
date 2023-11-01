@@ -36,6 +36,11 @@ namespace Sandswept.States.Ranger
             characterDirection.forward = GetAimRay().direction;
         }
 
+        public override InterruptPriority GetMinimumInterruptPriority()
+        {
+            return InterruptPriority.PrioritySkill;
+        }
+
         public override void FixedUpdate()
         {
             base.FixedUpdate();

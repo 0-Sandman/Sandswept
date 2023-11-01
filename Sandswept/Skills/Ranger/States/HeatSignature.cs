@@ -20,7 +20,7 @@ namespace Sandswept.States.Ranger
         {
             HeatSignatureTrailPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.FireTrail, "RangerHeatTrail");
             DamageTrail trail = HeatSignatureTrailPrefab.GetComponent<DamageTrail>();
-            trail.radius = 2f;
+            trail.radius = 4f;
 
             PrefabAPI.RegisterNetworkPrefab(HeatSignatureTrailPrefab);
         }
