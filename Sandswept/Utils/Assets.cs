@@ -4,7 +4,7 @@ using RoR2.Skills;
 using UnityEngine.AddressableAssets;
 using UnityEngine.Rendering.PostProcessing;
 
-namespace Sandswept.Utils.Assets {
+namespace Sandswept2.Utils.Assets {
   public static class Texture2D {
             public static UnityEngine.Texture2D texAttackSpeedIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/Base/Achievements/texAttackSpeedIcon.png").WaitForCompletion();
             public static UnityEngine.Texture2D texAutomationActivationIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/Base/Achievements/texAutomationActivationIcon.png").WaitForCompletion();

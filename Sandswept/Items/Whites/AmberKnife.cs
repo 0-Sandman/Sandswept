@@ -1,9 +1,9 @@
 ﻿using RoR2.EntityLogic;
 using UnityEngine.Events;
-using static Sandswept.Utils.Components.MaterialControllerComponents;
+using static Sandswept2.Utils.Components.MaterialControllerComponents;
 
 // ss2 ahh code
-namespace Sandswept.Items.Whites
+namespace Sandswept2.Items.Whites
 {
     public class AmberKnife : ItemBase<AmberKnife>
     {
@@ -145,7 +145,7 @@ namespace Sandswept.Items.Whites
             var knifeDamage = 1.2f * stack;
             if (stack > 0)
             {
-                if (Util.CheckRoll(10f, master))
+                if (Util.CheckRoll(10f * report.damageInfo.procCoefficient, master))
                 {
                     var fpi = new FireProjectileInfo()
                     {

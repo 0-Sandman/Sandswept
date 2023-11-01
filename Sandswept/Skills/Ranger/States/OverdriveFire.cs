@@ -1,7 +1,7 @@
-using Sandswept.Skills.Ranger.VFX;
+using Sandswept2.Skills.Ranger.VFX;
 using System;
 
-namespace Sandswept.States.Ranger
+namespace Sandswept2.States.Ranger
 {
     public class OverdriveFire : BaseState
     {
@@ -69,7 +69,6 @@ namespace Sandswept.States.Ranger
         {
             Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
             Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
-
 
             PlayAnimation("Gesture, Override", "OverdriveFire");
 

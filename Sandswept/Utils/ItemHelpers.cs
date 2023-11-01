@@ -1,11 +1,11 @@
 ﻿using RoR2;
-using Sandswept.Utils.Components;
+using Sandswept2.Utils.Components;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-namespace Sandswept.Utils
+namespace Sandswept2.Utils
 {
     public static class ItemHelpers
     {

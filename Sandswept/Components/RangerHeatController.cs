@@ -6,15 +6,15 @@ using TMPro;
 using RoR2;
 using RoR2.HudOverlay;
 using UnityEngine.UI;
-using Sandswept.States.Ranger;
+using Sandswept2.States.Ranger;
 
-namespace Sandswept.Components
+namespace Sandswept2.Components
 {
     public class RangerHeatManager : MonoBehaviour
     {
         public static float MaxHeat = 200f;
         public static float HeatDecayRate = 25f;
-        public static float HeatSignatureHeatDecayRate = 40f;
+        public static float HeatSignatureHeatIncreaseRate = 40f;
         public static float HeatIncreaseRate = 30f;
         public static float OverheatThreshold = 100f;
 
@@ -55,7 +55,7 @@ namespace Sandswept.Components
 
             if (isUsingHeatSignature && CurrentHeat < MaxHeat)
             {
-                CurrentHeat += HeatSignatureHeatDecayRate * Time.fixedDeltaTime;
+                CurrentHeat += HeatSignatureHeatIncreaseRate * Time.fixedDeltaTime;
             }
 
             if (!isFiring && CurrentHeat > 0)

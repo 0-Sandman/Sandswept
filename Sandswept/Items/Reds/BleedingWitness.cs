@@ -1,6 +1,6 @@
 ﻿using static RoR2.DotController;
 
-namespace Sandswept.Items.Reds
+namespace Sandswept2.Items.Reds
 {
     [ConfigSection("Items :: Bleeding Witness")]
     internal class BleedingWitness : ItemBase<BleedingWitness>

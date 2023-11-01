@@ -1,10 +1,10 @@
-﻿using Sandswept.Skills.Ranger.VFX;
+﻿using Sandswept2.Skills.Ranger.VFX;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using static R2API.DamageAPI;
 
-namespace Sandswept.Skills.Ranger.Projectiles
+namespace Sandswept2.Skills.Ranger.Projectiles
 {
     public static class DirectCurrent
     {

@@ -1,4 +1,4 @@
-﻿namespace Sandswept.Items.Yellows
+﻿namespace Sandswept2.Items.Yellows
 {
     public class Betrayal : ItemBase<Betrayal>
     {

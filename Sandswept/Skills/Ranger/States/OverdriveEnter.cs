@@ -1,8 +1,8 @@
 using System.Text.RegularExpressions;
 using System;
-using Sandswept.Components;
+using Sandswept2.Components;
 
-namespace Sandswept.States.Ranger
+namespace Sandswept2.States.Ranger
 {
     public class OverdriveEnter : BaseState
     {

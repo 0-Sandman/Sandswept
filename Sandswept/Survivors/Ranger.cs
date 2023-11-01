@@ -1,6 +1,6 @@
 using System;
 
-namespace Sandswept.Survivors
+namespace Sandswept2.Survivors
 {
     public class Ranger : SurvivorBase<Ranger>
     {

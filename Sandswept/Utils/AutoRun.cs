@@ -2,7 +2,7 @@ using System.Reflection;
 using System.Collections;
 using System;
 
-namespace Sandswept.Utils
+namespace Sandswept2.Utils
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     internal sealed class AutoRunAttribute : Attribute

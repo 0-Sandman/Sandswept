@@ -4,7 +4,7 @@ using HG;
 using TMPro;
 
 // ay are we sure this a red? this feels very underwhelming esp. in single stack
-namespace Sandswept.Items.Reds
+namespace Sandswept2.Items.Reds
 {
     public class CeremonialJar : ItemBase<CeremonialJar>
     {

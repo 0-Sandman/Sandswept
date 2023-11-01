@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace Sandswept.Items.Greens
+namespace Sandswept2.Items.Greens
 {
     public class NuclearSalvo : ItemBase<NuclearSalvo>
     {

@@ -1,7 +1,7 @@
 global using Unity;
 global using UnityEngine;
 global using UnityEngine.AddressableAssets;
-global using Sandswept.Utils;
+global using Sandswept2.Utils;
 global using R2API;
 global using Random = UnityEngine.Random;
 global using RoR2;
@@ -15,4 +15,4 @@ global using Object = UnityEngine.Object;
 global using UnityEngine.Networking;
 global using BepInEx.Configuration;
 global using static R2API.RecalculateStatsAPI;
-global using Assets = Sandswept.Utils.Assets;
+global using Assets = Sandswept2.Utils.Assets;

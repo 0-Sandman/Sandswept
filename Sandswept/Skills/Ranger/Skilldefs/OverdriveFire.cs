@@ -1,12 +1,12 @@
 using System;
 
-namespace Sandswept.Skills.Ranger.Skilldefs
+namespace Sandswept2.Skills.Ranger.Skilldefs
 {
     public class OverdriveFire : SkillBase<OverdriveFire>
     {
         public override string Name => "Enflame";
 
-        public override string Description => "$suAgile$se. Fire a rapid stream of $sdbullets$se for $sd200% damage$se. $srContinuous fire will cause overheating, increasing spread, ignite chance and damaging you.$se".AutoFormat();
+        public override string Description => "$suAgile$se. Fire a rapid stream of $sdbullets$se for $sd100% damage$se. $srContinuous fire will cause overheating, increasing spread, ignite chance and damaging you.$se".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Ranger.OverdriveFire);
 

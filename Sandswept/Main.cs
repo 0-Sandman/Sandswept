@@ -1,19 +1,19 @@
 ﻿using BepInEx;
 using R2API.Utils;
-using Sandswept.Items;
-using Sandswept.Artifact;
-using Sandswept.Equipment;
+using Sandswept2.Items;
+using Sandswept2.Artifact;
+using Sandswept2.Equipment;
 using System.Linq;
 using System.Reflection;
-using Sandswept.Buffs;
-using Sandswept.Skills;
-using Sandswept.Survivors;
+using Sandswept2.Buffs;
+using Sandswept2.Skills;
+using Sandswept2.Survivors;
 using System.Diagnostics;
-using Sandswept.Elites;
-using Sandswept.Skills.Ranger.VFX;
-using Sandswept.Skills.Ranger.Projectiles;
+using Sandswept2.Elites;
+using Sandswept2.Skills.Ranger.VFX;
+using Sandswept2.Skills.Ranger.Projectiles;
 
-namespace Sandswept
+namespace Sandswept2
 {
     [BepInPlugin(ModGuid, ModName, ModVer)]
     [BepInDependency(DotAPI.PluginGUID, DotAPI.PluginVersion)]
@@ -74,6 +74,8 @@ namespace Sandswept
             Assets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweptassets2"));
             Asset2s = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // temporary assetbundle bc i didnt have the other two unity projects, please merge into the other assets
             hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
+
+            Skills.Ranger.Hooks.DamageTrail.Init();
 
             ReleaseVFX.Init();
             DirectCurrentVFX.Init();

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using RoR2;
 using UnityEngine.AddressableAssets;
 
-namespace Sandswept.Utils
+namespace Sandswept2.Utils
 {
     public static class StringExtensions
     {

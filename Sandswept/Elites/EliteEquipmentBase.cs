@@ -2,7 +2,7 @@
 using System.Reflection;
 using static RoR2.CombatDirector;
 
-namespace Sandswept.Elites
+namespace Sandswept2.Elites
 {
     public abstract class EliteEquipmentBase<T> : EliteEquipmentBase where T : EliteEquipmentBase<T>
     {
@@ -94,16 +94,20 @@ namespace Sandswept.Elites
 
         public abstract ItemDisplayRuleDict CreateItemDisplayRules();
 
-        public static bool DefaultEnabledCallback(EliteEquipmentBase self) {
+        public static bool DefaultEnabledCallback(EliteEquipmentBase self)
+        {
             ConfigSectionAttribute attribute = self.GetType().GetCustomAttribute<ConfigSectionAttribute>();
-            if (attribute != null) {
+            if (attribute != null)
+            {
                 bool isValid = Main.config.Bind<bool>(attribute.name, "Enabled", true, "Allow this elite to appear in runs?").Value;
-                if (isValid) {
+                if (isValid)
+                {
                     return true;
                 }
                 return false;
             }
-            else {
+            else
+            {
                 return true;
             }
         }

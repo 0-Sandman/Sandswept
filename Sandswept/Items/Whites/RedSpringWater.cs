@@ -1,4 +1,4 @@
-﻿namespace Sandswept.Items.Whites
+﻿namespace Sandswept2.Items.Whites
 {
     internal class RedSpringWater : ItemBase<RedSpringWater>
     {

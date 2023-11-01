@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Sandswept.Utils
+namespace Sandswept2.Utils
 {
     public static class MathHelpers
     {

@@ -1,8 +1,8 @@
 ﻿using RoR2.Projectile;
-using Sandswept.Components;
-using Sandswept.Skills.Ranger.VFX;
+using Sandswept2.Components;
+using Sandswept2.Skills.Ranger.VFX;
 
-namespace Sandswept.States.Ranger
+namespace Sandswept2.States.Ranger
 {
     public class HeatSink : BaseState
     {

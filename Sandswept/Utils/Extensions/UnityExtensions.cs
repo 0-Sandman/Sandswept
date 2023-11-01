@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 using Unity;
 
-namespace Sandswept.Utils
+namespace Sandswept2.Utils
 {
     public static class UnityExtensions
     {

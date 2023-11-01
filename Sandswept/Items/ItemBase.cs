@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
-using static Sandswept.Utils.TotallyNotStolenUtils;
+using static Sandswept2.Utils.TotallyNotStolenUtils;
 
-namespace Sandswept.Items
+namespace Sandswept2.Items
 {
     public abstract class ItemBase<T> : ItemBase where T : ItemBase<T>
     {

@@ -1,6 +1,6 @@
 ﻿using UnityEngine.Networking;
 
-namespace Sandswept.Utils
+namespace Sandswept2.Utils
 {
     public static class NetworkingHelpers
     {

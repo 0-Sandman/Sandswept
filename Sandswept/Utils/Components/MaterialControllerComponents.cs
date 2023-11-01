@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Sandswept.Utils.Components
+namespace Sandswept2.Utils.Components
 {
     public class MaterialControllerComponents
     {

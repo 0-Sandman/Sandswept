@@ -1,6 +1,6 @@
 ﻿using UnityEngine.XR;
 
-namespace Sandswept.Items.Greens
+namespace Sandswept2.Items.Greens
 {
     public class PocketPlutonium : ItemBase<PocketPlutonium>
     {
@@ -120,10 +120,10 @@ namespace Sandswept.Items.Greens
                         var damageFromBase = body.damage * (baseDamage + damagePerStack * (stack - 1));
                         var damageFromShields = body.maxShield * (baseShieldPercent + shieldPercentStack * (stack - 1));
                         var damage = (damageFromBase + damageFromShields) * 0.2f;
-                        Main.ModLogger.LogError("damage from base is " + damageFromBase);
-                        Main.ModLogger.LogError("damage from shields is " + damageFromShields);
-                        Main.ModLogger.LogError("damage is " + damage);
-                        Main.ModLogger.LogError("FULL FINAL FUCKING, in 5s should be " + damage * 5f);
+                        // Main.ModLogger.LogError("damage from base is " + damageFromBase);
+                        // Main.ModLogger.LogError("damage from shields is " + damageFromShields);
+                        // Main.ModLogger.LogError("damage is " + damage);
+                        // Main.ModLogger.LogError("FULL FINAL FUCKING, in 5s should be " + damage * 5f);
                         ProjectileManager.instance.FireProjectile(poolPrefab, raycast.point, Quaternion.identity, self.gameObject, damage, 0f, body.RollCrit(), DamageColorIndex.Poison, null, -1f);
 
                         Util.PlaySound("Play_item_use_molotov_impact_big", self.gameObject);

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RoR2.Skills;
 
-namespace Sandswept.Utils
+namespace Sandswept2.Utils
 {
     public static class CharacterExtensions
     {

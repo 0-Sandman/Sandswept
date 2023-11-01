@@ -1,4 +1,4 @@
-﻿namespace Sandswept.Skills.Ranger.VFX
+﻿namespace Sandswept2.Skills.Ranger.VFX
 {
     public static class ReleaseVFX
     {

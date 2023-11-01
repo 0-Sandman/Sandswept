@@ -1,6 +1,6 @@
 using System;
 
-namespace Sandswept.Skills.Ranger.Skilldefs
+namespace Sandswept2.Skills.Ranger.Skilldefs
 {
     public class DirectCurrent : SkillBase<DirectCurrent>
     {

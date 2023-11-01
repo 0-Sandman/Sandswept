@@ -1,8 +1,8 @@
-using Sandswept.Skills.Ranger.VFX;
+using Sandswept2.Skills.Ranger.VFX;
 using System;
 using static UnityEngine.SendMouseEvents;
 
-namespace Sandswept.States.Ranger
+namespace Sandswept2.States.Ranger
 {
     public class Release : BaseState
     {
@@ -86,7 +86,7 @@ namespace Sandswept.States.Ranger
                     radius = 3f,
                     smartCollision = true,
                     stopperMask = LayerIndex.world.mask,
-                    force = 4000f + 300f * buffCount,
+                    force = 2500f + 200f * buffCount,
                 };
 
                 AddRecoil(3f + 0.3f * buffCount, 3f + 0.3f * buffCount, 0f, 0f);
