@@ -13,7 +13,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "Chance to fire a piercing knife that gives barrier on pierce.";
 
-        public override string ItemFullDescription => StringExtensions.AutoFormat("Gain a $sd10%$se chance on hit to fire a $sdknife$se for $sd120%$se $ss(+120% per stack)$se base damage that $sdpierces$se, gain $sh10$se plus an additional $sh2% barrier$se for every pierce with the knife.");
+        public override string ItemFullDescription => StringExtensions.AutoFormat("Gain a $sd10%$se chance on hit to fire a $sdknife$se for $sd120%$se $ss(+120% per stack)$se base damage that $sdpierces$se. Gain $sh4% barrier$se for every pierce with the knife.");
 
         public override string ItemLore => "";
 
@@ -199,8 +199,7 @@ namespace Sandswept.Items.Whites
                 EffectManager.SimpleImpactEffect(impactSpark, impactInfo.estimatedPointOfImpact, -transform.forward, transmit: true);
                 if (owner != null)
                 {
-                    owner.healthComponent.AddBarrier(10f);
-                    owner.healthComponent.AddBarrier(owner.healthComponent.fullHealth * 0.02f);
+                    owner.healthComponent.AddBarrier(owner.healthComponent.fullHealth * 0.04f);
                 }
             }
         }

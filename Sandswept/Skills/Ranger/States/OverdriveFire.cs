@@ -5,7 +5,7 @@ namespace Sandswept.States.Ranger
 {
     public class OverdriveFire : BaseState
     {
-        public static int ShotsPerSecond = 8;
+        public static int ShotsPerSecond = 6;
         public static float ProcCoeff = 1f;
         public static float DamageCoeff = 1f;
         public static GameObject TracerEffect => OverdriveShotVFX.tracerPrefab; // beef this up later
@@ -67,7 +67,6 @@ namespace Sandswept.States.Ranger
 
         public void FireShot()
         {
-            Util.PlayAttackSpeedSound("Play_commando_M2", gameObject, attackSpeedStat);
             Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
             Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
 
@@ -103,6 +102,11 @@ namespace Sandswept.States.Ranger
 
             var isHeatedShot = Util.CheckRoll(heat.CurrentHeat * 0.5f);
 
+            if (isHeatedShot)
+                Util.PlayAttackSpeedSound("Play_commando_M2", gameObject, 1f);
+            else
+                Util.PlayAttackSpeedSound("Play_commando_M2", gameObject, 1.1f);
+
             BulletAttack attack = new()
             {
                 aimVector = aimDiretion,
@@ -117,7 +121,9 @@ namespace Sandswept.States.Ranger
                 damageType = isHeatedShot ? DamageType.IgniteOnHit : DamageType.Generic,
                 minSpread = heat.CurrentHeat * 0.005f,
                 maxSpread = heat.CurrentHeat * 0.006f,
-                damageColorIndex = isHeatedShot ? DamageColorIndex.Fragile : DamageColorIndex.Default
+                damageColorIndex = isHeatedShot ? DamageColorIndex.Fragile : DamageColorIndex.Default,
+                radius = 0.5f,
+                smartCollision = true
             };
 
             AddRecoil(0.3f + heat.CurrentHeat * 0.005f, -0.3f - heat.CurrentHeat * 0.005f, 0.1f + heat.CurrentHeat * 0.005f, -0.1f - heat.CurrentHeat * 0.005f);

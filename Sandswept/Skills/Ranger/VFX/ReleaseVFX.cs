@@ -45,12 +45,14 @@
             // beam object
 
             var beamObject = tracerPrefab.transform.GetChild(2);
-            // beamObject.transform.localScale = Vector3.one * 3f;
 
             var destroyOnTimer2 = beamObject.AddComponent<DestroyOnTimer>();
             destroyOnTimer2.duration = 3f;
 
             var particleSystem = beamObject.GetComponent<ParticleSystem>();
+
+            var main = particleSystem.main;
+            main.startSize = 1f;
 
             var startColor = particleSystem.main.startColor;
             startColor.mode = ParticleSystemGradientMode.Color;
@@ -70,10 +72,12 @@
             // particleSystemRenderer.material = newMat2;
 
             var newMat3 = Object.Instantiate(Assets.Material.matHuntressSwingTrail);
-            newMat3.SetColor("_TintColor", new Color32(0, 255, 99, 255));
-            newMat3.SetFloat("_Boost", 1.94f);
-            newMat3.SetFloat("_AlphaBoost", 4.6f);
-            newMat3.SetFloat("_AlphaBias", 0.093f);
+            newMat3.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampGay.png"));
+            newMat3.SetColor("_TintColor", new Color32(0, 1, 255, 255));
+            newMat3.SetFloat("_SoftFactor", 0.8866442f);
+            newMat3.SetFloat("_Boost", 20f);
+            newMat3.SetFloat("_AlphaBoost", 0.5506042f);
+            newMat3.SetFloat("_AlphaBias", 0.2430463f);
             newMat3.SetColor("_CutoffScroll", new Color(15f, 0.02f, 0f, 0f));
 
             particleSystemRenderer.sharedMaterials = new Material[] { newMat2, newMat3 };
@@ -88,6 +92,12 @@
             effectComponent.soundName = "Play_lunar_wisp_attack2_explode";
 
             var trans = impactPrefab.transform;
+
+            for (int j = 0; j < trans.childCount; j++)
+            {
+                var child = trans.GetChild(j);
+                child.localScale = Vector3.one * 2f;
+            }
 
             // scaled hitsparks 1
 
@@ -107,8 +117,31 @@
             minGradient.SetKeys(minColors, alphas);
             maxGradient.SetKeys(maxColors, alphas);
 
-            var scaledHitsparks1 = trans.GetChild(0).GetComponent<ParticleSystem>().main;
-            scaledHitsparks1.startColor = new ParticleSystem.MinMaxGradient(minGradient, maxGradient);
+            var scaledHitsparks1 = trans.GetChild(0);
+
+            var scaledHitsparks1PSR = scaledHitsparks1.GetComponent<ParticleSystemRenderer>();
+
+            var newScaledHitsparks1Mat = GameObject.Instantiate(Assets.Material.matOmniHitspark1Huntress);
+            newScaledHitsparks1Mat.SetColor("_TintColor", new Color32(0, 255, 210, 255));
+            newScaledHitsparks1Mat.SetFloat("_Boost", 2.216648f);
+            newScaledHitsparks1Mat.SetFloat("_AlphaBoost", 4.214276f);
+            newScaledHitsparks1Mat.SetFloat("_AlphaBias", 0.2612987f);
+
+            scaledHitsparks1PSR.material = newScaledHitsparks1Mat;
+
+            var scaledHitsparks1PS = scaledHitsparks1.GetComponent<ParticleSystem>();
+            var scaledHitsparks1Main = scaledHitsparks1PS.main;
+            scaledHitsparks1Main.startColor = new ParticleSystem.MinMaxGradient(minGradient, maxGradient);
+            var scaledHitsparks1StartLifetime = scaledHitsparks1Main.startLifetime;
+            scaledHitsparks1StartLifetime.constantMin = 0.4f;
+            scaledHitsparks1StartLifetime.constantMax = 0.5f;
+
+            var emission = scaledHitsparks1PS.emission;
+            emission.SetBurst(0, new ParticleSystem.Burst(0f, 7, 9));
+
+            var unscaledHitsparks1 = trans.GetChild(1);
+            var unscaledHitsparks1PSR = unscaledHitsparks1.GetComponent<ParticleSystemRenderer>();
+            unscaledHitsparks1PSR.material = Assets.Material.matOmniHitspark1GreaterWisp;
 
             //
 

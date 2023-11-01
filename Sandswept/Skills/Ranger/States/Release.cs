@@ -1,5 +1,6 @@
 using Sandswept.Skills.Ranger.VFX;
 using System;
+using static UnityEngine.SendMouseEvents;
 
 namespace Sandswept.States.Ranger
 {
@@ -85,13 +86,12 @@ namespace Sandswept.States.Ranger
                     radius = 3f,
                     smartCollision = true,
                     stopperMask = LayerIndex.world.mask,
-                    force = 5000f + 500f * buffCount,
+                    force = 2000f + 200f * buffCount,
                 };
 
                 AddRecoil(3f + 0.3f * buffCount, 3f + 0.3f * buffCount, 0f, 0f);
 
                 characterMotor?.ApplyForce((-4000f - 400f * buffCount) * aimDirection, false, false);
-
                 attack.Fire();
             }
 

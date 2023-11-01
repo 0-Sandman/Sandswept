@@ -12,7 +12,6 @@ using System.Diagnostics;
 using Sandswept.Elites;
 using Sandswept.Skills.Ranger.VFX;
 using Sandswept.Skills.Ranger.Projectiles;
-using Sandswept.Skills.Ranger.Hooks;
 
 namespace Sandswept
 {
@@ -61,7 +60,9 @@ namespace Sandswept
 
         //Provides a direct access to this plugin's logger for use in any of your other classes.
         public static BepInEx.Logging.ManualLogSource ModLogger;
+
         public static ConfigFile config;
+
         private void Awake()
         {
             var stopwatch = Stopwatch.StartNew();
@@ -70,6 +71,10 @@ namespace Sandswept
 
             ModLogger = Logger;
 
+            Assets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweptassets2"));
+            Asset2s = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // temporary assetbundle bc i didnt have the other two unity projects, please merge into the other assets
+            hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
+
             ReleaseVFX.Init();
             DirectCurrentVFX.Init();
             OverdriveShotVFX.Init();
@@ -77,8 +82,6 @@ namespace Sandswept
             SidestepVFX.Init();
             HeatSinkVFX.Init();
             HeatSignatureVFX.Init();
-
-            HeatSignatureCooldown.Init();
 
             DirectCurrent.Init();
 
@@ -92,16 +95,23 @@ namespace Sandswept
                 MainAssets = AssetBundle.LoadFromStream(stream);
             }
 
-            Assets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweptassets2"));
-            Asset2s = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // temporary assetbundle bc i didnt have the other two unity projects, please merge into the other assets
-            hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
-
             SwapAllShaders(MainAssets);
             SwapAllShaders(Assets);
             SwapAllShaders(Asset2s);
             SwapAllShaders(hifuSandswept);
             DamageColourHelper.Init();
-            //On.RoR2.GlobalEventManager.OnHitEnemy += GenericBodyTokenAddition;
+
+            var powerElixirGlassMat = Object.Instantiate(Utils.Assets.Material.matHealingPotionGlass);
+            powerElixirGlassMat.SetFloat("_Boost", 0.25f);
+            powerElixirGlassMat.SetFloat("_RimPower", 1.706559f);
+            powerElixirGlassMat.SetFloat("_RimStrength", 3.538423f);
+            powerElixirGlassMat.SetFloat("_AlphaBoost", 1.147384f);
+            powerElixirGlassMat.SetFloat("IntersectionStrength", 1f);
+
+            var redSpringWaterHolder = hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/RedSpringWaterHolder.prefab");
+            var model = redSpringWaterHolder.transform.GetChild(0);
+            var jarMr = model.GetChild(0).GetComponent<MeshRenderer>();
+            jarMr.material = powerElixirGlassMat;
 
             //This section automatically scans the project for all artifacts
             var ArtifactTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(ArtifactBase)));

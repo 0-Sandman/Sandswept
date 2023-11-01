@@ -13,7 +13,7 @@ namespace Sandswept.Components
     {
         public static float MaxHeat = 200f;
         public static float HeatDecayRate = 25f;
-        public static float HeatSignatureHeatDecayRate = 60f;
+        public static float HeatSignatureHeatIncreaseRate = 40f;
         public static float HeatIncreaseRate = 30f;
         public static float OverheatThreshold = 100f;
 
@@ -52,7 +52,7 @@ namespace Sandswept.Components
 
             if (isUsingHeatSignature && CurrentHeat < MaxHeat)
             {
-                CurrentHeat -= HeatSignatureHeatDecayRate * Time.fixedDeltaTime;
+                CurrentHeat += HeatSignatureHeatIncreaseRate * Time.fixedDeltaTime;
             }
 
             if (!isFiring && CurrentHeat > 0)
@@ -83,6 +83,8 @@ namespace Sandswept.Components
         public Transform heatMeterBackdrop;
         public Transform heatMeter;
         public static RuntimeAnimatorController runtimeAnimatorController;
+        public float colorUpdateInterval = 0.05f;
+        public float colorUpdateTimer;
 
         public void Start()
         {
@@ -108,8 +110,19 @@ namespace Sandswept.Components
             {
                 return;
             }
-            image.color = new Color32(255, (byte)Mathf.Lerp(200, 70, target.CurrentHeat / RangerHeatManager.MaxHeat), 0, 255);
-            ifc.SetTValue(target.CurrentHeat / RangerHeatManager.MaxHeat);
+
+            var heatPercent = target.CurrentHeat / RangerHeatManager.MaxHeat;
+
+            colorUpdateTimer += Time.fixedDeltaTime;
+            if (colorUpdateTimer >= colorUpdateInterval)
+            {
+                var heatPercentScaled = Mathf.Clamp01(target.CurrentHeat * 3f / RangerHeatManager.MaxHeat);
+                image.color = new Color32(255, (byte)Mathf.Lerp(200, 70, heatPercent), 0, (byte)Mathf.Lerp(0, 255, heatPercentScaled));
+                backdropImage.color = new Color32(53, 53, 53, (byte)Mathf.Lerp(0, 255, heatPercentScaled));
+                colorUpdateTimer = 0f;
+            }
+
+            ifc.SetTValue(heatPercent);
         }
     }
 

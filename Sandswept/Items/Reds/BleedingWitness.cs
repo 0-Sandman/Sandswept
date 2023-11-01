@@ -2,6 +2,7 @@
 
 namespace Sandswept.Items.Reds
 {
+    [ConfigSection("Items :: Bleeding Witness")]
     internal class BleedingWitness : ItemBase<BleedingWitness>
     {
         public override string ItemName => "Bleeding Witness";
@@ -39,8 +40,6 @@ namespace Sandswept.Items.Reds
 
         public override void Init(ConfigFile config)
         {
-            CreateConfig(config);
-            CreateConfig(config);
             CreateLang();
             CreateItem();
             Hooks();

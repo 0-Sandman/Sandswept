@@ -19,5 +19,6 @@ namespace Sandswept.Skills.Ranger.Skilldefs
         public override string[] Keywords => new string[] { Utils.Keywords.Agile };
 
         public override bool Agile => true;
+        public override bool IsCombat => false;
     }
 }

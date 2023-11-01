@@ -45,9 +45,8 @@ namespace Sandswept.States.Ranger
                 temporaryOverlay2.AddToCharacerModel(this.modelTransform.GetComponent<CharacterModel>());
             }
 
-            Util.PlaySound("Play_huntress_shift_mini_blink", gameObject);
-            Util.PlaySound("Play_engi_M2_spider_dash", gameObject);
-            Util.PlaySound("Play_lunar_wisp_attack1_shoot_impact", gameObject);
+            Util.PlayAttackSpeedSound("Play_huntress_shift_mini_blink", gameObject, 0.5f);
+            Util.PlayAttackSpeedSound("Play_commando_shift", gameObject, 1.2f);
 
             stepVector = (inputBank.moveVector == Vector3.zero) ? characterDirection.forward : inputBank.moveVector;
 

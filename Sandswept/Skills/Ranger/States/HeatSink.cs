@@ -49,7 +49,7 @@ namespace Sandswept.States.Ranger
             {
                 attacker = null,
                 procCoefficient = 0,
-                damage = healthComponent.fullCombinedHealth * 0.25f,
+                damage = healthComponent.fullCombinedHealth * 0.15f,
                 crit = false,
                 position = transform.position,
                 damageColorIndex = DamageColorIndex.Fragile,
@@ -76,6 +76,8 @@ namespace Sandswept.States.Ranger
             }, true);
 
             Util.PlaySound("Play_magmaWorm_death_small_explos", gameObject);
+            Util.PlaySound("Play_item_proc_igniteOnKill", gameObject);
+            Util.PlaySound("Play_clayboss_m2_explo", gameObject);
 
             if (isAuthority)
                 new BlastAttack()
@@ -118,6 +120,19 @@ namespace Sandswept.States.Ranger
         public override void OnExit()
         {
             base.OnExit();
+            heat.isUsingHeatSignature = false;
+
+            if (characterBody && NetworkServer.active && characterBody.HasBuff(Buffs.HeatSignatureBuff.instance.BuffDef))
+            {
+                characterBody.RemoveBuff(Buffs.HeatSignatureBuff.instance.BuffDef);
+            }
+            if (modelTransform)
+            {
+                foreach (TemporaryOverlay overlay in modelTransform.GetComponents<TemporaryOverlay>())
+                {
+                    Object.Destroy(overlay);
+                }
+            }
         }
     }
 }

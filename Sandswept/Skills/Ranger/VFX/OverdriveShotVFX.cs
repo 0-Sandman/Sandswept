@@ -10,7 +10,7 @@ namespace Sandswept.Skills.Ranger.VFX
 
         public static void Init()
         {
-            tracerPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.TracerCommandoShotgun, "Overdrive Shot Tracer", false);
+            tracerPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.TracerCommandoShotgun, "Enflame Shot Tracer", false);
 
             var tracer = tracerPrefab.GetComponent<Tracer>();
             tracer.length = 16f; // 14
