@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using System;
+using Sandswept.Components;
 
 namespace Sandswept.States.Ranger
 {
@@ -40,6 +41,8 @@ namespace Sandswept.States.Ranger
 
             PlayAnimation("Gesture, Override", "ExitOverdrive");
             Util.PlaySound("Play_lunar_wisp_attack2_windDown", gameObject);
+
+            GetComponent<RangerHeatManager>().isUsingHeatSignature = false;
 
             if (characterBody)
             {

@@ -10,7 +10,7 @@ namespace Sandswept.States.Ranger
         public static float DamageCoeff = 1f;
         public static GameObject TracerEffect => OverdriveShotVFX.tracerPrefab; // beef this up later
         public static GameObject TracerEffectHeated => OverdriveShotHeatedVFX.tracerPrefab; // beef this up later
-        private float selfDamageCoeff = 0.08f;
+        public static float SelfDamageCoeff = 0.2f;
         private float shots;
         private float shotDelay => 1f / shots;
         private float stopwatch = 0f;
@@ -70,26 +70,6 @@ namespace Sandswept.States.Ranger
             Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
             Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
 
-            if (heat.IsOverheating)
-            {
-                DamageInfo info = new()
-                {
-                    attacker = null,
-                    procCoefficient = 0,
-                    damage = damageStat * (selfDamageCoeff + 0.0008f * heat.CurrentHeat),
-                    crit = false,
-                    position = transform.position,
-                    damageColorIndex = DamageColorIndex.Fragile,
-                    damageType = DamageType.BypassArmor | DamageType.BypassBlock
-                };
-
-                if (NetworkServer.active)
-                {
-                    healthComponent.TakeDamage(info);
-                }
-
-                AkSoundEngine.PostEvent(Events.Play_item_proc_igniteOnKill, gameObject);
-            }
 
             PlayAnimation("Gesture, Override", "OverdriveFire");
 

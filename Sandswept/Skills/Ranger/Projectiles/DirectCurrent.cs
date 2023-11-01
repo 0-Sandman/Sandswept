@@ -24,7 +24,13 @@ namespace Sandswept.Skills.Ranger.Projectiles
             prefab.RemoveComponent<AkGameObj>();
 
             var sphereCollider = prefab.GetComponent<SphereCollider>();
-            sphereCollider.material = Assets.PhysicMaterial.physmatEngiGrenade;
+            // sphereCollider.material = Assets.PhysicMaterial.physmatEngiGrenade;
+
+            sphereCollider.radius = 0.5f;
+
+            prefab.layer = LayerIndex.projectile.intVal;
+
+            prefab.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
 
             var projectileDamage = prefab.GetComponent<ProjectileDamage>();
             projectileDamage.damageType = DamageType.Generic;

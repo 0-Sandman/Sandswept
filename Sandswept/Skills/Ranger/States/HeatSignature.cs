@@ -13,6 +13,14 @@ namespace Sandswept.States.Ranger
         public static Material overlayMat1 = HeatSignatureVFX.dashMat1;
         public static Material overlayMat2 = HeatSignatureVFX.dashMat2;
         private bool hasLeftState = false;
+        private static GameObject HeatSignatureTrailPrefab;
+        private GameObject trailInstance;
+
+        static HeatSignature() {
+            HeatSignatureTrailPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.FireTrail, "RangerHeatTrail");
+            DamageTrail trail = HeatSignatureTrailPrefab.GetComponent<DamageTrail>();
+            trail.radius = 2f;
+        }
 
         public override void OnEnter()
         {
@@ -29,9 +37,11 @@ namespace Sandswept.States.Ranger
 
             modelTransform = GetModelTransform();
 
-            // spawn fire trail
-            // I think it's hardcoded to do 150% damage though, and might not even work if you aren't blazing
-            // hopoo games ! !
+            trailInstance = GameObject.Instantiate(HeatSignatureTrailPrefab, base.transform);
+            DamageTrail trail = trailInstance.GetComponent<DamageTrail>();
+            trail.damagePerSecond = base.damageStat * 3f;
+            trail.owner = base.gameObject;
+
 
             if (modelTransform)
             {
@@ -70,31 +80,38 @@ namespace Sandswept.States.Ranger
                 if (!hasLeftState && inputBank.skill3.justPressed)
                 {
                     hasLeftState = true;
-                    heat.isUsingHeatSignature = false;
-
-                    if (characterBody && NetworkServer.active)
-                    {
-                        characterBody.RemoveBuff(Buffs.HeatSignatureBuff.instance.BuffDef);
-                    }
-                    if (modelTransform)
-                    {
-                        foreach (TemporaryOverlay overlay in modelTransform.GetComponents<TemporaryOverlay>())
-                        {
-                            Object.Destroy(overlay);
-                        }
-                    }
-
-                    Util.PlaySound("Play_fireballsOnHit_impact", gameObject);
-                    Util.PlaySound("Play_fireballsOnHit_impact", gameObject);
 
                     outer.SetNextStateToMain();
                 }
+            }
+
+            if (!heat.isUsingHeatSignature) {
+                outer.SetNextStateToMain();
             }
         }
 
         public override void OnExit()
         {
             base.OnExit();
+            heat.isUsingHeatSignature = false;
+
+            if (characterBody && NetworkServer.active)
+            {
+                characterBody.RemoveBuff(Buffs.HeatSignatureBuff.instance.BuffDef);
+            }
+            if (modelTransform)
+            {
+                foreach (TemporaryOverlay overlay in modelTransform.GetComponents<TemporaryOverlay>())
+                {
+                    Object.Destroy(overlay);
+                }
+            }
+
+            Debug.Log("destroying trail");
+            GameObject.Destroy(trailInstance);
+
+            Util.PlaySound("Play_fireballsOnHit_impact", gameObject);
+            Util.PlaySound("Play_fireballsOnHit_impact", gameObject);
         }
     }
 }
