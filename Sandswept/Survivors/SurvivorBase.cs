@@ -24,16 +24,20 @@ namespace Sandswept.Survivors
         public GameObject Master;
         public SurvivorDef SurvivorDef;
 
-        public static bool DefaultEnabledCallback(SurvivorBase self) {
+        public static bool DefaultEnabledCallback(SurvivorBase self)
+        {
             ConfigSectionAttribute attribute = self.GetType().GetCustomAttribute<ConfigSectionAttribute>();
-            if (attribute != null) {
+            if (attribute != null)
+            {
                 bool isValid = Main.config.Bind<bool>(attribute.name, "Enabled", true, "Allow this survivor to appear?").Value;
-                if (isValid) {
+                if (isValid)
+                {
                     return true;
                 }
                 return false;
             }
-            else {
+            else
+            {
                 return true;
             }
         }

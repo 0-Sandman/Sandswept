@@ -53,6 +53,11 @@ namespace Sandswept.States.Ranger
             PlayAnimation("Body", "Twirl");
         }
 
+        public override InterruptPriority GetMinimumInterruptPriority()
+        {
+            return InterruptPriority.PrioritySkill;
+        }
+
         public override void FixedUpdate()
         {
             base.FixedUpdate();

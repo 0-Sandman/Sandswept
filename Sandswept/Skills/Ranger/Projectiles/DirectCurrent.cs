@@ -15,6 +15,9 @@ namespace Sandswept.Skills.Ranger.Projectiles
         {
             prefab = PrefabAPI.InstantiateClone(Assets.GameObject.MageLightningBombProjectile, "Direct Current Projectile");
 
+            var proximityDetonator = prefab.transform.GetChild(0).GetComponent<SphereCollider>();
+            proximityDetonator.radius = 0.6f;
+
             prefab.RemoveComponent<ProjectileProximityBeamController>();
 
             prefab.RemoveComponent<AkEvent>();

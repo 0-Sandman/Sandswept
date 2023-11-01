@@ -38,6 +38,11 @@ namespace Sandswept.States.Ranger
             characterDirection.forward = GetAimRay().direction;
         }
 
+        public override InterruptPriority GetMinimumInterruptPriority()
+        {
+            return InterruptPriority.PrioritySkill;
+        }
+
         public override void FixedUpdate()
         {
             base.FixedUpdate();
@@ -88,7 +93,7 @@ namespace Sandswept.States.Ranger
                     radius = 3f,
                     smartCollision = true,
                     stopperMask = LayerIndex.world.mask,
-                    force = 4000f + 300f * buffCount,
+                    force = 2500f + 200f * buffCount,
                 };
 
                 AddRecoil(3f + 0.3f * buffCount, 3f + 0.3f * buffCount, 0f, 0f);

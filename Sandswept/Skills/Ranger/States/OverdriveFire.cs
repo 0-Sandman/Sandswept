@@ -6,7 +6,7 @@ namespace Sandswept.States.Ranger
     public class OverdriveFire : BaseState
     {
         public static int ShotsPerSecond = 6;
-        public static float ProcCoeff = 1f;
+        public static float ProcCoeff = 0.7f;
         public static float DamageCoeff = 1f;
         public static GameObject TracerEffect => OverdriveShotVFX.tracerPrefab; // beef this up later
         public static GameObject TracerEffectHeated => OverdriveShotHeatedVFX.tracerPrefab; // beef this up later
@@ -71,7 +71,6 @@ namespace Sandswept.States.Ranger
         {
             Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
             Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
-
 
             PlayAnimation("Gesture, Override", "OverdriveFire");
 

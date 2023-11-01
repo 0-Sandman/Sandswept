@@ -10,7 +10,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemLangTokenName => "SMOULDERING_DOCUMENT";
 
-        public override string ItemPickupDesc => "Damage over time effects reduce enemy armor and attack speed.";
+        public override string ItemPickupDesc => "Damage over time effects reduce enemy damage and attack speed.";
 
         public override string ItemFullDescription => "$sd5%$se chance to $sdignite$se enemies on hit for $sd250%$se TOTAL damage. $sdDamage over time$se effects $sdburden$se enemies, reducing their $sddamage$se by $sd15%$se $ss(+10% per stack)$se and $sdattack speed$se by $sd15%$se $ss(+10% per stack)$se.".AutoFormat();
 
@@ -36,10 +36,10 @@ namespace Sandswept.Items.Greens
         {
             SmoulderingDocumentDebuff = ScriptableObject.CreateInstance<BuffDef>();
             SmoulderingDocumentDebuff.name = "Burdened";
-            SmoulderingDocumentDebuff.buffColor = new Color(245f, 153f, 80f, 255f);
+            SmoulderingDocumentDebuff.buffColor = new Color32(245, 153, 80, 255);
             SmoulderingDocumentDebuff.canStack = false;
             SmoulderingDocumentDebuff.isDebuff = true;
-            SmoulderingDocumentDebuff.iconSprite = Main.MainAssets.LoadAsset<Sprite>("BurdenDebuffIcon.png");
+            SmoulderingDocumentDebuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texBuffBurdened.png");
             ContentAddition.AddBuffDef(SmoulderingDocumentDebuff);
         }
 

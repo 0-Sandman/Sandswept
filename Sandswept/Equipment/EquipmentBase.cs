@@ -41,16 +41,20 @@ namespace Sandswept.Equipment
 
         public EquipmentDef EquipmentDef;
 
-        public static bool DefaultEnabledCallback(EquipmentBase self) {
+        public static bool DefaultEnabledCallback(EquipmentBase self)
+        {
             ConfigSectionAttribute attribute = self.GetType().GetCustomAttribute<ConfigSectionAttribute>();
-            if (attribute != null) {
+            if (attribute != null)
+            {
                 bool isValid = Main.config.Bind<bool>(attribute.name, "Enabled", true, "Allow this equipment to appear in runs?").Value;
-                if (isValid) {
+                if (isValid)
+                {
                     return true;
                 }
                 return false;
             }
-            else {
+            else
+            {
                 return true;
             }
         }

@@ -11,7 +11,7 @@ namespace Sandswept.Items.Reds
 
         public override string ItemPickupDesc => "Your damage over time effects heal all allies.";
 
-        public override string ItemFullDescription => "$sd" + hemorrhageChance + "%$se chance to $sdhemorrhage$se enemies for $sd" + d(hemorrhageDamage) + "$se base damage. Your $sddamage over time effects$se $shheal$se all allies for $sh" + d(baseDoTHealing) + "$se $ss(+" + d(stackDoTHealing) + " per stack)$se of their $sdmaximum health$se.".AutoFormat();
+        public override string ItemFullDescription => ("$sd" + hemorrhageChance + "%$se chance to $sdhemorrhage$se enemies for $sd" + d(hemorrhageDamage) + "$se base damage. Your $sddamage over time effects$se $shheal$se all allies for $sh" + d(baseDoTHealing) + "$se $ss(+" + d(stackDoTHealing) + " per stack)$se of their $shmaximum health$se.").AutoFormat();
 
         public override string ItemLore => "no";
 
@@ -66,17 +66,21 @@ namespace Sandswept.Items.Reds
             if (NetworkServer.active && stack > 0)
             {
                 var healAmount = baseDoTHealing + stackDoTHealing * (stack - 1);
-                for (int i = 0; i < self.dotStackList.Count; i++)
+                for (var dotIndex = DotController.DotIndex.Bleed; dotIndex < DotController.DotIndex.Count; dotIndex++)
                 {
-                    var dot = self.dotStackList[i];
-                    if (dot.timer <= 0f)
+                    uint num = 1U << (int)dotIndex;
+                    if ((self.activeDotFlags & num) > 0U)
                     {
-                        for (int j = 0; i < CharacterBody.instancesList.Count; j++)
+                        var lastDotTimer = self.dotTimers[(int)dotIndex] - Time.fixedDeltaTime;
+                        if (lastDotTimer <= 0f)
                         {
-                            var body = CharacterBody.instancesList[j];
-                            if (body.teamComponent.teamIndex == TeamIndex.Player)
+                            for (int i = 0; i < CharacterBody.instancesList.Count; i++)
                             {
-                                body.healthComponent?.HealFraction(healAmount, default);
+                                var body = CharacterBody.instancesList[i];
+                                if (body.teamComponent.teamIndex == TeamIndex.Player)
+                                {
+                                    body.healthComponent?.HealFraction(healAmount, default);
+                                }
                             }
                         }
                     }

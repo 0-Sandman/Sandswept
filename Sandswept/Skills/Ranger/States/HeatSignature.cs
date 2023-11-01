@@ -16,10 +16,13 @@ namespace Sandswept.States.Ranger
         private static GameObject HeatSignatureTrailPrefab;
         private GameObject trailInstance;
 
-        static HeatSignature() {
+        static HeatSignature()
+        {
             HeatSignatureTrailPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.FireTrail, "RangerHeatTrail");
             DamageTrail trail = HeatSignatureTrailPrefab.GetComponent<DamageTrail>();
-            trail.radius = 2f;
+            trail.radius = 4f;
+
+            PrefabAPI.RegisterNetworkPrefab(HeatSignatureTrailPrefab);
         }
 
         public override void OnEnter()
@@ -41,7 +44,6 @@ namespace Sandswept.States.Ranger
             DamageTrail trail = trailInstance.GetComponent<DamageTrail>();
             trail.damagePerSecond = base.damageStat * 3f;
             trail.owner = base.gameObject;
-
 
             if (modelTransform)
             {
@@ -85,7 +87,8 @@ namespace Sandswept.States.Ranger
                 }
             }
 
-            if (!heat.isUsingHeatSignature) {
+            if (!heat.isUsingHeatSignature)
+            {
                 outer.SetNextStateToMain();
             }
         }
@@ -107,7 +110,7 @@ namespace Sandswept.States.Ranger
                 }
             }
 
-            Debug.Log("destroying trail");
+            // Debug.Log("destroying trail");
             GameObject.Destroy(trailInstance);
 
             Util.PlaySound("Play_fireballsOnHit_impact", gameObject);

@@ -13,7 +13,7 @@
 
         public override string ItemPickupDesc => "Store a portion of spent gold as a bonus on the next stage.";
 
-        public override string ItemFullDescription => "Whenever you make a $sugold purchase$se, store $su15%$se $ss(+10% per stack)$se of the spent gold as $sucredit$se. $suReceive money$se equal to $sucredit$se on the next stage.".AutoFormat();
+        public override string ItemFullDescription => "Whenever you make a $sugold purchase$se, store $su20%$se $ss(+15% per stack)$se of the spent gold as $sucredit$se. $suReceive gold$se equal to $sucredit$se on the next stage. $suScales over time$se.".AutoFormat();
 
         public override string ItemLore => "Funny pt.2";
 
@@ -72,7 +72,7 @@
             var stack = GetCount(interactorBody);
             if (stack > 0)
             {
-                passBehavior.storedTotal += purchaseInteraction.cost * Util.ConvertAmplificationPercentageIntoReductionPercentage(0.15f + 0.10f * (stack - 1));
+                passBehavior.storedTotal += purchaseInteraction.cost * Util.ConvertAmplificationPercentageIntoReductionPercentage(0.2f + 0.15f * (stack - 1));
             }
         }
 
@@ -103,6 +103,7 @@
                 if (stack <= 0)
                 {
                     body.RemoveComponent<PassBehavior>();
+                    return;
                 }
 
                 var master = body.master;
@@ -111,7 +112,10 @@
                     return;
                 }
 
-                master.GiveMoney((uint)passBehavior.storedTotal);
+                var scaledCredit = (uint)Run.instance.GetDifficultyScaledCost((int)passBehavior.storedTotal);
+
+                master.GiveMoney(scaledCredit);
+
                 passBehavior.storedTotal = 0;
             }
         }

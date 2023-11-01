@@ -37,16 +37,20 @@ namespace Sandswept.Artifact
 
         public abstract void Init(ConfigFile config);
 
-        public static bool DefaultEnabledCallback(ArtifactBase self) {
+        public static bool DefaultEnabledCallback(ArtifactBase self)
+        {
             ConfigSectionAttribute attribute = self.GetType().GetCustomAttribute<ConfigSectionAttribute>();
-            if (attribute != null) {
+            if (attribute != null)
+            {
                 bool isValid = Main.config.Bind<bool>(attribute.name, "Enabled", true, "Allow this artifact to be selected?").Value;
-                if (isValid) {
+                if (isValid)
+                {
                     return true;
                 }
                 return false;
             }
-            else {
+            else
+            {
                 return true;
             }
         }

@@ -14,7 +14,7 @@ namespace Sandswept.Components
     {
         public static float MaxHeat = 200f;
         public static float HeatDecayRate = 25f;
-        public static float HeatSignatureHeatDecayRate = 40f;
+        public static float HeatSignatureHeatIncreaseRate = 40f;
         public static float HeatIncreaseRate = 30f;
         public static float OverheatThreshold = 100f;
 
@@ -25,14 +25,16 @@ namespace Sandswept.Components
         public bool isUsingHeatSignature = false;
         internal Animator anim;
         private CharacterBody cb;
+        private HealthComponent hc;
         public GameObject overlayPrefab;
         internal GameObject overlayInstance;
-        internal float SelfDamage = 0.04f;
+        internal float SelfDamage = 0.007f;
         internal float stopwatchSelfDamage = 0f;
 
         public void Start()
         {
             cb = GetComponent<CharacterBody>();
+            hc = cb.healthComponent;
             anim = GetComponent<CharacterDirection>().modelAnimator;
             OverlayCreationParams p = new();
             p.prefab = overlayPrefab;
@@ -55,7 +57,7 @@ namespace Sandswept.Components
 
             if (isUsingHeatSignature && CurrentHeat < MaxHeat)
             {
-                CurrentHeat += HeatSignatureHeatDecayRate * Time.fixedDeltaTime;
+                CurrentHeat += HeatSignatureHeatIncreaseRate * Time.fixedDeltaTime;
             }
 
             if (!isFiring && CurrentHeat > 0)
@@ -66,18 +68,18 @@ namespace Sandswept.Components
             CurrentHeat = Mathf.Clamp(CurrentHeat, 0, MaxHeat);
 
             stopwatchSelfDamage += Time.fixedDeltaTime;
-            if (IsOverheating && stopwatchSelfDamage >= 0.2f)
+            if (IsOverheating && stopwatchSelfDamage >= 0.25f)
             {
                 stopwatchSelfDamage = 0f;
                 DamageInfo info = new()
                 {
                     attacker = null,
                     procCoefficient = 0,
-                    damage = (cb.damage * (SelfDamage + (0.0006f * CurrentHeat))),
+                    damage = hc.fullCombinedHealth * (SelfDamage + (0.00008f * CurrentHeat)),
                     crit = false,
                     position = transform.position,
                     damageColorIndex = DamageColorIndex.Fragile,
-                    damageType = DamageType.BypassArmor | DamageType.BypassBlock | DamageType.Silent
+                    damageType = DamageType.BypassArmor | DamageType.BypassBlock
                 };
 
                 if (NetworkServer.active)

@@ -7,13 +7,13 @@ namespace Sandswept.Survivors
     {
         public override string Name => "Ranger";
 
-        public override string Description => "some description";
+        public override string Description => "The Ranger is an all-rounder, and a resource managing survivor with two distinct forms.<style=cSub>\r\n\r\n< ! > Power Surge works during Overdrive, making it easier to manage Heat and counteract self-damage.\r\n\r\n< ! > Direct Current is a great damage tool that works very well at any range and is able to gain multiple stacks of Charge when hitting groups of enemies. Hit your shots and increase your survivability with the help of Power Surge.\r\n\r\n< ! > Release can easily obliterate multiple enemies, boasting high burst damage with no damage falloff and a small area of effect. Manage your Charge to deal extra damage or propel yourself and disengage at the cost of Charge.\r\n\r\n< ! > Sidestep provides temporary immunity, making it great for dodging highly telegraphed attacks.\r\n\r\n< ! > Enflame fires very fast, and deals great sustained damage, making it ideal for activating many item effects quickly and eliminating high priority targets.\r\n\r\n< ! > Heat Sink is a powerful, but situational burst skill that's best used when swarmed at high Heat. Watch out for backblast.\r\n\r\n< ! > Heat Signature is a great utility for escaping sticky situations, building up Heat and extreme offense.\r\n\r\n< ! > Cancel can be used to safely exit Overdrive without sacrificing health.</style>\r\n";
 
-        public override string Subtitle => "some subtitel";
+        public override string Subtitle => "Dual Dynamo";
 
-        public override string Outro => "some outro";
+        public override string Outro => "...and so she left ready to listen to Periphery for the 41,527th time...";
 
-        public override string Failure => "some failure";
+        public override string Failure => "...and so she didn't leave lmao skill issue";
 
         public override void LoadAssets()
         {

@@ -145,7 +145,7 @@ namespace Sandswept.Items.Whites
             var knifeDamage = 1.2f * stack;
             if (stack > 0)
             {
-                if (Util.CheckRoll(10f, master))
+                if (Util.CheckRoll(10f * report.damageInfo.procCoefficient, master))
                 {
                     var fpi = new FireProjectileInfo()
                     {

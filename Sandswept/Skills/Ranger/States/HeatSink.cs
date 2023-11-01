@@ -49,7 +49,7 @@ namespace Sandswept.States.Ranger
             {
                 attacker = null,
                 procCoefficient = 0,
-                damage = healthComponent.fullCombinedHealth * 0.15f,
+                damage = healthComponent.fullCombinedHealth * 0.25f,
                 crit = false,
                 position = transform.position,
                 damageColorIndex = DamageColorIndex.Fragile,
@@ -90,7 +90,7 @@ namespace Sandswept.States.Ranger
                     canRejectForce = true,
                     crit = RollCrit(),
                     damageColorIndex = DamageColorIndex.Fragile,
-                    damageType = DamageType.Generic,
+                    damageType = DamageType.IgniteOnHit,
                     inflictor = gameObject,
                     radius = 16f,
                     position = transform.position,
@@ -113,7 +113,7 @@ namespace Sandswept.States.Ranger
 
             if (fixedAge >= duration)
             {
-                outer.SetNextState(new OverdriveExit());
+                outer.SetNextState(new OverdriveExitHeatSink());
             }
         }
 

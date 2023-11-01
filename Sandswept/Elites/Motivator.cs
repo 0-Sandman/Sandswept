@@ -158,11 +158,11 @@ namespace Sandswept.Elites
             if (sender.HasBuff(wrbnnerBuff))
             {
                 args.moveSpeedMultAdd += 0.25f;
-                args.attackSpeedMultAdd += 0.25f;
+                args.baseAttackSpeedAdd += 0.25f;
             }
             if (sender.HasBuff(warcryBuff))
             {
-                args.attackSpeedMultAdd += 0.25f;
+                args.baseAttackSpeedAdd += 0.25f;
             }
         }
 
