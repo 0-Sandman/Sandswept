@@ -6,6 +6,7 @@ using TMPro;
 using RoR2;
 using RoR2.HudOverlay;
 using UnityEngine.UI;
+using Sandswept.States.Ranger;
 
 namespace Sandswept.Components
 {
@@ -13,7 +14,7 @@ namespace Sandswept.Components
     {
         public static float MaxHeat = 200f;
         public static float HeatDecayRate = 25f;
-        public static float HeatSignatureHeatDecayRate = 20f;
+        public static float HeatSignatureHeatDecayRate = 40f;
         public static float HeatIncreaseRate = 30f;
         public static float OverheatThreshold = 100f;
 
@@ -26,6 +27,8 @@ namespace Sandswept.Components
         private CharacterBody cb;
         public GameObject overlayPrefab;
         internal GameObject overlayInstance;
+        internal float SelfDamage = 0.04f;
+        internal float stopwatchSelfDamage = 0f;
 
         public void Start()
         {
@@ -61,6 +64,29 @@ namespace Sandswept.Components
             }
 
             CurrentHeat = Mathf.Clamp(CurrentHeat, 0, MaxHeat);
+
+            stopwatchSelfDamage += Time.fixedDeltaTime;
+            if (IsOverheating && stopwatchSelfDamage >= 0.2f)
+            {
+                stopwatchSelfDamage = 0f;
+                DamageInfo info = new()
+                {
+                    attacker = null,
+                    procCoefficient = 0,
+                    damage = (cb.damage * (SelfDamage + (0.0006f * CurrentHeat))),
+                    crit = false,
+                    position = transform.position,
+                    damageColorIndex = DamageColorIndex.Fragile,
+                    damageType = DamageType.BypassArmor | DamageType.BypassBlock | DamageType.Silent
+                };
+
+                if (NetworkServer.active)
+                {
+                    cb.healthComponent.TakeDamage(info);
+                }
+
+                AkSoundEngine.PostEvent(Events.Play_item_proc_igniteOnKill, gameObject);
+            }
 
             KillYourself();
         }

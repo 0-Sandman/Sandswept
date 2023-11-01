@@ -42,9 +42,6 @@ namespace Sandswept.States.Ranger
             trail.damagePerSecond = base.damageStat * 3f;
             trail.owner = base.gameObject;
 
-            // spawn fire trail
-            // I think it's hardcoded to do 150% damage though, and might not even work if you aren't blazing
-            // hopoo games ! !
 
             if (modelTransform)
             {
@@ -87,6 +84,10 @@ namespace Sandswept.States.Ranger
                     outer.SetNextStateToMain();
                 }
             }
+
+            if (!heat.isUsingHeatSignature) {
+                outer.SetNextStateToMain();
+            }
         }
 
         public override void OnExit()
@@ -106,6 +107,7 @@ namespace Sandswept.States.Ranger
                 }
             }
 
+            Debug.Log("destroying trail");
             GameObject.Destroy(trailInstance);
 
             Util.PlaySound("Play_fireballsOnHit_impact", gameObject);

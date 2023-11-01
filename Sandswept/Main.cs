@@ -27,9 +27,9 @@ namespace Sandswept
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
     {
-        public const string ModGuid = "com.Sandman.Sandswept";
+        public const string ModGuid = "com.SandsweptTeam.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVer = "0.0.1";
+        public const string ModVer = "0.1.0";
 
         public static AssetBundle MainAssets;
         public static AssetBundle Assets;
