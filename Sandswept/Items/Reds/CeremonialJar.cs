@@ -209,8 +209,19 @@ namespace Sandswept.Items.Reds
 
         private void BuffApply(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
         {
+            orig(self, damageInfo, victim);
+
+            if (!damageInfo.attacker) {
+                return;
+            }
+
+
             var attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
             var victimBody = victim.GetComponent<CharacterBody>();
+
+            if (!attackerBody || !victimBody) {
+                return;
+            }
 
             var stacks = GetCount(attackerBody);
 
@@ -239,7 +250,6 @@ namespace Sandswept.Items.Reds
                 // if uncommented, it's jank, the damage works fine but every enemy has at least a 3s cooldown, extended whenever you hit them so it feels pretty awful
                 // so idk fix both of these maybe :smirk_cat:
             }
-            orig(self, damageInfo, victim);
         }
 
         public static JarToken GetToken(CharacterBody body)
