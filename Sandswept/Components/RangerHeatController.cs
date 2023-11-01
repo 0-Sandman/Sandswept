@@ -13,7 +13,7 @@ namespace Sandswept.Components
     {
         public static float MaxHeat = 200f;
         public static float HeatDecayRate = 25f;
-        public static float HeatSignatureHeatDecayRate = 60f;
+        public static float HeatSignatureHeatDecayRate = 20f;
         public static float HeatIncreaseRate = 30f;
         public static float OverheatThreshold = 100f;
 
@@ -52,7 +52,7 @@ namespace Sandswept.Components
 
             if (isUsingHeatSignature && CurrentHeat < MaxHeat)
             {
-                CurrentHeat -= HeatSignatureHeatDecayRate * Time.fixedDeltaTime;
+                CurrentHeat += HeatSignatureHeatDecayRate * Time.fixedDeltaTime;
             }
 
             if (!isFiring && CurrentHeat > 0)

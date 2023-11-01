@@ -5,7 +5,7 @@ namespace Sandswept.States.Ranger
 {
     public class OverdriveFire : BaseState
     {
-        public static int ShotsPerSecond = 8;
+        public static int ShotsPerSecond = 6;
         public static float ProcCoeff = 1f;
         public static float DamageCoeff = 1f;
         public static GameObject TracerEffect => OverdriveShotVFX.tracerPrefab; // beef this up later

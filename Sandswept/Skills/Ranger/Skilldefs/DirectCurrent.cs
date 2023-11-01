@@ -6,7 +6,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
     {
         public override string Name => "Direct Current";
 
-        public override string Description => "Fire an electric current for $sd320% damage$se. Increases $rcCharge$ec by $rc1$ec on hit.".AutoFormat();
+        public override string Description => "Fire an electric current for $sd300% damage$se. Increases $rcCharge$ec by $rc1$ec on hit.".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Ranger.DirectCurrentProj);
 
