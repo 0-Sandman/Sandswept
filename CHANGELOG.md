@@ -3,4 +3,4 @@
 - Release
 - Added 1 Survivor
 - Added 1 Elite
-- Added 12 Items
+- Added 11 Items
