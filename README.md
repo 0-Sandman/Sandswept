@@ -1,7 +1,7 @@
 # Sandswept
 Sandswept is a in-dev content mod that aims to add content to all different parts of the game.
 
-Sandswept2 currently adds:
+Current additions:
 - 1 Survivor
 - 1 Elite
 - 10 Items
