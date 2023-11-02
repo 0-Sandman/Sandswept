@@ -23,7 +23,7 @@
             base.Update();
             // characterDirection.forward = GetAimRay().direction;
 
-            characterBody.SetAimTimer(0.2f);
+            characterBody.SetAimTimer(0.05f);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -37,7 +37,9 @@
 
             if (fixedAge >= duration)
             {
+                base.GetModelAnimator().SetBool("isFiring", false);
                 outer.SetNextStateToMain();
+                return;
             }
 
             GetModelAnimator().SetBool("isFiring", true);
@@ -58,7 +60,8 @@
                 damageColorIndex = DamageColorIndex.Default,
                 owner = gameObject,
                 rotation = Quaternion.LookRotation(aimRay.direction),
-                position = GetModelChildLocator().FindChild("Muzzle").position,
+                //position = GetModelChildLocator().FindChild("Muzzle").position,
+                position = base.transform.position,
                 force = 500f,
                 procChainMask = default,
                 projectilePrefab = directCurrentProjectile

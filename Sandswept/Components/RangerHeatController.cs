@@ -84,7 +84,7 @@ namespace Sandswept.Components
                 AkSoundEngine.PostEvent(Events.Play_item_proc_igniteOnKill, gameObject);
             }
 
-            KillYourself();
+            // KillYourself(); no keep yourself safe :3 :3
         }
 
         public void KillYourself()

@@ -16,6 +16,12 @@
 # Mono auto generated files
 mono_crash.*
 
+#
+Sandswept_Unity/AssetBundles
+Sandswept_Unity/Library
+Sandswept_Unity/Logs
+Sandswept_Unity/Temp
+
 
 #
 build.sh
