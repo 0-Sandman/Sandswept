@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace Sandswept.Elites
 {
-    internal class Motivator : EliteEquipmentBase<Motivator>
+    internal class Motivating : EliteEquipmentBase<Motivating>
     {
         public override string EliteEquipmentName => "John Hopoo";
 
-        public override string EliteAffixToken => "MOTIVATOR";
+        public override string EliteAffixToken => "MOTIVATING";
 
         public override string EliteEquipmentPickupDesc => "Omg OwO <3 hiii :3 x3 hiiii heyyy :3 :3 :3 UwU meow mrrraow OwO";
 
@@ -15,7 +15,7 @@ namespace Sandswept.Elites
 
         public override string EliteEquipmentLore => "";
 
-        public override string EliteModifier => "Motivator";
+        public override string EliteModifier => "Motivating";
 
         public override GameObject EliteEquipmentModel => CreateAffixModel(new Color32(255, 131, 20, 255));
 
@@ -218,7 +218,7 @@ namespace Sandswept.Elites
 
     public class MotivatorController : MonoBehaviour
     {
-        public GameObject warbannerPrefab = Motivator.warbanner;
+        public GameObject warbannerPrefab = Motivating.warbanner;
         public GameObject warbannerInstance;
         public float warbannerRadius = 20f;
         public float onHitRadius = 13f;
@@ -324,9 +324,9 @@ namespace Sandswept.Elites
                 if (hurtBox.healthComponent)
                 {
                     var targetBody = hurtBox.healthComponent.body;
-                    if (targetBody && !targetBody.HasBuff(Motivator.Instance.EliteBuffDef) && targetBody.teamComponent.teamIndex == body.teamComponent.teamIndex)
+                    if (targetBody && !targetBody.HasBuff(Motivating.Instance.EliteBuffDef) && targetBody.teamComponent.teamIndex == body.teamComponent.teamIndex)
                     {
-                        targetBody.AddTimedBuff(Motivator.warcryBuff, 3f);
+                        targetBody.AddTimedBuff(Motivating.warcryBuff, 3f);
                     }
                 }
             }

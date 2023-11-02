@@ -17,7 +17,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemFullDescription => ("$su" + chance + "%$se chance on hit to create a $sublinding flash$se in a $su" + explosionRadius + "m$se radius, $sustunning$se for $su" + stunDuration + "s$se and $sdigniting$se enemies for $sd" + d(baseTotalDamage) + "$se $ss(+" + d(stackTotalDamage) + " per stack)$se TOTAL damage.").AutoFormat();
 
-        public override string ItemLore => "Maybe less hell to code\n\n/////\n\nnuh uhh mf this was easy to code UwU";
+        public override string ItemLore => "Maybe less hell to code\n\n/////\n\nnuh uhh mf this was easy to code :smirk_car: UwU";
 
         public override string AchievementName => "A cycle, broken.";
 
@@ -113,7 +113,7 @@ namespace Sandswept.Items.Greens
                                 totalDamage = damageInfo.damage * totalDamage,
                                 damageMultiplier = 3f,
                                 dotIndex = DotController.DotIndex.Burn,
-                                maxStacksFromAttacker = null
+                                maxStacksFromAttacker = null,
                             };
 
                             StrengthenBurnUtils.CheckDotForUpgrade(inventory, ref dot);
@@ -170,12 +170,12 @@ namespace Sandswept.Items.Greens
                     var setStateOnHurt = victimBody.GetComponent<SetStateOnHurt>();
                     setStateOnHurt?.SetStun(stunDuration);
 
-                    // var damage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, 1.5f * stack);
+                    // var damage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, baseTotalDamage + stackTotalDamage * (stack - 1));
 
                     BlastAttack blastAttack = new()
                     {
                         radius = explosionRadius,
-                        baseDamage = 0,
+                        baseDamage = Mathf.Epsilon, // dont ask
                         procCoefficient = explosionProcCoefficient,
                         crit = damageInfo.crit,
                         damageColorIndex = SolarFlareColour,
@@ -183,7 +183,8 @@ namespace Sandswept.Items.Greens
                         falloffModel = BlastAttack.FalloffModel.None,
                         attacker = attackerBody.gameObject,
                         teamIndex = attackerBody.teamComponent.teamIndex,
-                        position = damageInfo.position
+                        position = damageInfo.position,
+                        damageType = DamageType.Silent | DamageType.BypassArmor | DamageType.BypassBlock // I said dont ask
                     };
 
                     blastAttack.AddModdedDamageType(SunFragmentDamageType);

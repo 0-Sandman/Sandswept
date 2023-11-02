@@ -1,6 +1,4 @@
 ﻿using RoR2.Achievements;
-using RoR2;
-using BepInEx.Configuration;
 
 namespace Sandswept.Unlocks
 {
@@ -24,6 +22,11 @@ namespace Sandswept.Unlocks
                 }
             }
             orig(self, intPickupIndex);
+        }
+
+        public override void OnUninstall()
+        {
+            On.RoR2.ScrapperController.BeginScrapping -= ScrapperController_BeginScrapping;
         }
     }
 }

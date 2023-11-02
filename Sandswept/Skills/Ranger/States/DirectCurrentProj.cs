@@ -2,7 +2,7 @@
 {
     public class DirectCurrentProj : BaseState
     {
-        public static float damageCoefficient = 2.8f;
+        public static float damageCoefficient = 2.5f;
         public static float baseDuration = 0.5f;
         private float duration;
 

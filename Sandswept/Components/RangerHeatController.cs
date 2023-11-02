@@ -1,12 +1,6 @@
-using System.Threading;
-using System.Linq;
-using System;
 using RoR2.UI;
-using TMPro;
-using RoR2;
 using RoR2.HudOverlay;
 using UnityEngine.UI;
-using Sandswept.States.Ranger;
 
 namespace Sandswept.Components
 {
@@ -28,7 +22,7 @@ namespace Sandswept.Components
         private HealthComponent hc;
         public GameObject overlayPrefab;
         internal GameObject overlayInstance;
-        internal float SelfDamage = 0.007f;
+        internal float SelfDamage = 0.0066f;
         internal float stopwatchSelfDamage = 0f;
 
         public void Start()
@@ -75,7 +69,7 @@ namespace Sandswept.Components
                 {
                     attacker = null,
                     procCoefficient = 0,
-                    damage = hc.fullCombinedHealth * (SelfDamage + (0.00008f * CurrentHeat)),
+                    damage = hc.fullCombinedHealth * (SelfDamage + (0.000065f * CurrentHeat)),
                     crit = false,
                     position = transform.position,
                     damageColorIndex = DamageColorIndex.Fragile,
@@ -119,6 +113,9 @@ namespace Sandswept.Components
             actualCrosshair = GetComponent<RawImage>();
             actualCrosshair.enabled = false;
 
+            var rectTransform = GetComponent<RectTransform>();
+            rectTransform.localScale = new Vector3(0.6f, 0.6f, 1f);
+
             heatMeter = transform.GetChild(0).GetChild(1);
             heatMeterBackdrop = transform.GetChild(0).GetChild(0);
 
@@ -145,8 +142,8 @@ namespace Sandswept.Components
             if (colorUpdateTimer >= colorUpdateInterval)
             {
                 var heatPercentScaled = Mathf.Clamp01(target.CurrentHeat * 3f / RangerHeatManager.MaxHeat);
-                image.color = new Color32(255, (byte)Mathf.Lerp(200, 70, heatPercent), 0, (byte)Mathf.Lerp(0, 255, heatPercentScaled));
-                backdropImage.color = new Color32(53, 53, 53, (byte)Mathf.Lerp(0, 255, heatPercentScaled));
+                image.color = new Color32(255, (byte)Mathf.Lerp(200, 70, heatPercent), 0, (byte)Mathf.Lerp(0, 200, heatPercentScaled));
+                backdropImage.color = new Color32(53, 53, 53, (byte)Mathf.Lerp(0, 200, heatPercentScaled));
                 colorUpdateTimer = 0f;
             }
 
