@@ -26,7 +26,8 @@ namespace Sandswept.Skills.Ranger.Hooks
                     if (self.gameObject.name == "RangerHeatTrail(Clone)")
                     {
                         //Main.ModLogger.LogError("damage trail is ranger heat trail"); logs properly
-                        Main.ModLogger.LogError("damagetype as int is " + (int)DamageType.IgniteOnHit);
+                        // Main.ModLogger.LogError("damagetype as int is " + (int)DamageType.IgniteOnHit); logs properly
+                        // what????
                         return (int)DamageType.IgniteOnHit;
                     }
                     return orig;
