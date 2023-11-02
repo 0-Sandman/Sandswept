@@ -3,14 +3,16 @@ using System.Linq;
 using HG;
 using TMPro;
 
-namespace Sandswept.Items.Reds {
+namespace Sandswept.Items.Reds
+{
+    [ConfigSection("Items :: Ceremonial Jar")]
     public class CeremonialJar : ItemBase<CeremonialJar>
     {
         public override string ItemLangTokenName => "CEREMONIAL_JAR";
 
         public override string ItemPickupDesc => "Link enemies on hit. Linked enemies take massive damage.";
 
-        public override string ItemFullDescription => "On hit, $sdlink$se enemies up to $sd3$se times. $sdLinked$se enemies take $sd1500%$se $ss(+750% per stack)$se base damage each.".AutoFormat();
+        public override string ItemFullDescription => "On hit, $sdlink$se enemies up to $sd" + linkedEnemiesRequirement + "$se times. $sdLinked$se enemies take $sd" + d(baseDamage) + "$se $ss(+" + d(stackDamage) + " per stack)$se base damage each and cannot be $sdlinked$se for $sd" + linkedEnemyCooldown + "s$se afterwards.".AutoFormat();
 
         public override string ItemLore => "texLesbianFurry.png";
 
@@ -27,6 +29,21 @@ namespace Sandswept.Items.Reds {
         public static DamageColorIndex JarDamageColor = DamageColourHelper.RegisterDamageColor(new Color32(0, 255, 204, 255));
         public static GameObject JarVFX;
 
+        [ConfigField("Linked Enemies Requirement", "", 3)]
+        public static int linkedEnemiesRequirement;
+
+        [ConfigField("Base Damage", "Decimal.", 15f)]
+        public static float baseDamage;
+
+        [ConfigField("Stack Damage", "Decimal.", 7.5f)]
+        public static float stackDamage;
+
+        [ConfigField("Linked Enemy Cooldown", "", 5f)]
+        public static float linkedEnemyCooldown;
+
+        [ConfigField("Proc Coefficient", "", 0.33f)]
+        public static float procCoefficient;
+
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return null;
@@ -39,7 +56,8 @@ namespace Sandswept.Items.Reds {
             SetupBuffs();
         }
 
-        public void SetupBuffs() {
+        public void SetupBuffs()
+        {
             CereJarLinkedBuff = ScriptableObject.CreateInstance<BuffDef>();
             CereJarLinkedBuff.name = "Ceremonial Jar Link";
             CereJarLinkedBuff.canStack = false;
@@ -57,56 +75,68 @@ namespace Sandswept.Items.Reds {
         public override void Hooks()
         {
             base.Hooks();
-            On.RoR2.GlobalEventManager.OnHitEnemy += OnHitEnemy;
+            // On.RoR2.GlobalEventManager.OnHitEnemy += OnHitEnemy;
+            GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
         }
 
-        public void OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo info, GameObject victim) {
-            orig(self, info, victim);
-
-            GameObject attackerGO = info.attacker;
-
-            if (!attackerGO || !attackerGO.GetComponent<CharacterBody>()) {
+        private void GlobalEventManager_onServerDamageDealt(DamageReport report)
+        {
+            var attackerBody = report.attackerBody;
+            if (!attackerBody)
+            {
                 return;
             }
 
-            CharacterBody attacker = attackerGO.GetComponent<CharacterBody>();
-
-            if (GetCount(attacker) <= 0) {
+            var stack = GetCount(attackerBody);
+            if (stack <= 0)
+            {
                 return;
             }
 
-            CharacterBody victimBody = victim.GetComponent<CharacterBody>();
-
-            if (victimBody.HasBuff(CereJarCDBuff)) {
+            var victimBody = report.victimBody;
+            if (!victimBody)
+            {
                 return;
             }
 
-            victimBody.AddTimedBuff(CereJarLinkedBuff, 5f);
+            if (victimBody.HasBuff(CereJarCDBuff))
+            {
+                return;
+            }
+
+            victimBody.AddTimedBuff(CereJarLinkedBuff, linkedEnemyCooldown);
 
             List<CharacterBody> bodies = new();
 
-            for (int i = 0; i < CharacterBody.readOnlyInstancesList.Count; i++) {
-                if (CharacterBody.readOnlyInstancesList[i].HasBuff(CereJarLinkedBuff)) {
+            for (int i = 0; i < CharacterBody.readOnlyInstancesList.Count; i++)
+            {
+                if (CharacterBody.readOnlyInstancesList[i].HasBuff(CereJarLinkedBuff))
+                {
                     bodies.Add(CharacterBody.readOnlyInstancesList[i]);
                 }
             }
 
-            if (bodies.Count >= 3) {
-                bodies.ForEach(x => {
+            if (bodies.Count >= linkedEnemiesRequirement)
+            {
+                bodies.ForEach(x =>
+                {
                     x.RemoveBuff(CereJarLinkedBuff);
-                    x.AddTimedBuff(CereJarCDBuff, 5f);
+                    x.AddTimedBuff(CereJarCDBuff, linkedEnemyCooldown);
 
-                    DamageInfo info = new();
-                    info.damage = attacker.damage * (15 + (7 * (GetCount(attacker) - 1)));
-                    info.crit = false;
-                    info.damageColorIndex = JarDamageColor;
-                    info.attacker = attacker.gameObject;
-                    info.position = x.corePosition;
-                    info.procCoefficient = 0;
+                    DamageInfo info = new()
+                    {
+                        damage = attackerBody.damage * (baseDamage + (stackDamage * (stack - 1))),
+                        crit = attackerBody.RollCrit(),
+                        damageColorIndex = JarDamageColor,
+                        attacker = attackerBody.gameObject,
+                        position = x.corePosition,
+                        procCoefficient = procCoefficient
+                    };
 
                     x.healthComponent.TakeDamage(info);
 
-                    EffectManager.SpawnEffect(Assets.GameObject.IgniteExplosionVFX, new EffectData {
+                    EffectManager.SpawnEffect(Assets.GameObject.IgniteExplosionVFX, new EffectData
+                    {
                         scale = 2f,
                         origin = x.corePosition
                     }, true);
@@ -114,7 +144,73 @@ namespace Sandswept.Items.Reds {
             }
         }
 
-        public void SetupVFX() {
+        public void OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo info, GameObject victim)
+        {
+            orig(self, info, victim);
+
+            GameObject attackerGO = info.attacker;
+
+            if (!attackerGO || !attackerGO.GetComponent<CharacterBody>())
+            {
+                return;
+            }
+
+            CharacterBody attacker = attackerGO.GetComponent<CharacterBody>();
+
+            if (GetCount(attacker) <= 0)
+            {
+                return;
+            }
+
+            CharacterBody victimBody = victim.GetComponent<CharacterBody>();
+
+            if (victimBody.HasBuff(CereJarCDBuff))
+            {
+                return;
+            }
+
+            victimBody.AddTimedBuff(CereJarLinkedBuff, linkedEnemyCooldown);
+
+            List<CharacterBody> bodies = new();
+
+            for (int i = 0; i < CharacterBody.readOnlyInstancesList.Count; i++)
+            {
+                if (CharacterBody.readOnlyInstancesList[i].HasBuff(CereJarLinkedBuff))
+                {
+                    bodies.Add(CharacterBody.readOnlyInstancesList[i]);
+                }
+            }
+
+            if (bodies.Count >= linkedEnemiesRequirement)
+            {
+                bodies.ForEach(x =>
+                {
+                    x.RemoveBuff(CereJarLinkedBuff);
+                    x.AddTimedBuff(CereJarCDBuff, linkedEnemyCooldown);
+
+                    DamageInfo info = new()
+                    {
+                        damage = attacker.damage * (baseDamage + (stackDamage * (GetCount(attacker) - 1))),
+                        crit = false,
+                        damageColorIndex = JarDamageColor,
+                        attacker = attacker.gameObject,
+                        position = x.corePosition,
+                        procCoefficient = procCoefficient
+                    };
+
+                    x.healthComponent.TakeDamage(info);
+
+                    EffectManager.SpawnEffect(Assets.GameObject.IgniteExplosionVFX, new EffectData
+                    {
+                        scale = 2f,
+                        origin = x.corePosition
+                    }, true);
+                });
+            }
+        }
+
+        public void SetupVFX()
+        {
             JarVFX = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Nullifier/NullifyStack3Effect.prefab").WaitForCompletion().InstantiateClone("CeremonialJarEffect", false);
             JarVFX.name = "CeremonialJarEffect";
 
@@ -179,25 +275,25 @@ namespace Sandswept.Items.Reds {
     }
 
     public class GuhAlpha : AnimateShaderAlpha
+    {
+        private void Update()
         {
-            private void Update()
+            if (!pauseTime) time = Mathf.Min(timeMax, time + Time.deltaTime);
+            float num = alphaCurve.Evaluate(time / timeMax);
+            Material[] array = materials;
+            for (int i = 0; i < array.Length; i++)
             {
-                if (!pauseTime) time = Mathf.Min(timeMax, time + Time.deltaTime);
-                float num = alphaCurve.Evaluate(time / timeMax);
-                Material[] array = materials;
-                for (int i = 0; i < array.Length; i++)
-                {
-                    _ = array[i];
-                    _propBlock = new MaterialPropertyBlock();
-                    targetRenderer.GetPropertyBlock(_propBlock);
-                    _propBlock.SetColor("_TintColor", Color.white.AlphaMultiplied(num));
-                    targetRenderer.SetPropertyBlock(_propBlock);
-                }
-                if (time >= timeMax)
-                {
-                    if (disableOnEnd) enabled = false;
-                    if (destroyOnEnd) Destroy(gameObject);
-                }
+                _ = array[i];
+                _propBlock = new MaterialPropertyBlock();
+                targetRenderer.GetPropertyBlock(_propBlock);
+                _propBlock.SetColor("_TintColor", Color.white.AlphaMultiplied(num));
+                targetRenderer.SetPropertyBlock(_propBlock);
+            }
+            if (time >= timeMax)
+            {
+                if (disableOnEnd) enabled = false;
+                if (destroyOnEnd) Destroy(gameObject);
             }
         }
+    }
 }

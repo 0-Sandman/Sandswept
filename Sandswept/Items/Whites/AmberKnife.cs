@@ -5,6 +5,7 @@ using static Sandswept.Utils.Components.MaterialControllerComponents;
 // ss2 ahh code
 namespace Sandswept.Items.Whites
 {
+    [ConfigSection("Items :: Amber Knife")]
     public class AmberKnife : ItemBase<AmberKnife>
     {
         public override string ItemName => "Amber Knife";
@@ -13,7 +14,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "Chance to fire a piercing knife that gives barrier on pierce.";
 
-        public override string ItemFullDescription => StringExtensions.AutoFormat("Gain a $sd10%$se chance on hit to fire a $sdknife$se for $sd120%$se $ss(+120% per stack)$se base damage that $sdpierces$se, gain $sh5$se plus an additional $sh2% barrier$se for every pierce with the knife.");
+        public override string ItemFullDescription => ("Gain a $sd" + chance + "%$se chance on hit to fire a $sdknife$se for $sd" + d(baseDamage) + "$se $ss(+" + d(stackDamage) + " per stack)$se base damage that $sdpierces$se, gain $sh" + flatBarrierGain + "$se plus an additional $sh" + d(percentBarrierGain) + " barrier$se for every pierce with the knife.").AutoFormat();
 
         public override string ItemLore => "";
 
@@ -32,6 +33,24 @@ namespace Sandswept.Items.Whites
 
         public UnityEvent UnityGames = new();
         public static ProjectileOverlapAttack projectileOverlapAttack;
+
+        [ConfigField("Chance", "", 10f)]
+        public static float chance;
+
+        [ConfigField("Base Damage", "Decimal.", 1.2f)]
+        public static float baseDamage;
+
+        [ConfigField("Stack Damage", "Decimal.", 1.2f)]
+        public static float stackDamage;
+
+        [ConfigField("Proc Coefficient", "", 1f)]
+        public static float procCoefficient;
+
+        [ConfigField("Flat Barrier Gain", "", 5f)]
+        public static float flatBarrierGain;
+
+        [ConfigField("Percent Barrier Gain", "Decimal.", 0.02f)]
+        public static float percentBarrierGain;
 
         // why tf does it bounce so oddly
         // also the unity event doesnt work bruhhhh
@@ -77,11 +96,13 @@ namespace Sandswept.Items.Whites
             projectileOverlapAttack.damageCoefficient = 1f;
             projectileOverlapAttack.impactEffect = null; // change this probably
             projectileOverlapAttack.forceVector = Vector3.zero;
+            projectileOverlapAttack.overlapProcCoefficient = procCoefficient;
+            projectileOverlapAttack.resetInterval = -1f;
 
             // amberKnifeProjectile.transform.localScale = new Vector3(2f, 2f, 2f);
 
             var projectileController = amberKnifeProjectile.GetComponent<ProjectileController>();
-
+            projectileController.procCoefficient = procCoefficient;
             projectileController.ghostPrefab = amberKnifeGhost;
 
             amberKnifeProjectile.AddComponent<AmberKnifeProjectile>();
@@ -142,10 +163,10 @@ namespace Sandswept.Items.Whites
             }
 
             var stack = GetCount(attackerBody);
-            var knifeDamage = 1.2f * stack;
+            var knifeDamage = baseDamage + stackDamage * (stack - 1);
             if (stack > 0)
             {
-                if (Util.CheckRoll(10f * report.damageInfo.procCoefficient, master))
+                if (Util.CheckRoll(chance * report.damageInfo.procCoefficient, master))
                 {
                     var fpi = new FireProjectileInfo()
                     {
@@ -156,7 +177,7 @@ namespace Sandswept.Items.Whites
                         force = 0f,
                         owner = attackerBody.gameObject,
                         procChainMask = new(),
-                        projectilePrefab = amberKnifeProjectile
+                        projectilePrefab = amberKnifeProjectile,
                     };
 
                     fpi.procChainMask.AddProc(amberKnife);
@@ -199,8 +220,8 @@ namespace Sandswept.Items.Whites
                 EffectManager.SimpleImpactEffect(impactSpark, impactInfo.estimatedPointOfImpact, -transform.forward, transmit: true);
                 if (owner != null)
                 {
-                    owner.healthComponent.AddBarrier(5f);
-                    owner.healthComponent.AddBarrier(owner.healthComponent.fullHealth * 0.02f);
+                    owner.healthComponent.AddBarrier(flatBarrierGain);
+                    owner.healthComponent.AddBarrier(owner.healthComponent.fullHealth * percentBarrierGain);
                 }
             }
         }

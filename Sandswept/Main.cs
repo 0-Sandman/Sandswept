@@ -75,7 +75,7 @@ namespace Sandswept
             Asset2s = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // temporary assetbundle bc i didnt have the other two unity projects, please merge into the other assets
             hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
 
-            // Skills.Ranger.Hooks.DamageTrail.Init();
+            Skills.Ranger.Hooks.DamageTrail.Init();
 
             ReleaseVFX.Init();
             DirectCurrentVFX.Init();

@@ -2,6 +2,7 @@
 
 namespace Sandswept.Items.Greens
 {
+    [ConfigSection("Items :: Sun Fragment")]
     public class SunFragment : ItemBase<SunFragment>
     {
         public static DamageColorIndex SolarFlareColour = DamageColourHelper.RegisterDamageColor(new Color32(255, 150, 25, 255));
@@ -14,13 +15,31 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Create a blinding flash on hit that stuns and ignites enemies";
 
-        public override string ItemFullDescription => "$su7%$se chance on hit to create a $sublinding flash$se in a $su12m$se area, $sustunning$se for $su2s$se and $sdigniting$se enemies for $sd150%$se $ss(+150% per stack)$se TOTAL damage.".AutoFormat();
+        public override string ItemFullDescription => ("$su" + chance + "%$se chance on hit to create a $sublinding flash$se in a $su" + explosionRadius + "m$se radius, $sustunning$se for $su" + stunDuration + "s$se and $sdigniting$se enemies for $sd" + d(baseTotalDamage) + "$se $ss(+" + d(stackTotalDamage) + " per stack)$se TOTAL damage.").AutoFormat();
 
-        public override string ItemLore => "Maybe less hell to code";
+        public override string ItemLore => "Maybe less hell to code\n\n/////\n\nnuh uhh mf this was easy to code UwU";
 
         public override string AchievementName => "A cycle, broken.";
 
-        public override string AchievementDesc => "Destroy a child of the stars";
+        public override string AchievementDesc => "Destroy a child of the stars...";
+
+        [ConfigField("Chance", "", 7f)]
+        public static float chance;
+
+        [ConfigField("Explosion Radius", "", 12f)]
+        public static float explosionRadius;
+
+        [ConfigField("Explosion Proc Coefficient", "", 0.33f)]
+        public static float explosionProcCoefficient;
+
+        [ConfigField("Stun Duration", "", 2f)]
+        public static float stunDuration;
+
+        [ConfigField("Base TOTAL Damage", "Decimal.", 1.5f)]
+        public static float baseTotalDamage;
+
+        [ConfigField("Stack TOTAL Damage", "Decimal.", 1.5f)]
+        public static float stackTotalDamage;
 
         public override ItemTier Tier => ItemTier.Tier2;
 
@@ -86,7 +105,7 @@ namespace Sandswept.Items.Greens
                         var stack = inventory.GetItemCount(instance.ItemDef);
                         if (stack > 0)
                         {
-                            var totalDamage = 1f * stack;
+                            var totalDamage = baseTotalDamage + stackTotalDamage * (stack - 1);
                             var dot = new InflictDotInfo()
                             {
                                 attackerObject = damageInfo.attacker,
@@ -132,32 +151,32 @@ namespace Sandswept.Items.Greens
             var stack = GetCount(attackerBody);
             if (stack > 0)
             {
-                if (Util.CheckRoll(7f * damageInfo.procCoefficient, attackerBody.master))
+                if (Util.CheckRoll(chance * damageInfo.procCoefficient, attackerBody.master))
                 {
                     EffectData effectData = new()
                     {
                         origin = victimBody.corePosition,
                         rotation = Util.QuaternionSafeLookRotation(damageInfo.force != Vector3.zero ? damageInfo.force : Random.onUnitSphere),
-                        scale = 12f
+                        scale = explosionRadius
                     };
                     EffectData effectData2 = new()
                     {
                         origin = victimBody.corePosition,
-                        scale = 12f
+                        scale = explosionRadius
                     };
                     EffectManager.SpawnEffect(FragmentVFX, effectData, true);
                     EffectManager.SpawnEffect(FragmentVFXSphere, effectData2, true);
 
                     var setStateOnHurt = victimBody.GetComponent<SetStateOnHurt>();
-                    setStateOnHurt?.SetStun(2f);
+                    setStateOnHurt?.SetStun(stunDuration);
 
-                    var damage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, 1.5f * stack);
+                    // var damage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, 1.5f * stack);
 
                     BlastAttack blastAttack = new()
                     {
-                        radius = 12f,
-                        baseDamage = damage,
-                        procCoefficient = 0.33f,
+                        radius = explosionRadius,
+                        baseDamage = 0,
+                        procCoefficient = explosionProcCoefficient,
                         crit = damageInfo.crit,
                         damageColorIndex = SolarFlareColour,
                         attackerFiltering = AttackerFiltering.NeverHitSelf,

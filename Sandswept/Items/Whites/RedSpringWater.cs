@@ -1,5 +1,6 @@
 ﻿namespace Sandswept.Items.Whites
 {
+    [ConfigSection("Items :: Red Spring Water")]
     internal class RedSpringWater : ItemBase<RedSpringWater>
     {
         public override string ItemName => "Red Spring Water";
@@ -8,7 +9,7 @@
 
         public override string ItemPickupDesc => "Increase health regeneration for every buff you have.";
 
-        public override string ItemFullDescription => "Increase $shhealth regeneration$se by $sh0.4 hp/s$se $ss(+0.4hp/s per stack)$se for $suevery buff you have$se.".AutoFormat();
+        public override string ItemFullDescription => ("Increase $shhealth regeneration$se by $sh" + baseRegenPerBuff + " hp/s$se $ss(+" + stackRegenPerBuff + " hp/s per stack)$se for $suevery buff you have$se.").AutoFormat();
 
         public override string ItemLore => "";
 
@@ -19,6 +20,12 @@
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texRedSpringWater.png");
 
         public override bool AIBlacklisted => true;
+
+        [ConfigField("Base Regen Per Buff", "", 0.4f)]
+        public static float baseRegenPerBuff;
+
+        [ConfigField("Stack Regen Per Buff", "", 0.4f)]
+        public static float stackRegenPerBuff;
 
         public override void Init(ConfigFile config)
         {
@@ -37,7 +44,7 @@
             var stack = GetCount(sender);
             if (stack > 0)
             {
-                var regen = 0.4f * stack;
+                var regen = baseRegenPerBuff + stackRegenPerBuff * (stack - 1);
 
                 float totalRegen = 0;
 

@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace Sandswept.Items.Greens
 {
+    [ConfigSection("Items :: Nuclear Salvo")]
     public class NuclearSalvo : ItemBase<NuclearSalvo>
     {
         public override string ItemName => "Nuclear Salvo";
@@ -11,7 +12,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Mechanical allies fire nuclear warheads periodically.";
 
-        public override string ItemFullDescription => "Every $sd10 seconds$se $ss(-25% per stack)$se, all mechanical allies fire $sdnuclear missiles$se that deal $sd3x100%$se base damage and $sdignite$se on hit.".AutoFormat();
+        public override string ItemFullDescription => ("Every $sd" + baseInterval + " seconds$se $ss(-" + d(stackIntervalReduction) + " per stack)$se, all mechanical allies fire $sdnuclear missiles$se that deal $sd" + missileCount + "x" + d(missileDamage) + "$se base damage and $sdignite$se on hit.").AutoFormat();
 
         public override string ItemLore => "TBD";
 
@@ -25,6 +26,18 @@ namespace Sandswept.Items.Greens
 
         public GameObject SalvoPrefab;
         public GameObject SalvoMissile;
+
+        [ConfigField("Base Interval", "", 10f)]
+        public static float baseInterval;
+
+        [ConfigField("Stack Interval Reduction", "Decimal.", 0.25f)]
+        public static float stackIntervalReduction;
+
+        [ConfigField("Missile Count", "", 3)]
+        public static int missileCount;
+
+        [ConfigField("Missile Damage", "Decimal.", 1f)]
+        public static float missileDamage;
 
         // for salvo display you can instantiate Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/NuclearSalvo.prefab");
 
@@ -85,11 +98,11 @@ namespace Sandswept.Items.Greens
     public class SalvoBehaviour : MonoBehaviour
     {
         public NetworkedBodyAttachment attachment;
-        public int MissileCount;
+        public int MissileCount = NuclearSalvo.missileCount;
         public GameObject MissilePrefab;
-        public float MissileDamageCoefficient = 3f;
+        public float MissileDamageCoefficient = NuclearSalvo.missileDamage;
         public float BaseMissileDelay;
-        private float MissileDelay => BaseMissileDelay * Mathf.Pow(0.75f, attachment.attachedBody.inventory.GetItemCount(NuclearSalvo.instance.ItemDef) - 1);
+        private float MissileDelay => BaseMissileDelay * Mathf.Pow(1f - NuclearSalvo.stackIntervalReduction, attachment.attachedBody.inventory.GetItemCount(NuclearSalvo.instance.ItemDef) - 1);
         private float stopwatch = 0f;
 
         public void Start()
@@ -100,6 +113,8 @@ namespace Sandswept.Items.Greens
         public void FixedUpdate()
         {
             stopwatch -= Time.fixedDeltaTime;
+
+            var stack = attachment.attachedBody.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
 
             if (stopwatch <= 0)
             {
@@ -115,7 +130,8 @@ namespace Sandswept.Items.Greens
                         rotation = Util.QuaternionSafeLookRotation(Util.ApplySpread(attachment.attachedBody.inputBank.aimDirection, -10f, 10f, 1f, 1f)),
                         position = attachment.attachedBody.transform.position,
                         owner = attachment.attachedBody.gameObject,
-                        projectilePrefab = MissilePrefab
+                        projectilePrefab = MissilePrefab,
+                        damageTypeOverride = DamageType.IgniteOnHit
                     };
 
                     Debug.Log(attachment.attachedBody);
@@ -123,13 +139,13 @@ namespace Sandswept.Items.Greens
                     ProjectileManager.instance.FireProjectile(info);
                 }
 
-                if (attachment.attachedBody.inventory.GetItemCount(NuclearSalvo.instance.ItemDef) <= 0)
+                if (stack <= 0)
                 {
                     Destroy(gameObject);
                 }
             }
 
-            if (attachment.attachedBody.inventory.GetItemCount(NuclearSalvo.instance.ItemDef) <= 0)
+            if (stack <= 0)
             {
                 Destroy(gameObject);
             }

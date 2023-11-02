@@ -20,7 +20,7 @@ namespace Sandswept.Buffs
         {
             if (NetworkServer.active && body.HasBuff(BuffDef))
             {
-                args.moveSpeedMultAdd += 0.4f;
+                args.moveSpeedMultAdd += 0.3f;
             }
         }
     }

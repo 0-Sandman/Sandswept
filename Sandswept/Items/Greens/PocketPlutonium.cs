@@ -2,6 +2,7 @@
 
 namespace Sandswept.Items.Greens
 {
+    [ConfigSection("Items :: Pocket Plutonium")]
     public class PocketPlutonium : ItemBase<PocketPlutonium>
     {
         // I see you copied noop's wool code trolley
@@ -12,7 +13,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Create a nuclear pool after losing shields.";
 
-        public override string ItemFullDescription => "Gain a $shshield$se equal to $sh10%$se of your maximum health. Upon losing all $shshield$se, create a nuclear pool in a $sd16m$se area that deals $sd1000%$se $ss(+500% per stack)$se base damage, plus an additional $sd300%$se $ss(+200% per stack)$se of $shshields$se.".AutoFormat();
+        public override string ItemFullDescription => ("Gain a $shshield$se equal to $sh" + d(basePercentShieldGain) + "$se of your maximum health. Upon losing all $shshield$se, create a nuclear pool in a $sd" + poolRadius + "m$se area that deals $sd" + d(poolBaseDamage) + "$se $ss(+" + d(poolStackDamage) + "per stack)$se base damage, plus an additional $sd" + d(poolBasePercentShieldDamage) + "$se $ss(+" + d(poolStackPercentShieldDamage) + " per stack)$se of $shshields$se.").AutoFormat();
 
         public override string ItemLore => "you have no idea how many times I reworked this item";
 
@@ -28,12 +29,23 @@ namespace Sandswept.Items.Greens
 
         public static GameObject poolPrefab;
 
-        public static float radius = 16f;
+        [ConfigField("Base Percent Shield Gain", "Decimal.", 0.1f)]
+        public static float basePercentShieldGain;
 
-        public static float baseDamage = 10f;
-        public static float damagePerStack = 5f;
-        public static float baseShieldPercent = 3f;
-        public static float shieldPercentStack = 2f;
+        [ConfigField("Pool Radius", "", 16f)]
+        public static float poolRadius;
+
+        [ConfigField("Pool Base Damage", "Decimal.", 10f)]
+        public static float poolBaseDamage;
+
+        [ConfigField("Pool Stack Damage", "Decimal.", 5f)]
+        public static float poolStackDamage;
+
+        [ConfigField("Pool Base Percent Shield Damage", "Decimal.", 3f)]
+        public static float poolBasePercentShieldDamage;
+
+        [ConfigField("Pool Stack Percent Shield Damage", "Decimal.", 2f)]
+        public static float poolStackPercentShieldDamage;
 
         public static BuffDef pocketPlutoniumRecharge;
 
@@ -57,7 +69,7 @@ namespace Sandswept.Items.Greens
             ContentAddition.AddBuffDef(pocketPlutoniumRecharge);
 
             poolPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.HuntressArrowRain, "Pocket Plutonium Pool");
-            poolPrefab.transform.localScale = Vector3.one * 32f;
+            poolPrefab.transform.localScale = Vector3.one * (poolRadius * 2f);
             var projectileDamage = poolPrefab.GetComponent<ProjectileDamage>();
             projectileDamage.damageType = DamageType.Generic;
 
@@ -117,8 +129,8 @@ namespace Sandswept.Items.Greens
                 {
                     if (Physics.Raycast(body.transform.position, Vector3.down, out var raycast, 500f, LayerIndex.world.mask))
                     {
-                        var damageFromBase = body.damage * (baseDamage + damagePerStack * (stack - 1));
-                        var damageFromShields = body.maxShield * (baseShieldPercent + shieldPercentStack * (stack - 1));
+                        var damageFromBase = body.damage * (poolBaseDamage + poolStackDamage * (stack - 1));
+                        var damageFromShields = body.maxShield * (poolBasePercentShieldDamage + poolStackPercentShieldDamage * (stack - 1));
                         var damage = (damageFromBase + damageFromShields) * 0.2f;
                         // Main.ModLogger.LogError("damage from base is " + damageFromBase);
                         // Main.ModLogger.LogError("damage from shields is " + damageFromShields);
@@ -128,7 +140,7 @@ namespace Sandswept.Items.Greens
 
                         Util.PlaySound("Play_item_use_molotov_impact_big", self.gameObject);
                     }
-                    self.body.AddTimedBuffAuthority(pocketPlutoniumRecharge.buffIndex, 1f);
+                    self.body.AddTimedBuffAuthority(pocketPlutoniumRecharge.buffIndex, 5f);
                 }
             }
         }
@@ -142,7 +154,7 @@ namespace Sandswept.Items.Greens
         {
             indicator = Assets.GameObject.NearbyDamageBonusIndicator.InstantiateClone("Pocket Plutonium Visual", true);
             var radiusTrans = indicator.transform.Find("Radius, Spherical");
-            radiusTrans.localScale = new Vector3(radius * 2f, radius * 2f, radius * 2f);
+            radiusTrans.localScale = new Vector3(poolRadius * 2f, poolRadius * 2f, poolRadius * 2f);
 
             var razorMat = Object.Instantiate(Assets.Material.matNearbyDamageBonusRangeIndicator);
             var cloudTexture = Assets.Texture2D.texCloudWaterRipples;
@@ -161,7 +173,7 @@ namespace Sandswept.Items.Greens
             {
                 var healthComponent = sender.healthComponent;
                 if (healthComponent)
-                    args.baseShieldAdd += healthComponent.fullHealth * 0.1f;
+                    args.baseShieldAdd += healthComponent.fullHealth * basePercentShieldGain;
             }
         }
 

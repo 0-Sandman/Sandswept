@@ -6,7 +6,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
     {
         public override string Name => "Heat Signature";
 
-        public override string Description => "$suAgile$se. Summon $sdfire$se in your wake that $sdignites$se and deals $sd300% damage per second$se and increase $sumovement speed$se by $su40%$se. $srGain 20% heat per second$se.".AutoFormat();
+        public override string Description => "$suAgile$se. Summon $sdfire$se in your wake that $sdignites$se and deals $sd300% damage per second$se and increase $sumovement speed$se by $su30%$se. $srGain 20% heat per second$se.".AutoFormat();
 
         // 16m radius?
         public override Type ActivationStateType => typeof(States.Ranger.HeatSignature);

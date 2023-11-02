@@ -1,5 +1,6 @@
 ﻿namespace Sandswept.Items.Greens
 {
+    [ConfigSection("Items :: Universal VIP Pass")]
     public class UniversalVIPPass : ItemBase<UniversalVIPPass>
     {
         public class PassBehavior : MonoBehaviour
@@ -13,7 +14,7 @@
 
         public override string ItemPickupDesc => "Store a portion of spent gold as a bonus on the next stage.";
 
-        public override string ItemFullDescription => "Whenever you make a $sugold purchase$se, store $su20%$se $ss(+15% per stack)$se of the spent gold as $sucredit$se. $suReceive gold$se equal to $sucredit$se on the next stage. $suScales over time$se.".AutoFormat();
+        public override string ItemFullDescription => "Whenever you make a $sugold purchase$se, store $su" + d(baseCreditPercent) + "$se $ss(+" + d(stackCreditPercent) + " per stack)$se of the spent gold as $sucredit$se. $suReceive gold$se equal to $sucredit$se on the next stage. $suScales over time$se.".AutoFormat();
 
         public override string ItemLore => "Funny pt.2";
 
@@ -22,6 +23,12 @@
         public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");
 
         public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("UniVIPIcon.png");
+
+        [ConfigField("Base Credit Percent", "Decimal.", 0.2f)]
+        public static float baseCreditPercent;
+
+        [ConfigField("Stack Credit Percent", "Decimal.", 0.15f)]
+        public static float stackCreditPercent;
 
         public override bool AIBlacklisted => true;
 
@@ -72,7 +79,7 @@
             var stack = GetCount(interactorBody);
             if (stack > 0)
             {
-                passBehavior.storedTotal += purchaseInteraction.cost * Util.ConvertAmplificationPercentageIntoReductionPercentage(0.2f + 0.15f * (stack - 1));
+                passBehavior.storedTotal += purchaseInteraction.cost * Util.ConvertAmplificationPercentageIntoReductionPercentage(baseCreditPercent + stackCreditPercent * (stack - 1));
             }
         }
 

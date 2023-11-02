@@ -2,6 +2,7 @@
 
 namespace Sandswept.Items.Greens
 {
+    [ConfigSection("Items :: Smouldering Document")]
     internal class SmoulderingDocument : ItemBase<SmoulderingDocument>
     {
         public static BuffDef SmoulderingDocumentDebuff;
@@ -12,7 +13,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Damage over time effects reduce enemy damage and attack speed.";
 
-        public override string ItemFullDescription => "$sd5%$se chance to $sdignite$se enemies on hit for $sd250%$se TOTAL damage. $sdDamage over time$se effects $sdburden$se enemies, reducing their $sddamage$se by $sd15%$se $ss(+10% per stack)$se and $sdattack speed$se by $sd15%$se $ss(+10% per stack)$se.".AutoFormat();
+        public override string ItemFullDescription => ("$sd" + chance + "%$se chance to $sdignite$se enemies on hit for $sd" + d(totalDamage) + "$se TOTAL damage. $sdDamage over time$se effects $sdburden$se enemies, reducing their $sddamage$se by $sd" + d(burdenBaseDamageReduction) + "$se $ss(+" + d(burdenStackDamageReduction) + " per stack)$se and $sdattack speed$se by $sd" + d(burdenBaseAttackSpeedReduction) + "$se $ss(+" + d(burdenStackAttackSpeedReduction) + " per stack)$se.").AutoFormat();
 
         public override string ItemLore => "<style=cStack>[insert sad story about corporate exploitation here]</style>";
 
@@ -21,6 +22,24 @@ namespace Sandswept.Items.Greens
         public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("DocumentPrefab.prefab");
 
         public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("DocumentIcon.png");
+
+        [ConfigField("Chance", "", 5f)]
+        public static float chance;
+
+        [ConfigField("TOTAL Damage", "Decimal.", 2.5f)]
+        public static float totalDamage;
+
+        [ConfigField("Burden Base Damage Reduction", "Decimal.", 0.15f)]
+        public static float burdenBaseDamageReduction;
+
+        [ConfigField("Burden Stack Damage Reduction", "Decimal.", 0.1f)]
+        public static float burdenStackDamageReduction;
+
+        [ConfigField("Burden Base Attack Speed Reduction", "Decimal.", 0.15f)]
+        public static float burdenBaseAttackSpeedReduction;
+
+        [ConfigField("Burden Stack Attack Speed Reduction", "Decimal.", 0.1f)]
+        public static float burdenStackAttackSpeedReduction;
 
         public override bool AIBlacklisted => true;
 
@@ -102,15 +121,15 @@ namespace Sandswept.Items.Greens
             var stack = GetCount(attackerBody);
             if (stack > 0)
             {
-                if (Util.CheckRoll(5f * damageInfo.procCoefficient, attackerBody.master))
+                if (Util.CheckRoll(chance * damageInfo.procCoefficient, attackerBody.master))
                 {
-                    var totalDamage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, 2.5f);
+                    var totlaMad = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, totalDamage);
 
                     InflictDotInfo inflictDotInfo = new()
                     {
                         attackerObject = attackerBody.gameObject,
                         victimObject = victim.gameObject,
-                        totalDamage = attackerBody.damage * totalDamage,
+                        totalDamage = attackerBody.damage * totlaMad,
                         damageMultiplier = 4f,
                         dotIndex = DotController.DotIndex.Burn
                     };
@@ -130,9 +149,9 @@ namespace Sandswept.Items.Greens
             if (sender.HasBuff(SmoulderingDocumentDebuff))
             {
                 var token = sender.gameObject.GetComponent<SmoulderingDocumentController>();
-                var damageReduction = Util.ConvertAmplificationPercentageIntoReductionPercentage(15f + 10f * (token.stacks - 1)) * -0.01f;
+                var damageReduction = Util.ConvertAmplificationPercentageIntoReductionPercentage((burdenBaseDamageReduction * 100f) + (burdenStackDamageReduction * 100f) * (token.stacks - 1)) * -0.01f;
                 args.damageMultAdd += damageReduction;
-                args.attackSpeedMultAdd -= 0.15f + 0.1f * (token.stacks - 1);
+                args.attackSpeedMultAdd -= burdenBaseAttackSpeedReduction + burdenStackAttackSpeedReduction * (token.stacks - 1);
             }
         }
 

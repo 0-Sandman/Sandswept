@@ -1,5 +1,6 @@
 ﻿namespace Sandswept.Items.Whites
 {
+    [ConfigSection("Items :: Fractured Timepiece")]
     public class FracturedTimepiece : ItemBase<FracturedTimepiece>
     {
         public override string ItemName => "Fractured Timepiece";
@@ -8,7 +9,7 @@
 
         public override string ItemPickupDesc => "Using your utility skill heals you and reduces special cooldown.";
 
-        public override string ItemFullDescription => "Upon using your $suutility skill$se, $shheal$se for $sh5%$se $ss(+5% per stack)$se of your $shmaximum health$se and $sureduce special skill cooldown$se by $su15%$se $ss(+15% per stack)$se.".AutoFormat();
+        public override string ItemFullDescription => ("Upon using your $suutility skill$se, $shheal$se for $sh" + d(basePercentHealing) + "$se $ss(+" + d(stackPercentHealing) + " per stack)$se of your $shmaximum health$se and $sureduce special skill cooldown$se by $su" + d(baseSpecialCooldownReduction) + "$se $ss(+" + d(stackSpecialCooldownReduction) + " per stack)$se.").AutoFormat();
 
         public override string ItemLore => "";
 
@@ -27,6 +28,18 @@
             Hooks();
         }
 
+        [ConfigField("Base Percent Healing", "Decimal.", 0.05f)]
+        public static float basePercentHealing;
+
+        [ConfigField("Stack Percent Healing", "Decimal.", 0.05f)]
+        public static float stackPercentHealing;
+
+        [ConfigField("Base Special Cooldown Reduction", "Decimal.", 0.15f)]
+        public static float baseSpecialCooldownReduction;
+
+        [ConfigField("Stack Special Cooldown Reduction", "Decimal.", 0.15f)]
+        public static float stackSpecialCooldownReduction;
+
         public override void Hooks()
         {
             On.RoR2.CharacterBody.OnSkillActivated += CharacterBody_OnSkillActivated;
@@ -39,12 +52,12 @@
             if (stack > 0 && skillLocator && skill == skillLocator.utility && skill.cooldownRemaining > 0 && skill.skillDef.skillNameToken != "MAGE_UTILITY_ICE_NAME")
             {
                 var special = skillLocator.special;
-                var reduction = Util.ConvertAmplificationPercentageIntoReductionPercentage(15f * stack) * 0.01f;
+                var reduction = Util.ConvertAmplificationPercentageIntoReductionPercentage(baseSpecialCooldownReduction + stackSpecialCooldownReduction * (stack - 1)) * 0.01f;
                 if (special && special.stock < special.maxStock)
                 {
                     special.rechargeStopwatch += special.baseRechargeInterval * reduction;
                 }
-                self.healthComponent?.HealFraction(0.05f * stack, default);
+                self.healthComponent?.HealFraction(basePercentHealing + stackPercentHealing * (stack - 1), default);
             }
             orig(self, skill);
         }
