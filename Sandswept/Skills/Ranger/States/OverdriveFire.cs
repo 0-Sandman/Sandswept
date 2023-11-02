@@ -46,6 +46,8 @@ namespace Sandswept.States.Ranger
         {
             base.FixedUpdate();
 
+            characterBody.SetAimTimer(0.4f);
+
             stopwatch += Time.fixedDeltaTime;
 
             if (base.inputBank.skill1.down && stopwatch >= shotDelay)
