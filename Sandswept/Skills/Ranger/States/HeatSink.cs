@@ -122,10 +122,6 @@ namespace Sandswept.States.Ranger
             base.OnExit();
             heat.isUsingHeatSignature = false;
 
-            if (characterBody && NetworkServer.active && characterBody.HasBuff(Buffs.HeatSignatureBuff.instance.BuffDef))
-            {
-                characterBody.RemoveBuff(Buffs.HeatSignatureBuff.instance.BuffDef);
-            }
             if (modelTransform)
             {
                 foreach (TemporaryOverlay overlay in modelTransform.GetComponents<TemporaryOverlay>())
