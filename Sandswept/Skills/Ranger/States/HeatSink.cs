@@ -6,7 +6,7 @@ namespace Sandswept.States.Ranger
 {
     public class HeatSink : BaseState
     {
-        public static float damageCoefficient = 5f;
+        public static float damageCoefficient = 2.5f;
         public static float BaseDuration = 0.5f;
         private float duration;
         private RangerHeatManager heat;
@@ -84,7 +84,7 @@ namespace Sandswept.States.Ranger
                 {
                     attacker = gameObject,
                     attackerFiltering = AttackerFiltering.NeverHitSelf,
-                    baseDamage = damageStat * (damageCoefficient + heat.CurrentHeat * 0.05f),
+                    baseDamage = damageStat * (damageCoefficient + heat.CurrentHeat * 0.0375f),
                     baseForce = 1500f,
                     bonusForce = Vector3.zero,
                     canRejectForce = true,

@@ -29,13 +29,8 @@ namespace Sandswept.States.Ranger
 
             PlayAnimation("Gesture, Override", "Fire", "Fire.playbackRate", duration);
 
-            characterBody.SetAimTimer(0.4f);
-        }
-
-        public override void Update()
-        {
-            base.Update();
-            characterDirection.forward = GetAimRay().direction;
+            if (characterBody)
+                characterBody.SetAimTimer(1.5f);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

@@ -27,6 +27,8 @@ namespace Sandswept.States.Ranger
             {
                 characterBody.isSprinting = true;
             }
+            if (characterBody)
+                characterBody.SetAimTimer(1f);
         }
 
         public void Exit()
@@ -40,17 +42,9 @@ namespace Sandswept.States.Ranger
             return InterruptPriority.PrioritySkill;
         }
 
-        public override void Update()
-        {
-            base.Update();
-            // characterDirection.forward = GetAimRay().direction;
-        }
-
         public override void FixedUpdate()
         {
             base.FixedUpdate();
-
-            characterBody.SetAimTimer(0.4f);
 
             stopwatch += Time.fixedDeltaTime;
 

@@ -16,19 +16,14 @@
             duration = baseDuration / attackSpeedStat;
 
             PlayAnimation("Gesture, Override", "Fire", "Fire.playbackRate", duration);
+
+            if (characterBody)
+                characterBody.SetAimTimer(1f);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
             return InterruptPriority.PrioritySkill;
-        }
-
-        public override void Update()
-        {
-            base.Update();
-            // characterDirection.forward = GetAimRay().direction;
-
-            characterBody.SetAimTimer(0.2f);
         }
 
         public override void FixedUpdate()

@@ -14,7 +14,7 @@
 
         public override string ItemPickupDesc => "Store a portion of spent gold as a bonus on the next stage.";
 
-        public override string ItemFullDescription => "Whenever you make a $sugold purchase$se, store $su" + d(baseCreditPercent) + "$se $ss(+" + d(stackCreditPercent) + " per stack)$se of the spent gold as $sucredit$se. $suReceive gold$se equal to $sucredit$se on the next stage. $suScales over time$se.".AutoFormat();
+        public override string ItemFullDescription => ("Whenever you make a $sugold purchase$se, store $su" + d(baseCreditPercent) + "$se $ss(+" + d(stackCreditPercent) + " per stack)$se of the spent gold as $sucredit$se. $suReceive gold$se equal to $sucredit$se on the next stage. $suScales over time$se.").AutoFormat();
 
         public override string ItemLore => "Funny pt.2";
 

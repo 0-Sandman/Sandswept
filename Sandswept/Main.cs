@@ -116,6 +116,14 @@ namespace Sandswept
             var jarMr = model.GetChild(0).GetComponent<MeshRenderer>();
             jarMr.material = powerElixirGlassMat;
 
+            var sunFragment = Main.MainAssets.LoadAsset<GameObject>("SunFragmentPrefab.prefab");
+            var sunFragmentMat = sunFragment.transform.GetChild(0).GetComponent<MeshRenderer>().material;
+            sunFragmentMat.SetFloat("_NormalStrength", 0.8263923f);
+
+            var uniVip = Main.MainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");
+            var uniVipMat = uniVip.transform.GetChild(0).GetComponent<MeshRenderer>().material;
+            uniVipMat.SetColor("_Color", new Color32(205, 205, 205, 249));
+
             //This section automatically scans the project for all artifacts
             var ArtifactTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(ArtifactBase)));
 
