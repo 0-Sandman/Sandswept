@@ -24,6 +24,7 @@ namespace Sandswept.Crosshairs
             var holder = projectileCrosshairPrefab.transform.GetChild(0);
             holder.GetComponent<RectTransform>().eulerAngles = Vector3.zero;
             holder.GetComponent<RectTransform>().localEulerAngles = Vector3.zero;
+            holder.localPosition = new Vector3(-8f, 0f, 0f);
 
             var sayGex = holder.GetChild(0);
             var gaySexRect = sayGex.GetComponent<RectTransform>();
