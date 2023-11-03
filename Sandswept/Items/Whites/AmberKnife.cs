@@ -12,9 +12,9 @@ namespace Sandswept.Items.Whites
 
         public override string ItemLangTokenName => "AMBER_KNIFE";
 
-        public override string ItemPickupDesc => "Chance to fire a piercing knife that gives barrier on pierce.";
+        public override string ItemPickupDesc => "Chance to fire a piercing knife that grants barrier on hit.";
 
-        public override string ItemFullDescription => ("Gain a $sd" + chance + "%$se chance on hit to fire a $sdknife$se for $sd" + d(baseDamage) + "$se $ss(+" + d(stackDamage) + " per stack)$se base damage that $sdpierces$se, gain $sh" + flatBarrierGain + "$se plus an additional $sh" + d(percentBarrierGain) + " barrier$se for every pierce with the knife.").AutoFormat();
+        public override string ItemFullDescription => ("Gain a $sd" + chance + "%$se chance on hit to fire a $sdknife$se for $sd" + d(baseDamage) + "$se $ss(+" + d(stackDamage) + " per stack)$se base damage that $sdpierces$se, gain $sh" + d(percentBarrierGain) + " barrier$se for every pierce with the knife.").AutoFormat();
 
         public override string ItemLore => "";
 
@@ -46,10 +46,7 @@ namespace Sandswept.Items.Whites
         [ConfigField("Proc Coefficient", "", 1f)]
         public static float procCoefficient;
 
-        [ConfigField("Flat Barrier Gain", "", 5f)]
-        public static float flatBarrierGain;
-
-        [ConfigField("Percent Barrier Gain", "Decimal.", 0.02f)]
+        [ConfigField("Percent Barrier Gain", "Decimal.", 0.04f)]
         public static float percentBarrierGain;
 
         // why tf does it bounce so oddly
@@ -180,6 +177,8 @@ namespace Sandswept.Items.Whites
                         projectilePrefab = amberKnifeProjectile,
                     };
 
+                    Util.PlaySound("Play_bandit2_m2_slash", attackerBody.gameObject);
+
                     fpi.procChainMask.AddProc(amberKnife);
 
                     fpi.projectilePrefab.GetComponent<AmberKnifeProjectile>().owner = attackerBody;
@@ -204,7 +203,7 @@ namespace Sandswept.Items.Whites
             public void FixedUpdate()
             {
                 if (!NetworkServer.active) return;
-                GetComponent<Rigidbody>().velocity = transform.forward.normalized * 40f;
+                GetComponent<Rigidbody>().velocity = transform.forward.normalized * 60f;
                 stopwatch += Time.fixedDeltaTime;
                 if (stopwatch > 10) Destroy(gameObject);
             }
@@ -220,7 +219,6 @@ namespace Sandswept.Items.Whites
                 EffectManager.SimpleImpactEffect(impactSpark, impactInfo.estimatedPointOfImpact, -transform.forward, transmit: true);
                 if (owner != null)
                 {
-                    owner.healthComponent.AddBarrier(flatBarrierGain);
                     owner.healthComponent.AddBarrier(owner.healthComponent.fullHealth * percentBarrierGain);
                 }
             }

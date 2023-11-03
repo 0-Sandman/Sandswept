@@ -77,6 +77,8 @@ namespace Sandswept.States.Ranger
 
     public class OverdriveExit : BaseState
     {
+        public RangerHeatManager heat;
+
         public override void OnEnter()
         {
             base.OnEnter();
@@ -85,6 +87,10 @@ namespace Sandswept.States.Ranger
             {
                 (machine.state as OverdriveEnter).Exit();
             }
+
+            heat = GetComponent<RangerHeatManager>();
+            heat.CurrentHeat = Mathf.Max(0f, heat.CurrentHeat - 50f);
+
             outer.SetNextStateToMain();
 
             if (characterBody)
