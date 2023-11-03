@@ -16,22 +16,27 @@ namespace Sandswept.Skills.Ranger.Hooks
         private static void DamageTrail_DoDamage(ILContext il)
         {
             ILCursor c = new(il);
+            int ld1 = 14; // matches healthcomponent
+            int ld2 = 4; // matches damageinfo
 
-            if (c.TryGotoNext(MoveType.Before,
-                x => x.MatchStfld("RoR2.DamageInfo", "damageType")))
-            {
-                c.Emit(OpCodes.Ldarg_0);
-                c.EmitDelegate<Func<int, RoR2.DamageTrail, int>>((orig, self) =>
-                {
-                    if (self.gameObject.name == "RangerHeatTrail(Clone)")
-                    {
-                        //Main.ModLogger.LogError("damage trail is ranger heat trail"); logs properly
-                        // Main.ModLogger.LogError("damagetype as int is " + (int)DamageType.IgniteOnHit); logs properly
-                        // what????
-                        return (int)DamageType.IgniteOnHit;
-                    }
-                    return orig;
+            bool found = c.TryGotoNext(MoveType.After, 
+                x => x.MatchLdloc(14),
+                x => x.MatchLdloc(4),
+                x => x.MatchCallOrCallvirt<HealthComponent>(nameof(HealthComponent.TakeDamage))
+            );
+
+            if (found) {
+                c.Emit(OpCodes.Ldloc, 4);
+                c.Emit(OpCodes.Ldloc, 14);
+                c.EmitDelegate<Action<DamageInfo, HealthComponent>>((info, hc) => {
+                    info.damageType = DamageType.IgniteOnHit;
+                    info.procCoefficient = 1;
+            
+                    GlobalEventManager.instance.OnHitEnemy(info, hc.gameObject);
                 });
+            }
+            else {
+                Main.ModLogger.LogError("Couldnt apply IL hook for Damage Trail");
             }
         }
     }
