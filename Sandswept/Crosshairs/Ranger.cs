@@ -16,23 +16,36 @@ namespace Sandswept.Crosshairs
 
             var rectTransform = projectileCrosshairPrefab.GetComponent<RectTransform>();
             rectTransform.position = Vector3.zero;
-            rectTransform.localScale = Vector3.one * 1.5f;
+            rectTransform.localScale = Vector3.one;
 
-            /*
             var rawImage = projectileCrosshairPrefab.GetComponent<RawImage>();
             rawImage.enabled = false;
-            */
 
             var holder = projectileCrosshairPrefab.transform.GetChild(0);
-            holder.gameObject.SetActive(false);
+            holder.GetComponent<RectTransform>().eulerAngles = Vector3.zero;
+            holder.GetComponent<RectTransform>().localEulerAngles = Vector3.zero;
+
+            var sayGex = holder.GetChild(0);
+            var gaySexRect = sayGex.GetComponent<RectTransform>();
+            gaySexRect.localPosition = Vector3.zero;
+            gaySexRect.position = Vector3.zero;
+            gaySexRect.anchoredPosition = Vector3.zeroVector;
+            gaySexRect.localScale = Vector3.one * 0.9f;
+
+            var gaySexImage = sayGex.GetComponent<Image>();
+            gaySexImage.sprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texProjectileCrosshair.png");
+
+            holder.GetChild(1).gameObject.SetActive(false);
+            holder.GetChild(2).gameObject.SetActive(false);
+            holder.GetChild(3).gameObject.SetActive(false);
 
             var center = projectileCrosshairPrefab.transform.GetChild(1).GetComponent<Image>();
-            center.sprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texProjectileCrosshair.png");
+            center.sprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texProjectileCrosshair3.png");
             center.color = Color.white;
 
             var centerRect = center.GetComponent<RectTransform>();
-            centerRect.localPosition = Vector3.zero;
-            centerRect.localScale = Vector3.one * 0.5f;
+            centerRect.localPosition = new Vector3(0f, -32.5f, 0f);
+            centerRect.localScale = Vector3.one * 0.75f;
 
             hitscanCrosshairPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.StandardCrosshairSmall, "Ranger Hitscan Crosshair", false);
             var upArrow = hitscanCrosshairPrefab.transform.GetChild(2);
