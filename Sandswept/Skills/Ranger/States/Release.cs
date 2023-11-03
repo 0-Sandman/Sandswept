@@ -85,7 +85,7 @@ namespace Sandswept.States.Ranger
                     hitEffectPrefab = ImpactEffect,
                     procCoefficient = ProcCoefficient,
                     weapon = gameObject,
-                    radius = 3f,
+                    radius = 2f,
                     smartCollision = true,
                     stopperMask = LayerIndex.world.mask,
                     force = 2500f + 200f * buffCount,

@@ -11,6 +11,7 @@ namespace Sandswept.States.Ranger
         public static SkillDef SecondarySkill => Skills.Ranger.Skilldefs.HeatSink.instance.skillDef;
         public static SkillDef UtilitySkill => Skills.Ranger.Skilldefs.HeatSignature.instance.skillDef;
         public static SkillDef CancelSkill => Skills.Ranger.Skilldefs.OverdriveExit.instance.skillDef;
+        public RoR2.UI.CrosshairUtils.OverrideRequest crosshairRequest;
 
         public override void OnEnter()
         {
@@ -23,6 +24,12 @@ namespace Sandswept.States.Ranger
             // locator.utility.SetSkillOverride(base.gameObject, NullSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.SetSkillOverride(gameObject, CancelSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.DeductStock(1);
+
+            if (characterBody)
+            {
+                var crosshairOverrideBehavior = characterBody.GetComponent<RoR2.UI.CrosshairUtils.CrosshairOverrideBehavior>();
+                crosshairRequest = crosshairOverrideBehavior.AddRequest(Crosshairs.Ranger.hitscanCrosshairPrefab, RoR2.UI.CrosshairUtils.OverridePriority.Skill);
+            }
 
             PlayAnimation("Gesture, Override", "EnterOverdrive");
             Util.PlaySound("Play_item_use_BFG_charge", gameObject);
@@ -42,6 +49,12 @@ namespace Sandswept.States.Ranger
 
             PlayAnimation("Gesture, Override", "ExitOverdrive");
             Util.PlaySound("Play_lunar_wisp_attack2_windDown", gameObject);
+
+            if (characterBody)
+            {
+                var crosshairOverrideBehavior = characterBody.GetComponent<RoR2.UI.CrosshairUtils.CrosshairOverrideBehavior>();
+                crosshairOverrideBehavior.RemoveRequest(crosshairRequest);
+            }
 
             GetComponent<RangerHeatManager>().isUsingHeatSignature = false;
 

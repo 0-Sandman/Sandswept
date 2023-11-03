@@ -6,7 +6,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
     {
         public override string Name => "Overdrive";
 
-        public override string Description => "$suAgile$se. Transform your rifle into a $sdrapid-fire machine gun$se and fire a rapid stream of $sdbullets$se for $sd200% damage$se. $srContinuous fire will cause overheating, increasing spread, ignite chance and damaging you.$se".AutoFormat();
+        public override string Description => "$suAgile$se. $sdTransform your rifle$se, replacing all of your skills with $sdscorching$se forms.".AutoFormat();
 
         // add custom keyword that says it can overheat, but gains increased damage (up to 2x) and spread (up to 3x) at max heat, linearly
         public override Type ActivationStateType => typeof(States.Ranger.OverdriveEnter);
