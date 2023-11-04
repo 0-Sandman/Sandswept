@@ -1,6 +1,6 @@
 ﻿namespace Sandswept.States.Ranger
 {
-    public class DirectCurrentProj : BaseState
+    public class DirectCurrentNew : BaseState
     {
         public static float damageCoefficient = 2.5f;
         public static float baseDuration = 0.5f;

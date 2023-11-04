@@ -42,6 +42,19 @@ namespace Sandswept.Survivors
 
             "SS_RANGER_PASSIVE_NAME".Add("Power Surge");
             "SS_RANGER_PASSIVE_DESC".Add("Hold up to 10 $rcCharge$ec. Each $rcCharge$ec increases $shbase health regeneration$se by $sh0.2 hp/s$se.".AutoFormat());
+
+            var mat = Main.hifuSandswept.LoadAsset<Material>("matRanger.mat");
+            /*
+            var model = Body.GetComponent<ModelLocator>().transform;
+            var gun = model.GetChild(2).GetComponent<SkinnedMeshRenderer>();
+            gun.material = mat;
+            var legs = model.GetChild(3).GetComponent<SkinnedMeshRenderer>();
+            legs.material = mat;
+            var scarf = model.GetChild(5).GetComponent<SkinnedMeshRenderer>();
+            scarf.material = mat;
+            */
+
+            // trans form child out of bounds I love model locator
         }
     }
 }

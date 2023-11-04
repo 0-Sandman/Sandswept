@@ -9,11 +9,11 @@
         {
             dashMat1 = Object.Instantiate(Assets.Material.matHuntressFlashBright);
 
-            dashMat1.SetColor("_TintColor", new Color32(191, 27, 3, 90));
+            dashMat1.SetColor("_TintColor", new Color32(191, 27, 3, 150));
 
             dashMat2 = Object.Instantiate(Assets.Material.matHuntressFlashExpanded);
 
-            dashMat2.SetColor("_TintColor", new Color32(148, 29, 0, 90));
+            dashMat2.SetColor("_TintColor", new Color32(148, 29, 0, 150));
         }
     }
 }

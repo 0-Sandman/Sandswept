@@ -8,7 +8,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
 
         public override string Description => "Fire an arcing electric current for $sd250% damage$se. Hitting enemies increases $rcCharge$ec by $rc1$ec.".AutoFormat();
 
-        public override Type ActivationStateType => typeof(States.Ranger.DirectCurrentProj);
+        public override Type ActivationStateType => typeof(States.Ranger.DirectCurrentNew);
 
         public override string ActivationMachineName => "Weapon";
 

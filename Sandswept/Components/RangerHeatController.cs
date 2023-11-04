@@ -7,9 +7,9 @@ namespace Sandswept.Components
     public class RangerHeatManager : MonoBehaviour
     {
         public static float MaxHeat = 200f;
-        public static float HeatDecayRate = 25f;
+        public static float HeatDecayRate = 15f;
         public static float HeatSignatureHeatIncreaseRate = 40f;
-        public static float HeatIncreaseRate = 30f;
+        public static float HeatIncreaseRate = 25f;
         public static float OverheatThreshold = 100f;
 
         public float CurrentHeat = 0f;

@@ -245,7 +245,7 @@ namespace Sandswept.Elites
             if (modelTransform)
             {
                 warbannerOffset.transform.parent = modelTransform;
-                warbannerOffset.transform.localPosition = new Vector3(0f, 5f, 0f) * body.radius;
+                warbannerOffset.transform.localPosition = new Vector3(0f, 0f, 0f) * body.radius;
                 warbannerOffset.transform.eulerAngles = Vector3.zero;
 
                 warbannerInstance = Instantiate(warbannerPrefab, modelTransform.position, Quaternion.identity);

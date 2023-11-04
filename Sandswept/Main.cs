@@ -78,6 +78,7 @@ namespace Sandswept
             Crosshairs.Ranger.Init();
 
             ReleaseVFX.Init();
+            ExhaustVFX.Init();
             DirectCurrentVFX.Init();
             OverdriveShotVFX.Init();
             OverdriveShotHeatedVFX.Init();
