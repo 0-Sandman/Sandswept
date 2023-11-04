@@ -6,8 +6,8 @@ namespace Sandswept.States.Ranger
 {
     public class Exhaust : BaseState
     {
-        public static float DamageCoefficient = 5f;
-        public static float ProcCoefficient = 1f;
+        public static float DamageCoefficient = 1.5f;
+        public static float ProcCoefficient = 0.33f;
         public static float baseDuration = 0.15f;
         public float duration;
         public bool shot = false;
@@ -73,7 +73,7 @@ namespace Sandswept.States.Ranger
                     BulletAttack attack = new()
                     {
                         aimVector = aimDirection,
-                        falloffModel = BulletAttack.FalloffModel.None,
+                        falloffModel = BulletAttack.FalloffModel.DefaultBullet,
                         damage = damageStat * DamageCoefficient,
                         isCrit = RollCrit(),
                         minSpread = 1f * shotCount,
@@ -85,10 +85,11 @@ namespace Sandswept.States.Ranger
                         hitEffectPrefab = ImpactEffect,
                         procCoefficient = ProcCoefficient,
                         weapon = gameObject,
-                        radius = 2f,
+                        radius = 0.5f,
                         smartCollision = true,
                         stopperMask = LayerIndex.world.mask,
-                        force = 0f
+                        force = 0f,
+                        bulletCount = 5
                     };
 
                     AddRecoil(3f + 1f * shotCount, 3f + 1f * shotCount, 0f, 0f);
@@ -99,15 +100,15 @@ namespace Sandswept.States.Ranger
 
                     attack.hitCallback = (BulletAttack attack, ref BulletAttack.BulletHit hit) =>
                     {
-                        hitPoint = hit.entityObject ? hit.entityObject.transform.position : hit.point;
+                        hitPoint = hit.point;
                         return BulletAttack.defaultHitCallback(attack, ref hit);
                     };
 
                     attack.Fire();
 
-                    Main.ModLogger.LogError(hitPoint);
+                    // Main.ModLogger.LogError(hitPoint);
 
-                    characterBody.StartCoroutine(SummonExplosion(hitPoint));
+                    // characterBody.StartCoroutine(SummonExplosion(hitPoint));
                 }
 
                 if (i == shotCount - 1)

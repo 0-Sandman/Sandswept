@@ -44,7 +44,7 @@ namespace Sandswept.States.Ranger
                 temporaryOverlay2.originalMaterial = overlayMat2;
                 temporaryOverlay2.AddToCharacerModel(this.modelTransform.GetComponent<CharacterModel>());
             }
-
+            /*
             DamageInfo info = new()
             {
                 attacker = null,
@@ -60,7 +60,7 @@ namespace Sandswept.States.Ranger
             {
                 healthComponent.TakeDamage(info);
             }
-
+            */
             heat.CurrentHeat = 0f;
 
             PlayAnimation("FullBody, Override", "Twirl");

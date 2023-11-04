@@ -52,7 +52,7 @@
             var particleSystem = beamObject.GetComponent<ParticleSystem>();
 
             var main = particleSystem.main;
-            main.startSize = 1f;
+            main.startSize = 0.1f;
 
             var startColor = particleSystem.main.startColor;
             startColor.mode = ParticleSystemGradientMode.Color;
@@ -73,7 +73,7 @@
 
             var newMat3 = Object.Instantiate(Assets.Material.matHuntressSwingTrail);
             newMat3.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampGay.png"));
-            newMat3.SetColor("_TintColor", new Color32(255, 126, 0, 255));
+            newMat3.SetColor("_TintColor", new Color32(158, 14, 0, 255));
             newMat3.SetFloat("_SoftFactor", 1f);
             newMat3.SetFloat("_Boost", 1.277907f);
             newMat3.SetFloat("_AlphaBoost", 0f);
@@ -96,7 +96,7 @@
             for (int j = 0; j < trans.childCount; j++)
             {
                 var child = trans.GetChild(j);
-                child.localScale = Vector3.one * 2f;
+                child.localScale = Vector3.one * 0.5f;
             }
 
             // scaled hitsparks 1

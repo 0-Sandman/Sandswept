@@ -22,7 +22,7 @@ namespace Sandswept.Components
         private HealthComponent hc;
         public GameObject overlayPrefab;
         internal GameObject overlayInstance;
-        internal float SelfDamage = 0.0066f;
+        internal float SelfDamage = 0.006f;
         internal float stopwatchSelfDamage = 0f;
 
         public void Start()
@@ -69,7 +69,7 @@ namespace Sandswept.Components
                 {
                     attacker = null,
                     procCoefficient = 0,
-                    damage = hc.fullCombinedHealth * (SelfDamage + (0.000065f * CurrentHeat)),
+                    damage = hc.fullCombinedHealth * (SelfDamage + (0.00006f * CurrentHeat)),
                     crit = false,
                     position = transform.position,
                     damageColorIndex = DamageColorIndex.Fragile,
