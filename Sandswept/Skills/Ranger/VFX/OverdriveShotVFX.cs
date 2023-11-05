@@ -36,8 +36,11 @@ namespace Sandswept.Skills.Ranger.VFX
             lineRenderer.colorGradient = geenGradient;
 
             var newMat = Object.Instantiate(Assets.Material.matCommandoShotgunTracerCore);
-            newMat.SetColor("_TintColor", new Color32(255, 97, 0, 255));
-            newMat.SetFloat("_Boost", 4.77f);
+            newMat.SetColor("_TintColor", new Color32(255, 146, 0, 255));
+            newMat.SetFloat("_Boost", 6.071373f);
+            newMat.SetFloat("_AlphaBoost", 1.116706f);
+            newMat.SetFloat("_AlphaBias", 0.08291277f);
+            newMat.SetTexture("_RemapTex", Assets.Texture2D.texRampBandit);
 
             lineRenderer.material = newMat;
 
