@@ -17,7 +17,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemFullDescription => ("$su" + chance + "%$se chance on hit to create a $sublinding flash$se in a $su" + explosionRadius + "m$se radius, $sustunning$se for $su" + stunDuration + "s$se and $sdigniting$se enemies for $sd" + d(baseTotalDamage) + "$se $ss(+" + d(stackTotalDamage) + " per stack)$se TOTAL damage.").AutoFormat();
 
-        public override string ItemLore => "Maybe less hell to code\n\n/////\n\nnuh uhh mf this was easy to code :smirk_car: UwU";
+        public override string ItemLore => "Maybe less hell to code\n\n/////\n\nnuh uhh mf this was easy to code :smirk_car: UwU ~HIFU";
 
         public override string AchievementName => "A cycle, broken.";
 
@@ -47,7 +47,7 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texSunFragment.png");
 
-        public override bool AIBlacklisted => true;
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
 
         public GameObject FragmentVFX;
 

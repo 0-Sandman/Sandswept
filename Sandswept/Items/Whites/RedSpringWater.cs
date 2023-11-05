@@ -19,7 +19,7 @@
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texRedSpringWater.png");
 
-        public override bool AIBlacklisted => true;
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Healing, ItemTag.AIBlacklist };
 
         [ConfigField("Base Regen Per Buff", "", 0.4f)]
         public static float baseRegenPerBuff;

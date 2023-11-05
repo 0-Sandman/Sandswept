@@ -24,6 +24,8 @@ namespace Sandswept.Items.Reds
 
         public override string ItemName => "Ceremonial Jar";
 
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
+
         public static BuffDef CereJarLinkedBuff;
         public static BuffDef CereJarCDBuff;
         public static DamageColorIndex JarDamageColor = DamageColourHelper.RegisterDamageColor(new Color32(0, 255, 204, 255));

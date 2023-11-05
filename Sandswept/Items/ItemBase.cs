@@ -26,7 +26,7 @@ namespace Sandswept.Items
         public virtual string UnlockDesc { get; }
 
         public abstract ItemTier Tier { get; }
-        public virtual ItemTag[] ItemTags { get; set; } = new ItemTag[] { };
+        public abstract ItemTag[] ItemTags { get; }
 
         public abstract GameObject ItemModel { get; }
         public abstract Sprite ItemIcon { get; }
@@ -34,7 +34,6 @@ namespace Sandswept.Items
         public ItemDef ItemDef;
 
         public virtual bool CanRemove { get; } = true;
-        public virtual bool AIBlacklisted { get; set; } = true;
 
         public virtual string AchievementName { get; }
         public virtual string AchievementDesc { get; }
@@ -113,11 +112,6 @@ namespace Sandswept.Items
 
         protected void CreateItem()
         {
-            if (AIBlacklisted)
-            {
-                ItemTags = new List<ItemTag>(ItemTags) { ItemTag.AIBlacklist }.ToArray();
-            }
-
             ItemDef = ScriptableObject.CreateInstance<ItemDef>();
             ItemDef.name = "ITEM_SANDSWEPT_" + ItemLangTokenName;
             ItemDef.nameToken = "ITEM_SANDSWEPT_" + ItemLangTokenName + "_NAME";

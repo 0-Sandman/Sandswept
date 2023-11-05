@@ -29,7 +29,7 @@ namespace Sandswept.Survivors
             Body.AddComponent<RoR2.UI.CrosshairUtils.CrosshairOverrideBehavior>();
 
             Body.GetComponent<CameraTargetParams>().cameraParams = Assets.CharacterCameraParams.ccpStandard;
-            Body.GetComponent<CharacterBody>()._defaultCrosshairPrefab = Crosshairs.Ranger.projectileCrosshairPrefab;
+            // Body.GetComponent<CharacterBody>()._defaultCrosshairPrefab = Crosshairs.Ranger.projectileCrosshairPrefab;
 
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdRanger.asset");
             SurvivorDef.cachedName = "Ranger"; // for eclipse fix

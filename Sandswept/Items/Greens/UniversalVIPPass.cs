@@ -30,7 +30,7 @@
         [ConfigField("Stack Credit Percent", "Decimal.", 0.15f)]
         public static float stackCreditPercent;
 
-        public override bool AIBlacklisted => true;
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist };
 
         public override void Init(ConfigFile config)
         {

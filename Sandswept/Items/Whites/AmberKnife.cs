@@ -24,7 +24,7 @@ namespace Sandswept.Items.Whites
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texAmberKnife.png");
 
-        public override bool AIBlacklisted => false;
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility, ItemTag.Healing };
 
         public static ProcType amberKnife = (ProcType)12785281;
 

@@ -23,7 +23,7 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texNuclearSalvo.png");
 
-        public override bool AIBlacklisted => true;
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.BrotherBlacklist, ItemTag.AIBlacklist };
 
         public GameObject SalvoPrefab;
         public GameObject SalvoMissile;
