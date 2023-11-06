@@ -32,6 +32,8 @@ namespace Sandswept.States.Ranger
 
             PlayAnimation("Gesture, Override", "EnterOverdrive");
             Util.PlaySound("Play_item_use_BFG_charge", gameObject);
+
+            GetComponent<RangerHeatManager>().EnterOverdrive();
         }
 
         public override void OnExit()
@@ -55,6 +57,8 @@ namespace Sandswept.States.Ranger
             }
 
             GetComponent<RangerHeatManager>().isUsingHeatSignature = false;
+
+            GetComponent<RangerHeatManager>().ExitOverdrive();
 
             if (characterBody)
             {

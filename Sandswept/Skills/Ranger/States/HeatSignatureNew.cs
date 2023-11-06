@@ -27,7 +27,6 @@ namespace Sandswept.States.Ranger
             }
 
             heat = GetComponent<RangerHeatManager>();
-            heat.CurrentHeat = Mathf.Max(0f, heat.CurrentHeat + 50f);
 
             modelTransform = GetModelTransform();
 

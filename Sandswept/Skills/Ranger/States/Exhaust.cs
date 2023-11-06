@@ -6,8 +6,8 @@ namespace Sandswept.States.Ranger
 {
     public class Exhaust : BaseState
     {
-        public static float DamageCoefficient = 1.5f;
-        public static float ProcCoefficient = 0.33f;
+        public static float DamageCoefficient = 1.4f;
+        public static float ProcCoefficient = 0.4f;
         public static float baseDuration = 0.15f;
         public float duration;
         public bool shot = false;
@@ -21,19 +21,43 @@ namespace Sandswept.States.Ranger
 
             duration = baseDuration / attackSpeedStat;
 
+            /*Util.PlaySound("Play_mage_m2_charge", gameObject);
             Util.PlaySound("Play_mage_m2_charge", gameObject);
-            Util.PlaySound("Play_mage_m2_charge", gameObject);
             Util.PlaySound("Play_voidBarnacle_m1_chargeUp", gameObject);
             Util.PlaySound("Play_voidBarnacle_m1_chargeUp", gameObject);
-            Util.PlaySound("Play_voidBarnacle_m1_chargeUp", gameObject);
+            Util.PlaySound("Play_voidBarnacle_m1_chargeUp", gameObject);*/
             // Util.PlaySound("Play_railgunner_R_gun_chargeUp", gameObject);
+
+            AkSoundEngine.PostEvent(Events.Play_wisp_attack_fire, base.gameObject);
+            AkSoundEngine.PostEvent(Events.Play_lemurian_fireball_shoot, base.gameObject);
 
             heat = GetComponent<RangerHeatManager>();
 
             PlayAnimation("Gesture, Override", "Fire", "Fire.playbackRate", duration);
 
-            if (characterBody)
-                characterBody.SetAimTimer(1.5f);
+            characterBody.SetAimTimer(0.2f);
+
+            BulletAttack attack = new();
+            attack.damage = DamageCoefficient * base.damageStat;
+            attack.procCoefficient = ProcCoefficient;
+            attack.minSpread = -4f;
+            attack.maxSpread = 4f;
+            attack.damageType = DamageType.IgniteOnHit;
+            attack.bulletCount = 8;
+            attack.tracerEffectPrefab = ExhaustVFX.tracerPrefab;
+            attack.muzzleName = "Muzzle";
+            attack.hitEffectPrefab = Assets.GameObject.WispImpact;
+            attack.falloffModel = BulletAttack.FalloffModel.Buckshot;
+            attack.origin = base.GetAimRay().origin;
+            attack.owner = base.gameObject;
+            attack.isCrit = base.RollCrit();
+            attack.aimVector = base.GetAimRay().direction;
+
+            attack.Fire();
+
+            heat.CurrentHeat += (20f * heat.reduction);
+
+            outer.SetNextStateToMain();
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -50,7 +74,7 @@ namespace Sandswept.States.Ranger
                 characterBody.isSprinting = false;
             }
 
-            if (!shot)
+            if (false)
             {
                 int shotCount = Mathf.Max(1, Mathf.RoundToInt(heat.CurrentHeat / 40f));
                 characterBody.StartCoroutine(FireShot(shotCount));

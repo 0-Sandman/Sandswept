@@ -6,7 +6,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
     {
         public override string Name => "Overdrive";
 
-        public override string Description => "$suAgile$se. $sdTransform your rifle$se, replacing all of your skills with $sdscorching$se forms.".AutoFormat();
+        public override string Description => "$suConsume all charges$sd. $sdTransform your rifle$se, replacing all of your skills with $sdscorching$se forms.".AutoFormat();
 
         // add custom keyword that says it can overheat, but gains increased damage (up to 2x) and spread (up to 3x) at max heat, linearly
         public override Type ActivationStateType => typeof(States.Ranger.OverdriveEnter);
@@ -20,5 +20,10 @@ namespace Sandswept.Skills.Ranger.Skilldefs
 
         public override bool Agile => true;
         public override bool IsCombat => false;
+
+        public override void CreateSkillDef()
+        {
+            skillDef = ScriptableObject.CreateInstance<RangerChargeLockDef>();
+        }
     }
 }

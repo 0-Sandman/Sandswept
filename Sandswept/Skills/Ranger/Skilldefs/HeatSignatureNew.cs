@@ -6,7 +6,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
     {
         public override string Name => "Heat Signature";
 
-        public override string Description => "$suAgile$se. $suSidestep$se a very short distance and $srgain 25% heat$se.".AutoFormat();
+        public override string Description => "$suAgile$se. $suSidestep$se a very short distance.".AutoFormat();
 
         // 16m radius?
         public override Type ActivationStateType => typeof(States.Ranger.HeatSignature);

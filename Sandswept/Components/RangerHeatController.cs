@@ -1,16 +1,20 @@
 using RoR2.UI;
 using RoR2.HudOverlay;
 using UnityEngine.UI;
+using System.Diagnostics;
+using Sandswept.Buffs;
+using EntityStates.Bison;
+using Sandswept.States.Ranger;
 
 namespace Sandswept.Components
 {
     public class RangerHeatManager : MonoBehaviour
     {
-        public static float MaxHeat = 200f;
+        public static float MaxHeat = 100f;
         public static float HeatDecayRate = 15f;
-        public static float HeatSignatureHeatIncreaseRate = 40f;
-        public static float HeatIncreaseRate = 25f;
-        public static float OverheatThreshold = 100f;
+        public static float HeatSignatureHeatIncreaseRate = 60f;
+        public static float HeatIncreaseRate = 35f;
+        public static float OverheatThreshold = 35f;
 
         public float CurrentHeat = 0f;
 
@@ -24,6 +28,19 @@ namespace Sandswept.Components
         internal GameObject overlayInstance;
         internal float SelfDamage = 0.006f;
         internal float stopwatchSelfDamage = 0f;
+
+        //
+        internal bool isOverdrive = false;
+        internal int overdriveChargeBuffer = 0;
+        internal float chargeBufferStopwatch = 0f;
+        internal static float chargeBufferDelay = 1f;
+        internal float reduction => 1f - (Mathf.Clamp(0.15f * overdriveChargeBuffer, 0.1f, 0.9f));
+        internal float stopwatchMaxHeat = 0f;
+        internal float stunDelay = 1f;
+        public bool isInStun = false;
+        internal float stunStopwatch = 0f;
+
+        internal EntityStateMachine esm;
 
         public void Start()
         {
@@ -42,7 +59,76 @@ namespace Sandswept.Components
             };
         }
 
-        public void FixedUpdate()
+        public void FixedUpdate() {
+            if (isOverdrive) {
+                CurrentHeat += (HeatIncreaseRate * Time.fixedDeltaTime) * reduction;
+                CurrentHeat = Mathf.Clamp(CurrentHeat, 0, MaxHeat );
+
+                chargeBufferStopwatch += Time.fixedDeltaTime;
+
+                if (chargeBufferStopwatch >= chargeBufferDelay) {
+                    overdriveChargeBuffer -= 1;
+                    overdriveChargeBuffer = Mathf.Max(overdriveChargeBuffer, 0);
+                    chargeBufferStopwatch = 0f;
+                }
+
+                if (CurrentHeat >= MaxHeat) {
+                    stopwatchMaxHeat += Time.fixedDeltaTime;
+
+                    if (stopwatchMaxHeat >= stunDelay) {
+                        stopwatchMaxHeat = 0f;
+                        ExitOverdrive();
+                        stunStopwatch = 5f;
+                        isInStun = true;
+                        EffectManager.SpawnEffect(Assets.GameObject.ExplosionSolarFlare, new EffectData {
+                            origin = base.transform.position,
+                            scale = 0.5f
+                        }, false);
+                        AkSoundEngine.PostEvent(Events.Play_MULT_m2_secondary_explode, base.gameObject);
+                    }
+                }
+
+                cb.SetBuffCount(Scorched.instance.BuffDef.buffIndex, Mathf.RoundToInt((CurrentHeat + 0.001f) / 10));
+                cb.SetBuffCount(Charged.instance.BuffDef.buffIndex, overdriveChargeBuffer);
+            }
+
+            if (isInStun) {
+                stunStopwatch -= Time.fixedDeltaTime;
+
+                if (stunStopwatch <= 0f) {
+                    isInStun = false;
+                }
+            }
+        }
+
+        public void EnterOverdrive() {
+            overdriveChargeBuffer = cb.GetBuffCount(Charged.instance.BuffDef);
+            isOverdrive = true;
+        }
+
+        public void ExitOverdrive() {
+            overdriveChargeBuffer = 0;
+            isOverdrive = false;
+            stopwatchMaxHeat = 0f;
+            chargeBufferStopwatch = 0f;
+            cb.SetBuffCount(Scorched.instance.BuffDef.buffIndex, 0);
+            CurrentHeat = 0f;
+
+            EntityStateMachine machine = EntityStateMachine.FindByCustomName(gameObject, "Overdrive");
+            if (machine.state is OverdriveEnter)
+            {
+                (machine.state as OverdriveEnter).Exit();
+            }
+
+            EntityStateMachine machine2 = EntityStateMachine.FindByCustomName(gameObject, "Weapon");
+            machine2.SetState(new Idle());
+        }
+
+        public void ExitStun() {
+            isInStun = false;
+        }
+
+        /*public void FixedUpdate()
         {
             if (isFiring && CurrentHeat < MaxHeat)
             {
@@ -85,12 +171,7 @@ namespace Sandswept.Components
             }
 
             // KillYourself(); no keep yourself safe :3 :3
-        }
-
-        public void KillYourself()
-        {
-            anim.SetBool("isFiring", cb.inputBank.skill1.down);
-        }
+        }*/
     }
 
     public class RangerCrosshairManager : MonoBehaviour

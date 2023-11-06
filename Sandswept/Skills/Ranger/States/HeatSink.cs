@@ -63,12 +63,12 @@ namespace Sandswept.States.Ranger
             */
             heat.CurrentHeat = 0f;
 
-            PlayAnimation("FullBody, Override", "Twirl");
+            PlayAnimation("Body", "Twirl");
         }
 
         public void FireNova()
         {
-            EffectManager.SpawnEffect(GlobalEventManager.CommonAssets.igniteOnKillExplosionEffectPrefab, new EffectData
+            EffectManager.SpawnEffect(Assets.GameObject.MolotovClusterIgniteExplosionVFX, new EffectData
             {
                 origin = transform.position,
                 scale = 16f,
@@ -84,7 +84,7 @@ namespace Sandswept.States.Ranger
                 {
                     attacker = gameObject,
                     attackerFiltering = AttackerFiltering.NeverHitSelf,
-                    baseDamage = damageStat * (damageCoefficient + heat.CurrentHeat * 0.05f),
+                    baseDamage = damageStat * Util.Remap(heat.CurrentHeat, 0f, 100f, 3f, 9f),
                     baseForce = 1500f,
                     bonusForce = Vector3.zero,
                     canRejectForce = true,
