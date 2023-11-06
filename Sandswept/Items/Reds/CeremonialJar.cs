@@ -12,7 +12,7 @@ namespace Sandswept.Items.Reds
 
         public override string ItemPickupDesc => "Link enemies on hit. Linked enemies take massive damage.";
 
-        public override string ItemFullDescription => "On hit, $sdlink$se enemies up to $sd" + linkedEnemiesRequirement + "$se times. $sdLinked$se enemies take $sd" + d(baseDamage) + "$se $ss(+" + d(stackDamage) + " per stack)$se base damage each and cannot be $sdlinked$se for $sd" + linkedEnemyCooldown + "s$se afterwards.".AutoFormat();
+        public override string ItemFullDescription => ("On hit, $sdlink$se enemies up to $sd" + linkedEnemiesRequirement + "$se times. $sdLinked$se enemies take $sd" + d(baseDamage) + "$se $ss(+" + d(stackDamage) + " per stack)$se base damage each and cannot be $sdlinked$se for $sd" + linkedEnemyCooldown + "s$se afterwards.").AutoFormat();
 
         public override string ItemLore => "texLesbianFurry.png";
 

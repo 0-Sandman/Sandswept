@@ -51,6 +51,8 @@
             Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
             Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
 
+            characterBody.SetSpreadBloom(12f, true);
+
             var aimRay = GetAimRay();
 
             var fpi = new FireProjectileInfo()
