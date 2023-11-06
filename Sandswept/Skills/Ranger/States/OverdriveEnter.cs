@@ -8,9 +8,9 @@ namespace Sandswept.States.Ranger
     public class OverdriveEnter : BaseState
     {
         public static SkillDef PrimarySkill => Skills.Ranger.Skilldefs.OverdriveFire.instance.skillDef;
-        public static SkillDef SecondarySkill => Skills.Ranger.Skilldefs.HeatSink.instance.skillDef;
+        public static SkillDef SecondarySkill => Skills.Ranger.Skilldefs.Exhaust.instance.skillDef;
         public static SkillDef UtilitySkill => Skills.Ranger.Skilldefs.HeatSignature.instance.skillDef;
-        public static SkillDef CancelSkill => Skills.Ranger.Skilldefs.OverdriveExit.instance.skillDef;
+        public static SkillDef SpecialSkill => Skills.Ranger.Skilldefs.HeatSink.instance.skillDef;
         public RoR2.UI.CrosshairUtils.OverrideRequest crosshairRequest;
 
         public override void OnEnter()
@@ -21,8 +21,7 @@ namespace Sandswept.States.Ranger
             locator.primary.SetSkillOverride(gameObject, PrimarySkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.secondary.SetSkillOverride(gameObject, SecondarySkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.utility.SetSkillOverride(gameObject, UtilitySkill, GenericSkill.SkillOverridePriority.Contextual);
-            // locator.utility.SetSkillOverride(base.gameObject, NullSkill, GenericSkill.SkillOverridePriority.Contextual);
-            locator.special.SetSkillOverride(gameObject, CancelSkill, GenericSkill.SkillOverridePriority.Contextual);
+            locator.special.SetSkillOverride(gameObject, SpecialSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.DeductStock(1);
 
             if (characterBody)
@@ -43,8 +42,7 @@ namespace Sandswept.States.Ranger
             locator.primary.UnsetSkillOverride(gameObject, PrimarySkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.secondary.UnsetSkillOverride(gameObject, SecondarySkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.utility.UnsetSkillOverride(gameObject, UtilitySkill, GenericSkill.SkillOverridePriority.Contextual);
-            // locator.utility.UnsetSkillOverride(base.gameObject, NullSkill, GenericSkill.SkillOverridePriority.Contextual);
-            locator.special.UnsetSkillOverride(gameObject, CancelSkill, GenericSkill.SkillOverridePriority.Contextual);
+            locator.special.UnsetSkillOverride(gameObject, SpecialSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.DeductStock(1);
 
             PlayAnimation("Gesture, Override", "ExitOverdrive");
@@ -77,6 +75,8 @@ namespace Sandswept.States.Ranger
 
     public class OverdriveExit : BaseState
     {
+        public RangerHeatManager heat;
+
         public override void OnEnter()
         {
             base.OnEnter();
@@ -85,6 +85,10 @@ namespace Sandswept.States.Ranger
             {
                 (machine.state as OverdriveEnter).Exit();
             }
+
+            heat = GetComponent<RangerHeatManager>();
+            heat.CurrentHeat = Mathf.Max(0f, heat.CurrentHeat - 50f);
+
             outer.SetNextStateToMain();
 
             if (characterBody)

@@ -41,7 +41,7 @@ namespace Sandswept.Items.Greens
         [ConfigField("Burden Stack Attack Speed Reduction", "Decimal.", 0.1f)]
         public static float burdenStackAttackSpeedReduction;
 
-        public override bool AIBlacklisted => true;
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility };
 
         public override void Init(ConfigFile config)
         {

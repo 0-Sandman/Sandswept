@@ -6,7 +6,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
     {
         public override string Name => "Heat Sink";
 
-        public override string Description => "$suAgile$se. Release a $sdfire nova$se around you that ignites and deals $sd250%$se base damage, increasing up to $sd1000%$se in full heat. $suConsumes all heat$se, $srdamages you$se for $sr25% max health$se and $srexits overdrive$se.".AutoFormat();
+        public override string Description => "$suAgile$se. Release a $sdfire nova$se around you that ignites and deals $sd500%$se base damage, increasing up to $sd1500%$se in full heat. $suConsumes all heat$se and $srexits overdrive$se.".AutoFormat();
 
         // 16m radius?
         public override Type ActivationStateType => typeof(States.Ranger.HeatSink);

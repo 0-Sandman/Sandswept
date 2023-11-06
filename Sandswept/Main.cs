@@ -78,6 +78,7 @@ namespace Sandswept
             Crosshairs.Ranger.Init();
 
             ReleaseVFX.Init();
+            ExhaustVFX.Init();
             DirectCurrentVFX.Init();
             OverdriveShotVFX.Init();
             OverdriveShotHeatedVFX.Init();
@@ -228,11 +229,9 @@ namespace Sandswept
         public bool ValidateItem(ItemBase item, List<ItemBase> itemList)
         {
             var enabled = ItemBase.DefaultEnabledCallback(item);
-            var aiBlacklist = Config.Bind<bool>(item.GetConfName(), "Blacklist Item from AI Use?", false, "Should the AI not be able to obtain this item?").Value;
             if (enabled)
             {
                 itemList.Add(item);
-                item.AIBlacklisted = aiBlacklist;
             }
             return enabled;
         }

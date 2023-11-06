@@ -1,5 +1,4 @@
-﻿/*
-using RoR2.Projectile;
+﻿using RoR2.Projectile;
 using Sandswept.Components;
 using Sandswept.Skills.Ranger.VFX;
 
@@ -7,44 +6,30 @@ namespace Sandswept.States.Ranger
 {
     public class HeatSignature : BaseState
     {
-        public static float damageCoefficient = 3f;
-        public static float MinimumStateDuration = 1f;
+        public static float Duration = 0.2f;
+        public static float BuffDuration = 1f;
+        public static float SpeedCoefficient = 4f;
         private RangerHeatManager heat;
+        private Vector3 stepVector;
         private Transform modelTransform;
         public static Material overlayMat1 = HeatSignatureVFX.dashMat1;
         public static Material overlayMat2 = HeatSignatureVFX.dashMat2;
-        private bool hasLeftState = false;
-        private static GameObject HeatSignatureTrailPrefab;
-        private GameObject trailInstance;
-
-        static HeatSignature()
-        {
-            HeatSignatureTrailPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.FireTrail, "RangerHeatTrail", false);
-            DamageTrail trail = HeatSignatureTrailPrefab.GetComponent<DamageTrail>();
-            trail.radius = 4f;
-
-            // PrefabAPI.RegisterNetworkPrefab(HeatSignatureTrailPrefab);
-        }
 
         public override void OnEnter()
         {
             base.OnEnter();
 
-            heat = GetComponent<RangerHeatManager>();
-
-            heat.isUsingHeatSignature = true;
-
-            if (characterBody && NetworkServer.active)
+            if (characterBody)
             {
-                characterBody.AddBuff(Buffs.HeatSignatureBuff.instance.BuffDef);
+                characterBody.isSprinting = true;
+                if (NetworkServer.active)
+                    characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
             }
 
-            modelTransform = GetModelTransform();
+            heat = GetComponent<RangerHeatManager>();
+            heat.CurrentHeat = Mathf.Max(0f, heat.CurrentHeat + 50f);
 
-            trailInstance = GameObject.Instantiate(HeatSignatureTrailPrefab, base.transform);
-            DamageTrail trail = trailInstance.GetComponent<DamageTrail>();
-            trail.damagePerSecond = base.damageStat * 3f;
-            trail.owner = base.gameObject;
+            modelTransform = GetModelTransform();
 
             if (modelTransform)
             {
@@ -67,6 +52,11 @@ namespace Sandswept.States.Ranger
 
             Util.PlaySound("Play_fireballsOnHit_impact", gameObject);
             Util.PlaySound("Play_fireballsOnHit_impact", gameObject);
+            Util.PlayAttackSpeedSound("Play_commando_shift", gameObject, 1.2f);
+
+            stepVector = (inputBank.moveVector == Vector3.zero) ? characterDirection.forward : inputBank.moveVector;
+
+            PlayAnimation("Body", "Twirl");
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -78,17 +68,18 @@ namespace Sandswept.States.Ranger
         {
             base.FixedUpdate();
 
-            if (fixedAge >= MinimumStateDuration)
+            if (characterMotor && characterDirection)
             {
-                if (!hasLeftState && inputBank.skill3.justPressed)
-                {
-                    hasLeftState = true;
-
-                    outer.SetNextStateToMain();
-                }
+                characterMotor.velocity = Vector3.zero;
+                characterMotor.rootMotion += stepVector * (moveSpeedStat * SpeedCoefficient * Time.fixedDeltaTime);
             }
 
-            if (!heat.isUsingHeatSignature)
+            if (characterBody)
+            {
+                characterBody.isSprinting = true;
+            }
+
+            if (fixedAge >= Duration)
             {
                 outer.SetNextStateToMain();
             }
@@ -97,12 +88,14 @@ namespace Sandswept.States.Ranger
         public override void OnExit()
         {
             base.OnExit();
-            heat.isUsingHeatSignature = false;
 
-            if (characterBody && NetworkServer.active)
+            if (characterBody)
             {
-                characterBody.RemoveBuff(Buffs.HeatSignatureBuff.instance.BuffDef);
+                characterBody.isSprinting = true;
+                if (NetworkServer.active)
+                    characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
             }
+
             if (modelTransform)
             {
                 foreach (TemporaryOverlay overlay in modelTransform.GetComponents<TemporaryOverlay>())
@@ -111,12 +104,8 @@ namespace Sandswept.States.Ranger
                 }
             }
 
-            // Debug.Log("destroying trail");
-            GameObject.Destroy(trailInstance);
-
             Util.PlaySound("Play_fireballsOnHit_impact", gameObject);
             Util.PlaySound("Play_fireballsOnHit_impact", gameObject);
         }
     }
 }
-*/

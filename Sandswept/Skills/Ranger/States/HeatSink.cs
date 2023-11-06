@@ -6,7 +6,7 @@ namespace Sandswept.States.Ranger
 {
     public class HeatSink : BaseState
     {
-        public static float damageCoefficient = 2.5f;
+        public static float damageCoefficient = 5f;
         public static float BaseDuration = 0.5f;
         private float duration;
         private RangerHeatManager heat;
@@ -44,12 +44,12 @@ namespace Sandswept.States.Ranger
                 temporaryOverlay2.originalMaterial = overlayMat2;
                 temporaryOverlay2.AddToCharacerModel(this.modelTransform.GetComponent<CharacterModel>());
             }
-
+            /*
             DamageInfo info = new()
             {
                 attacker = null,
                 procCoefficient = 0,
-                damage = healthComponent.fullCombinedHealth * 0.25f,
+                damage = healthComponent.fullCombinedHealth * 0.2f,
                 crit = false,
                 position = transform.position,
                 damageColorIndex = DamageColorIndex.Fragile,
@@ -60,7 +60,7 @@ namespace Sandswept.States.Ranger
             {
                 healthComponent.TakeDamage(info);
             }
-
+            */
             heat.CurrentHeat = 0f;
 
             PlayAnimation("FullBody, Override", "Twirl");
@@ -84,7 +84,7 @@ namespace Sandswept.States.Ranger
                 {
                     attacker = gameObject,
                     attackerFiltering = AttackerFiltering.NeverHitSelf,
-                    baseDamage = damageStat * (damageCoefficient + heat.CurrentHeat * 0.0375f),
+                    baseDamage = damageStat * (damageCoefficient + heat.CurrentHeat * 0.05f),
                     baseForce = 1500f,
                     bonusForce = Vector3.zero,
                     canRejectForce = true,

@@ -28,8 +28,6 @@ namespace Sandswept.Items.Yellows
 
         public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("BetrayalIcon.png");
 
-        public override bool AIBlacklisted => true;
-
         public override void Init(ConfigFile config)
         {
         }

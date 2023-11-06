@@ -36,7 +36,7 @@ namespace Sandswept.Items.Reds
         [ConfigField("Stack DoT Healing", "Decimal.", 0.0025f)]
         public static float stackDoTHealing;
 
-        public override bool AIBlacklisted => true;
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Healing };
 
         public override void Init(ConfigFile config)
         {
