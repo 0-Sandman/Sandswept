@@ -18,7 +18,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
 
         public override void CreateSkillDef()
         {
-            skillDef = ScriptableObject.CreateInstance<RangerStunDef>();
+            // skillDef = ScriptableObject.CreateInstance<RangerStunDef>();
         }
     }
 }
