@@ -42,6 +42,7 @@
 |<img src="https://i.postimg.cc/yd9LgHmF/tex-Nuclear-Salvo.png" width="96" > | **Nuclear Salvo** | Every 5 seconds (-25% per stack), all mechanical allies fire nuclear missiles that deal 2x100% base damage and ignite on hit. | Green |
 |<img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96" > | **Universal VIP Pass** | Whenever you make a gold purchase store 20% (+15% per stack) of the spent gold as credit. Receive gold equal to credit on the next stage. Scales over time. | Green |
 |<img src="https://i.postimg.cc/QtFVs3R3/Document-Icon.png" width="96" > | **Smoldering Document** | 5% chance to ignite enemies on hit for 250% TOTAL damage. Damage over time effects burden enemies, reducing their damage by 15% (+10% per stack, hydrobolic) and attack speed by 15% (+10% per stack, hydrobolic). | Green |
+| | | |
 |<img src="https://i.postimg.cc/PxjsGfV3/tex-Bleeding-Witness.png" width="96" > | **Bleeding Witness** | 5% chance to hemorrhage enemies for 480% base damage. Your damage over time effects heal all allies for 0.5% (+0.25% per stack) of their maximum health. | Red |
 |<img src="https://i.postimg.cc/pXf50nwk/tex-Ceremonial-Jar.png" width="96" > | **Ceremonial Jar** | On hit, link enemies up to 3 times. Linked enemies take 1500% (+750% per stack) base damage each and cannot be linked for 5s afterwards. | Red |
 
