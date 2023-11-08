@@ -1,11 +1,13 @@
-# <img src="https://i.postimg.cc/43cQTbxW/sandsw-ept-Poster.png"/>
+# <img src="https://i.postimg.cc/qvLcBbG9/booook.gif"  width="1100" >
 
-# <img src="https://i.postimg.cc/T3FJSHfy/sandsw-ept-Icon.png" width="48"/> Sandswept is a work in content progress mod that aims to add a variety of content to the game.
+# <img src="https://i.postimg.cc/T3FJSHfy/sandsw-ept-Icon.png" width="48"/> Sandswept is a work in progress content mod that aims to add a variety of content to the game.
 
-# Currently it adds...
+# It currently adds...
 - 1 Survivor
 - 1 Elite
 - 10 Items
+
+### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
 # The Survivor
 | Icon | Name | Description |
@@ -42,10 +44,6 @@
 |<img src="https://i.postimg.cc/QtFVs3R3/Document-Icon.png"  width="96" > | **Smoldering Document** | 5% chance to ignite enemies on hit for 250% TOTAL damage. Damage over time effects burden enemies, reducing their damage by 15% (+10% per stack, hydrobolic) and attack speed by 15% (+10% per stack, hydrobolic). | Green |
 |<img src="https://i.postimg.cc/PxjsGfV3/tex-Bleeding-Witness.png"  width="96" > | **Bleeding Witness** | 5% chance to hemorrhage enemies for 480% base damage. Your damage over time effects heal all allies for 0.5% (+0.25% per stack) of their maximum health. | Red |
 |<img src="https://i.postimg.cc/pXf50nwk/tex-Ceremonial-Jar.png"  width="96" > | **Ceremonial Jar** | On hit, link enemies up to 3 times. Linked enemies take 1500% (+750% per stack) base damage each and cannot be linked for 5s afterwards. | Red |
-
-# Feedback
-
-Join our discord: (discord.gg/zcQnUUPdpW)
 
 # Credits
 - Code: HIFU, Pseudopulse, Sandman, Prod
