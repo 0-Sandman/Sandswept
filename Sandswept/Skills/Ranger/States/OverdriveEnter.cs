@@ -52,6 +52,8 @@ namespace Sandswept.States.Ranger
             PlayAnimation("Gesture, Override", "ExitOverdrive");
             Util.PlaySound("Play_lunar_wisp_attack2_windDown", gameObject);
 
+            PlayAnimation("Gesture, Override", "OverdriveFire", "Fire.playbackRate", 0.1f); // this is jank but it works!
+
             if (characterBody)
             {
                 var crosshairOverrideBehavior = characterBody.GetComponent<RoR2.UI.CrosshairUtils.CrosshairOverrideBehavior>();

@@ -1,11 +1,13 @@
-# <img src="https://i.postimg.cc/43cQTbxW/sandsw-ept-Poster.png"/>
+# <img src="https://i.postimg.cc/Qxwf7yLw/booook-1.gif"  width="1100" >
 
-# <img src="https://i.postimg.cc/T3FJSHfy/sandsw-ept-Icon.png" width="48"/> Sandswept is a work in content progress mod that aims to add a variety of content to the game.
+# <img src="https://i.postimg.cc/T3FJSHfy/sandsw-ept-Icon.png" width="48"/> Sandswept is a work in progress content mod that aims to add a variety of content to the game.
 
-# Currently it adds...
+# It currently adds...
 - 1 Survivor
 - 1 Elite
 - 10 Items
+
+### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
 # The Survivor
 | Icon | Name | Description |
@@ -19,9 +21,9 @@
 | <img src="https://i.postimg.cc/gjmfqDHt/image4png.png"  width="64" > | **Special:** Overdrive | Agile. Transform your rifle, replacing all of your skills with scorching forms. |
 | | | |
 | <img src="https://i.postimg.cc/SNb1P012/tex-Overdrive-Fire.png"  width="64" > | **Primary:** Enflame | Agile. Fire a rapid stream of bullets for 140% damage. Continuous fire increases heat, spread, and ignite chance. |
-| <img src="https://i.postimg.cc/0jYnvQX6/tex-Heat-Sink.png"  width="64" > | **Secondary:** Heat Sink | Agile. Release a fire nova around you that ignites and deals 250% base damage, increasing up to 1000% in full heat. Consumes all heat, damages you for 25% max health and exits overdrive. |
-| <img src="https://i.postimg.cc/vB6XPXWt/tex-Heat-Signature.png"  width="64" > | **Utility:** Heat Signature | Agile. Toggle to summon fire in your wake that deals 300% damage per second. Increase movement speed by 30%. Gain 20% heat per second. |
-| <img src="https://i.postimg.cc/85C3zNRZ/tex-Overdrive-Exit.png"  width="64" > | **Special:** Cancel | Agile. Return your rifle to normal, consume 25% heat and gain 3 Charge. |
+| <img src="https://i.postimg.cc/0jYnvQX6/tex-Heat-Sink.png"  width="64" > | **Secondary:** Exhaust | Fire a short-range heat blast for 8x240%. Gain 20% heat. |
+| <img src="https://i.postimg.cc/vB6XPXWt/tex-Heat-Signature.png"  width="64" > | **Utility:** Heat Signature | Agile. Sidestep a short distance. |
+| <img src="https://i.postimg.cc/85C3zNRZ/tex-Overdrive-Exit.png"  width="64" > | **Special:** Heat Sink | Release a fire nova around you that ignites and deals 250% base damage, increasing up to 1000% in full heat. Consumes all heat and exits overdrive. |
 
 # Elites
 | Icon | Elite | Description | Tier |
@@ -42,10 +44,6 @@
 |<img src="https://i.postimg.cc/QtFVs3R3/Document-Icon.png"  width="96" > | **Smoldering Document** | 5% chance to ignite enemies on hit for 250% TOTAL damage. Damage over time effects burden enemies, reducing their damage by 15% (+10% per stack, hydrobolic) and attack speed by 15% (+10% per stack, hydrobolic). | Green |
 |<img src="https://i.postimg.cc/PxjsGfV3/tex-Bleeding-Witness.png"  width="96" > | **Bleeding Witness** | 5% chance to hemorrhage enemies for 480% base damage. Your damage over time effects heal all allies for 0.5% (+0.25% per stack) of their maximum health. | Red |
 |<img src="https://i.postimg.cc/pXf50nwk/tex-Ceremonial-Jar.png"  width="96" > | **Ceremonial Jar** | On hit, link enemies up to 3 times. Linked enemies take 1500% (+750% per stack) base damage each and cannot be linked for 5s afterwards. | Red |
-
-# Feedback
-
-Join our discord: (discord.gg/zcQnUUPdpW)
 
 # Credits
 - Code: HIFU, Pseudopulse, Sandman, Prod

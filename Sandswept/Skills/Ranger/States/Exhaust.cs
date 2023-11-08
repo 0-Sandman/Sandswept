@@ -66,7 +66,7 @@ namespace Sandswept.States.Ranger
                 bulletCount = 8,
                 tracerEffectPrefab = TracerEffect,
                 muzzleName = "Muzzle",
-                hitEffectPrefab = ImpactEffect,
+                hitEffectPrefab = Assets.GameObject.ImpactRailgunLight,
                 falloffModel = BulletAttack.FalloffModel.Buckshot,
                 origin = base.GetAimRay().origin,
                 owner = base.gameObject,

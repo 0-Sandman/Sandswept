@@ -98,8 +98,11 @@ namespace Sandswept.Components
                         AkSoundEngine.PostEvent(Events.Play_MULT_m2_secondary_explode, base.gameObject);
                     }
                     */
-                    if (damageTimer >= damageInterval)
-                        TakeDamage(stopwatchMaxHeat * 0.5f);
+                    if (damageTimer >= damageInterval && stopwatchMaxHeat > 1f)
+                    {
+                        TakeDamage(stopwatchMaxHeat * 0.4f);
+                        damageTimer = 0f;
+                    }
                 }
 
                 cb.SetBuffCount(Scorched.instance.BuffDef.buffIndex, Mathf.RoundToInt((CurrentHeat + 0.001f) / 10));
@@ -115,6 +118,8 @@ namespace Sandswept.Components
                     isInStun = false;
                 }
             }
+
+            anim.SetFloat("combat", Mathf.Lerp(anim.GetFloat("combat"), cb.outOfCombat ? -1f : 1f, 3f * Time.fixedDeltaTime));
         }
 
         public void EnterOverdrive()
@@ -153,7 +158,7 @@ namespace Sandswept.Components
             {
                 attacker = null,
                 procCoefficient = 0,
-                damage = hc.fullCombinedHealth * 0.005f * timeInOverheat,
+                damage = hc.fullCombinedHealth * 0.015f * timeInOverheat,
                 crit = false,
                 position = transform.position,
                 damageColorIndex = DamageColorIndex.Fragile,

@@ -6,7 +6,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
     {
         public override string Name => "Enflame";
 
-        public override string Description => "$suAgile$se. Fire a rapid stream of bullets for $sd140% damage$se. $srContinuous fire increases heat, spread, and ignite chance$se.".AutoFormat();
+        public override string Description => "$suAgile$se. Fire a rapid stream of bullets for $sd110% damage$se. $srContinuous fire increases heat, spread, and ignite chance$se.".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Ranger.OverdriveFire);
 

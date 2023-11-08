@@ -77,78 +77,13 @@ namespace Sandswept.Items.Reds
         public override void Hooks()
         {
             base.Hooks();
-            // On.RoR2.GlobalEventManager.OnHitEnemy += OnHitEnemy;
-            GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
+            GlobalEventManager.onServerDamageDealt += OnHitEnemy;
         }
 
-        private void GlobalEventManager_onServerDamageDealt(DamageReport report)
+        public void OnHitEnemy(DamageReport report)
         {
-            var attackerBody = report.attackerBody;
-            if (!attackerBody)
-            {
-                return;
-            }
-
-            var stack = GetCount(attackerBody);
-            if (stack <= 0)
-            {
-                return;
-            }
-
-            var victimBody = report.victimBody;
-            if (!victimBody)
-            {
-                return;
-            }
-
-            if (victimBody.HasBuff(CereJarCDBuff))
-            {
-                return;
-            }
-
-            victimBody.AddTimedBuff(CereJarLinkedBuff, linkedEnemyCooldown);
-
-            List<CharacterBody> bodies = new();
-
-            for (int i = 0; i < CharacterBody.readOnlyInstancesList.Count; i++)
-            {
-                if (CharacterBody.readOnlyInstancesList[i].HasBuff(CereJarLinkedBuff))
-                {
-                    bodies.Add(CharacterBody.readOnlyInstancesList[i]);
-                }
-            }
-
-            if (bodies.Count >= linkedEnemiesRequirement)
-            {
-                bodies.ForEach(x =>
-                {
-                    x.RemoveBuff(CereJarLinkedBuff);
-                    x.AddTimedBuff(CereJarCDBuff, linkedEnemyCooldown);
-
-                    DamageInfo info = new()
-                    {
-                        damage = attackerBody.damage * (baseDamage + (stackDamage * (stack - 1))),
-                        crit = attackerBody.RollCrit(),
-                        damageColorIndex = JarDamageColor,
-                        attacker = attackerBody.gameObject,
-                        position = x.corePosition,
-                        procCoefficient = procCoefficient
-                    };
-
-                    x.healthComponent.TakeDamage(info);
-
-                    EffectManager.SpawnEffect(Assets.GameObject.IgniteExplosionVFX, new EffectData
-                    {
-                        scale = 2f,
-                        origin = x.corePosition
-                    }, true);
-                });
-            }
-        }
-
-        public void OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo info, GameObject victim)
-        {
-            orig(self, info, victim);
+            DamageInfo info = report.damageInfo;
+            GameObject victim = report.victim?.gameObject ?? null;
 
             GameObject attackerGO = info.attacker;
 
