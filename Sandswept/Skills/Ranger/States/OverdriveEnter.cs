@@ -8,8 +8,10 @@ namespace Sandswept.States.Ranger
     public class OverdriveEnter : BaseState
     {
         public static SkillDef PrimarySkill => Skills.Ranger.Skilldefs.OverdriveFire.instance.skillDef;
+
         public static SkillDef SecondarySkill => Skills.Ranger.Skilldefs.Exhaust.instance.skillDef;
         public static SkillDef UtilitySkill => Skills.Ranger.Skilldefs.HeatSignature.instance.skillDef;
+
         public static SkillDef SpecialSkill => Skills.Ranger.Skilldefs.HeatSink.instance.skillDef;
         public RoR2.UI.CrosshairUtils.OverrideRequest crosshairRequest;
 
