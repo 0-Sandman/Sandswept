@@ -77,13 +77,12 @@ namespace Sandswept.Items.Reds
         public override void Hooks()
         {
             base.Hooks();
-            GlobalEventManager.onServerDamageDealt += OnHitEnemy;
+            On.RoR2.GlobalEventManager.OnHitEnemy += OnHitEnemy;
         }
 
-        public void OnHitEnemy(DamageReport report)
+        public void OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo info, GameObject victim)
         {
-            DamageInfo info = report.damageInfo;
-            GameObject victim = report.victim?.gameObject ?? null;
+            orig(self, info, victim);
 
             GameObject attackerGO = info.attacker;
 
@@ -103,10 +102,12 @@ namespace Sandswept.Items.Reds
 
             if (victimBody.HasBuff(CereJarCDBuff))
             {
+                Debug.Log("returning because cd");
                 return;
             }
 
-            victimBody.AddTimedBuff(CereJarLinkedBuff, linkedEnemyCooldown);
+            victimBody.SetBuffCount(CereJarLinkedBuff.buffIndex, 1);
+            Debug.Log("adding buff");
 
             List<CharacterBody> bodies = new();
 
@@ -122,7 +123,7 @@ namespace Sandswept.Items.Reds
             {
                 bodies.ForEach(x =>
                 {
-                    x.RemoveBuff(CereJarLinkedBuff);
+                    x.SetBuffCount(CereJarLinkedBuff.buffIndex, 0);
                     x.AddTimedBuff(CereJarCDBuff, linkedEnemyCooldown);
 
                     DamageInfo info = new()
