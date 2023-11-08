@@ -80,7 +80,7 @@ namespace Sandswept.States.Ranger
 
             attack.Fire();
 
-            heat.CurrentHeat += (15f * heat.reduction);
+            heat.CurrentHeat += (20f * heat.reduction);
 
             AddRecoil(4f, 4f, 0f, 0f);
             characterMotor?.ApplyForce(-2000f * aimDirection, false, false);
