@@ -6,9 +6,8 @@ namespace Sandswept.Skills.Ranger.Skilldefs
     {
         public override string Name => "Overdrive";
 
-        public override string Description => "$suConsume all charges$sd. $sdTransform your rifle$se, replacing all of your skills with $sdscorching$se forms.".AutoFormat();
+        public override string Description => "<color=#36D7A9>Lose all Charge</color>. <style=cIsDamage>Transform your rifle</style>, replacing all of your skills with <style=cIsDamage>scorching forms</style>, lasts longer with each <color=#36D7A9>Charge</style>.";
 
-        // add custom keyword that says it can overheat, but gains increased damage (up to 2x) and spread (up to 3x) at max heat, linearly
         public override Type ActivationStateType => typeof(States.Ranger.OverdriveEnter);
 
         public override string ActivationMachineName => "Overdrive";

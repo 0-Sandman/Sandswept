@@ -62,8 +62,6 @@ namespace Sandswept.States.Ranger
             }
             */
             heat.CurrentHeat = 0f;
-
-            PlayAnimation("Body", "Twirl");
         }
 
         public void FireNova()
@@ -78,6 +76,8 @@ namespace Sandswept.States.Ranger
             Util.PlaySound("Play_magmaWorm_death_small_explos", gameObject);
             Util.PlaySound("Play_item_proc_igniteOnKill", gameObject);
             Util.PlaySound("Play_clayboss_m2_explo", gameObject);
+
+            PlayAnimation("Body", "Twirl");
 
             if (isAuthority)
                 new BlastAttack()

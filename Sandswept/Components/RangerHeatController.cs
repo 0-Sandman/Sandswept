@@ -13,7 +13,7 @@ namespace Sandswept.Components
         public static float MaxHeat = 100f;
         public static float HeatDecayRate = 15f;
         public static float HeatSignatureHeatIncreaseRate = 60f;
-        public static float HeatIncreaseRate = 35f;
+        public static float HeatIncreaseRate = 20f;
         public static float OverheatThreshold = 35f;
 
         public float CurrentHeat = 0f;
@@ -31,14 +31,18 @@ namespace Sandswept.Components
 
         //
         internal bool isOverdrive = false;
+
         internal int overdriveChargeBuffer = 0;
         internal float chargeBufferStopwatch = 0f;
         internal static float chargeBufferDelay = 1f;
-        internal float reduction => 1f - (Mathf.Clamp(0.15f * overdriveChargeBuffer, 0.1f, 0.9f));
+        internal float reduction => 1f - (Mathf.Clamp(0.15f * overdriveChargeBuffer, 0.15f, 0.85f));
         internal float stopwatchMaxHeat = 0f;
         internal float stunDelay = 1f;
         public bool isInStun = false;
         internal float stunStopwatch = 0f;
+        public bool isOverheating = false;
+        public float damageInterval = 0.2f;
+        public float damageTimer;
 
         internal EntityStateMachine esm;
 
@@ -59,32 +63,45 @@ namespace Sandswept.Components
             };
         }
 
-        public void FixedUpdate() {
-            if (isOverdrive) {
+        public void FixedUpdate()
+        {
+            if (isOverdrive)
+            {
                 CurrentHeat += (HeatIncreaseRate * Time.fixedDeltaTime) * reduction;
-                CurrentHeat = Mathf.Clamp(CurrentHeat, 0, MaxHeat );
+                CurrentHeat = Mathf.Clamp(CurrentHeat, 0, MaxHeat);
 
                 chargeBufferStopwatch += Time.fixedDeltaTime;
 
-                if (chargeBufferStopwatch >= chargeBufferDelay) {
+                if (chargeBufferStopwatch >= chargeBufferDelay)
+                {
                     overdriveChargeBuffer -= 1;
                     overdriveChargeBuffer = Mathf.Max(overdriveChargeBuffer, 0);
                     chargeBufferStopwatch = 0f;
                 }
 
-                if (CurrentHeat >= MaxHeat) {
+                if (CurrentHeat >= MaxHeat)
+                {
                     stopwatchMaxHeat += Time.fixedDeltaTime;
-
-                    if (stopwatchMaxHeat >= stunDelay) {
+                    damageTimer += Time.fixedDeltaTime;
+                    /*
+                    if (stopwatchMaxHeat >= stunDelay)
+                    {
                         stopwatchMaxHeat = 0f;
                         ExitOverdrive();
                         stunStopwatch = 5f;
                         isInStun = true;
-                        EffectManager.SpawnEffect(Assets.GameObject.ExplosionSolarFlare, new EffectData {
+                        EffectManager.SpawnEffect(Assets.GameObject.ExplosionSolarFlare, new EffectData
+                        {
                             origin = base.transform.position,
                             scale = 0.5f
                         }, false);
                         AkSoundEngine.PostEvent(Events.Play_MULT_m2_secondary_explode, base.gameObject);
+                    }
+                    */
+                    if (damageTimer >= damageInterval && stopwatchMaxHeat > 1f)
+                    {
+                        TakeDamage(stopwatchMaxHeat * 0.4f);
+                        damageTimer = 0f;
                     }
                 }
 
@@ -92,10 +109,12 @@ namespace Sandswept.Components
                 cb.SetBuffCount(Charged.instance.BuffDef.buffIndex, overdriveChargeBuffer);
             }
 
-            if (isInStun) {
+            if (isInStun)
+            {
                 stunStopwatch -= Time.fixedDeltaTime;
 
-                if (stunStopwatch <= 0f) {
+                if (stunStopwatch <= 0f)
+                {
                     isInStun = false;
                 }
             }
@@ -103,12 +122,14 @@ namespace Sandswept.Components
             anim.SetFloat("combat", Mathf.Lerp(anim.GetFloat("combat"), cb.outOfCombat ? -1f : 1f, 3f * Time.fixedDeltaTime));
         }
 
-        public void EnterOverdrive() {
+        public void EnterOverdrive()
+        {
             overdriveChargeBuffer = cb.GetBuffCount(Charged.instance.BuffDef);
             isOverdrive = true;
         }
 
-        public void ExitOverdrive() {
+        public void ExitOverdrive()
+        {
             overdriveChargeBuffer = 0;
             isOverdrive = false;
             stopwatchMaxHeat = 0f;
@@ -126,8 +147,30 @@ namespace Sandswept.Components
             machine2.SetState(new Idle());
         }
 
-        public void ExitStun() {
+        public void ExitStun()
+        {
             isInStun = false;
+        }
+
+        public void TakeDamage(float timeInOverheat)
+        {
+            DamageInfo info = new()
+            {
+                attacker = null,
+                procCoefficient = 0,
+                damage = hc.fullCombinedHealth * 0.015f * timeInOverheat,
+                crit = false,
+                position = transform.position,
+                damageColorIndex = DamageColorIndex.Fragile,
+                damageType = DamageType.BypassArmor | DamageType.BypassBlock
+            };
+
+            if (NetworkServer.active)
+            {
+                cb.healthComponent.TakeDamage(info);
+            }
+
+            AkSoundEngine.PostEvent(Events.Play_item_proc_igniteOnKill, gameObject);
         }
 
         /*public void FixedUpdate()
