@@ -22,6 +22,7 @@
 		<PackageReference Include="R2API.Elites" Version="1.0.1" />
 		<PackageReference Include="R2API.Items" Version="1.0.1" />
 		<PackageReference Include="R2API.Language" Version="1.0.0" />
+		<PackageReference Include="R2API.Skins" Version="1.0.0" />
 		<PackageReference Include="R2API.Networking" Version="1.0.2" />
 		<PackageReference Include="R2API.Prefab" Version="1.0.1" />
 		<PackageReference Include="R2API.RecalculateStats" Version="1.2.0" />

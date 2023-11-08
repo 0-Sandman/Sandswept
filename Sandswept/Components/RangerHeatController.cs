@@ -99,6 +99,8 @@ namespace Sandswept.Components
                     isInStun = false;
                 }
             }
+
+            anim.SetFloat("combat", Mathf.Lerp(anim.GetFloat("combat"), cb.outOfCombat ? -1f : 1f, 3f * Time.fixedDeltaTime));
         }
 
         public void EnterOverdrive() {

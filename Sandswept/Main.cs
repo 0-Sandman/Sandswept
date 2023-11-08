@@ -38,7 +38,7 @@ namespace Sandswept
 
         public static Dictionary<string, string> ShaderLookup = new()
     {
-        { "stubbed hopoo games/deferred/hgstandard", "shaders/deferred/hgstandard" },
+        { "StubbedShader/deferred/hgstandard", "shaders/deferred/hgstandard" },
         { "stubbed hopoo games/fx/hgcloud intersection remap", "shaders/fx/hgintersectioncloudremap" },
         { "stubbed hopoo games/fx/hgcloud remap", "shaders/fx/hgcloudremap" },
         { "stubbed hopoo games/fx/hgdistortion", "shaders/fx/hgdistortion" },
@@ -100,7 +100,9 @@ namespace Sandswept
             }
 
             SwapAllShaders(MainAssets);
-            SwapAllShaders(Assets);
+            // SwapAllShaders(Assets);
+            Material matRanger = Assets.LoadAsset<Material>("matRanger.mat");
+            matRanger.shader = Utils.Assets.Shader.HGStandard;
             SwapAllShaders(Asset2s);
             SwapAllShaders(hifuSandswept);
             DamageColourHelper.Init();
@@ -290,7 +292,7 @@ namespace Sandswept
                         break;
 
                     case "StubbedShader/deferred/hgstandard":
-                        val.shader = Resources.Load<Shader>("shaders/deferred/hgstandard");
+                        val.shader = Sandswept.Utils.Assets.Shader.HGStandard;
                         break;
 
                     case "StubbedShader/fx/hgintersectioncloudremap":

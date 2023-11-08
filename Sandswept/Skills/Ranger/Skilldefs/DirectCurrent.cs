@@ -16,10 +16,5 @@ namespace Sandswept.Skills.Ranger.Skilldefs
 
         public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("Pew.png");
         public override int StockToConsume => 0;
-
-        public override void CreateSkillDef()
-        {
-            // skillDef = ScriptableObject.CreateInstance<RangerStunDef>();
-        }
     }
 }

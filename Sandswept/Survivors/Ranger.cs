@@ -34,6 +34,9 @@ namespace Sandswept.Survivors
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdRanger.asset");
             SurvivorDef.cachedName = "Ranger"; // for eclipse fix
 
+
+            Body.GetComponent<ModelLocator>()._modelTransform.Find("HurtBox").localPosition = new(0, 0.01, 0);
+
             SkillLocator locator = Body.GetComponent<SkillLocator>();
             ReplaceSkills(locator.primary, new SkillDef[] { Skills.Ranger.Skilldefs.DirectCurrent.instance.skillDef });
             ReplaceSkills(locator.secondary, new SkillDef[] { Skills.Ranger.Skilldefs.Release.instance.skillDef });
@@ -42,6 +45,11 @@ namespace Sandswept.Survivors
 
             "SS_RANGER_PASSIVE_NAME".Add("Power Surge");
             "SS_RANGER_PASSIVE_DESC".Add("Hold up to 10 $rcCharge$ec. Each $rcCharge$ec increases $shbase health regeneration$se by $sh0.2 hp/s$se.".AutoFormat());
+
+            "SKIN_DEFAULT".Add("Default");
+
+            SkinDef sd = Main.Assets.LoadAsset<SkinDef>("Skindefault.asset");
+            sd.icon = R2API.Skins.CreateSkinIcon(Color.cyan, Color.blue, Color.green, Color.gray); 
 
             var mat = Main.hifuSandswept.LoadAsset<Material>("matRanger.mat");
             /*

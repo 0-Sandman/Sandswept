@@ -104,8 +104,8 @@ namespace Sandswept.Items
 
         protected virtual void CreateUnlockLang()
         {
-            LanguageAPI.Add("ACHIEVEMENT_SANDSWEPT_" + ItemLangTokenName + "_NAME", AchievementName);
-            LanguageAPI.Add("ACHIEVEMENT_SANDSWEPT_" + ItemLangTokenName + "_DESCRIPTION", AchievementDesc);
+            LanguageAPI.Add("ACHIEVEMENT_ITEM_SANDSWEPT_" + ItemLangTokenName + "_NAME", AchievementName);
+            LanguageAPI.Add("ACHIEVEMENT_ITEM_SANDSWEPT_" + ItemLangTokenName + "_DESCRIPTION", AchievementDesc);
         }
 
         public abstract ItemDisplayRuleDict CreateItemDisplayRules();
