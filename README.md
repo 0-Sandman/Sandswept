@@ -19,9 +19,9 @@
 | <img src="https://i.postimg.cc/gjmfqDHt/image4png.png"  width="64" > | **Special:** Overdrive | Agile. Transform your rifle, replacing all of your skills with scorching forms. |
 | | | |
 | <img src="https://i.postimg.cc/SNb1P012/tex-Overdrive-Fire.png"  width="64" > | **Primary:** Enflame | Agile. Fire a rapid stream of bullets for 140% damage. Continuous fire increases heat, spread, and ignite chance. |
-| <img src="https://i.postimg.cc/0jYnvQX6/tex-Heat-Sink.png"  width="64" > | **Secondary:** Heat Sink | Agile. Release a fire nova around you that ignites and deals 250% base damage, increasing up to 1000% in full heat. Consumes all heat, damages you for 25% max health and exits overdrive. |
-| <img src="https://i.postimg.cc/vB6XPXWt/tex-Heat-Signature.png"  width="64" > | **Utility:** Heat Signature | Agile. Toggle to summon fire in your wake that deals 300% damage per second. Increase movement speed by 30%. Gain 20% heat per second. |
-| <img src="https://i.postimg.cc/85C3zNRZ/tex-Overdrive-Exit.png"  width="64" > | **Special:** Cancel | Agile. Return your rifle to normal, consume 25% heat and gain 3 Charge. |
+| <img src="https://i.postimg.cc/0jYnvQX6/tex-Heat-Sink.png"  width="64" > | **Secondary:** Exhaust | Fire a short-range heat blast for 8x240%. Gain 20% heat. |
+| <img src="https://i.postimg.cc/vB6XPXWt/tex-Heat-Signature.png"  width="64" > | **Utility:** Heat Signature | Agile. Sidestep a short distance. |
+| <img src="https://i.postimg.cc/85C3zNRZ/tex-Overdrive-Exit.png"  width="64" > | **Special:** Heat Sink | Release a fire nova around you that ignites and deals 250% base damage, increasing up to 1000% in full heat. Consumes all heat and exits overdrive. |
 
 # Elites
 | Icon | Elite | Description | Tier |

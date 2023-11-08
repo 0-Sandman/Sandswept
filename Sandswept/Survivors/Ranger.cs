@@ -35,7 +35,7 @@ namespace Sandswept.Survivors
             SurvivorDef.cachedName = "Ranger"; // for eclipse fix
 
 
-            Body.GetComponent<ModelLocator>()._modelTransform.Find("HurtBox").localPosition = new(0, 0.01, 0);
+            Body.GetComponent<ModelLocator>()._modelTransform.Find("HurtBox").localPosition = new(0, 0.01f, 0);
 
             SkillLocator locator = Body.GetComponent<SkillLocator>();
             ReplaceSkills(locator.primary, new SkillDef[] { Skills.Ranger.Skilldefs.DirectCurrent.instance.skillDef });
