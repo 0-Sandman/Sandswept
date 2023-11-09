@@ -37,13 +37,22 @@ namespace Sandswept.Survivors
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdRanger.asset");
             SurvivorDef.cachedName = "Ranger"; // for eclipse fix
 
-            Body.GetComponent<ModelLocator>()._modelTransform.Find("HurtBox").localPosition = new(0, 0.01f, 0);
+            var _modelTransform = Body.GetComponent<ModelLocator>()._modelTransform;
+
+            _modelTransform.Find("HurtBox").localPosition = new(0, 0.01f, 0);
+
+            var footstepHandler = _modelTransform.AddComponent<FootstepHandler>();
+            footstepHandler.enableFootstepDust = true;
 
             SkillLocator locator = Body.GetComponent<SkillLocator>();
             ReplaceSkills(locator.primary, new SkillDef[] { Skills.Ranger.Skilldefs.DirectCurrent.instance.skillDef });
             ReplaceSkills(locator.secondary, new SkillDef[] { Skills.Ranger.Skilldefs.Release.instance.skillDef });
             ReplaceSkills(locator.utility, new SkillDef[] { Skills.Ranger.Skilldefs.Sidestep.instance.skillDef });
             ReplaceSkills(locator.special, new SkillDef[] { Skills.Ranger.Skilldefs.OverdriveEnter.instance.skillDef });
+
+            Main.ModLogger.LogError(Body.GetComponent<CharacterBody>().baseNameToken);
+
+            "SS_RANGER_BODY_LORE".Add("jaw drops\r\neyes pop out of head\r\ntongue rolls out\r\nHUMINA HUMINA HUMINA!\r\nAWOOGA AWOOGA!\r\nEE-AW EE-AW!\r\nBOIOIOING!\r\npicks up jaw\r\nfixes eyes\r\nrolls up tongue\r\nburies face in ass\r\nBLBLBLBLBL LBLBLBLBLBLBLLB\r\nWHOA MAMA");
 
             "SS_RANGER_PASSIVE_NAME".Add("Power Surge");
             "SS_RANGER_PASSIVE_DESC".Add("Hold up to 10 $rcCharge$ec. Each $rcCharge$ec increases $shbase health regeneration$se by $sh0.2 hp/s$se.".AutoFormat());
@@ -58,14 +67,8 @@ namespace Sandswept.Survivors
             var suitColor = new Color32(49, 62, 67, 255);
 
             sd.icon = Skins.CreateSkinIcon(scarfAndPantsColor, helmetColor, armorColor, suitColor);
-            /*
-            var mat = Main.Assets.LoadAsset<Material>("matRanger.mat");
-            mat.SetFloat("_EmissionPower", 0.022f);
 
-            not sure if hgstandard has hdr emission color, but it would make the green texture pop, while still having that glow instead of being a white lightbulb with green glow
-            so I just commented it out in case other devs don't like the look, cause I have no idea how to make it look proper lol
-
-            */
+            // not sure if hgstandard has hdr emission color, but it would make the green texture pop, while still having that glow instead of being a white lightbulb with green glow
         }
     }
 }

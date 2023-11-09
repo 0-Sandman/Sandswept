@@ -8,7 +8,7 @@ namespace Sandswept.States.Ranger
     {
         public static float Duration = 0.2f;
         public static float BuffDuration = 1f;
-        public static float SpeedCoefficient = 4f;
+        public static float SpeedCoefficient = 6f;
         private RangerHeatManager heat;
         private Vector3 stepVector;
         private Transform modelTransform;

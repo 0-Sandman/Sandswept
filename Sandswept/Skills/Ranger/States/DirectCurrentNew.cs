@@ -72,7 +72,7 @@
             if (isAuthority)
                 ProjectileManager.instance.FireProjectile(fpi);
 
-            AddRecoil(0.8f, 1f, 0.1f, 0.2f);
+            AddRecoil(1.2f, 1.5f, 0.3f, 0.5f);
         }
     }
 }

@@ -97,9 +97,9 @@ namespace Sandswept.Skills.Ranger.Projectiles
                 return;
             }
 
-            if (damageInfo.HasModdedDamageType(chargeOnHit) && attackerBody.GetBuffCount(Buffs.Charged.instance.BuffDef) <= 9)
+            if (damageInfo.HasModdedDamageType(chargeOnHit) && attackerBody.GetBuffCount(Buffs.Charge.instance.BuffDef) <= 9)
             {
-                attackerBody.AddBuff(Buffs.Charged.instance.BuffDef);
+                attackerBody.AddBuff(Buffs.Charge.instance.BuffDef);
             }
         }
     }

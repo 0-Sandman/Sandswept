@@ -106,7 +106,7 @@ namespace Sandswept.Components
                 }
 
                 cb.SetBuffCount(Scorched.instance.BuffDef.buffIndex, Mathf.RoundToInt((CurrentHeat + 0.001f) / 10));
-                cb.SetBuffCount(Charged.instance.BuffDef.buffIndex, overdriveChargeBuffer);
+                cb.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, overdriveChargeBuffer);
             }
 
             if (isInStun)
@@ -124,7 +124,7 @@ namespace Sandswept.Components
 
         public void EnterOverdrive()
         {
-            overdriveChargeBuffer = cb.GetBuffCount(Charged.instance.BuffDef);
+            overdriveChargeBuffer = cb.GetBuffCount(Buffs.Charge.instance.BuffDef);
             isOverdrive = true;
         }
 

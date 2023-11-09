@@ -13,7 +13,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
 
         public override string ActivationMachineName => "Dash";
 
-        public override float Cooldown => 2f;
+        public override float Cooldown => 3f;
 
         public override bool BeginCooldownOnSkillEnd => true;
         public override bool MustKeyPress => true;

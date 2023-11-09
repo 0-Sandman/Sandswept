@@ -77,6 +77,9 @@ namespace Sandswept.States.Ranger
             AkSoundEngine.PostEvent(Events.Play_wisp_attack_fire, base.gameObject);
             AkSoundEngine.PostEvent(Events.Play_lemurian_fireball_shoot, base.gameObject);
             AkSoundEngine.PostEvent(Events.Play_lunar_wisp_attack2_launch, gameObject);
+            AkSoundEngine.PostEvent(Events.Play_bleedOnCritAndExplode_impact, gameObject);
+            AkSoundEngine.PostEvent(Events.Play_greater_wisp_impact, gameObject);
+            AkSoundEngine.PostEvent(Events.Play_item_use_molotov_impact_big, gameObject);
 
             attack.Fire();
 

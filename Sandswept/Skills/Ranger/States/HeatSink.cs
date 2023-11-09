@@ -66,6 +66,43 @@ namespace Sandswept.States.Ranger
 
         public void FireNova()
         {
+            // FEAR
+
+            EffectManager.SpawnEffect(Assets.GameObject.MolotovClusterIgniteExplosionVFX, new EffectData
+            {
+                origin = transform.position,
+                scale = 16f,
+                rotation = Quaternion.identity
+            }, true);
+
+            EffectManager.SpawnEffect(Assets.GameObject.ExplosionVFX, new EffectData
+            {
+                origin = transform.position,
+                scale = 16f,
+                rotation = Quaternion.identity
+            }, true);
+
+            EffectManager.SpawnEffect(Assets.GameObject.FireMeatBallExplosion, new EffectData
+            {
+                origin = transform.position,
+                scale = 16f,
+                rotation = Quaternion.identity
+            }, true);
+
+            EffectManager.SpawnEffect(Assets.GameObject.IgniteDirectionalExplosionVFX, new EffectData
+            {
+                origin = transform.position,
+                scale = 16f,
+                rotation = Quaternion.identity
+            }, true);
+
+            EffectManager.SpawnEffect(Assets.GameObject.IgniteExplosionVFX, new EffectData
+            {
+                origin = transform.position,
+                scale = 16f,
+                rotation = Quaternion.identity
+            }, true);
+
             EffectManager.SpawnEffect(Assets.GameObject.MolotovClusterIgniteExplosionVFX, new EffectData
             {
                 origin = transform.position,
@@ -76,6 +113,9 @@ namespace Sandswept.States.Ranger
             Util.PlaySound("Play_magmaWorm_death_small_explos", gameObject);
             Util.PlaySound("Play_item_proc_igniteOnKill", gameObject);
             Util.PlaySound("Play_clayboss_m2_explo", gameObject);
+            AkSoundEngine.PostEvent(Events.Play_roboBall_death_small_explo, gameObject);
+            AkSoundEngine.PostEvent(Events.Play_voidRaid_m1_explode, gameObject);
+            AkSoundEngine.PostEvent(Events.Play_captain_shift_impact, gameObject);
 
             PlayAnimation("Body", "Twirl");
 

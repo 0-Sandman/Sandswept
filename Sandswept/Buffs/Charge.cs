@@ -2,7 +2,7 @@ using Sandswept.Skills.Ranger.VFX;
 
 namespace Sandswept.Buffs
 {
-    public class Charged : BuffBase<Charged>
+    public class Charge : BuffBase<Charge>
     {
         public override string BuffName => "Charge";
 
@@ -54,6 +54,7 @@ namespace Sandswept.Buffs
                     temporaryOverlay2.originalMaterial = overlayMat2;
                     temporaryOverlay2.AddToCharacerModel(modelTransform.GetComponent<CharacterModel>());
                 }
+                AkSoundEngine.PostEvent(Events.Play_vagrant_attack1_pop, self.gameObject);
                 AkSoundEngine.PostEvent(Events.Play_vagrant_attack1_pop, self.gameObject);
             }
         }

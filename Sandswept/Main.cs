@@ -111,6 +111,10 @@ namespace Sandswept
             // SwapAllShaders(Assets);
             Material matRanger = Assets.LoadAsset<Material>("matRanger.mat");
             matRanger.shader = Utils.Assets.Shader.HGStandard;
+            matRanger.SetColor("_EmColor", Color.white);
+            matRanger.SetFloat("_EmPower", 2.5f);
+            matRanger.EnableKeyword("DITHER");
+
             SwapAllShaders(Asset2s);
             SwapAllShaders(hifuSandswept);
             DamageColourHelper.Init();

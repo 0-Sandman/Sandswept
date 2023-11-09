@@ -54,7 +54,7 @@ namespace Sandswept.States.Ranger
 
             if (!hasFired)
             {
-                var chargedCount = characterBody.GetBuffCount(Buffs.Charged.instance.BuffDef);
+                var chargedCount = characterBody.GetBuffCount(Buffs.Charge.instance.BuffDef);
                 FireShot(chargedCount);
                 hasFired = true;
             }
@@ -65,6 +65,9 @@ namespace Sandswept.States.Ranger
         public void FireShot(int buffCount)
         {
             AkSoundEngine.PostEvent(Events.Play_lunar_wisp_attack2_launch, gameObject);
+            AkSoundEngine.PostEvent(Events.Play_bleedOnCritAndExplode_impact, gameObject);
+            AkSoundEngine.PostEvent(Events.Play_item_use_meteor_impact, gameObject);
+            AkSoundEngine.PostEvent(Events.Play_commando_M2_impact, gameObject);
 
             if (isAuthority)
             {
@@ -102,7 +105,7 @@ namespace Sandswept.States.Ranger
             {
                 for (int i = 0; i < buffCount; i++)
                 {
-                    characterBody.RemoveBuff(Buffs.Charged.instance.BuffDef);
+                    characterBody.RemoveBuff(Buffs.Charge.instance.BuffDef);
                 }
             }
         }
