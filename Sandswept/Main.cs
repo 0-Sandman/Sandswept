@@ -14,16 +14,20 @@ using Sandswept.Skills.Ranger.VFX;
 using Sandswept.Skills.Ranger.Projectiles;
 using static R2API.DamageAPI;
 using Sandswept.Skills.Ranger.Hooks;
+using R2API.ContentManagement;
 
 namespace Sandswept
 {
     [BepInPlugin(ModGuid, ModName, ModVer)]
+    [BepInDependency(Skins.PluginGUID, Skins.PluginVersion)]
     [BepInDependency(DotAPI.PluginGUID, DotAPI.PluginVersion)]
     [BepInDependency(ItemAPI.PluginGUID, ItemAPI.PluginVersion)]
     [BepInDependency(EliteAPI.PluginGUID, EliteAPI.PluginVersion)]
     [BepInDependency(DamageAPI.PluginGUID, DamageAPI.PluginVersion)]
     [BepInDependency(PrefabAPI.PluginGUID, PrefabAPI.PluginVersion)]
     [BepInDependency(LanguageAPI.PluginGUID, LanguageAPI.PluginVersion)]
+    [BepInDependency(RecalculateStatsAPI.PluginGUID, RecalculateStatsAPI.PluginVersion)]
+    [BepInDependency(R2APIContentManager.PluginGUID, R2APIContentManager.PluginVersion)]
     [BepInDependency(R2API.Networking.NetworkingAPI.PluginGUID, R2API.Networking.NetworkingAPI.PluginVersion)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
