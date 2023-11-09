@@ -135,6 +135,7 @@ namespace Sandswept.Components
             stopwatchMaxHeat = 0f;
             chargeBufferStopwatch = 0f;
             cb.SetBuffCount(Scorched.instance.BuffDef.buffIndex, 0);
+            cb.SetBuffCount(OverheatingDamageBoost.instance.BuffDef.buffIndex, 0);
             CurrentHeat = 0f;
 
             EntityStateMachine machine = EntityStateMachine.FindByCustomName(gameObject, "Overdrive");
@@ -144,7 +145,8 @@ namespace Sandswept.Components
             }
 
             EntityStateMachine machine2 = EntityStateMachine.FindByCustomName(gameObject, "Weapon");
-            machine2.SetState(new Idle());
+            if (machine2)
+                machine2.SetState(new Idle());
         }
 
         public void ExitStun()
@@ -165,8 +167,11 @@ namespace Sandswept.Components
                 damageType = DamageType.BypassArmor | DamageType.BypassBlock
             };
 
+            info.AddModdedDamageType(Main.HeatSelfDamage);
+
             if (NetworkServer.active)
             {
+                cb.AddBuff(OverheatingDamageBoost.instance.BuffDef);
                 cb.healthComponent.TakeDamage(info);
             }
 

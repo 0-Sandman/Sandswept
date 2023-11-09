@@ -20,6 +20,8 @@ namespace Sandswept.Skills.Ranger.Skilldefs
         public override bool Agile => true;
         public override bool IsCombat => false;
 
+        public override InterruptPriority InterruptPriority => InterruptPriority.Skill;
+
         public override void CreateSkillDef()
         {
             skillDef = ScriptableObject.CreateInstance<RangerChargeLockDef>();

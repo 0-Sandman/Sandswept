@@ -6,8 +6,8 @@ namespace Sandswept.States.Ranger
 {
     public class Exhaust : BaseState
     {
-        public static float DamageCoefficient = 1.4f;
-        public static float ProcCoefficient = 0.4f;
+        public static float DamageCoefficient = 1.6f;
+        public static float ProcCoefficient = 0.5f;
         public static float baseDuration = 0.15f;
         public float duration;
         public bool shot = false;
@@ -82,7 +82,7 @@ namespace Sandswept.States.Ranger
 
             heat.CurrentHeat += (20f * heat.reduction);
 
-            AddRecoil(4f, 4f, 0f, 0f);
+            AddRecoil(6f, 6f, 0f, 0f);
             characterMotor?.ApplyForce(-2000f * aimDirection, false, false);
 
             outer.SetNextStateToMain();

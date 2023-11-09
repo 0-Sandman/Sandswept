@@ -15,5 +15,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
         public override float Cooldown => 6f;
 
         public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("Blast.png");
+
+        public override InterruptPriority InterruptPriority => InterruptPriority.Skill;
     }
 }

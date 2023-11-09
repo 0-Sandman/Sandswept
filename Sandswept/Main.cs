@@ -12,6 +12,8 @@ using System.Diagnostics;
 using Sandswept.Elites;
 using Sandswept.Skills.Ranger.VFX;
 using Sandswept.Skills.Ranger.Projectiles;
+using static R2API.DamageAPI;
+using Sandswept.Skills.Ranger.Hooks;
 
 namespace Sandswept
 {
@@ -22,19 +24,20 @@ namespace Sandswept
     [BepInDependency(DamageAPI.PluginGUID, DamageAPI.PluginVersion)]
     [BepInDependency(PrefabAPI.PluginGUID, PrefabAPI.PluginVersion)]
     [BepInDependency(LanguageAPI.PluginGUID, LanguageAPI.PluginVersion)]
-    [BepInDependency(PluginGUID, PluginVersion)]
     [BepInDependency(R2API.Networking.NetworkingAPI.PluginGUID, R2API.Networking.NetworkingAPI.PluginVersion)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
     {
         public const string ModGuid = "com.SandsweptTeam.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVer = "0.1.0";
+        public const string ModVer = "0.6.0";
 
         public static AssetBundle MainAssets;
         public static AssetBundle Assets;
         public static AssetBundle Asset2s;
         public static AssetBundle hifuSandswept;
+
+        public static ModdedDamageType HeatSelfDamage = ReserveDamageType();
 
         public static Dictionary<string, string> ShaderLookup = new()
     {
@@ -85,6 +88,7 @@ namespace Sandswept
             SidestepVFX.Init();
             HeatSinkVFX.Init();
             HeatSignatureVFX.Init();
+            Eclipse8.Init();
 
             DirectCurrent.Init();
 

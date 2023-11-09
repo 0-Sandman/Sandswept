@@ -3,11 +3,11 @@ using System;
 
 namespace Sandswept.States.Ranger
 {
-    public class OverdriveFire : BaseState
+    public class Enflame : BaseState
     {
         public static int ShotsPerSecond = 6;
         public static float ProcCoeff = 0.8f;
-        public static float DamageCoeff = 1.1f;
+        public static float DamageCoeff = 1.2f;
         public static GameObject TracerEffect => OverdriveShotVFX.tracerPrefab; // beef this up later
         public static GameObject TracerEffectHeated => OverdriveShotHeatedVFX.tracerPrefab; // beef this up later
         private float shots;
@@ -39,7 +39,7 @@ namespace Sandswept.States.Ranger
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            return InterruptPriority.PrioritySkill;
+            return InterruptPriority.Skill;
         }
 
         public override void FixedUpdate()

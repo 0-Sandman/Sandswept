@@ -17,6 +17,7 @@
         public abstract Color Color { get; }
         public virtual bool CanStack { get; set; } = false;
         public virtual bool IsDebuff { get; set; } = false;
+        public virtual bool Hidden { get; set; } = false;
         public abstract Sprite BuffIcon { get; }
 
         public BuffDef BuffDef;
@@ -35,6 +36,7 @@
             BuffDef.canStack = CanStack;
             BuffDef.isDebuff = IsDebuff;
             BuffDef.iconSprite = BuffIcon;
+            BuffDef.isHidden = Hidden;
 
             ContentAddition.AddBuffDef(BuffDef);
         }

@@ -7,7 +7,7 @@ namespace Sandswept.States.Ranger
 {
     public class OverdriveEnter : BaseState
     {
-        public static SkillDef PrimarySkill => Skills.Ranger.Skilldefs.OverdriveFire.instance.skillDef;
+        public static SkillDef PrimarySkill => Skills.Ranger.Skilldefs.Enflame.instance.skillDef;
 
         public static SkillDef SecondarySkill => Skills.Ranger.Skilldefs.Exhaust.instance.skillDef;
         public static SkillDef UtilitySkill => Skills.Ranger.Skilldefs.HeatSignature.instance.skillDef;
