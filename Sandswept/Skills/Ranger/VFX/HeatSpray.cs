@@ -1,10 +1,13 @@
-namespace Sandswept.Skills.Ranger.VFX {
-    public static class HeatSprayVFX {
+namespace Sandswept.Skills.Ranger.VFX
+{
+    public static class HeatSprayVFX
+    {
         public static GameObject SprayTracer;
 
         [AutoRun]
-        public static void Init() {
-            SprayTracer = PrefabAPI.InstantiateClone(Assets.GameObject.TracerCommandoShotgun, "HeatSprayTracer");
+        public static void Init()
+        {
+            SprayTracer = PrefabAPI.InstantiateClone(Assets.GameObject.TracerCommandoShotgun, "HeatSprayTracer", false);
 
             LineRenderer renderer = SprayTracer.GetComponent<LineRenderer>();
             renderer.startColor = new Color32(255, 72, 0, 255);

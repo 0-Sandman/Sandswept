@@ -6,7 +6,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
     {
         public override string Name => "Overdrive";
 
-        public override string Description => "<color=#36D7A9>Lose all Charge</color>. <style=cIsDamage>Transform your rifle</style>, replacing all of your skills with <style=cIsDamage>scorching forms</style>, lasts longer with each <color=#36D7A9>Charge</style>.";
+        public override string Description => "<style=cIsUtility>Agile</style>. <style=cIsDamage>Transform your rifle</style>, replacing all of your skills with <style=cIsDamage>scorching forms</style>. <color=#36D7A9>Consumes all Charge over time to extend Overdrive</color>.";
 
         public override Type ActivationStateType => typeof(States.Ranger.OverdriveEnter);
 

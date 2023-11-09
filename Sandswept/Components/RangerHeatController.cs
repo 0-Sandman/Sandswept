@@ -160,7 +160,7 @@ namespace Sandswept.Components
             {
                 attacker = null,
                 procCoefficient = 0,
-                damage = hc.fullCombinedHealth * 0.015f * timeInOverheat,
+                damage = hc.fullCombinedHealth * 0.013f * timeInOverheat,
                 crit = false,
                 position = transform.position,
                 damageColorIndex = DamageColorIndex.Fragile,

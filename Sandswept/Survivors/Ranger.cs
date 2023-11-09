@@ -51,20 +51,21 @@ namespace Sandswept.Survivors
             "SKIN_DEFAULT".Add("Default");
 
             SkinDef sd = Main.Assets.LoadAsset<SkinDef>("Skindefault.asset");
-            sd.icon = R2API.Skins.CreateSkinIcon(Color.cyan, Color.blue, Color.green, Color.gray);
 
-            var mat = Main.hifuSandswept.LoadAsset<Material>("matRanger.mat");
+            var scarfAndPantsColor = new Color32(88, 161, 142, 255);
+            var helmetColor = new Color32(0, 255, 169, 255);
+            var armorColor = new Color32(223, 127, 35, 255);
+            var suitColor = new Color32(49, 62, 67, 255);
+
+            sd.icon = Skins.CreateSkinIcon(scarfAndPantsColor, helmetColor, armorColor, suitColor);
             /*
-            var model = Body.GetComponent<ModelLocator>().transform;
-            var gun = model.GetChild(2).GetComponent<SkinnedMeshRenderer>();
-            gun.material = mat;
-            var legs = model.GetChild(3).GetComponent<SkinnedMeshRenderer>();
-            legs.material = mat;
-            var scarf = model.GetChild(5).GetComponent<SkinnedMeshRenderer>();
-            scarf.material = mat;
-            */
+            var mat = Main.Assets.LoadAsset<Material>("matRanger.mat");
+            mat.SetFloat("_EmissionPower", 0.022f);
 
-            // trans form child out of bounds I love model locator
+            not sure if hgstandard has hdr emission color, but it would make the green texture pop, while still having that glow instead of being a white lightbulb with green glow
+            so I just commented it out in case other devs don't like the look, cause I have no idea how to make it look proper lol
+
+            */
         }
     }
 }

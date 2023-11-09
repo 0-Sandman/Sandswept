@@ -17,6 +17,8 @@ namespace Sandswept.Skills.Ranger.Skilldefs
         public override Sprite Icon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texExhaust.png");
         public override InterruptPriority InterruptPriority => InterruptPriority.Skill;
 
+        public override string[] Keywords => new string[] { Utils.Keywords.Ignite };
+
         public override void Init()
         {
             base.Init();
