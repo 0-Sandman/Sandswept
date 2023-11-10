@@ -6,8 +6,8 @@ namespace Sandswept.States.Ranger
 {
     public class Sidestep : BaseState
     {
-        public static float Duration = 0.075f;
-        public static float SpeedCoefficient = 22.66f;
+        public static float Duration = 0.1f;
+        public static float SpeedCoefficient = 17f;
         private Vector3 stepVector;
         private Transform modelTransform;
         public static Material overlayMat1 = SidestepVFX.dashMat1;

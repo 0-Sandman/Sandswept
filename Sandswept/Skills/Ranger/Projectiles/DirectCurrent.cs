@@ -38,11 +38,7 @@ namespace Sandswept.Skills.Ranger.Projectiles
             var holder = prefab.AddComponent<ModdedDamageTypeHolderComponent>();
             holder.Add(chargeOnHit);
 
-            var projectileImpactExplosion = prefab.GetComponent<ProjectileImpactExplosion>();
-            projectileImpactExplosion.falloffModel = BlastAttack.FalloffModel.None;
-            projectileImpactExplosion.blastRadius = 2.5f; // easier to hit
-            projectileImpactExplosion.bonusBlastForce = Vector3.zero;
-            projectileImpactExplosion.lifetime = 5f;
+            prefab.RemoveComponent<ProjectileImpactExplosion>();
 
             var newImpact = PrefabAPI.InstantiateClone(Assets.GameObject.OmniImpactVFXLightningMage, "Direct Current Explosion", false);
 
@@ -66,7 +62,27 @@ namespace Sandswept.Skills.Ranger.Projectiles
 
             ContentAddition.AddEffect(newImpact);
 
-            projectileImpactExplosion.impactEffect = newImpact;
+            var directCurrentExplosion = prefab.AddComponent<DirectCurrentExplosion>();
+            directCurrentExplosion.falloffModel = BlastAttack.FalloffModel.None;
+            directCurrentExplosion.blastRadius = 2.5f; // easier to hit
+            directCurrentExplosion.blastDamageCoefficient = 1f;
+            directCurrentExplosion.blastProcCoefficient = 1f;
+            directCurrentExplosion.blastAttackerFiltering = AttackerFiltering.Default;
+            directCurrentExplosion.bonusBlastForce = Vector3.zero;
+            directCurrentExplosion.canRejectForce = true;
+            directCurrentExplosion.projectileHealthComponent = null;
+            directCurrentExplosion.explosionEffect = null;
+            directCurrentExplosion.fireChildren = false;
+            directCurrentExplosion.applyDot = false;
+            directCurrentExplosion.impactEffect = newImpact;
+            directCurrentExplosion.lifetimeExpiredSound = null;
+            directCurrentExplosion.offsetForLifetimeExpiredSound = 0f;
+            directCurrentExplosion.destroyOnEnemy = true;
+            directCurrentExplosion.destroyOnWorld = true;
+            directCurrentExplosion.impactOnWorld = true;
+            directCurrentExplosion.timerAfterImpact = false;
+            directCurrentExplosion.lifetime = 5f;
+            directCurrentExplosion.transformSpace = ProjectileImpactExplosion.TransformSpace.World;
 
             var projectileSimple = prefab.GetComponent<ProjectileSimple>();
             projectileSimple.lifetime = 5f;
@@ -83,46 +99,43 @@ namespace Sandswept.Skills.Ranger.Projectiles
             projectileController.ghostPrefab = newGhost;
 
             PrefabAPI.RegisterNetworkPrefab(prefab);
-
-            On.RoR2.GlobalEventManager.OnHitAll += GlobalEventManager_OnHitAll;
         }
 
-        private static void GlobalEventManager_OnHitAll(On.RoR2.GlobalEventManager.orig_OnHitAll orig, GlobalEventManager self, DamageInfo damageInfo, GameObject hitObject)
+        public static int maxCharge = 20;
+    }
+
+    public class DirectCurrentExplosion : ProjectileImpactExplosion
+    {
+        public override void OnBlastAttackResult(BlastAttack blastAttack, BlastAttack.Result result)
         {
-            var attacker = damageInfo.attacker;
+            base.OnBlastAttackResult(blastAttack, result);
+
+            var attacker = blastAttack.attacker;
             if (attacker)
             {
                 var attackerBody = attacker.GetComponent<CharacterBody>();
                 if (attackerBody)
                 {
-                    Main.ModLogger.LogError(hitObject);
-
                     var buffCount = attackerBody.GetBuffCount(Buffs.Charge.instance.BuffDef);
 
-                    var shouldDeductCharge = hitObject.GetComponent<HealthComponent>() == null;
-
-                    if (shouldDeductCharge && attackerBody.baseNameToken == "SS_RANGER_BODY_NAME")
+                    var hitPoints = result.hitPoints;
+                    if (hitPoints.Length > 0)
                     {
-                        Main.ModLogger.LogError("should deduct charge and is ranger");
+                        for (int i = 0; i < hitPoints.Length; i++)
+                        {
+                            var hitPoint = hitPoints[i];
+                            if (hitPoint.hurtBox)
+                            {
+                                attackerBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Math.Min(DirectCurrent.maxCharge, buffCount + 2));
+                            }
+                        }
+                    }
+                    else
+                    {
                         attackerBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Max(0, buffCount - 1));
                     }
-
-                    if (damageInfo.HasModdedDamageType(chargeOnHit))
-                    {
-                        Main.ModLogger.LogError("has modded damage type and should gain charge");
-                        attackerBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Math.Min(maxCharge, buffCount + 2));
-                    }
-
-                    // schizo but so is modded damage type for some reason? like if I hit a wall then there's no damage type, otherwise it's chargeonhit lol
-                    // also I hate sdifjosdiofjsdimfvoisdjmiojviosfdv
-                    // hitting an airborne enemy works just fine, gives two charge
-                    // hitting any enemy on the ground will just give 1 net charge unless you hit above the ground which is guh
                 }
             }
-
-            orig(self, damageInfo, hitObject);
         }
-
-        public static int maxCharge = 20;
     }
 }
