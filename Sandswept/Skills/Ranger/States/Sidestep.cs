@@ -6,9 +6,8 @@ namespace Sandswept.States.Ranger
 {
     public class Sidestep : BaseState
     {
-        public static float Duration = 0.1f;
-        public static float BuffDuration = 1f;
-        public static float SpeedCoefficient = 17f;
+        public static float Duration = 0.075f;
+        public static float SpeedCoefficient = 22.66f;
         private Vector3 stepVector;
         private Transform modelTransform;
         public static Material overlayMat1 = SidestepVFX.dashMat1;
@@ -21,7 +20,7 @@ namespace Sandswept.States.Ranger
             {
                 characterBody.isSprinting = true;
                 if (NetworkServer.active)
-                    characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
+                    characterBody.AddBuff(Buffs.SidestepCharge.instance.BuffDef);
             }
 
             modelTransform = GetModelTransform();
@@ -87,7 +86,7 @@ namespace Sandswept.States.Ranger
             {
                 characterBody.isSprinting = true;
                 if (NetworkServer.active)
-                    characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
+                    characterBody.RemoveBuff(Buffs.SidestepCharge.instance.BuffDef);
             }
 
             if (characterMotor)

@@ -84,23 +84,45 @@ namespace Sandswept.Skills.Ranger.Projectiles
 
             PrefabAPI.RegisterNetworkPrefab(prefab);
 
-            GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
+            On.RoR2.GlobalEventManager.OnHitAll += GlobalEventManager_OnHitAll;
         }
 
-        private static void GlobalEventManager_onServerDamageDealt(DamageReport report)
+        private static void GlobalEventManager_OnHitAll(On.RoR2.GlobalEventManager.orig_OnHitAll orig, GlobalEventManager self, DamageInfo damageInfo, GameObject hitObject)
         {
-            var damageInfo = report.damageInfo;
-
-            var attackerBody = report.attackerBody;
-            if (!attackerBody)
+            var attacker = damageInfo.attacker;
+            if (attacker)
             {
-                return;
+                var attackerBody = attacker.GetComponent<CharacterBody>();
+                if (attackerBody)
+                {
+                    Main.ModLogger.LogError(hitObject);
+
+                    var buffCount = attackerBody.GetBuffCount(Buffs.Charge.instance.BuffDef);
+
+                    var shouldDeductCharge = hitObject.GetComponent<HealthComponent>() == null;
+
+                    if (shouldDeductCharge && attackerBody.baseNameToken == "SS_RANGER_BODY_NAME")
+                    {
+                        Main.ModLogger.LogError("should deduct charge and is ranger");
+                        attackerBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Max(0, buffCount - 1));
+                    }
+
+                    if (damageInfo.HasModdedDamageType(chargeOnHit))
+                    {
+                        Main.ModLogger.LogError("has modded damage type and should gain charge");
+                        attackerBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Math.Min(maxCharge, buffCount + 2));
+                    }
+
+                    // schizo but so is modded damage type for some reason? like if I hit a wall then there's no damage type, otherwise it's chargeonhit lol
+                    // also I hate sdifjosdiofjsdimfvoisdjmiojviosfdv
+                    // hitting an airborne enemy works just fine, gives two charge
+                    // hitting any enemy on the ground will just give 1 net charge unless you hit above the ground which is guh
+                }
             }
 
-            if (damageInfo.HasModdedDamageType(chargeOnHit) && attackerBody.GetBuffCount(Buffs.Charge.instance.BuffDef) <= 9)
-            {
-                attackerBody.AddBuff(Buffs.Charge.instance.BuffDef);
-            }
+            orig(self, damageInfo, hitObject);
         }
+
+        public static int maxCharge = 20;
     }
 }

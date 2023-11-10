@@ -7,7 +7,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
     {
         public override string Name => "Sidestep";
 
-        public override string Description => "$suAgile$se. Quickly $susidestep$se a short distance.".AutoFormat();
+        public override string Description => "$suAgile$se. Quickly $susidestep$se a short distance. Taking damage while in Sidestep generates $rc10 Charge$ec.".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Ranger.Sidestep);
 

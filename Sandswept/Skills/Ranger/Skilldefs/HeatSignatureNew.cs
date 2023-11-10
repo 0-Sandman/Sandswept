@@ -9,7 +9,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
         public override string Description => "$suAgile$se. $suSidestep$se a very short distance.".AutoFormat();
 
         // 16m radius?
-        public override Type ActivationStateType => typeof(States.Ranger.HeatSignature);
+        public override Type ActivationStateType => typeof(States.Ranger.HeatSignatureNew);
 
         public override string ActivationMachineName => "Dash";
 

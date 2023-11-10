@@ -4,7 +4,7 @@ using Sandswept.Skills.Ranger.VFX;
 
 namespace Sandswept.States.Ranger
 {
-    public class HeatSignature : BaseState
+    public class HeatSignatureNew : BaseState
     {
         public static float Duration = 0.2f;
         public static float BuffDuration = 1f;

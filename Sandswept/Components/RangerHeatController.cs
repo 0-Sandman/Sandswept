@@ -34,8 +34,8 @@ namespace Sandswept.Components
 
         internal int overdriveChargeBuffer = 0;
         internal float chargeBufferStopwatch = 0f;
-        internal static float chargeBufferDelay = 1f;
-        internal float reduction => 1f - (Mathf.Clamp(0.15f * overdriveChargeBuffer, 0.15f, 0.85f));
+        internal static float chargeBufferDelay = 0.5f;
+        internal float reduction => 1f - (Mathf.Clamp(0.15f * overdriveChargeBuffer, 0.15f, 0.6f));
         internal float stopwatchMaxHeat = 0f;
         internal float stunDelay = 1f;
         public bool isInStun = false;

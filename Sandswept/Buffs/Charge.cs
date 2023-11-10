@@ -1,3 +1,4 @@
+using Sandswept.Skills.Ranger.Projectiles;
 using Sandswept.Skills.Ranger.VFX;
 
 namespace Sandswept.Buffs
@@ -24,15 +25,15 @@ namespace Sandswept.Buffs
         {
             if (NetworkServer.active && body)
             {
-                var levelScale = 0.2f * 0.2f * (body.level - 1);
-                args.baseRegenAdd += (0.2f + levelScale) * body.GetBuffCount(BuffDef);
+                var levelScale = 0.12f * 0.2f * (body.level - 1);
+                args.baseRegenAdd += (0.12f + levelScale) * body.GetBuffCount(BuffDef);
             }
         }
 
         private static void CharacterBody_AddBuff_BuffDef(On.RoR2.CharacterBody.orig_AddBuff_BuffDef orig, CharacterBody self, BuffDef buffDef)
         {
             orig(self, buffDef);
-            if (self.GetBuffCount(instance.BuffDef) > 9 && buffDef == instance.BuffDef)
+            if (self.GetBuffCount(instance.BuffDef) > (DirectCurrent.maxCharge - 1) && buffDef == instance.BuffDef)
             {
                 var modelTransform = self.modelLocator?.modelTransform;
                 // Main.ModLogger.LogError("model transform is " + modelTransform); works

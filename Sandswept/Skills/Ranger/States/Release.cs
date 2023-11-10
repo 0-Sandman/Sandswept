@@ -1,3 +1,4 @@
+using Sandswept.Skills.Ranger.Projectiles;
 using Sandswept.Skills.Ranger.VFX;
 using System;
 using static UnityEngine.SendMouseEvents;
@@ -6,7 +7,8 @@ namespace Sandswept.States.Ranger
 {
     public class Release : BaseState
     {
-        public static float DamageCoefficient = 5f;
+        public static float DamageCoefficient = 6f;
+        public static float MaxDamageCoefficient = 15f;
         public static float ProcCoefficient = 1f;
         public static float baseDuration = 0.25f;
         public float duration;
@@ -77,7 +79,7 @@ namespace Sandswept.States.Ranger
                 {
                     aimVector = aimDirection,
                     falloffModel = BulletAttack.FalloffModel.None,
-                    damage = damageStat * (DamageCoefficient + 1f * buffCount),
+                    damage = damageStat * Util.Remap(buffCount, 0, DirectCurrent.maxCharge, DamageCoefficient, MaxDamageCoefficient),
                     isCrit = RollCrit(),
                     minSpread = 0,
                     maxSpread = 0,
@@ -91,12 +93,12 @@ namespace Sandswept.States.Ranger
                     radius = 2f,
                     smartCollision = true,
                     stopperMask = LayerIndex.world.mask,
-                    force = 2500f + 200f * buffCount,
+                    force = 2500f + 100f * buffCount,
                 };
 
-                AddRecoil(3f + 0.3f * buffCount, 3f + 0.3f * buffCount, 0f, 0f);
+                AddRecoil(3f + 0.15f * buffCount, 3f + 0.15f * buffCount, 0f, 0f);
 
-                characterMotor?.ApplyForce((-3000f - 300f * buffCount) * aimDirection, false, false);
+                characterMotor?.ApplyForce((-3000f - 150f * buffCount) * aimDirection, false, false);
 
                 attack.Fire();
             }

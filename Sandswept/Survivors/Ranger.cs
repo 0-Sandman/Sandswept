@@ -1,5 +1,8 @@
 using System;
 using Sandswept.Components;
+using Sandswept.Skills.Ranger.Projectiles;
+using Sandswept.States.Ranger;
+using UnityEngine.Experimental.U2D;
 
 namespace Sandswept.Survivors
 {
@@ -43,6 +46,9 @@ namespace Sandswept.Survivors
 
             var footstepHandler = _modelTransform.AddComponent<FootstepHandler>();
             footstepHandler.enableFootstepDust = true;
+            footstepHandler.baseFootstepString = "Play_bandit2_step";
+            footstepHandler.sprintFootstepOverrideString = "Play_bandit2_step_sprint";
+            footstepHandler.footstepDustPrefab = Assets.GameObject.GenericFootstepDust;
 
             SkillLocator locator = Body.GetComponent<SkillLocator>();
             ReplaceSkills(locator.primary, new SkillDef[] { Skills.Ranger.Skilldefs.DirectCurrent.instance.skillDef });
@@ -50,14 +56,19 @@ namespace Sandswept.Survivors
             ReplaceSkills(locator.utility, new SkillDef[] { Skills.Ranger.Skilldefs.Sidestep.instance.skillDef });
             ReplaceSkills(locator.special, new SkillDef[] { Skills.Ranger.Skilldefs.OverdriveEnter.instance.skillDef });
 
-            Main.ModLogger.LogError(Body.GetComponent<CharacterBody>().baseNameToken);
-
             "SS_RANGER_BODY_LORE".Add("jaw drops\r\neyes pop out of head\r\ntongue rolls out\r\nHUMINA HUMINA HUMINA!\r\nAWOOGA AWOOGA!\r\nEE-AW EE-AW!\r\nBOIOIOING!\r\npicks up jaw\r\nfixes eyes\r\nrolls up tongue\r\nburies face in ass\r\nBLBLBLBLBL LBLBLBLBLBLBLLB\r\nWHOA MAMA");
 
             "SS_RANGER_PASSIVE_NAME".Add("Power Surge");
-            "SS_RANGER_PASSIVE_DESC".Add("Hold up to 10 $rcCharge$ec. Each $rcCharge$ec increases $shbase health regeneration$se by $sh0.2 hp/s$se.".AutoFormat());
+            "SS_RANGER_PASSIVE_DESC".Add("Hold up to " + DirectCurrent.maxCharge + " $rcCharge$ec. Each $rcCharge$ec increases $shbase health regeneration$se by $sh0.12 hp/s$se.".AutoFormat());
 
             "SKIN_DEFAULT".Add("Default");
+
+            mdl = _modelTransform.GetComponent<CharacterModel>();
+
+            CreateRecolor("Major", 4.2f);
+            CreateRecolor("Renegade");
+            CreateRecolor("Mile Zero", 4.2f);
+            // CreateRecolor("Uv");
 
             SkinDef sd = Main.Assets.LoadAsset<SkinDef>("Skindefault.asset");
 
@@ -68,7 +79,88 @@ namespace Sandswept.Survivors
 
             sd.icon = Skins.CreateSkinIcon(scarfAndPantsColor, helmetColor, armorColor, suitColor);
 
+            ContentAddition.AddBody(Body);
+            ContentAddition.AddMaster(Master);
+            ContentAddition.AddEntityState(typeof(DirectCurrentNew), out _);
+            ContentAddition.AddEntityState(typeof(Enflame), out _);
+            ContentAddition.AddEntityState(typeof(Exhaust), out _);
+            ContentAddition.AddEntityState(typeof(HeatSignatureNew), out _);
+            ContentAddition.AddEntityState(typeof(HeatSink), out _);
+            ContentAddition.AddEntityState(typeof(OverdriveEnter), out _);
+            ContentAddition.AddEntityState(typeof(OverdriveExit), out _);
+            ContentAddition.AddEntityState(typeof(OverdriveExitHeatSink), out _);
+            ContentAddition.AddEntityState(typeof(Release), out _);
+            ContentAddition.AddEntityState(typeof(Sidestep), out _);
+
             // not sure if hgstandard has hdr emission color, but it would make the green texture pop, while still having that glow instead of being a white lightbulb with green glow
+        }
+
+        public static CharacterModel mdl;
+
+        public void CreateRecolor(string skinName, float emissionValue = 2.5f)
+        {
+            var trimmedName = skinName.Replace(" ", "");
+            var mainTex = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRangerDiffuse" + trimmedName + ".png");
+            var emTex = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRangerEmission" + trimmedName + ".png");
+
+            var scarfAndPantsColor = mainTex.GetPixel(272, 265);
+            var helmetColor = mainTex.GetPixel(444, 168);
+            var armorColor = mainTex.GetPixel(41, 390);
+            var suitColor = mainTex.GetPixel(453, 465);
+
+            var newMat = new Material(Main.Assets.LoadAsset<Material>("matRanger.mat"));
+
+            newMat.SetTexture("_MainTex", mainTex);
+            newMat.SetTexture("_EmTex", emTex);
+            newMat.SetFloat("_EmPower", emissionValue);
+            newMat.name = "matRanger" + skinName;
+
+            var trans = mdl.transform;
+            var gun = trans.GetChild(1).GetComponent<SkinnedMeshRenderer>();
+            var legs = trans.GetChild(2).GetComponent<SkinnedMeshRenderer>();
+            var scarf = trans.GetChild(4).GetComponent<SkinnedMeshRenderer>();
+
+            var gunRendererInfo = new CharacterModel.RendererInfo()
+            {
+                defaultMaterial = newMat,
+                renderer = gun,
+                defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                ignoreOverlays = false,
+                hideOnDeath = false
+            };
+
+            var legsRendererInfo = new CharacterModel.RendererInfo()
+            {
+                defaultMaterial = newMat,
+                renderer = legs,
+                defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                ignoreOverlays = false,
+                hideOnDeath = false
+            };
+
+            var scarfRendererInfo = new CharacterModel.RendererInfo()
+            {
+                defaultMaterial = newMat,
+                renderer = scarf,
+                defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                ignoreOverlays = false,
+                hideOnDeath = false
+            };
+
+            var newRendererInfos = new CharacterModel.RendererInfo[] { gunRendererInfo, legsRendererInfo, scarfRendererInfo };
+
+            var newSkinDefInfo = new SkinDefInfo()
+            {
+                Icon = Skins.CreateSkinIcon(scarfAndPantsColor, helmetColor, armorColor, suitColor),
+                Name = trimmedName,
+                NameToken = "SKIN_" + trimmedName.ToUpper(),
+                RendererInfos = newRendererInfos,
+                RootObject = mdl.gameObject
+            };
+
+            ("SKIN_" + trimmedName.ToUpper()).Add(skinName);
+
+            Skins.AddSkinToCharacter(Body, newSkinDefInfo);
         }
     }
 }

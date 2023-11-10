@@ -6,7 +6,7 @@ namespace Sandswept.Skills.Ranger.Skilldefs
     {
         public override string Name => "Direct Current";
 
-        public override string Description => "Fire an arcing electric current for $sd250% damage$se. Hitting enemies increases $rcCharge$ec by $rc1$ec.".AutoFormat();
+        public override string Description => "Fire an arcing electric current for $sd250% damage$se. Hitting enemies generates $rc2 Charge$ec, but missing reduces it by $rc1$ec.".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Ranger.DirectCurrentNew);
 
