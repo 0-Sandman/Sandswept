@@ -102,7 +102,6 @@ namespace Sandswept.States.Ranger
             if (characterBody)
             {
                 characterBody.isSprinting = true;
-                characterBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Min(characterBody.GetBuffCount(Buffs.Charge.instance.BuffDef) + 3, 10));
             }
         }
 

@@ -54,23 +54,27 @@
             characterBody.SetSpreadBloom(12f, true);
 
             var aimRay = GetAimRay();
-
-            var fpi = new FireProjectileInfo()
-            {
-                damage = damageStat * damageCoefficient,
-                crit = RollCrit(),
-                damageColorIndex = DamageColorIndex.Default,
-                owner = gameObject,
-                rotation = Quaternion.LookRotation(aimRay.direction),
-                //position = GetModelChildLocator().FindChild("Muzzle").position,
-                position = base.transform.position,
-                force = 500f,
-                procChainMask = default,
-                projectilePrefab = directCurrentProjectile
-            };
-
             if (isAuthority)
+            {
+                var fpi = new FireProjectileInfo()
+                {
+                    damage = damageStat * damageCoefficient,
+                    crit = RollCrit(),
+                    damageColorIndex = DamageColorIndex.Default,
+                    owner = gameObject,
+                    rotation = Quaternion.LookRotation(aimRay.direction),
+                    //position = GetModelChildLocator().FindChild("Muzzle").position,
+                    position = base.transform.position,
+                    force = 500f,
+                    procChainMask = default,
+                    projectilePrefab = directCurrentProjectile
+                };
+
+                Main.ModLogger.LogError(directCurrentProjectile);
+                Main.ModLogger.LogError(fpi.projectilePrefab);
+
                 ProjectileManager.instance.FireProjectile(fpi);
+            }
 
             AddRecoil(1.2f, 1.5f, 0.3f, 0.5f);
         }

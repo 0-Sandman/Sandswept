@@ -1,4 +1,5 @@
 using System;
+using R2API.Utils;
 using Sandswept.Components;
 using Sandswept.Skills.Ranger.Projectiles;
 using Sandswept.States.Ranger;
@@ -26,6 +27,13 @@ namespace Sandswept.Survivors
             var characterBody = Body.GetComponent<CharacterBody>();
             characterBody.portraitIcon = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRangerIcon.png");
             characterBody.bodyColor = new Color32(54, 215, 169, 255);
+
+            var networkIdentity = Body.GetComponent<NetworkIdentity>();
+            networkIdentity.localPlayerAuthority = true;
+            networkIdentity.enabled = true;
+            networkIdentity.serverOnly = false;
+
+            PrefabAPI.RegisterNetworkPrefab(Body);
 
             Master = PrefabAPI.InstantiateClone(Assets.GameObject.CommandoMonsterMaster, "RangerMaster");
 

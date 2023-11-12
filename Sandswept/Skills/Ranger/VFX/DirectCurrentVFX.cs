@@ -7,6 +7,7 @@ namespace Sandswept.Skills.Ranger.VFX
     public static class DirectCurrentVFX
     {
         public static GameObject ghostPrefab;
+        public static GameObject impactPrefab;
 
         public static void Init()
         {
@@ -67,6 +68,28 @@ namespace Sandswept.Skills.Ranger.VFX
             newTrailMat.SetColor("_TintColor", new Color32(111, 170, 151, 154));
 
             trail.material = newTrailMat;
+
+            impactPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.OmniImpactVFXLightningMage, "Direct Current Impact", false);
+
+            var effectComponent = impactPrefab.GetComponent<EffectComponent>();
+            effectComponent.soundName = "Play_engi_M1_explo";
+
+            var sphereExpanding = impactPrefab.transform.Find("Sphere, Expanding").GetComponent<ParticleSystemRenderer>();
+
+            var newMat = Object.Instantiate(Assets.Material.matLightningSphere);
+
+            newMat.SetColor("_TintColor", new Color32(17, 17, 17, 255));
+            newMat.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampDirectCurrentImpact.png"));
+
+            sphereExpanding.material = newMat;
+
+            for (int i = 0; i < impactPrefab.transform.childCount; i++)
+            {
+                var trans = impactPrefab.transform.GetChild(i);
+                trans.localScale *= 0.1785714285f; // 1/14 * 2.5m radius
+            }
+
+            ContentAddition.AddEffect(impactPrefab);
         }
     }
 }

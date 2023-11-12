@@ -1,4 +1,5 @@
-﻿using Sandswept.Skills.Ranger.VFX;
+﻿using R2API.Networking.Interfaces;
+using Sandswept.Skills.Ranger.VFX;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,7 +14,7 @@ namespace Sandswept.Skills.Ranger.Projectiles
 
         public static void Init()
         {
-            prefab = PrefabAPI.InstantiateClone(Assets.GameObject.MageLightningBombProjectile, "Direct Current Projectile");
+            prefab = PrefabAPI.InstantiateClone(Assets.GameObject.MageLightningBombProjectile, "Direct Current Projectile", true);
 
             var proximityDetonator = prefab.transform.GetChild(0).GetComponent<SphereCollider>();
             proximityDetonator.radius = 0.6f;
@@ -40,28 +41,6 @@ namespace Sandswept.Skills.Ranger.Projectiles
 
             prefab.RemoveComponent<ProjectileImpactExplosion>();
 
-            var newImpact = PrefabAPI.InstantiateClone(Assets.GameObject.OmniImpactVFXLightningMage, "Direct Current Explosion", false);
-
-            var effectComponent = newImpact.GetComponent<EffectComponent>();
-            effectComponent.soundName = "Play_engi_M1_explo";
-
-            var sphereExpanding = newImpact.transform.Find("Sphere, Expanding").GetComponent<ParticleSystemRenderer>();
-
-            var newMat = Object.Instantiate(Assets.Material.matLightningSphere);
-
-            newMat.SetColor("_TintColor", new Color32(17, 17, 17, 255));
-            newMat.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampDirectCurrentImpact.png"));
-
-            sphereExpanding.material = newMat;
-
-            for (int i = 0; i < newImpact.transform.childCount; i++)
-            {
-                var trans = newImpact.transform.GetChild(i);
-                trans.localScale *= 0.1785714285f; // 1/14 * 2.5m radius
-            }
-
-            ContentAddition.AddEffect(newImpact);
-
             var directCurrentExplosion = prefab.AddComponent<DirectCurrentExplosion>();
             directCurrentExplosion.falloffModel = BlastAttack.FalloffModel.None;
             directCurrentExplosion.blastRadius = 2.5f; // easier to hit
@@ -74,7 +53,7 @@ namespace Sandswept.Skills.Ranger.Projectiles
             directCurrentExplosion.explosionEffect = null;
             directCurrentExplosion.fireChildren = false;
             directCurrentExplosion.applyDot = false;
-            directCurrentExplosion.impactEffect = newImpact;
+            directCurrentExplosion.impactEffect = DirectCurrentVFX.impactPrefab;
             directCurrentExplosion.lifetimeExpiredSound = null;
             directCurrentExplosion.offsetForLifetimeExpiredSound = 0f;
             directCurrentExplosion.destroyOnEnemy = true;
@@ -109,33 +88,92 @@ namespace Sandswept.Skills.Ranger.Projectiles
         public override void OnBlastAttackResult(BlastAttack blastAttack, BlastAttack.Result result)
         {
             base.OnBlastAttackResult(blastAttack, result);
+            // Main.ModLogger.LogError("right after base call");
+            // Main.ModLogger.LogError("blast attack is " + blastAttack);
+            // Main.ModLogger.LogError("result is " + result);
 
             var attacker = blastAttack.attacker;
             if (attacker)
             {
+                // Main.ModLogger.LogError("attacker exists");
                 var attackerBody = attacker.GetComponent<CharacterBody>();
                 if (attackerBody)
                 {
+                    // Main.ModLogger.LogError("attacker body exists");
                     var buffCount = attackerBody.GetBuffCount(Buffs.Charge.instance.BuffDef);
 
+                    // new SyncChargeOnHit(attacker.GetComponent<NetworkIdentity>().netId, 2, 1).Send(R2API.Networking.NetworkDestination.Clients);
+
                     var hitPoints = result.hitPoints;
+                    // Main.ModLogger.LogError("hitpoints are " + hitPoints);
                     if (hitPoints.Length > 0)
                     {
+                        // Main.ModLogger.LogError("more than zero hitpoints");
+
                         for (int i = 0; i < hitPoints.Length; i++)
                         {
+                            // Main.ModLogger.LogError("looping through all hitpoints");
+
                             var hitPoint = hitPoints[i];
                             if (hitPoint.hurtBox)
                             {
+                                // Main.ModLogger.LogError("hitbox exists, trying to set add 2 charge");
                                 attackerBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Math.Min(DirectCurrent.maxCharge, buffCount + 2));
                             }
                         }
                     }
                     else
                     {
+                        // Main.ModLogger.LogError("zero hitpoints, trying to remove 1 charge");
                         attackerBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Max(0, buffCount - 1));
                     }
                 }
             }
         }
     }
+
+    /*
+    public class SyncChargeOnHit : INetMessage
+    {
+        private NetworkInstanceId objID;
+        private HurtBoxReference hurtBoxReference;
+
+        public SyncChargeOnHit()
+        {
+        }
+
+        public SyncChargeOnHit(NetworkInstanceId objID, HurtBoxReference hurtBoxReference)
+        {
+            this.objID = objID;
+            this.hurtBoxReference = hurtBoxReference;
+        }
+
+        public void Deserialize(NetworkReader reader)
+        {
+            objID = reader.ReadNetworkId();
+            hurtBoxReference = reader.ReadHurtBoxReference();
+        }
+
+        public void OnReceived()
+        {
+            if (NetworkServer.active) return;
+            var obj = Util.FindNetworkObject(objID);
+            if (obj)
+            {
+                var body = obj.GetComponent<CharacterBody>();
+                if (body)
+                {
+                    body.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Math.Min(DirectCurrent.maxCharge, buffCount + 2));
+                }
+            }
+        }
+
+        public void Serialize(NetworkWriter writer)
+        {
+            writer.Write(objID);
+            writer.Write(chargeGain);
+            writer.Write(chargeLoss);
+        }
+    }
+    */
 }
