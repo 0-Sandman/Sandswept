@@ -15,6 +15,8 @@ using Sandswept.Skills.Ranger.Projectiles;
 using static R2API.DamageAPI;
 using Sandswept.Skills.Ranger.Hooks;
 using R2API.ContentManagement;
+using RoR2.UI;
+using Sandswept.WIP_Content;
 
 namespace Sandswept
 {
@@ -79,7 +81,7 @@ namespace Sandswept
             ModLogger = Logger;
 
             Assets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweptassets2"));
-            Asset2s = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // temporary assetbundle bc i didnt have the other two unity projects, please merge into the other assets
+            Asset2s = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // MFS I SAID MERGE INTO OTHER ASSETS
             hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
 
             Crosshairs.Ranger.Init();
@@ -95,6 +97,7 @@ namespace Sandswept
             Eclipse8.Init();
 
             DirectCurrent.Init();
+            Based.Init();
 
             AutoRunCollector.HandleAutoRun();
             ConfigManager.HandleConfigAttributes(Assembly.GetExecutingAssembly(), Config);
