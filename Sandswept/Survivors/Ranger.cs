@@ -1,4 +1,5 @@
 using System;
+using R2API.Utils;
 using Sandswept.Components;
 using Sandswept.Skills.Ranger.Projectiles;
 using Sandswept.States.Ranger;
@@ -27,6 +28,13 @@ namespace Sandswept.Survivors
             characterBody.portraitIcon = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRangerIcon.png");
             characterBody.bodyColor = new Color32(54, 215, 169, 255);
 
+            var networkIdentity = Body.GetComponent<NetworkIdentity>();
+            networkIdentity.localPlayerAuthority = true;
+            networkIdentity.enabled = true;
+            networkIdentity.serverOnly = false;
+
+            PrefabAPI.RegisterNetworkPrefab(Body);
+
             Master = PrefabAPI.InstantiateClone(Assets.GameObject.CommandoMonsterMaster, "RangerMaster");
 
             Body.AddComponent<RoR2.UI.CrosshairUtils.CrosshairOverrideBehavior>();
@@ -40,7 +48,7 @@ namespace Sandswept.Survivors
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdRanger.asset");
             SurvivorDef.cachedName = "Ranger"; // for eclipse fix
 
-            var _modelTransform = Body.GetComponent<ModelLocator>()._modelTransform;
+            _modelTransform = Body.GetComponent<ModelLocator>()._modelTransform;
 
             _modelTransform.Find("HurtBox").localPosition = new(0, 0.01f, 0);
 
@@ -61,15 +69,18 @@ namespace Sandswept.Survivors
             "SS_RANGER_PASSIVE_NAME".Add("Power Surge");
             "SS_RANGER_PASSIVE_DESC".Add("Hold up to " + DirectCurrent.maxCharge + " $rcCharge$ec. Each $rcCharge$ec increases $shbase health regeneration$se by $sh0.12 hp/s$se.".AutoFormat());
 
-            "SKIN_DEFAULT".Add("Default");
+            AddSkins();
 
-            mdl = _modelTransform.GetComponent<CharacterModel>();
+            RegisterStuff();
 
-            CreateRecolor("Major", 4.2f);
-            CreateRecolor("Renegade");
-            CreateRecolor("Mile Zero", 4.2f);
-            // CreateRecolor("Uv");
+            // not sure if hgstandard has hdr emission color, but it would make the green texture pop, while still having that glow instead of being a white lightbulb with green glow
+        }
 
+        public static CharacterModel mdl;
+        public static Transform _modelTransform;
+
+        public void AddSkins()
+        {
             SkinDef sd = Main.Assets.LoadAsset<SkinDef>("Skindefault.asset");
 
             var scarfAndPantsColor = new Color32(88, 161, 142, 255);
@@ -79,6 +90,22 @@ namespace Sandswept.Survivors
 
             sd.icon = Skins.CreateSkinIcon(scarfAndPantsColor, helmetColor, armorColor, suitColor);
 
+            "SKIN_DEFAULT".Add("Default");
+
+            mdl = _modelTransform.GetComponent<CharacterModel>();
+
+            CreateRecolor("Major", 4.2f, true, "perform a multikill of 10 enemies");
+            CreateRecolor("Renegade", 2.5f, true, "kill 3 enemies with one use of Heat Signature");
+            CreateRecolor("Mile Zero", 4.2f, true, "finish off 10 enemies with one use of Exhaust");
+            // CreateRecolor("Uv");
+            // ideas
+            // Major - as Ranger, kill 10 enemies at once
+            // Renegade - as Ranger, kill 3 enemies with one use of Heat Signature in one run
+            // Mile Zero - as Ranger, finish off 10 enemies with Exhaust in one run
+        }
+
+        public void RegisterStuff()
+        {
             ContentAddition.AddBody(Body);
             ContentAddition.AddMaster(Master);
             ContentAddition.AddEntityState(typeof(DirectCurrentNew), out _);
@@ -91,13 +118,9 @@ namespace Sandswept.Survivors
             ContentAddition.AddEntityState(typeof(OverdriveExitHeatSink), out _);
             ContentAddition.AddEntityState(typeof(Release), out _);
             ContentAddition.AddEntityState(typeof(Sidestep), out _);
-
-            // not sure if hgstandard has hdr emission color, but it would make the green texture pop, while still having that glow instead of being a white lightbulb with green glow
         }
 
-        public static CharacterModel mdl;
-
-        public void CreateRecolor(string skinName, float emissionValue = 2.5f)
+        public void CreateRecolor(string skinName, float emissionValue = 2.5f, bool unlockable = false, string unlockDesc = "ugh fill me")
         {
             var trimmedName = skinName.Replace(" ", "");
             var mainTex = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRangerDiffuse" + trimmedName + ".png");
@@ -149,16 +172,34 @@ namespace Sandswept.Survivors
 
             var newRendererInfos = new CharacterModel.RendererInfo[] { gunRendererInfo, legsRendererInfo, scarfRendererInfo };
 
+            var icon = Skins.CreateSkinIcon(scarfAndPantsColor, helmetColor, armorColor, suitColor);
+
+            UnlockableDef unlockableDef = null;
+            if (unlockable)
+            {
+                unlockableDef = ScriptableObject.CreateInstance<UnlockableDef>();
+                unlockableDef.achievementIcon = icon;
+                unlockableDef.hidden = false;
+                unlockableDef.nameToken = "SKIN_" + trimmedName.ToUpper();
+                unlockableDef._cachedName = "Skins.Ranger." + trimmedName;
+
+                ("ACHIEVEMENT_" + unlockableDef.nameToken + "_NAME").Add("Ranger: " + skinName);
+                ("ACHIEVEMENT_" + unlockableDef.nameToken + "_DESCRIPTION").Add("As Ranger, " + unlockDesc + ".");
+
+                ContentAddition.AddUnlockableDef(unlockableDef);
+            }
+
             var newSkinDefInfo = new SkinDefInfo()
             {
-                Icon = Skins.CreateSkinIcon(scarfAndPantsColor, helmetColor, armorColor, suitColor),
+                Icon = icon,
                 Name = trimmedName,
-                NameToken = "SKIN_" + trimmedName.ToUpper(),
+                NameToken = "SKINDEF_" + trimmedName.ToUpper(),
                 RendererInfos = newRendererInfos,
-                RootObject = mdl.gameObject
+                RootObject = mdl.gameObject,
+                UnlockableDef = unlockableDef
             };
 
-            ("SKIN_" + trimmedName.ToUpper()).Add(skinName);
+            ("SKINDEF_" + trimmedName.ToUpper()).Add(skinName);
 
             Skins.AddSkinToCharacter(Body, newSkinDefInfo);
         }

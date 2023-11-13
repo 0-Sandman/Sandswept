@@ -136,6 +136,7 @@ namespace Sandswept.Components
             chargeBufferStopwatch = 0f;
             cb.SetBuffCount(Scorched.instance.BuffDef.buffIndex, 0);
             cb.SetBuffCount(OverheatingDamageBoost.instance.BuffDef.buffIndex, 0);
+
             CurrentHeat = 0f;
 
             EntityStateMachine machine = EntityStateMachine.FindByCustomName(gameObject, "Overdrive");

@@ -49,6 +49,8 @@ namespace Sandswept.Items.Greens
 
         public static BuffDef pocketPlutoniumRecharge;
 
+        public static GameObject pocketPlutoniumPoolVFX;
+
         public override void Init(ConfigFile config)
         {
             CreateLang();
@@ -59,6 +61,8 @@ namespace Sandswept.Items.Greens
 
         public override void Hooks()
         {
+            // pocketPlutoniumPoolVFX = PrefabAPI.InstantiateClone(Assets.GameObject.MolotovSingleIgniteExplosionVFXVariant)
+
             pocketPlutoniumRecharge = ScriptableObject.CreateInstance<BuffDef>();
             pocketPlutoniumRecharge.isDebuff = false;
             pocketPlutoniumRecharge.canStack = false;

@@ -146,6 +146,13 @@ namespace Sandswept.Elites
 
             plane.material = newMat2;
 
+            var indicator = warbanner.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>();
+
+            var newMat3 = Object.Instantiate(Assets.Material.matWarbannerSphereIndicator2);
+            newMat3.SetColor("_TintColor", new Color32(255, 59, 09, 255));
+
+            indicator.material = newMat3;
+
             PrefabAPI.RegisterNetworkPrefab(warbanner);
 
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;

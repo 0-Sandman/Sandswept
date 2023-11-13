@@ -15,7 +15,6 @@ using Sandswept.Skills.Ranger.Projectiles;
 using static R2API.DamageAPI;
 using Sandswept.Skills.Ranger.Hooks;
 using R2API.ContentManagement;
-using RoR2.UI;
 using Sandswept.WIP_Content;
 
 namespace Sandswept
@@ -206,8 +205,12 @@ namespace Sandswept
 
             new ContentPacks().Initialize();
 
+            // NetworkingAPI.RegisterMessageType<SyncChargeOnHit>();
+
             ModLogger.LogDebug("#SANDSWEEP");
             ModLogger.LogDebug("Initialized mod in " + stopwatch.ElapsedMilliseconds + "ms");
+
+            On.RoR2.Networking.NetworkManagerSystemSteam.OnClientConnect += (s, u, t) => { }; // for having multiple instances of the game at once - mp testing, make sure to comment out before release
         }
 
         internal static void ScanTypes<T>(Action<T> action)
