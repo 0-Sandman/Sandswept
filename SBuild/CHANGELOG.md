@@ -1,4 +1,4 @@
-# 0.0.1 Patch Notes
+# 0.5.0 Patch Notes
 
 - Release
 - Added 1 Survivor
