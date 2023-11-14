@@ -6,16 +6,16 @@ using Sandswept.Equipment;
 using System.Linq;
 using System.Reflection;
 using Sandswept.Buffs;
-using Sandswept.Skills;
 using Sandswept.Survivors;
 using System.Diagnostics;
 using Sandswept.Elites;
-using Sandswept.Skills.Ranger.VFX;
-using Sandswept.Skills.Ranger.Projectiles;
 using static R2API.DamageAPI;
-using Sandswept.Skills.Ranger.Hooks;
 using R2API.ContentManagement;
 using R2API.Networking;
+using Sandswept.Survivors.Ranger.VFX;
+using Sandswept.Survivors.Ranger.Projectiles;
+using Sandswept.Survivors.Ranger.Hooks;
+using Sandswept.Survivors.Ranger.Crosshairs;
 
 namespace Sandswept
 {
@@ -35,7 +35,7 @@ namespace Sandswept
     {
         public const string ModGuid = "com.SandsweptTeam.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVer = "0.6.0";
+        public const string ModVer = "0.7.0";
 
         public static AssetBundle MainAssets;
         public static AssetBundle Assets;
@@ -83,7 +83,7 @@ namespace Sandswept
             Asset2s = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // temporary assetbundle bc i didnt have the other two unity projects, please merge into the other assets
             hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
 
-            Crosshairs.Ranger.Init();
+            Ranger.Init();
 
             ReleaseVFX.Init();
             ExhaustVFX.Init();
@@ -203,8 +203,6 @@ namespace Sandswept
             ScanTypes<SurvivorBase>((x) => x.Init());
 
             new ContentPacks().Initialize();
-
-            // NetworkingAPI.RegisterMessageType<SyncChargeOnHit>();
 
             ModLogger.LogDebug("#SANDSWEEP");
             ModLogger.LogDebug("Initialized mod in " + stopwatch.ElapsedMilliseconds + "ms");

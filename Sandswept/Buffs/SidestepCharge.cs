@@ -1,4 +1,4 @@
-using Sandswept.Skills.Ranger.VFX;
+using Sandswept.Survivors.Ranger.VFX;
 
 namespace Sandswept.Buffs
 {
@@ -10,8 +10,8 @@ namespace Sandswept.Buffs
 
         public override Sprite BuffIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texBuffSidestep.png");
         public override bool CanStack => false;
-        public static Material overlayMat1 = SidestepVFX.dashMat1;
-        public static Material overlayMat2 = SidestepVFX.dashMat2;
+        public static Material overlayMat1 = SidestepVFX.dashMat1Default;
+        public static Material overlayMat2 = SidestepVFX.dashMat2Default;
 
         public override void Init()
         {
@@ -24,7 +24,7 @@ namespace Sandswept.Buffs
             var body = self.body;
             if (body.HasBuff(instance.BuffDef) && damageInfo.procCoefficient > 0f && damageInfo.attacker != null)
             {
-                body.SetBuffCount(Charge.instance.BuffDef.buffIndex, Mathf.Min(20, body.GetBuffCount(Charge.instance.BuffDef.buffIndex) + 10));
+                body.SetBuffCount(Charge.instance.BuffDef.buffIndex, Mathf.Min(10, body.GetBuffCount(Charge.instance.BuffDef.buffIndex) + 10));
                 // damageInfo.rejected = true;
             }
             orig(self, damageInfo);
