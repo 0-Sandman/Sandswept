@@ -5,7 +5,7 @@ namespace Sandswept.Survivors.Ranger.States
 {
     public class Exhaust : BaseState
     {
-        public static float DamageCoefficient = 1.6f;
+        public static float DamageCoefficient = 2f;
         public static float ProcCoefficient = 0.5f;
         public static float baseDuration = 0.15f;
         public float duration;
@@ -70,7 +70,8 @@ namespace Sandswept.Survivors.Ranger.States
                 origin = GetAimRay().origin,
                 owner = gameObject,
                 isCrit = RollCrit(),
-                aimVector = aimDirection
+                aimVector = aimDirection,
+                damageColorIndex = DamageColorIndex.Fragile
             };
 
             AkSoundEngine.PostEvent(Events.Play_wisp_attack_fire, gameObject);

@@ -7,7 +7,7 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
     {
         public override string Name => "Heat Signature";
 
-        public override string Description => "$suAgile$se. $sdStunning$se. $suSidestep$se a very short distance and deal $sd250% damage$se. Hitting enemies generates $r1 Charge$ec.".AutoFormat();
+        public override string Description => "$suAgile$se. $sdStunning$se. $suSidestep$se a very short distance and deal $sd250% damage$se. Hitting enemies generates $rc1 Charge$ec.".AutoFormat();
 
         // should be 3 charge no matter how many you hit
         // also the overlapattack should stop as soon as you hit someone

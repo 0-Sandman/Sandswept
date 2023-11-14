@@ -7,7 +7,7 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
     {
         public override string Name => "Exhaust";
 
-        public override string Description => "$sdIgnite$se. Fire a short-range heat spread for $sd8x160% damage$se. Gain $sr15% heat$se.".AutoFormat();
+        public override string Description => "$sdIgnite$se. Fire a short-range heat spread for $sd8x200% damage$se. Gain $sr15% heat$se.".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Exhaust);
 

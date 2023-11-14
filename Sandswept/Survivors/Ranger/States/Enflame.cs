@@ -7,7 +7,7 @@ namespace Sandswept.Survivors.Ranger.States
     {
         public static int ShotsPerSecond = 6;
         public static float ProcCoeff = 0.8f;
-        public static float DamageCoeff = 1.2f;
+        public static float DamageCoeff = 1f;
         public static GameObject TracerEffect => OverdriveShotVFX.tracerPrefab; // beef this up later
         public static GameObject TracerEffectHeated => OverdriveShotHeatedVFX.tracerPrefab; // beef this up later
         private float shots;

@@ -70,7 +70,7 @@ namespace Sandswept.Survivors.Ranger.States
                 attackerFiltering = AttackerFiltering.NeverHitSelf,
                 pushAwayForce = 1500f,
                 damage = damageStat * 2.5f,
-                damageColorIndex = DamageColorIndex.Default,
+                damageColorIndex = DamageColorIndex.Fragile,
                 damageType = DamageType.Stun1s,
                 procCoefficient = 1f,
                 isCrit = RollCrit(),

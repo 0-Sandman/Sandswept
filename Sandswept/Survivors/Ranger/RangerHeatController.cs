@@ -34,7 +34,7 @@ namespace Sandswept.Survivors.Ranger
 
         public int overdriveChargeBuffer = 0;
         public float chargeLossTimer = 0f;
-        public float chargeLossInterval = 5f;
+        public float chargeLossInterval = 6f;
 
         // internal float reduction => 1f - (Mathf.Clamp(0.15f * overdriveChargeBuffer, 0.15f, 0.6f));
         public float stopwatchMaxHeat = 0f;

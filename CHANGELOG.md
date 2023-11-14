@@ -1,6 +1,10 @@
 # 0.7.1 Patch Notes
 * Ranger
+  * Buffed Exhaust Damage from 8x160% to 8x200%
+  * Nerfed Charge Loss Rate from 2 per 5s to 2 per 6s
+  * Nerfed Enflame Damage from 120% to 100%
   * Fixed Heat Signature Networking
+  * Fixed Heat Signature description
 
 # 0.7.0 Patch Notes
 * Ranger
@@ -9,6 +13,7 @@
   * Buffed Charge Regeneration from 0.2 hp/s to 0.25 hp/s
   * Buffed Release Minimum Damage from 500% to 600%
   * Buffed Release Maximum Damage from 1500% to 1600%
+  * Buffed Release Self Force
   * Buffed Exhaust Heat Gain from 20% to 15%
   * Nerfed Overdrive Cooldown from 12s to 13s
   * Improved Power Surge VFX
