@@ -203,7 +203,7 @@ namespace Sandswept.Items.Whites
             public void FixedUpdate()
             {
                 if (!NetworkServer.active) return;
-                GetComponent<Rigidbody>().velocity = transform.forward.normalized * 60f;
+                GetComponent<Rigidbody>().velocity = transform.forward.normalized * 80f;
                 stopwatch += Time.fixedDeltaTime;
                 if (stopwatch > 10) Destroy(gameObject);
             }

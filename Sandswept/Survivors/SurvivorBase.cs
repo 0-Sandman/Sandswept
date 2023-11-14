@@ -64,7 +64,6 @@ namespace Sandswept.Survivors
             SurvivorDef.outroFlavorToken.Add(Outro);
             SurvivorDef.mainEndingEscapeFailureFlavorToken.Add(Failure);
             SurvivorDef.descriptionToken.Add(Description);
-            LanguageAPI.Add(Name + "_LORE", "the ignitiontankfunder");
         }
 
         public EntityStateMachine AddESM(GameObject prefab, string name, SerializableEntityStateType initial)

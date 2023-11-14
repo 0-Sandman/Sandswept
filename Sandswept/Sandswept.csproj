@@ -28,4 +28,8 @@
 		<PackageReference Include="R2API.RecalculateStats" Version="1.2.0" />
 		<PackageReference Include="RiskOfRain2.GameLibs" Version="1.2.4-r.0" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Components\" />
+	</ItemGroup>
 </Project>

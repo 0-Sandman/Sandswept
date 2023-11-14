@@ -6,35 +6,44 @@ using Sandswept.Equipment;
 using System.Linq;
 using System.Reflection;
 using Sandswept.Buffs;
-using Sandswept.Skills;
 using Sandswept.Survivors;
 using System.Diagnostics;
 using Sandswept.Elites;
-using Sandswept.Skills.Ranger.VFX;
-using Sandswept.Skills.Ranger.Projectiles;
+using static R2API.DamageAPI;
+using R2API.ContentManagement;
+using R2API.Networking;
+using Sandswept.Survivors.Ranger.VFX;
+using Sandswept.Survivors.Ranger.Projectiles;
+using Sandswept.Survivors.Ranger.Hooks;
+using Sandswept.Survivors.Ranger.Crosshairs;
+using Sandswept.WIP_Content;
 
 namespace Sandswept
 {
     [BepInPlugin(ModGuid, ModName, ModVer)]
+    [BepInDependency(Skins.PluginGUID, Skins.PluginVersion)]
     [BepInDependency(DotAPI.PluginGUID, DotAPI.PluginVersion)]
     [BepInDependency(ItemAPI.PluginGUID, ItemAPI.PluginVersion)]
     [BepInDependency(EliteAPI.PluginGUID, EliteAPI.PluginVersion)]
     [BepInDependency(DamageAPI.PluginGUID, DamageAPI.PluginVersion)]
     [BepInDependency(PrefabAPI.PluginGUID, PrefabAPI.PluginVersion)]
     [BepInDependency(LanguageAPI.PluginGUID, LanguageAPI.PluginVersion)]
-    [BepInDependency(PluginGUID, PluginVersion)]
+    [BepInDependency(RecalculateStatsAPI.PluginGUID, RecalculateStatsAPI.PluginVersion)]
+    [BepInDependency(R2APIContentManager.PluginGUID, R2APIContentManager.PluginVersion)]
     [BepInDependency(R2API.Networking.NetworkingAPI.PluginGUID, R2API.Networking.NetworkingAPI.PluginVersion)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
     {
         public const string ModGuid = "com.SandsweptTeam.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVer = "0.5.0";
+        public const string ModVer = "0.7.0";
 
         public static AssetBundle MainAssets;
         public static AssetBundle Assets;
         public static AssetBundle Asset2s;
         public static AssetBundle hifuSandswept;
+
+        public static ModdedDamageType HeatSelfDamage = ReserveDamageType();
 
         public static Dictionary<string, string> ShaderLookup = new()
     {
@@ -72,10 +81,10 @@ namespace Sandswept
             ModLogger = Logger;
 
             Assets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweptassets2"));
-            Asset2s = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // temporary assetbundle bc i didnt have the other two unity projects, please merge into the other assets
+            Asset2s = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // MFS I SAID MERGE INTO OTHER ASSETS
             hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
 
-            Crosshairs.Ranger.Init();
+            Ranger.Init();
 
             ReleaseVFX.Init();
             ExhaustVFX.Init();
@@ -85,8 +94,10 @@ namespace Sandswept
             SidestepVFX.Init();
             HeatSinkVFX.Init();
             HeatSignatureVFX.Init();
+            Eclipse8.Init();
 
             DirectCurrent.Init();
+            Based.Init();
 
             AutoRunCollector.HandleAutoRun();
             ConfigManager.HandleConfigAttributes(Assembly.GetExecutingAssembly(), Config);
@@ -103,6 +114,10 @@ namespace Sandswept
             // SwapAllShaders(Assets);
             Material matRanger = Assets.LoadAsset<Material>("matRanger.mat");
             matRanger.shader = Utils.Assets.Shader.HGStandard;
+            matRanger.SetColor("_EmColor", Color.white);
+            matRanger.SetFloat("_EmPower", 2.5f);
+            matRanger.EnableKeyword("DITHER");
+
             SwapAllShaders(Asset2s);
             SwapAllShaders(hifuSandswept);
             DamageColourHelper.Init();
@@ -193,6 +208,8 @@ namespace Sandswept
 
             ModLogger.LogDebug("#SANDSWEEP");
             ModLogger.LogDebug("Initialized mod in " + stopwatch.ElapsedMilliseconds + "ms");
+
+            // On.RoR2.Networking.NetworkManagerSystemSteam.OnClientConnect += (s, u, t) => { }; // for having multiple instances of the game at once - mp testing, make sure to comment out before release
         }
 
         internal static void ScanTypes<T>(Action<T> action)

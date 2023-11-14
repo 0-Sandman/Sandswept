@@ -102,12 +102,12 @@ namespace Sandswept.Items.Reds
 
             if (victimBody.HasBuff(CereJarCDBuff))
             {
-                Debug.Log("returning because cd");
+                // Debug.Log("returning because cd");
                 return;
             }
 
             victimBody.SetBuffCount(CereJarLinkedBuff.buffIndex, 1);
-            Debug.Log("adding buff");
+            // Debug.Log("adding buff");
 
             List<CharacterBody> bodies = new();
 
