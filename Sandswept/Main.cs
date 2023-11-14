@@ -40,7 +40,7 @@ namespace Sandswept
 
         public static AssetBundle MainAssets;
         public static AssetBundle Assets;
-        public static AssetBundle Asset2s;
+        public static AssetBundle prodAssets;
         public static AssetBundle hifuSandswept;
 
         public static ModdedDamageType HeatSelfDamage = ReserveDamageType();
@@ -81,7 +81,7 @@ namespace Sandswept
             ModLogger = Logger;
 
             Assets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweptassets2"));
-            Asset2s = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // MFS I SAID MERGE INTO OTHER ASSETS
+            prodAssets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // MFS I SAID MERGE INTO OTHER ASSETS
             hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
 
             Ranger.Init();
@@ -118,7 +118,7 @@ namespace Sandswept
             matRanger.SetFloat("_EmPower", 2.5f);
             matRanger.EnableKeyword("DITHER");
 
-            SwapAllShaders(Asset2s);
+            SwapAllShaders(prodAssets);
             SwapAllShaders(hifuSandswept);
             DamageColourHelper.Init();
 
