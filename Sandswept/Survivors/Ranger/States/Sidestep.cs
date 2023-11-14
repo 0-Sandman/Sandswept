@@ -27,8 +27,6 @@ namespace Sandswept.Survivors.Ranger.States
             {
                 var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
 
-                Main.ModLogger.LogFatal(skinNameToken);
-
                 overlayMat1 = skinNameToken switch
                 {
                     "SKINDEF_MAJOR" => SidestepVFX.dashMat1Major,

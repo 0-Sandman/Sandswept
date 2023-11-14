@@ -93,7 +93,7 @@ namespace Sandswept.Survivors.Ranger.States
             }
 
             heat = GetComponent<RangerHeatController>();
-            heat.CurrentHeat = Mathf.Max(0f, heat.CurrentHeat - 50f);
+            heat.currentHeat = Mathf.Max(0f, heat.currentHeat - 50f);
 
             outer.SetNextStateToMain();
 

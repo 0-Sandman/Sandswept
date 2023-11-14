@@ -96,7 +96,7 @@ namespace Sandswept.Survivors.Ranger.Projectiles
 
             if (damageInfo.HasModdedDamageType(chargeOnHitDash))
             {
-                attackerBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Min(10, buffCount + 3));
+                attackerBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Min(10, buffCount + 1));
             }
         }
     }

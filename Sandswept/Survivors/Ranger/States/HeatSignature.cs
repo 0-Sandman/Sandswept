@@ -14,6 +14,7 @@ namespace Sandswept.Survivors.Ranger.States
         public static Material overlayMat1 = HeatSignatureVFX.dashMat1;
         public static Material overlayMat2 = HeatSignatureVFX.dashMat2;
         private OverlapAttack attack;
+        private Animator modelAnimator;
 
         public override void OnEnter()
         {
@@ -29,6 +30,7 @@ namespace Sandswept.Survivors.Ranger.States
             heat = GetComponent<RangerHeatController>();
 
             modelTransform = GetModelTransform();
+            modelAnimator = GetModelAnimator();
 
             HitBoxGroup hitBoxGroup = null;
 
@@ -66,8 +68,8 @@ namespace Sandswept.Survivors.Ranger.States
                 attacker = gameObject,
                 inflictor = gameObject,
                 attackerFiltering = AttackerFiltering.NeverHitSelf,
-                pushAwayForce = 500f,
-                damage = damageStat * 3.5f,
+                pushAwayForce = 1500f,
+                damage = damageStat * 2.5f,
                 damageColorIndex = DamageColorIndex.Default,
                 damageType = DamageType.Stun1s,
                 procCoefficient = 1f,

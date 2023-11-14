@@ -1,28 +1,10 @@
 {
     "name": "Sandswept",
-<<<<<<< HEAD
-    "version_number": "0.5.0",
-=======
-    "version_number": "0.6.0",
->>>>>>> 6ce109c91a1a26972920021815a8b6f521b04477
+    "version_number": "0.7.0",
     "website_url": "https://github.com/0-Sandman/Sandswept/",
     "description": "A work in progress content mod that aims to add a variety of content to the game.",
     "dependencies": [
         "bbepis-BepInExPack-5.4.2113",
-<<<<<<< HEAD
-        "RiskofThunder-HookGenPatcher-1.2.3",
-        "RiskofThunder-R2API_Core-5.0.10",
-        "RiskofThunder-R2API_Skins-1.0.0",
-        "RiskofThunder-R2API_Prefab-1.0.3",
-        "RiskofThunder-R2API_Networking-1.0.2",
-        "RiskofThunder-R2API_Loadout-1.0.2",
-        "RiskofThunder-R2API_Language-1.0.1",
-        "RiskofThunder-R2API_Items-1.0.3",
-        "RiskofThunder-R2API_Elites-1.0.3",
-        "RiskofThunder-R2API_Dot-1.0.1",
-        "RiskofThunder-R2API_DamageType-1.0.4",
-        "RiskofThunder-R2API_ContentManagement-1.0.2"
-=======
         "RiskofThunder-R2API_Skins-1.0.0",
 		"RiskofThunder-R2API_Dot-1.0.1",
 		"RiskofThunder-R2API_Items-1.0.3",
@@ -33,6 +15,5 @@
 		"RiskofThunder-R2API_RecalculateStats-1.2.0",
 		"RiskofThunder-R2API_ContentManagement-1.0.2",
 		"RiskofThunder-R2API_Networking-1.0.2"
->>>>>>> 6ce109c91a1a26972920021815a8b6f521b04477
     ]
 }

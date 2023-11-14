@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# 0.5.0 Patch Notes
-=======
 # 0.7.0 Patch Notes
 * Ranger
   * Fully Networked
@@ -8,21 +5,28 @@
   * Buffed Charge Regeneration from 0.2 hp/s to 0.25 hp/s
   * Buffed Release Minimum Damage from 500% to 600%
   * Buffed Release Maximum Damage from 1500% to 1600%
+  * Buffed Exhaust Heat Gain from 20% to 15%
+  * Nerfed Overdrive Cooldown from 12s to 13s
   * Improved Power Surge VFX
   * Improved Direct Current VFX
   * Improved Release VFX
   * Improved Exhaust VFX
   * Improved Heat Sink VFX
+  * Improved skill descriptions
   * Made Charge amplify base damage gain while in full heat
   * Made Charge no longer slow down heat buildup
-  * Made each Charge decay in 3s
+  * Made each Charge decay over time
   * Made heat buildup slower
   * Made Sidestep give 10 Charge on getting hit during it
-  * Made Heat Signature stun, deal 350% damage and increase Charge by 3 on hit
+  * Made Heat Signature stun, deal 250% damage and increase Charge by 1 on hit
 * Items
-  * Added The Sand Sweeper
   * Made Amber Knife fly faster
->>>>>>> 6ce109c91a1a26972920021815a8b6f521b04477
+* Equipment
+  * Added The Sand Sweeper
+* Elites
+  * Buffed Motivating On Hit Buff Duration from 3s to 4s
+  * Buffed Motivating On Hit Buff Radius from 13m to 20m
+  * Changed Motivating aura
 
 # 0.6.0 Patch Notes
 * Ranger

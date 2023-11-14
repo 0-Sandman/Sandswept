@@ -20,8 +20,6 @@ namespace Sandswept.Survivors.Ranger.States
             {
                 var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
 
-                Main.ModLogger.LogFatal(skinNameToken);
-
                 directCurrentProjectile = skinNameToken switch
                 {
                     "SKINDEF_MAJOR" => Projectiles.DirectCurrent.prefabMajor,

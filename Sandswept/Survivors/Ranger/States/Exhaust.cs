@@ -83,7 +83,7 @@ namespace Sandswept.Survivors.Ranger.States
             attack.Fire();
 
             // heat.CurrentHeat += (20f * heat.reduction);
-            heat.CurrentHeat += 20f;
+            heat.currentHeat += 15f;
 
             AddRecoil(6f, 6f, 0f, 0f);
             characterMotor?.ApplyForce(-2000f * aimDirection, false, false);
@@ -91,7 +91,7 @@ namespace Sandswept.Survivors.Ranger.States
             outer.SetNextStateToMain();
             if (false)
             {
-                int shotCount = Mathf.Max(1, Mathf.RoundToInt(heat.CurrentHeat / 40f));
+                int shotCount = Mathf.Max(1, Mathf.RoundToInt(heat.currentHeat / 40f));
                 characterBody.StartCoroutine(FireShot(shotCount));
                 shot = true;
             }

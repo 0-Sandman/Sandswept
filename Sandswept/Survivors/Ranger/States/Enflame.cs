@@ -76,7 +76,7 @@ namespace Sandswept.Survivors.Ranger.States
 
             var aimDiretion = GetAimRay().direction;
 
-            var isHeatedShot = Util.CheckRoll(heat.CurrentHeat * 0.5f);
+            var isHeatedShot = Util.CheckRoll(heat.currentHeat * 0.5f);
 
             if (isHeatedShot)
                 Util.PlayAttackSpeedSound("Play_commando_M2", gameObject, 1f);
@@ -95,14 +95,14 @@ namespace Sandswept.Survivors.Ranger.States
                 tracerEffectPrefab = isHeatedShot ? TracerEffectHeated : TracerEffect,
                 procCoefficient = ProcCoeff,
                 damageType = isHeatedShot ? DamageType.IgniteOnHit : DamageType.Generic,
-                minSpread = heat.CurrentHeat * 0.006f,
-                maxSpread = heat.CurrentHeat * 0.007f,
+                minSpread = heat.currentHeat * 0.006f,
+                maxSpread = heat.currentHeat * 0.007f,
                 damageColorIndex = isHeatedShot ? DamageColorIndex.Fragile : DamageColorIndex.Default,
                 radius = 0.5f,
                 smartCollision = true
             };
 
-            AddRecoil(0.3f + heat.CurrentHeat * 0.006f, -0.3f - heat.CurrentHeat * 0.006f, 0.1f + heat.CurrentHeat * 0.006f, -0.1f - heat.CurrentHeat * 0.006f);
+            AddRecoil(0.3f + heat.currentHeat * 0.006f, -0.3f - heat.currentHeat * 0.006f, 0.1f + heat.currentHeat * 0.006f, -0.1f - heat.currentHeat * 0.006f);
 
             attack.Fire();
 

@@ -37,10 +37,14 @@ namespace Sandswept.Survivors.Ranger
             Body.AddComponent<RangerHeatController>();
 
             Body.GetComponent<CameraTargetParams>().cameraParams = Assets.CharacterCameraParams.ccpStandard;
-            var crosshair = Body.GetComponent<CharacterBody>()._defaultCrosshairPrefab;
+
+            var crosshair = Main.Assets.LoadAsset<GameObject>("Assets/Sandswept/Base/Characters/Ranger/CrosshairRanger.prefab");
+
             var innerSight = crosshair.transform.GetChild(1).GetComponent<RectTransform>();
             innerSight.localScale = Vector3.one * 0.5f;
             innerSight.localPosition = new Vector3(0f, -8f, 0f);
+
+            Body.GetComponent<CharacterBody>()._defaultCrosshairPrefab = crosshair;
 
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdRanger.asset");
             SurvivorDef.cachedName = "Ranger"; // for eclipse fix
@@ -68,30 +72,53 @@ namespace Sandswept.Survivors.Ranger
             "SS_RANGER_BODY_LORE".Add("jaw drops\r\neyes pop out of head\r\ntongue rolls out\r\nHUMINA HUMINA HUMINA!\r\nAWOOGA AWOOGA!\r\nEE-AW EE-AW!\r\nBOIOIOING!\r\npicks up jaw\r\nfixes eyes\r\nrolls up tongue\r\nburies face in ass\r\nBLBLBLBLBL LBLBLBLBLBLBLLB\r\nWHOA MAMA");
 
             "SS_RANGER_PASSIVE_NAME".Add("Power Surge");
-            "SS_RANGER_PASSIVE_DESC".Add("Hold up to " + Projectiles.DirectCurrent.maxCharge + " $rcCharge$ec. Each $rcCharge$ec increases $shbase health regeneration$se by $sh0.25 hp/s$se and $sudecays$se in $su3s$se.".AutoFormat());
+            "SS_RANGER_PASSIVE_DESC".Add("Hold up to " + Projectiles.DirectCurrent.maxCharge + " $rcCharge$ec. Each $rcCharge$ec increases $shbase health regeneration$se by $sh0.25 hp/s$se. $rcCharge decays over time$ec.".AutoFormat());
 
             AddSkins();
 
-            SetupHitBox();
+            CharacterBody.onBodyStartGlobal += SetupHitBox;
             RegisterStuff();
 
             // not sure if hgstandard has hdr emission color, but it would make the green texture pop, while still having that glow instead of being a white lightbulb with green glow
         }
 
-        public static CharacterModel mdl;
-        public static Transform _modelTransform;
-
-        public void SetupHitBox()
+        private void SetupHitBox(CharacterBody body)
         {
+            if (body.baseNameToken != "SS_RANGER_BODY_NAME")
+            {
+                return;
+            }
+
+            var modelLocator = body.modelLocator;
+            if (!modelLocator)
+            {
+                return;
+            }
+
+            var trans = modelLocator.modelTransform;
+            if (!trans)
+            {
+                return;
+            }
+
+            if (trans.Find("gay sex hitbox") != null)
+            {
+                return;
+            }
+
             GameObject hitBox = new("gay sex hitbox");
-            hitBox.transform.parent = _modelTransform.transform;
+            hitBox.transform.parent = trans;
             hitBox.AddComponent<HitBox>();
-            hitBox.transform.localPosition = Vector3.zero;
-            hitBox.transform.localScale = new Vector3(4f, 2f, 4f);
-            var hitBoxGroup = _modelTransform.AddComponent<HitBoxGroup>();
+            hitBox.transform.localPosition = new Vector3(0f, 0.0075f, 0.015f);
+            hitBox.transform.localScale = new Vector3(0.035f, 0.04f, 0.035f);
+            hitBox.transform.localEulerAngles = Vector3.zero;
+            var hitBoxGroup = trans.AddComponent<HitBoxGroup>();
             hitBoxGroup.hitBoxes = new HitBox[] { hitBox.GetComponent<HitBox>() };
             hitBoxGroup.groupName = "GaySex";
         }
+
+        public static CharacterModel mdl;
+        public static Transform _modelTransform;
 
         public void AddSkins()
         {

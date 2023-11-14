@@ -111,30 +111,6 @@ namespace Sandswept.Items.Whites
             Hooks();
         }
 
-        /*
-        public void OnServerHit()
-        {
-            // what the fuck it doesn't work I love unity
-            Main.ModLogger.LogError("projectile overlap attack is " + projectileOverlapAttack);
-            Main.ModLogger.LogError("unity games is " + UnityGames);
-            if (projectileOverlapAttack && UnityGames != null)
-            {
-                var owner = projectileOverlapAttack.projectileController.owner;
-                if (owner)
-                {
-                    Main.ModLogger.LogError("owner exists, " + owner);
-                    var ownerHc = owner.GetComponent<HealthComponent>();
-                    if (ownerHc)
-                    {
-                        Main.ModLogger.LogError("owner hc exists");
-                        ownerHc.AddBarrier(10f);
-                        ownerHc.AddBarrier(ownerHc.fullCombinedHealth * 0.02f);
-                    }
-                }
-            }
-        }
-        */
-
         public override void Hooks()
         {
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;

@@ -59,7 +59,7 @@ namespace Sandswept.Survivors.Ranger.States
                 healthComponent.TakeDamage(info);
             }
             */
-            heat.CurrentHeat = 0f;
+            heat.currentHeat = 0f;
         }
 
         public void FireNova()
@@ -122,7 +122,7 @@ namespace Sandswept.Survivors.Ranger.States
                 {
                     attacker = gameObject,
                     attackerFiltering = AttackerFiltering.NeverHitSelf,
-                    baseDamage = damageStat * Util.Remap(heat.CurrentHeat, 0f, 100f, 3f, 9f),
+                    baseDamage = damageStat * Util.Remap(heat.currentHeat, 0f, 100f, 3f, 9f),
                     baseForce = 1500f,
                     bonusForce = Vector3.zero,
                     canRejectForce = true,

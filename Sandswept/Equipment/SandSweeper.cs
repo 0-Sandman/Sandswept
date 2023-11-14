@@ -11,29 +11,35 @@ namespace Sandswept.Equipment
 
         public override string EquipmentPickupDesc => "Sweeps sand around you.";
 
-        public override string EquipmentFullDescription => $"Pushes all enemies within $sd{range}m$se around you back, $sudealing damage$se and $sustunning$se them based on the distance.".AutoFormat();
+        public override string EquipmentFullDescription => $"Pushes all enemies within $sd{range}m$se, $sudealing up to $sd{maxDamage}damage$se and $sustunning$se for up to $su{maxStun} seconds$sebased on the distance.".AutoFormat();
 
         public override string EquipmentLore => "<sprite name=\":joe_waiting:\"> #SANDSWEEP <sprite name=\":joe_cool:\">";
 
         public override GameObject EquipmentModel => Asset2s.LoadAsset<GameObject>("assets/sandswept/sandsweeper.fbx");
 
-        public override Sprite EquipmentIcon => Asset2s.LoadAsset<Sprite>("assets/sandswept/sandsweepericon.png");
-        public override float Cooldown => 24f;
+        public override Sprite EquipmentIcon => hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texSandsweeper.png");
+        public override float Cooldown => 30f;
 
         [ConfigField("Sweep Radius", "", 20f)]
         public static float range;
-        [ConfigField("Sweep Force", "", 500f)]
+
+        [ConfigField("Sweep Force", "", 750f)]
         public static float force;
-        [ConfigField("Minimum Sweep Damage", "Decimal.", 1.6f)]
+
+        [ConfigField("Minimum Sweep Damage", "Decimal.", 2f)]
         public static float minDamage;
-        [ConfigField("Maximum Sweep Damage", "Decimal.", 8f)]
+
+        [ConfigField("Maximum Sweep Damage", "Decimal.", 5f)]
         public static float maxDamage;
+
         [ConfigField("Minimum Stun Duration", "", 2f)]
         public static float minStun;
-        [ConfigField("Maximum Stun Duration", "", 8f)]
+
+        [ConfigField("Maximum Stun Duration", "", 6f)]
         public static float maxStun;
-        [ConfigField("Proc Coefficient", "Decimal.", 1f)]
-        public static float procco;
+
+        [ConfigField("Proc Coefficient", "", 1f)]
+        public static float procCoefficient;
 
         public static readonly SphereSearch sphereSearch = new SphereSearch();
 
@@ -47,7 +53,7 @@ namespace Sandswept.Equipment
         protected override bool ActivateEquipment(EquipmentSlot slot)
         {
             if (slot.characterBody == null) return false;
-            EffectManager.SimpleSoundEffect(EntityStates.Croco.BaseLeap.landingSound.index, slot.characterBody.footPosition, transmit: true); // sandleep!
+            EffectManager.SimpleSoundEffect(EntityStates.Croco.BaseLeap.landingSound.index, slot.characterBody.footPosition, transmit: true); // sandleep! BRUH LMFAO
             EffectManager.SpawnEffect(Assets.GameObject.Bandit2SmokeBomb, new EffectData() { origin = slot.characterBody.footPosition, scale = range / 12f }, true);
             sphereSearch.origin = slot.characterBody.corePosition;
             sphereSearch.mask = LayerIndex.entityPrecise.mask;
@@ -72,7 +78,7 @@ namespace Sandswept.Equipment
                     damage = slot.characterBody.damage * Mathf.Lerp(maxDamage, minDamage, dist / range),
                     damageColorIndex = DamageColorIndex.Item,
                     force = ((range - dist) * Vector3.Normalize(temp) + (Vector3.up * Mathf.Lerp(10, 5, dist / range))) * force,
-                    procCoefficient = procco
+                    procCoefficient = procCoefficient
                 });
                 body.healthComponent.GetComponent<SetStateOnHurt>()?.SetStun(Mathf.Lerp(maxStun, minStun, dist / range));
             }
@@ -240,6 +246,5 @@ namespace Sandswept.Equipment
             });
             return rules;
         }
-
     }
 }

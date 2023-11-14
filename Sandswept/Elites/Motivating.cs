@@ -228,7 +228,7 @@ namespace Sandswept.Elites
         public GameObject warbannerPrefab = Motivating.warbanner;
         public GameObject warbannerInstance;
         public float warbannerRadius = 20f;
-        public float onHitRadius = 13f;
+        public float onHitRadius = 20f;
         public CharacterBody body;
         public Transform modelTransform;
         public HealthComponent healthComponent;
@@ -333,7 +333,7 @@ namespace Sandswept.Elites
                     var targetBody = hurtBox.healthComponent.body;
                     if (targetBody && !targetBody.HasBuff(Motivating.Instance.EliteBuffDef) && targetBody.teamComponent.teamIndex == body.teamComponent.teamIndex)
                     {
-                        targetBody.AddTimedBuff(Motivating.warcryBuff, 3f);
+                        targetBody.AddTimedBuff(Motivating.warcryBuff, 4f);
                     }
                 }
             }

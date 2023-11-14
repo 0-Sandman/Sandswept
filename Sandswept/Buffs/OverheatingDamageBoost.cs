@@ -20,7 +20,7 @@ namespace Sandswept.Buffs
         {
             if (body)
             {
-                args.damageMultAdd += 0.04f * body.GetBuffCount(instance.BuffDef) + 0.04f * body.GetBuffCount(instance.BuffDef) * 0.05f * body.GetBuffCount(Charge.instance.BuffDef);
+                args.damageMultAdd += 0.04f * body.GetBuffCount(instance.BuffDef) + 0.04f * body.GetBuffCount(instance.BuffDef) * 0.1f * body.GetBuffCount(Charge.instance.BuffDef);
             }
         }
     }

@@ -39,8 +39,6 @@ namespace Sandswept.Survivors.Ranger.States
             {
                 var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
 
-                Main.ModLogger.LogFatal(skinNameToken);
-
                 switch (skinNameToken)
                 {
                     default:
@@ -124,12 +122,12 @@ namespace Sandswept.Survivors.Ranger.States
                     radius = 2f,
                     smartCollision = true,
                     stopperMask = LayerIndex.world.mask,
-                    force = 2500f + 100f * buffCount,
+                    force = 2500f + 200f * buffCount,
                 };
 
-                AddRecoil(3f + 0.15f * buffCount, 3f + 0.15f * buffCount, 0f, 0f);
+                AddRecoil(3f + 0.3f * buffCount, 3f + 0.3f * buffCount, 0f, 0f);
 
-                characterMotor?.ApplyForce((-3000f - 150f * buffCount) * aimDirection, false, false);
+                characterMotor?.ApplyForce((-3500f - 350f * buffCount) * aimDirection, false, false);
 
                 attack.Fire();
             }
