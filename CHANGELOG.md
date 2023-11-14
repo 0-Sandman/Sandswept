@@ -1,3 +1,7 @@
+# 0.7.1 Patch Notes
+* Ranger
+  * Fixed Heat Signature Networking
+
 # 0.7.0 Patch Notes
 * Ranger
   * Fully Networked
