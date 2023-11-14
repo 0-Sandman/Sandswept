@@ -16,6 +16,7 @@ using Sandswept.Survivors.Ranger.VFX;
 using Sandswept.Survivors.Ranger.Projectiles;
 using Sandswept.Survivors.Ranger.Hooks;
 using Sandswept.Survivors.Ranger.Crosshairs;
+using Sandswept.WIP_Content;
 
 namespace Sandswept
 {
@@ -80,7 +81,7 @@ namespace Sandswept
             ModLogger = Logger;
 
             Assets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweptassets2"));
-            Asset2s = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // temporary assetbundle bc i didnt have the other two unity projects, please merge into the other assets
+            Asset2s = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // MFS I SAID MERGE INTO OTHER ASSETS
             hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
 
             Ranger.Init();
@@ -96,6 +97,7 @@ namespace Sandswept
             Eclipse8.Init();
 
             DirectCurrent.Init();
+            Based.Init();
 
             AutoRunCollector.HandleAutoRun();
             ConfigManager.HandleConfigAttributes(Assembly.GetExecutingAssembly(), Config);
