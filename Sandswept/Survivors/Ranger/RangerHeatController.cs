@@ -67,7 +67,7 @@ namespace Sandswept.Survivors.Ranger
         {
             chargeLossTimer += Time.fixedDeltaTime;
 
-            if (!isOverdrive && chargeLossTimer >= chargeLossInterval)
+            if (chargeLossTimer >= chargeLossInterval)
             {
                 var buffCount = cb.GetBuffCount(Buffs.Charge.instance.BuffDef);
 
