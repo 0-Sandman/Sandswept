@@ -22,24 +22,13 @@ namespace Sandswept.Survivors.Ranger.States
 
                 Main.ModLogger.LogFatal(skinNameToken);
 
-                switch (skinNameToken)
+                directCurrentProjectile = skinNameToken switch
                 {
-                    default:
-                        directCurrentProjectile = Projectiles.DirectCurrent.prefabDefault;
-                        break;
-
-                    case "SKINDEF_MAJOR":
-                        directCurrentProjectile = Projectiles.DirectCurrent.prefabMajor;
-                        break;
-
-                    case "SKINDEF_RENEGADE":
-                        directCurrentProjectile = Projectiles.DirectCurrent.prefabRenegade;
-                        break;
-
-                    case "SKINDEF_MILEZERO":
-                        directCurrentProjectile = Projectiles.DirectCurrent.prefabMileZero;
-                        break;
-                }
+                    "SKINDEF_MAJOR" => Projectiles.DirectCurrent.prefabMajor,
+                    "SKINDEF_RENEGADE" => Projectiles.DirectCurrent.prefabRenegade,
+                    "SKINDEF_MILEZERO" => Projectiles.DirectCurrent.prefabMileZero,
+                    _ => Projectiles.DirectCurrent.prefabDefault,
+                };
             }
 
             FireShot();

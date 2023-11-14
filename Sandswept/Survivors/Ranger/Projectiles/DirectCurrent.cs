@@ -70,6 +70,7 @@ namespace Sandswept.Survivors.Ranger.Projectiles
             projectileController.ghostPrefab = newGhost;
 
             prefab.RegisterNetworkPrefab();
+            ContentAddition.AddProjectile(prefab);
 
             return prefab;
         }

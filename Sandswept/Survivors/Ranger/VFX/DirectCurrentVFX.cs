@@ -274,6 +274,7 @@ namespace Sandswept.Survivors.Ranger.VFX
             newTrailMat.SetColor("_TintColor", mutedAquaEquivalent);
 
             trail.material = newTrailMat;
+
             return ghost;
         }
     }

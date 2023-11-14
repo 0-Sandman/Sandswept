@@ -29,28 +29,21 @@ namespace Sandswept.Survivors.Ranger.States
 
                 Main.ModLogger.LogFatal(skinNameToken);
 
-                switch (skinNameToken)
+                overlayMat1 = skinNameToken switch
                 {
-                    default:
-                        overlayMat1 = SidestepVFX.dashMat1Default;
-                        overlayMat2 = SidestepVFX.dashMat2Default;
-                        break;
+                    "SKINDEF_MAJOR" => SidestepVFX.dashMat1Major,
+                    "SKINDEF_RENEGADE" => SidestepVFX.dashMat1Renegade,
+                    "SKINDEF_MILEZERO" => SidestepVFX.dashMat1MileZero,
+                    _ => SidestepVFX.dashMat1Default
+                };
 
-                    case "SKINDEF_MAJOR":
-                        overlayMat1 = SidestepVFX.dashMat1Major;
-                        overlayMat2 = SidestepVFX.dashMat2Major;
-                        break;
-
-                    case "SKINDEF_RENEGADE":
-                        overlayMat1 = SidestepVFX.dashMat1Renegade;
-                        overlayMat2 = SidestepVFX.dashMat2Renegade;
-                        break;
-
-                    case "SKINDEF_MILEZERO":
-                        overlayMat1 = SidestepVFX.dashMat1MileZero;
-                        overlayMat2 = SidestepVFX.dashMat2MileZero;
-                        break;
-                }
+                overlayMat2 = skinNameToken switch
+                {
+                    "SKINDEF_MAJOR" => SidestepVFX.dashMat2Major,
+                    "SKINDEF_RENEGADE" => SidestepVFX.dashMat2Renegade,
+                    "SKINDEF_MILEZERO" => SidestepVFX.dashMat2MileZero,
+                    _ => SidestepVFX.dashMat2Default
+                };
                 var temporaryOverlay = modelTransform.gameObject.AddComponent<TemporaryOverlay>();
                 temporaryOverlay.duration = 0.9f;
                 temporaryOverlay.animateShaderAlpha = true;
