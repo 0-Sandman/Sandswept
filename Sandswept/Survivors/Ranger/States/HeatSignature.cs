@@ -105,7 +105,8 @@ namespace Sandswept.Survivors.Ranger.States
                 characterBody.isSprinting = true;
             }
 
-            attack.Fire(null);
+            if (isAuthority)
+                attack.Fire(null);
 
             if (fixedAge >= Duration)
             {
