@@ -11,13 +11,13 @@ namespace Sandswept.Equipment
 
         public override string EquipmentPickupDesc => "Sweeps sand around you.";
 
-        public override string EquipmentFullDescription => $"Pushes all enemies within $sd{range}m$se, $sudealing up to $sd{maxDamage}damage$se and $sustunning$se for up to $su{maxStun} seconds$sebased on the distance.".AutoFormat();
+        public override string EquipmentFullDescription => $"Pushes all enemies within $sd{range}m$se, $sudealing up to $sd{d(maxDamage)} damage$se and $sustunning$se for up to $su{maxStun} seconds$se based on the distance.".AutoFormat();
 
         public override string EquipmentLore => "<sprite name=\":joe_waiting:\"> #SANDSWEEP <sprite name=\":joe_cool:\">";
 
-        public override GameObject EquipmentModel => Asset2s.LoadAsset<GameObject>("assets/sandswept/sandsweeper.fbx");
+        public override GameObject EquipmentModel => prodAssets.LoadAsset<GameObject>("assets/sandswept/sandsweeper.fbx");
 
-        public override Sprite EquipmentIcon => hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texSandsweeper.png");
+        public override Sprite EquipmentIcon => prodAssets.LoadAsset<Sprite>("assets/sandswept/sandsweepericon.png");
         public override float Cooldown => 30f;
 
         [ConfigField("Sweep Radius", "", 20f)]

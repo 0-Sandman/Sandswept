@@ -10,7 +10,7 @@ namespace Sandswept.WIP_Content
         {
             Main.ModLogger.LogDebug("Based -prod");
             Harmony harmony = new(Main.ModName);
-            JoePatch.JOE = Main.Asset2s.LoadAsset<TMP_SpriteAsset>("assets/resources/sprites/joe160.asset");
+            JoePatch.JOE = Main.prodAssets.LoadAsset<TMP_SpriteAsset>("assets/resources/sprites/joe160.asset");
             On.RoR2.UI.ChatBox.SubmitChat += (orig, self) => { self.inputField.text = Regex.Replace(self.inputField.text, @":joe_\w+:", "<sprite name=\"$0\">"); orig(self); };
             On.RoR2.Util.EscapeRichTextForTextMeshPro += (orig, str) =>
             {

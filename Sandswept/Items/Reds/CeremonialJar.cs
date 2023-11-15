@@ -158,7 +158,7 @@ namespace Sandswept.Items.Reds
 
             GameObject stack = JarVFX.transform.Find("Visual").Find("Stack 1").gameObject;
             stack.name = "Donuts";
-            stack.GetComponent<MeshFilter>().mesh = Main.Asset2s.LoadAsset<Mesh>("assets/jardonuts.obj");
+            stack.GetComponent<MeshFilter>().mesh = Main.prodAssets.LoadAsset<Mesh>("assets/jardonuts.obj");
 
             ObjectScaleCurve osc = stack.AddComponent<ObjectScaleCurve>();
             osc.enabled = false;
@@ -190,7 +190,7 @@ namespace Sandswept.Items.Reds
 
             Material mat = Object.Instantiate(stack.GetComponent<MeshRenderer>().material);
             mat.name = "matJarDonuts";
-            mat.SetTexture("_RemapTex", Main.Asset2s.LoadAsset<Texture2D>("assets/jarramp.png"));
+            mat.SetTexture("_RemapTex", Main.prodAssets.LoadAsset<Texture2D>("assets/jarramp.png"));
             stack.GetComponent<MeshRenderer>().material = mat;
 
             GameObject parts = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/LevelUpEffect.prefab").WaitForCompletion().transform.Find("Dust Explosion").gameObject);

@@ -76,6 +76,11 @@ namespace Sandswept.Equipment
         protected virtual void CreateConfig(ConfigFile config)
         { }
 
+        public string d(float f)
+        {
+            return (f * 100f).ToString() + "%";
+        }
+
         /// <summary>
         /// Take care to call base.CreateLang()!
         /// </summary>
