@@ -132,13 +132,7 @@ namespace Sandswept.Survivors.Ranger.States
                 attack.Fire();
             }
 
-            if (NetworkServer.active)
-            {
-                for (int i = 0; i < buffCount; i++)
-                {
-                    characterBody.RemoveBuff(Buffs.Charge.instance.BuffDef);
-                }
-            }
+            characterBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Max(0, characterBody.GetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex - Projectiles.DirectCurrent.maxCharge)));
         }
     }
 }

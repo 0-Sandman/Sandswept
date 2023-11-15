@@ -1,3 +1,11 @@
+# 0.7.3 Patch Notes
+* Ranger
+  * Fixed skills getting restocked with skill replacement
+* Equipment
+  * Improved icon and fixed description for The Sand Sweeper
+
+# 0.7.2 Patch Notes
+
 # 0.7.1 Patch Notes
 * Ranger
   * Buffed Exhaust Damage from 8x160% to 8x200%

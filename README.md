@@ -21,8 +21,8 @@
 | <img src="https://i.postimg.cc/qR8P3YyC/image3.png" width="64"/> | **Utility:** Sidestep | Agile. Quickly sidestep a short distance. Taking damage during Sidestep generates 10 Charge. | 
 | <img src="https://i.postimg.cc/gjmfqDHt/image4png.png" width="64"/> | **Special:** Overdrive | Agile. Transform your rifle, replacing all of your skills with scorching forms. Charge amplifies base damage gain while in full heat. |
 | | | |
-| <img src="https://i.postimg.cc/SNb1P012/tex-Overdrive-Fire.png" width="64"/> | **Primary:** Enflame | Agile. Fire a rapid stream of bullets for 120% damage. Heat increases spread and ignite chance. |
-| <img src="https://i.postimg.cc/m2DBKrYy/tex-Exhaust.png" width="64"/> | **Secondary:** Exhaust | Ignite. Fire a short-range heat spread for 8x160% damage. Gain 15% heat. |
+| <img src="https://i.postimg.cc/SNb1P012/tex-Overdrive-Fire.png" width="64"/> | **Primary:** Enflame | Agile. Fire a rapid stream of bullets for 100% damage. Heat increases spread and ignite chance. |
+| <img src="https://i.postimg.cc/m2DBKrYy/tex-Exhaust.png" width="64"/> | **Secondary:** Exhaust | Ignite. Fire a short-range heat spread for 8x200% damage. Gain 15% heat. |
 | <img src="https://i.postimg.cc/vB6XPXWt/tex-Heat-Signature.png" width="64"/> | **Utility:** Heat Signature | Agile. Stunning. Sidestep a very short distance and deal 250% damage. Hitting enemies generates 1 Charge. |
 | <img src="https://i.postimg.cc/0jYnvQX6/tex-Heat-Sink.png" width="64"/> | **Special:** Heat Sink | Agile. Ignite. Release a fire nova around you that ignites and deals 300% base damage, increasing up to 900% in full heat. Consumes all heat and exits overdrive. |
 
