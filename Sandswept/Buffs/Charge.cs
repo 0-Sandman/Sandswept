@@ -6,9 +6,9 @@ namespace Sandswept.Buffs
 {
     public class Charge : BuffBase<Charge>
     {
-        public override string BuffName => "Charge";
+        public override string BuffName => "Charge - 0.25 hp/s Regen Per, 10% Base Damage Amp in Full Heat Per";
 
-        public override Color Color => new Color32(45, 187, 188, 255);
+        public override Color Color => new Color32(45, 188, 148, 255);
 
         public override Sprite BuffIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texBuffCharged.png");
         public override bool CanStack => true;

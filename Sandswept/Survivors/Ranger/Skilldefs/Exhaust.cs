@@ -1,4 +1,5 @@
 using System;
+using Sandswept.Skills.Ranger;
 using Sandswept.Survivors;
 
 namespace Sandswept.Survivors.Ranger.Skilldefs
@@ -20,9 +21,16 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
 
         public override string[] Keywords => new string[] { Utils.Keywords.Ignite };
 
+        public override bool FullRestockOnAssign => true;
+
         public override void Init()
         {
             base.Init();
+        }
+
+        public override void CreateSkillDef()
+        {
+            skillDef = ScriptableObject.CreateInstance<RangerSecondaryDef>();
         }
     }
 }

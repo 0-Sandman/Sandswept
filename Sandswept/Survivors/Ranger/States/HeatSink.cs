@@ -1,4 +1,5 @@
-﻿using Sandswept.Survivors.Ranger.VFX;
+﻿using Sandswept.Buffs;
+using Sandswept.Survivors.Ranger.VFX;
 
 namespace Sandswept.Survivors.Ranger.States
 {
@@ -42,23 +43,12 @@ namespace Sandswept.Survivors.Ranger.States
                 temporaryOverlay2.originalMaterial = overlayMat2;
                 temporaryOverlay2.AddToCharacerModel(modelTransform.GetComponent<CharacterModel>());
             }
-            /*
-            DamageInfo info = new()
-            {
-                attacker = null,
-                procCoefficient = 0,
-                damage = healthComponent.fullCombinedHealth * 0.2f,
-                crit = false,
-                position = transform.position,
-                damageColorIndex = DamageColorIndex.Fragile,
-                damageType = DamageType.BypassArmor | DamageType.BypassBlock | DamageType.NonLethal
-            };
 
-            if (NetworkServer.active)
+            if (characterBody)
             {
-                healthComponent.TakeDamage(info);
+                characterBody.AddTimedBuffAuthority(HeatAttackSpeedBoost.instance.BuffDef.buffIndex, 0.05f * Mathf.Pow(heat.currentHeat / 1.51991108f, 1.1f));
             }
-            */
+
             heat.currentHeat = 0f;
         }
 

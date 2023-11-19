@@ -19,5 +19,7 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
         public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("Pew.png");
         public override int StockToConsume => 0;
         public override InterruptPriority InterruptPriority => InterruptPriority.Any;
+
+        public override string[] Keywords => new string[] { Utils.Keywords.OverdriveFormPrimary };
     }
 }

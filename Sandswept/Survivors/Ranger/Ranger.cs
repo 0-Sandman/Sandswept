@@ -1,4 +1,7 @@
+using RoR2.UI;
+using Sandswept.Survivors.Ranger.Pod;
 using Sandswept.Survivors.Ranger.States;
+using UnityEngine.UI;
 
 namespace Sandswept.Survivors.Ranger
 {
@@ -6,7 +9,7 @@ namespace Sandswept.Survivors.Ranger
     {
         public override string Name => "Ranger";
 
-        public override string Description => "The Ranger is a versatile character with two distinct forms. Her base form excels at burst damage from any range using electricity, while the other is much more resource managing focused with high risk, but extremely high damage fire attacks.<style=cSub>\r\n\r\n< ! > Power Surge works during Overdrive, making it easier to manage heat and counteract self-damage.\r\n\r\n< ! > Direct Current is a great damage tool that works very well at any range and is able to gain multiple stacks of Charge when hitting groups of enemies. Hit your shots!.\r\n\r\n< ! > Release can easily obliterate multiple enemies, boasting high burst damage with no damage falloff and a small area of effect. Manage your Charge to deal extra damage or propel yourself and disengage.\r\n\r\n< ! > Sidestep is a great evasive tool, letting you dance between enemies while lining them up for Direct Current and Release, and provides temporary immunity, making it great for dodging highly telegraphed attacks.\r\n\r\n< ! > Overdrive provides skills with tremendous damage output, but high heat will cause you to begin burning as well! Watch the heat meter carefully.\r\n\r\n< ! > Enflame fires very fast, and deals great sustained damage, making it ideal for activating many item effects quickly and eliminating high priority targets.\r\n\r\n< ! > Exhaust deals extreme burst damage, use it to finish off enemies at close range and build up heat.\r\n\r\n< ! > Heat Signature is a great utility for escaping sticky situations and extreme offense.\r\n\r\n< ! > Heat Sink is a powerful burst skill that's best used when swarmed at high heat.\r\n\r\n< ! > The longer you are in Overdrive, the less healing you receive! At full heat, you take increasingly high self-damage, but gain increasingly high base damage! Make sure to spend your health wisely.</style>\r\n";
+        public override string Description => "The Ranger is a versatile character with two distinct forms. Her base form excels at burst damage from any range using electricity, while the other is much more resource managing focused with high risk, but extremely high damage fire attacks.<style=cSub>\r\n\r\n< ! > Power Surge works during Overdrive, making it easier to manage heat and counteract self-damage.\r\n\r\n< ! > Direct Current is a great damage tool that works very well at any range and is able to gain multiple stacks of Charge when hitting groups of enemies. Hit your shots!.\r\n\r\n< ! > Release can easily obliterate multiple enemies, boasting high burst damage with no damage falloff and a small area of effect. Manage your Charge to deal extra damage or propel yourself and disengage.\r\n\r\n< ! > Sidestep is a great evasive tool, letting you dance between enemies while lining them up for Direct Current and Release, and provides temporary immunity, making it great for dodging highly telegraphed attacks.\r\n\r\n< ! > The longer you are in Overdrive, the less healing you receive! At full heat, you take increasingly high self-damage, but gain increasingly high base damage! Make sure to spend your health wisely.\r\n\r\n< ! > Enflame fires very fast, and deals great sustained damage, making it ideal for activating many item effects quickly and eliminating high priority targets.\r\n\r\n< ! > Exhaust deals extreme burst damage, use it to finish off enemies at close range and build up heat.\r\n\r\n< ! > Heat Signature is a great utility for escaping sticky situations and extreme offense.\r\n\r\n< ! > Heat Sink is a powerful burst skill that's best used when swarmed at high heat.</style>\r\n";
 
         public override string Subtitle => "Infernal Marshal";
 
@@ -40,11 +43,26 @@ namespace Sandswept.Survivors.Ranger
 
             var crosshair = Main.Assets.LoadAsset<GameObject>("Assets/Sandswept/Base/Characters/Ranger/CrosshairRanger.prefab");
 
-            var innerSight = crosshair.transform.GetChild(1).GetComponent<RectTransform>();
-            innerSight.localScale = Vector3.one * 0.5f;
-            innerSight.localPosition = new Vector3(0f, -8f, 0f);
+            var innerSight = crosshair.transform.GetChild(1);
+            var rectTransform = innerSight.GetComponent<RectTransform>();
+            rectTransform.localScale = Vector3.one * 0.43f;
+            var rawImage = innerSight.GetComponent<RawImage>();
+            rawImage.texture = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texProjectileCrosshair6.png");
 
-            Body.GetComponent<CharacterBody>()._defaultCrosshairPrefab = crosshair;
+            var outerCircle = crosshair.transform.GetChild(0);
+            outerCircle.gameObject.SetActive(true);
+            var rawImage2 = outerCircle.GetComponent<RawImage>();
+            rawImage2.texture = Assets.Texture2D.texCrosshairDot;
+            rawImage2.color = new Color32(200, 200, 200, 255);
+            outerCircle.GetComponent<RectTransform>().localScale = Vector3.one * 1.5f;
+
+            var crosshairController = crosshair.GetComponent<CrosshairController>().spriteSpreadPositions[0];
+            crosshairController.zeroPosition = new Vector3(0f, -70f, 0f);
+            crosshairController.onePosition = new Vector3(0f, -250f, 0f);
+
+            var cb = Body.GetComponent<CharacterBody>();
+            cb._defaultCrosshairPrefab = crosshair;
+            cb.preferredPodPrefab = RangerPod.prefab;
 
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdRanger.asset");
             SurvivorDef.cachedName = "Ranger"; // for eclipse fix
@@ -109,8 +127,8 @@ namespace Sandswept.Survivors.Ranger
             GameObject hitBox = new("gay sex hitbox");
             hitBox.transform.parent = trans;
             hitBox.AddComponent<HitBox>();
-            hitBox.transform.localPosition = new Vector3(0f, 0.0075f, 0.015f);
-            hitBox.transform.localScale = new Vector3(0.035f, 0.04f, 0.035f);
+            hitBox.transform.localPosition = new Vector3(0f, 0.0075f, 0.02f);
+            hitBox.transform.localScale = new Vector3(0.045f, 0.05f, 0.05f);
             hitBox.transform.localEulerAngles = Vector3.zero;
             var hitBoxGroup = trans.AddComponent<HitBoxGroup>();
             hitBoxGroup.hitBoxes = new HitBox[] { hitBox.GetComponent<HitBox>() };

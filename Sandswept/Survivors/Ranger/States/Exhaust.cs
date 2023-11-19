@@ -10,9 +10,10 @@ namespace Sandswept.Survivors.Ranger.States
         public static float baseDuration = 0.15f;
         public float duration;
         public bool shot = false;
-        public static GameObject TracerEffect => ExhaustVFX.tracerPrefab;
-        public static GameObject ImpactEffect => ExhaustVFX.impactPrefab;
+        private GameObject TracerEffect;
+        private GameObject ImpactEffect;
         private RangerHeatController heat;
+        private Transform modelTransform;
 
         public override void OnEnter()
         {
@@ -25,11 +26,33 @@ namespace Sandswept.Survivors.Ranger.States
             Util.PlaySound("Play_voidBarnacle_m1_chargeUp", gameObject);
             Util.PlaySound("Play_voidBarnacle_m1_chargeUp", gameObject);
             Util.PlaySound("Play_voidBarnacle_m1_chargeUp", gameObject);
-            // Util.PlaySound("Play_railgunner_R_gun_chargeUp", gameObject);
 
             heat = GetComponent<RangerHeatController>();
 
-            PlayAnimation("Gesture, Override", "Fire", "Fire.playbackRate", duration);
+            modelTransform = GetModelTransform();
+
+            if (modelTransform)
+            {
+                var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
+
+                TracerEffect = skinNameToken switch
+                {
+                    "SKINDEF_MAJOR" => ExhaustVFX.tracerPrefabMajor,
+                    "SKINDEF_RENEGADE" => ExhaustVFX.tracerPrefabRenegade,
+                    "SKINDEF_MILEZERO" => ExhaustVFX.tracerPrefabMileZero,
+                    _ => ExhaustVFX.tracerPrefabDefault
+                };
+
+                ImpactEffect = skinNameToken switch
+                {
+                    "SKINDEF_MAJOR" => ExhaustVFX.impactPrefabMajor,
+                    "SKINDEF_RENEGADE" => ExhaustVFX.impactPrefabRenegade,
+                    "SKINDEF_MILEZERO" => ExhaustVFX.impactPrefabMileZero,
+                    _ => ExhaustVFX.impactPrefabDefault
+                };
+
+                PlayAnimation("Gesture, Override", "Fire", "Fire.playbackRate", duration);
+            }
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -65,7 +88,7 @@ namespace Sandswept.Survivors.Ranger.States
                 bulletCount = 8,
                 tracerEffectPrefab = TracerEffect,
                 muzzleName = "Muzzle",
-                hitEffectPrefab = Assets.GameObject.ImpactRailgunLight,
+                hitEffectPrefab = ImpactEffect,
                 falloffModel = BulletAttack.FalloffModel.Buckshot,
                 origin = GetAimRay().origin,
                 owner = gameObject,
@@ -83,106 +106,12 @@ namespace Sandswept.Survivors.Ranger.States
 
             attack.Fire();
 
-            // heat.CurrentHeat += (20f * heat.reduction);
             heat.currentHeat += 15f;
 
             AddRecoil(6f, 6f, 0f, 0f);
             characterMotor?.ApplyForce(-2000f * aimDirection, false, false);
 
             outer.SetNextStateToMain();
-            if (false)
-            {
-                int shotCount = Mathf.Max(1, Mathf.RoundToInt(heat.currentHeat / 40f));
-                characterBody.StartCoroutine(FireShot(shotCount));
-                shot = true;
-            }
-        }
-
-        public IEnumerator FireShot(int shotCount)
-        {
-            for (int i = 0; i < shotCount; i++)
-            {
-                yield return new WaitForSeconds(duration);
-
-                AkSoundEngine.PostEvent(Events.Play_lunar_wisp_attack2_launch, gameObject);
-
-                if (isAuthority)
-                {
-                    var aimDirection = GetAimRay().direction;
-
-                    BulletAttack attack = new()
-                    {
-                        aimVector = aimDirection,
-                        falloffModel = BulletAttack.FalloffModel.DefaultBullet,
-                        damage = damageStat * DamageCoefficient,
-                        isCrit = RollCrit(),
-                        minSpread = 1f * shotCount,
-                        maxSpread = 1f * shotCount,
-                        owner = gameObject,
-                        muzzleName = "MuzzleR",
-                        origin = transform.position,
-                        tracerEffectPrefab = TracerEffect,
-                        hitEffectPrefab = ImpactEffect,
-                        procCoefficient = ProcCoefficient,
-                        weapon = gameObject,
-                        radius = 0.5f,
-                        smartCollision = true,
-                        stopperMask = LayerIndex.world.mask,
-                        force = 0f,
-                        bulletCount = 5
-                    };
-
-                    AddRecoil(3f + 1f * shotCount, 3f + 1f * shotCount, 0f, 0f);
-
-                    characterMotor?.ApplyForce(-2000f * aimDirection, false, false);
-
-                    Vector3 hitPoint = Vector3.zero;
-
-                    attack.hitCallback = (BulletAttack attack, ref BulletAttack.BulletHit hit) =>
-                    {
-                        hitPoint = hit.point;
-                        return BulletAttack.defaultHitCallback(attack, ref hit);
-                    };
-
-                    attack.Fire();
-
-                    // Main.ModLogger.LogError(hitPoint);
-
-                    // characterBody.StartCoroutine(SummonExplosion(hitPoint));
-                }
-
-                if (i == shotCount - 1)
-                    outer.SetNextStateToMain();
-            }
-
-            yield return null;
-        }
-
-        public IEnumerator SummonExplosion(Vector3 hitPoint)
-        {
-            yield return new WaitForSeconds(1f);
-
-            new BlastAttack()
-            {
-                baseDamage = damageStat * 2f,
-                damageColorIndex = DamageColorIndex.Fragile,
-                falloffModel = BlastAttack.FalloffModel.None,
-                radius = 4f,
-                attacker = gameObject,
-                attackerFiltering = AttackerFiltering.NeverHitSelf,
-                baseForce = 0f,
-                bonusForce = Vector3.zero,
-                crit = RollCrit(),
-                inflictor = gameObject,
-                position = hitPoint,
-                teamIndex = teamComponent.teamIndex,
-                damageType = DamageType.IgniteOnHit,
-                procCoefficient = 0,
-                procChainMask = default,
-                impactEffect = ImpactEffect.GetComponent<EffectComponent>().effectIndex
-            }.Fire();
-
-            yield return null;
         }
     }
 }

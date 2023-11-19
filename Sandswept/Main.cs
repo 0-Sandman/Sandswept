@@ -17,6 +17,7 @@ using Sandswept.Survivors.Ranger.Projectiles;
 using Sandswept.Survivors.Ranger.Hooks;
 using Sandswept.Survivors.Ranger.Crosshairs;
 using Sandswept.WIP_Content;
+using Sandswept.Survivors.Ranger.Pod;
 
 namespace Sandswept
 {
@@ -30,13 +31,13 @@ namespace Sandswept
     [BepInDependency(LanguageAPI.PluginGUID, LanguageAPI.PluginVersion)]
     [BepInDependency(RecalculateStatsAPI.PluginGUID, RecalculateStatsAPI.PluginVersion)]
     [BepInDependency(R2APIContentManager.PluginGUID, R2APIContentManager.PluginVersion)]
-    [BepInDependency(R2API.Networking.NetworkingAPI.PluginGUID, R2API.Networking.NetworkingAPI.PluginVersion)]
+    [BepInDependency(NetworkingAPI.PluginGUID, NetworkingAPI.PluginVersion)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
     {
         public const string ModGuid = "com.TeamSandswept.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVer = "0.7.5";
+        public const string ModVer = "0.7.3";
 
         public static AssetBundle MainAssets;
         public static AssetBundle Assets;
@@ -84,19 +85,14 @@ namespace Sandswept
             prodAssets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // MFS I SAID MERGE INTO OTHER ASSETS
             hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
 
+            RangerPod.Init();
             Ranger.Init();
 
-            ReleaseVFX.Init();
-            ExhaustVFX.Init();
-            DirectCurrentVFX.Init();
-            OverdriveShotVFX.Init();
-            OverdriveShotHeatedVFX.Init();
-            SidestepVFX.Init();
-            HeatSinkVFX.Init();
-            HeatSignatureVFX.Init();
+            InitVFX.Init();
             Eclipse8.Init();
 
             DirectCurrent.Init();
+            ChargeGain.Init();
             Based.Init();
 
             AutoRunCollector.HandleAutoRun();
@@ -122,7 +118,7 @@ namespace Sandswept
             SwapAllShaders(hifuSandswept);
             DamageColourHelper.Init();
 
-            var powerElixirGlassMat = Object.Instantiate(Utils.Assets.Material.matHealingPotionGlass);
+            var powerElixirGlassMat = Instantiate(Utils.Assets.Material.matHealingPotionGlass);
             powerElixirGlassMat.SetFloat("_Boost", 0.25f);
             powerElixirGlassMat.SetFloat("_RimPower", 1.706559f);
             powerElixirGlassMat.SetFloat("_RimStrength", 3.538423f);
@@ -134,11 +130,11 @@ namespace Sandswept
             var jarMr = model.GetChild(0).GetComponent<MeshRenderer>();
             jarMr.material = powerElixirGlassMat;
 
-            var sunFragment = Main.MainAssets.LoadAsset<GameObject>("SunFragmentPrefab.prefab");
+            var sunFragment = MainAssets.LoadAsset<GameObject>("SunFragmentPrefab.prefab");
             var sunFragmentMat = sunFragment.transform.GetChild(0).GetComponent<MeshRenderer>().material;
             sunFragmentMat.SetFloat("_NormalStrength", 0.8263923f);
 
-            var uniVip = Main.MainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");
+            var uniVip = MainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");
             var uniVipMat = uniVip.transform.GetChild(0).GetComponent<MeshRenderer>().material;
             uniVipMat.SetColor("_Color", new Color32(205, 205, 205, 249));
 
@@ -309,7 +305,7 @@ namespace Sandswept
                         break;
 
                     case "StubbedShader/deferred/hgstandard":
-                        val.shader = Sandswept.Utils.Assets.Shader.HGStandard;
+                        val.shader = Utils.Assets.Shader.HGStandard;
                         break;
 
                     case "StubbedShader/fx/hgintersectioncloudremap":

@@ -145,7 +145,7 @@ namespace Sandswept.Items.Greens
             missileModel.transform.eulerAngles = new Vector3(-90f, 0f, 0f);
             var meshRenderer = missileModel.GetComponent<MeshRenderer>();
 
-            var atgMat = GameObject.Instantiate(Assets.Material.matMissile);
+            var atgMat = Object.Instantiate(Assets.Material.matMissile);
             // atgMat.SetColor("_Color", new Color32(224, 94, 94, 255));
             atgMat.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texNuclearSalvoMissile.png"));
             atgMat.EnableKeyword("DITHER");

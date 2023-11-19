@@ -19,8 +19,6 @@ namespace Sandswept.Survivors.Ranger.Projectiles
             prefabMajor = CreateProjectileRecolor("Major", DirectCurrentVFX.ghostPrefabMajor, DirectCurrentVFX.impactPrefabMajor);
             prefabRenegade = CreateProjectileRecolor("Renegade", DirectCurrentVFX.ghostPrefabRenegade, DirectCurrentVFX.impactPrefabRenegade);
             prefabMileZero = CreateProjectileRecolor("Mile Zero", DirectCurrentVFX.ghostPrefabMileZero, DirectCurrentVFX.impactPrefabMileZero);
-
-            GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
         }
 
         public static GameObject CreateProjectileRecolor(string name, GameObject tracerPrefab, GameObject impactPrefab)
@@ -76,28 +74,5 @@ namespace Sandswept.Survivors.Ranger.Projectiles
         }
 
         public static int maxCharge = 10;
-
-        private static void GlobalEventManager_onServerDamageDealt(DamageReport report)
-        {
-            var damageInfo = report.damageInfo;
-
-            var attackerBody = report.attackerBody;
-            if (!attackerBody)
-            {
-                return;
-            }
-
-            var buffCount = attackerBody.GetBuffCount(Buffs.Charge.instance.BuffDef);
-
-            if (damageInfo.HasModdedDamageType(chargeOnHit) && buffCount <= 9)
-            {
-                attackerBody.AddBuff(Buffs.Charge.instance.BuffDef);
-            }
-
-            if (damageInfo.HasModdedDamageType(chargeOnHitDash))
-            {
-                attackerBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Min(10, buffCount + 1));
-            }
-        }
     }
 }

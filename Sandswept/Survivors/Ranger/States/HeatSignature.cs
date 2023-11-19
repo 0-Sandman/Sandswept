@@ -8,13 +8,11 @@ namespace Sandswept.Survivors.Ranger.States
         public static float Duration = 0.2f;
         public static float BuffDuration = 1f;
         public static float SpeedCoefficient = 6f;
-        private RangerHeatController heat;
         private Vector3 stepVector;
         private Transform modelTransform;
-        public static Material overlayMat1 = HeatSignatureVFX.dashMat1;
-        public static Material overlayMat2 = HeatSignatureVFX.dashMat2;
+        private Material overlayMat1;
+        private Material overlayMat2;
         private OverlapAttack attack;
-        private Animator modelAnimator;
 
         public override void OnEnter()
         {
@@ -27,17 +25,32 @@ namespace Sandswept.Survivors.Ranger.States
                     characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
             }
 
-            heat = GetComponent<RangerHeatController>();
-
             modelTransform = GetModelTransform();
-            modelAnimator = GetModelAnimator();
 
             HitBoxGroup hitBoxGroup = null;
 
             if (modelTransform)
             {
+                var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
+
+                overlayMat1 = skinNameToken switch
+                {
+                    "SKINDEF_MAJOR" => HeatSignatureVFX.heatDashMat1Major,
+                    "SKINDEF_RENEGADE" => HeatSignatureVFX.heatDashMat1Renegade,
+                    "SKINDEF_MILEZERO" => HeatSignatureVFX.heatDashMat1MileZero,
+                    _ => HeatSignatureVFX.heatDashMat1Default
+                };
+
+                overlayMat2 = skinNameToken switch
+                {
+                    "SKINDEF_MAJOR" => HeatSignatureVFX.heatDashMat2Major,
+                    "SKINDEF_RENEGADE" => HeatSignatureVFX.heatDashMat2Renegade,
+                    "SKINDEF_MILEZERO" => HeatSignatureVFX.heatDashMat2MileZero,
+                    _ => HeatSignatureVFX.heatDashMat2Default
+                };
+
                 var overlay1 = modelTransform.gameObject.AddComponent<TemporaryOverlay>();
-                overlay1.duration = 999f;
+                overlay1.duration = 0.4f;
                 overlay1.animateShaderAlpha = true;
                 overlay1.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
                 overlay1.destroyComponentOnEnd = true;
@@ -45,7 +58,7 @@ namespace Sandswept.Survivors.Ranger.States
                 overlay1.AddToCharacerModel(modelTransform.GetComponent<CharacterModel>());
 
                 var overlay2 = modelTransform.gameObject.AddComponent<TemporaryOverlay>();
-                overlay2.duration = 999f;
+                overlay2.duration = 0.5f;
                 overlay2.animateShaderAlpha = true;
                 overlay2.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
                 overlay2.destroyComponentOnEnd = true;
@@ -79,7 +92,7 @@ namespace Sandswept.Survivors.Ranger.States
                 impactSound = Assets.NetworkSoundEventDef.nsePulverizeBuildupBuffApplied.index,
                 forceVector = Vector3.zero,
                 hitBoxGroup = hitBoxGroup,
-                hitEffectPrefab = ExhaustVFX.impactPrefab
+                hitEffectPrefab = ExhaustVFX.impactPrefabDefault
             };
 
             attack.AddModdedDamageType(Projectiles.DirectCurrent.chargeOnHitDash);
@@ -123,14 +136,6 @@ namespace Sandswept.Survivors.Ranger.States
                 characterBody.isSprinting = true;
                 if (NetworkServer.active)
                     characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
-            }
-
-            if (modelTransform)
-            {
-                foreach (TemporaryOverlay overlay in modelTransform.GetComponents<TemporaryOverlay>())
-                {
-                    Object.Destroy(overlay);
-                }
             }
 
             Util.PlaySound("Play_fireballsOnHit_impact", gameObject);

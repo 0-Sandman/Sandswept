@@ -1,4 +1,5 @@
-﻿using Sandswept.Survivors.Ranger.VFX;
+﻿/*
+using Sandswept.Survivors.Ranger.VFX;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace Sandswept.Survivors.Ranger.States
         public static float DamageCoeff = 1f;
         public static float BaseDuration = 0.5f;
         public static float TotalShotsBaseDuration = 0.25f;
-        public static GameObject TracerEffect => OverdriveShotVFX.tracerPrefab; // beef this up later
+        public static GameObject TracerEffect => EnflameVFX.tracerPrefab; // beef this up later
         public static GameObject TracerEffectHeated => OverdriveShotHeatedVFX.tracerPrefab; // beef this up later
         private float duration;
         private float totalShotsDuration;
@@ -108,3 +109,4 @@ namespace Sandswept.Survivors.Ranger.States
         }
     }
 }
+*/

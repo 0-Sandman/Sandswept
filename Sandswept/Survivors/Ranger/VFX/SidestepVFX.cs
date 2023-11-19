@@ -20,43 +20,45 @@ namespace Sandswept.Survivors.Ranger.VFX
 
         public static void Init()
         {
-            dashMat1Default = Object.Instantiate(Assets.Material.matHuntressFlashBright);
+            dashMat1Default = CreateMat1Recolor(new Color32(3, 191, 100, 255));
 
-            dashMat1Default.SetColor("_TintColor", new Color32(3, 191, 100, 255));
-
-            dashMat2Default = Object.Instantiate(Assets.Material.matHuntressFlashExpanded);
-
-            dashMat2Default.SetColor("_TintColor", new Color32(0, 148, 74, 255));
+            dashMat2Default = CreateMat2Recolor(new Color32(0, 148, 74, 255));
 
             //
 
-            dashMat1Major = Object.Instantiate(Assets.Material.matHuntressFlashBright);
+            dashMat1Major = CreateMat1Recolor(new Color32(70, 56, 204, 255));
 
-            dashMat1Major.SetColor("_TintColor", new Color32(70, 56, 204, 255));
-
-            dashMat2Major = Object.Instantiate(Assets.Material.matHuntressFlashExpanded);
-
-            dashMat2Major.SetColor("_TintColor", new Color32(65, 61, 170, 255));
+            dashMat2Major = CreateMat2Recolor(new Color32(65, 61, 170, 255));
 
             //
 
-            dashMat1Renegade = Object.Instantiate(Assets.Material.matHuntressFlashBright);
+            dashMat1Renegade = CreateMat1Recolor(new Color32(204, 56, 182, 255));
 
-            dashMat1Renegade.SetColor("_TintColor", new Color32(204, 56, 182, 255));
-
-            dashMat2Renegade = Object.Instantiate(Assets.Material.matHuntressFlashExpanded);
-
-            dashMat2Renegade.SetColor("_TintColor", new Color32(170, 54, 155, 255));
+            dashMat2Renegade = CreateMat2Recolor(new Color32(170, 54, 155, 255));
 
             //
 
-            dashMat1MileZero = Object.Instantiate(Assets.Material.matHuntressFlashBright);
+            dashMat1MileZero = CreateMat1Recolor(new Color32(191, 3, 6, 255));
 
-            dashMat1MileZero.SetColor("_TintColor", new Color32(191, 3, 6, 255));
+            dashMat2MileZero = CreateMat2Recolor(new Color32(148, 0, 5, 255));
+        }
 
-            dashMat2MileZero = Object.Instantiate(Assets.Material.matHuntressFlashExpanded);
+        public static Material CreateMat1Recolor(Color32 blueEquivalent)
+        {
+            var mat = Object.Instantiate(Assets.Material.matHuntressFlashBright);
 
-            dashMat2MileZero.SetColor("_TintColor", new Color32(148, 0, 5, 255));
+            mat.SetColor("_TintColor", blueEquivalent);
+
+            return mat;
+        }
+
+        public static Material CreateMat2Recolor(Color32 blueEquivalent)
+        {
+            var mat = Object.Instantiate(Assets.Material.matHuntressFlashExpanded);
+
+            mat.SetColor("_TintColor", blueEquivalent);
+
+            return mat;
         }
     }
 }

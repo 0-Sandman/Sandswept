@@ -1,11 +1,32 @@
-# 0.7.3 Patch Notes
+# 0.8.0 Patch Notes
 * Ranger
-  * Fixed skills getting restocked with skill replacement
-* Equipment
+  * Added Void Fiend-ish keywords to skills in the loadout
+  * Added Model Overlay while in Overdrive
+  * Added recolored VFX for skills in Overdrive
+  * Buffed Base Damage Gain in full heat from 20%/s to 36%/s
+  * Buffed Heat Signature on hit Charge gain from 1 to 3
+  * Nerfed Release Minimum Damage from 600% to 400%
+  * Nerfed Enflame Damage from 100% to 90%
+  * Changed Default Crosshair
+  * Changed Sidestep to work better with SnappierStalks
+  * Improved feedback for heat mechanics
+  * Improved skill descriptions
+  * Made all skills only restock half of max stock when reassigning (rounded down for m2 and up for utility <img src="https://i.imgflip.com/7ukm6s.jpg" width="64"/>) (basically backup mag and afterburner were insane if you knew the "tech", and lysate was just free win friday infinite skills, and changing restock on assign to false made ranger as fun as void fiend)
+  * Made Enflame have higher spread
+  * Made Heat Signature hitbox slightly larger
+  * Made Heat Sink give an Attack Speed Boost
+  * Fixed heat not reducing/removing healing properly
+  * Fixed Release not consuming Charge as client
+  * Fixed Enflame scaling Ignite Chance wrong
+* Items
+  * Balance and VFX changes/additions will be done in the future
+* Equipment & Elites
   * Improved icon and fixed description for The Sand Sweeper
+  * Improved Motivating Affix Equipment icon
 
 # 0.7.2 Patch Notes
-
+* Equipment
+  * Fixed icon and description for The Sand Sweeper
 # 0.7.1 Patch Notes
 * Ranger
   * Buffed Exhaust Damage from 8x160% to 8x200%
@@ -17,6 +38,7 @@
 # 0.7.0 Patch Notes
 * Ranger
   * Fully Networked
+  * Added emission
   * Added 3 RECOLOR Skins :^) :^) :^) not lazy btw (trust)
   * Buffed Charge Regeneration from 0.2 hp/s to 0.25 hp/s
   * Buffed Release Minimum Damage from 500% to 600%

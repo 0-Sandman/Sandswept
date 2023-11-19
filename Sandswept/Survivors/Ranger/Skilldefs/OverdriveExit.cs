@@ -21,6 +21,8 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
         public override bool Agile => true;
         public override bool IsCombat => false;
 
+        public override bool FullRestockOnAssign => false;
+
         public override void Init()
         {
             base.Init();

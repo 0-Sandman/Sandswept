@@ -7,13 +7,14 @@ namespace Sandswept.Survivors.Ranger.States
     {
         public static int ShotsPerSecond = 6;
         public static float ProcCoeff = 0.8f;
-        public static float DamageCoeff = 1f;
-        public static GameObject TracerEffect => OverdriveShotVFX.tracerPrefab; // beef this up later
-        public static GameObject TracerEffectHeated => OverdriveShotHeatedVFX.tracerPrefab; // beef this up later
+        public static float DamageCoeff = 0.9f;
+        private GameObject TracerEffect;
+        private GameObject TracerEffectHeated;
         private float shots;
         private float shotDelay => 1f / shots;
         private float stopwatch = 0f;
         private RangerHeatController heat;
+        private Transform modelTransform;
 
         public override void OnEnter()
         {
@@ -22,6 +23,29 @@ namespace Sandswept.Survivors.Ranger.States
             heat = GetComponent<RangerHeatController>();
             heat.isFiring = false;
             shots = ShotsPerSecond * attackSpeedStat;
+
+            modelTransform = GetModelTransform();
+
+            if (modelTransform)
+            {
+                var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
+
+                TracerEffect = skinNameToken switch
+                {
+                    "SKINDEF_MAJOR" => EnflameVFX.tracerPrefabMajor,
+                    "SKINDEF_RENEGADE" => EnflameVFX.tracerPrefabRenegade,
+                    "SKINDEF_MILEZERO" => EnflameVFX.tracerPrefabMileZero,
+                    _ => EnflameVFX.tracerPrefabDefault
+                };
+
+                TracerEffectHeated = skinNameToken switch
+                {
+                    "SKINDEF_MAJOR" => EnflameVFX.tracerHeatedPrefabMajor,
+                    "SKINDEF_RENEGADE" => EnflameVFX.tracerHeatedPrefabRenegade,
+                    "SKINDEF_MILEZERO" => EnflameVFX.tracerHeatedPrefabMileZero,
+                    _ => EnflameVFX.tracerHeatedPrefabDefault
+                };
+            }
 
             if (characterBody)
             {
@@ -76,7 +100,7 @@ namespace Sandswept.Survivors.Ranger.States
 
             var aimDiretion = GetAimRay().direction;
 
-            var isHeatedShot = Util.CheckRoll(heat.currentHeat * 0.5f);
+            var isHeatedShot = Util.CheckRoll(heat.currentHeat);
 
             if (isHeatedShot)
                 Util.PlayAttackSpeedSound("Play_commando_M2", gameObject, 1f);
@@ -95,8 +119,8 @@ namespace Sandswept.Survivors.Ranger.States
                 tracerEffectPrefab = isHeatedShot ? TracerEffectHeated : TracerEffect,
                 procCoefficient = ProcCoeff,
                 damageType = isHeatedShot ? DamageType.IgniteOnHit : DamageType.Generic,
-                minSpread = heat.currentHeat * 0.006f,
-                maxSpread = heat.currentHeat * 0.007f,
+                minSpread = -0.5f - heat.currentHeat * 0.01f,
+                maxSpread = 0.5f + heat.currentHeat * 0.01f,
                 damageColorIndex = isHeatedShot ? DamageColorIndex.Fragile : DamageColorIndex.Default,
                 radius = 0.5f,
                 smartCollision = true

@@ -14,25 +14,24 @@
         public static GameObject tracerPrefabMileZero;
         public static GameObject impactPrefabMileZero;
 
-        // replace with railgunner m2/special later
-
         public static void Init()
         {
-            tracerPrefabDefault = CreateTracerRecolor("Default", new Color32(95, 209, 177, 255), new Color32(51, 234, 149, 255), new Color32(95, 224, 125, 255), new Color32(0, 6, 255, 255));
+            tracerPrefabDefault = CreateTracerRecolor("Default", new Color32(95, 209, 177, 255), new Color32(51, 234, 149, 255), new Color32(95, 224, 125, 255), new Color32(0, 121, 255, 255), true, 2.675917f, 0.8582755f, 10f);
             impactPrefabDefault = CreateImpactRecolor("Default", new Color32(23, 234, 129, 255), new Color32(23, 211, 148, 255), new Color32(0, 255, 210, 255));
 
-            tracerPrefabMajor = CreateTracerRecolor("Major", new Color32(95, 125, 209, 255), new Color32(51, 133, 234, 255), new Color32(95, 192, 224, 255), new Color32(4, 0, 255, 255), 10.65977f, 0.4565004f, 0.06634249f);
+            tracerPrefabMajor = CreateTracerRecolor("Major", new Color32(95, 125, 209, 255), new Color32(51, 133, 234, 255), new Color32(95, 192, 224, 255), new Color32(4, 0, 255, 255), false, 10.65977f, 0.4565004f, 0.06634249f);
             impactPrefabMajor = CreateImpactRecolor("Major", new Color32(23, 124, 234, 255), new Color32(23, 83, 211, 255), new Color32(0, 41, 255, 255));
 
-            tracerPrefabRenegade = CreateTracerRecolor("Renegade", new Color32(219, 103, 159, 255), new Color32(246, 59, 183, 255), new Color32(234, 102, 230, 255), new Color32(176, 31, 187, 255), 2.474493f, 0.5483652f, 1.758069f);
+            tracerPrefabRenegade = CreateTracerRecolor("Renegade", new Color32(219, 103, 159, 255), new Color32(246, 59, 183, 255), new Color32(234, 102, 230, 255), new Color32(176, 31, 187, 255), false, 2.474493f, 0.5483652f, 1.758069f);
             impactPrefabRenegade = CreateImpactRecolor("Renegade", new Color32(247, 32, 182, 255), new Color32(225, 34, 136, 255), new Color32(255, 9, 107, 255));
 
-            tracerPrefabMileZero = CreateTracerRecolor("Mile Zero", new Color32(209, 95, 95, 255), new Color32(234, 51, 84, 255), new Color32(224, 95, 157, 255), new Color32(255, 0, 2, 255), 20f, 4.072613f, 0.1128651f);
+            tracerPrefabMileZero = CreateTracerRecolor("Mile Zero", new Color32(209, 95, 95, 255), new Color32(234, 51, 84, 255), new Color32(224, 95, 157, 255), new Color32(255, 0, 2, 255), false, 20f, 4.072613f, 0.1128651f);
             impactPrefabMileZero = CreateImpactRecolor("Mile Zero", new Color32(234, 23, 68, 255), new Color32(211, 23, 33, 255), new Color32(255, 27, 0, 255));
         }
 
-        public static GameObject CreateTracerRecolor(string name, Color32 lightBlueEquivalent, Color32 lightAquaEquivalent, Color32 lightGreenEquivalent, Color32 tintColor, float brightnessBoost = 20f, float alphaBias = 0.2612987f, float alphaBoost = 0.5506042f)
+        public static GameObject CreateTracerRecolor(string name, Color32 lightBlueEquivalent, Color32 lightAquaEquivalent, Color32 lightGreenEquivalent, Color32 tintColor, bool altRamp = false, float brightnessBoost = 20f, float alphaBias = 0.2612987f, float alphaBoost = 0.5506042f)
         {
+            // 0 255 141 255
             // lightBlueEquivalent = new Color32(95, 209, 177, 255);
             // lightAquaEquivalent = new Color32(51,234,149,255);
             // lightGreenEquivalent = new Color32(92,224,125,255);
@@ -101,7 +100,7 @@
             // particleSystemRenderer.material = newMat2;
 
             var newMat3 = Object.Instantiate(Assets.Material.matHuntressSwingTrail);
-            newMat3.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampGay.png"));
+            newMat3.SetTexture("_RemapTex", altRamp ? Assets.Texture2D.texRampBandit : Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampGay.png"));
             newMat3.SetColor("_TintColor", tintColor);
             newMat3.SetFloat("_SoftFactor", 0.8866442f);
             newMat3.SetFloat("_Boost", brightnessBoost);
