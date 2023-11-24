@@ -15,7 +15,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemFullDescription => ("Every $sd" + baseInterval + " seconds$se $ss(-" + d(stackIntervalReduction) + " per stack)$se, all mechanical allies fire $sdnuclear missiles$se that deal $sd" + missileCount + "x" + d(missileDamage) + "$se base damage and $sdignite$se on hit.").AutoFormat();
 
-        public override string ItemLore => "TBD";
+        public override string ItemLore => "//--AUTO-TRANSCRIPTION FROM LOADING BAY 4 OF THE UES [Redacted] --//\r\n\r\n\"That's everything, right?\"\r\n\r\n\"Not quite. We're supposed to load those mean-looking missile salvos over there, too.\"\r\n\r\n\"Wait, what? What could they possibly be needed for?\"\r\n\r\n\"I have no idea, but I've gotten word from high up that they need to be on board, and put in shipping chests. And when I say high up, I mean REALLY high up.\"\r\n\r\n\"There's so many, too. I have a bad feeling about this. The whole shipment has been fishy.\"\r\n\r\n\"The suits at the top of UES are always pulling secret stunts like this. It's just part of the job. We've got to follow orders, or we're outta here.\"";
 
         public override ItemTier Tier => ItemTier.Tier2;
 
@@ -57,6 +57,7 @@ namespace Sandswept.Items.Greens
             base.Hooks();
 
             SalvoPrefab = Main.Assets.LoadAsset<GameObject>("SalvoBehaviour.prefab");
+            Main.ModLogger.LogError(SalvoPrefab);
             /*
             SalvoMissile = Main.Assets.LoadAsset<GameObject>("Missile.prefab");
             ContentAddition.AddProjectile(SalvoMissile);
@@ -162,8 +163,10 @@ namespace Sandswept.Items.Greens
             missileController.acceleration = 1.5f;
 
             PrefabAPI.RegisterNetworkPrefab(missilePrefab);
+            ContentAddition.AddProjectile(missilePrefab);
 
             ContentAddition.AddNetworkedObject(SalvoPrefab);
+
             On.RoR2.CharacterBody.RecalculateStats += GiveItem;
             On.RoR2.CharacterBody.OnInventoryChanged += RecheckItems;
         }
@@ -173,13 +176,15 @@ namespace Sandswept.Items.Greens
             orig(self);
             if (NetworkServer.active && self.isPlayerControlled && self.inventory.GetItemCount(ItemDef) > 0)
             {
+                Main.ModLogger.LogError("has salvo");
                 List<CharacterMaster> masters = CharacterMaster.readOnlyInstancesList.Where(x => x.minionOwnership && x.minionOwnership.ownerMaster == self.master).ToList();
 
                 foreach (CharacterMaster cm in masters)
                 {
+                    Main.ModLogger.LogError("iterating through all masters where owner is me >w< :fuwwy: OwO UwU <3 <3 :3 :3");
                     if (cm.inventory.GetItemCount(ItemDef) < self.inventory.GetItemCount(ItemDef))
                     {
-                        // Debug.Log("giving salvo to drone");
+                        Main.ModLogger.LogError("giving salvo to drone");
                         cm.inventory.ResetItem(ItemDef);
                         cm.inventory.GiveItem(ItemDef, self.inventory.GetItemCount(ItemDef));
                         GameObject attachment = Object.Instantiate(SalvoPrefab);
@@ -199,21 +204,22 @@ namespace Sandswept.Items.Greens
 
                 foreach (CharacterMaster cm in masters)
                 {
+                    Main.ModLogger.LogError("removing salvo from drone");
                     cm.inventory.RemoveItem(ItemDef, cm.inventory.GetItemCount(ItemDef));
                 }
             }
         }
     }
 
-    public class SalvoBehaviour : MonoBehaviour
+    public class SalvoBehavior : MonoBehaviour
     {
         public NetworkedBodyAttachment attachment;
-
-        private float totalMissileDelay => NuclearSalvo.baseInterval * Mathf.Pow(1f - NuclearSalvo.stackIntervalReduction, attachment.attachedBody.inventory.GetItemCount(NuclearSalvo.instance.ItemDef) - 1);
-        private float stopwatch = 0f;
+        public float totalMissileDelay => NuclearSalvo.baseInterval * Mathf.Pow(1f - NuclearSalvo.stackIntervalReduction, attachment.attachedBody.inventory.GetItemCount(NuclearSalvo.instance.ItemDef) - 1);
+        public float stopwatch = 0f;
 
         public void Start()
         {
+            Main.ModLogger.LogError("salvo start");
             stopwatch = totalMissileDelay;
         }
 
@@ -243,6 +249,7 @@ namespace Sandswept.Items.Greens
 
         public IEnumerator FireMissiles()
         {
+            Main.ModLogger.LogError("salvo fire missiles ran");
             for (int i = 0; i < NuclearSalvo.missileCount; i++)
             {
                 // Debug.Log("firing salvo missile");

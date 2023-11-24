@@ -24,7 +24,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             impactPrefabDefault = CreateImpactRecolor("Default", new Color32(17, 17, 17, 255), new Color32(14, 32, 161, 255), new Color32(25, 67, 255, 255),
                 new Color32(0, 108, 238, 255), new Color32(0, 57, 147, 255), new Color32(20, 116, 255, 255), new Color32(0, 133, 255, 255), new Color32(88, 229, 255, 255),
-                new Color32(54, 71, 214, 255), new Color32(243, 211, 65, 255), new Color32(255, 255, 255, 255), new Color32(39, 100, 144, 255), new Color32(49, 166, 180, 255),
+                new Color32(54, 71, 214, 255), new Color32(243, 211, 65, 255), new Color32(255, 255, 255, 255), new Color32(39, 140, 144, 255), new Color32(49, 166, 180, 255),
                 new Color32(0, 255, 62, 255), new Color32(0, 255, 90, 255), 1.301445f, 0.07936508f);
 
             ghostPrefabMajor = CreateGhostRecolor("Major", new Color32(0, 224, 255, 255), new Color32(0, 49, 197, 255), new Color32(100, 20, 217, 255));
@@ -69,7 +69,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var trimmedName = name.Replace(" ", "");
 
-            var impact = Assets.GameObject.OmniImpactVFXLightningMage.InstantiateClone("Direct Current Impact" + name, false);
+            var impact = Assets.GameObject.OmniImpactVFXLightningMage.InstantiateClone("Direct Current Impact " + name, false);
 
             var effectComponent = impact.GetComponent<EffectComponent>();
             effectComponent.soundName = "Play_engi_M1_explo";
@@ -213,7 +213,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var trimmedName = name.Replace(" ", "");
 
-            var ghost = Assets.GameObject.LunarSunProjectileGhost.InstantiateClone("Direct Current Ghost" + name, false);
+            var ghost = Assets.GameObject.LunarSunProjectileGhost.InstantiateClone("Direct Current Ghost " + name, false);
 
             Main.ModLogger.LogDebug(ghost);
             Main.ModLogger.LogDebug(ghost.transform);

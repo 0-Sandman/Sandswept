@@ -79,7 +79,9 @@
             var stack = GetCount(interactorBody);
             if (stack > 0)
             {
-                passBehavior.storedTotal += purchaseInteraction.cost * Util.ConvertAmplificationPercentageIntoReductionPercentage(baseCreditPercent + stackCreditPercent * (stack - 1));
+                var toAdd = purchaseInteraction.cost * Util.ConvertAmplificationPercentageIntoReductionPercentage(baseCreditPercent + stackCreditPercent * (stack - 1));
+                Main.ModLogger.LogError("adding to total: " + toAdd);
+                passBehavior.storedTotal += toAdd;
             }
         }
 
@@ -100,9 +102,11 @@
         {
             foreach (CharacterBody body in CharacterBody.instancesList)
             {
+                Main.ModLogger.LogError("iterating through every cb");
                 var passBehavior = body.GetComponent<PassBehavior>();
                 if (!passBehavior)
                 {
+                    Main.ModLogger.LogError("cb has no pass behavior " + body.name);
                     return;
                 }
 
@@ -110,16 +114,20 @@
                 if (stack <= 0)
                 {
                     body.RemoveComponent<PassBehavior>();
+                    Main.ModLogger.LogError("cb has no uni vip pass, removing pass behavior " + body.name);
                     return;
                 }
 
                 var master = body.master;
                 if (!master)
                 {
+                    Main.ModLogger.LogError("cb has no master " + body.name);
                     return;
                 }
 
                 var scaledCredit = (uint)Run.instance.GetDifficultyScaledCost((int)passBehavior.storedTotal);
+
+                Main.ModLogger.LogError("scaled credit is " + scaledCredit);
 
                 master.GiveMoney(scaledCredit);
 

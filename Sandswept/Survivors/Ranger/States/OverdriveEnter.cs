@@ -20,6 +20,8 @@ namespace Sandswept.Survivors.Ranger.States
         {
             base.OnEnter();
 
+            heat = GetComponent<RangerHeatController>();
+
             SkillLocator locator = skillLocator;
             locator.primary.SetSkillOverride(gameObject, PrimarySkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.secondary.SetSkillOverride(gameObject, SecondarySkill, GenericSkill.SkillOverridePriority.Contextual);
@@ -59,7 +61,7 @@ namespace Sandswept.Survivors.Ranger.States
             PlayAnimation("Gesture, Override", "EnterOverdrive");
             Util.PlaySound("Play_item_use_BFG_charge", gameObject);
 
-            GetComponent<RangerHeatController>().EnterOverdrive();
+            heat.EnterOverdrive();
         }
 
         public override void OnExit()
@@ -92,7 +94,7 @@ namespace Sandswept.Survivors.Ranger.States
                 }
             }
 
-            GetComponent<RangerHeatController>().ExitOverdrive();
+            heat.ExitOverdrive();
 
             if (characterBody)
             {
@@ -111,6 +113,7 @@ namespace Sandswept.Survivors.Ranger.States
         }
     }
 
+    /*
     public class OverdriveExit : BaseState
     {
         public override void OnEnter()
@@ -135,28 +138,5 @@ namespace Sandswept.Survivors.Ranger.States
             return InterruptPriority.PrioritySkill;
         }
     }
-
-    public class OverdriveExitHeatSink : BaseState
-    {
-        public override void OnEnter()
-        {
-            base.OnEnter();
-            EntityStateMachine machine = EntityStateMachine.FindByCustomName(gameObject, "Overdrive");
-            if (machine.state is OverdriveEnter)
-            {
-                (machine.state as OverdriveEnter).Exit();
-            }
-            outer.SetNextStateToMain();
-
-            if (characterBody)
-            {
-                characterBody.isSprinting = true;
-            }
-        }
-
-        public override InterruptPriority GetMinimumInterruptPriority()
-        {
-            return InterruptPriority.PrioritySkill;
-        }
-    }
+    */
 }

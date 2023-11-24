@@ -5,7 +5,7 @@ namespace Sandswept.Survivors.Ranger.States
 {
     public class Exhaust : BaseState
     {
-        public static float DamageCoefficient = 2f;
+        public static float DamageCoefficient = 1.8f;
         public static float ProcCoefficient = 0.5f;
         public static float baseDuration = 0.15f;
         public float duration;

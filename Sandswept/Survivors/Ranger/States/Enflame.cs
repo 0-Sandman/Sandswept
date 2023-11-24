@@ -119,10 +119,10 @@ namespace Sandswept.Survivors.Ranger.States
                 tracerEffectPrefab = isHeatedShot ? TracerEffectHeated : TracerEffect,
                 procCoefficient = ProcCoeff,
                 damageType = isHeatedShot ? DamageType.IgniteOnHit : DamageType.Generic,
-                minSpread = -0.5f - heat.currentHeat * 0.01f,
-                maxSpread = 0.5f + heat.currentHeat * 0.01f,
+                minSpread = -1f - heat.currentHeat * 0.015f,
+                maxSpread = 1f + heat.currentHeat * 0.015f,
                 damageColorIndex = isHeatedShot ? DamageColorIndex.Fragile : DamageColorIndex.Default,
-                radius = 0.5f,
+                radius = 0.4f,
                 smartCollision = true
             };
 

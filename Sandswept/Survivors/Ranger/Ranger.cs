@@ -37,6 +37,7 @@ namespace Sandswept.Survivors.Ranger
 
             Body.AddComponent<RoR2.UI.CrosshairUtils.CrosshairOverrideBehavior>();
 
+            Body.RemoveComponent<RangerHeatController>();
             Body.AddComponent<RangerHeatController>();
 
             Body.GetComponent<CameraTargetParams>().cameraParams = Assets.CharacterCameraParams.ccpStandard;
@@ -62,7 +63,7 @@ namespace Sandswept.Survivors.Ranger
 
             var cb = Body.GetComponent<CharacterBody>();
             cb._defaultCrosshairPrefab = crosshair;
-            cb.preferredPodPrefab = RangerPod.prefab;
+            cb.preferredPodPrefab = RangerPod.prefabDefault;
 
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdRanger.asset");
             SurvivorDef.cachedName = "Ranger"; // for eclipse fix
@@ -136,26 +137,32 @@ namespace Sandswept.Survivors.Ranger
         }
 
         public static CharacterModel mdl;
+        public static ModelSkinController modelSkinController;
         public static Transform _modelTransform;
+        public static SkinDef defaultDef;
+        public static SkinDef majorDef;
+        public static SkinDef renegadeDef;
+        public static SkinDef mileZeroDef;
 
         public void AddSkins()
         {
-            SkinDef sd = Main.Assets.LoadAsset<SkinDef>("Skindefault.asset");
+            defaultDef = Main.Assets.LoadAsset<SkinDef>("Skindefault.asset");
 
             var scarfAndPantsColor = new Color32(88, 161, 142, 255);
             var helmetColor = new Color32(0, 255, 169, 255);
             var armorColor = new Color32(223, 127, 35, 255);
             var suitColor = new Color32(49, 62, 67, 255);
 
-            sd.icon = Skins.CreateSkinIcon(scarfAndPantsColor, helmetColor, armorColor, suitColor);
+            defaultDef.icon = Skins.CreateSkinIcon(scarfAndPantsColor, helmetColor, armorColor, suitColor);
 
             "SKIN_DEFAULT".Add("Default");
 
             mdl = _modelTransform.GetComponent<CharacterModel>();
+            modelSkinController = mdl.GetComponent<ModelSkinController>();
 
-            CreateRecolor("Major", 4.2f, false, "perform a multikill of 10 enemies");
-            CreateRecolor("Renegade", 2.5f, false, "kill 3 enemies with one use of Heat Signature");
-            CreateRecolor("Mile Zero", 4.2f, false, "finish off 10 enemies with one use of Exhaust");
+            majorDef = CreateRecolor("Major", 4.2f, false, "perform a multikill of 10 enemies");
+            renegadeDef = CreateRecolor("Renegade", 2.5f, false, "kill 3 enemies with one use of Heat Signature");
+            mileZeroDef = CreateRecolor("Mile Zero", 4.2f, false, "finish off 10 enemies with one use of Exhaust");
             // CreateRecolor("Uv");
             // ideas
             // Major - as Ranger, kill 10 enemies at once
@@ -173,13 +180,13 @@ namespace Sandswept.Survivors.Ranger
             ContentAddition.AddEntityState(typeof(HeatSignature), out _);
             ContentAddition.AddEntityState(typeof(HeatSink), out _);
             ContentAddition.AddEntityState(typeof(OverdriveEnter), out _);
-            ContentAddition.AddEntityState(typeof(OverdriveExit), out _);
+            // ContentAddition.AddEntityState(typeof(OverdriveExit), out _);
             ContentAddition.AddEntityState(typeof(OverdriveExitHeatSink), out _);
             ContentAddition.AddEntityState(typeof(Release), out _);
             ContentAddition.AddEntityState(typeof(Sidestep), out _);
         }
 
-        public void CreateRecolor(string skinName, float emissionValue = 2.5f, bool unlockable = false, string unlockDesc = "ugh fill me")
+        public SkinDef CreateRecolor(string skinName, float emissionValue = 2.5f, bool unlockable = false, string unlockDesc = "ugh fill me")
         {
             var trimmedName = skinName.Replace(" ", "");
             var mainTex = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRangerDiffuse" + trimmedName + ".png");
@@ -255,12 +262,17 @@ namespace Sandswept.Survivors.Ranger
                 NameToken = "SKINDEF_" + trimmedName.ToUpper(),
                 RendererInfos = newRendererInfos,
                 RootObject = mdl.gameObject,
-                UnlockableDef = unlockableDef
+                UnlockableDef = unlockableDef,
+                BaseSkins = new SkinDef[] { modelSkinController.skins[0] }
             };
+
+            var skinDef = Skins.CreateNewSkinDef(newSkinDefInfo);
 
             ("SKINDEF_" + trimmedName.ToUpper()).Add(skinName);
 
-            Skins.AddSkinToCharacter(Body, newSkinDefInfo);
+            Skins.AddSkinToCharacter(Body, skinDef);
+
+            return skinDef;
         }
     }
 }

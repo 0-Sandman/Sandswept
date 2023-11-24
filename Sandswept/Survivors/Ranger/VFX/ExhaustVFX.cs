@@ -19,16 +19,16 @@
         public static void Init()
         {
             tracerPrefabDefault = CreateTracerRecolor("Default", new Color32(95, 209, 177, 255), new Color32(234, 122, 51, 255), new Color32(158, 14, 0, 255));
-            impactPrefabDefault = CreateImpactRecolor("Default", new Color32(234, 107, 23, 255), new Color32(211, 129, 23, 94));
+            impactPrefabDefault = CreateImpactRecolor("Default", new Color32(234, 107, 23, 255), new Color32(211, 129, 23, 94), new Color32(76, 41, 8, 255));
 
             tracerPrefabMajor = CreateTracerRecolor("Major", new Color32(95, 125, 209, 255), new Color32(51, 78, 234, 255), new Color32(0, 70, 158, 255), true, 20f, 0f, 0.2559297f);
-            impactPrefabMajor = CreateImpactRecolor("Major", new Color32(23, 66, 234, 255), new Color32(23, 30, 211, 94));
+            impactPrefabMajor = CreateImpactRecolor("Major", new Color32(23, 66, 234, 255), new Color32(23, 30, 211, 94), new Color32(0, 132, 255, 255), 20f, 0.761f);
 
             tracerPrefabRenegade = CreateTracerRecolor("Renegade", new Color32(219, 103, 159, 255), new Color32(143, 51, 234, 255), new Color32(32, 0, 158, 255), true);
-            impactPrefabRenegade = CreateImpactRecolor("Renegade", new Color32(125, 23, 234, 255), new Color32(145, 23, 211, 94));
+            impactPrefabRenegade = CreateImpactRecolor("Renegade", new Color32(125, 23, 234, 255), new Color32(145, 23, 211, 94), new Color32(6, 0, 255, 255));
 
             tracerPrefabMileZero = CreateTracerRecolor("Mile Zero", new Color32(127, 0, 0, 255), new Color32(0, 0, 0, 255), new Color32(255, 0, 0, 255), false, 2.207824f, 1.515893f, 0.397718f);
-            impactPrefabMileZero = CreateImpactRecolor("Mile Zero", new Color32(0, 0, 0, 255), new Color32(127, 0, 0, 94));
+            impactPrefabMileZero = CreateImpactRecolor("Mile Zero", new Color32(0, 0, 0, 255), new Color32(127, 0, 0, 94), new Color32(4, 0, 0, 255));
         }
 
         public static GameObject CreateTracerRecolor(string name, Color32 aquaEquivalent, Color32 orangeEquivalent, Color32 darkRedEquivalent, bool altRamp = false, float brightnessBoost = 1.277907f, float alphaBoost = 0f, float alphaBias = 0.2317166f)
@@ -80,6 +80,7 @@
 
             var main = particleSystem.main;
             main.startSize = 0.1f;
+            main.startLifetime = 0.8f;
 
             var startColor = particleSystem.main.startColor;
             startColor.mode = ParticleSystemGradientMode.Color;
@@ -123,16 +124,17 @@
             return tracer;
         }
 
-        public static GameObject CreateImpactRecolor(string name, Color32 hotPinkEquivalent, Color32 redEquivalent)
+        public static GameObject CreateImpactRecolor(string name, Color32 hotPinkEquivalent, Color32 redEquivalent, Color32 spikeColor, float brighnessBoost = 11.08f, float alphaBoost = 4.3f)
         {
             // hotPinkEquivalent = new Color32(226, 27, 128, 255);
             // redEquivalent = new Color32(209, 21, 15, 96);
+            // spikeColor = new Color32(255,255,255,255);
             var impact = Assets.GameObject.ImpactRailgunLight.InstantiateClone("Exhaust Impact" + name, false);
 
             var trans = impact.transform;
 
             var beamParticles = trans.GetChild(0);
-            // beamParticles.gameObject.SetActive(false);
+            beamParticles.gameObject.SetActive(false);
 
             var shockWave = trans.GetChild(1).GetComponent<ParticleSystem>().main.startColor;
             shockWave.color = hotPinkEquivalent;
@@ -140,14 +142,24 @@
             var flashWhite = trans.GetChild(2);
             // flashWhite.gameObject.SetActive(false);
 
-            var daggers = trans.GetChild(3);
-            // daggers.gameObject.SetActive(false);
+            var daggers = trans.GetChild(3).GetComponent<ParticleSystemRenderer>();
+
+            var daggersPS = daggers.GetComponent<ParticleSystem>().main.startLifetime;
+            daggersPS.constantMin = 1f;
+            daggersPS.constantMax = 1f;
+
+            var newMat = Object.Instantiate(Assets.Material.matRailgunImpactSpikesLight);
+            newMat.SetColor("_TintColor", spikeColor);
+            newMat.SetFloat("_Boost", brighnessBoost);
+            newMat.SetFloat("_AlphaBoost", alphaBoost);
+
+            daggers.material = newMat;
 
             var flashWhite3 = trans.GetChild(7).GetComponent<ParticleSystem>().main.startColor;
             flashWhite3.color = redEquivalent;
 
             ContentAddition.AddEffect(impact);
-
+            // 9,0,0
             return impact;
         }
     }

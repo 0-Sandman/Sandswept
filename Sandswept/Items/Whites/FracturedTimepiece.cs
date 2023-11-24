@@ -11,7 +11,7 @@
 
         public override string ItemFullDescription => ("Upon using your $suutility skill$se, $shheal$se for $sh" + d(basePercentHealing) + "$se $ss(+" + d(stackPercentHealing) + " per stack)$se of your $shmaximum health$se and $sureduce special skill cooldown$se by $su" + d(baseSpecialCooldownReduction) + "$se $ss(+" + d(stackSpecialCooldownReduction) + " per stack)$se.").AutoFormat();
 
-        public override string ItemLore => "";
+        public override string ItemLore => "Order: Timepiece\r\nTracking Number: 864*******\r\nEstimated Delivery: 02/23/2054\r\nShipping Method: Priority\r\nShipping Address: Hall of the Revered, Mars\r\nShipping Details:\r\n\r\nThis was uncovered by some archeologists in the desert where the old Hall was, before it burned down. I guess someone really wanted to protect it from the purge, since it was carefully wrapped and boxed where we found it. We're sending it to you, free of charge, since it was owned by the Hall to begin with, and you can probably glean more knowledge from it than we can.\r\n\r\nThe box had a note in it from the Time Keeper of the era, too, which I've included in the package. It's in the old language, so we couldn't make it out -- hopefully you can make some sense of it.";
 
         public override ItemTier Tier => ItemTier.Tier1;
 

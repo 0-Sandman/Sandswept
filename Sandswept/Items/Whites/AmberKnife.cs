@@ -1,6 +1,7 @@
 ﻿using RoR2.EntityLogic;
 using UnityEngine.Events;
 using static Sandswept.Utils.Components.MaterialControllerComponents;
+using static UnityEngine.UI.GridLayoutGroup;
 
 // ss2 ahh code
 namespace Sandswept.Items.Whites
@@ -16,7 +17,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemFullDescription => ("Gain a $sd" + chance + "%$se chance on hit to fire a $sdknife$se for $sd" + d(baseDamage) + "$se $ss(+" + d(stackDamage) + " per stack)$se base damage that $sdpierces$se, gain $sh" + d(percentBarrierGain) + " barrier$se for every pierce with the knife.").AutoFormat();
 
-        public override string ItemLore => "";
+        public override string ItemLore => "Order: Amber Knife\r\nTracking Number: 534*****\r\nEstimated Delivery: 07/10/2056\r\nShipping Method: High Priority\r\nShipping Address: Outer Ring Lab, Venus\r\nShipping Details:\r\n\r\nThis is an ancient ritual artifact, once used by Neptunian priests in sacrifices, said to protect them from attack and assassination. This was not without credence, it seems, as the knife operates similarly to the ultra-phasic shield technology used in the assassination of Earth's ambassador two months back.\r\n\r\nOf course, we can't use such an old and fragile weapon in our own operations, but its effect seems more potent than what the assassin used. Along with serving your planet, we'll provide generous funding if you can discover how it works and incorporate it into something more usable.";
 
         public override ItemTier Tier => ItemTier.Tier1;
 
@@ -31,7 +32,6 @@ namespace Sandswept.Items.Whites
         public static GameObject amberKnifeProjectile;
         public static GameObject amberKnifeGhost;
 
-        public UnityEvent UnityGames = new();
         public static ProjectileOverlapAttack projectileOverlapAttack;
 
         [ConfigField("Chance", "", 10f)]
@@ -49,23 +49,26 @@ namespace Sandswept.Items.Whites
         [ConfigField("Percent Barrier Gain", "Decimal.", 0.04f)]
         public static float percentBarrierGain;
 
+        public static ProjectileController projectileController;
+
+        public static UnityEvent UnityGames = new();
+
         // why tf does it bounce so oddly
         // also the unity event doesnt work bruhhhh
         public override void Init(ConfigFile config)
         {
             amberKnifeGhost = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Bandit2/Bandit2ShivGhostAlt.prefab").WaitForCompletion(), "Amber Knife Ghost", false);
-            AmberKnifeProjectile.impactSpark = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/OmniImpactVFXLarge.prefab").WaitForCompletion();
 
             amberKnifeGhost.transform.localScale = new Vector3(2f, 2f, 2f);
-            /*
-            var mesh = amberKnifeProjectile.transform.GetChild(0);
+
+            var mesh = amberKnifeGhost.transform.GetChild(0);
 
             var mf = mesh.GetComponent<MeshFilter>(); // couldnt resist naming it mf
-            mf.mesh = Addressables.LoadAssetAsync<Mesh>("").WaitForCompletion();
+            mf.mesh = Main.hifuSandswept.LoadAsset<Mesh>("Assets/Sandswept/AmberKnifeMesh.fbx");
 
             var meshRenderer = mesh.GetComponent<MeshRenderer>();
-            meshRenderer.material = Addressables.LoadAssetAsync<Material>("RoR2/Base/Bandit2/matBandit2Knife.mat").WaitForCompletion();
-            */
+            meshRenderer.material = Main.hifuSandswept.LoadAsset<Material>("Assets/Sandswept/matAmberKnife.mat");
+
             amberKnifeProjectile = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Bandit2/Bandit2ShivProjectile.prefab").WaitForCompletion(), "Amber Knife Projectile", true);
 
             var rigidBody = amberKnifeProjectile.GetComponent<Rigidbody>();
@@ -84,6 +87,13 @@ namespace Sandswept.Items.Whites
             amberKnifeProjectile.RemoveComponent<DelayedEvent>();
             amberKnifeProjectile.RemoveComponent<EventFunctions>();
 
+            projectileController = amberKnifeProjectile.GetComponent<ProjectileController>();
+            projectileController.procCoefficient = procCoefficient;
+            projectileController.ghostPrefab = amberKnifeGhost;
+            UnityGames ??= new();
+            UnityGames.AddListener(AddBarrier);
+            Main.ModLogger.LogError(UnityGames);
+
             var hitBox = amberKnifeProjectile.AddComponent<HitBox>();
 
             var hitBoxGroup = amberKnifeProjectile.AddComponent<HitBoxGroup>();
@@ -91,18 +101,24 @@ namespace Sandswept.Items.Whites
 
             projectileOverlapAttack = amberKnifeProjectile.AddComponent<ProjectileOverlapAttack>();
             projectileOverlapAttack.damageCoefficient = 1f;
-            projectileOverlapAttack.impactEffect = null; // change this probably
+            projectileOverlapAttack.impactEffect = Assets.GameObject.OmniImpactVFXSlash;
             projectileOverlapAttack.forceVector = Vector3.zero;
             projectileOverlapAttack.overlapProcCoefficient = procCoefficient;
             projectileOverlapAttack.resetInterval = -1f;
+            projectileOverlapAttack.onServerHit = UnityGames;
 
             // amberKnifeProjectile.transform.localScale = new Vector3(2f, 2f, 2f);
 
-            var projectileController = amberKnifeProjectile.GetComponent<ProjectileController>();
-            projectileController.procCoefficient = procCoefficient;
-            projectileController.ghostPrefab = amberKnifeGhost;
+            var swingTrail = amberKnifeProjectile.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystemRenderer>();
 
-            amberKnifeProjectile.AddComponent<AmberKnifeProjectile>();
+            var newMat = Object.Instantiate(Assets.Material.matBandit2SlashBlade);
+            newMat.SetColor("_TintColor", new Color32(255, 180, 40, 255));
+            newMat.SetFloat("_Boost", 6.25f);
+            newMat.SetFloat("_AlphaBoost", 3.766f);
+
+            swingTrail.material = newMat;
+
+            // amberKnifeProjectile.AddComponent<AmberKnifeProjectile>();
 
             PrefabAPI.RegisterNetworkPrefab(amberKnifeProjectile);
 
@@ -114,6 +130,31 @@ namespace Sandswept.Items.Whites
         public override void Hooks()
         {
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
+        }
+
+        public void AddBarrier()
+        {
+            Main.ModLogger.LogError("addbarrier called");
+            if (projectileController && UnityGames != null)
+            {
+                Main.ModLogger.LogError("projectile controller and event not null");
+                var owner = projectileController.owner;
+                if (!owner)
+                {
+                    Main.ModLogger.LogError("owner is null");
+                    return;
+                }
+
+                var healthComponent = owner.GetComponent<HealthComponent>();
+                if (!healthComponent)
+                {
+                    Main.ModLogger.LogError("healthcomponent is null");
+                    return;
+                }
+
+                healthComponent.AddBarrier(healthComponent.fullHealth * percentBarrierGain);
+            }
+            // GameObject.Destroy
         }
 
         private void GlobalEventManager_onServerDamageDealt(DamageReport report)
@@ -149,7 +190,7 @@ namespace Sandswept.Items.Whites
                         rotation = Util.QuaternionSafeLookRotation(attackerBody.inputBank.GetAimRay().direction),
                         force = 0f,
                         owner = attackerBody.gameObject,
-                        procChainMask = new(),
+                        procChainMask = default,
                         projectilePrefab = amberKnifeProjectile,
                     };
 
@@ -157,7 +198,7 @@ namespace Sandswept.Items.Whites
 
                     fpi.procChainMask.AddProc(amberKnife);
 
-                    fpi.projectilePrefab.GetComponent<AmberKnifeProjectile>().owner = attackerBody;
+                    // fpi.projectilePrefab.GetComponent<AmberKnifeProjectile>().owner = attackerBody;
                     ProjectileManager.instance.FireProjectile(fpi);
                 }
             }
@@ -168,6 +209,7 @@ namespace Sandswept.Items.Whites
             return new ItemDisplayRuleDict();
         }
 
+        /*
         public class AmberKnifeProjectile : NetworkBehaviour, IProjectileImpactBehavior
         {
             public static GameObject impactSpark;
@@ -199,5 +241,6 @@ namespace Sandswept.Items.Whites
                 }
             }
         }
+        */
     }
 }

@@ -1,3 +1,4 @@
+/*
 using System;
 using Sandswept.Survivors;
 
@@ -29,3 +30,4 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
         }
     }
 }
+*/
