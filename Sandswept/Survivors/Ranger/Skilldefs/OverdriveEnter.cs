@@ -16,12 +16,15 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
         public override float Cooldown => 13f;
 
         public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("OverheatPrimary.png");
-        public override string[] Keywords => new string[] { Utils.Keywords.Agile };
+        public override string[] Keywords => new string[] { Utils.Keywords.Agile, Utils.Keywords.OverdriveFormSpecial };
 
         public override bool Agile => true;
         public override bool IsCombat => false;
 
+        public override bool FullRestockOnAssign => false;
+
         public override InterruptPriority InterruptPriority => InterruptPriority.Skill;
+
         /*
         public override void CreateSkillDef()
         {

@@ -157,7 +157,7 @@ namespace Sandswept.Elites
 
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
-            RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
+            GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
         }
 
         private void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender, StatHookEventArgs args)

@@ -1,47 +1,40 @@
 using RoR2.UI;
 using RoR2.HudOverlay;
 using UnityEngine.UI;
-using System.Diagnostics;
 using Sandswept.Buffs;
-using EntityStates.Bison;
 using Sandswept.Survivors.Ranger.States;
 
 namespace Sandswept.Survivors.Ranger
 {
     public class RangerHeatController : MonoBehaviour
     {
-        public static float maxHeat = 100f;
-        public static float heatDecayRate = 15f;
-
-        public static float heatGainRate = 12f;
-
-        public static float overheatThreshold = 35f;
-
-        public float currentHeat = 0f;
-
         public bool isFiring = false;
         public Animator anim;
         private CharacterBody cb;
         private HealthComponent hc;
 
         public GameObject overlayPrefab;
-
         public GameObject overlayInstance;
+
+        public bool isInOverdrive = false;
+
+        public static float maxHeat = 100f;
+
+        public float heatGainRate = 12f;
+
+        public float currentHeat = 0f;
+
+        public float fullHeatTimer = 0f;
+        public bool isInFullHeat = false;
+
         public float selfDamage = 0.006f;
-        public float stopwatchSelfDamage = 0f;
+        public float selfDamageInterval = 0.2f;
+        public float selfDamageTimer;
 
-        public bool isOverdrive = false;
-
-        public int overdriveChargeBuffer = 0;
         public float chargeLossTimer = 0f;
         public float chargeLossInterval = 6f;
 
-        // internal float reduction => 1f - (Mathf.Clamp(0.15f * overdriveChargeBuffer, 0.15f, 0.6f));
-        public float stopwatchMaxHeat = 0f;
-
-        public bool isOverheating = false;
-        public float selfDamageInterval = 0.2f;
-        public float selfDamageTimer;
+        public int lastHealingReductionCount;
 
         internal EntityStateMachine esm;
 
@@ -59,6 +52,7 @@ namespace Sandswept.Survivors.Ranger
             controller.onInstanceAdded += (c, i) =>
             {
                 overlayInstance = i;
+
                 overlayInstance.GetComponent<RangerCrosshairManager>().target = this;
             };
         }
@@ -77,24 +71,28 @@ namespace Sandswept.Survivors.Ranger
                 chargeLossTimer = 0f;
             }
 
-            if (isOverdrive)
+            if (isInOverdrive)
             {
                 currentHeat += heatGainRate * Time.fixedDeltaTime;
                 currentHeat = Mathf.Clamp(currentHeat, 0, maxHeat);
 
                 if (currentHeat >= maxHeat)
                 {
-                    stopwatchMaxHeat += Time.fixedDeltaTime;
+                    fullHeatTimer += Time.fixedDeltaTime;
                     selfDamageTimer += Time.fixedDeltaTime;
 
-                    if (selfDamageTimer >= selfDamageInterval && stopwatchMaxHeat > 1f)
+                    if (selfDamageTimer >= selfDamageInterval && fullHeatTimer > 1f)
                     {
-                        TakeDamage(stopwatchMaxHeat * 0.4f);
+                        TakeDamage(fullHeatTimer * 0.4f);
                         selfDamageTimer = 0f;
                     }
                 }
 
-                cb.SetBuffCount(Scorched.instance.BuffDef.buffIndex, Mathf.RoundToInt((currentHeat + 0.001f) / 10));
+                var reductionCount = cb.GetBuffCount(HeatHealingReduction.instance.BuffDef.buffIndex);
+
+                if (lastHealingReductionCount > reductionCount)
+                    lastHealingReductionCount = reductionCount;
+                cb.SetBuffCount(HeatHealingReduction.instance.BuffDef.buffIndex, Mathf.RoundToInt((currentHeat + 0.001f) / 10));
             }
 
             anim.SetFloat("combat", Mathf.Lerp(anim.GetFloat("combat"), cb.outOfCombat ? -1f : 1f, 3f * Time.fixedDeltaTime));
@@ -102,21 +100,19 @@ namespace Sandswept.Survivors.Ranger
 
         public void EnterOverdrive()
         {
-            overdriveChargeBuffer = cb.GetBuffCount(Buffs.Charge.instance.BuffDef);
-            isOverdrive = true;
+            isInOverdrive = true;
         }
 
         public void ExitOverdrive()
         {
-            overdriveChargeBuffer = 0;
-            isOverdrive = false;
-            stopwatchMaxHeat = 0f;
+            isInOverdrive = false;
+            fullHeatTimer = 0f;
             chargeLossTimer = 0f;
-            cb.SetBuffCount(Scorched.instance.BuffDef.buffIndex, 0);
-            cb.SetBuffCount(OverheatingDamageBoost.instance.BuffDef.buffIndex, 0);
+            cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, 0);
             cb.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, 0);
 
             currentHeat = 0f;
+            Invoke(nameof(RemoveHealingReduction), 2f);
 
             EntityStateMachine machine = EntityStateMachine.FindByCustomName(gameObject, "Overdrive");
             if (machine.state is OverdriveEnter)
@@ -127,6 +123,11 @@ namespace Sandswept.Survivors.Ranger
             EntityStateMachine machine2 = EntityStateMachine.FindByCustomName(gameObject, "Weapon");
             if (machine2)
                 machine2.SetState(new Idle());
+        }
+
+        public void RemoveHealingReduction()
+        {
+            cb.SetBuffCount(HeatHealingReduction.instance.BuffDef.buffIndex, 0);
         }
 
         public void TakeDamage(float timeInOverheat)
@@ -144,9 +145,17 @@ namespace Sandswept.Survivors.Ranger
 
             info.AddModdedDamageType(Main.HeatSelfDamage);
 
+            var guh = 1f + (2f / 3f);
+
+            var toAddFromCharge = Convert.ToInt32(cb.GetBuffCount(Charge.instance.BuffDef) / guh); // 6 at max charge
+
+            var toAdd = 6 + toAddFromCharge;
+
             if (NetworkServer.active)
             {
-                cb.AddBuff(OverheatingDamageBoost.instance.BuffDef);
+                for (int i = 0; i < toAdd; i++)
+                    cb.AddBuff(OverheatDamageBoost.instance.BuffDef);
+
                 cb.healthComponent.TakeDamage(info);
             }
 

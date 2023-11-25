@@ -2,21 +2,48 @@
 {
     public static class ExhaustVFX
     {
-        public static GameObject tracerPrefab;
-        public static GameObject impactPrefab;
+        public static GameObject tracerPrefabDefault;
+        public static GameObject impactPrefabDefault;
+
+        public static GameObject tracerPrefabMajor;
+        public static GameObject impactPrefabMajor;
+
+        public static GameObject tracerPrefabRenegade;
+        public static GameObject impactPrefabRenegade;
+
+        public static GameObject tracerPrefabMileZero;
+        public static GameObject impactPrefabMileZero;
 
         // replace with railgunner m2/special later
 
         public static void Init()
         {
-            tracerPrefab = Assets.GameObject.TracerHuntressSnipe.InstantiateClone("Exhaust Tracer", false);
+            tracerPrefabDefault = CreateTracerRecolor("Default", new Color32(95, 209, 177, 255), new Color32(234, 122, 51, 255), new Color32(158, 14, 0, 255));
+            impactPrefabDefault = CreateImpactRecolor("Default", new Color32(234, 107, 23, 255), new Color32(211, 129, 23, 94), new Color32(76, 41, 8, 255));
 
-            var destroyOnTimer = tracerPrefab.AddComponent<DestroyOnTimer>();
+            tracerPrefabMajor = CreateTracerRecolor("Major", new Color32(95, 125, 209, 255), new Color32(51, 78, 234, 255), new Color32(0, 70, 158, 255), true, 20f, 0f, 0.2559297f);
+            impactPrefabMajor = CreateImpactRecolor("Major", new Color32(23, 66, 234, 255), new Color32(23, 30, 211, 94), new Color32(0, 132, 255, 255), 20f, 0.761f);
+
+            tracerPrefabRenegade = CreateTracerRecolor("Renegade", new Color32(219, 103, 159, 255), new Color32(143, 51, 234, 255), new Color32(32, 0, 158, 255), true);
+            impactPrefabRenegade = CreateImpactRecolor("Renegade", new Color32(125, 23, 234, 255), new Color32(145, 23, 211, 94), new Color32(6, 0, 255, 255));
+
+            tracerPrefabMileZero = CreateTracerRecolor("Mile Zero", new Color32(127, 0, 0, 255), new Color32(0, 0, 0, 255), new Color32(255, 0, 0, 255), false, 2.207824f, 1.515893f, 0.397718f);
+            impactPrefabMileZero = CreateImpactRecolor("Mile Zero", new Color32(0, 0, 0, 255), new Color32(127, 0, 0, 94), new Color32(4, 0, 0, 255));
+        }
+
+        public static GameObject CreateTracerRecolor(string name, Color32 aquaEquivalent, Color32 orangeEquivalent, Color32 darkRedEquivalent, bool altRamp = false, float brightnessBoost = 1.277907f, float alphaBoost = 0f, float alphaBias = 0.2317166f)
+        {
+            // aquaEquivalent = new Color32(95, 209, 177, 255);
+            // orangeEquivalent = new Color32(234, 122, 51, 255);
+            // salmonEquivalent = new Color32(158, 14, 0, 255);
+            var tracer = Assets.GameObject.TracerHuntressSnipe.InstantiateClone("Exhaust Tracer " + name, false);
+
+            var destroyOnTimer = tracer.AddComponent<DestroyOnTimer>();
             destroyOnTimer.duration = 3f;
 
             // tracer head
 
-            var tracerHead = tracerPrefab.transform.GetChild(0).GetComponent<LineRenderer>();
+            var tracerHead = tracer.transform.GetChild(0).GetComponent<LineRenderer>();
 
             var animateShaderAlpha = tracerHead.GetComponent<AnimateShaderAlpha>();
             animateShaderAlpha.timeMax = 0.25f;
@@ -24,7 +51,7 @@
             var gradient = new Gradient();
             var colors = new GradientColorKey[2];
             colors[0] = new GradientColorKey(Color.white, 0f);
-            colors[1] = new GradientColorKey(new Color32(95, 209, 177, 255), 0f);
+            colors[1] = new GradientColorKey(aquaEquivalent, 0f);
 
             var alphas = new GradientAlphaKey[2];
             alphas[0] = new GradientAlphaKey(1f, 0f);
@@ -35,7 +62,7 @@
             tracerHead.colorGradient = gradient;
 
             var newMat = Object.Instantiate(Assets.Material.matHuntressArrowBig);
-            newMat.SetColor("_TintColor", new Color32(234, 122, 51, 255));
+            newMat.SetColor("_TintColor", orangeEquivalent);
             newMat.SetTexture("_MainTex", Assets.Texture2D.texCrosshairBullets1);
 
             tracerHead.material = newMat;
@@ -44,7 +71,7 @@
 
             // beam object
 
-            var beamObject = tracerPrefab.transform.GetChild(2);
+            var beamObject = tracer.transform.GetChild(2);
 
             var destroyOnTimer2 = beamObject.AddComponent<DestroyOnTimer>();
             destroyOnTimer2.duration = 3f;
@@ -53,6 +80,7 @@
 
             var main = particleSystem.main;
             main.startSize = 0.1f;
+            main.startLifetime = 0.8f;
 
             var startColor = particleSystem.main.startColor;
             startColor.mode = ParticleSystemGradientMode.Color;
@@ -72,163 +100,67 @@
             // particleSystemRenderer.material = newMat2;
 
             var newMat3 = Object.Instantiate(Assets.Material.matHuntressSwingTrail);
-            newMat3.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampGay.png"));
-            newMat3.SetColor("_TintColor", new Color32(158, 14, 0, 255));
+
+            var p2 = "Assets/Sandswept/texRampGay";
+
+            var p2_2 = altRamp ? "2.png" : ".png";
+
+            var inConcretion = p2 + p2_2;
+
+            newMat3.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>(inConcretion));
+            newMat3.SetColor("_TintColor", darkRedEquivalent);
             newMat3.SetFloat("_SoftFactor", 1f);
-            newMat3.SetFloat("_Boost", 1.277907f);
-            newMat3.SetFloat("_AlphaBoost", 0f);
-            newMat3.SetFloat("_AlphaBias", 0.2317166f);
+            newMat3.SetFloat("_Boost", brightnessBoost);
+            newMat3.SetFloat("_AlphaBoost", alphaBoost);
+            newMat3.SetFloat("_AlphaBias", alphaBias);
             newMat3.SetColor("_CutoffScroll", new Color(15f, 0.02f, 0f, 0f));
 
             particleSystemRenderer.sharedMaterials = new Material[] { newMat2, newMat3 };
 
             //
 
-            ContentAddition.AddEffect(tracerPrefab);
+            ContentAddition.AddEffect(tracer);
 
-            impactPrefab = Assets.GameObject.OmniExplosionCrowstorm.InstantiateClone("Exhaust Impact", false);
+            return tracer;
+        }
 
-            var effectComponent = impactPrefab.GetComponent<EffectComponent>();
-            effectComponent.soundName = "Play_lunar_wisp_attack2_explode";
+        public static GameObject CreateImpactRecolor(string name, Color32 hotPinkEquivalent, Color32 redEquivalent, Color32 spikeColor, float brighnessBoost = 11.08f, float alphaBoost = 4.3f)
+        {
+            // hotPinkEquivalent = new Color32(226, 27, 128, 255);
+            // redEquivalent = new Color32(209, 21, 15, 96);
+            // spikeColor = new Color32(255,255,255,255);
+            var impact = Assets.GameObject.ImpactRailgunLight.InstantiateClone("Exhaust Impact" + name, false);
 
-            var trans = impactPrefab.transform;
+            var trans = impact.transform;
 
-            for (int j = 0; j < trans.childCount; j++)
-            {
-                var child = trans.GetChild(j);
-                child.localScale = Vector3.one * 0.5f;
-            }
+            var beamParticles = trans.GetChild(0);
+            beamParticles.gameObject.SetActive(false);
 
-            // scaled hitsparks 1
+            var shockWave = trans.GetChild(1).GetComponent<ParticleSystem>().main.startColor;
+            shockWave.color = hotPinkEquivalent;
 
-            var geen1 = new Color32(234, 107, 23, 255);
-            var geen2 = new Color32(211, 129, 23, 255);
+            var flashWhite = trans.GetChild(2);
+            // flashWhite.gameObject.SetActive(false);
 
-            var minGradient = new Gradient();
-            var minColors = new GradientColorKey[2];
-            minColors[0] = new GradientColorKey(geen1, 0f);
-            minColors[1] = new GradientColorKey(geen2, 0f);
+            var daggers = trans.GetChild(3).GetComponent<ParticleSystemRenderer>();
 
-            var maxGradient = new Gradient();
-            var maxColors = new GradientColorKey[2];
-            maxColors[0] = new GradientColorKey(geen2, 0f);
-            maxColors[1] = new GradientColorKey(geen1, 0f);
+            var daggersPS = daggers.GetComponent<ParticleSystem>().main.startLifetime;
+            daggersPS.constantMin = 1f;
+            daggersPS.constantMax = 1f;
 
-            minGradient.SetKeys(minColors, alphas);
-            maxGradient.SetKeys(maxColors, alphas);
+            var newMat = Object.Instantiate(Assets.Material.matRailgunImpactSpikesLight);
+            newMat.SetColor("_TintColor", spikeColor);
+            newMat.SetFloat("_Boost", brighnessBoost);
+            newMat.SetFloat("_AlphaBoost", alphaBoost);
 
-            var scaledHitsparks1 = trans.GetChild(0);
+            daggers.material = newMat;
 
-            var scaledHitsparks1PSR = scaledHitsparks1.GetComponent<ParticleSystemRenderer>();
+            var flashWhite3 = trans.GetChild(7).GetComponent<ParticleSystem>().main.startColor;
+            flashWhite3.color = redEquivalent;
 
-            var newScaledHitsparks1Mat = Object.Instantiate(Assets.Material.matOmniHitspark1Huntress);
-            newScaledHitsparks1Mat.SetColor("_TintColor", new Color32(255, 184, 0, 255));
-            newScaledHitsparks1Mat.SetFloat("_Boost", 2.216648f);
-            newScaledHitsparks1Mat.SetFloat("_AlphaBoost", 4.214276f);
-            newScaledHitsparks1Mat.SetFloat("_AlphaBias", 0.2612987f);
-
-            scaledHitsparks1PSR.material = newScaledHitsparks1Mat;
-
-            var scaledHitsparks1PS = scaledHitsparks1.GetComponent<ParticleSystem>();
-            var scaledHitsparks1Main = scaledHitsparks1PS.main;
-            scaledHitsparks1Main.startColor = new ParticleSystem.MinMaxGradient(minGradient, maxGradient);
-            var scaledHitsparks1StartLifetime = scaledHitsparks1Main.startLifetime;
-            scaledHitsparks1StartLifetime.constantMin = 0.4f;
-            scaledHitsparks1StartLifetime.constantMax = 0.5f;
-
-            var emission = scaledHitsparks1PS.emission;
-            emission.SetBurst(0, new ParticleSystem.Burst(0f, 7, 9));
-
-            var unscaledHitsparks1 = trans.GetChild(1);
-            var unscaledHitsparks1PSR = unscaledHitsparks1.GetComponent<ParticleSystemRenderer>();
-            unscaledHitsparks1PSR.material = Assets.Material.matOmniHitspark1GreaterWisp;
-
-            //
-
-            // scaled smoke billboard
-
-            var scaledSmokeBillboard = trans.GetChild(2).GetComponent<ParticleSystem>().main.startColor;
-            scaledSmokeBillboard.color = geen1;
-
-            //
-
-            var ramp = Assets.Texture2D.texRampAncientWisp;
-
-            // scaled smoke ring mesh
-
-            var scaledSmokeRingMesh = trans.GetChild(3);
-            var startColor2 = scaledSmokeRingMesh.GetComponent<ParticleSystem>().main.startColor;
-            startColor2.color = geen1;
-
-            var particleSystemRenderer2 = scaledSmokeRingMesh.GetComponent<ParticleSystemRenderer>();
-
-            var newMat4 = Object.Instantiate(Assets.Material.matCrowstormFeatherRepeated);
-
-            newMat4.SetColor("_TintColor", geen2);
-            newMat4.SetTexture("_MainTex", Assets.Texture2D.texShockwaveRing3Mask);
-            // newMat4.SetTexture("_RemapTex", ramp);
-
-            particleSystemRenderer2.material = newMat4;
-
-            //
-
-            // unscaled smoke billboard
-
-            var unscaledSmokeBillboard = trans.GetChild(4).GetComponent<ParticleSystem>().main.startColor;
-            unscaledSmokeBillboard.color = geen2;
-
-            //
-
-            // area indicator ring billboard
-
-            var areaIndicatorRingBillboard = trans.GetChild(5).GetComponent<ParticleSystemRenderer>();
-
-            var newMat5 = Object.Instantiate(Assets.Material.matOmniRing2Loader);
-
-            // newMat5.SetTexture("_RemapTex", ramp);
-
-            areaIndicatorRingBillboard.material = newMat5;
-
-            //
-
-            // area indicator ring random billboard
-
-            var areaIndicatorRingRandomBillboard = trans.GetChild(6).GetComponent<ParticleSystemRenderer>();
-
-            areaIndicatorRingRandomBillboard.material = newMat5;
-
-            //
-
-            // physics sparks
-
-            var physicsSparks = trans.GetChild(7).GetComponent<ParticleSystem>().main;
-            physicsSparks.startColor = new ParticleSystem.MinMaxGradient(minGradient, maxGradient);
-
-            //
-
-            // dash bright
-
-            var dashBright = trans.GetChild(10);
-            var startColor3 = dashBright.GetComponent<ParticleSystem>().main.startColor;
-            startColor3.color = geen1;
-
-            var particleSystemRenderer3 = dashBright.GetComponent<ParticleSystemRenderer>();
-
-            var newMat6 = Object.Instantiate(Assets.Material.matCrowstormFeather);
-            newMat6.SetColor("_TintColor", geen2);
-            newMat6.SetTexture("_MainTex", Assets.Texture2D.texShockwaveRing3Mask);
-            // newMat6.SetTexture("_RemapTex", ramp);
-
-            particleSystemRenderer3.material = newMat6;
-
-            //
-
-            // chunks billboards
-
-            var chunksBillboards = trans.GetChild(13).GetComponent<ParticleSystemRenderer>();
-            chunksBillboards.material = newMat6;
-
-            ContentAddition.AddEffect(impactPrefab);
+            ContentAddition.AddEffect(impact);
+            // 9,0,0
+            return impact;
         }
     }
 }

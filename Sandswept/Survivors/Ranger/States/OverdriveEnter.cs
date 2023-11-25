@@ -1,7 +1,5 @@
-using System.Text.RegularExpressions;
-using System;
-using UnityEngine.TextCore;
-using Sandswept.Survivors.Ranger.Skilldefs;
+using Sandswept.Buffs;
+using Sandswept.Survivors.Ranger.VFX;
 
 namespace Sandswept.Survivors.Ranger.States
 {
@@ -14,10 +12,15 @@ namespace Sandswept.Survivors.Ranger.States
 
         public static SkillDef SpecialSkill => Skilldefs.HeatSink.instance.skillDef;
         public RoR2.UI.CrosshairUtils.OverrideRequest crosshairRequest;
+        public RangerHeatController heat;
+        public Material heatMat;
+        public Transform modelTransform;
 
         public override void OnEnter()
         {
             base.OnEnter();
+
+            heat = GetComponent<RangerHeatController>();
 
             SkillLocator locator = skillLocator;
             locator.primary.SetSkillOverride(gameObject, PrimarySkill, GenericSkill.SkillOverridePriority.Contextual);
@@ -30,12 +33,35 @@ namespace Sandswept.Survivors.Ranger.States
             {
                 var crosshairOverrideBehavior = characterBody.GetComponent<RoR2.UI.CrosshairUtils.CrosshairOverrideBehavior>();
                 crosshairRequest = crosshairOverrideBehavior.AddRequest(Crosshairs.Ranger.hitscanCrosshairPrefab, RoR2.UI.CrosshairUtils.OverridePriority.Skill);
+
+                var modelTransform = GetModelTransform();
+
+                if (modelTransform)
+                {
+                    var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
+
+                    heatMat = skinNameToken switch
+                    {
+                        "SKINDEF_MAJOR" => HeatVFX.heatMatMajor,
+                        "SKINDEF_RENEGADE" => HeatVFX.heatMatRenegade,
+                        "SKINDEF_MILEZERO" => HeatVFX.heatMatMileZero,
+                        _ => HeatVFX.heatMatDefault
+                    };
+
+                    var temporaryOverlay = modelTransform.gameObject.AddComponent<TemporaryOverlay>();
+                    temporaryOverlay.duration = 9999f;
+                    temporaryOverlay.animateShaderAlpha = true;
+                    temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                    temporaryOverlay.destroyComponentOnEnd = true;
+                    temporaryOverlay.originalMaterial = heatMat;
+                    temporaryOverlay.AddToCharacerModel(modelTransform.GetComponent<CharacterModel>());
+                }
             }
 
             PlayAnimation("Gesture, Override", "EnterOverdrive");
             Util.PlaySound("Play_item_use_BFG_charge", gameObject);
 
-            GetComponent<RangerHeatController>().EnterOverdrive();
+            heat.EnterOverdrive();
         }
 
         public override void OnExit()
@@ -58,9 +84,17 @@ namespace Sandswept.Survivors.Ranger.States
             {
                 var crosshairOverrideBehavior = characterBody.GetComponent<RoR2.UI.CrosshairUtils.CrosshairOverrideBehavior>();
                 crosshairOverrideBehavior.RemoveRequest(crosshairRequest);
+
+                if (modelTransform)
+                {
+                    foreach (TemporaryOverlay overlay in modelTransform.GetComponents<TemporaryOverlay>())
+                    {
+                        Destroy(overlay);
+                    }
+                }
             }
 
-            GetComponent<RangerHeatController>().ExitOverdrive();
+            heat.ExitOverdrive();
 
             if (characterBody)
             {
@@ -79,10 +113,9 @@ namespace Sandswept.Survivors.Ranger.States
         }
     }
 
+    /*
     public class OverdriveExit : BaseState
     {
-        public RangerHeatController heat;
-
         public override void OnEnter()
         {
             base.OnEnter();
@@ -91,9 +124,6 @@ namespace Sandswept.Survivors.Ranger.States
             {
                 (machine.state as OverdriveEnter).Exit();
             }
-
-            heat = GetComponent<RangerHeatController>();
-            heat.currentHeat = Mathf.Max(0f, heat.currentHeat - 50f);
 
             outer.SetNextStateToMain();
 
@@ -108,28 +138,5 @@ namespace Sandswept.Survivors.Ranger.States
             return InterruptPriority.PrioritySkill;
         }
     }
-
-    public class OverdriveExitHeatSink : BaseState
-    {
-        public override void OnEnter()
-        {
-            base.OnEnter();
-            EntityStateMachine machine = EntityStateMachine.FindByCustomName(gameObject, "Overdrive");
-            if (machine.state is OverdriveEnter)
-            {
-                (machine.state as OverdriveEnter).Exit();
-            }
-            outer.SetNextStateToMain();
-
-            if (characterBody)
-            {
-                characterBody.isSprinting = true;
-            }
-        }
-
-        public override InterruptPriority GetMinimumInterruptPriority()
-        {
-            return InterruptPriority.PrioritySkill;
-        }
-    }
+    */
 }

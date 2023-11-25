@@ -1,4 +1,5 @@
 using System;
+using Sandswept.Skills.Ranger;
 using Sandswept.Survivors;
 
 namespace Sandswept.Survivors.Ranger.Skilldefs
@@ -7,7 +8,7 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
     {
         public override string Name => "Exhaust";
 
-        public override string Description => "$sdIgnite$se. Fire a short-range heat spread for $sd8x200% damage$se. Gain $sr15% heat$se.".AutoFormat();
+        public override string Description => "$sdIgnite$se. Fire a short-range heat burst for $sd8x180% damage$se. Increase $srheat$se by $sr15%$se.".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Exhaust);
 
@@ -20,9 +21,16 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
 
         public override string[] Keywords => new string[] { Utils.Keywords.Ignite };
 
+        public override bool FullRestockOnAssign => true;
+
         public override void Init()
         {
             base.Init();
+        }
+
+        public override void CreateSkillDef()
+        {
+            skillDef = ScriptableObject.CreateInstance<RangerSecondaryDef>();
         }
     }
 }

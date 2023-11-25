@@ -5,7 +5,7 @@ namespace Sandswept.Survivors.Ranger.States
 {
     public class Release : BaseState
     {
-        public static float DamageCoefficient = 6f;
+        public static float DamageCoefficient = 4f;
         public static float MaxDamageCoefficient = 16f;
         public static float ProcCoefficient = 1f;
         public static float baseDuration = 0.25f;
@@ -122,7 +122,7 @@ namespace Sandswept.Survivors.Ranger.States
                     radius = 2f,
                     smartCollision = true,
                     stopperMask = LayerIndex.world.mask,
-                    force = 2500f + 200f * buffCount,
+                    force = 2500f + 250f * buffCount,
                 };
 
                 AddRecoil(3f + 0.3f * buffCount, 3f + 0.3f * buffCount, 0f, 0f);
@@ -132,13 +132,7 @@ namespace Sandswept.Survivors.Ranger.States
                 attack.Fire();
             }
 
-            if (NetworkServer.active)
-            {
-                for (int i = 0; i < buffCount; i++)
-                {
-                    characterBody.RemoveBuff(Buffs.Charge.instance.BuffDef);
-                }
-            }
+            characterBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Max(0, characterBody.GetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex - Projectiles.DirectCurrent.maxCharge)));
         }
     }
 }

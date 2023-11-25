@@ -34,7 +34,7 @@ namespace Sandswept.WIP_Content
             [HarmonyPatch(typeof(TextMeshProUGUI), nameof(TextMeshProUGUI.OnPreRenderCanvas))]
             public static void Prefix(TextMeshProUGUI __instance)
             {
-                if (__instance.text.Contains("<sprite name=\":joe_"))
+                if (__instance && __instance.text.Contains("<sprite name=\":joe_"))
                 {
                     __instance.spriteAsset = JOE;
                     __instance.m_spriteAsset = JOE;

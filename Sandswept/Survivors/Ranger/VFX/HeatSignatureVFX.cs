@@ -2,18 +2,59 @@
 {
     public static class HeatSignatureVFX
     {
-        public static Material dashMat1;
-        public static Material dashMat2;
+        public static Material heatDashMat1Default;
+        public static Material heatDashMat2Default;
+
+        public static Material heatDashMat1Major;
+        public static Material heatDashMat2Major;
+
+        public static Material heatDashMat1Renegade;
+        public static Material heatDashMat2Renegade;
+
+        public static Material heatDashMat1MileZero;
+        public static Material heatDashMat2MileZero;
 
         public static void Init()
         {
-            dashMat1 = Object.Instantiate(Assets.Material.matHuntressFlashBright);
+            heatDashMat1Default = CreateMat1Recolor(new Color32(191, 27, 3, 200));
 
-            dashMat1.SetColor("_TintColor", new Color32(191, 27, 3, 150));
+            heatDashMat2Default = CreateMat2Recolor(new Color32(148, 29, 0, 200));
 
-            dashMat2 = Object.Instantiate(Assets.Material.matHuntressFlashExpanded);
+            //
 
-            dashMat2.SetColor("_TintColor", new Color32(148, 29, 0, 150));
+            heatDashMat1Major = CreateMat1Recolor(new Color32(0, 77, 148, 200));
+
+            heatDashMat2Major = CreateMat2Recolor(new Color32(0, 119, 148, 200));
+
+            //
+
+            heatDashMat1Renegade = CreateMat1Recolor(new Color32(53, 2, 132, 200));
+
+            heatDashMat2Renegade = CreateMat2Recolor(new Color32(47, 0, 102, 200));
+
+            //
+
+            heatDashMat1MileZero = CreateMat1Recolor(new Color32(0, 0, 0, 200));
+
+            heatDashMat2MileZero = CreateMat2Recolor(new Color32(99, 0, 0, 200));
+        }
+
+        public static Material CreateMat1Recolor(Color32 blueEquivalent)
+        {
+            var mat = Object.Instantiate(Assets.Material.matHuntressFlashBright);
+
+            mat.SetColor("_TintColor", blueEquivalent);
+
+            return mat;
+        }
+
+        public static Material CreateMat2Recolor(Color32 blueEquivalent)
+        {
+            var mat = Object.Instantiate(Assets.Material.matHuntressFlashExpanded);
+
+            mat.SetColor("_TintColor", blueEquivalent);
+
+            return mat;
         }
     }
 }

@@ -66,7 +66,7 @@ namespace Sandswept.Items.Reds
             if (NetworkServer.active && stack > 0)
             {
                 var healAmount = baseDoTHealing + stackDoTHealing * (stack - 1);
-                for (var dotIndex = DotController.DotIndex.Bleed; dotIndex < DotController.DotIndex.Count; dotIndex++)
+                for (var dotIndex = DotIndex.Bleed; dotIndex < DotIndex.Count; dotIndex++)
                 {
                     uint num = 1U << (int)dotIndex;
                     if ((self.activeDotFlags & num) > 0U)

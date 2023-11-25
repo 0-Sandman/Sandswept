@@ -1,4 +1,5 @@
-﻿using Sandswept.Survivors.Ranger.VFX;
+﻿using Sandswept.Buffs;
+using Sandswept.Survivors.Ranger.VFX;
 
 namespace Sandswept.Survivors.Ranger.States
 {
@@ -9,8 +10,10 @@ namespace Sandswept.Survivors.Ranger.States
         private float duration;
         private RangerHeatController heat;
         private Transform modelTransform;
-        public static Material overlayMat1 = HeatSinkVFX.dashMat1;
-        public static Material overlayMat2 = HeatSinkVFX.dashMat2;
+        private Material overlayMat1;
+        private Material overlayMat2;
+        private GameObject explosion1;
+        private GameObject explosion2;
 
         public override void OnEnter()
         {
@@ -20,12 +23,44 @@ namespace Sandswept.Survivors.Ranger.States
 
             duration = BaseDuration / attackSpeedStat;
 
-            FireNova();
-
             modelTransform = GetModelTransform();
 
             if (modelTransform)
             {
+                var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
+
+                overlayMat1 = skinNameToken switch
+                {
+                    "SKINDEF_MAJOR" => HeatSinkVFX.explodeMat1Major,
+                    "SKINDEF_RENEGADE" => HeatSinkVFX.explodeMat1Renegade,
+                    "SKINDEF_MILEZERO" => HeatSinkVFX.explodeMat1MileZero,
+                    _ => HeatSinkVFX.explodeMat1Default
+                };
+
+                overlayMat2 = skinNameToken switch
+                {
+                    "SKINDEF_MAJOR" => HeatSinkVFX.explodeMat2Major,
+                    "SKINDEF_RENEGADE" => HeatSinkVFX.explodeMat2Renegade,
+                    "SKINDEF_MILEZERO" => HeatSinkVFX.explodeMat2MileZero,
+                    _ => HeatSinkVFX.explodeMat2Default
+                };
+
+                explosion1 = skinNameToken switch
+                {
+                    "SKINDEF_MAJOR" => HeatSinkVFX.explosion1Major,
+                    "SKINDEF_RENEGADE" => HeatSinkVFX.explosion1Renegade,
+                    "SKINDEF_MILEZERO" => HeatSinkVFX.explosion1MileZero,
+                    _ => HeatSinkVFX.explosion1Default
+                };
+
+                explosion2 = skinNameToken switch
+                {
+                    "SKINDEF_MAJOR" => HeatSinkVFX.explosion2Major,
+                    "SKINDEF_RENEGADE" => HeatSinkVFX.explosion2Renegade,
+                    "SKINDEF_MILEZERO" => HeatSinkVFX.explosion2MileZero,
+                    _ => HeatSinkVFX.explosion2Default
+                };
+
                 var temporaryOverlay = modelTransform.gameObject.AddComponent<TemporaryOverlay>();
                 temporaryOverlay.duration = 0.9f;
                 temporaryOverlay.animateShaderAlpha = true;
@@ -42,23 +77,14 @@ namespace Sandswept.Survivors.Ranger.States
                 temporaryOverlay2.originalMaterial = overlayMat2;
                 temporaryOverlay2.AddToCharacerModel(modelTransform.GetComponent<CharacterModel>());
             }
-            /*
-            DamageInfo info = new()
-            {
-                attacker = null,
-                procCoefficient = 0,
-                damage = healthComponent.fullCombinedHealth * 0.2f,
-                crit = false,
-                position = transform.position,
-                damageColorIndex = DamageColorIndex.Fragile,
-                damageType = DamageType.BypassArmor | DamageType.BypassBlock | DamageType.NonLethal
-            };
 
-            if (NetworkServer.active)
+            FireNova();
+
+            if (characterBody)
             {
-                healthComponent.TakeDamage(info);
+                characterBody.AddTimedBuffAuthority(HeatAttackSpeedBoost.instance.BuffDef.buffIndex, 0.05f * Mathf.Pow(heat.currentHeat / 1.51991108f, 1.1f));
             }
-            */
+
             heat.currentHeat = 0f;
         }
 
@@ -66,42 +92,14 @@ namespace Sandswept.Survivors.Ranger.States
         {
             // FEAR
 
-            EffectManager.SpawnEffect(Assets.GameObject.MolotovClusterIgniteExplosionVFX, new EffectData
+            EffectManager.SpawnEffect(explosion2, new EffectData
             {
                 origin = transform.position,
                 scale = 16f,
                 rotation = Quaternion.identity
             }, true);
 
-            EffectManager.SpawnEffect(Assets.GameObject.ExplosionVFX, new EffectData
-            {
-                origin = transform.position,
-                scale = 16f,
-                rotation = Quaternion.identity
-            }, true);
-
-            EffectManager.SpawnEffect(Assets.GameObject.FireMeatBallExplosion, new EffectData
-            {
-                origin = transform.position,
-                scale = 16f,
-                rotation = Quaternion.identity
-            }, true);
-
-            EffectManager.SpawnEffect(Assets.GameObject.IgniteDirectionalExplosionVFX, new EffectData
-            {
-                origin = transform.position,
-                scale = 16f,
-                rotation = Quaternion.identity
-            }, true);
-
-            EffectManager.SpawnEffect(Assets.GameObject.IgniteExplosionVFX, new EffectData
-            {
-                origin = transform.position,
-                scale = 16f,
-                rotation = Quaternion.identity
-            }, true);
-
-            EffectManager.SpawnEffect(Assets.GameObject.MolotovClusterIgniteExplosionVFX, new EffectData
+            EffectManager.SpawnEffect(explosion1, new EffectData
             {
                 origin = transform.position,
                 scale = 16f,

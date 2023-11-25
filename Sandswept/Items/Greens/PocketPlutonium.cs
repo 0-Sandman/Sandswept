@@ -15,7 +15,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemFullDescription => ("Gain a $shshield$se equal to $sh" + d(basePercentShieldGain) + "$se of your maximum health. Upon losing all $shshield$se, create a $sdnuclear pool$se in a $sd" + poolRadius + "m$se area that deals $sd" + d(poolBaseDamage) + "$se $ss(+" + d(poolStackDamage) + " per stack)$se base damage, plus an additional $sd" + d(poolBasePercentShieldDamage) + "$se $ss(+" + d(poolStackPercentShieldDamage) + " per stack)$se of $shshields$se.").AutoFormat();
 
-        public override string ItemLore => "you have no idea how many times I reworked this item";
+        public override string ItemLore => "Plutonium might sound dangerous, but I can assure you, in a standard-issue suit, it's harmless, and it'll be quite a help in a pinch. It's made of the same material that's used in our ships' shields -- there's even trace amounts of it in those smaller civilian ones that have been so trendy recently.\r\n\r\nIdeally, your shields stay up the whole time -- with thirteen of those generators, you'll be safe from anything short of a nuclear blast. But if, and that's a big if, your shield somehow breaks, this nasty stuff will be released right in the face of the culprit and give you a chance to escape. Just be sure not to linger if it happens; you'll probably be impervious to it, but there's no reason to test your luck.";
 
         public override ItemTier Tier => ItemTier.Tier2;
 

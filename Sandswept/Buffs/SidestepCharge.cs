@@ -24,8 +24,8 @@ namespace Sandswept.Buffs
             var body = self.body;
             if (body.HasBuff(instance.BuffDef) && damageInfo.procCoefficient > 0f && damageInfo.attacker != null)
             {
-                body.SetBuffCount(Charge.instance.BuffDef.buffIndex, Mathf.Min(10, body.GetBuffCount(Charge.instance.BuffDef.buffIndex) + 10));
-                // damageInfo.rejected = true;
+                body.SetBuffCount(Charge.instance.BuffDef.buffIndex, Mathf.Min(10, body.GetBuffCount(Charge.instance.BuffDef.buffIndex) + 3));
+                damageInfo.rejected = true;
             }
             orig(self, damageInfo);
         }
