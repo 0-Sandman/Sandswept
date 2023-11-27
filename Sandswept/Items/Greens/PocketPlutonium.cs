@@ -35,16 +35,16 @@ namespace Sandswept.Items.Greens
         [ConfigField("Pool Radius", "", 16f)]
         public static float poolRadius;
 
-        [ConfigField("Pool Base Damage", "Decimal.", 10f)]
+        [ConfigField("Pool Base Damage", "Decimal.", 7.5f)]
         public static float poolBaseDamage;
 
-        [ConfigField("Pool Stack Damage", "Decimal.", 5f)]
+        [ConfigField("Pool Stack Damage", "Decimal.", 7.5f)]
         public static float poolStackDamage;
 
-        [ConfigField("Pool Base Percent Shield Damage", "Decimal.", 3f)]
+        [ConfigField("Pool Base Percent Shield Damage", "Decimal.", 2.5f)]
         public static float poolBasePercentShieldDamage;
 
-        [ConfigField("Pool Stack Percent Shield Damage", "Decimal.", 2f)]
+        [ConfigField("Pool Stack Percent Shield Damage", "Decimal.", 2.5f)]
         public static float poolStackPercentShieldDamage;
 
         public static BuffDef pocketPlutoniumRecharge;
