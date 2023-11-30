@@ -29,16 +29,16 @@ namespace Sandswept.Items.Greens
         [ConfigField("TOTAL Damage", "Decimal.", 2.5f)]
         public static float totalDamage;
 
-        [ConfigField("Burden Base Damage Reduction", "Decimal.", 0.15f)]
+        [ConfigField("Burden Base Damage Reduction", "Decimal.", 0.125f)]
         public static float burdenBaseDamageReduction;
 
-        [ConfigField("Burden Stack Damage Reduction", "Decimal.", 0.1f)]
+        [ConfigField("Burden Stack Damage Reduction", "Decimal.", 0.125f)]
         public static float burdenStackDamageReduction;
 
-        [ConfigField("Burden Base Attack Speed Reduction", "Decimal.", 0.15f)]
+        [ConfigField("Burden Base Attack Speed Reduction", "Decimal.", 0.125f)]
         public static float burdenBaseAttackSpeedReduction;
 
-        [ConfigField("Burden Stack Attack Speed Reduction", "Decimal.", 0.1f)]
+        [ConfigField("Burden Stack Attack Speed Reduction", "Decimal.", 0.125f)]
         public static float burdenStackAttackSpeedReduction;
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility };

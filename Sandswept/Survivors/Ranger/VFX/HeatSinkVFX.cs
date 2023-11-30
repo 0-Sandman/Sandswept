@@ -55,13 +55,13 @@
             explosion1Renegade = CreateExplosion1Recolor("Renegade", new Color32(164, 52, 224, 255), new Color32(114, 15, 206, 255), new Color32(247, 158, 255, 255), new Color32(92, 0, 233, 255), new Color32(51, 0, 146, 255), new Color32(123, 40, 216, 255));
             explosion1MileZero = CreateExplosion1Recolor("Mile Zero", new Color32(224, 58, 52, 255), new Color32(255, 0, 0, 255), new Color32(0, 0, 0, 255), new Color32(233, 0, 5, 255), new Color32(146, 0, 5, 255), new Color32(177, 33, 37, 255));
 
-            explosion2Default = CreateExplosion2Recolor("Default", new Color32(255, 221, 23, 255), new Color32(207, 153, 0, 255));
-            explosion2Major = CreateExplosion2Recolor("Major", new Color32(23, 173, 255, 255), new Color32(0, 157, 207, 255));
-            explosion2Renegade = CreateExplosion2Recolor("Renegade", new Color32(147, 23, 255, 255), new Color32(87, 0, 207, 255));
-            explosion2MileZero = CreateExplosion2Recolor("Mile Zero", new Color32(255, 23, 30, 255), new Color32(207, 0, 2, 255));
+            explosion2Default = CreateExplosion2Recolor("Default", new Color32(255, 221, 23, 255), new Color32(207, 153, 0, 255), new Color32(255, 20, 255, 255), 20f, 1.266667f);
+            explosion2Major = CreateExplosion2Recolor("Major", new Color32(23, 173, 255, 255), new Color32(0, 157, 207, 255), new Color32(1, 0, 255, 255));
+            explosion2Renegade = CreateExplosion2Recolor("Renegade", new Color32(147, 23, 255, 255), new Color32(87, 0, 207, 255), new Color32(157, 0, 214, 255));
+            explosion2MileZero = CreateExplosion2Recolor("Mile Zero", new Color32(255, 23, 30, 255), new Color32(207, 0, 2, 255), new Color32(255, 0, 0, 255));
         }
 
-        public static GameObject CreateExplosion2Recolor(string name, Color32 yellowEquivalent, Color32 yellowEquivalent2)
+        public static GameObject CreateExplosion2Recolor(string name, Color32 yellowEquivalent, Color32 yellowEquivalent2, Color32 tintColor, float brightnessBoost = 4.87f, float alphaBoost = 6.6f, float alphaBias = 0f)
         {
             // acidGreenEquivalent = new Color32(114, 255, 0, 255);
             // yellowEquivalent = new Color32(255,221,23,255);
@@ -90,15 +90,28 @@
 
             flameBurst.material = newMat;
 
-            var sparks = trans.GetChild(1).GetComponent<ParticleSystem>().main.startColor;
-            sparks.color = yellowEquivalent;
+            var sparks = trans.GetChild(1);
+            var sparksPS = sparks.GetComponent<ParticleSystem>().main.startColor;
+            sparksPS.color = yellowEquivalent;
+            var sparksPSR = sparks.GetComponent<ParticleSystemRenderer>();
+
+            var newMat2 = Object.Instantiate(Assets.Material.matTracerBright);
+            newMat2.SetTexture("_RemapTex", Assets.Texture2D.texRampShield);
+            newMat2.SetFloat("_Boost", brightnessBoost);
+            newMat2.SetFloat("_AlphaBoost", alphaBoost);
+            newMat2.SetFloat("_AlphaBias", alphaBias);
+            newMat2.SetColor("_TintColor", tintColor);
+
+            sparksPSR.material = newMat2;
 
             var fireTrailStreak = trans.GetChild(2).GetComponent<ParticleSystemRenderer>();
 
             fireTrailStreak.material = newMat;
 
-            var flash = trans.GetChild(3).GetComponent<ParticleSystem>().main.startColor;
-            flash.color = yellowEquivalent2;
+            // var flash = trans.GetChild(3).GetComponent<ParticleSystem>().main.startColor;
+            // flash.color = yellowEquivalent2;
+            var flash = trans.GetChild(3);
+            flash.gameObject.SetActive(false);
 
             ContentAddition.AddEffect(explosion);
 

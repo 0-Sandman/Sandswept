@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿/*
+using HarmonyLib;
 using System.Text.RegularExpressions;
 using TMPro;
 
@@ -18,13 +19,12 @@ namespace Sandswept.WIP_Content
             };
             harmony.PatchAll(typeof(JoePatch));
             Main.ModLogger.LogDebug("Chad Emoji -prod");
-            /*
-            RoR2Application.onLoad += () =>
-            {
-                foreach (PickupDef allPickup in PickupCatalog.allPickups)
-                    Main.ModLogger.LogDebug(allPickup.internalName);
-            };
-            */
+
+            // RoR2Application.onLoad += () =>
+            // {
+                // foreach (PickupDef allPickup in PickupCatalog.allPickups)
+                    // Main.ModLogger.LogDebug(allPickup.internalName);
+           // };
         }
 
         public class JoePatch
@@ -43,3 +43,4 @@ namespace Sandswept.WIP_Content
         }
     }
 }
+*/

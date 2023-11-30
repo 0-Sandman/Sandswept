@@ -16,8 +16,10 @@ using Sandswept.Survivors.Ranger.VFX;
 using Sandswept.Survivors.Ranger.Projectiles;
 using Sandswept.Survivors.Ranger.Hooks;
 using Sandswept.Survivors.Ranger.Crosshairs;
-using Sandswept.WIP_Content;
+
+// using Sandswept.WIP_Content;
 using Sandswept.Survivors.Ranger.Pod;
+using HarmonyLib;
 
 namespace Sandswept
 {
@@ -37,7 +39,7 @@ namespace Sandswept
     {
         public const string ModGuid = "com.TeamSandswept.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVer = "0.7.3";
+        public const string ModVer = "0.8.0";
 
         public static AssetBundle MainAssets;
         public static AssetBundle Assets;
@@ -72,14 +74,30 @@ namespace Sandswept
         public static BepInEx.Logging.ManualLogSource ModLogger;
 
         public static ConfigFile config;
+        public static ConfigFile backupConfig;
+
+        public static ConfigEntry<bool> enableLogging { get; set; }
+        public ConfigEntry<bool> enableAutoConfig { get; private set; }
+        public ConfigEntry<string> latestVersion { get; private set; }
 
         private void Awake()
         {
             var stopwatch = Stopwatch.StartNew();
 
-            config = Config;
-
             ModLogger = Logger;
+
+            config = Config;
+            backupConfig = new ConfigFile(Paths.ConfigPath + "\\com.TeamSandswept.Sandswept.Backup.cfg", true);
+            backupConfig.Bind(": DO NOT MODIFY THIS FILES CONTENTS :", ": DO NOT MODIFY THIS FILES CONTENTS :", ": DO NOT MODIFY THIS FILES CONTENTS :", ": DO NOT MODIFY THIS FILES CONTENTS :");
+            enableAutoConfig = config.Bind("Config", "Enable Auto Config Sync", true, "Disabling this would stop Sandswept from syncing config whenever a new version is found.");
+            bool _preVersioning = !((Dictionary<ConfigDefinition, string>)AccessTools.DeclaredPropertyGetter(typeof(ConfigFile), "OrphanedEntries").Invoke(config, null)).Keys.Any(x => x.Key == "Latest Version");
+            latestVersion = config.Bind("Config", "Latest Version", ModVer, "DO NOT CHANGE THIS");
+            if (enableAutoConfig.Value && (_preVersioning || (latestVersion.Value != ModVer)))
+            {
+                latestVersion.Value = ModVer;
+                ConfigManager.VersionChanged = true;
+                ModLogger.LogInfo("Config Autosync Enabled.");
+            }
 
             Assets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweptassets2"));
             prodAssets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // MFS I SAID MERGE INTO OTHER ASSETS
@@ -93,7 +111,7 @@ namespace Sandswept
 
             DirectCurrent.Init();
             ChargeGain.Init();
-            Based.Init();
+            // Based.Init();
 
             AutoRunCollector.HandleAutoRun();
             ConfigManager.HandleConfigAttributes(Assembly.GetExecutingAssembly(), Config);

@@ -24,10 +24,10 @@
 
         public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("UniVIPIcon.png");
 
-        [ConfigField("Base Credit Percent", "Decimal.", 0.2f)]
+        [ConfigField("Base Credit Percent", "Decimal.", 0.4f)]
         public static float baseCreditPercent;
 
-        [ConfigField("Stack Credit Percent", "Decimal.", 0.15f)]
+        [ConfigField("Stack Credit Percent", "Decimal.", 0.4f)]
         public static float stackCreditPercent;
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist };
@@ -64,70 +64,67 @@
                 return;
             }
 
-            var passBehavior = interactor.GetComponent<PassBehavior>();
-            if (!passBehavior)
-            {
-                return;
-            }
-
             var interactorBody = interactor.GetComponent<CharacterBody>();
             if (!interactorBody)
             {
                 return;
             }
 
-            var stack = GetCount(interactorBody);
+            var interactorMaster = interactorBody.master;
+            if (!interactorMaster)
+            {
+                return;
+            }
+
+            var passBehavior = interactorMaster.GetComponent<PassBehavior>();
+            if (!passBehavior)
+            {
+                return;
+            }
+
+            var stack = GetCount(interactorMaster);
             if (stack > 0)
             {
-                var toAdd = purchaseInteraction.cost * Util.ConvertAmplificationPercentageIntoReductionPercentage(baseCreditPercent + stackCreditPercent * (stack - 1));
-                Main.ModLogger.LogError("adding to total: " + toAdd);
+                var toAdd = purchaseInteraction.cost * (baseCreditPercent + stackCreditPercent * (stack - 1));
+                // Main.ModLogger.LogError("adding to total: " + toAdd);
                 passBehavior.storedTotal += toAdd;
             }
         }
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
-            var stack = GetCount(body);
-            if (stack > 0 && !body.GetComponent<PassBehavior>())
+            var master = body.master;
+            if (!master)
             {
-                body.AddComponent<PassBehavior>();
+                return;
             }
-            else if (stack <= 0 && body.GetComponent<PassBehavior>())
+
+            if (master.GetComponent<PassBehavior>() == null)
             {
-                body.RemoveComponent<PassBehavior>();
+                master.AddComponent<PassBehavior>();
             }
         }
 
         private void Stage_onStageStartGlobal(Stage obj)
         {
-            foreach (CharacterBody body in CharacterBody.instancesList)
+            foreach (CharacterMaster master in CharacterMaster.readOnlyInstancesList)
             {
-                Main.ModLogger.LogError("iterating through every cb");
-                var passBehavior = body.GetComponent<PassBehavior>();
+                var passBehavior = master.GetComponent<PassBehavior>();
                 if (!passBehavior)
                 {
-                    Main.ModLogger.LogError("cb has no pass behavior " + body.name);
+                    // Main.ModLogger.LogError("cb has no pass behavior " + body.name);
                     return;
                 }
 
-                var stack = GetCount(body);
+                var stack = GetCount(master);
                 if (stack <= 0)
                 {
-                    body.RemoveComponent<PassBehavior>();
-                    Main.ModLogger.LogError("cb has no uni vip pass, removing pass behavior " + body.name);
-                    return;
-                }
-
-                var master = body.master;
-                if (!master)
-                {
-                    Main.ModLogger.LogError("cb has no master " + body.name);
                     return;
                 }
 
                 var scaledCredit = (uint)Run.instance.GetDifficultyScaledCost((int)passBehavior.storedTotal);
 
-                Main.ModLogger.LogError("scaled credit is " + scaledCredit);
+                // Main.ModLogger.LogError("scaled credit is " + scaledCredit);
 
                 master.GiveMoney(scaledCredit);
 

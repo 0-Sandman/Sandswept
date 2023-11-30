@@ -7,10 +7,6 @@ namespace Sandswept.Skills.Ranger
         public override BaseSkillInstanceData OnAssigned([NotNull] GenericSkill skillSlot)
         {
             skillSlot.stock = Mathf.Max(1, Mathf.CeilToInt(skillSlot.maxStock / 2f));
-            Main.ModLogger.LogError("max stock " + skillSlot.maxStock);
-            Main.ModLogger.LogError("max stock / 2 " + skillSlot.maxStock / 2f);
-            Main.ModLogger.LogError("max stock / 2 ceiled to int " + Mathf.CeilToInt(skillSlot.maxStock / 2f));
-            Main.ModLogger.LogError("max stock / 2 ceiled to int and math max " + Mathf.Max(1, Mathf.CeilToInt(skillSlot.maxStock / 2f)));
             return base.OnAssigned(skillSlot);
         }
     }

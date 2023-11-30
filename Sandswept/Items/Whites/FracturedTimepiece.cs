@@ -28,10 +28,10 @@
             Hooks();
         }
 
-        [ConfigField("Base Percent Healing", "Decimal.", 0.05f)]
+        [ConfigField("Base Percent Healing", "Decimal.", 0.04f)]
         public static float basePercentHealing;
 
-        [ConfigField("Stack Percent Healing", "Decimal.", 0.05f)]
+        [ConfigField("Stack Percent Healing", "Decimal.", 0.04f)]
         public static float stackPercentHealing;
 
         [ConfigField("Base Special Cooldown Reduction", "Decimal.", 0.15f)]
@@ -51,11 +51,16 @@
             var skillLocator = self.GetComponent<SkillLocator>();
             if (stack > 0 && skillLocator && skill == skillLocator.utility && skill.cooldownRemaining > 0 && skill.skillDef.skillNameToken != "MAGE_UTILITY_ICE_NAME")
             {
+                Main.ModLogger.LogError("has timepiece and skill locator and skill is utility and skill has a cooldown and isnt ice wall");
                 var special = skillLocator.special;
                 var reduction = Util.ConvertAmplificationPercentageIntoReductionPercentage(baseSpecialCooldownReduction + stackSpecialCooldownReduction * (stack - 1)) * 0.01f;
+                Main.ModLogger.LogError("reduction is " + reduction);
                 if (special && special.stock < special.maxStock)
                 {
+                    Main.ModLogger.LogError("has special and special stock is less than max stock");
+                    Main.ModLogger.LogError("special recharge stopwatch pre change: " + special.rechargeStopwatch);
                     special.rechargeStopwatch += special.baseRechargeInterval * reduction;
+                    Main.ModLogger.LogError("special recharge stopwatch AFTERRR change: " + special.rechargeStopwatch);
                 }
                 self.healthComponent?.HealFraction(basePercentHealing + stackPercentHealing * (stack - 1), default);
             }
