@@ -1,14 +1,69 @@
+# 0.8.0 Patch Notes
+* Ranger
+  * Animations will be addressed in further updates
+  * Added Void Fiend-ish keywords to skills in the loadout
+  * Added Pod Prefabs
+  * Added Model Overlay while in Overdrive
+  * Added recolored VFX for skills in Overdrive
+  * Buffed Base Damage Gain in full heat from 20%/s to 30%/s
+  * Buffed Heat Signature on hit Charge gain from 1 to 3
+  * Nerfed Release Minimum Damage from 600% to 400%
+  * Nerfed Enflame Damage from 100% to 90%
+  * Nerfed Exhaust Damage from 8x200% to 8x180%
+  * Changed Default Crosshair
+  * Changed Sidestep to work better with SnappierStalks
+  * Improved feedback for heat mechanics
+  * Improved skill descriptions
+  * Made all skills only restock half of max stock when reassigning (basically backup mag and afterburner were insane if you knew the "tech", and lysate was just free win friday infinite skills, and changing restock on assign to false made ranger as fun as void fiend)
+  * Made Enflame have higher spread and smaller bullet radius
+  * Made Heat Signature hitbox slightly larger
+  * Made Heat Sink give an Attack Speed Boost
+  * Fixed heat not reducing/removing healing properly
+  * Fixed Release not consuming Charge as client
+  * Fixed Enflame scaling Ignite Chance wrong
+* Items
+  * Added item logs for Amber Knife, Fractured Timepiece, Red Spring Water, Nuclear Salvo and Pocket Plutonium
+  * Buffed Pocket Plutonium Pool Stack Damage from 500% to 750%
+  * Buffed Pocket Plutonium Pool Stack Percent Shield Damage from 200% to 250%
+  * Buffed Smouldering Document Burden Stack Damage Reduction from 10% to 12.5%
+  * Buffed Smouldering Document Burden Stack Attack Speed Reduction from 10% to 12.5%
+  * Buffed Universal VIP Paws Base Credit Percent from 20% to 40%
+  * Buffed Universal VIP Paws Stack Credit Percent from 15% to 40%
+  * Nerfed Fractured Timepiece Base Percent Healing from 5% to 4%
+  * Nerfed Fractured Timepiece Stack Percent Healing from 5% to 4%
+  * Nerfed Pocket Plutonium Pool Base Damage from 1000% to 750%
+  * Nerfed Pocket Plutonium Pool Base Percent Shield Damage from 300% to 250%
+  * Nerfed Smouldering Document Burden Base Damage Reduction from 15% to 12.5%
+  * Nerfed Smouldering Document Burden Base Attack Speed Reduction from 15% to 12.5%
+  * Made Red Spring Water increase regen by 0.4 hp/s passively on the first stack
+  * Made Universal VIP Paws stack linearly
+  * Fixed Amber Knife not working properly
+  * Fixed Fractured Timepiece CDR not working
+  * Fixed Nuclear Salvo not working
+  * Fixed Universal VIP Pass not working
+  * Balance and VFX changes will be done in the next couple of updates
+* Equipment & Elites
+  * Improved icon and fixed description for The Sand Sweeper
+  * Improved Motivating Affix Equipment icon
+* Config
+  * Added config versioning
+
+# 0.7.2 Patch Notes
+* Equipment
+  * Fixed icon and description for The Sand Sweeper
+
 # 0.7.1 Patch Notes
 * Ranger
+  * Nerfed Enflame Damage from 120% to 100%
   * Buffed Exhaust Damage from 8x160% to 8x200%
   * Nerfed Charge Loss Rate from 2 per 5s to 2 per 6s
-  * Nerfed Enflame Damage from 120% to 100%
   * Fixed Heat Signature Networking
   * Fixed Heat Signature description
 
 # 0.7.0 Patch Notes
 * Ranger
   * Fully Networked
+  * Added emission
   * Added 3 RECOLOR Skins :^) :^) :^) not lazy btw (trust)
   * Buffed Charge Regeneration from 0.2 hp/s to 0.25 hp/s
   * Buffed Release Minimum Damage from 500% to 600%
