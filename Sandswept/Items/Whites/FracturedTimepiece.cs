@@ -47,24 +47,19 @@
 
         private void CharacterBody_OnSkillActivated(On.RoR2.CharacterBody.orig_OnSkillActivated orig, CharacterBody self, GenericSkill skill)
         {
+            orig(self, skill);
             var stack = GetCount(self);
             var skillLocator = self.GetComponent<SkillLocator>();
             if (stack > 0 && skillLocator && skill == skillLocator.utility && skill.cooldownRemaining > 0 && skill.skillDef.skillNameToken != "MAGE_UTILITY_ICE_NAME")
             {
-                Main.ModLogger.LogError("has timepiece and skill locator and skill is utility and skill has a cooldown and isnt ice wall");
                 var special = skillLocator.special;
-                var reduction = Util.ConvertAmplificationPercentageIntoReductionPercentage(baseSpecialCooldownReduction + stackSpecialCooldownReduction * (stack - 1)) * 0.01f;
-                Main.ModLogger.LogError("reduction is " + reduction);
+                var reduction = Util.ConvertAmplificationPercentageIntoReductionPercentage(baseSpecialCooldownReduction + stackSpecialCooldownReduction * (stack - 1));
                 if (special && special.stock < special.maxStock)
                 {
-                    Main.ModLogger.LogError("has special and special stock is less than max stock");
-                    Main.ModLogger.LogError("special recharge stopwatch pre change: " + special.rechargeStopwatch);
                     special.rechargeStopwatch += special.baseRechargeInterval * reduction;
-                    Main.ModLogger.LogError("special recharge stopwatch AFTERRR change: " + special.rechargeStopwatch);
                 }
                 self.healthComponent?.HealFraction(basePercentHealing + stackPercentHealing * (stack - 1), default);
             }
-            orig(self, skill);
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
