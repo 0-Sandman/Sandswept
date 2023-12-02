@@ -231,6 +231,7 @@ namespace Sandswept.Items.Greens
         }
     }
 
+    [DisallowMultipleComponent]
     public class SalvoBehaviour : MonoBehaviour
     {
         public CharacterBody body;
