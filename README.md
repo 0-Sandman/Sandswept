@@ -37,7 +37,7 @@
 |:-|-|------|-|
 |<img src="https://i.postimg.cc/ZKTbBHc7/tex-Amber-Knife.png" width="96"/> | **Amber Knife** | Gain a 10% chance on hit to fire a knife for 140% (+140% per stack) base damage that pierces. Gain 3.5% barrier for every pierce with the knife. | White |
 |<img src="https://i.postimg.cc/1RVSGrFJ/tex-Red-Spring-Water.png" width="96"/> | **Red Spring Water** | Increase health regeneration by 0.4 hp/s, plus an additional 0.4 hp/s (+0.4 hp/s per stack) for every buff you have. | White |
-|<img src="https://i.postimg.cc/kGZ6kQnh/tex-Fractured-Timepiece.png" width="96"/> | **Fractured Timepiece** | Upon using your utility skill, heal for 5% (+5% per stack) of your maximum health and reduce special skill cooldown by 15%. | White |
+|<img src="https://i.postimg.cc/sfH2YN1y/tex-Fractured-Timepiece.png" width="96"/> | **Fractured Timepiece** | Upon using your utility skill, heal for 5% (+5% per stack) of your maximum health and reduce special skill cooldown by 15%. | White |
 | | | |
 |<img src="https://i.postimg.cc/LXcqFPFd/tex-Sun-Fragment.png" width="96"/> | **Sun Fragment** | 7% chance on hit to create a blinding flash in a 12m area, stunning for 2s and igniting enemies for 150% (+150% per stack) TOTAL damage | Green |
 |<img src="https://i.postimg.cc/1XN5VLQJ/tex-Pocket-Plutonium.png" width="96"/> | **Pocket Plutonium** | Gain a shield equal to 10% of your maximum health. Upon losing all shield, create a nuclear pool in a 16m area that deals 750% (+750% per stack) base damage, plus an additional 250% (+250% per stack) of shields. | Green |
