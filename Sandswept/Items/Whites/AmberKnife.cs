@@ -1,5 +1,6 @@
 ﻿using RoR2.EntityLogic;
 using UnityEngine.Events;
+using UnityEngine.Networking.NetworkSystem;
 using static Sandswept.Utils.Components.MaterialControllerComponents;
 using static UnityEngine.UI.GridLayoutGroup;
 
@@ -75,6 +76,8 @@ namespace Sandswept.Items.Whites
             rigidBody.useGravity = false;
             rigidBody.freezeRotation = true;
 
+            var amb = amberKnifeProjectile.AddComponent<AmberKnifeProjectile>();
+
             var sphereCollider = amberKnifeProjectile.GetComponent<SphereCollider>();
             sphereCollider.material = Addressables.LoadAssetAsync<PhysicMaterial>("RoR2/Base/Common/physmatDefault.physicMaterial").WaitForCompletion();
 
@@ -90,9 +93,6 @@ namespace Sandswept.Items.Whites
             projectileController = amberKnifeProjectile.GetComponent<ProjectileController>();
             projectileController.procCoefficient = procCoefficient;
             projectileController.ghostPrefab = amberKnifeGhost;
-            UnityGames ??= new();
-            UnityGames.AddListener(AddBarrier);
-            Main.ModLogger.LogError(UnityGames);
 
             var hitBox = amberKnifeProjectile.AddComponent<HitBox>();
 
@@ -105,7 +105,10 @@ namespace Sandswept.Items.Whites
             projectileOverlapAttack.forceVector = Vector3.zero;
             projectileOverlapAttack.overlapProcCoefficient = procCoefficient;
             projectileOverlapAttack.resetInterval = -1f;
-            projectileOverlapAttack.onServerHit = UnityGames;
+            //projectileOverlapAttack.onServerHit = UnityGames;
+            //projectileOverlapAttack.onServerHit.AddListener(amb.AddBarrier);
+
+            amberKnifeProjectile.layer = LayerIndex.ragdoll.intVal;
 
             // amberKnifeProjectile.transform.localScale = new Vector3(2f, 2f, 2f);
 
@@ -130,31 +133,6 @@ namespace Sandswept.Items.Whites
         public override void Hooks()
         {
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
-        }
-
-        public void AddBarrier()
-        {
-            Main.ModLogger.LogError("addbarrier called");
-            if (projectileController && UnityGames != null)
-            {
-                Main.ModLogger.LogError("projectile controller and event not null");
-                var owner = projectileController.owner;
-                if (!owner)
-                {
-                    Main.ModLogger.LogError("owner is null");
-                    return;
-                }
-
-                var healthComponent = owner.GetComponent<HealthComponent>();
-                if (!healthComponent)
-                {
-                    Main.ModLogger.LogError("healthcomponent is null");
-                    return;
-                }
-
-                healthComponent.AddBarrier(healthComponent.fullHealth * percentBarrierGain);
-            }
-            // GameObject.Destroy
         }
 
         private void GlobalEventManager_onServerDamageDealt(DamageReport report)
@@ -209,7 +187,7 @@ namespace Sandswept.Items.Whites
             return new ItemDisplayRuleDict();
         }
 
-        /*
+        
         public class AmberKnifeProjectile : NetworkBehaviour, IProjectileImpactBehavior
         {
             public static GameObject impactSpark;
@@ -218,29 +196,34 @@ namespace Sandswept.Items.Whites
 
             public float stopwatch = 0;
 
+            public void Start() {
+                GetComponent<ProjectileOverlapAttack>().onServerHit = new();
+                GetComponent<ProjectileOverlapAttack>().onServerHit.AddListener(AddBarrier);
+            }
+
             public void FixedUpdate()
             {
                 if (!NetworkServer.active) return;
                 GetComponent<Rigidbody>().velocity = transform.forward.normalized * 80f;
                 stopwatch += Time.fixedDeltaTime;
                 if (stopwatch > 10) Destroy(gameObject);
+
+                owner ??= GetComponent<ProjectileController>().owner.GetComponent<CharacterBody>();
             }
 
-            public void OnProjectileImpact(ProjectileImpactInfo impactInfo)
+            public void AddBarrier()
             {
-                if (!impactInfo.collider.GetComponent<HurtBox>())
-                {
-                    Destroy(gameObject);
-                    return;
-                }
-                Physics.IgnoreCollision(GetComponent<Collider>(), impactInfo.collider);
-                EffectManager.SimpleImpactEffect(impactSpark, impactInfo.estimatedPointOfImpact, -transform.forward, transmit: true);
+                EffectManager.SimpleImpactEffect(impactSpark, base.transform.position, -transform.forward, transmit: true);
                 if (owner != null)
                 {
                     owner.healthComponent.AddBarrier(owner.healthComponent.fullHealth * percentBarrierGain);
                 }
             }
+
+            public void OnProjectileImpact(ProjectileImpactInfo impactInfo)
+            {
+                Destroy(base.gameObject);
+            }
         }
-        */
     }
 }

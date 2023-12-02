@@ -187,8 +187,7 @@ namespace Sandswept.Items.Greens
                         // Main.ModLogger.LogError("giving salvo to drone");
                         cm.inventory.ResetItem(ItemDef);
                         cm.inventory.GiveItem(ItemDef, self.inventory.GetItemCount(ItemDef));
-                        GameObject attachment = Object.Instantiate(SalvoPrefab);
-                        attachment.GetComponent<NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(cm.GetBodyObject());
+                        cm.GetBody().AddComponent<SalvoBehaviour>();
                     }
                 }
             }
@@ -206,6 +205,7 @@ namespace Sandswept.Items.Greens
                 {
                     // Main.ModLogger.LogError("removing salvo from drone");
                     cm.inventory.RemoveItem(ItemDef, cm.inventory.GetItemCount(ItemDef));
+                    cm.GetBody().RemoveComponent<SalvoBehaviour>();
                 }
             }
         }
@@ -213,13 +213,14 @@ namespace Sandswept.Items.Greens
 
     public class SalvoBehaviour : MonoBehaviour
     {
-        public NetworkedBodyAttachment attachment;
-        public float totalMissileDelay => NuclearSalvo.baseInterval * Mathf.Pow(1f - NuclearSalvo.stackIntervalReduction, attachment.attachedBody.inventory.GetItemCount(NuclearSalvo.instance.ItemDef) - 1);
+        public CharacterBody body;
+        public float totalMissileDelay => NuclearSalvo.baseInterval * Mathf.Pow(1f - NuclearSalvo.stackIntervalReduction, body.inventory.GetItemCount(NuclearSalvo.instance.ItemDef) - 1);
         public float stopwatch = 0f;
 
         public void Start()
         {
             // Main.ModLogger.LogError("salvo start");
+            body = GetComponent<CharacterBody>();
             stopwatch = totalMissileDelay;
         }
 
@@ -227,7 +228,7 @@ namespace Sandswept.Items.Greens
         {
             stopwatch -= Time.fixedDeltaTime;
 
-            var stack = attachment.attachedBody.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
+            var stack = body.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
 
             if (stopwatch <= 0)
             {
@@ -237,13 +238,13 @@ namespace Sandswept.Items.Greens
 
                 if (stack <= 0)
                 {
-                    Destroy(gameObject);
+                    Destroy(this);
                 }
             }
 
             if (stack <= 0)
             {
-                Destroy(gameObject);
+                Destroy(this);
             }
         }
 
@@ -256,10 +257,10 @@ namespace Sandswept.Items.Greens
                 FireProjectileInfo info = new()
                 {
                     crit = false,
-                    damage = attachment.attachedBody.damage * NuclearSalvo.missileDamage,
+                    damage = body.damage * NuclearSalvo.missileDamage,
                     rotation = Quaternion.identity,/*Util.QuaternionSafeLookRotation(Util.ApplySpread(attachment.attachedBody.inputBank.aimDirection, -10f, 10f, 1f, 1f)),*/
-                    position = attachment.attachedBody.transform.position + new Vector3(0f, 2f, 0f),
-                    owner = attachment.attachedBody.gameObject,
+                    position = body.transform.position + new Vector3(0f, 2f, 0f),
+                    owner = body.gameObject,
                     projectilePrefab = NuclearSalvo.missilePrefab,
                     damageTypeOverride = DamageType.IgniteOnHit
                 };
