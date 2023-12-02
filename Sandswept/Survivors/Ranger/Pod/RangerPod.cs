@@ -43,7 +43,7 @@ namespace Sandswept.Survivors.Ranger.Pod
 
                         var overallSkinIndex = (int)modelSkinController.skins[loadoutSkinIndex].skinIndex;
                         */
-                        Main.ModLogger.LogError(loadoutSkinIndex);
+                        // Main.ModLogger.LogError(loadoutSkinIndex);
                         // Main.ModLogger.LogError(overallSkinIndex);
 
                         // gives 0-3 and 46-49 respectively

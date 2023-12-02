@@ -1,3 +1,28 @@
+# 0.8.1 Patch Notes
+* Items
+  * Added item logs for Smouldering Document and Sun Fragment
+  * Added sound to Sun Fragment proc
+  * Buffed Amber Knife Base Damage from 120% to 140%
+  * Buffed Amber Knife Stack Damage from 120% to 140%
+  * Buffed Fractured Timepiece Base Percent Healing from 4% to 5%
+  * Buffed Fractured Timepiece Stack Percent Healing from 4% to 5%
+  * Buffed Nuclear Salvo missiles to have a 9m explosion radius
+  * Berfed Ranger Heat Gain from 12%/s to 13%/s
+  * Nerfed Amber Knife Percent Barrier Gain from 4% to 3.5%
+  * Changed Nuclear Salvo to stack Missile Count instead
+  * Improved VFX for Nuclear Salvo and Pocket Plutonium
+  * Improved item logs for Amber Knife, Fractured Timepiece, Nuclear Salvo and Pocket Plutonium
+  * Improved icon for Fractured Timepiece
+  * Improved unlock description for Sun Fragment??
+  * Improved optimization for Universal VIP Paws
+  * Made Fractured Timepiece no longer stack Special Cooldown Reduction
+  * Made Universal VIP Paws count purchases prior to getting the item
+  * Fixed Fractured Timepiece not working with Snapfreeze
+  * Fixed Nuclear Salvo working on non-mechanical allies
+  * Fixed Nuclear Salvo breaking item pickups on stages where drones can't spawn
+* Readme
+  * Fixed wrong descriptions
+
 # 0.8.0 Patch Notes
 * Ranger
   * Animations will be addressed in further updates
@@ -38,7 +63,7 @@
   * Made Red Spring Water increase regen by 0.4 hp/s passively on the first stack
   * Made Universal VIP Paws stack linearly
   * Fixed Amber Knife not working properly
-  * Fixed Fractured Timepiece CDR not working
+  * Fixed Fractured Timepiece Special Cooldown Reduction not working
   * Fixed Nuclear Salvo not working
   * Fixed Universal VIP Pass not working
   * Balance and VFX changes will be done in the next couple of updates
@@ -64,6 +89,7 @@
 * Ranger
   * Fully Networked
   * Added emission
+  * Added dither
   * Added 3 RECOLOR Skins :^) :^) :^) not lazy btw (trust)
   * Buffed Charge Regeneration from 0.2 hp/s to 0.25 hp/s
   * Buffed Release Minimum Damage from 500% to 600%

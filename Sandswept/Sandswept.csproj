@@ -32,4 +32,10 @@
 	<ItemGroup>
 	  <Folder Include="Components\" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="Decalicious">
+	    <HintPath>P:\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\Decalicious.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
 </Project>

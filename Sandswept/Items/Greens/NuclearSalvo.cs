@@ -13,9 +13,9 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Mechanical allies fire nuclear warheads periodically.";
 
-        public override string ItemFullDescription => ("Every $sd" + baseInterval + " seconds$se $ss(-" + d(stackIntervalReduction) + " per stack)$se, all mechanical allies fire $sdnuclear missiles$se that deal $sd" + missileCount + "x" + d(missileDamage) + "$se base damage and $sdignite$se on hit.").AutoFormat();
+        public override string ItemFullDescription => ("Every $sd" + interval + " seconds$se, all mechanical allies fire $sd" + baseMissileCount + "$se $ss(+" + stackMissileCount + " per stack)$se $sdnuclear missiles$se that deal $sd" + d(missileDamage) + "$se base damage each and $sdignite$se on hit.").AutoFormat();
 
-        public override string ItemLore => "//--AUTO-TRANSCRIPTION FROM LOADING BAY 4 OF THE UES [Redacted] --//\r\n\r\n\"That's everything, right?\"\r\n\r\n\"Not quite. We're supposed to load those mean-looking missile salvos over there, too.\"\r\n\r\n\"Wait, what? What could they possibly be needed for?\"\r\n\r\n\"I have no idea, but I've gotten word from high up that they need to be on board, and put in shipping chests. And when I say high up, I mean REALLY high up.\"\r\n\r\n\"There's so many, too. I have a bad feeling about this. The whole shipment has been fishy.\"\r\n\r\n\"The suits at the top of UES are always pulling secret stunts like this. It's just part of the job. We've got to follow orders, or we're outta here.\"";
+        public override string ItemLore => "<style=cMono>//--AUTO-TRANSCRIPTION FROM LOADING BAY 4 OF THE UES [Redacted] --//</style>\r\n\r\n\"That's everything, right?\"\r\n\r\n\"Not quite. We're supposed to load those mean-looking missile salvos over there, too.\"\r\n\r\n\"Wait, what? Why would a shipping vessel like the Contact Light need these?\"\r\n\r\n\"I have no idea, but I've gotten word from high up that they need to be on board, and put in shipping chests. And when I say high up, I mean REALLY high up.\"\r\n\r\n\"There's so many, too. I have a bad feeling about this. The whole shipment has been fishy.\"\r\n\r\n\"The suits at the top of UES are always pulling secret stunts like this.  It's just part of the job. We've got to follow orders, or we're outta here.\"";
 
         public override ItemTier Tier => ItemTier.Tier2;
 
@@ -28,20 +28,23 @@ namespace Sandswept.Items.Greens
         public GameObject SalvoPrefab;
         public GameObject SalvoMissile;
 
-        [ConfigField("Base Interval", "", 5f)]
-        public static float baseInterval;
+        [ConfigField("Interval", "", 5f)]
+        public static float interval;
 
-        [ConfigField("Stack Interval Reduction", "Decimal.", 0.25f)]
-        public static float stackIntervalReduction;
+        [ConfigField("Base Missile Count", "", 2)]
+        public static int baseMissileCount;
 
-        [ConfigField("Missile Count", "", 2)]
-        public static int missileCount;
+        [ConfigField("Stack Missile Count", "", 2)]
+        public static int stackMissileCount;
 
         [ConfigField("Missile Damage", "Decimal.", 1f)]
         public static float missileDamage;
 
         [ConfigField("Missile Proc Coefficient", "", 0.33f)]
         public static float missileProcCoefficient;
+
+        [ConfigField("Missile AoE", "", 9f)]
+        public static float missileAoE;
 
         public static GameObject missilePrefab;
 
@@ -57,7 +60,7 @@ namespace Sandswept.Items.Greens
             base.Hooks();
 
             SalvoPrefab = Main.Assets.LoadAsset<GameObject>("SalvoBehaviour.prefab");
-            Main.ModLogger.LogError(SalvoPrefab);
+            // Main.ModLogger.LogError(SalvoPrefab);
             /*
             SalvoMissile = Main.Assets.LoadAsset<GameObject>("Missile.prefab");
             ContentAddition.AddProjectile(SalvoMissile);
@@ -68,79 +71,90 @@ namespace Sandswept.Items.Greens
             var missileProjectileController = missilePrefab.GetComponent<ProjectileController>();
             missileProjectileController.procCoefficient = missileProcCoefficient;
 
-            var projectileSingleTargetImpact = missilePrefab.GetComponent<ProjectileSingleTargetImpact>();
+            // var projectileSingleTargetImpact = missilePrefab.GetComponent<ProjectileSingleTargetImpact>();
+            missilePrefab.RemoveComponent<ProjectileSingleTargetImpact>();
 
-            var newImpact = PrefabAPI.InstantiateClone(Assets.GameObject.MissileExplosionVFX, "Nuclear Salvo Explosion", false);
+            var projectileImpactExplosion = missilePrefab.AddComponent<ProjectileImpactExplosion>();
+            projectileImpactExplosion.blastProcCoefficient = missileProcCoefficient;
+            projectileImpactExplosion.blastAttackerFiltering = AttackerFiltering.NeverHitSelf;
+            projectileImpactExplosion.blastDamageCoefficient = missileDamage;
+            projectileImpactExplosion.blastRadius = missileAoE;
+            projectileImpactExplosion.destroyOnEnemy = true;
+            projectileImpactExplosion.destroyOnWorld = true;
+            projectileImpactExplosion.falloffModel = BlastAttack.FalloffModel.None;
+            projectileImpactExplosion.lifetime = 30f;
+            projectileImpactExplosion.impactOnWorld = true;
+            projectileImpactExplosion.fireChildren = false;
+            projectileImpactExplosion.applyDot = false;
+
+            var newImpact = PrefabAPI.InstantiateClone(Assets.GameObject.ImpVoidspikeExplosion, "Nuclear Salvo Explosion", false);
+            var effectComponent = newImpact.GetComponent<EffectComponent>();
+            effectComponent.soundName = "Play_item_proc_missile_explo";
 
             var particles = newImpact.transform.GetChild(0);
 
             for (int i = 0; i < particles.childCount; i++)
             {
                 var child = particles.transform.GetChild(i);
-                child.localScale = Vector3.one * 4f;
+                child.localScale = Vector3.one * 1.5f;
             }
 
-            var flames = particles.transform.GetChild(1);
-            var flamesColor = flames.GetComponent<ParticleSystem>().colorOverLifetime;
+            var swipe = particles.transform.GetChild(0).GetComponent<ParticleSystemRenderer>();
 
-            var gradient = new Gradient();
+            var newMat = Object.Instantiate(Assets.Material.matImpSwipe);
+            newMat.SetTexture("_RemapTex", Assets.Texture2D.texRampAntler);
+            newMat.SetFloat("_Boost", 6.8f);
+            newMat.SetFloat("_AlphaBoost", 1.44f);
+            newMat.SetColor("_TintColor", new Color32(1, 13, 0, 255));
 
-            var colors = new GradientColorKey[3];
-            colors[0] = new GradientColorKey(Color.white, 0f);
-            colors[1] = new GradientColorKey(new Color32(87, 255, 77, 255), 0.132f);
-            colors[2] = new GradientColorKey(new Color32(177, 193, 0, 255), 0.362f);
+            var newMat2 = Object.Instantiate(Assets.Material.matImpSwipe);
+            newMat2.SetTexture("_RemapTex", Assets.Texture2D.texRampBeetleBreath);
+            newMat2.SetColor("_TintColor", new Color32(80, 255, 54, 255));
 
-            var alphas = new GradientAlphaKey[3];
-            alphas[0] = new GradientAlphaKey(0f, 0f);
-            alphas[1] = new GradientAlphaKey(1f, 0.074f);
-            alphas[2] = new GradientAlphaKey(0f, 0f);
+            swipe.material = newMat;
 
-            gradient.SetKeys(colors, alphas);
+            var dashRings = particles.transform.GetChild(1).GetComponent<ParticleSystemRenderer>();
+            dashRings.material = newMat;
 
-            flamesColor.color = gradient;
+            var flashRed = particles.transform.GetChild(3).GetComponent<ParticleSystem>().main.startColor;
+            flashRed.color = new Color32(77, 255, 0, 255);
 
-            var flamesPSR = flames.GetComponent<ParticleSystemRenderer>();
+            var light = particles.transform.GetChild(4).GetComponent<Light>();
+            light.color = new Color32(109, 255, 74, 255);
+            light.range = missileAoE;
+            light.intensity = 60f;
+            var lightIntensityCurve = light.GetComponent<LightIntensityCurve>();
+            lightIntensityCurve.timeMax = 0.6f;
 
-            var newMat = Object.Instantiate(Assets.Material.matGenericFire);
-            newMat.SetColor("_TintColor", new Color32(236, 255, 105, 255));
-
-            flamesPSR.material = newMat;
-
-            var flash = particles.transform.GetChild(2);
-            var flashColor = flash.GetComponent<ParticleSystem>().colorOverLifetime;
-
-            var gradient2 = new Gradient();
-
-            var colors2 = new GradientColorKey[2];
-            colors[0] = new GradientColorKey(new Color32(215, 255, 214, 255), 0f);
-            colors[1] = new GradientColorKey(new Color32(69, 161, 0, 255), 1f);
-
-            var alphas2 = new GradientAlphaKey[2];
-            alphas[0] = new GradientAlphaKey(0.25490196078f, 0.238f);
-            alphas[1] = new GradientAlphaKey(1f, 1f);
-
-            gradient2.SetKeys(colors2, alphas2);
-
-            flashColor.color = gradient2;
+            var dash = particles.transform.GetChild(5).GetComponent<ParticleSystemRenderer>();
+            dash.material = newMat;
 
             ContentAddition.AddEffect(newImpact);
 
-            projectileSingleTargetImpact.impactEffect = newImpact;
+            // projectileSingleTargetImpact.impactEffect = newImpact;
+            projectileImpactExplosion.impactEffect = newImpact;
 
             var ghost = PrefabAPI.InstantiateClone(Assets.GameObject.MissileGhost, "Nuclear Salvo Missile Ghost", false);
-            ghost.transform.localScale = new Vector3(1.75f, 1.75f, 1.75f);
+            ghost.transform.localScale = Vector3.one * 2.5f;
             ghost.transform.GetChild(1).gameObject.SetActive(false);
 
             var pointLight = ghost.transform.GetChild(3).GetComponent<Light>();
-            pointLight.color = new Color32(118, 255, 25, 255);
+            pointLight.color = new Color32(0, 255, 20, 255);
+            pointLight.intensity = 1000f;
 
             var trail = ghost.transform.GetChild(0).GetComponent<TrailRenderer>();
+            trail.widthMultiplier = 1f;
+            trail.time = 1f;
 
             var newTrailMat = Object.Instantiate(Assets.Material.matMissileTrail);
-            newTrailMat.SetColor("_TintColor", Color.black);
+            newTrailMat.SetColor("_TintColor", new Color32(20, 255, 0, 255));
             newTrailMat.SetFloat("_AlphaBoost", 0.66f);
+            newTrailMat.SetTexture("_RemapTex", Assets.Texture2D.texRampBeetleQueen);
 
             trail.material = newTrailMat;
+
+            var flare = ghost.transform.GetChild(1);
+            flare.gameObject.SetActive(false);
 
             var missileModel = ghost.transform.GetChild(2);
             missileModel.transform.eulerAngles = new Vector3(-90f, 0f, 0f);
@@ -152,6 +166,8 @@ namespace Sandswept.Items.Greens
             atgMat.EnableKeyword("DITHER");
             atgMat.EnableKeyword("FADECLOSE");
             meshRenderer.sharedMaterial = atgMat;
+
+            missileProjectileController.ghostPrefab = ghost;
 
             var missileController = missilePrefab.GetComponent<MissileController>();
             missileController.maxSeekDistance = 10000f;
@@ -205,7 +221,11 @@ namespace Sandswept.Items.Greens
                 {
                     // Main.ModLogger.LogError("removing salvo from drone");
                     cm.inventory.RemoveItem(ItemDef, cm.inventory.GetItemCount(ItemDef));
-                    cm.GetBody().RemoveComponent<SalvoBehaviour>();
+                    var body = cm.GetBody();
+                    if (body)
+                    {
+                        body.RemoveComponent<SalvoBehaviour>();
+                    }
                 }
             }
         }
@@ -214,7 +234,7 @@ namespace Sandswept.Items.Greens
     public class SalvoBehaviour : MonoBehaviour
     {
         public CharacterBody body;
-        public float totalMissileDelay => NuclearSalvo.baseInterval * Mathf.Pow(1f - NuclearSalvo.stackIntervalReduction, body.inventory.GetItemCount(NuclearSalvo.instance.ItemDef) - 1);
+        public float totalMissileDelay = 5f;
         public float stopwatch = 0f;
 
         public void Start()
@@ -234,7 +254,8 @@ namespace Sandswept.Items.Greens
             {
                 stopwatch = totalMissileDelay;
 
-                StartCoroutine(FireMissiles());
+                if ((body.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
+                    StartCoroutine(FireMissiles(stack));
 
                 if (stack <= 0)
                 {
@@ -248,10 +269,11 @@ namespace Sandswept.Items.Greens
             }
         }
 
-        public IEnumerator FireMissiles()
+        public IEnumerator FireMissiles(int stack)
         {
             // Main.ModLogger.LogError("salvo fire missiles ran");
-            for (int i = 0; i < NuclearSalvo.missileCount; i++)
+            var count = NuclearSalvo.baseMissileCount + NuclearSalvo.stackMissileCount * (stack - 1);
+            for (int i = 0; i < count; i++)
             {
                 // Debug.Log("firing salvo missile");
                 FireProjectileInfo info = new()
@@ -269,7 +291,7 @@ namespace Sandswept.Items.Greens
                 if (Util.HasEffectiveAuthority(gameObject))
                     ProjectileManager.instance.FireProjectile(info);
 
-                yield return new WaitForSeconds(0.25f);
+                yield return new WaitForSeconds(1f / count);
             }
             yield return null;
         }

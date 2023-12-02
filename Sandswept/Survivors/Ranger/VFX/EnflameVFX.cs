@@ -45,6 +45,8 @@ namespace Sandswept.Survivors.Ranger.VFX
             var effectComponent = tracer.GetComponent<EffectComponent>();
             effectComponent.soundName = "Play_wHeavyShoot1";
 
+            tracer.AddComponent<VFXAttributes>();
+
             var lineRenderer = tracer.GetComponent<LineRenderer>();
             lineRenderer.widthMultiplier = widthMultiplier;
             lineRenderer.numCapVertices = 5;

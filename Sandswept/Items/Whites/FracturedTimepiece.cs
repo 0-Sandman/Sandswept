@@ -9,9 +9,9 @@
 
         public override string ItemPickupDesc => "Using your utility skill heals you and reduces special cooldown.";
 
-        public override string ItemFullDescription => ("Upon using your $suutility skill$se, $shheal$se for $sh" + d(basePercentHealing) + "$se $ss(+" + d(stackPercentHealing) + " per stack)$se of your $shmaximum health$se and $sureduce special skill cooldown$se by $su" + d(baseSpecialCooldownReduction) + "$se $ss(+" + d(stackSpecialCooldownReduction) + " per stack)$se.").AutoFormat();
+        public override string ItemFullDescription => ("Upon using your $suutility skill$se, $shheal$se for $sh" + d(basePercentHealing) + "$se $ss(+" + d(stackPercentHealing) + " per stack)$se of your $shmaximum health$se and $sureduce special skill cooldown$se by $su" + d(specialCooldownReduction) + "$se.").AutoFormat();
 
-        public override string ItemLore => "Order: Timepiece\r\nTracking Number: 864*******\r\nEstimated Delivery: 02/23/2054\r\nShipping Method: Priority\r\nShipping Address: Hall of the Revered, Mars\r\nShipping Details:\r\n\r\nThis was uncovered by some archeologists in the desert where the old Hall was, before it burned down. I guess someone really wanted to protect it from the purge, since it was carefully wrapped and boxed where we found it. We're sending it to you, free of charge, since it was owned by the Hall to begin with, and you can probably glean more knowledge from it than we can.\r\n\r\nThe box had a note in it from the Time Keeper of the era, too, which I've included in the package. It's in the old language, so we couldn't make it out -- hopefully you can make some sense of it.";
+        public override string ItemLore => "Order: Timepiece\r\nTracking Number: 864*******\r\nEstimated Delivery: 02/23/2054\r\nShipping Method: Priority\r\nShipping Address: Hall of the Revered, Mars\r\nShipping Details:\r\n\r\nOur team uncovered this in the desert where the old Hall was, before it burned down. I guess someone really wanted to protect it from the Purge, since it was carefully wrapped and boxed where we found it. You can probably glean more knowledge from it than we can, and it was the Hall's to begin with in any case.\r\n\r\nThe box had a note in it from the Time Keeper of the era, too, which I've included in the package. Nobody hear can read the old language, though -- hopefully you can make some sense of it.";
 
         public override ItemTier Tier => ItemTier.Tier1;
 
@@ -28,17 +28,14 @@
             Hooks();
         }
 
-        [ConfigField("Base Percent Healing", "Decimal.", 0.04f)]
+        [ConfigField("Base Percent Healing", "Decimal.", 0.05f)]
         public static float basePercentHealing;
 
-        [ConfigField("Stack Percent Healing", "Decimal.", 0.04f)]
+        [ConfigField("Stack Percent Healing", "Decimal.", 0.05f)]
         public static float stackPercentHealing;
 
-        [ConfigField("Base Special Cooldown Reduction", "Decimal.", 0.15f)]
-        public static float baseSpecialCooldownReduction;
-
-        [ConfigField("Stack Special Cooldown Reduction", "Decimal.", 0.15f)]
-        public static float stackSpecialCooldownReduction;
+        [ConfigField("Special Cooldown Reduction", "Decimal.", 0.15f)]
+        public static float specialCooldownReduction;
 
         public override void Hooks()
         {
@@ -52,6 +49,18 @@
             {
                 if (self.goodPlacement)
                 {
+                    var stack = GetCount(self.characterBody);
+                    var skillLocator = self.GetComponent<SkillLocator>();
+                    if (stack > 0)
+                    {
+                        var special = skillLocator.special;
+                        var reduction = Util.ConvertAmplificationPercentageIntoReductionPercentage(specialCooldownReduction);
+                        if (special && special.stock < special.maxStock)
+                        {
+                            special.rechargeStopwatch += special.baseRechargeInterval * reduction;
+                        }
+                        self.healthComponent?.HealFraction(basePercentHealing + stackPercentHealing * (stack - 1), default);
+                    }
                 }
             }
             orig(self);
@@ -65,7 +74,7 @@
             if (stack > 0 && skillLocator && skill == skillLocator.utility && skill.cooldownRemaining > 0 && skill.skillDef.skillNameToken != "MAGE_UTILITY_ICE_NAME")
             {
                 var special = skillLocator.special;
-                var reduction = Util.ConvertAmplificationPercentageIntoReductionPercentage(baseSpecialCooldownReduction + stackSpecialCooldownReduction * (stack - 1));
+                var reduction = Util.ConvertAmplificationPercentageIntoReductionPercentage(specialCooldownReduction);
                 if (special && special.stock < special.maxStock)
                 {
                     special.rechargeStopwatch += special.baseRechargeInterval * reduction;

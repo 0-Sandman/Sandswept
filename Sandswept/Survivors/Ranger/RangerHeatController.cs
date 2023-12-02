@@ -20,7 +20,7 @@ namespace Sandswept.Survivors.Ranger
 
         public static float maxHeat = 100f;
 
-        public float heatGainRate = 12f;
+        public float heatGainRate = 13f;
 
         public float currentHeat = 0f;
 

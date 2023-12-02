@@ -83,18 +83,21 @@
             }
 
             var stack = GetCount(interactorMaster);
-            if (stack > 0)
-            {
-                var toAdd = purchaseInteraction.cost * (baseCreditPercent + stackCreditPercent * (stack - 1));
-                // Main.ModLogger.LogError("adding to total: " + toAdd);
-                passBehavior.storedTotal += toAdd;
-            }
+
+            var toAdd = purchaseInteraction.cost * (baseCreditPercent + stackCreditPercent * (stack - 1));
+
+            passBehavior.storedTotal += toAdd;
         }
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
             var master = body.master;
             if (!master)
+            {
+                return;
+            }
+
+            if (!body.isPlayerControlled)
             {
                 return;
             }
@@ -129,6 +132,11 @@
                 master.GiveMoney(scaledCredit);
 
                 passBehavior.storedTotal = 0;
+            }
+            if (Random.Range(0f, 100f) >= 99.9f)
+            {
+                Chat.AddMessage("<style=cIsDamage>Developer 1</style>: Universal VIP Paws :3 x3 OwO UwU :3 <3");
+                Chat.AddMessage("<style=cIsUtility>Developer 2</style>: What???");
             }
         }
 

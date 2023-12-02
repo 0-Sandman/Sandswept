@@ -39,6 +39,8 @@
 
             var tracer = Assets.GameObject.TracerHuntressSnipe.InstantiateClone("Release Tracer " + name, false);
 
+            tracer.AddComponent<VFXAttributes>();
+
             var destroyOnTimer = tracer.AddComponent<DestroyOnTimer>();
             destroyOnTimer.duration = 3f;
 
