@@ -43,6 +43,18 @@
         public override void Hooks()
         {
             On.RoR2.CharacterBody.OnSkillActivated += CharacterBody_OnSkillActivated;
+            On.EntityStates.Mage.Weapon.PrepWall.OnExit += PrepWall_OnExit;
+        }
+
+        private void PrepWall_OnExit(On.EntityStates.Mage.Weapon.PrepWall.orig_OnExit orig, EntityStates.Mage.Weapon.PrepWall self)
+        {
+            if (!self.outer.destroying)
+            {
+                if (self.goodPlacement)
+                {
+                }
+            }
+            orig(self);
         }
 
         private void CharacterBody_OnSkillActivated(On.RoR2.CharacterBody.orig_OnSkillActivated orig, CharacterBody self, GenericSkill skill)
