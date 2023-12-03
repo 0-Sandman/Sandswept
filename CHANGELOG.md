@@ -1,3 +1,9 @@
+# ?.?.? Patch Notes
+* Items
+  * Added VFX for Fractured Timepiece
+  * Made Fractured Timepiece scale Healing and Special Cooldown Reduction with Utility Skill Base Max Stock
+  * Fixed Fractured Timepiece working too well with Thermal Harpoons
+
 # 0.8.1 Patch Notes
 * Items
   * Added item logs for Smouldering Document and Sun Fragment

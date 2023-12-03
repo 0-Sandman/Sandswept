@@ -1,4 +1,6 @@
-﻿namespace Sandswept.Items.Whites
+﻿using System.Linq;
+
+namespace Sandswept.Items.Whites
 {
     [ConfigSection("Items :: Fractured Timepiece")]
     public class FracturedTimepiece : ItemBase<FracturedTimepiece>
@@ -21,6 +23,11 @@
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Healing, ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
 
+        public static List<string> blacklistedSkills = new() { "MAGE_UTILITY_ICE_NAME", "ENGI_SKILL_HARPOON_NAME" };
+
+        public static GameObject healVFX;
+        public static GameObject cdrVFX;
+
         public override void Init(ConfigFile config)
         {
             CreateLang();
@@ -39,8 +46,129 @@
 
         public override void Hooks()
         {
+            healVFX = PrefabAPI.InstantiateClone(Assets.GameObject.MedkitHealEffect, "Fractured Timepiece Heal VFX", false);
+            var effectComponent = healVFX.GetComponent<EffectComponent>();
+            effectComponent.applyScale = true;
+
+            var healRamp = Assets.Texture2D.texRampArtifactShellSoft;
+            var cdrRamp = Assets.Texture2D.texRampLaserTurbine;
+
+            var trans = healVFX.transform;
+
+            for (int i = 0; i < trans.childCount; i++)
+            {
+                var child = trans.GetChild(i);
+                child.transform.localScale = Vector3.one * 1.5f;
+            }
+
+            var spinner = trans.GetChild(0).GetComponent<ParticleSystemRenderer>();
+
+            var newMat = Object.Instantiate(Assets.Material.matHealTrail);
+            newMat.SetTexture("_RemapTex", healRamp);
+            newMat.SetFloat("_Boost", 9.9f);
+
+            spinner.trailMaterial = newMat;
+
+            var crosses = trans.GetChild(1).GetComponent<ParticleSystemRenderer>();
+
+            var newMat2 = Object.Instantiate(Assets.Material.matHealingCross);
+            newMat2.SetTexture("_RemapTex", healRamp);
+
+            crosses.material = newMat2;
+
+            ContentAddition.AddEffect(healVFX);
+
+            cdrVFX = PrefabAPI.InstantiateClone(Assets.GameObject.MedkitHealEffect, "Fractured Timepiece CDR VFX", false);
+            var effectComponent2 = cdrVFX.GetComponent<EffectComponent>();
+            effectComponent2.applyScale = true;
+            effectComponent2.soundName = "";
+
+            var trans2 = cdrVFX.transform;
+
+            var spinner2 = trans2.GetChild(0).GetComponent<ParticleSystemRenderer>();
+            spinner2.transform.eulerAngles = new Vector3(90f, 0f, 0f);
+            var spinner2guh = spinner2.GetComponent<ParticleSystem>().main;
+            spinner2guh.startDelay = 0.2f;
+
+            var newMat3 = Object.Instantiate(Assets.Material.matHealTrail);
+            newMat3.SetTexture("_RemapTex", cdrRamp);
+            newMat3.SetFloat("_Boost", 4.8f);
+
+            spinner2.trailMaterial = newMat3;
+
+            var crosses2 = trans2.GetChild(1).GetComponent<ParticleSystemRenderer>();
+            crosses2.transform.eulerAngles = new Vector3(90f, 0f, 0f);
+
+            var mask = Assets.Texture2D.texGalaxy1Mask;
+
+            var newMat4 = Object.Instantiate(Assets.Material.matHealingCross);
+            newMat4.SetTexture("_RemapTex", cdrRamp);
+            newMat4.SetTexture("_MainTex", mask);
+            newMat4.SetTexture("_Cloud1Tex", mask);
+
+            crosses2.material = newMat4;
+
+            ContentAddition.AddEffect(cdrVFX);
+
             On.RoR2.CharacterBody.OnSkillActivated += CharacterBody_OnSkillActivated;
             On.EntityStates.Mage.Weapon.PrepWall.OnExit += PrepWall_OnExit;
+            On.EntityStates.Engi.EngiMissilePainter.Fire.FireMissile += Fire_FireMissile;
+        }
+
+        private void Fire_FireMissile(On.EntityStates.Engi.EngiMissilePainter.Fire.orig_FireMissile orig, EntityStates.Engi.EngiMissilePainter.Fire self, HurtBox target, Vector3 position)
+        {
+            orig(self, target, position);
+            var skillLocator = self.skillLocator;
+            if (skillLocator)
+            {
+                var skill = skillLocator.utility;
+                TryHeal(self.characterBody, skill);
+            }
+        }
+
+        public static void TryHeal(CharacterBody characterBody, GenericSkill skill, bool checkUtilityAndBlacklist = false)
+        {
+            if (!characterBody)
+            {
+                return;
+            }
+
+            if (skill == null)
+            {
+                return;
+            }
+
+            var inventory = characterBody.inventory;
+            if (!inventory)
+            {
+                return;
+            }
+
+            var stack = inventory.GetItemCount(instance.ItemDef);
+            var skillLocator = characterBody.GetComponent<SkillLocator>();
+
+            var passesCondition = stack > 0 && (!checkUtilityAndBlacklist || skillLocator && skill == skillLocator.utility && skill.cooldownRemaining > 0 && !blacklistedSkills.Contains(skill.skillDef.skillNameToken));
+
+            if (passesCondition)
+            {
+                var special = skillLocator.special;
+                var reduction = Util.ConvertAmplificationPercentageIntoReductionPercentage(specialCooldownReduction);
+                if (special && special.stock < special.maxStock)
+                {
+                    special.rechargeStopwatch += special.baseRechargeInterval * reduction / skill.skillDef.baseMaxStock;
+                }
+                characterBody.healthComponent?.HealFraction((basePercentHealing + stackPercentHealing * (stack - 1)) / skill.skillDef.baseMaxStock, default);
+
+                var effectData = new EffectData()
+                {
+                    origin = characterBody.gameObject.transform.position,
+                    scale = 4f
+                };
+                effectData.SetNetworkedObjectReference(characterBody.gameObject);
+
+                EffectManager.SpawnEffect(healVFX, effectData, true);
+                EffectManager.SpawnEffect(cdrVFX, effectData, true);
+            }
         }
 
         private void PrepWall_OnExit(On.EntityStates.Mage.Weapon.PrepWall.orig_OnExit orig, EntityStates.Mage.Weapon.PrepWall self)
@@ -49,17 +177,11 @@
             {
                 if (self.goodPlacement)
                 {
-                    var stack = GetCount(self.characterBody);
-                    var skillLocator = self.GetComponent<SkillLocator>();
-                    if (stack > 0)
+                    var skillLocator = self.skillLocator;
+                    if (skillLocator)
                     {
-                        var special = skillLocator.special;
-                        var reduction = Util.ConvertAmplificationPercentageIntoReductionPercentage(specialCooldownReduction);
-                        if (special && special.stock < special.maxStock)
-                        {
-                            special.rechargeStopwatch += special.baseRechargeInterval * reduction;
-                        }
-                        self.healthComponent?.HealFraction(basePercentHealing + stackPercentHealing * (stack - 1), default);
+                        var skill = skillLocator.utility;
+                        TryHeal(self.characterBody, skill);
                     }
                 }
             }
@@ -69,18 +191,7 @@
         private void CharacterBody_OnSkillActivated(On.RoR2.CharacterBody.orig_OnSkillActivated orig, CharacterBody self, GenericSkill skill)
         {
             orig(self, skill);
-            var stack = GetCount(self);
-            var skillLocator = self.GetComponent<SkillLocator>();
-            if (stack > 0 && skillLocator && skill == skillLocator.utility && skill.cooldownRemaining > 0 && skill.skillDef.skillNameToken != "MAGE_UTILITY_ICE_NAME")
-            {
-                var special = skillLocator.special;
-                var reduction = Util.ConvertAmplificationPercentageIntoReductionPercentage(specialCooldownReduction);
-                if (special && special.stock < special.maxStock)
-                {
-                    special.rechargeStopwatch += special.baseRechargeInterval * reduction;
-                }
-                self.healthComponent?.HealFraction(basePercentHealing + stackPercentHealing * (stack - 1), default);
-            }
+            TryHeal(self, skill, true);
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
