@@ -1,22 +1,21 @@
-﻿namespace Sandswept.Items.Greens
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace Sandswept.Items.Greens
 {
     [ConfigSection("Items :: Universal VIP Pass")]
     public class UniversalVIPPass : ItemBase<UniversalVIPPass>
     {
-        public class PassBehavior : MonoBehaviour
-        {
-            public float storedTotal = 0f;
-        }
-
         public override string ItemName => "Universal VIP Pass";
 
         public override string ItemLangTokenName => "VIP_PASS";
 
-        public override string ItemPickupDesc => "Store a portion of spent gold as a bonus on the next stage.";
+        public override string ItemPickupDesc => "Category chests have a chance to drop multiple items.";
 
-        public override string ItemFullDescription => ("Whenever you make a $sugold purchase$se, store $su" + d(baseCreditPercent) + "$se $ss(+" + d(stackCreditPercent) + " per stack)$se of the spent gold as $sucredit$se. $suReceive gold$se equal to $sucredit$se on the next stage. $suScales over time$se.").AutoFormat();
+        public override string ItemFullDescription => ("Category chests have a $su" + chance + "%$se chance of dropping $su" + baseExtraItems + "$se $ss(+" + stackExtraItems + " per stack)$se $suextra items$se.").AutoFormat();
 
-        public override string ItemLore => "Funny pt.2";
+        public override string ItemLore => "Some may say the VIP stands for Very Important Paws...";
 
         public override ItemTier Tier => ItemTier.Tier2;
 
@@ -24,13 +23,16 @@
 
         public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("UniVIPIcon.png");
 
-        [ConfigField("Base Credit Percent", "Decimal.", 0.4f)]
-        public static float baseCreditPercent;
+        [ConfigField("Chance", "", 50f)]
+        public static float chance;
 
-        [ConfigField("Stack Credit Percent", "Decimal.", 0.4f)]
-        public static float stackCreditPercent;
+        [ConfigField("Base Extra Items", "", 1)]
+        public static int baseExtraItems;
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist };
+        [ConfigField("Stack Extra Items", "", 1)]
+        public static int stackExtraItems;
+
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist, ItemTag.CannotDuplicate };
 
         public override void Init(ConfigFile config)
         {
@@ -41,103 +43,56 @@
 
         public override void Hooks()
         {
-            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
-            GlobalEventManager.OnInteractionsGlobal += GlobalEventManager_OnInteractionsGlobal;
-            Stage.onStageStartGlobal += Stage_onStageStartGlobal;
+            On.RoR2.GlobalEventManager.OnInteractionBegin += GlobalEventManager_OnInteractionBegin;
         }
 
-        private void GlobalEventManager_OnInteractionsGlobal(Interactor interactor, IInteractable interactable, GameObject interactableObject)
+        private void GlobalEventManager_OnInteractionBegin(On.RoR2.GlobalEventManager.orig_OnInteractionBegin orig, GlobalEventManager self, Interactor interactor, IInteractable interactable, GameObject interactableObject)
         {
-            var purchaseInteraction = interactableObject.GetComponent<PurchaseInteraction>();
-            if (!purchaseInteraction)
+            bool isCategoryChest = false;
+            var chestBehavior = interactableObject.GetComponent<ChestBehavior>();
+            if (chestBehavior)
             {
-                return;
-            }
-
-            if (purchaseInteraction.costType != CostTypeIndex.Money)
-            {
-                return;
-            }
-
-            if (!interactor)
-            {
-                return;
-            }
-
-            var interactorBody = interactor.GetComponent<CharacterBody>();
-            if (!interactorBody)
-            {
-                return;
-            }
-
-            var interactorMaster = interactorBody.master;
-            if (!interactorMaster)
-            {
-                return;
-            }
-
-            var passBehavior = interactorMaster.GetComponent<PassBehavior>();
-            if (!passBehavior)
-            {
-                return;
-            }
-
-            var stack = GetCount(interactorMaster);
-
-            var toAdd = purchaseInteraction.cost * (baseCreditPercent + stackCreditPercent * (stack - 1));
-
-            passBehavior.storedTotal += toAdd;
-        }
-
-        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
-        {
-            var master = body.master;
-            if (!master)
-            {
-                return;
-            }
-
-            if (!body.isPlayerControlled)
-            {
-                return;
-            }
-
-            if (master.GetComponent<PassBehavior>() == null)
-            {
-                master.AddComponent<PassBehavior>();
-            }
-        }
-
-        private void Stage_onStageStartGlobal(Stage obj)
-        {
-            foreach (CharacterMaster master in CharacterMaster.readOnlyInstancesList)
-            {
-                var passBehavior = master.GetComponent<PassBehavior>();
-                if (!passBehavior)
+                var purchaseInteraction = interactableObject.GetComponent<PurchaseInteraction>();
+                if (purchaseInteraction)
                 {
-                    // Main.ModLogger.LogError("cb has no pass behavior " + body.name);
-                    return;
+                    isCategoryChest = isCategoryChest || purchaseInteraction.displayNameToken.ToLower().Contains("category") || purchaseInteraction.contextToken.ToLower().Contains("category");
+                }
+                var genericDisplayNameProvider = interactableObject.GetComponent<GenericDisplayNameProvider>();
+                if (genericDisplayNameProvider)
+                {
+                    isCategoryChest = isCategoryChest || genericDisplayNameProvider.displayToken.ToLower().Contains("category");
                 }
 
-                var stack = GetCount(master);
-                if (stack <= 0)
+                if (isCategoryChest)
                 {
-                    return;
+                    if (interactor)
+                    {
+                        var interactorBody = interactor.GetComponent<CharacterBody>();
+                        if (interactorBody)
+                        {
+                            var stack = GetCount(interactorBody);
+                            if (stack > 0 && Util.CheckRoll(chance))
+                            {
+                                var isCategoryChestFinal = interactableObject.name.ToLower().Contains("category") || isCategoryChest;
+                                if (isCategoryChestFinal)
+                                {
+                                    var extraItemCount = baseExtraItems + stackExtraItems * (stack - 1);
+
+                                    chestBehavior.dropCount = 1 + extraItemCount;
+
+                                    if (Random.Range(0f, 100f) >= 99f)
+                                    {
+                                        Chat.AddMessage("<style=cIsDamage>Developer 1</style>: Universal VIP Paws :3 x3 OwO UwU :3 <3");
+                                        Chat.AddMessage("<style=cIsUtility>Developer 2</style>: What???");
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-
-                var scaledCredit = (uint)Run.instance.GetDifficultyScaledCost((int)passBehavior.storedTotal);
-
-                // Main.ModLogger.LogError("scaled credit is " + scaledCredit);
-
-                master.GiveMoney(scaledCredit);
-
-                passBehavior.storedTotal = 0;
             }
-            if (Random.Range(0f, 100f) >= 99.9f)
-            {
-                Chat.AddMessage("<style=cIsDamage>Developer 1</style>: Universal VIP Paws :3 x3 OwO UwU :3 <3");
-                Chat.AddMessage("<style=cIsUtility>Developer 2</style>: What???");
-            }
+
+            orig(self, interactor, interactable, interactableObject);
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()

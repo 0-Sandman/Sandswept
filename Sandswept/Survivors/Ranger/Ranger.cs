@@ -1,5 +1,6 @@
 using RoR2.UI;
-using Sandswept.Survivors.Ranger.ItemDisplays;
+
+// using Sandswept.Survivors.Ranger.ItemDisplays;
 using Sandswept.Survivors.Ranger.Pod;
 using Sandswept.Survivors.Ranger.States;
 using System.Linq;

@@ -21,7 +21,8 @@ using Sandswept.Survivors.Ranger.Crosshairs;
 using Sandswept.Survivors.Ranger.Pod;
 using HarmonyLib;
 using Sandswept.Elites.VFX;
-using Sandswept.Survivors.Ranger.ItemDisplays;
+
+// using Sandswept.Survivors.Ranger.ItemDisplays;
 
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
 

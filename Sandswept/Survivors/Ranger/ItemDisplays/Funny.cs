@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 
+/*
 namespace Sandswept.Survivors.Ranger.ItemDisplays
 {
     internal class Funny
@@ -138,3 +139,4 @@ namespace Sandswept.Survivors.Ranger.ItemDisplays
         }
     }
 }
+*/
