@@ -72,43 +72,22 @@ namespace Sandswept.Survivors.Ranger.ItemDisplays
             {
                 new ItemDisplayRuleSet.KeyAssetRuleGroup
                 {
-                    keyAsset = RoR2Content.Equipment.Jetpack,
+                    keyAsset = RoR2Content.Equipment.GoldGat,
                     displayRuleGroup = new DisplayRuleGroup
                     {
                         rules = new ItemDisplayRule[]
-                    {
-                        new ItemDisplayRule
                         {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            followerPrefab = LoadDisplay("DisplayBugWings"),
-                            childName = "Chest",
-                            localPos = new Vector3(0.0009F, 0.2767F, -0.1F),
-                            localAngles = new Vector3(21.4993F, 358.6616F, 358.3334F),
-                            localScale = new Vector3(0.1F, 0.1F, 0.1F),
-                            limbMask = LimbFlags.None
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = LoadDisplay("DisplayGoldGat"),
+                                childName = "Chest",
+                                localPos = new Vector3(0.0009F, 0.2767F, -0.1F),
+                                localAngles = new Vector3(21.4993F, 358.6616F, 358.3334F),
+                                localScale = new Vector3(0.1F, 0.1F, 0.1F),
+                                limbMask = LimbFlags.None
+                            }
                         }
-                    }
-                    }
-                },
-
-                new ItemDisplayRuleSet.KeyAssetRuleGroup
-                {
-                    keyAsset = RoR2Content.Equipment.BFG,
-                    displayRuleGroup = new DisplayRuleGroup
-                    {
-                        rules = new ItemDisplayRule[]
-                    {
-                        new ItemDisplayRule
-                        {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            followerPrefab = LoadDisplay("DisplayBugWings"),
-                            childName = "Chest",
-                            localPos = new Vector3(0.0009F, 0.2767F, -0.1F),
-                            localAngles = new Vector3(21.4993F, 358.6616F, 358.3334F),
-                            localScale = new Vector3(0.1F, 0.1F, 0.1F),
-                            limbMask = LimbFlags.None
-                        }
-                    }
                     }
                 },
 
@@ -118,18 +97,39 @@ namespace Sandswept.Survivors.Ranger.ItemDisplays
                     displayRuleGroup = new DisplayRuleGroup
                     {
                         rules = new ItemDisplayRule[]
-                    {
-                        new ItemDisplayRule
                         {
-                            ruleType = ItemDisplayRuleType.ParentedPrefab,
-                            followerPrefab = LoadDisplay("DisplayBugWings"),
-                            childName = "Chest",
-                            localPos = new Vector3(0.0009F, 0.2767F, -0.1F),
-                            localAngles = new Vector3(21.4993F, 358.6616F, 358.3334F),
-                            localScale = new Vector3(0.1F, 0.1F, 0.1F),
-                            limbMask = LimbFlags.None
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = LoadDisplay("DisplayBugWings"),
+                                childName = "Chest",
+                                localPos = new Vector3(0.0009F, 0.2767F, -0.1F),
+                                localAngles = new Vector3(21.4993F, 358.6616F, 358.3334F),
+                                localScale = new Vector3(0.1F, 0.1F, 0.1F),
+                                limbMask = LimbFlags.None
+                            }
                         }
                     }
+                },
+
+                new ItemDisplayRuleSet.KeyAssetRuleGroup
+                {
+                    keyAsset = RoR2Content.Items.CritGlasses,
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
+                        {
+                            new ItemDisplayRule
+                            {
+                                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                                followerPrefab = LoadDisplay("DisplayGlasses"),
+                                childName = "Chest",
+                                localPos = new Vector3(0.0009F, 0.2767F, -0.1F),
+                                localAngles = new Vector3(21.4993F, 358.6616F, 358.3334F),
+                                localScale = new Vector3(0.1F, 0.1F, 0.1F),
+                                limbMask = LimbFlags.None
+                            }
+                        }
                     }
                 }
             };
