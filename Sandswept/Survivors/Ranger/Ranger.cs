@@ -118,21 +118,6 @@ namespace Sandswept.Survivors.Ranger
             // not sure if hgstandard has hdr emission color, but it would make the green texture pop, while still having that glow instead of being a white lightbulb with green glow
         }
 
-        [SystemInitializer(typeof(ItemCatalog))]
-        public static void AddIDRS()
-        {
-            Funny.Populate();
-
-            var rangerIDRS = ScriptableObject.CreateInstance<ItemDisplayRuleSet>();
-            rangerIDRS.name = "idrsRangerBody";
-            mdl.itemDisplayRuleSet.keyAssetRuleGroups = null;
-            mdl.itemDisplayRuleSet = null;
-            // remove previous fake not working idrs set in unity editor
-            mdl.itemDisplayRuleSet = rangerIDRS;
-
-            mdl.itemDisplayRuleSet.keyAssetRuleGroups = Funny.SetItemDisplayRules().ToArray();
-        }
-
         private void SetupHitBox(CharacterBody body)
         {
             if (body.baseNameToken != "SS_RANGER_BODY_NAME")

@@ -1,12 +1,28 @@
-﻿namespace Sandswept.Survivors.Ranger.ItemDisplays
+﻿using System.Security.Cryptography;
+
+namespace Sandswept.Survivors.Ranger.ItemDisplays
 {
     internal class Funny
     {
         private static Dictionary<string, GameObject> itemDisplayPrefabs = new();
 
-        public static void Populate()
+        [SystemInitializer(typeof(ItemCatalog))]
+        public static void AddIDRS()
         {
             PopulateFromBody("MageBody");
+
+            var body = Main.Assets.LoadAsset<GameObject>("RangerBody.prefab");
+            var _modelTransform = body.GetComponent<ModelLocator>()._modelTransform;
+            var mdl = _modelTransform.GetComponent<CharacterModel>();
+
+            var rangerIDRS = ScriptableObject.CreateInstance<ItemDisplayRuleSet>();
+            rangerIDRS.name = "idrsRangerBody";
+            mdl.itemDisplayRuleSet.keyAssetRuleGroups = null;
+            mdl.itemDisplayRuleSet = null;
+            // remove previous fake not working idrs set in unity editor
+            mdl.itemDisplayRuleSet = rangerIDRS;
+
+            mdl.itemDisplayRuleSet.keyAssetRuleGroups = SetItemDisplayRules().ToArray();
         }
 
         private static void PopulateFromBody(string bodyName)
