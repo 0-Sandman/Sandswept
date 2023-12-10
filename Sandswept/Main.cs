@@ -20,6 +20,8 @@ using Sandswept.Survivors.Ranger.Crosshairs;
 // using Sandswept.WIP_Content;
 using Sandswept.Survivors.Ranger.Pod;
 using HarmonyLib;
+using Sandswept.Elites.VFX;
+using Sandswept.Survivors.Ranger.ItemDisplays;
 
 namespace Sandswept
 {
@@ -103,10 +105,13 @@ namespace Sandswept
             prodAssets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // MFS I SAID MERGE INTO OTHER ASSETS
             hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
 
+            Funny.Populate();
+
             RangerPod.Init();
             Ranger.Init();
 
-            InitVFX.Init();
+            RangerVFX.Init();
+            EliteVFX.Init();
             Eclipse8.Init();
 
             DirectCurrent.Init();

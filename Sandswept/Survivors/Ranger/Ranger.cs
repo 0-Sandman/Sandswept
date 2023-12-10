@@ -1,6 +1,8 @@
 using RoR2.UI;
+using Sandswept.Survivors.Ranger.ItemDisplays;
 using Sandswept.Survivors.Ranger.Pod;
 using Sandswept.Survivors.Ranger.States;
+using System.Linq;
 using UnityEngine.UI;
 
 namespace Sandswept.Survivors.Ranger
@@ -15,7 +17,7 @@ namespace Sandswept.Survivors.Ranger
 
         public override string Outro => "...and so she left ready to listen to Periphery for the 43,945th time (not Periphery 3 tho it sucks it's barely replayable like she's only played it 4,874 times and got extremely fed up with it it's their most overrated album I swear)...";
 
-        public override string Failure => "...and so she didn't leave lmao skill issue btw you should listen to these albums --- Unprocessed - In Concretion, Unprocessed - Perception, Unprocessed - Covenant, Periphery - Periphery 1, Periphery - Periphery 2";
+        public override string Failure => "...and so she didn't leave lmao skill issue btw you should listen to these albums --- Unprocessed - In Concretion, Unprocessed - Perception, Unprocessed - Covenant, Unprocessed - And Everything In Between, Periphery - Periphery 1, Periphery - Periphery 2";
 
         public override void LoadAssets()
         {
@@ -93,6 +95,16 @@ namespace Sandswept.Survivors.Ranger
             "SS_RANGER_PASSIVE_NAME".Add("Power Surge");
             "SS_RANGER_PASSIVE_DESC".Add("Hold up to " + Projectiles.DirectCurrent.maxCharge + " $rcCharge$ec. Each $rcCharge$ec increases $shbase health regeneration$se by $sh0.25 hp/s$se. $rcCharge decays over time$ec.".AutoFormat());
 
+            mdl = _modelTransform.GetComponent<CharacterModel>();
+
+            var rangerIDRS = ScriptableObject.CreateInstance<ItemDisplayRuleSet>();
+            rangerIDRS.name = "idrsRangerBody";
+            mdl.itemDisplayRuleSet = rangerIDRS;
+
+            var itemDisplays = mdl.itemDisplayRuleSet.keyAssetRuleGroups.ToList();
+
+            Funny.SetItemDisplayRules(itemDisplays);
+
             AddSkins();
 
             CharacterBody.onBodyStartGlobal += SetupHitBox;
@@ -157,7 +169,6 @@ namespace Sandswept.Survivors.Ranger
 
             "SKIN_DEFAULT".Add("Default");
 
-            mdl = _modelTransform.GetComponent<CharacterModel>();
             modelSkinController = mdl.GetComponent<ModelSkinController>();
 
             majorDef = CreateRecolor("Major", 4.2f, false, "perform a multikill of 10 enemies");
