@@ -23,6 +23,8 @@ using HarmonyLib;
 using Sandswept.Elites.VFX;
 using Sandswept.Survivors.Ranger.ItemDisplays;
 
+[assembly: HG.Reflection.SearchableAttribute.OptIn]
+
 namespace Sandswept
 {
     [BepInPlugin(ModGuid, ModName, ModVer)]

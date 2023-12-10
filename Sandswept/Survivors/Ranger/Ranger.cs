@@ -115,6 +115,12 @@ namespace Sandswept.Survivors.Ranger
             CharacterBody.onBodyStartGlobal += SetupHitBox;
             RegisterStuff();
 
+            // not sure if hgstandard has hdr emission color, but it would make the green texture pop, while still having that glow instead of being a white lightbulb with green glow
+        }
+
+        [SystemInitializer(typeof(ItemCatalog))]
+        public static void AddIDRS()
+        {
             var rangerIDRS = ScriptableObject.CreateInstance<ItemDisplayRuleSet>();
             rangerIDRS.name = "idrsRangerBody";
             mdl.itemDisplayRuleSet.keyAssetRuleGroups = null;
@@ -122,8 +128,6 @@ namespace Sandswept.Survivors.Ranger
             mdl.itemDisplayRuleSet = rangerIDRS;
 
             mdl.itemDisplayRuleSet.keyAssetRuleGroups = Funny.SetItemDisplayRules().ToArray();
-
-            // not sure if hgstandard has hdr emission color, but it would make the green texture pop, while still having that glow instead of being a white lightbulb with green glow
         }
 
         private void SetupHitBox(CharacterBody body)
