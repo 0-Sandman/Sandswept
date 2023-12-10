@@ -49,14 +49,17 @@
             return null;
         }
 
-        public static void SetItemDisplayRules(List<ItemDisplayRuleSet.KeyAssetRuleGroup> itemDisplayRules)
+        // add all bands to neck, cutesy bow to neck and kitty headphjones
+        public static List<ItemDisplayRuleSet.KeyAssetRuleGroup> SetItemDisplayRules()
         {
-            itemDisplayRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
+            var itemDisplayRules = new List<ItemDisplayRuleSet.KeyAssetRuleGroup>()
             {
-                keyAsset = RoR2Content.Equipment.Jetpack,
-                displayRuleGroup = new DisplayRuleGroup
+                new ItemDisplayRuleSet.KeyAssetRuleGroup
                 {
-                    rules = new ItemDisplayRule[]
+                    keyAsset = RoR2Content.Equipment.Jetpack,
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
                     {
                         new ItemDisplayRule
                         {
@@ -69,15 +72,15 @@
                             limbMask = LimbFlags.None
                         }
                     }
-                }
-            });
+                    }
+                },
 
-            itemDisplayRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
-            {
-                keyAsset = RoR2Content.Equipment.BFG,
-                displayRuleGroup = new DisplayRuleGroup
+                new ItemDisplayRuleSet.KeyAssetRuleGroup
                 {
-                    rules = new ItemDisplayRule[]
+                    keyAsset = RoR2Content.Equipment.BFG,
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
                     {
                         new ItemDisplayRule
                         {
@@ -90,15 +93,15 @@
                             limbMask = LimbFlags.None
                         }
                     }
-                }
-            });
+                    }
+                },
 
-            itemDisplayRules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup
-            {
-                keyAsset = RoR2Content.Equipment.Jetpack,
-                displayRuleGroup = new DisplayRuleGroup
+                new ItemDisplayRuleSet.KeyAssetRuleGroup
                 {
-                    rules = new ItemDisplayRule[]
+                    keyAsset = RoR2Content.Equipment.Jetpack,
+                    displayRuleGroup = new DisplayRuleGroup
+                    {
+                        rules = new ItemDisplayRule[]
                     {
                         new ItemDisplayRule
                         {
@@ -111,8 +114,11 @@
                             limbMask = LimbFlags.None
                         }
                     }
+                    }
                 }
-            });
+            };
+
+            return itemDisplayRules;
         }
     }
 }

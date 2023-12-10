@@ -97,18 +97,31 @@ namespace Sandswept.Survivors.Ranger
 
             mdl = _modelTransform.GetComponent<CharacterModel>();
 
-            var rangerIDRS = ScriptableObject.CreateInstance<ItemDisplayRuleSet>();
-            rangerIDRS.name = "idrsRangerBody";
-            mdl.itemDisplayRuleSet = rangerIDRS;
+            var chest = _modelTransform.GetChild(0).GetChild(1).GetChild(0).GetChild(1).GetChild(0);
+            var neck = chest.GetChild(4);
+            var head = neck.GetChild(0);
 
-            var itemDisplays = mdl.itemDisplayRuleSet.keyAssetRuleGroups.ToList();
-
-            Funny.SetItemDisplayRules(itemDisplays);
+            var childLocator = _modelTransform.GetComponent<ChildLocator>();
+            Array.Resize(ref childLocator.transformPairs, childLocator.transformPairs.Length + 3);
+            childLocator.transformPairs[1].name = "Chest";
+            childLocator.transformPairs[1].transform = chest;
+            childLocator.transformPairs[2].name = "Neck";
+            childLocator.transformPairs[2].transform = neck;
+            childLocator.transformPairs[3].name = "Head";
+            childLocator.transformPairs[3].transform = head;
 
             AddSkins();
 
             CharacterBody.onBodyStartGlobal += SetupHitBox;
             RegisterStuff();
+
+            var rangerIDRS = ScriptableObject.CreateInstance<ItemDisplayRuleSet>();
+            rangerIDRS.name = "idrsRangerBody";
+            mdl.itemDisplayRuleSet.keyAssetRuleGroups = null;
+            mdl.itemDisplayRuleSet = null;
+            mdl.itemDisplayRuleSet = rangerIDRS;
+
+            mdl.itemDisplayRuleSet.keyAssetRuleGroups = Funny.SetItemDisplayRules().ToArray();
 
             // not sure if hgstandard has hdr emission color, but it would make the green texture pop, while still having that glow instead of being a white lightbulb with green glow
         }
