@@ -107,8 +107,6 @@ namespace Sandswept
             prodAssets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // MFS I SAID MERGE INTO OTHER ASSETS
             hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
 
-            Funny.Populate();
-
             RangerPod.Init();
             Ranger.Init();
 

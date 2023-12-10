@@ -121,10 +121,13 @@ namespace Sandswept.Survivors.Ranger
         [SystemInitializer(typeof(ItemCatalog))]
         public static void AddIDRS()
         {
+            Funny.Populate();
+
             var rangerIDRS = ScriptableObject.CreateInstance<ItemDisplayRuleSet>();
             rangerIDRS.name = "idrsRangerBody";
             mdl.itemDisplayRuleSet.keyAssetRuleGroups = null;
             mdl.itemDisplayRuleSet = null;
+            // remove previous fake not working idrs set in unity editor
             mdl.itemDisplayRuleSet = rangerIDRS;
 
             mdl.itemDisplayRuleSet.keyAssetRuleGroups = Funny.SetItemDisplayRules().ToArray();
