@@ -1,7 +1,8 @@
 # ?.?.? Patch Notes
 * Items
   * Added VFX for Fractured Timepiece
-  * Reworked Universal VIP Paws to have a chance of duplicating items from category chests
+  * Added item logs for Bleeding Witness and Ceremonial Jar
+  * Reworked Universal VIP Paws to have a chance of dropping extra items from category chests
   * Made Fractured Timepiece scale Healing and Special Cooldown Reduction with Utility Skill Base Max Stock
   * Fixed Fractured Timepiece working too well with Thermal Harpoons
 

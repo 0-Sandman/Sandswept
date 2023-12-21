@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using UnityEngine.SceneManagement;
 
 namespace Sandswept.Items.Greens
 {
@@ -13,7 +11,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Category chests have a chance to drop multiple items.";
 
-        public override string ItemFullDescription => ("Category chests have a $su" + chance + "%$se chance of dropping $su" + baseExtraItems + "$se $ss(+" + stackExtraItems + " per stack)$se $suextra items$se.").AutoFormat();
+        public override string ItemFullDescription => ("$suCategory chests$se have a $su" + chance + "%$se chance of dropping $su" + baseExtraItems + "$se $ss(+" + stackExtraItems + " per stack)$se $suextra items$se.").AutoFormat();
 
         public override string ItemLore => "Some may say the VIP stands for Very Important Paws...";
 
@@ -23,7 +21,7 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("UniVIPIcon.png");
 
-        [ConfigField("Chance", "", 50f)]
+        [ConfigField("Chance", "", 100f)]
         public static float chance;
 
         [ConfigField("Base Extra Items", "", 1)]
@@ -43,7 +41,36 @@ namespace Sandswept.Items.Greens
 
         public override void Hooks()
         {
+            // SceneDirector.onPostPopulateSceneServer += SceneDirector_onPostPopulateSceneServer;
             On.RoR2.GlobalEventManager.OnInteractionBegin += GlobalEventManager_OnInteractionBegin;
+            // Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
+        }
+
+        private void Run_onRunDestroyGlobal(Run run)
+        {
+            totalCategoryChests = 0;
+        }
+
+        public static int totalCategoryChests = 0;
+
+        private void SceneDirector_onPostPopulateSceneServer(SceneDirector sd)
+        {
+            int currentStageCategoryChests = 0;
+            var purchaseInteractions = GameObject.FindObjectsOfType<PurchaseInteraction>();
+            for (int i = 0; i < purchaseInteractions.Length; i++)
+            {
+                var purchaseInteraction = purchaseInteractions[i];
+                if (purchaseInteraction.displayNameToken.ToLower().Contains("category") || purchaseInteraction.contextToken.ToLower().Contains("category"))
+                {
+                    totalCategoryChests++;
+                    currentStageCategoryChests++;
+                }
+            }
+
+            Main.ModLogger.LogError("Stage: " + SceneManager.GetActiveScene().name);
+            Main.ModLogger.LogError("Category chests on stage: " + currentStageCategoryChests);
+            Main.ModLogger.LogError("Category chests this run: " + totalCategoryChests);
+            Main.ModLogger.LogError("You would get this many items on average with a chance of " + chance + "%: " + (totalCategoryChests * (chance / 100f)));
         }
 
         private void GlobalEventManager_OnInteractionBegin(On.RoR2.GlobalEventManager.orig_OnInteractionBegin orig, GlobalEventManager self, Interactor interactor, IInteractable interactable, GameObject interactableObject)
@@ -80,7 +107,10 @@ namespace Sandswept.Items.Greens
 
                                     chestBehavior.dropCount = 1 + extraItemCount;
 
-                                    if (Random.Range(0f, 100f) >= 99f)
+                                    AkSoundEngine.PostEvent(Events.Play_UI_commandHUD_select, chestBehavior.gameObject);
+                                    AkSoundEngine.PostEvent(Events.Play_UI_commandHUD_select, chestBehavior.gameObject);
+
+                                    if (Random.Range(0f, 100f) >= 96f)
                                     {
                                         Chat.AddMessage("<style=cIsDamage>Developer 1</style>: Universal VIP Paws :3 x3 OwO UwU :3 <3");
                                         Chat.AddMessage("<style=cIsUtility>Developer 2</style>: What???");
