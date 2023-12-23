@@ -68,7 +68,7 @@ namespace Sandswept.Survivors.Ranger.Pod
         {
             var trimmedName = name.Replace(" ", "");
             var rangerPodMat = Object.Instantiate(Assets.Material.matEscapePod);
-            rangerPodMat.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRangerPod" + trimmedName + ".png"));
+            rangerPodMat.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("texRangerPod" + trimmedName + ".png"));
             rangerPodMat.SetColor("_Color", Color.white);
             rangerPodMat.SetFloat("_Smoothness", 0.5f);
             rangerPodMat.SetFloat("_SpecularExponent", 1.082716f);

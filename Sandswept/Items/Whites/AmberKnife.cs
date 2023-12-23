@@ -22,9 +22,9 @@ namespace Sandswept.Items.Whites
 
         public override ItemTier Tier => ItemTier.Tier1;
 
-        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/AmberKnifeHolder.prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("AmberKnifeHolder.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texAmberKnife.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texAmberKnife.png");
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility, ItemTag.Healing };
 
@@ -65,10 +65,10 @@ namespace Sandswept.Items.Whites
             var mesh = amberKnifeGhost.transform.GetChild(0);
 
             var mf = mesh.GetComponent<MeshFilter>(); // couldnt resist naming it mf
-            mf.mesh = Main.hifuSandswept.LoadAsset<Mesh>("Assets/Sandswept/AmberKnifeMesh.fbx");
+            mf.mesh = Main.hifuSandswept.LoadAsset<Mesh>("AmberKnifeMesh.fbx");
 
             var meshRenderer = mesh.GetComponent<MeshRenderer>();
-            meshRenderer.material = Main.hifuSandswept.LoadAsset<Material>("Assets/Sandswept/matAmberKnife.mat");
+            meshRenderer.material = Main.hifuSandswept.LoadAsset<Material>("matAmberKnife.mat");
 
             amberKnifeProjectile = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Bandit2/Bandit2ShivProjectile.prefab").WaitForCompletion(), "Amber Knife Projectile", true);
 

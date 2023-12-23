@@ -17,7 +17,7 @@ namespace Sandswept.Equipment
 
         public override GameObject EquipmentModel => prodAssets.LoadAsset<GameObject>("assets/sandswept/sandsweeper.fbx");
 
-        public override Sprite EquipmentIcon => hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texSandSweeper.png");
+        public override Sprite EquipmentIcon => hifuSandswept.LoadAsset<Sprite>("texSandSweeper.png");
         public override float Cooldown => 30f;
 
         [ConfigField("Sweep Radius", "", 20f)]

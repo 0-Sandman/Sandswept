@@ -24,7 +24,7 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
         public override bool Agile => true;
         public override bool FullRestockOnAssign => true;
 
-        public override Sprite Icon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texHeatSignature.png");
+        public override Sprite Icon => Main.hifuSandswept.LoadAsset<Sprite>("texHeatSignature.png");
         public override string[] Keywords => new string[] { Utils.Keywords.Agile, Utils.Keywords.Stun };
 
         public override void CreateSkillDef()

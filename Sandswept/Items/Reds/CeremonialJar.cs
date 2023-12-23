@@ -18,9 +18,9 @@ namespace Sandswept.Items.Reds
 
         public override ItemTier Tier => ItemTier.Tier3;
 
-        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/CeremonialJarHolder.prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("CeremonialJarHolder.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texCeremonialJar.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texCeremonialJar.png");
 
         public override string ItemName => "Ceremonial Jar";
 
@@ -63,12 +63,12 @@ namespace Sandswept.Items.Reds
             CereJarLinkedBuff = ScriptableObject.CreateInstance<BuffDef>();
             CereJarLinkedBuff.name = "Ceremonial Jar Link";
             CereJarLinkedBuff.canStack = false;
-            CereJarLinkedBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texGaySex.png");
+            CereJarLinkedBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texGaySex.png");
 
             CereJarCDBuff = ScriptableObject.CreateInstance<BuffDef>();
             CereJarCDBuff.name = "Ceremonial Jar Cooldown";
             CereJarCDBuff.canStack = false;
-            CereJarCDBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texLesbianFurry.png");
+            CereJarCDBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texLesbianFurry.png");
 
             ContentAddition.AddBuffDef(CereJarLinkedBuff);
             ContentAddition.AddBuffDef(CereJarCDBuff);

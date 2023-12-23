@@ -158,7 +158,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var newMat2 = Object.Instantiate(Assets.Material.matMageMatrixDirectionalLightning);
             newMat2.SetColor("_TintColor", tintColor);
-            newMat2.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampDirectCurrentMatrix" + trimmedName + ".png"));
+            newMat2.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("texRampDirectCurrentMatrix" + trimmedName + ".png"));
 
             matrixDPSR.material = newMat2;
 
@@ -189,7 +189,7 @@ namespace Sandswept.Survivors.Ranger.VFX
             var newMat = Object.Instantiate(Assets.Material.matLightningSphere);
 
             newMat.SetColor("_TintColor", darkGreenEquivalent);
-            newMat.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampDirectCurrentImpact" + trimmedName + ".png"));
+            newMat.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("texRampDirectCurrentImpact" + trimmedName + ".png"));
             newMat.SetFloat("_AlphaBoost", alphaBoost);
             newMat.SetFloat("_AlphaBias", alphaBias);
 
@@ -219,8 +219,8 @@ namespace Sandswept.Survivors.Ranger.VFX
             Main.ModLogger.LogDebug(ghost.transform);
             Main.ModLogger.LogDebug(ghost.transform.GetChild(0));
 
-            var ramp = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampDirectCurrent" + trimmedName + ".png");
-            var fresnel = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampDirectCurrentFresnel" + trimmedName + ".png");
+            var ramp = Main.hifuSandswept.LoadAsset<Texture2D>("texRampDirectCurrent" + trimmedName + ".png");
+            var fresnel = Main.hifuSandswept.LoadAsset<Texture2D>("texRampDirectCurrentFresnel" + trimmedName + ".png");
 
             var green = saturatedAquaEquivalent;
 

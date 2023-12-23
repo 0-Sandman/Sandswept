@@ -103,7 +103,7 @@
 
             var newMat3 = Object.Instantiate(Assets.Material.matHuntressSwingTrail);
 
-            var p2 = "Assets/Sandswept/texRampGay";
+            var p2 = "texRampGay";
 
             var p2_2 = altRamp ? "2.png" : ".png";
 

@@ -24,7 +24,7 @@ namespace Sandswept.Items.Greens
 
         public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("MakeshiftPlatePrefab.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texMakeshiftPlate.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texMakeshiftPlate.png");
 
         public override void Init(ConfigFile config)
         {
@@ -153,7 +153,7 @@ namespace Sandswept.Items.Greens
                     imageType = Image.Type.Tiled,
                     color = Color.white,
                     // color = new Color32(255, 105, 95, 200),
-                    sprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texMakeshiftPlateHealthbar.png")
+                    sprite = Main.hifuSandswept.LoadAsset<Sprite>("texMakeshiftPlateHealthbar.png")
                 };
             }
         }

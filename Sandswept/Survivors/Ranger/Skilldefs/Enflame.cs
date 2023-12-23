@@ -15,7 +15,7 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
 
         public override float Cooldown => 0f;
 
-        public override Sprite Icon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texOverdriveFire.png");
+        public override Sprite Icon => Main.hifuSandswept.LoadAsset<Sprite>("texOverdriveFire.png");
         public override string[] Keywords => new string[] { Utils.Keywords.Agile };
         public override bool Agile => true;
         public override int StockToConsume => 0;

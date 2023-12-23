@@ -16,7 +16,7 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
 
         public override float Cooldown => 4f;
 
-        public override Sprite Icon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texExhaust.png");
+        public override Sprite Icon => Main.hifuSandswept.LoadAsset<Sprite>("texExhaust.png");
         public override InterruptPriority InterruptPriority => InterruptPriority.Skill;
 
         public override string[] Keywords => new string[] { Utils.Keywords.Ignite };

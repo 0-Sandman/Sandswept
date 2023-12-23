@@ -26,7 +26,7 @@ namespace Sandswept.Survivors.Ranger
 
             Body = Main.Assets.LoadAsset<GameObject>("RangerBody.prefab");
             var characterBody = Body.GetComponent<CharacterBody>();
-            characterBody.portraitIcon = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRangerIcon.png");
+            characterBody.portraitIcon = Main.hifuSandswept.LoadAsset<Texture2D>("texRangerIcon.png");
             characterBody.bodyColor = new Color32(54, 215, 169, 255);
 
             var networkIdentity = Body.GetComponent<NetworkIdentity>();
@@ -51,7 +51,7 @@ namespace Sandswept.Survivors.Ranger
             var rectTransform = innerSight.GetComponent<RectTransform>();
             rectTransform.localScale = Vector3.one * 0.43f;
             var rawImage = innerSight.GetComponent<RawImage>();
-            rawImage.texture = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texProjectileCrosshair6.png");
+            rawImage.texture = Main.hifuSandswept.LoadAsset<Texture2D>("texProjectileCrosshair6.png");
 
             var outerCircle = crosshair.transform.GetChild(0);
             outerCircle.gameObject.SetActive(true);
@@ -206,8 +206,8 @@ namespace Sandswept.Survivors.Ranger
         public SkinDef CreateRecolor(string skinName, float emissionValue = 2.5f, bool unlockable = false, string unlockDesc = "ugh fill me")
         {
             var trimmedName = skinName.Replace(" ", "");
-            var mainTex = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRangerDiffuse" + trimmedName + ".png");
-            var emTex = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRangerEmission" + trimmedName + ".png");
+            var mainTex = Main.hifuSandswept.LoadAsset<Texture2D>("texRangerDiffuse" + trimmedName + ".png");
+            var emTex = Main.hifuSandswept.LoadAsset<Texture2D>("texRangerEmission" + trimmedName + ".png");
 
             var scarfAndPantsColor = mainTex.GetPixel(272, 265);
             var helmetColor = mainTex.GetPixel(444, 168);

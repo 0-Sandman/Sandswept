@@ -20,9 +20,9 @@ namespace Sandswept.Items.Greens
 
         public override ItemTier Tier => ItemTier.Tier2;
 
-        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/PocketPlutoniumHolder.Prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("PocketPlutoniumHolder.Prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texPocketPlutonium.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texPocketPlutonium.png");
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility, ItemTag.BrotherBlacklist, ItemTag.AIBlacklist };
 
@@ -171,7 +171,7 @@ namespace Sandswept.Items.Greens
             pocketPlutoniumRecharge.canStack = false;
             pocketPlutoniumRecharge.buffColor = new Color32(115, 204, 71, 255);
             pocketPlutoniumRecharge.isHidden = true;
-            pocketPlutoniumRecharge.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texProtogen3.png");
+            pocketPlutoniumRecharge.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texProtogen3.png");
 
             ContentAddition.AddBuffDef(pocketPlutoniumRecharge);
 
@@ -199,7 +199,7 @@ namespace Sandswept.Items.Greens
 
             var radiusIndicator = fx2.GetChild(0).GetComponent<MeshRenderer>();
 
-            radiusIndicator.material = Main.hifuSandswept.LoadAsset<Material>("Assets/Sandswept/matPocketPlutoniumPool.mat");
+            radiusIndicator.material = Main.hifuSandswept.LoadAsset<Material>("matPocketPlutoniumPool.mat");
 
             var hitbox1 = fx2.GetChild(3);
 

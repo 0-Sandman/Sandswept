@@ -58,7 +58,7 @@ namespace Sandswept.Items.Greens
             SmoulderingDocumentDebuff.buffColor = new Color32(245, 153, 80, 255);
             SmoulderingDocumentDebuff.canStack = false;
             SmoulderingDocumentDebuff.isDebuff = true;
-            SmoulderingDocumentDebuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texBuffBurdened.png");
+            SmoulderingDocumentDebuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffBurdened.png");
             ContentAddition.AddBuffDef(SmoulderingDocumentDebuff);
         }
 

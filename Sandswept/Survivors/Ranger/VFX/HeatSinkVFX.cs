@@ -84,7 +84,7 @@
 
             var newMat = Object.Instantiate(Assets.Material.matMageFlamethrower);
             newMat.SetColor("_TintColor", Color.white);
-            newMat.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampHeatSink" + trimmedName + ".png"));
+            newMat.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("texRampHeatSink" + trimmedName + ".png"));
             newMat.SetFloat("_AlphaBias", 0.38f);
             newMat.SetFloat("_AlphaBoost", 0.5693459f);
 
@@ -149,7 +149,7 @@
             var omniDirectionals = trans.GetChild(0).GetComponent<ParticleSystemRenderer>();
 
             var newMat = Object.Instantiate(Assets.Material.matOmniHitspark3Gasoline);
-            newMat.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampHeatSink" + trimmedName + ".png"));
+            newMat.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("texRampHeatSink" + trimmedName + ".png"));
             newMat.SetFloat("_AlphaBoost", 0.9377567f);
             newMat.SetFloat("_AlphaBias", 0.2189533f);
             newMat.SetFloat("_Boost", 4f);

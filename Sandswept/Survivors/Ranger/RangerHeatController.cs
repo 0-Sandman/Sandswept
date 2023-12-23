@@ -190,10 +190,10 @@ namespace Sandswept.Survivors.Ranger
             heatMeterBackdrop = transform.GetChild(0).GetChild(0);
 
             image = heatMeter.GetComponent<Image>();
-            image.sprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texHeatMeter.png");
+            image.sprite = Main.hifuSandswept.LoadAsset<Sprite>("texHeatMeter.png");
 
             backdropImage = heatMeterBackdrop.GetComponent<Image>();
-            backdropImage.sprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texHeatMeterOutline.png");
+            backdropImage.sprite = Main.hifuSandswept.LoadAsset<Sprite>("texHeatMeterOutline.png");
 
             element = GetComponent<HudElement>();
             ifc = GetComponentInChildren<ImageFillController>();

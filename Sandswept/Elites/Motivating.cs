@@ -19,11 +19,11 @@ namespace Sandswept.Elites
 
         public override GameObject EliteEquipmentModel => CreateAffixModel(new Color32(255, 131, 20, 255));
 
-        public override Sprite EliteEquipmentIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texMotivatorAffix.png");
+        public override Sprite EliteEquipmentIcon => Main.hifuSandswept.LoadAsset<Sprite>("texMotivatorAffix.png");
 
-        public override Sprite EliteBuffIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texMotivatorBuff2.png");
+        public override Sprite EliteBuffIcon => Main.hifuSandswept.LoadAsset<Sprite>("texMotivatorBuff2.png");
 
-        public override Texture2D EliteRampTexture => Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampMotivator.png");
+        public override Texture2D EliteRampTexture => Main.hifuSandswept.LoadAsset<Texture2D>("texRampMotivator.png");
 
         public override float DamageMultiplier => 2f;
         public override float HealthMultiplier => 4f;
@@ -70,7 +70,7 @@ namespace Sandswept.Elites
             wrbnnerBuff.isCooldown = false;
             wrbnnerBuff.isDebuff = false;
             wrbnnerBuff.iconSprite = Assets.BuffDef.bdWarbanner.iconSprite;
-            wrbnnerBuff.buffColor = Assets.BuffDef.bdWarbanner.buffColor;
+            wrbnnerBuff.buffColor = new Color32(240, 35, 89, 255);
 
             warcryBuff = ScriptableObject.CreateInstance<BuffDef>();
             warcryBuff.isHidden = false;
@@ -142,7 +142,7 @@ namespace Sandswept.Elites
 
             var plane = mdlWarbanner.GetChild(1).GetComponent<SkinnedMeshRenderer>();
             var newMat2 = Object.Instantiate(Assets.Material.matWarbannerFlag);
-            newMat2.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texMotivatorWarbanner.png"));
+            newMat2.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("texMotivatorWarbanner.png"));
 
             plane.material = newMat2;
 

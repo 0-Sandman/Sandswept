@@ -19,9 +19,9 @@ namespace Sandswept.Items.Greens
 
         public override ItemTier Tier => ItemTier.Tier2;
 
-        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/NuclearSalvoHolder.prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("NuclearSalvoHolder.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texNuclearSalvo.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texNuclearSalvo.png");
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.BrotherBlacklist, ItemTag.AIBlacklist };
 
@@ -48,7 +48,7 @@ namespace Sandswept.Items.Greens
 
         public static GameObject missilePrefab;
 
-        // for salvo display you can instantiate Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/NuclearSalvo.prefab");
+        // for salvo display you can instantiate Main.hifuSandswept.LoadAsset<GameObject>("NuclearSalvo.prefab");
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
@@ -162,7 +162,7 @@ namespace Sandswept.Items.Greens
 
             var atgMat = Object.Instantiate(Assets.Material.matMissile);
             // atgMat.SetColor("_Color", new Color32(224, 94, 94, 255));
-            atgMat.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texNuclearSalvoMissile.png"));
+            atgMat.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("texNuclearSalvoMissile.png"));
             atgMat.EnableKeyword("DITHER");
             atgMat.EnableKeyword("FADECLOSE");
             meshRenderer.sharedMaterial = atgMat;

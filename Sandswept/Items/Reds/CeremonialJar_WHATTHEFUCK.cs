@@ -30,11 +30,9 @@ namespace Sandswept.Items.Reds
 
         public override ItemTier Tier => ItemTier.Tier3;
 
-        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/CeremonialJarHolder.prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("CeremonialJarHolder.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texCeremonialJar.png");
-
-        
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texCeremonialJar.png");
 
         public static List<CharacterBody> list = new();
 
@@ -127,7 +125,7 @@ namespace Sandswept.Items.Reds
             CeremonialDef.name = "Linked";
             CeremonialDef.canStack = false;
             CeremonialDef.isDebuff = true;
-            CeremonialDef.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texGaySex.png");
+            CeremonialDef.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texGaySex.png");
             CeremonialDef.buffColor = new Color32(244, 255, 221, 255);
             ContentAddition.AddBuffDef(CeremonialDef);
             // BuffCatalog.buffDefs.AddItem(CeremonialDef);
@@ -138,7 +136,7 @@ namespace Sandswept.Items.Reds
             CeremonialCooldown.canStack = false;
             CeremonialCooldown.isDebuff = false;
             CeremonialCooldown.isCooldown = true;
-            CeremonialCooldown.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texLesbianFurry.png");
+            CeremonialCooldown.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texLesbianFurry.png");
             ContentAddition.AddBuffDef(CeremonialCooldown);
             // BuffCatalog.buffDefs.AddItem(CeremonialCooldown);
         }
@@ -215,7 +213,6 @@ namespace Sandswept.Items.Reds
                 return;
             }
 
-
             var attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
             var victimBody = victim.GetComponent<CharacterBody>();
 
@@ -237,14 +234,13 @@ namespace Sandswept.Items.Reds
                         token.timer = 3f;
                     }
                 }
-                
+
                 if (stacks > 0 && victim.GetComponent<JarToken>())
                 {
                     var token = GetToken(victimBody);
                     token.timer = 3f;
                     victimBody.AddTimedBuff(CeremonialDef, 3f, 1);
                 }
-                
 
                 // so commenting this makes it properly reapply the buff but makes it do no damage guhhh
                 // if uncommented, it's jank, the damage works fine but every enemy has at least a 3s cooldown, extended whenever you hit them so it feels pretty awful

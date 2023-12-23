@@ -102,7 +102,7 @@
             // particleSystemRenderer.material = newMat2;
 
             var newMat3 = Object.Instantiate(Assets.Material.matHuntressSwingTrail);
-            newMat3.SetTexture("_RemapTex", altRamp ? Assets.Texture2D.texRampBandit : Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampGay.png"));
+            newMat3.SetTexture("_RemapTex", altRamp ? Assets.Texture2D.texRampBandit : Main.hifuSandswept.LoadAsset<Texture2D>("texRampGay.png"));
             newMat3.SetColor("_TintColor", tintColor);
             newMat3.SetFloat("_SoftFactor", 0.8866442f);
             newMat3.SetFloat("_Boost", brightnessBoost);

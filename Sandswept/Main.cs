@@ -149,7 +149,7 @@ namespace Sandswept
             powerElixirGlassMat.SetFloat("_AlphaBoost", 1.147384f);
             powerElixirGlassMat.SetFloat("IntersectionStrength", 1f);
 
-            var redSpringWaterHolder = hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/RedSpringWaterHolder.prefab");
+            var redSpringWaterHolder = hifuSandswept.LoadAsset<GameObject>("RedSpringWaterHolder.prefab");
             var model = redSpringWaterHolder.transform.GetChild(0);
             var jarMr = model.GetChild(0).GetComponent<MeshRenderer>();
             jarMr.material = powerElixirGlassMat;

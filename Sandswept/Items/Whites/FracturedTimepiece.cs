@@ -17,9 +17,9 @@ namespace Sandswept.Items.Whites
 
         public override ItemTier Tier => ItemTier.Tier1;
 
-        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/FracturedTimepieceHolder.prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("FracturedTimepieceHolder.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texFracturedTimepiece.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texFracturedTimepiece.png");
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Healing, ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
 

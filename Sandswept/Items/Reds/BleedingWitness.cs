@@ -17,9 +17,9 @@ namespace Sandswept.Items.Reds
 
         public override ItemTier Tier => ItemTier.Tier3;
 
-        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/BleedingWitnessHolder.prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("BleedingWitnessHolder.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texBleedingWitness.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texBleedingWitness.png");
 
         [ConfigField("Hemorrhage Chance", "", 5f)]
         public static float hemorrhageChance;
