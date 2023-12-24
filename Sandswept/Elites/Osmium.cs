@@ -20,7 +20,7 @@ namespace Sandswept.Elites
 
         public override string EliteModifier => "Osmium";
 
-        public override GameObject EliteEquipmentModel => CreateAffixModel(new Color32(104, 25, 200, 255));
+        public override GameObject EliteEquipmentModel => CreateAffixModel(new Color32(110, 64, 255, 255));
 
         public override Sprite EliteEquipmentIcon => Main.hifuSandswept.LoadAsset<Sprite>("texOsmiumAffix.png");
 
@@ -35,13 +35,14 @@ namespace Sandswept.Elites
 
         public override CombatDirector.EliteTierDef[] CanAppearInEliteTiers => EliteAPI.GetCombatDirectorEliteTiers().Where(x => x.eliteTypes.Contains(Addressables.LoadAssetAsync<EliteDef>("RoR2/Base/ElitePoison/edPoison.asset").WaitForCompletion())).ToArray();
 
-        public override Color EliteBuffColor => new Color32(104, 25, 200, 255);
+        public override Color EliteBuffColor => new Color32(110, 64, 255, 255);
 
         public static GameObject aura;
         public static BuffDef outsideAura;
         public static BuffDef insideAura;
         public static BuffDef noJump;
         public static GameObject groundVFX;
+        public static GameObject distortionVFX;
 
         public override void Init(ConfigFile config)
         {
@@ -68,6 +69,22 @@ namespace Sandswept.Elites
 
         public override void Hooks()
         {
+            distortionVFX = PrefabAPI.InstantiateClone(Assets.GameObject.TreebotShockwavePullEffect, "Osmium Pull Down Distortion VFX", false);
+
+            var transform = distortionVFX.transform;
+            var pollenSingle = transform.GetChild(1);
+            var pollenDust = transform.GetChild(2);
+            var pollenRadial = transform.GetChild(3);
+            var pollenSingle2 = transform.GetChild(4);
+            var distortionWave2 = transform.GetChild(7).GetComponent<ParticleSystem>().main.startColor;
+            pollenSingle.gameObject.SetActive(false);
+            pollenDust.gameObject.SetActive(false);
+            pollenRadial.gameObject.SetActive(false);
+            pollenSingle2.gameObject.SetActive(false);
+            distortionWave2.color = new Color32(110, 64, 255, 255);
+
+            ContentAddition.AddEffect(distortionVFX);
+
             groundVFX = PrefabAPI.InstantiateClone(Assets.GameObject.PurchaseLockVoid, "Osmium Pull Down VFX", false);
 
             groundVFX.RemoveComponent<NetworkIdentity>();
@@ -97,7 +114,7 @@ namespace Sandswept.Elites
             noJump.canStack = false;
             noJump.isHidden = false;
             noJump.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffOsmiumGravity.png");
-            noJump.buffColor = new Color32(104, 25, 200, 255);
+            noJump.buffColor = new Color32(110, 64, 255, 255);
             noJump.name = "Osmium - Jump Disabled";
 
             outsideAura = ScriptableObject.CreateInstance<BuffDef>();
@@ -151,7 +168,7 @@ namespace Sandswept.Elites
             emission.rateOverTime = 60f;
 
             var newMat2 = Object.Instantiate(Assets.Material.matRailgunTracerHead1);
-            newMat.SetColor("_TintColor", new Color32(0, 0, 0, 255));
+            newMat2.SetColor("_TintColor", Color.black);
 
             psr.material = newMat2;
 

@@ -21,6 +21,8 @@ using Sandswept.Survivors.Ranger.Crosshairs;
 using Sandswept.Survivors.Ranger.Pod;
 using HarmonyLib;
 using Sandswept.Elites.VFX;
+using RoR2.ExpansionManagement;
+using Sandswept.Interactables;
 
 // using Sandswept.Survivors.Ranger.ItemDisplays;
 
@@ -52,6 +54,8 @@ namespace Sandswept
         public static AssetBundle hifuSandswept;
 
         public static ModdedDamageType HeatSelfDamage = ReserveDamageType();
+
+        public static ExpansionDef SOTV;
 
         public static Dictionary<string, string> ShaderLookup = new()
     {
@@ -88,6 +92,8 @@ namespace Sandswept
         private void Awake()
         {
             var stopwatch = Stopwatch.StartNew();
+
+            SOTV = Utils.Assets.ExpansionDef.DLC1;
 
             ModLogger = Logger;
 
@@ -223,6 +229,7 @@ namespace Sandswept
 
             ScanTypes<SkillBase>((x) => x.Init());
             ScanTypes<SurvivorBase>((x) => x.Init());
+            ScanTypes<InteractableBase>((x) => x.Init());
 
             new ContentPacks().Initialize();
 
@@ -315,6 +322,18 @@ namespace Sandswept
             buffList.Add(buff);
 
             return true;
+        }
+
+        public bool ValidateInteractable(InteractableBase interactable, List<InteractableBase> interactableList)
+        {
+            var enabled = InteractableBase.DefaultEnabledCallback(interactable);
+
+            if (enabled)
+            {
+                interactableList.Add(interactable);
+                return true;
+            }
+            return false;
         }
 
         public void SwapAllShaders(AssetBundle bundle)

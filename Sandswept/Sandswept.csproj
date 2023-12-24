@@ -15,22 +15,15 @@
 		<PackageReference Include="MMHOOK.RoR2" Version="2022.9.20">
 			<NoWarn>NU1701</NoWarn>
 		</PackageReference>
-		<PackageReference Include="R2API.ContentManagement" Version="1.0.1" />
-		<PackageReference Include="R2API.Core" Version="5.0.6" />
-		<PackageReference Include="R2API.DamageType" Version="1.0.3" />
-		<PackageReference Include="R2API.Dot" Version="1.0.0" />
-		<PackageReference Include="R2API.Elites" Version="1.0.1" />
-		<PackageReference Include="R2API.Items" Version="1.0.1" />
-		<PackageReference Include="R2API.Language" Version="1.0.0" />
-		<PackageReference Include="R2API.Skins" Version="1.0.0" />
-		<PackageReference Include="R2API.Networking" Version="1.0.2" />
-		<PackageReference Include="R2API.Prefab" Version="1.0.1" />
-		<PackageReference Include="R2API.RecalculateStats" Version="1.2.0" />
 		<PackageReference Include="RiskOfRain2.GameLibs" Version="1.2.4-r.0" />
+		<PackageReference Include="R2API" Version="*" />
+		<PackageReference Include="UnityEngine.Modules" Version="2019.4.26" />
+		<PackageReference Include="MMHOOK.RoR2" Version="*" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="Components\" />
+	  <Folder Include="Interactables\Void\" />
 	</ItemGroup>
 
 	<ItemGroup>

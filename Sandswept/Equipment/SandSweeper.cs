@@ -2,7 +2,7 @@
 
 namespace Sandswept.Equipment
 {
-    [ConfigSection("Equipment: The Sand Sweeper")]
+    [ConfigSection("Equipment :: The Sand Sweeper")]
     public class SandSweeper : EquipmentBase
     {
         public override string EquipmentName => "The Sand Sweeper";
