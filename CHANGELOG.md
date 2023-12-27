@@ -5,6 +5,7 @@
   * Reworked Universal VIP Paws to have a chance of dropping extra items from category chests
   * Made Fractured Timepiece scale Healing and Special Cooldown Reduction with Utility Skill Base Max Stock
   * Fixed Fractured Timepiece working too well with Thermal Harpoons
+  * Optimized Nuclear Salvo
 
 # 0.8.1 Patch Notes
 * Items

@@ -2,10 +2,10 @@
 
 namespace Sandswept.Interactables.Regular
 {
-    [ConfigSection("Interactables :: Shrine of the Mountain")]
+    [ConfigSection("Interactables :: Shrine of the Void")]
     internal class ShrineOfTheFuture : InteractableBase
     {
-        public override string Name => "Shrine of the Mountain";
+        public override string Name => "Shrine of the Void";
 
         public override DirectorAPI.InteractableCategory Category => InteractableCategory.Shrines;
 
@@ -36,7 +36,7 @@ namespace Sandswept.Interactables.Regular
             var purchaseInteraction = prefab.GetComponent<PurchaseInteraction>();
             purchaseInteraction.displayNameToken = "SANDSWEPT_SHRINE_FUTURE_NAME";
             purchaseInteraction.contextToken = "SANDSWEPT_SHRINE_FUTURE_CONTEXT";
-            purchaseInteraction.onPurchase.AddListener(delegate { EnableCombatDirector(prefab); });
+            // purchaseInteraction.onPurchase.AddListener(delegate { EnableCombatDirector(prefab); });
 
             var genericDisplayNameProvider = prefab.GetComponent<GenericDisplayNameProvider>();
             genericDisplayNameProvider.displayToken = "SANDSWEPT_SHRINE_FUTURE_NAME";
@@ -49,7 +49,7 @@ namespace Sandswept.Interactables.Regular
             combatDirector.maximumNumberToSpawnBeforeSkipping = 1;
             combatDirector.skipSpawnIfTooCheap = true;
             combatDirector.shouldSpawnOneWave = true;
-            combatDirector.spawnDistanceMultiplier = 0.75f;
+            combatDirector.spawnDistanceMultiplier = 0.66f;
             combatDirector.goldRewardCoefficient = 0f;
             combatDirector.customName = "ShrineOfTheFutureDirector";
 
@@ -118,6 +118,12 @@ namespace Sandswept.Interactables.Regular
             // we're gonna cheat a bit hehe
             if (self.customName == "ShrineOfTheFutureDirector")
             {
+                Main.ModLogger.LogError("elite tier at index 0 is " + eliteTiers[0]);
+                Main.ModLogger.LogError("elite tier at index 1 is " + eliteTiers[1]);
+                Main.ModLogger.LogError("elite tier at index 2 is " + eliteTiers[2]);
+                Main.ModLogger.LogError("random elite from index 0 is " + eliteTiers[0].GetRandomAvailableEliteDef(self.rng));
+                Main.ModLogger.LogError("random elite from index 1 is " + eliteTiers[1].GetRandomAvailableEliteDef(self.rng));
+                Main.ModLogger.LogError("random elite from index 2 is " + eliteTiers[2].GetRandomAvailableEliteDef(self.rng));
                 eliteDef = eliteTiers[2].GetRandomAvailableEliteDef(self.rng); // always t2
             }
             return orig(self, spawnCard, eliteDef, spawnTarget, spawnDistance, preventOverhead, valueMultiplier, placementMode);

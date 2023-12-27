@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using static RoR2.MasterSummon;
 
 namespace Sandswept.Items.Greens
 {
@@ -183,27 +184,59 @@ namespace Sandswept.Items.Greens
 
             ContentAddition.AddNetworkedObject(SalvoPrefab);
 
-            On.RoR2.CharacterBody.RecalculateStats += GiveItem;
-            On.RoR2.CharacterBody.OnInventoryChanged += RecheckItems;
+            // On.RoR2.CharacterBody.RecalculateStats += GiveItem;
+            // On.RoR2.CharacterBody.OnInventoryChanged += RecheckItems;
+            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
         }
 
+        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
+        {
+            if (!body.isPlayerControlled)
+            {
+                return;
+            }
+
+            var inventory = body.inventory;
+            if (!inventory)
+            {
+                return;
+            }
+
+            var stack = inventory.GetItemCount(ItemDef);
+            body.AddItemBehavior<SalvoPlayerController>(stack);
+            Main.ModLogger.LogError("oninventorychagned: giving itembehavior");
+        }
+
+        /*
         public void GiveItem(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
         {
             orig(self);
-            if (NetworkServer.active && self.isPlayerControlled && self.inventory.GetItemCount(ItemDef) > 0)
+            if (NetworkServer.active && self.isPlayerControlled)
             {
-                // Main.ModLogger.LogError("has salvo");
-                List<CharacterMaster> masters = CharacterMaster.readOnlyInstancesList.Where(x => x.minionOwnership && x.minionOwnership.ownerMaster == self.master).ToList();
-
-                foreach (CharacterMaster cm in masters)
+                var stack = self.inventory.GetItemCount(ItemDef);
+                if (stack > 0)
                 {
-                    // Main.ModLogger.LogError("iterating through all masters where owner is me >w< :fuwwy: OwO UwU <3 <3 :3 :3");
-                    if (cm.inventory.GetItemCount(ItemDef) < self.inventory.GetItemCount(ItemDef))
+                    for (int i = 0; i < CharacterMaster.readOnlyInstancesList.Count; i++)
                     {
-                        // Main.ModLogger.LogError("giving salvo to drone");
-                        cm.inventory.ResetItem(ItemDef);
-                        cm.inventory.GiveItem(ItemDef, self.inventory.GetItemCount(ItemDef));
-                        cm.GetBody().AddComponent<SalvoBehaviour>();
+                        var master = CharacterMaster.readOnlyInstancesList[i];
+                        if (!master.inventory)
+                        {
+                            continue;
+                        }
+
+                        if (master.inventory.GetItemCount(ItemDef) < stack)
+                        {
+                            master.inventory.ResetItem(ItemDef);
+                            master.inventory.GiveItem(ItemDef, stack);
+                        }
+
+                        var body = master.GetBody();
+                        if (!body)
+                        {
+                            continue;
+                        }
+
+                        body.AddComponent<SalvoBehaviour>();
                     }
                 }
             }
@@ -215,19 +248,132 @@ namespace Sandswept.Items.Greens
 
             if (NetworkServer.active && self.isPlayerControlled && self.inventory.GetItemCount(ItemDef) == 0)
             {
-                List<CharacterMaster> masters = CharacterMaster.readOnlyInstancesList.Where(x => x.minionOwnership && x.minionOwnership.ownerMaster == self.master).ToList();
-
-                foreach (CharacterMaster cm in masters)
+                for (int i = 0; i < CharacterMaster.readOnlyInstancesList.Count; i++)
                 {
-                    // Main.ModLogger.LogError("removing salvo from drone");
-                    cm.inventory.RemoveItem(ItemDef, cm.inventory.GetItemCount(ItemDef));
-                    var body = cm.GetBody();
-                    if (body)
+                    var master = CharacterMaster.readOnlyInstancesList[i];
+                    if (!master.minionOwnership)
                     {
-                        body.RemoveComponent<SalvoBehaviour>();
+                        continue;
                     }
+
+                    if (master.minionOwnership.ownerMaster != self.master)
+                    {
+                        continue;
+                    }
+
+                    master.inventory.RemoveItem(ItemDef, master.inventory.GetItemCount(ItemDef));
+                    var body = master.GetBody();
+                    if (!body)
+                    {
+                        continue;
+                    }
+
+                    body.RemoveComponent<SalvoBehaviour>();
                 }
             }
+        }
+        */
+    }
+
+    public class SalvoPlayerController : CharacterBody.ItemBehavior
+    {
+        public CharacterMaster master;
+
+        public void Start()
+        {
+            master = body.master;
+            body.onInventoryChanged += Body_onInventoryChanged;
+        }
+
+        private void Body_onInventoryChanged()
+        {
+            var group = master.minionOwnership.group;
+            Main.ModLogger.LogError("minion ownership is " + master.minionOwnership);
+            Main.ModLogger.LogError("group is " + group);
+            Main.ModLogger.LogError("group member count is " + group.memberCount);
+            for (int i = 0; i < group.memberCount; i++)
+            {
+                var member = group.members[i];
+                var npcAlly = member.GetComponent<CharacterMaster>();
+                if (!npcAlly)
+                {
+                    Main.ModLogger.LogError("couldnt get member master");
+                    continue;
+                }
+
+                var npcBody = npcAlly.GetBody();
+                if (!npcBody)
+                {
+                    Main.ModLogger.LogError("couldnt get member body");
+                    continue;
+                }
+
+                if (npcBody && (body.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
+                {
+                    Main.ModLogger.LogError("member is mechanical");
+                    var salvo = npcAlly.GetComponent<SalvoBehaviour>();
+                    if (salvo == null)
+                    {
+                        npcAlly.AddComponent<SalvoBehaviour>();
+                    }
+                    npcBody.inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
+                    npcBody.inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
+                }
+            }
+        }
+
+        public void OnEnable()
+        {
+            if (NetworkServer.active)
+            {
+                Main.ModLogger.LogError("subscribinbingign to master summon");
+                onServerMasterSummonGlobal += MasterSummon_onServerMasterSummonGlobal;
+            }
+        }
+
+        private void MasterSummon_onServerMasterSummonGlobal(MasterSummonReport masterSummonReport)
+        {
+            if (!master)
+            {
+                Main.ModLogger.LogError("master summon: master is not real");
+                return;
+            }
+
+            if (master != masterSummonReport.leaderMasterInstance)
+            {
+                Main.ModLogger.LogError("master summon: leader master instance is " + masterSummonReport.leaderMasterInstance); // WHAT THE FUCK ITS NULL
+                Main.ModLogger.LogError("master summon: master doesnt equal leader master instance");
+                return;
+            }
+
+            var npcAlly = masterSummonReport.summonMasterInstance;
+            if (!npcAlly)
+            {
+                Main.ModLogger.LogError("master summon: couldnt get summon master instance");
+                return;
+            }
+
+            var npcBody = masterSummonReport.summonMasterInstance.GetBody();
+            if (npcBody && (body.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
+            {
+                Main.ModLogger.LogError("master summon: ally is mechanical");
+                var salvo = npcAlly.GetComponent<SalvoBehaviour>();
+                if (salvo == null)
+                {
+                    npcAlly.AddComponent<SalvoBehaviour>();
+                }
+                npcBody.inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
+                npcBody.inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
+            }
+        }
+
+        public void OnDisable()
+        {
+            if (NetworkServer.active)
+            {
+                onServerMasterSummonGlobal -= MasterSummon_onServerMasterSummonGlobal;
+            }
+            body.onInventoryChanged -= Body_onInventoryChanged;
         }
     }
 
@@ -236,7 +382,10 @@ namespace Sandswept.Items.Greens
     {
         public CharacterBody body;
         public float totalMissileDelay = 5f;
+        public float enemyCheckInterval = 0.1f;
+        public float enemyCheckTimer = 0f;
         public float stopwatch = 0f;
+        public bool shouldFire = false;
 
         public void Start()
         {
@@ -248,8 +397,29 @@ namespace Sandswept.Items.Greens
         public void FixedUpdate()
         {
             stopwatch -= Time.fixedDeltaTime;
+            enemyCheckTimer += Time.fixedDeltaTime;
 
             var stack = body.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
+
+            if (enemyCheckTimer >= enemyCheckInterval)
+            {
+                for (int i = 0; i < CharacterBody.readOnlyInstancesList.Count; i++)
+                {
+                    var body = CharacterBody.readOnlyInstancesList[i];
+                    if (!body.teamComponent)
+                    {
+                        continue;
+                    }
+
+                    if (body.teamComponent.teamIndex == TeamIndex.Player)
+                    {
+                        continue;
+                    }
+
+                    shouldFire = true;
+                }
+                enemyCheckTimer = 0f;
+            }
 
             if (stopwatch <= 0)
             {
