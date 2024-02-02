@@ -1,6 +1,9 @@
 using RoR2.UI;
+
+// using Sandswept.Survivors.Ranger.ItemDisplays;
 using Sandswept.Survivors.Ranger.Pod;
 using Sandswept.Survivors.Ranger.States;
+using System.Linq;
 using UnityEngine.UI;
 
 namespace Sandswept.Survivors.Ranger
@@ -15,7 +18,7 @@ namespace Sandswept.Survivors.Ranger
 
         public override string Outro => "...and so she left ready to listen to Periphery for the 43,945th time (not Periphery 3 tho it sucks it's barely replayable like she's only played it 4,874 times and got extremely fed up with it it's their most overrated album I swear)...";
 
-        public override string Failure => "...and so she didn't leave lmao skill issue btw you should listen to these albums --- Unprocessed - In Concretion, Unprocessed - Perception, Unprocessed - Covenant, Periphery - Periphery 1, Periphery - Periphery 2";
+        public override string Failure => "...and so she didn't leave lmao skill issue btw you should listen to these albums --- Unprocessed - In Concretion, Unprocessed - Perception, Unprocessed - Covenant, Unprocessed - And Everything In Between, Periphery - Periphery 1, Periphery - Periphery 2";
 
         public override void LoadAssets()
         {
@@ -23,7 +26,7 @@ namespace Sandswept.Survivors.Ranger
 
             Body = Main.Assets.LoadAsset<GameObject>("RangerBody.prefab");
             var characterBody = Body.GetComponent<CharacterBody>();
-            characterBody.portraitIcon = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRangerIcon.png");
+            characterBody.portraitIcon = Main.hifuSandswept.LoadAsset<Texture2D>("texRangerIcon.png");
             characterBody.bodyColor = new Color32(54, 215, 169, 255);
 
             var networkIdentity = Body.GetComponent<NetworkIdentity>();
@@ -48,7 +51,7 @@ namespace Sandswept.Survivors.Ranger
             var rectTransform = innerSight.GetComponent<RectTransform>();
             rectTransform.localScale = Vector3.one * 0.43f;
             var rawImage = innerSight.GetComponent<RawImage>();
-            rawImage.texture = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texProjectileCrosshair6.png");
+            rawImage.texture = Main.hifuSandswept.LoadAsset<Texture2D>("texProjectileCrosshair6.png");
 
             var outerCircle = crosshair.transform.GetChild(0);
             outerCircle.gameObject.SetActive(true);
@@ -92,6 +95,21 @@ namespace Sandswept.Survivors.Ranger
 
             "SS_RANGER_PASSIVE_NAME".Add("Power Surge");
             "SS_RANGER_PASSIVE_DESC".Add("Hold up to " + Projectiles.DirectCurrent.maxCharge + " $rcCharge$ec. Each $rcCharge$ec increases $shbase health regeneration$se by $sh0.25 hp/s$se. $rcCharge decays over time$ec.".AutoFormat());
+
+            mdl = _modelTransform.GetComponent<CharacterModel>();
+
+            var chest = _modelTransform.GetChild(0).GetChild(1).GetChild(0).GetChild(1).GetChild(0);
+            var neck = chest.GetChild(4);
+            var head = neck.GetChild(0);
+
+            var childLocator = _modelTransform.GetComponent<ChildLocator>();
+            Array.Resize(ref childLocator.transformPairs, childLocator.transformPairs.Length + 3);
+            childLocator.transformPairs[1].name = "Chest";
+            childLocator.transformPairs[1].transform = chest;
+            childLocator.transformPairs[2].name = "Neck";
+            childLocator.transformPairs[2].transform = neck;
+            childLocator.transformPairs[3].name = "Head";
+            childLocator.transformPairs[3].transform = head;
 
             AddSkins();
 
@@ -156,7 +174,6 @@ namespace Sandswept.Survivors.Ranger
 
             "SKIN_DEFAULT".Add("Default");
 
-            mdl = _modelTransform.GetComponent<CharacterModel>();
             modelSkinController = mdl.GetComponent<ModelSkinController>();
 
             majorDef = CreateRecolor("Major", 4.2f, false, "perform a multikill of 10 enemies");
@@ -188,8 +205,8 @@ namespace Sandswept.Survivors.Ranger
         public SkinDef CreateRecolor(string skinName, float emissionValue = 2.5f, bool unlockable = false, string unlockDesc = "ugh fill me")
         {
             var trimmedName = skinName.Replace(" ", "");
-            var mainTex = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRangerDiffuse" + trimmedName + ".png");
-            var emTex = Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRangerEmission" + trimmedName + ".png");
+            var mainTex = Main.hifuSandswept.LoadAsset<Texture2D>("texRangerDiffuse" + trimmedName + ".png");
+            var emTex = Main.hifuSandswept.LoadAsset<Texture2D>("texRangerEmission" + trimmedName + ".png");
 
             var scarfAndPantsColor = mainTex.GetPixel(272, 265);
             var helmetColor = mainTex.GetPixel(444, 168);

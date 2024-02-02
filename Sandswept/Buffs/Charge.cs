@@ -10,7 +10,7 @@ namespace Sandswept.Buffs
 
         public override Color Color => new Color32(45, 188, 148, 255);
 
-        public override Sprite BuffIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texBuffCharged.png");
+        public override Sprite BuffIcon => Main.hifuSandswept.LoadAsset<Sprite>("texBuffCharged.png");
         public override bool CanStack => true;
 
         public override void Init()

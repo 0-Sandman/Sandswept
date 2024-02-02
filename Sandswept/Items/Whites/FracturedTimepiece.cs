@@ -1,4 +1,6 @@
-﻿namespace Sandswept.Items.Whites
+﻿using System.Linq;
+
+namespace Sandswept.Items.Whites
 {
     [ConfigSection("Items :: Fractured Timepiece")]
     public class FracturedTimepiece : ItemBase<FracturedTimepiece>
@@ -9,17 +11,22 @@
 
         public override string ItemPickupDesc => "Using your utility skill heals you and reduces special cooldown.";
 
-        public override string ItemFullDescription => ("Upon using your $suutility skill$se, $shheal$se for $sh" + d(basePercentHealing) + "$se $ss(+" + d(stackPercentHealing) + " per stack)$se of your $shmaximum health$se and $sureduce special skill cooldown$se by $su" + d(baseSpecialCooldownReduction) + "$se $ss(+" + d(stackSpecialCooldownReduction) + " per stack)$se.").AutoFormat();
+        public override string ItemFullDescription => ("Upon using your $suutility skill$se, $shheal$se for $sh" + d(basePercentHealing) + "$se $ss(+" + d(stackPercentHealing) + " per stack)$se of your $shmaximum health$se and $sureduce special skill cooldown$se by $su" + d(specialCooldownReduction) + "$se.").AutoFormat();
 
-        public override string ItemLore => "Order: Timepiece\r\nTracking Number: 864*******\r\nEstimated Delivery: 02/23/2054\r\nShipping Method: Priority\r\nShipping Address: Hall of the Revered, Mars\r\nShipping Details:\r\n\r\nThis was uncovered by some archeologists in the desert where the old Hall was, before it burned down. I guess someone really wanted to protect it from the purge, since it was carefully wrapped and boxed where we found it. We're sending it to you, free of charge, since it was owned by the Hall to begin with, and you can probably glean more knowledge from it than we can.\r\n\r\nThe box had a note in it from the Time Keeper of the era, too, which I've included in the package. It's in the old language, so we couldn't make it out -- hopefully you can make some sense of it.";
+        public override string ItemLore => "Order: Timepiece\r\nTracking Number: 864*******\r\nEstimated Delivery: 02/23/2054\r\nShipping Method: Priority\r\nShipping Address: Hall of the Revered, Mars\r\nShipping Details:\r\n\r\nOur team uncovered this in the desert where the old Hall was, before it burned down. I guess someone really wanted to protect it from the Purge, since it was carefully wrapped and boxed where we found it. You can probably glean more knowledge from it than we can, and it was the Hall's to begin with in any case.\r\n\r\nThe box had a note in it from the Time Keeper of the era, too, which I've included in the package. Nobody hear can read the old language, though -- hopefully you can make some sense of it.";
 
         public override ItemTier Tier => ItemTier.Tier1;
 
-        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/FracturedTimepieceHolder.prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("FracturedTimepieceHolder.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texFracturedTimepiece.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texFracturedTimepiece.png");
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Healing, ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
+
+        public static List<string> blacklistedSkills = new() { "MAGE_UTILITY_ICE_NAME", "ENGI_SKILL_HARPOON_NAME" };
+
+        public static GameObject healVFX;
+        public static GameObject cdrVFX;
 
         public override void Init(ConfigFile config)
         {
@@ -28,38 +35,163 @@
             Hooks();
         }
 
-        [ConfigField("Base Percent Healing", "Decimal.", 0.04f)]
+        [ConfigField("Base Percent Healing", "Decimal.", 0.05f)]
         public static float basePercentHealing;
 
-        [ConfigField("Stack Percent Healing", "Decimal.", 0.04f)]
+        [ConfigField("Stack Percent Healing", "Decimal.", 0.05f)]
         public static float stackPercentHealing;
 
-        [ConfigField("Base Special Cooldown Reduction", "Decimal.", 0.15f)]
-        public static float baseSpecialCooldownReduction;
-
-        [ConfigField("Stack Special Cooldown Reduction", "Decimal.", 0.15f)]
-        public static float stackSpecialCooldownReduction;
+        [ConfigField("Special Cooldown Reduction", "Decimal.", 0.15f)]
+        public static float specialCooldownReduction;
 
         public override void Hooks()
         {
+            healVFX = PrefabAPI.InstantiateClone(Assets.GameObject.MedkitHealEffect, "Fractured Timepiece Heal VFX", false);
+            var effectComponent = healVFX.GetComponent<EffectComponent>();
+            effectComponent.applyScale = true;
+
+            var healRamp = Assets.Texture2D.texRampArtifactShellSoft;
+            var cdrRamp = Assets.Texture2D.texRampLaserTurbine;
+
+            var trans = healVFX.transform;
+
+            for (int i = 0; i < trans.childCount; i++)
+            {
+                var child = trans.GetChild(i);
+                child.transform.localScale = Vector3.one * 1.5f;
+            }
+
+            var spinner = trans.GetChild(0).GetComponent<ParticleSystemRenderer>();
+
+            var newMat = Object.Instantiate(Assets.Material.matHealTrail);
+            newMat.SetTexture("_RemapTex", healRamp);
+            newMat.SetFloat("_Boost", 9.9f);
+
+            spinner.trailMaterial = newMat;
+
+            var crosses = trans.GetChild(1).GetComponent<ParticleSystemRenderer>();
+
+            var newMat2 = Object.Instantiate(Assets.Material.matHealingCross);
+            newMat2.SetTexture("_RemapTex", healRamp);
+
+            crosses.material = newMat2;
+
+            ContentAddition.AddEffect(healVFX);
+
+            cdrVFX = PrefabAPI.InstantiateClone(Assets.GameObject.MedkitHealEffect, "Fractured Timepiece CDR VFX", false);
+            var effectComponent2 = cdrVFX.GetComponent<EffectComponent>();
+            effectComponent2.applyScale = true;
+            effectComponent2.soundName = "";
+
+            var trans2 = cdrVFX.transform;
+
+            var spinner2 = trans2.GetChild(0).GetComponent<ParticleSystemRenderer>();
+            spinner2.transform.eulerAngles = new Vector3(90f, 0f, 0f);
+            var spinner2guh = spinner2.GetComponent<ParticleSystem>().main;
+            spinner2guh.startDelay = 0.2f;
+
+            var newMat3 = Object.Instantiate(Assets.Material.matHealTrail);
+            newMat3.SetTexture("_RemapTex", cdrRamp);
+            newMat3.SetFloat("_Boost", 4.8f);
+
+            spinner2.trailMaterial = newMat3;
+
+            var crosses2 = trans2.GetChild(1).GetComponent<ParticleSystemRenderer>();
+            crosses2.transform.eulerAngles = new Vector3(90f, 0f, 0f);
+
+            var mask = Assets.Texture2D.texGalaxy1Mask;
+
+            var newMat4 = Object.Instantiate(Assets.Material.matHealingCross);
+            newMat4.SetTexture("_RemapTex", cdrRamp);
+            newMat4.SetTexture("_MainTex", mask);
+            newMat4.SetTexture("_Cloud1Tex", mask);
+
+            crosses2.material = newMat4;
+
+            ContentAddition.AddEffect(cdrVFX);
+
             On.RoR2.CharacterBody.OnSkillActivated += CharacterBody_OnSkillActivated;
+            On.EntityStates.Mage.Weapon.PrepWall.OnExit += PrepWall_OnExit;
+            On.EntityStates.Engi.EngiMissilePainter.Fire.FireMissile += Fire_FireMissile;
+        }
+
+        private void Fire_FireMissile(On.EntityStates.Engi.EngiMissilePainter.Fire.orig_FireMissile orig, EntityStates.Engi.EngiMissilePainter.Fire self, HurtBox target, Vector3 position)
+        {
+            orig(self, target, position);
+            var skillLocator = self.skillLocator;
+            if (skillLocator)
+            {
+                var skill = skillLocator.utility;
+                TryHeal(self.characterBody, skill);
+            }
+        }
+
+        public static void TryHeal(CharacterBody characterBody, GenericSkill skill, bool checkUtilityAndBlacklist = false)
+        {
+            if (!characterBody)
+            {
+                return;
+            }
+
+            if (skill == null)
+            {
+                return;
+            }
+
+            var inventory = characterBody.inventory;
+            if (!inventory)
+            {
+                return;
+            }
+
+            var stack = inventory.GetItemCount(instance.ItemDef);
+            var skillLocator = characterBody.GetComponent<SkillLocator>();
+
+            var passesCondition = stack > 0 && (!checkUtilityAndBlacklist || skillLocator && skill == skillLocator.utility && skill.cooldownRemaining > 0 && !blacklistedSkills.Contains(skill.skillDef.skillNameToken));
+
+            if (passesCondition)
+            {
+                var special = skillLocator.special;
+                var reduction = Util.ConvertAmplificationPercentageIntoReductionPercentage(specialCooldownReduction);
+                if (special && special.stock < special.maxStock)
+                {
+                    special.rechargeStopwatch += special.baseRechargeInterval * reduction / skill.skillDef.baseMaxStock;
+                }
+                characterBody.healthComponent?.HealFraction((basePercentHealing + stackPercentHealing * (stack - 1)) / skill.skillDef.baseMaxStock, default);
+
+                var effectData = new EffectData()
+                {
+                    origin = characterBody.gameObject.transform.position,
+                    scale = 4f
+                };
+                effectData.SetNetworkedObjectReference(characterBody.gameObject);
+
+                EffectManager.SpawnEffect(healVFX, effectData, true);
+                EffectManager.SpawnEffect(cdrVFX, effectData, true);
+            }
+        }
+
+        private void PrepWall_OnExit(On.EntityStates.Mage.Weapon.PrepWall.orig_OnExit orig, EntityStates.Mage.Weapon.PrepWall self)
+        {
+            if (!self.outer.destroying)
+            {
+                if (self.goodPlacement)
+                {
+                    var skillLocator = self.skillLocator;
+                    if (skillLocator)
+                    {
+                        var skill = skillLocator.utility;
+                        TryHeal(self.characterBody, skill);
+                    }
+                }
+            }
+            orig(self);
         }
 
         private void CharacterBody_OnSkillActivated(On.RoR2.CharacterBody.orig_OnSkillActivated orig, CharacterBody self, GenericSkill skill)
         {
             orig(self, skill);
-            var stack = GetCount(self);
-            var skillLocator = self.GetComponent<SkillLocator>();
-            if (stack > 0 && skillLocator && skill == skillLocator.utility && skill.cooldownRemaining > 0 && skill.skillDef.skillNameToken != "MAGE_UTILITY_ICE_NAME")
-            {
-                var special = skillLocator.special;
-                var reduction = Util.ConvertAmplificationPercentageIntoReductionPercentage(baseSpecialCooldownReduction + stackSpecialCooldownReduction * (stack - 1));
-                if (special && special.stock < special.maxStock)
-                {
-                    special.rechargeStopwatch += special.baseRechargeInterval * reduction;
-                }
-                self.healthComponent?.HealFraction(basePercentHealing + stackPercentHealing * (stack - 1), default);
-            }
+            TryHeal(self, skill, true);
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()

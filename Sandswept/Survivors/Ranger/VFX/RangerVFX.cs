@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Sandswept.Survivors.Ranger.VFX
 {
-    public class InitVFX
+    public class RangerVFX
     {
         public static void Init()
         {

@@ -17,11 +17,11 @@ namespace Sandswept.Items.Greens
 
         public override string ItemFullDescription => ("$su" + chance + "%$se chance on hit to create a $sublinding flash$se in a $su" + explosionRadius + "m$se radius, $sustunning$se for $su" + stunDuration + "s$se and $sdigniting$se enemies for $sd" + d(baseTotalDamage) + "$se $ss(+" + d(stackTotalDamage) + " per stack)$se TOTAL damage.").AutoFormat();
 
-        public override string ItemLore => "Maybe less hell to code\n\n/////\n\nnuh uhh mf this was easy to code :smirk_car: UwU ~HIFU";
+        public override string ItemLore => "\"What the hell is that?\"\r\n\r\n\"Technically? It's an eggshell. I nabbed it from the debris of one of those ghastly beasts' eggs.\"\r\n\r\n\"What--? Why would you do something like that?\"\r\n\r\n\"Oh, relax. None of them were around, that \"nest\" is long abandoned. Besides, it's useful.\"\r\n\r\n\"How?\"\r\n\r\n\"Well, turns out, it's got a ton of energy in it. It's still warm -- feel it, see? -- even though it's been sitting there for weeks. I guess those things use the heat from the eggs for automatic incubation, something like that. Thankfully I didn't try to take one from a fresh egg, might've burnt my hand off for all I know.\"\r\n\r\n\"And about it being useful...\"\r\n\r\n\"Yes, yes -- you see, that energy isn't just dormant: if you hit it, say, with a bullet, it'll explode. The light is blinding and will probably set you on fire, so don't drop it.\"\r\n\r\n\"And if we shoot it from a distance, placed near those horrors...\"\r\n\r\n\"Exactly. In this hellscape, it's as close to a flashbang as we'll get.\"\r\n\r\n\"Maybe we'll be able to get off this blasted planet after all, then.\"\r\n\r\n\"Oh, about that. If anyone asks, make up some cool name for this. They'll probably believe anything. I want nothing to do with the UES if we survive this, and that means selling all this stuff for as high of a price as we can muster -- \"alien eggshell\" isn't the most attractive name.\"";
 
         public override string AchievementName => "A cycle, broken.";
 
-        public override string AchievementDesc => "Destroy a child of the stars...";
+        public override string AchievementDesc => "Mutilate a child of the stars...";
 
         [ConfigField("Chance", "", 7f)]
         public static float chance;
@@ -45,7 +45,7 @@ namespace Sandswept.Items.Greens
 
         public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("SunFragmentPrefab.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texSunFragment.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texSunFragment.png");
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
 
@@ -191,6 +191,8 @@ namespace Sandswept.Items.Greens
                     blastAttack.Fire();
 
                     damageInfo.procChainMask.AddProc(sunFragmentAreaProcType);
+
+                    AkSoundEngine.PostEvent(Events.Play_fireballsOnHit_shoot, victimBody.gameObject);
                 }
             }
         }

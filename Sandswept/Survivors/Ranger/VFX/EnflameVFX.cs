@@ -45,6 +45,8 @@ namespace Sandswept.Survivors.Ranger.VFX
             var effectComponent = tracer.GetComponent<EffectComponent>();
             effectComponent.soundName = "Play_wHeavyShoot1";
 
+            tracer.AddComponent<VFXAttributes>();
+
             var lineRenderer = tracer.GetComponent<LineRenderer>();
             lineRenderer.widthMultiplier = widthMultiplier;
             lineRenderer.numCapVertices = 5;
@@ -89,7 +91,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var newMat = Object.Instantiate(Assets.Material.matBandit2TracerTrail);
             newMat.SetColor("_TintColor", whiteEquivalent);
-            newMat.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("Assets/Sandswept/texRampEnflame.png"));
+            newMat.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("texRampEnflame.png"));
             newMat.SetFloat("_Boost", brightnessBoost);
             newMat.SetFloat("_AlphaBoost", alphaBoost);
             newMat.SetFloat("_AlphaBias", alphaBias);

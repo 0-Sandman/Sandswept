@@ -38,6 +38,8 @@
             // salmonEquivalent = new Color32(158, 14, 0, 255);
             var tracer = Assets.GameObject.TracerHuntressSnipe.InstantiateClone("Exhaust Tracer " + name, false);
 
+            tracer.AddComponent<VFXAttributes>();
+
             var destroyOnTimer = tracer.AddComponent<DestroyOnTimer>();
             destroyOnTimer.duration = 3f;
 
@@ -101,7 +103,7 @@
 
             var newMat3 = Object.Instantiate(Assets.Material.matHuntressSwingTrail);
 
-            var p2 = "Assets/Sandswept/texRampGay";
+            var p2 = "texRampGay";
 
             var p2_2 = altRamp ? "2.png" : ".png";
 

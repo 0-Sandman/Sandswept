@@ -8,7 +8,7 @@ namespace Sandswept.Buffs
 
         public override Color Color => new Color32(45, 187, 143, 255);
 
-        public override Sprite BuffIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texBuffSidestep.png");
+        public override Sprite BuffIcon => Main.hifuSandswept.LoadAsset<Sprite>("texBuffSidestep.png");
         public override bool CanStack => false;
         public static Material overlayMat1 = SidestepVFX.dashMat1Default;
         public static Material overlayMat2 = SidestepVFX.dashMat2Default;

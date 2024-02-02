@@ -16,3 +16,5 @@ global using UnityEngine.Networking;
 global using BepInEx.Configuration;
 global using static R2API.RecalculateStatsAPI;
 global using Assets = Sandswept.Utils.Assets;
+global using static R2API.DirectorAPI;
+global using Stage = R2API.DirectorAPI.Stage;

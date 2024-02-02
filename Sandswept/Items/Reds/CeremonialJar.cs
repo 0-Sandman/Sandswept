@@ -14,13 +14,13 @@ namespace Sandswept.Items.Reds
 
         public override string ItemFullDescription => ("$sdLink$se enemies on hit. Linking $sd3$se enemies deals $sd1500% base damage$se to each. Enemies become immune to getting $sdlinked$se for $sd5$se seconds afterwards.").AutoFormat();
 
-        public override string ItemLore => "texLesbianFurry.png";
+        public override string ItemLore => "\"In the early days, the Tar was localized to only a few of the dunepeople's smaller towns and villages. This slow start was merely a silent beginning to its takeover, though, ending with the crusades of those now called the \"tainted generation,\" for whom the Tar had been present since birth.\r\n\r\nAs the Tar's cultural relevance in those isolated places grew, it stopped being a symbiotic equal, and became a divine superior. It was worshipped as a god, one whose existence was undeniable, and whose gifts were powerful, and the tainted generation took it upon themselves crusade through all of Aphelia and spread it.\r\n\r\nAt first, the crusades were met with only skepticism and rejection from those not used to the Tar's presence. Some doubted the Tar's existence; those who didn't, doubted its power; and those who did neither, were rightfully wary of its influence. With an inability to demonstrate the Tar's existence or potency without travelling all the way back to their hometowns, the crusaders only recruited a scarce few. With their new handful of allies, though, they discovered a way to transport the Tar, and thus, its first vessel was created.\r\n\r\nThough simple in design, this original clay jar was the cornerstone to the Tar epidemic. The original jar was worshipped as an idol. The dunepeople fed what they had to it, allowing the Tar to spread forth. Brought from town to town, village to village, city to city, the vessel crushed all doubts of the Tar's power or existence, quickly integrating itself into all of the dunepeople's struggling civilization. Those who continued to warn against the Tar's influence were bribed with its power, and those who couldn't be bribed were fed to Aphelia's new god.\"\r\n\r\n- Tragedy of Aphelia";
 
         public override ItemTier Tier => ItemTier.Tier3;
 
-        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/CeremonialJarHolder.prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("CeremonialJarHolder.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texCeremonialJar.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texCeremonialJar.png");
 
         public override string ItemName => "Ceremonial Jar";
 
@@ -63,12 +63,12 @@ namespace Sandswept.Items.Reds
             CereJarLinkedBuff = ScriptableObject.CreateInstance<BuffDef>();
             CereJarLinkedBuff.name = "Ceremonial Jar Link";
             CereJarLinkedBuff.canStack = false;
-            CereJarLinkedBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texGaySex.png");
+            CereJarLinkedBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texGaySex.png");
 
             CereJarCDBuff = ScriptableObject.CreateInstance<BuffDef>();
             CereJarCDBuff.name = "Ceremonial Jar Cooldown";
             CereJarCDBuff.canStack = false;
-            CereJarCDBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texLesbianFurry.png");
+            CereJarCDBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texLesbianFurry.png");
 
             ContentAddition.AddBuffDef(CereJarLinkedBuff);
             ContentAddition.AddBuffDef(CereJarCDBuff);

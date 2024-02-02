@@ -18,13 +18,13 @@ namespace Sandswept.Items.Whites
 
         public override string ItemFullDescription => ("Gain a $sd" + chance + "%$se chance on hit to fire a $sdknife$se for $sd" + d(baseDamage) + "$se $ss(+" + d(stackDamage) + " per stack)$se base damage that $sdpierces$se, gain $sh" + d(percentBarrierGain) + " barrier$se for every pierce with the knife.").AutoFormat();
 
-        public override string ItemLore => "Order: Amber Knife\r\nTracking Number: 534*****\r\nEstimated Delivery: 07/10/2056\r\nShipping Method: High Priority\r\nShipping Address: Outer Ring Lab, Venus\r\nShipping Details:\r\n\r\nThis is an ancient ritual artifact, once used by Neptunian priests in sacrifices, said to protect them from attack and assassination. This was not without credence, it seems, as the knife operates similarly to the ultra-phasic shield technology used in the assassination of Earth's ambassador two months back.\r\n\r\nOf course, we can't use such an old and fragile weapon in our own operations, but its effect seems more potent than what the assassin used. Along with serving your planet, we'll provide generous funding if you can discover how it works and incorporate it into something more usable.";
+        public override string ItemLore => "Order: Amber Knife\r\nTracking Number: 534*****\r\nEstimated Delivery: 07/10/2056\r\nShipping Method: High Priority\r\nShipping Address: Outer Ring Lab, Venus\r\nShipping Details:\r\n\r\nThis is an ancient ritual artifact, once used by Neptunian priests in sacrifices, said to protect them from attack and assassination. This was not without credence, it seems, as the knife operates similarly to the ultra-phasic shield technology used in the assassination of Earth's ambassador two months back.\r\n\r\nOf course, we can't use such an old and fragile weapon in our own operations, but its effect seems more potent than what the assassin used. Along with serving your planet, you'll receive generous funding if you make efforts to discover how it works and incorporate it into something more usable.";
 
         public override ItemTier Tier => ItemTier.Tier1;
 
-        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/AmberKnifeHolder.prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("AmberKnifeHolder.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texAmberKnife.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texAmberKnife.png");
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility, ItemTag.Healing };
 
@@ -38,16 +38,16 @@ namespace Sandswept.Items.Whites
         [ConfigField("Chance", "", 10f)]
         public static float chance;
 
-        [ConfigField("Base Damage", "Decimal.", 1.2f)]
+        [ConfigField("Base Damage", "Decimal.", 1.4f)]
         public static float baseDamage;
 
-        [ConfigField("Stack Damage", "Decimal.", 1.2f)]
+        [ConfigField("Stack Damage", "Decimal.", 1.4f)]
         public static float stackDamage;
 
         [ConfigField("Proc Coefficient", "", 1f)]
         public static float procCoefficient;
 
-        [ConfigField("Percent Barrier Gain", "Decimal.", 0.04f)]
+        [ConfigField("Percent Barrier Gain", "Decimal.", 0.035f)]
         public static float percentBarrierGain;
 
         public static ProjectileController projectileController;
@@ -65,10 +65,10 @@ namespace Sandswept.Items.Whites
             var mesh = amberKnifeGhost.transform.GetChild(0);
 
             var mf = mesh.GetComponent<MeshFilter>(); // couldnt resist naming it mf
-            mf.mesh = Main.hifuSandswept.LoadAsset<Mesh>("Assets/Sandswept/AmberKnifeMesh.fbx");
+            mf.mesh = Main.hifuSandswept.LoadAsset<Mesh>("AmberKnifeMesh.fbx");
 
             var meshRenderer = mesh.GetComponent<MeshRenderer>();
-            meshRenderer.material = Main.hifuSandswept.LoadAsset<Material>("Assets/Sandswept/matAmberKnife.mat");
+            meshRenderer.material = Main.hifuSandswept.LoadAsset<Material>("matAmberKnife.mat");
 
             amberKnifeProjectile = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Bandit2/Bandit2ShivProjectile.prefab").WaitForCompletion(), "Amber Knife Projectile", true);
 
@@ -187,7 +187,6 @@ namespace Sandswept.Items.Whites
             return new ItemDisplayRuleDict();
         }
 
-        
         public class AmberKnifeProjectile : NetworkBehaviour, IProjectileImpactBehavior
         {
             public static GameObject impactSpark;
@@ -196,7 +195,8 @@ namespace Sandswept.Items.Whites
 
             public float stopwatch = 0;
 
-            public void Start() {
+            public void Start()
+            {
                 GetComponent<ProjectileOverlapAttack>().onServerHit = new();
                 GetComponent<ProjectileOverlapAttack>().onServerHit.AddListener(AddBarrier);
             }
@@ -213,7 +213,7 @@ namespace Sandswept.Items.Whites
 
             public void AddBarrier()
             {
-                EffectManager.SimpleImpactEffect(impactSpark, base.transform.position, -transform.forward, transmit: true);
+                EffectManager.SimpleImpactEffect(Assets.GameObject.MagmaWormImpactExplosion, base.transform.position, -transform.forward, transmit: true);
                 if (owner != null)
                 {
                     owner.healthComponent.AddBarrier(owner.healthComponent.fullHealth * percentBarrierGain);

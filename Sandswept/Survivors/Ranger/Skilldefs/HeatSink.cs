@@ -16,7 +16,7 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
 
         public override float Cooldown => 0f;
 
-        public override Sprite Icon => Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texHeatSink.png");
+        public override Sprite Icon => Main.hifuSandswept.LoadAsset<Sprite>("texHeatSink.png");
         public override int StockToConsume => 0;
 
         public override bool MustKeyPress => true;

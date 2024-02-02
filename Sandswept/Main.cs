@@ -20,7 +20,17 @@ using Sandswept.Survivors.Ranger.Crosshairs;
 // using Sandswept.WIP_Content;
 using Sandswept.Survivors.Ranger.Pod;
 using HarmonyLib;
+<<<<<<< HEAD
 using Sandswept.Enemies;
+=======
+using Sandswept.Elites.VFX;
+using RoR2.ExpansionManagement;
+using Sandswept.Interactables;
+
+// using Sandswept.Survivors.Ranger.ItemDisplays;
+
+[assembly: HG.Reflection.SearchableAttribute.OptIn]
+>>>>>>> 8c3e0f247fd0528eceed8f8b3dd742bd096c8ca1
 
 namespace Sandswept
 {
@@ -40,7 +50,7 @@ namespace Sandswept
     {
         public const string ModGuid = "com.TeamSandswept.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVer = "0.8.0";
+        public const string ModVer = "0.8.2";
 
         public static AssetBundle MainAssets;
         public static AssetBundle Assets;
@@ -48,6 +58,8 @@ namespace Sandswept
         public static AssetBundle hifuSandswept;
 
         public static ModdedDamageType HeatSelfDamage = ReserveDamageType();
+
+        public static ExpansionDef SOTV;
 
         public static Dictionary<string, string> ShaderLookup = new()
     {
@@ -85,6 +97,8 @@ namespace Sandswept
         {
             var stopwatch = Stopwatch.StartNew();
 
+            SOTV = Utils.Assets.ExpansionDef.DLC1;
+
             ModLogger = Logger;
 
             config = Config;
@@ -108,7 +122,8 @@ namespace Sandswept
             RangerPod.Init();
             Ranger.Init();
 
-            InitVFX.Init();
+            RangerVFX.Init();
+            EliteVFX.Init();
             Eclipse8.Init();
 
             DirectCurrent.Init();
@@ -145,7 +160,7 @@ namespace Sandswept
             powerElixirGlassMat.SetFloat("_AlphaBoost", 1.147384f);
             powerElixirGlassMat.SetFloat("IntersectionStrength", 1f);
 
-            var redSpringWaterHolder = hifuSandswept.LoadAsset<GameObject>("Assets/Sandswept/RedSpringWaterHolder.prefab");
+            var redSpringWaterHolder = hifuSandswept.LoadAsset<GameObject>("RedSpringWaterHolder.prefab");
             var model = redSpringWaterHolder.transform.GetChild(0);
             var jarMr = model.GetChild(0).GetComponent<MeshRenderer>();
             jarMr.material = powerElixirGlassMat;
@@ -219,7 +234,11 @@ namespace Sandswept
 
             ScanTypes<SkillBase>((x) => x.Init());
             ScanTypes<SurvivorBase>((x) => x.Init());
+<<<<<<< HEAD
             ScanTypes<EnemyBase>((x) => x.Create());
+=======
+            ScanTypes<InteractableBase>((x) => x.Init());
+>>>>>>> 8c3e0f247fd0528eceed8f8b3dd742bd096c8ca1
 
             new ContentPacks().Initialize();
 
@@ -312,6 +331,18 @@ namespace Sandswept
             buffList.Add(buff);
 
             return true;
+        }
+
+        public bool ValidateInteractable(InteractableBase interactable, List<InteractableBase> interactableList)
+        {
+            var enabled = InteractableBase.DefaultEnabledCallback(interactable);
+
+            if (enabled)
+            {
+                interactableList.Add(interactable);
+                return true;
+            }
+            return false;
         }
 
         public void SwapAllShaders(AssetBundle bundle)
