@@ -26,6 +26,7 @@
 		<PackageReference Include="R2API.Networking" Version="1.0.2" />
 		<PackageReference Include="R2API.Prefab" Version="1.0.1" />
 		<PackageReference Include="R2API.RecalculateStats" Version="1.2.0" />
+		<PackageReference Include="R2API.Director" Version="1.0.0" />
 		<PackageReference Include="RiskOfRain2.GameLibs" Version="1.2.4-r.0" />
 	</ItemGroup>
 
