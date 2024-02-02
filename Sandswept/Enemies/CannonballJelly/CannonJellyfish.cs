@@ -23,6 +23,8 @@ namespace Sandswept.Enemies.CannonJellyfish {
 
             master.bodyPrefab = prefab;
             body.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
+            body.baseNameToken = "SANDSWEPT_ENEMY_CBJ_NAME";
+            body.baseNameToken.Add("Cannonball Jellyfish");
             
             SwapStats(prefab, 12, 0, 10, 40, 0, 80, 0);
             WipeAllDrivers(master.gameObject);
