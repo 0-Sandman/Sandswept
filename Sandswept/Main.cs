@@ -20,9 +20,7 @@ using Sandswept.Survivors.Ranger.Crosshairs;
 // using Sandswept.WIP_Content;
 using Sandswept.Survivors.Ranger.Pod;
 using HarmonyLib;
-<<<<<<< HEAD
 using Sandswept.Enemies;
-=======
 using Sandswept.Elites.VFX;
 using RoR2.ExpansionManagement;
 using Sandswept.Interactables;
@@ -30,7 +28,6 @@ using Sandswept.Interactables;
 // using Sandswept.Survivors.Ranger.ItemDisplays;
 
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
->>>>>>> 8c3e0f247fd0528eceed8f8b3dd742bd096c8ca1
 
 namespace Sandswept
 {
@@ -234,11 +231,8 @@ namespace Sandswept
 
             ScanTypes<SkillBase>((x) => x.Init());
             ScanTypes<SurvivorBase>((x) => x.Init());
-<<<<<<< HEAD
             ScanTypes<EnemyBase>((x) => x.Create());
-=======
             ScanTypes<InteractableBase>((x) => x.Init());
->>>>>>> 8c3e0f247fd0528eceed8f8b3dd742bd096c8ca1
 
             new ContentPacks().Initialize();
 
