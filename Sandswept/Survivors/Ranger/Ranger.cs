@@ -16,9 +16,9 @@ namespace Sandswept.Survivors.Ranger
 
         public override string Subtitle => "Infernal Marshal";
 
-        public override string Outro => "...and so she left ready to listen to Periphery for the 43,945th time (not Periphery 3 tho it sucks it's barely replayable like she's only played it 4,874 times and got extremely fed up with it it's their most overrated album I swear)...";
+        public override string Outro => "...and so she left ready to listen to Periphery for the 43,945th time (not Periphery 3 tho it sucks it's barely replayable like she's only played it 4,874 times and got extremely fed up with it it's their most overrated album I swear)... Although she has discovered that Unprocessed may just be the better band for her overall...";
 
-        public override string Failure => "...and so she didn't leave lmao skill issue btw you should listen to these albums --- Unprocessed - In Concretion, Unprocessed - Perception, Unprocessed - Covenant, Unprocessed - And Everything In Between, Periphery - Periphery 1, Periphery - Periphery 2";
+        public override string Failure => "...and so she didn't leave lmao skill issue btw you should listen to these albums --- Unprocessed - In Concretion, Unprocessed - Perception, Unprocessed - Covenant, Unprocessed - And Everything In Between, Periphery - Periphery 1, Periphery - Periphery 2... Also you might have noticed one of Unprocessed's albums is missing - Gold - and that is because it's completely different than all their other albums, being much more pop-py and overall a sellout album.";
 
         public override void LoadAssets()
         {
@@ -91,7 +91,7 @@ namespace Sandswept.Survivors.Ranger
             ReplaceSkills(locator.utility, new SkillDef[] { Skilldefs.Sidestep.instance.skillDef });
             ReplaceSkills(locator.special, new SkillDef[] { Skilldefs.OverdriveEnter.instance.skillDef });
 
-            "SS_RANGER_BODY_LORE".Add("jaw drops\r\neyes pop out of head\r\ntongue rolls out\r\nHUMINA HUMINA HUMINA!\r\nAWOOGA AWOOGA!\r\nEE-AW EE-AW!\r\nBOIOIOING!\r\npicks up jaw\r\nfixes eyes\r\nrolls up tongue\r\nburies face in ass\r\nBLBLBLBLBL LBLBLBLBLBLBLLB\r\nWHOA MAMA");
+            "SS_RANGER_BODY_LORE".Add("OwO wats dis\r\njaw drops\r\neyes pop out of head\r\ntongue rolls out\r\nHUMINA HUMINA HUMINA!\r\nAWOOGA AWOOGA!\r\nEE-AW EE-AW!\r\nBOIOIOING!\r\npicks up jaw\r\nfixes eyes\r\nrolls up tongue\r\nburies face in ass\r\nBLBLBLBLBL LBLBLBLBLBLBLLB\r\nWHOA MAMA");
 
             "SS_RANGER_PASSIVE_NAME".Add("Power Surge");
             "SS_RANGER_PASSIVE_DESC".Add("Hold up to " + Projectiles.DirectCurrent.maxCharge + " $rcCharge$ec. Each $rcCharge$ec increases $shbase health regeneration$se by $sh0.25 hp/s$se. $rcCharge decays over time$ec.".AutoFormat());
