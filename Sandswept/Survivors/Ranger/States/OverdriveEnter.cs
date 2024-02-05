@@ -58,7 +58,7 @@ namespace Sandswept.Survivors.Ranger.States
                 }
             }
 
-            PlayAnimation("Gesture, Override", "EnterOverdrive");
+            GetModelAnimator().SetBool("gunOpen", true);
             Util.PlaySound("Play_item_use_BFG_charge", gameObject);
 
             heat.EnterOverdrive();
@@ -75,10 +75,8 @@ namespace Sandswept.Survivors.Ranger.States
             locator.special.UnsetSkillOverride(gameObject, SpecialSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.DeductStock(1);
 
-            PlayAnimation("Gesture, Override", "ExitOverdrive");
+            GetModelAnimator().SetBool("gunOpen", true);
             Util.PlaySound("Play_lunar_wisp_attack2_windDown", gameObject);
-
-            PlayAnimation("Gesture, Override", "OverdriveFire", "Fire.playbackRate", 0.1f); // this is jank but it works!
 
             if (characterBody)
             {

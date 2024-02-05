@@ -73,11 +73,11 @@ namespace Sandswept.Survivors.Ranger
 
             _modelTransform = Body.GetComponent<ModelLocator>()._modelTransform;
 
-            var modelBase = Body.transform.GetChild(0);
+            /*var modelBase = Body.transform.GetChild(0);
 
             modelBase.AddComponent<FUCKINGKILLYOURSELF>();
 
-            _modelTransform.Find("HurtBox").localPosition = new(0, 0.01f, 0);
+            _modelTransform.Find("HurtBox").localPosition = new(0, 0.01f, 0);*/
 
             var footstepHandler = _modelTransform.AddComponent<FootstepHandler>();
             footstepHandler.enableFootstepDust = true;
@@ -113,7 +113,6 @@ namespace Sandswept.Survivors.Ranger
 
             AddSkins();
 
-            CharacterBody.onBodyStartGlobal += SetupHitBox;
             RegisterStuff();
 
             // not sure if hgstandard has hdr emission color, but it would make the green texture pop, while still having that glow instead of being a white lightbulb with green glow
@@ -222,9 +221,9 @@ namespace Sandswept.Survivors.Ranger
             newMat.name = "matRanger" + skinName;
 
             var trans = mdl.transform;
-            var gun = trans.GetChild(1).GetComponent<SkinnedMeshRenderer>();
-            var legs = trans.GetChild(2).GetComponent<SkinnedMeshRenderer>();
-            var scarf = trans.GetChild(4).GetComponent<SkinnedMeshRenderer>();
+            var gun = trans.Find("Gun").GetComponent<SkinnedMeshRenderer>();
+            var legs = trans.Find("Legs").GetComponent<SkinnedMeshRenderer>();
+            var scarf = trans.Find("Scarf").GetComponent<SkinnedMeshRenderer>();
 
             var gunRendererInfo = new CharacterModel.RendererInfo()
             {

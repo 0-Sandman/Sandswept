@@ -20,6 +20,7 @@ using Sandswept.Survivors.Ranger.Crosshairs;
 // using Sandswept.WIP_Content;
 using Sandswept.Survivors.Ranger.Pod;
 using HarmonyLib;
+using Sandswept.Enemies;
 using Sandswept.Elites.VFX;
 using RoR2.ExpansionManagement;
 using Sandswept.Interactables;
@@ -103,6 +104,7 @@ namespace Sandswept
             enableAutoConfig = config.Bind("Config", "Enable Auto Config Sync", true, "Disabling this would stop Sandswept from syncing config whenever a new version is found.");
             bool _preVersioning = !((Dictionary<ConfigDefinition, string>)AccessTools.DeclaredPropertyGetter(typeof(ConfigFile), "OrphanedEntries").Invoke(config, null)).Keys.Any(x => x.Key == "Latest Version");
             latestVersion = config.Bind("Config", "Latest Version", ModVer, "DO NOT CHANGE THIS");
+            
             if (enableAutoConfig.Value && (_preVersioning || (latestVersion.Value != ModVer)))
             {
                 latestVersion.Value = ModVer;
@@ -229,6 +231,7 @@ namespace Sandswept
 
             ScanTypes<SkillBase>((x) => x.Init());
             ScanTypes<SurvivorBase>((x) => x.Init());
+            ScanTypes<EnemyBase>((x) => x.Create());
             ScanTypes<InteractableBase>((x) => x.Init());
 
             new ContentPacks().Initialize();
