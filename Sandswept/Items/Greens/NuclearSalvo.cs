@@ -317,7 +317,7 @@ namespace Sandswept.Items.Greens
                     continue;
                 }
 
-                if (npcBody && (body.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
+                if (npcBody && (npcBody.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
                 {
                     Main.ModLogger.LogError("member is mechanical");
                     var salvo = npcAlly.GetComponent<SalvoBehaviour>();
@@ -354,7 +354,7 @@ namespace Sandswept.Items.Greens
             }
 
             var npcBody = npcAlly.GetBody();
-            if (npcBody && (body.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
+            if (npcBody && (npcBody.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
             {
                 Main.ModLogger.LogError("master summon: ally is mechanical");
                 var salvo = npcAlly.GetComponent<SalvoBehaviour>();
