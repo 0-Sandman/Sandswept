@@ -129,6 +129,7 @@ namespace Sandswept.Elites
 
             warbanner = PrefabAPI.InstantiateClone(Assets.GameObject.WarbannerWard, "Motivator Warbanner");
             var mdlWarbanner = warbanner.transform.GetChild(1);
+            mdlWarbanner.transform.localPosition = new Vector3(0f, 3f, 0f);
             mdlWarbanner.RemoveComponent<ObjectScaleCurve>();
 
             var buffWard = warbanner.GetComponent<BuffWard>();
@@ -145,11 +146,16 @@ namespace Sandswept.Elites
             newMat2.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("texMotivatorWarbanner.png"));
 
             plane.material = newMat2;
+            plane.GetComponent<Cloth>().enabled = false;
 
             var indicator = warbanner.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>();
 
             var newMat3 = Object.Instantiate(Assets.Material.matWarbannerSphereIndicator2);
-            newMat3.SetColor("_TintColor", new Color32(255, 59, 09, 255));
+            newMat3.SetColor("_TintColor", new Color32(255, 0, 28, 255));
+            newMat3.SetFloat("_InvFade", 1.622365f);
+            newMat3.SetFloat("_RimStrength", 0.2729147f);
+            newMat3.SetFloat("_IntersectionStrength", 1.563318f);
+            newMat3.SetTexture("_RemapTex", Assets.Texture2D.texRampBeamLightning);
 
             indicator.material = newMat3;
 
@@ -267,7 +273,7 @@ namespace Sandswept.Elites
                 mdlWarbanner = warbannerInstance.transform.GetChild(1);
                 if (body)
                 {
-                    mdlWarbanner.localScale = Vector3.one * body.radius * 0.25f;
+                    mdlWarbanner.localScale = Vector3.one * body.radius * 0.3f;
                     if (body.isPlayerControlled)
                         mdlWarbanner.gameObject.SetActive(false);
                 }

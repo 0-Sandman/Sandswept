@@ -296,6 +296,7 @@ namespace Sandswept.Items.Greens
 
         private void Body_onInventoryChanged()
         {
+            /*
             var group = master.minionOwnership.group;
             Main.ModLogger.LogError("minion ownership is " + master.minionOwnership);
             Main.ModLogger.LogError("group is " + group); // ITS NULL???????????????????????
@@ -329,6 +330,39 @@ namespace Sandswept.Items.Greens
                     npcBody.inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
                 }
             }
+            */
+            var members = CharacterMaster.readOnlyInstancesList.Where(member => member.minionOwnership.ownerMaster == master).ToList();
+            Main.ModLogger.LogError("members is " + members);
+            Main.ModLogger.LogError("member count is " + members.Count);
+            for (int i = 0; i < members.Count; i++)
+            {
+                var member = members[i];
+                var npcMaster = member.GetComponent<CharacterMaster>();
+                if (!npcMaster)
+                {
+                    Main.ModLogger.LogError("couldnt get member master");
+                    continue;
+                }
+
+                var npcBody = npcMaster.GetBody();
+                if (!npcBody)
+                {
+                    Main.ModLogger.LogError("couldnt get member body");
+                    continue;
+                }
+
+                if (npcBody && (npcBody.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
+                {
+                    Main.ModLogger.LogError("member is mechanical");
+                    var salvo = npcMaster.GetComponent<SalvoBehaviour>();
+                    if (salvo == null)
+                    {
+                        npcMaster.AddComponent<SalvoBehaviour>();
+                    }
+                    npcBody.inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
+                    npcBody.inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
+                }
+            }
         }
 
         private void MasterSummon_onServerMasterSummonGlobal(MasterSummonReport masterSummonReport)
@@ -346,24 +380,24 @@ namespace Sandswept.Items.Greens
                 return;
             }
 
-            var npcAlly = masterSummonReport.summonMasterInstance;
-            if (!npcAlly)
+            var npcMaster = masterSummonReport.summonMasterInstance;
+            if (!npcMaster)
             {
                 Main.ModLogger.LogError("master summon: couldnt get summon master instance");
                 return;
             }
 
-            var npcBody = npcAlly.GetBody();
+            var npcBody = npcMaster.GetBody();
             if (npcBody && (npcBody.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
             {
                 Main.ModLogger.LogError("master summon: ally is mechanical");
-                var salvo = npcAlly.GetComponent<SalvoBehaviour>();
+                var salvo = npcMaster.GetComponent<SalvoBehaviour>();
                 if (salvo == null)
                 {
-                    npcAlly.AddComponent<SalvoBehaviour>();
+                    npcMaster.AddComponent<SalvoBehaviour>();
                 }
-                npcBody.inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
-                npcBody.inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
+                npcMaster.inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
+                npcMaster.inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
             }
         }
 
@@ -381,6 +415,7 @@ namespace Sandswept.Items.Greens
     public class SalvoBehaviour : MonoBehaviour
     {
         public CharacterBody body;
+        public CharacterMaster master;
         public float totalMissileDelay = 5f;
         public float enemyCheckInterval = 0.1f;
         public float enemyCheckTimer = 0f;
@@ -390,7 +425,8 @@ namespace Sandswept.Items.Greens
         public void Start()
         {
             // Main.ModLogger.LogError("salvo start");
-            body = GetComponent<CharacterBody>();
+            master = GetComponent<CharacterMaster>();
+            body = master.GetBody();
             stopwatch = totalMissileDelay;
         }
 
@@ -399,7 +435,7 @@ namespace Sandswept.Items.Greens
             stopwatch -= Time.fixedDeltaTime;
             enemyCheckTimer += Time.fixedDeltaTime;
 
-            var stack = body.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
+            var stack = master.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
 
             if (stack <= 0)
             {
