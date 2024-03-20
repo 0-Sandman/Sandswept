@@ -8,11 +8,13 @@
   * Added item logs for Bleeding Witness and Ceremonial Jar
   * Nerfed Nuclear Salvo Missile Range 10000m => 60m
   * Reworked Universal VIP Paws to have a chance of dropping extra items from category chests
-  * Improved Motivating Elite visuals
   * Made Fractured Timepiece scale Healing and Special Cooldown Reduction with Utility Skill Base Max Stock
   * Fixed Fractured Timepiece working too well with Thermal Harpoons
-  * Fixed some things I forgot about (it's been like 
+  * Fixed some things I forgot about (it's been like 3 months)
   * Optimized Nuclear Salvo
+* Elites
+  * Added Osmium (Tier 2)
+  * Improved Motivating Elite visuals
 
 # 0.8.1 Patch Notes
 * Items
