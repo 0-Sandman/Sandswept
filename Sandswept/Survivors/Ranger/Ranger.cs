@@ -98,9 +98,10 @@ namespace Sandswept.Survivors.Ranger
 
             mdl = _modelTransform.GetComponent<CharacterModel>();
 
-            var chest = _modelTransform.GetChild(0).GetChild(1).GetChild(0).GetChild(1).GetChild(0);
-            var neck = chest.GetChild(4);
-            var head = neck.GetChild(0);
+            var rig = _modelTransform.Find("Ranger Rig");
+            var chest = rig.Find("Root/Base/Stomach/Chest");
+            var neck = chest.Find("Neck");
+            var head = neck.Find("Head");
 
             var childLocator = _modelTransform.GetComponent<ChildLocator>();
             Array.Resize(ref childLocator.transformPairs, childLocator.transformPairs.Length + 3);
@@ -115,10 +116,12 @@ namespace Sandswept.Survivors.Ranger
 
             RegisterStuff();
 
+            CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
+
             // not sure if hgstandard has hdr emission color, but it would make the green texture pop, while still having that glow instead of being a white lightbulb with green glow
         }
 
-        private void SetupHitBox(CharacterBody body)
+        private void CharacterBody_onBodyStartGlobal(CharacterBody body)
         {
             if (body.baseNameToken != "SS_RANGER_BODY_NAME")
             {

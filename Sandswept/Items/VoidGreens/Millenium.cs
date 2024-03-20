@@ -1,7 +1,6 @@
-﻿using System;
-using static Sandswept.Utils.Components.MaterialControllerComponents;
+﻿using HarmonyLib;
 
-namespace Sandswept.Items.Greens
+namespace Sandswept.Items.VoidGreens
 {
     [ConfigSection("Items :: Millenium")]
     public class Millenium : ItemBase<Millenium>
@@ -10,13 +9,13 @@ namespace Sandswept.Items.Greens
 
         public override string ItemLangTokenName => "MILLENIUM";
 
-        public override string ItemPickupDesc => "Create a tidal cataclysm on hit that grounds and collapses enemies. Corrupts all Sun Fragments.";
+        public override string ItemPickupDesc => "Create a tidal cataclysm on hit that grounds and collapses enemies. <style=cIsVoid>Corrupts all Sun Fragments</style>.";
 
-        public override string ItemFullDescription => ("$su" + chance + "%$se chance on hit to create a $sdtidal cataclysm$se in a $su" + baseExplosionRadius + "m$se (+" + stackExplosionRadius + "m per stack) radius, $sdcollapsing$se and $sugrounding$se enemies for $sd400%$se base damage.").AutoFormat();
+        public override string ItemFullDescription => ("$su" + chance + "%$se chance on hit to create a $sdtidal cataclysm$se in a $su" + baseExplosionRadius + "m$se (+" + stackExplosionRadius + "m per stack) radius, $sdcollapsing$se and $sugrounding$se enemies for $sd400%$se base damage. <style=cIsVoid>Corrupts all Sun Fragments</style>.").AutoFormat();
 
         public override string ItemLore => "This voice.\r\nI hear ringing..\r\nIt asks.\r\nIt invades my mind.\r\nMy hearing, reversed..\r\nI'm falling\r\n\r\n[...]\r\n\r\nThis maze, reversed..\r\nCircled by a close fog\r\n\r\n[...]\r\n\r\nI've lost.";
 
-        [ConfigField("Chance", "", 5f)]
+        [ConfigField("Chance", "", 6f)]
         public static float chance;
 
         [ConfigField("Base Explosion Radius", "", 12f)]
@@ -28,7 +27,7 @@ namespace Sandswept.Items.Greens
         [ConfigField("Explosion Proc Coefficient", "", 0.2f)]
         public static float explosionProcCoefficient;
 
-        public override ItemTier Tier => ItemTier.Tier2;
+        public override ItemTier Tier => ItemTier.VoidTier2;
 
         public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("SunFragmentPrefab.prefab");
 
@@ -36,9 +35,6 @@ namespace Sandswept.Items.Greens
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
 
-        public GameObject milleniumVFX;
-
-        public static GameObject FragmentVFXSphere;
         public static ProcType milleniumDoT = (ProcType)3298571298;
         public static ProcType milleniumAoE = (ProcType)3298571264;
 
@@ -46,32 +42,34 @@ namespace Sandswept.Items.Greens
 
         public static DamageAPI.ModdedDamageType milleniumDamageType;
 
+        public static GameObject vfx;
+
         public override void Init(ConfigFile config)
         {
             milleniumDamageType = DamageAPI.ReserveDamageType();
 
-            milleniumVFX = Main.MainAssets.LoadAsset<GameObject>("FragmentFXRing.prefab");
-            var component = milleniumVFX.AddComponent<EffectComponent>();
-            component.applyScale = true;
-            Main.EffectPrefabs.Add(milleniumVFX);
+            vfx = PrefabAPI.InstantiateClone(Assets.GameObject.NullifierExplosion, "Millenium VFX", false);
 
-            FragmentVFXSphere = Main.MainAssets.LoadAsset<GameObject>("FragmentFXSphere.prefab");
-            var Renderer = FragmentVFXSphere.GetComponent<ParticleSystemRenderer>();
-            var val = FragmentVFXSphere.AddComponent<HGIntersectionController>();
-            val.Renderer = Renderer;
-            var val3 = val.Renderer.material;
-            Material val4 = Object.Instantiate(val3);
-            val4.SetColor("_TintColor", new Color32(255, 120, 0, 255));
-            val4.SetTexture("_Cloud1Tex", Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Grandparent/texGrandparentDetailGDiffuse.png").WaitForCompletion());
-            val4.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture>("RoR2/Base/Common/ColorRamps/texRampParentTeleport.png").WaitForCompletion());
-            val4.SetFloat("_IntersectionStrength", 0.95f);
-            Renderer.material = val4;
-            var component2 = FragmentVFXSphere.AddComponent<EffectComponent>();
-            component2.applyScale = true;
-            Main.EffectPrefabs.Add(FragmentVFXSphere);
+            var trans = vfx.transform;
+
+            var vacuumStars = trans.Find("Vacuum Stars");
+            var vacuumStarsPSR = vacuumStars.GetComponent<ParticleSystemRenderer>();
+
+            var newStarMat = Object.Instantiate(Assets.Material.matNullifierStarParticle);
+            newStarMat.SetColor("_TintColor", new Color32(15, 49, 44, 255));
+
+            var sphere = trans.Find("Sphere");
+            var sphereMeshRenderer = sphere.GetComponent<MeshRenderer>();
+
+            var newPortalMat = Object.Instantiate(Assets.Material.matNullifierGemPortal);
+            newPortalMat.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("texMillenium2.png"));
+            newPortalMat.SetTexture("_EmissionTex", Main.hifuSandswept.LoadAsset<Texture2D>("texMillenium1.png"));
+
+            sphereMeshRenderer.materials[0] = newPortalMat;
+
+            ContentAddition.AddEffect(vfx);
 
             CreateLang();
-            CreateUnlockLang();
             CreateItem();
             Hooks();
         }
@@ -80,6 +78,18 @@ namespace Sandswept.Items.Greens
         {
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
+            On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
+        }
+
+        private void ContagiousItemManager_Init(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
+        {
+            ItemDef.Pair transformation = new()
+            {
+                itemDef1 = instance.ItemDef,
+                itemDef2 = Greens.SunFragment.instance.ItemDef
+            };
+            ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].AddToArray(transformation);
+            orig();
         }
 
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
@@ -133,6 +143,7 @@ namespace Sandswept.Items.Greens
             {
                 if (Util.CheckRoll(chance * damageInfo.procCoefficient, attackerBody.master))
                 {
+                    /*
                     EffectData effectData = new()
                     {
                         origin = victimBody.corePosition,
@@ -146,7 +157,7 @@ namespace Sandswept.Items.Greens
                     };
                     EffectManager.SpawnEffect(milleniumVFX, effectData, true);
                     EffectManager.SpawnEffect(FragmentVFXSphere, effectData2, true);
-
+                    */
                     // var damage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, baseTotalDamage + stackTotalDamage * (stack - 1));
 
                     float mass;
@@ -155,9 +166,11 @@ namespace Sandswept.Items.Greens
                     else if (victimBody.rigidbody) mass = victimBody.rigidbody.mass;
                     else mass = 1f;
 
+                    var radius = baseExplosionRadius + stackExplosionRadius * (stack - 1);
+
                     BlastAttack blastAttack = new()
                     {
-                        radius = baseExplosionRadius,
+                        radius = radius,
                         baseDamage = Mathf.Epsilon, // dont ask
                         procCoefficient = explosionProcCoefficient,
                         crit = damageInfo.crit,
@@ -168,7 +181,7 @@ namespace Sandswept.Items.Greens
                         teamIndex = attackerBody.teamComponent.teamIndex,
                         position = damageInfo.position,
                         damageType = DamageType.Silent | DamageType.BypassArmor | DamageType.BypassBlock, // I said dont ask
-                        bonusForce = new Vector3(0f, -10f * mass, 0f)
+                        bonusForce = new Vector3(0f, -25f * mass, 0f)
                     };
 
                     blastAttack.AddModdedDamageType(milleniumDamageType);

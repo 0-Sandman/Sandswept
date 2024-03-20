@@ -285,11 +285,20 @@ namespace Sandswept.Items.Greens
             body.onInventoryChanged += Body_onInventoryChanged;
         }
 
+        public void OnEnable()
+        {
+            if (NetworkServer.active)
+            {
+                Main.ModLogger.LogError("subscribinbingign to master summon");
+                onServerMasterSummonGlobal += MasterSummon_onServerMasterSummonGlobal;
+            }
+        }
+
         private void Body_onInventoryChanged()
         {
             var group = master.minionOwnership.group;
             Main.ModLogger.LogError("minion ownership is " + master.minionOwnership);
-            Main.ModLogger.LogError("group is " + group);
+            Main.ModLogger.LogError("group is " + group); // ITS NULL???????????????????????
             Main.ModLogger.LogError("group member count is " + group.memberCount);
             for (int i = 0; i < group.memberCount; i++)
             {
@@ -322,15 +331,6 @@ namespace Sandswept.Items.Greens
             }
         }
 
-        public void OnEnable()
-        {
-            if (NetworkServer.active)
-            {
-                Main.ModLogger.LogError("subscribinbingign to master summon");
-                onServerMasterSummonGlobal += MasterSummon_onServerMasterSummonGlobal;
-            }
-        }
-
         private void MasterSummon_onServerMasterSummonGlobal(MasterSummonReport masterSummonReport)
         {
             if (!master)
@@ -353,7 +353,7 @@ namespace Sandswept.Items.Greens
                 return;
             }
 
-            var npcBody = masterSummonReport.summonMasterInstance.GetBody();
+            var npcBody = npcAlly.GetBody();
             if (npcBody && (body.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
             {
                 Main.ModLogger.LogError("master summon: ally is mechanical");
@@ -401,6 +401,11 @@ namespace Sandswept.Items.Greens
 
             var stack = body.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
 
+            if (stack <= 0)
+            {
+                Destroy(this);
+            }
+
             if (enemyCheckTimer >= enemyCheckInterval)
             {
                 for (int i = 0; i < CharacterBody.readOnlyInstancesList.Count; i++)
@@ -425,18 +430,7 @@ namespace Sandswept.Items.Greens
             {
                 stopwatch = totalMissileDelay;
 
-                if ((body.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
-                    StartCoroutine(FireMissiles(stack));
-
-                if (stack <= 0)
-                {
-                    Destroy(this);
-                }
-            }
-
-            if (stack <= 0)
-            {
-                Destroy(this);
+                StartCoroutine(FireMissiles(stack));
             }
         }
 
