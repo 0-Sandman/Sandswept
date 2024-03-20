@@ -116,6 +116,10 @@ namespace Sandswept.Items.Greens
 
             var dashRings = particles.transform.GetChild(1).GetComponent<ParticleSystemRenderer>();
             dashRings.material = newMat;
+            var dashringsPS = dashRings.GetComponent<ParticleSystem>().emission;
+            var burst = dashringsPS.GetBurst(0);
+            var burstCount = burst.count;
+            burstCount.constant = 6;
 
             var flashRed = particles.transform.GetChild(3).GetComponent<ParticleSystem>().main.startColor;
             flashRed.color = new Color32(77, 255, 0, 255);
@@ -171,7 +175,7 @@ namespace Sandswept.Items.Greens
             missileProjectileController.ghostPrefab = ghost;
 
             var missileController = missilePrefab.GetComponent<MissileController>();
-            missileController.maxSeekDistance = 10000f;
+            missileController.maxSeekDistance = 60f;
             missileController.turbulence = 0f;
             missileController.deathTimer = 30f;
             missileController.giveupTimer = 30f;
@@ -197,13 +201,12 @@ namespace Sandswept.Items.Greens
             }
 
             var inventory = body.inventory;
-            if (!inventory)
+            if (!inventory || body.GetComponent<SalvoPlayerController>())
             {
                 return;
             }
 
-            var stack = inventory.GetItemCount(ItemDef);
-            body.AddItemBehavior<SalvoPlayerController>(stack);
+            body.gameObject.AddComponent<SalvoPlayerController>();
             // Main.ModLogger.LogError("oninventorychagned: giving itembehavior");
         }
 
@@ -275,12 +278,14 @@ namespace Sandswept.Items.Greens
         */
     }
 
-    public class SalvoPlayerController : CharacterBody.ItemBehavior
+    public class SalvoPlayerController : MonoBehaviour
     {
         public CharacterMaster master;
+        public CharacterBody body;
 
         public void Start()
         {
+            body = GetComponent<CharacterBody>();
             master = body.master;
             body.onInventoryChanged += Body_onInventoryChanged;
         }
@@ -324,6 +329,9 @@ namespace Sandswept.Items.Greens
                     {
                         npcMaster.AddComponent<SalvoBehaviour>();
                     }
+
+                    var stack = body.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
+
                     npcBody.inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
                     npcBody.inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
                 }
@@ -357,6 +365,9 @@ namespace Sandswept.Items.Greens
                 {
                     npcMaster.AddComponent<SalvoBehaviour>();
                 }
+
+                var stack = body.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
+
                 npcMaster.inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
                 npcMaster.inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
             }
@@ -378,7 +389,7 @@ namespace Sandswept.Items.Greens
         public CharacterBody body;
         public CharacterMaster master;
         public float totalMissileDelay = 5f;
-        public float enemyCheckInterval = 0.1f;
+        public float enemyCheckInterval = 0.25f;
         public float enemyCheckTimer = 0f;
         public float stopwatch = 0f;
         public bool shouldFire = false;
@@ -405,9 +416,37 @@ namespace Sandswept.Items.Greens
 
             if (enemyCheckTimer >= enemyCheckInterval)
             {
-                for (int i = 0; i < CharacterBody.readOnlyInstancesList.Count; i++)
+                if (!body)
                 {
-                    var body = CharacterBody.readOnlyInstancesList[i];
+                    body = master.GetBody();
+                }
+
+                var sphereSearch = new SphereSearch()
+                {
+                    mask = LayerIndex.entityPrecise.mask,
+                    origin = body.corePosition,
+                    radius = 75f,
+                    queryTriggerInteraction = QueryTriggerInteraction.Ignore
+                };
+                sphereSearch.RefreshCandidates();
+                sphereSearch.FilterCandidatesByDistinctHurtBoxEntities();
+                var hurtBoxes = sphereSearch.GetHurtBoxes();
+                for (int i = 0; i < hurtBoxes.Length; i++)
+                {
+                    var hurtBox = hurtBoxes[i];
+
+                    var hc = hurtBox.healthComponent;
+                    if (!hc)
+                    {
+                        continue;
+                    }
+
+                    var body = hc.body;
+                    if (!body)
+                    {
+                        continue;
+                    }
+
                     if (!body.teamComponent)
                     {
                         continue;
@@ -420,10 +459,11 @@ namespace Sandswept.Items.Greens
 
                     shouldFire = true;
                 }
+
                 enemyCheckTimer = 0f;
             }
 
-            if (stopwatch <= 0)
+            if (stopwatch <= 0 && body && shouldFire)
             {
                 stopwatch = totalMissileDelay;
 

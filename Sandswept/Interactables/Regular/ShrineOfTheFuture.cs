@@ -1,4 +1,5 @@
-﻿using static RoR2.CombatDirector;
+﻿/*
+using static RoR2.CombatDirector;
 
 namespace Sandswept.Interactables.Regular
 {
@@ -130,3 +131,4 @@ namespace Sandswept.Interactables.Regular
         }
     }
 }
+*/

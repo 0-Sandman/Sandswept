@@ -4,9 +4,9 @@
 
 # It currently adds...
 - 1 Survivor
-- 1 Elite
+- 2 Elites
 - 1 Equipment
-- 10 Items
+- 11 Items
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
@@ -44,6 +44,8 @@
 |<img src="https://i.postimg.cc/yd9LgHmF/tex-Nuclear-Salvo.png" width="96"/> | **Nuclear Salvo** | Every 5 seconds, all mechanical allies fire 2 (+2 per stack) nuclear missiles that deal 100% base damage each and ignite on hit. | Green |
 |<img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"/> | **Universal VIP Pass** | Whenever you make a gold purchase store 40% (+40% per stack) of the spent gold as credit. Receive gold equal to credit on the next stage. Scales over time. | Green |
 |<img src="https://i.postimg.cc/QtFVs3R3/Document-Icon.png" width="96"/> | **Smouldering Document** | 5% chance to ignite enemies on hit for 250% TOTAL damage. Damage over time effects burden enemies, reducing their damage by 12.5% (+12.5% per stack, hyperbolic) and attack speed by 12.5% (+12.5% per stack, hyperbolic). | Green |
+| | | |
+| iconnn |  **Millenium** | 6% chance on hit to create a tidal cataclysm in a 12m (+4m per stack) area, collapsing and grounding enemies for 400% base damage. Corrupts all Sun Fragments. | Void Green |
 | | | |
 |<img src="https://i.postimg.cc/PxjsGfV3/tex-Bleeding-Witness.png" width="96"/> | **Bleeding Witness** | 5% chance to hemorrhage enemies for 480% base damage. Your damage over time effects heal all allies for 0.5% (+0.25% per stack) of their maximum health. | Red |
 |<img src="https://i.postimg.cc/pXf50nwk/tex-Ceremonial-Jar.png" width="96"/> | **Ceremonial Jar** | On hit, link enemies up to 3 times. Linked enemies take 1500% (+750% per stack) base damage each and cannot be linked for 5s afterwards. | Red |

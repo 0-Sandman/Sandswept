@@ -129,7 +129,7 @@ namespace Sandswept.Elites
 
             warbanner = PrefabAPI.InstantiateClone(Assets.GameObject.WarbannerWard, "Motivator Warbanner");
             var mdlWarbanner = warbanner.transform.GetChild(1);
-            mdlWarbanner.transform.localPosition = new Vector3(0f, 3f, 0f);
+            mdlWarbanner.transform.localPosition = Vector3.zero;
             mdlWarbanner.RemoveComponent<ObjectScaleCurve>();
 
             var buffWard = warbanner.GetComponent<BuffWard>();
@@ -258,12 +258,11 @@ namespace Sandswept.Elites
             if (modelTransform)
             {
                 warbannerOffset.transform.parent = modelTransform;
-                warbannerOffset.transform.localPosition = new Vector3(0f, 0f, 0f) * body.radius;
+                warbannerOffset.transform.localPosition = new Vector3(0f, Util.GetBodyPrefabFootOffset(body.gameObject), 0f);
                 warbannerOffset.transform.eulerAngles = Vector3.zero;
 
                 warbannerInstance = Instantiate(warbannerPrefab, modelTransform.position, Quaternion.identity);
                 warbannerInstance.transform.parent = warbannerOffset.transform;
-                warbannerOffset.transform.eulerAngles = Vector3.zero;
 
                 warbannerInstance.GetComponent<TeamFilter>().teamIndex = body.teamComponent.teamIndex;
                 warbannerInstance.GetComponent<BuffWard>().Networkradius = warbannerRadius;
@@ -299,9 +298,15 @@ namespace Sandswept.Elites
         public void FixedUpdate()
         {
             if (warbannerOffset && modelTransform)
-                warbannerOffset.transform.rotation = modelTransform.rotation;
+            {
+                warbannerOffset.transform.eulerAngles = modelTransform.eulerAngles;
+            }
+
             if (warbannerInstance)
+            {
                 warbannerInstance.transform.localPosition = Vector3.zero;
+                warbannerInstance.transform.localEulerAngles = Vector3.zero;
+            }
         }
 
         public void Proc()
