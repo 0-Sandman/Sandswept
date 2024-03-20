@@ -204,10 +204,10 @@ namespace Sandswept.Items.Greens
 
             var stack = inventory.GetItemCount(ItemDef);
             body.AddItemBehavior<SalvoPlayerController>(stack);
-            Main.ModLogger.LogError("oninventorychagned: giving itembehavior");
+            // Main.ModLogger.LogError("oninventorychagned: giving itembehavior");
         }
 
-        /*
+        /* THIS IS THE PREVIOUS CODE THAT PSEUDOPULSE WROTE :SOB:
         public void GiveItem(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
         {
             orig(self);
@@ -289,71 +289,36 @@ namespace Sandswept.Items.Greens
         {
             if (NetworkServer.active)
             {
-                Main.ModLogger.LogError("subscribinbingign to master summon");
+                // Main.ModLogger.LogError("subscribinbingign to master summon");
                 onServerMasterSummonGlobal += MasterSummon_onServerMasterSummonGlobal;
             }
         }
 
         private void Body_onInventoryChanged()
         {
-            /*
-            var group = master.minionOwnership.group;
-            Main.ModLogger.LogError("minion ownership is " + master.minionOwnership);
-            Main.ModLogger.LogError("group is " + group); // ITS NULL???????????????????????
-            Main.ModLogger.LogError("group member count is " + group.memberCount);
-            for (int i = 0; i < group.memberCount; i++)
-            {
-                var member = group.members[i];
-                var npcAlly = member.GetComponent<CharacterMaster>();
-                if (!npcAlly)
-                {
-                    Main.ModLogger.LogError("couldnt get member master");
-                    continue;
-                }
-
-                var npcBody = npcAlly.GetBody();
-                if (!npcBody)
-                {
-                    Main.ModLogger.LogError("couldnt get member body");
-                    continue;
-                }
-
-                if (npcBody && (npcBody.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
-                {
-                    Main.ModLogger.LogError("member is mechanical");
-                    var salvo = npcAlly.GetComponent<SalvoBehaviour>();
-                    if (salvo == null)
-                    {
-                        npcAlly.AddComponent<SalvoBehaviour>();
-                    }
-                    npcBody.inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
-                    npcBody.inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
-                }
-            }
-            */
             var members = CharacterMaster.readOnlyInstancesList.Where(member => member.minionOwnership.ownerMaster == master).ToList();
-            Main.ModLogger.LogError("members is " + members);
-            Main.ModLogger.LogError("member count is " + members.Count);
+            // Main.ModLogger.LogError("members is " + members);
+            // Main.ModLogger.LogError("member count is " + members.Count);
             for (int i = 0; i < members.Count; i++)
             {
                 var member = members[i];
                 var npcMaster = member.GetComponent<CharacterMaster>();
                 if (!npcMaster)
                 {
-                    Main.ModLogger.LogError("couldnt get member master");
+                    // Main.ModLogger.LogError("couldnt get member master");
                     continue;
                 }
 
                 var npcBody = npcMaster.GetBody();
                 if (!npcBody)
                 {
-                    Main.ModLogger.LogError("couldnt get member body");
+                    // Main.ModLogger.LogError("couldnt get member body");
                     continue;
                 }
 
                 if (npcBody && (npcBody.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
                 {
-                    Main.ModLogger.LogError("member is mechanical");
+                    // Main.ModLogger.LogError("member is mechanical");
                     var salvo = npcMaster.GetComponent<SalvoBehaviour>();
                     if (salvo == null)
                     {
@@ -369,28 +334,24 @@ namespace Sandswept.Items.Greens
         {
             if (!master)
             {
-                Main.ModLogger.LogError("master summon: master is not real");
                 return;
             }
 
             if (master != masterSummonReport.leaderMasterInstance)
             {
-                Main.ModLogger.LogError("master summon: leader master instance is " + masterSummonReport.leaderMasterInstance); // WHAT THE FUCK ITS NULL
-                Main.ModLogger.LogError("master summon: master doesnt equal leader master instance");
                 return;
             }
 
             var npcMaster = masterSummonReport.summonMasterInstance;
             if (!npcMaster)
             {
-                Main.ModLogger.LogError("master summon: couldnt get summon master instance");
                 return;
             }
 
             var npcBody = npcMaster.GetBody();
             if (npcBody && (npcBody.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
             {
-                Main.ModLogger.LogError("master summon: ally is mechanical");
+                // Main.ModLogger.LogError("master summon: ally is mechanical");
                 var salvo = npcMaster.GetComponent<SalvoBehaviour>();
                 if (salvo == null)
                 {
