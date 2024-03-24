@@ -12,7 +12,60 @@ namespace Sandswept.Components
 
         public static void Init()
         {
+            LanguageAPI.Add("SANDSWEPT_OBJECTIVE_CHARGE_TP_EARLY", "Find and activate the <style=cDeath>Teleporter <sprite name=\"TP\" tint=1></style> within <style=cDeath>{0}s!</style>");
+            LanguageAPI.Add("SANDSWEPT_OBJECTIVE_GET_UP_TO_X_PICKUPS", "Find up to <style=cIsUtility>{0} pickups</style>");
             On.RoR2.Stage.Start += Stage_Start;
+            GlobalEventManager.OnInteractionsGlobal += GlobalEventManager_OnInteractionsGlobal;
+        }
+
+        // use unity events to listen when currentPickupCount >= maxPickupCount and currentTeleporterTime >= maxTeleporterTime (or vice versa)
+        // and then remove the objective, like MoonBatteryMissionController do AND also grant a random reward type
+        // reward count should prolly scale with stages completed
+
+        private static void GlobalEventManager_OnInteractionsGlobal(Interactor interactor, IInteractable interactable, GameObject interactableObject)
+        {
+            if (!interactor)
+            {
+                return;
+            }
+            var body = interactor.GetComponent<CharacterBody>();
+            if (!body)
+            {
+                return;
+            }
+
+            var master = body.master;
+            if (!master)
+            {
+                return;
+            }
+
+            if (IsActualInteractable(interactableObject))
+            {
+                return;
+            }
+
+            if (master.TryGetComponent<SandsweptObjectiveController>(out var sandsweptObjectiveController))
+            {
+                sandsweptObjectiveController.currentPickupCount++;
+            }
+        }
+
+        public static bool IsActualInteractable(GameObject interactable)
+        {
+            if (interactable.TryGetComponent<InteractionProcFilter>(out var interactionProcFilter))
+            {
+                return interactionProcFilter.shouldAllowOnInteractionBeginProc;
+            }
+            if (interactable.GetComponent<VehicleSeat>())
+            {
+                return true;
+            }
+            if (interactable.GetComponent<NetworkUIPromptController>())
+            {
+                return true;
+            }
+            return false;
         }
 
         private static void Stage_Start(On.RoR2.Stage.orig_Start orig, RoR2.Stage self)
@@ -46,7 +99,15 @@ namespace Sandswept.Components
         public int rerollCount = 0;
         public int maxRerollCount = 10;
 
+        public CharacterBody body;
+        public PlayerCharacterMasterController pcmc;
         public Inventory inventory;
+
+        public bool addedChargeTPEarly = false;
+        public bool addedGetUpToXPickups = false;
+
+        public string chargeTPEarlyToken = "SANDSWEPT_OBJECTIVE_CHARGE_TP_EARLY";
+        public string getUpToXPickupsToken = "SANDSWEPT_OBJECTIVE_GET_UP_TO_X_PICKUPS";
 
         public enum ObjectiveType
         {
@@ -76,16 +137,17 @@ namespace Sandswept.Components
         public void Start()
         {
             inventory = GetComponent<Inventory>();
+            pcmc = GetComponent<PlayerCharacterMasterController>();
+            body = pcmc.body;
         }
 
-        private void OnCollectObjectiveSources(CharacterMaster master, List<ObjectivePanelController.ObjectiveSourceDescriptor> objectiveSourcesList)
+        public void FixedUpdate()
         {
-            objectiveSourcesList.Add(new ObjectivePanelController.ObjectiveSourceDescriptor
+            if (currentTeleporterTimer >= 0f)
             {
-                master = master,
-                objectiveType = typeof(),
-                source = this
-            });
+                currentTeleporterTimer -= Time.fixedDeltaTime;
+                // currentTeleporterTimer = Mathf.Max(0f, currentTeleporterTimer);
+            }
         }
 
         public Tuple<float, ObjectiveType> GetRandomObjective(Xoroshiro128Plus rng, RoR2.Stage stage, CharacterBody body)
@@ -95,19 +157,24 @@ namespace Sandswept.Components
                 return null;
             }
             var randomTeleporterActivationTime = GetRandomTeleporterActivationTime(rng, stage, body);
-            if (randomTeleporterActivationTime <= -1f)
+            if (randomTeleporterActivationTime <= -1f && !addedChargeTPEarly)
             {
                 GetRandomObjective(rng, stage, body);
                 rerollCount++;
+
                 // reroll, failed to find teleporter instance
             }
             else
             {
+                maxTeleporterTimer = randomTeleporterActivationTime;
+                currentTeleporterTimer = randomTeleporterActivationTime;
+                addedChargeTPEarly = true;
+                ObjectivePanelController.collectObjectiveSources += AddChargeTpEarlyObjective;
                 return new Tuple<float, ObjectiveType>(randomTeleporterActivationTime, ObjectiveType.ChargeTPEarly);
             }
 
             var randomPickupCount = GetRandomPickupCount();
-            if (randomPickupCount == -1)
+            if (randomPickupCount == -1 && !addedGetUpToXPickups)
             {
                 GetRandomObjective(rng, stage, body);
                 rerollCount++;
@@ -115,10 +182,37 @@ namespace Sandswept.Components
             }
             else
             {
+                addedGetUpToXPickups = true;
+                maxPickupCount = randomPickupCount;
+                currentPickupCount = 0;
+                ObjectivePanelController.collectObjectiveSources += AddGetUpToXPickupsObjective;
                 return new Tuple<float, ObjectiveType>(randomPickupCount, ObjectiveType.ChargeTPEarly);
             }
 
             return null;
+        }
+
+        private void AddChargeTpEarlyObjective(CharacterMaster master, List<ObjectivePanelController.ObjectiveSourceDescriptor> objectiveSourcesList)
+        {
+            if (currentTeleporterTimer > 0f)
+            {
+                objectiveSourcesList.Add(new ObjectivePanelController.ObjectiveSourceDescriptor
+                {
+                    master = master,
+                    objectiveType = typeof(ChargeTPEarlyObjectiveTracker),
+                    source = this
+                });
+            }
+        }
+
+        private void AddGetUpToXPickupsObjective(CharacterMaster master, List<ObjectivePanelController.ObjectiveSourceDescriptor> objectiveSourcesList)
+        {
+            objectiveSourcesList.Add(new ObjectivePanelController.ObjectiveSourceDescriptor
+            {
+                master = master,
+                objectiveType = typeof(GetUpToXPickupsObjectiveTracker),
+                source = this
+            });
         }
 
         public float GetRandomTeleporterActivationTime(Xoroshiro128Plus rng, RoR2.Stage stage, CharacterBody body)
@@ -228,7 +322,42 @@ namespace Sandswept.Components
 
         public void OnDisable()
         {
-            ObjectivePanelController.collectObjectiveSources -= OnCollectObjectiveSources;
+            ObjectivePanelController.collectObjectiveSources -= AddChargeTpEarlyObjective;
+            ObjectivePanelController.collectObjectiveSources -= AddGetUpToXPickupsObjective;
+        }
+    }
+
+    public class ChargeTPEarlyObjectiveTracker : ObjectivePanelController.ObjectiveTracker
+    {
+        public float currentTeleporterTimer = -1;
+
+        public override string GenerateString()
+        {
+            var SandsweptObjectiveController = (SandsweptObjectiveController)sourceDescriptor.source;
+            currentTeleporterTimer = SandsweptObjectiveController.currentTeleporterTimer;
+            return string.Format(Language.GetString(SandsweptObjectiveController.chargeTPEarlyToken), currentTeleporterTimer);
+        }
+
+        public override bool IsDirty()
+        {
+            return ((SandsweptObjectiveController)this.sourceDescriptor.source).currentTeleporterTimer != currentTeleporterTimer;
+        }
+    }
+
+    public class GetUpToXPickupsObjectiveTracker : ObjectivePanelController.ObjectiveTracker
+    {
+        public int currentPickupCount = -1;
+
+        public override string GenerateString()
+        {
+            var SandsweptObjectiveController = (SandsweptObjectiveController)sourceDescriptor.source;
+            currentPickupCount = SandsweptObjectiveController.currentPickupCount;
+            return string.Format(Language.GetString(SandsweptObjectiveController.getUpToXPickupsToken), currentPickupCount);
+        }
+
+        public override bool IsDirty()
+        {
+            return ((SandsweptObjectiveController)this.sourceDescriptor.source).currentPickupCount != currentPickupCount;
         }
     }
 }
