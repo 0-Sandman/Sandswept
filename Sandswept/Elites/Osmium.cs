@@ -35,7 +35,7 @@ namespace Sandswept.Elites
 
         public override CombatDirector.EliteTierDef[] CanAppearInEliteTiers => EliteAPI.GetCombatDirectorEliteTiers().Where(x => x.eliteTypes.Contains(Addressables.LoadAssetAsync<EliteDef>("RoR2/Base/ElitePoison/edPoison.asset").WaitForCompletion())).ToArray();
 
-        public override Color EliteBuffColor => new Color32(110, 64, 255, 255);
+        public override Color EliteBuffColor => Color.white;
 
         public static GameObject aura;
         public static BuffDef outsideAura;

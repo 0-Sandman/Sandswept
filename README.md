@@ -31,6 +31,8 @@
 | Icon | Elite | Description | Tier |
 |:-|-|------|-|
 |<img src="https://i.postimg.cc/yxFxrwbW/tex-Motivator-Affix.png" width="64"/> | **Motivator** | Passively carries a warbanner that grants all allies and itself 25% movement speed and 25% attack speed in a 20m radius. On hit, increases all ally attack speed by 25% in a 20m radius for 4s. | Tier 1 |
+| | | |
+|<img src=""/> | **Osmium** | Passively has a 13m-40m aura, scaling with base max health, that makes every ally and itself inside take 75% less damage and reduce procs by 50% from the outside. From the inside, takes 33% more damage instead, but passively pulls down all airborne enemies every second. | Tier 2 |
 
 # Items
 | Icon | Item | Description | Tier |
@@ -39,7 +41,7 @@
 |<img src="https://i.postimg.cc/1RVSGrFJ/tex-Red-Spring-Water.png" width="96"/> | **Red Spring Water** | Increase health regeneration by 0.4 hp/s, plus an additional 0.4 hp/s (+0.4 hp/s per stack) for every buff you have. | White |
 |<img src="https://i.postimg.cc/sfH2YN1y/tex-Fractured-Timepiece.png" width="96"/> | **Fractured Timepiece** | Upon using your utility skill, heal for 5% (+5% per stack) of your maximum health and reduce special skill cooldown by 15%. | White |
 | | | |
-|<img src="https://i.postimg.cc/LXcqFPFd/tex-Sun-Fragment.png" width="96"/> | **Sun Fragment** | 7% chance on hit to create a blinding flash in a 12m area, stunning for 2s and igniting enemies for 150% (+150% per stack) TOTAL damage | Green |
+|<img src="https://i.postimg.cc/LXcqFPFd/tex-Sun-Fragment.png" width="96"/> | **Sun Fragment** | 7% chance on hit to create a blinding flash in a 12m area, stunning for 2s and igniting enemies for 150% (+150% per stack) TOTAL damage. | Green |
 |<img src="https://i.postimg.cc/1XN5VLQJ/tex-Pocket-Plutonium.png" width="96"/> | **Pocket Plutonium** | Gain a shield equal to 10% of your maximum health. Upon losing all shield, create a nuclear pool in a 16m area that deals 750% (+750% per stack) base damage, plus an additional 250% (+250% per stack) of shields. | Green |
 |<img src="https://i.postimg.cc/yd9LgHmF/tex-Nuclear-Salvo.png" width="96"/> | **Nuclear Salvo** | Every 5 seconds, all mechanical allies fire 2 (+2 per stack) nuclear missiles that deal 100% base damage each and ignite on hit. | Green |
 |<img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"/> | **Universal VIP Pass** | Whenever you make a gold purchase store 40% (+40% per stack) of the spent gold as credit. Receive gold equal to credit on the next stage. Scales over time. | Green |
