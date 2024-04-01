@@ -59,10 +59,10 @@ namespace Sandswept.Items.VoidGreens
             var sphereMeshRenderer = sphere.GetComponent<MeshRenderer>();
             sphere.GetComponent<ObjectScaleCurve>().baseScale = Vector3.one;
 
-            var explosionSphere = trans.Find("ExplosionSphere").GetComponent<MeshRenderer>();
+            var explosionSphere = trans.Find("ExplosionSphere").GetComponent<ParticleSystemRenderer>();
 
-            var newExplosionMat = Object.Instantiate(Assets.Material.matNullifierExplosionAreaIndicatorSoft);
-            newExplosionMat.SetTexture("_RemapTex", Assets.Texture2D.texRampArcaneCircle);
+            var newExplosionMat = Object.Instantiate(Addressables.LoadAssetAsync<Material>("RoR2/Base/Nullifier/matNullifierExplosionAreaIndicatorSoft.mat").WaitForCompletion());
+            newExplosionMat.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Common/ColorRamps/texRampArcaneCircle.png").WaitForCompletion());
             newExplosionMat.SetColor("_TintColor", new Color32(72, 0, 255, 255));
             newExplosionMat.SetFloat("_RimPower", 1.569113f);
             newExplosionMat.SetFloat("_RimStrength", 2.149275f);
