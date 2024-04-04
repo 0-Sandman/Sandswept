@@ -227,6 +227,16 @@ namespace Sandswept.Elites
         {
             return false;
         }
+
+        public static float GetOffset(GameObject prefab)
+        {
+            var capsuleCollider = prefab.GetComponent<CapsuleCollider>();
+            if (capsuleCollider)
+            {
+                return capsuleCollider.height * 0.5f + capsuleCollider.center.y;
+            }
+            return 0f;
+        }
     }
 
     public class MotivatorController : MonoBehaviour
@@ -258,7 +268,7 @@ namespace Sandswept.Elites
             if (modelTransform)
             {
                 warbannerOffset.transform.parent = modelTransform;
-                warbannerOffset.transform.localPosition = new Vector3(0f, Util.GetBodyPrefabFootOffset(body.gameObject), 0f);
+                warbannerOffset.transform.localPosition = new Vector3(0f, Motivating.GetOffset(body.gameObject), 0f);
                 warbannerOffset.transform.eulerAngles = Vector3.zero;
 
                 warbannerInstance = Instantiate(warbannerPrefab, modelTransform.position, Quaternion.identity);

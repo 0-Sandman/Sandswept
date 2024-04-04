@@ -25,7 +25,7 @@ namespace Sandswept.Items.VoidGreens
         [ConfigField("Stack Explosion Radius", "", 4f)]
         public static float stackExplosionRadius;
 
-        [ConfigField("Explosion Proc Coefficient", "", 0.2f)]
+        [ConfigField("Explosion Proc Coefficient", "", 0.33f)]
         public static float explosionProcCoefficient;
 
         public override ItemTier Tier => ItemTier.VoidTier2;

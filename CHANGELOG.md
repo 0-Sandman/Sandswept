@@ -3,9 +3,12 @@
   * Added survivor log
   * Reworked animations, rig, IK, FK, etc
 * Items
+  * Added Crown's Diamond
   * Added Millenium
   * Added VFX for Fractured Timepiece
   * Added item logs for Bleeding Witness and Ceremonial Jar
+  * Buffed Sun Fragment Chance 7% => 9%
+  * Nerfed Sun Fragment Stun Duration 2s => 1.5s
   * Nerfed Nuclear Salvo Missile Range 10000m => 60m
   * Reworked Universal VIP Paws to have a chance of dropping extra items from category chests
   * Made Fractured Timepiece scale Healing and Special Cooldown Reduction with Utility Skill Base Max Stock

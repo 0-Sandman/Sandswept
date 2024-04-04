@@ -6,7 +6,7 @@
 - 1 Survivor
 - 2 Elites
 - 1 Equipment
-- 11 Items
+- 12 Items
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
@@ -32,22 +32,23 @@
 |:-|-|------|-|
 |<img src="https://i.postimg.cc/yxFxrwbW/tex-Motivator-Affix.png" width="64"/> | **Motivator** | Passively carries a warbanner that grants all allies and itself 25% movement speed and 25% attack speed in a 20m radius. On hit, increases all ally attack speed by 25% in a 20m radius for 4s. | Tier 1 |
 | | | |
-|<img src=""/> | **Osmium** | Passively has a 13m-40m aura, scaling with base max health, that makes every ally and itself inside take 75% less damage and reduce procs by 50% from the outside. From the inside, takes 33% more damage instead, but passively pulls down all airborne enemies every second. | Tier 2 |
+|<img src="https://i.postimg.cc/NMWbpbzn/tex-Osmium-Buff.png" width="64"/> | **Osmium** | Passively has a 13m-40m aura, scaling with base max health, that makes every ally and itself inside take 85% less damage and reduce procs by 50% from the outside. From the inside, takes 33% more damage instead, but passively pulls down all airborne enemies every second. Immune to knockback. | Tier 2 |
 
 # Items
 | Icon | Item | Description | Tier |
 |:-|-|------|-|
 |<img src="https://i.postimg.cc/ZKTbBHc7/tex-Amber-Knife.png" width="96"/> | **Amber Knife** | Gain a 10% chance on hit to fire a knife for 140% (+140% per stack) base damage that pierces. Gain 3.5% barrier for every pierce with the knife. | White |
-|<img src="https://i.postimg.cc/1RVSGrFJ/tex-Red-Spring-Water.png" width="96"/> | **Red Spring Water** | Increase health regeneration by 0.4 hp/s, plus an additional 0.4 hp/s (+0.4 hp/s per stack) for every buff you have. | White |
 |<img src="https://i.postimg.cc/sfH2YN1y/tex-Fractured-Timepiece.png" width="96"/> | **Fractured Timepiece** | Upon using your utility skill, heal for 5% (+5% per stack) of your maximum health and reduce special skill cooldown by 15%. | White |
+|<img src="https://i.postimg.cc/1RVSGrFJ/tex-Red-Spring-Water.png" width="96"/> | **Red Spring Water** | Increase health regeneration by 0.4 hp/s, plus an additional 0.4 hp/s (+0.4 hp/s per stack) for every buff you have. | White |
 | | | |
-|<img src="https://i.postimg.cc/LXcqFPFd/tex-Sun-Fragment.png" width="96"/> | **Sun Fragment** | 7% chance on hit to create a blinding flash in a 12m area, stunning for 2s and igniting enemies for 150% (+150% per stack) TOTAL damage. | Green |
+|<img src="" width="96"/> | **Crown's Diamond** | Being out of danger grants 15% of maximum health as barrier. Barrier decays 20% (+20% per stack, hyperbolic) slower while out of combat or danger. | Green |
+|<img src="https://i.postimg.cc/LXcqFPFd/tex-Sun-Fragment.png" width="96"/> | **Sun Fragment** | 9% chance on hit to create a blinding flash in a 12m area, stunning for 1.5s and igniting enemies for 150% (+150% per stack) TOTAL damage. | Green |
 |<img src="https://i.postimg.cc/1XN5VLQJ/tex-Pocket-Plutonium.png" width="96"/> | **Pocket Plutonium** | Gain a shield equal to 10% of your maximum health. Upon losing all shield, create a nuclear pool in a 16m area that deals 750% (+750% per stack) base damage, plus an additional 250% (+250% per stack) of shields. | Green |
 |<img src="https://i.postimg.cc/yd9LgHmF/tex-Nuclear-Salvo.png" width="96"/> | **Nuclear Salvo** | Every 5 seconds, all mechanical allies fire 2 (+2 per stack) nuclear missiles that deal 100% base damage each and ignite on hit. | Green |
-|<img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"/> | **Universal VIP Pass** | Whenever you make a gold purchase store 40% (+40% per stack) of the spent gold as credit. Receive gold equal to credit on the next stage. Scales over time. | Green |
+|<img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"/> | **Universal VIP Pass** | Category chests have a 75% chance of dropping 1 (+1 per stack) extra items.  | Green |
 |<img src="https://i.postimg.cc/QtFVs3R3/Document-Icon.png" width="96"/> | **Smouldering Document** | 5% chance to ignite enemies on hit for 250% TOTAL damage. Damage over time effects burden enemies, reducing their damage by 12.5% (+12.5% per stack, hyperbolic) and attack speed by 12.5% (+12.5% per stack, hyperbolic). | Green |
 | | | |
-| iconnn |  **Millenium** | 6% chance on hit to create a tidal cataclysm in a 12m (+4m per stack) area, collapsing and grounding enemies for 400% base damage. Corrupts all Sun Fragments. | Void Green |
+| iconnn | **Millenium** | 6% chance on hit to create a tidal cataclysm in a 12m (+4m per stack) area, collapsing and grounding enemies for 400% base damage. Corrupts all Sun Fragments. | Void Green |
 | | | |
 |<img src="https://i.postimg.cc/PxjsGfV3/tex-Bleeding-Witness.png" width="96"/> | **Bleeding Witness** | 5% chance to hemorrhage enemies for 480% base damage. Your damage over time effects heal all allies for 0.5% (+0.25% per stack) of their maximum health. | Red |
 |<img src="https://i.postimg.cc/pXf50nwk/tex-Ceremonial-Jar.png" width="96"/> | **Ceremonial Jar** | On hit, link enemies up to 3 times. Linked enemies take 1500% (+750% per stack) base damage each and cannot be linked for 5s afterwards. | Red |
