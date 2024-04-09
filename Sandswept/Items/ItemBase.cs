@@ -104,6 +104,10 @@ namespace Sandswept.Items
 
         protected virtual void CreateUnlockLang()
         {
+            if (AchievementName == null || AchievementDesc == null)
+            {
+                Main.ModLogger.LogError("tried adding unlockable strings to an item without them set");
+            }
             LanguageAPI.Add("ACHIEVEMENT_ITEM_SANDSWEPT_" + ItemLangTokenName + "_NAME", AchievementName);
             LanguageAPI.Add("ACHIEVEMENT_ITEM_SANDSWEPT_" + ItemLangTokenName + "_DESCRIPTION", AchievementDesc);
         }

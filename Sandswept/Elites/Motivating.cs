@@ -129,6 +129,7 @@ namespace Sandswept.Elites
 
             warbanner = PrefabAPI.InstantiateClone(Assets.GameObject.WarbannerWard, "Motivator Warbanner");
             var mdlWarbanner = warbanner.transform.GetChild(1);
+            mdlWarbanner.transform.localPosition = Vector3.zero;
             mdlWarbanner.RemoveComponent<ObjectScaleCurve>();
 
             var buffWard = warbanner.GetComponent<BuffWard>();
@@ -145,11 +146,16 @@ namespace Sandswept.Elites
             newMat2.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("texMotivatorWarbanner.png"));
 
             plane.material = newMat2;
+            plane.GetComponent<Cloth>().enabled = false;
 
             var indicator = warbanner.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>();
 
             var newMat3 = Object.Instantiate(Assets.Material.matWarbannerSphereIndicator2);
-            newMat3.SetColor("_TintColor", new Color32(255, 59, 09, 255));
+            newMat3.SetColor("_TintColor", new Color32(255, 0, 28, 255));
+            newMat3.SetFloat("_InvFade", 1.622365f);
+            newMat3.SetFloat("_RimStrength", 0.2729147f);
+            newMat3.SetFloat("_IntersectionStrength", 1.563318f);
+            newMat3.SetTexture("_RemapTex", Assets.Texture2D.texRampBeamLightning);
 
             indicator.material = newMat3;
 
@@ -221,6 +227,16 @@ namespace Sandswept.Elites
         {
             return false;
         }
+
+        public static float GetOffset(GameObject prefab)
+        {
+            var capsuleCollider = prefab.GetComponent<CapsuleCollider>();
+            if (capsuleCollider)
+            {
+                return capsuleCollider.height * 0.5f + capsuleCollider.center.y;
+            }
+            return 0f;
+        }
     }
 
     public class MotivatorController : MonoBehaviour
@@ -252,12 +268,11 @@ namespace Sandswept.Elites
             if (modelTransform)
             {
                 warbannerOffset.transform.parent = modelTransform;
-                warbannerOffset.transform.localPosition = new Vector3(0f, 0f, 0f) * body.radius;
+                warbannerOffset.transform.localPosition = new Vector3(0f, Motivating.GetOffset(body.gameObject), 0f);
                 warbannerOffset.transform.eulerAngles = Vector3.zero;
 
                 warbannerInstance = Instantiate(warbannerPrefab, modelTransform.position, Quaternion.identity);
                 warbannerInstance.transform.parent = warbannerOffset.transform;
-                warbannerOffset.transform.eulerAngles = Vector3.zero;
 
                 warbannerInstance.GetComponent<TeamFilter>().teamIndex = body.teamComponent.teamIndex;
                 warbannerInstance.GetComponent<BuffWard>().Networkradius = warbannerRadius;
@@ -267,7 +282,7 @@ namespace Sandswept.Elites
                 mdlWarbanner = warbannerInstance.transform.GetChild(1);
                 if (body)
                 {
-                    mdlWarbanner.localScale = Vector3.one * body.radius * 0.25f;
+                    mdlWarbanner.localScale = Vector3.one * body.radius * 0.3f;
                     if (body.isPlayerControlled)
                         mdlWarbanner.gameObject.SetActive(false);
                 }
@@ -293,9 +308,15 @@ namespace Sandswept.Elites
         public void FixedUpdate()
         {
             if (warbannerOffset && modelTransform)
-                warbannerOffset.transform.rotation = modelTransform.rotation;
+            {
+                warbannerOffset.transform.eulerAngles = modelTransform.eulerAngles;
+            }
+
             if (warbannerInstance)
+            {
                 warbannerInstance.transform.localPosition = Vector3.zero;
+                warbannerInstance.transform.localEulerAngles = Vector3.zero;
+            }
         }
 
         public void Proc()

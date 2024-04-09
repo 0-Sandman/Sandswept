@@ -2,26 +2,26 @@
 
 namespace Sandswept.Interactables.Regular
 {
-    [ConfigSection("Interactables :: Shrine of the Void")]
-    internal class ShrineOfTheFuture : InteractableBase
+    [ConfigSection("Interactables :: Shrine of the Future")]
+    internal class ShrineOfTheFuture : InteractableBase<ShrineOfTheFuture>
     {
-        public override string Name => "Shrine of the Void";
+        public override string Name => "Shrine of the Future";
 
         public override DirectorAPI.InteractableCategory Category => InteractableCategory.Shrines;
 
         //public override int MaxSpawnsPerStage => 1;
-        public override int MaxSpawnsPerStage => 10;
+        public override int MaxSpawnsPerStage => 1;
 
         //public override int CreditCost => 20;
-        public override int CreditCost => 0;
+        public override int CreditCost => 40;
 
         public override HullClassification Size => HullClassification.BeetleQueen;
 
         //public override int MinimumStageToAppearOn => 3;
-        public override int MinimumStageToAppearOn => 1;
+        public override int MinimumStageToAppearOn => 3;
 
         //public override int SpawnWeight => 1;
-        public override int SpawnWeight => 100000;
+        public override int SpawnWeight => 1;
 
         public override bool SlightlyRandomizeOrientation => false;
         public override bool OrientToFloor => false;
@@ -31,12 +31,12 @@ namespace Sandswept.Interactables.Regular
         public override void Init()
         {
             base.Init();
-            prefab = PrefabAPI.InstantiateClone(Assets.GameObject.ShrineCombat, "Shrine of the Future");
+            prefab = PrefabAPI.InstantiateClone(Assets.GameObject.ShrineCombat, "Shrine of the Future", true);
 
             var purchaseInteraction = prefab.GetComponent<PurchaseInteraction>();
             purchaseInteraction.displayNameToken = "SANDSWEPT_SHRINE_FUTURE_NAME";
             purchaseInteraction.contextToken = "SANDSWEPT_SHRINE_FUTURE_CONTEXT";
-            // purchaseInteraction.onPurchase.AddListener(delegate { EnableCombatDirector(prefab); });
+            purchaseInteraction.Networkavailable = true;
 
             var genericDisplayNameProvider = prefab.GetComponent<GenericDisplayNameProvider>();
             genericDisplayNameProvider.displayToken = "SANDSWEPT_SHRINE_FUTURE_NAME";
@@ -47,7 +47,7 @@ namespace Sandswept.Interactables.Regular
 
             var combatDirector = prefab.GetComponent<CombatDirector>();
             combatDirector.maximumNumberToSpawnBeforeSkipping = 1;
-            combatDirector.skipSpawnIfTooCheap = true;
+            combatDirector.skipSpawnIfTooCheap = false;
             combatDirector.shouldSpawnOneWave = true;
             combatDirector.spawnDistanceMultiplier = 0.66f;
             combatDirector.goldRewardCoefficient = 0f;
@@ -64,13 +64,29 @@ namespace Sandswept.Interactables.Regular
             LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_CONTEXT", "Defy");
 
             On.RoR2.CombatDirector.Spawn += CombatDirector_Spawn;
+            On.RoR2.SceneDirector.Start += SceneDirector_Start;
+            On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
 
             PostInit();
         }
 
-        public static void EnableCombatDirector(GameObject shrine)
+        private void ClassicStageInfo_RebuildCards(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self)
         {
-            shrine.GetComponent<CombatDirector>().enabled = true;
+            orig(self);
+            if (Run.instance.loopClearCount > 0)
+            {
+                self.interactableCategories.RemoveCardsThatFailFilter(x => x.spawnCard != Instance.interactableSpawnCard);
+            }
+        }
+
+        private void SceneDirector_Start(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
+        {
+            orig(self);
+            var shrineCombatBehaviors = GameObject.FindObjectsOfType<ShrineCombatBehavior>();
+            foreach (ShrineCombatBehavior shrineCombatBehavior in shrineCombatBehaviors)
+            {
+                Main.ModLogger.LogError("found shrine " + shrineCombatBehavior.name);
+            }
         }
 
         public static void SpawnRewards(GameObject shrine)
@@ -118,13 +134,25 @@ namespace Sandswept.Interactables.Regular
             // we're gonna cheat a bit hehe
             if (self.customName == "ShrineOfTheFutureDirector")
             {
-                Main.ModLogger.LogError("elite tier at index 0 is " + eliteTiers[0]);
-                Main.ModLogger.LogError("elite tier at index 1 is " + eliteTiers[1]);
-                Main.ModLogger.LogError("elite tier at index 2 is " + eliteTiers[2]);
-                Main.ModLogger.LogError("random elite from index 0 is " + eliteTiers[0].GetRandomAvailableEliteDef(self.rng));
-                Main.ModLogger.LogError("random elite from index 1 is " + eliteTiers[1].GetRandomAvailableEliteDef(self.rng));
-                Main.ModLogger.LogError("random elite from index 2 is " + eliteTiers[2].GetRandomAvailableEliteDef(self.rng));
-                eliteDef = eliteTiers[2].GetRandomAvailableEliteDef(self.rng); // always t2
+                var prefab = spawnCard.prefab;
+                if (prefab)
+                {
+                    var spawnCardMaster = spawnCard.prefab.GetComponent<CharacterMaster>();
+                    if (spawnCardMaster)
+                    {
+                        var body = spawnCardMaster.GetBody();
+                        if (body.isChampion)
+                        {
+                            spawnCard = null;
+                        }
+                        else
+                        {
+                            self.monsterCredit = 150f * self.creditMultiplier;
+                            eliteDef = eliteTiers[2].GetRandomAvailableEliteDef(self.rng); // always t2
+                            self.monsterCredit *= EliteAPI.VanillaEliteTiers[1].costMultiplier;
+                        }
+                    }
+                }
             }
             return orig(self, spawnCard, eliteDef, spawnTarget, spawnDistance, preventOverhead, valueMultiplier, placementMode);
         }

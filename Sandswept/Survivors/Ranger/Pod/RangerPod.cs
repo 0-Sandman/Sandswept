@@ -102,8 +102,37 @@ namespace Sandswept.Survivors.Ranger.Pod
             orig(self);
             if (self.prefab == Assets.GameObject.SurvivorPodBatteryPanel)
             {
-                var funny = self.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetChild(10).GetChild(2).GetChild(1);
-                funny.gameObject.SetActive(false);
+                var trans = self.transform;
+                var a = trans.GetChild(0);
+                if (a)
+                {
+                    var b = a.GetChild(0);
+                    if (b)
+                    {
+                        var c = b.GetChild(0);
+                        if (c)
+                        {
+                            var d = c.GetChild(0);
+                            if (d)
+                            {
+                                var e = d.GetChild(10);
+                                if (e)
+                                {
+                                    var f = e.GetChild(2);
+                                    if (f)
+                                    {
+                                        var g = f.GetChild(1);
+                                        if (g)
+                                        {
+                                            g.gameObject.SetActive(false);
+                                            // lmao
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
     }

@@ -35,7 +35,7 @@ namespace Sandswept.Elites
 
         public override CombatDirector.EliteTierDef[] CanAppearInEliteTiers => EliteAPI.GetCombatDirectorEliteTiers().Where(x => x.eliteTypes.Contains(Addressables.LoadAssetAsync<EliteDef>("RoR2/Base/ElitePoison/edPoison.asset").WaitForCompletion())).ToArray();
 
-        public override Color EliteBuffColor => new Color32(110, 64, 255, 255);
+        public override Color EliteBuffColor => Color.white;
 
         public static GameObject aura;
         public static BuffDef outsideAura;
@@ -148,6 +148,7 @@ namespace Sandswept.Elites
             var areaIndicator = aura.transform.Find("AreaIndicator");
             var softGlow = areaIndicator.Find("SoftGlow");
             var sphere = areaIndicator.Find("Sphere");
+            sphere.transform.localScale = Vector3.one;
             var light = areaIndicator.Find("Point Light").GetComponent<Light>();
             var core = areaIndicator.Find("Core");
 
@@ -288,7 +289,15 @@ namespace Sandswept.Elites
                         {
                             if (attackerBody.HasBuff(outsideAura))
                             {
-                                damageInfo.damage *= 0.25f;
+                                if (victimBody.isPlayerControlled)
+                                {
+                                    damageInfo.damage *= 0.75f;
+                                }
+                                else
+                                {
+                                    damageInfo.damage *= 0.15f;
+                                }
+
                                 damageInfo.procCoefficient *= 0.5f;
                             }
                             else if (attackerBody.HasBuff(insideAura))
@@ -324,7 +333,8 @@ namespace Sandswept.Elites
                 if (sfp == null)
                 {
                     characterBody.gameObject.AddComponent<OsmiumController>();
-                    AkSoundEngine.PostEvent(Events.Play_artifactBoss_spawn, characterBody.gameObject);
+                    // AkSoundEngine.PostEvent(Events.Play_artifactBoss_idle_VO, characterBody.gameObject);
+                    AkSoundEngine.PostEvent(Events.Play_artifactBoss_takehit, characterBody.gameObject);
                 }
             }
             else if (sfp != null)

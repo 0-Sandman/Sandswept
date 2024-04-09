@@ -13,7 +13,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemLangTokenName => "SUN_FRAGMENT";
 
-        public override string ItemPickupDesc => "Create a blinding flash on hit that stuns and ignites enemies";
+        public override string ItemPickupDesc => "Create a blinding flash on hit that stuns and ignites enemies.";
 
         public override string ItemFullDescription => ("$su" + chance + "%$se chance on hit to create a $sublinding flash$se in a $su" + explosionRadius + "m$se radius, $sustunning$se for $su" + stunDuration + "s$se and $sdigniting$se enemies for $sd" + d(baseTotalDamage) + "$se $ss(+" + d(stackTotalDamage) + " per stack)$se TOTAL damage.").AutoFormat();
 
@@ -23,7 +23,7 @@ namespace Sandswept.Items.Greens
 
         public override string AchievementDesc => "Mutilate a child of the stars...";
 
-        [ConfigField("Chance", "", 7f)]
+        [ConfigField("Chance", "", 9f)]
         public static float chance;
 
         [ConfigField("Explosion Radius", "", 12f)]
@@ -32,7 +32,7 @@ namespace Sandswept.Items.Greens
         [ConfigField("Explosion Proc Coefficient", "", 0.33f)]
         public static float explosionProcCoefficient;
 
-        [ConfigField("Stun Duration", "", 2f)]
+        [ConfigField("Stun Duration", "", 1.5f)]
         public static float stunDuration;
 
         [ConfigField("Base TOTAL Damage", "Decimal.", 1.5f)]
