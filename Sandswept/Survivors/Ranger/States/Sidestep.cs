@@ -64,7 +64,7 @@ namespace Sandswept.Survivors.Ranger.States
 
             stepVector = inputBank.moveVector == Vector3.zero ? characterDirection.forward : inputBank.moveVector;
 
-            PlayAnimation("Body", "Twirl");
+            PlayAnimation("FullBody, Override", "Twirl");
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

@@ -28,9 +28,7 @@
 		<PackageReference Include="R2API.RecalculateStats" Version="1.2.0" />
 		<PackageReference Include="R2API.Director" Version="1.0.0" />
 		<PackageReference Include="RiskOfRain2.GameLibs" Version="1.2.4-r.0" />
-		<PackageReference Include="R2API" Version="*" />
 		<PackageReference Include="UnityEngine.Modules" Version="2019.4.26" />
-		<PackageReference Include="MMHOOK.RoR2" Version="*" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -39,7 +37,8 @@
 
 	<ItemGroup>
 	  <Reference Include="Decalicious">
-	    <HintPath>P:\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\Decalicious.dll</HintPath>
+	    <HintPath Condition="Exists('P:\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\Decalicious.dll')">P:\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\Decalicious.dll</HintPath>
+		<HintPath Condition="Exists('./libs/Decalicious.dll')">./libs/Decalicious.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 </Project>
