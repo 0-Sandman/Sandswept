@@ -16,7 +16,7 @@ namespace Sandswept.Items.VoidGreens
 
         public override string ItemLore => "This voice.\r\nI hear ringing..\r\nIt asks.\r\nIt invades my mind.\r\nMy hearing, reversed..\r\nI'm falling\r\n\r\n[...]\r\n\r\nThis maze, reversed..\r\nCircled by a close fog\r\n\r\n[...]\r\n\r\nI've lost.";
 
-        [ConfigField("Chance", "", 6f)]
+        [ConfigField("Chance", "", 7f)]
         public static float chance;
 
         [ConfigField("Base Explosion Radius", "", 12f)]
