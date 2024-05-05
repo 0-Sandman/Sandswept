@@ -169,12 +169,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 3996153971847763999}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -210450893, guid: b86b4b3efdef45c808a87ece376a4b18, type: 3}
+  m_Script: {fileID: -1237287157, guid: ca6fb10b837101520834a90b90b15080, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ifc: {fileID: 2985281673591576684}
   target: {fileID: 0}
   element: {fileID: 229665124936065228}
+  image: {fileID: 0}
+  backdropImage: {fileID: 0}
+  actualCrosshair: {fileID: 0}
+  animator: {fileID: 0}
+  heatMeterBackdrop: {fileID: 0}
+  heatMeter: {fileID: 0}
+  colorUpdateInterval: 0.05
+  colorUpdateTimer: 0
 --- !u!1 &7195902512574270528
 GameObject:
   m_ObjectHideFlags: 0
