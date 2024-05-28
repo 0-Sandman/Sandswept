@@ -384,7 +384,7 @@ namespace Sandswept.Elites
         public GameObject wardInstance;
         public Vector3 pullDownStrength = new(0f, -30f, 0f);
         public float timer;
-        public float pullDownInterval = 0.7f;
+        public float pullDownInterval = 1.25f;
         public Vector3 myPosition;
         public float radius;
         public Transform model;

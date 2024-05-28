@@ -7,13 +7,18 @@
   * Added Millenium
   * Added VFX for Fractured Timepiece
   * Added item logs for Bleeding Witness and Ceremonial Jar
-  * Buffed Sun Fragment Chance 7% => 9%
-  * Nerfed Sun Fragment Stun Duration 2s => 1.5s
-  * Nerfed Nuclear Salvo Missile Range 10000m => 60m
+  * Buffed Sun Fragment Chance from 7% to 9%
+  * Buffed Bleeding Witness Stack DoT Healing from 0.25% to 0.4%
+  * Buffed Ceremonial Jar Stack Damage from 750% to 1500%
+  * Nerfed Sun Fragment Stun Duration from 2s to 1.5s
+  * Nerfed Nuclear Salvo Missile Range from 10000m to 60m
+  * Nerfed Bleeding Witness Base DoT Healing from 0.5% to 0.4%
   * Reworked Universal VIP Paws to have a chance of dropping extra items from category chests
   * Made Fractured Timepiece scale Healing and Special Cooldown Reduction with Utility Skill Base Max Stock
   * Fixed Fractured Timepiece working too well with Thermal Harpoons
-  * Fixed some things I forgot about (it's been like 3 months)
+  * Fixed Ceremonial Jar description not reflecting config changes
+  * Fixed Ceremonial Jar description missing stacking information
+  * Fixed some things I forgot about (it's been like 5 months)
   * Optimized Nuclear Salvo
 * Elites
   * Added Osmium (Tier 2)
