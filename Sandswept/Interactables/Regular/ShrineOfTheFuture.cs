@@ -1,4 +1,6 @@
-﻿using static RoR2.CombatDirector;
+﻿using System;
+using System.Linq;
+using static RoR2.CombatDirector;
 
 namespace Sandswept.Interactables.Regular
 {
@@ -28,6 +30,8 @@ namespace Sandswept.Interactables.Regular
 
         public GameObject prefab;
 
+        public static bool isCorrectDirector = false;
+
         public override void Init()
         {
             base.Init();
@@ -52,11 +56,13 @@ namespace Sandswept.Interactables.Regular
             combatDirector.spawnDistanceMultiplier = 0.66f;
             combatDirector.goldRewardCoefficient = 0f;
             combatDirector.customName = "ShrineOfTheFutureDirector";
+            combatDirector.minRerollSpawnInterval = 0.01f;
+            combatDirector.maxRerollSpawnInterval = 0.03f;
 
             interactableSpawnCard.prefab = prefab;
 
             var combatSquad = prefab.GetComponent<CombatSquad>();
-            combatSquad.onDefeatedServerLogicEvent.AddListener(delegate { SpawnRewards(prefab); });
+            combatSquad.onDefeatedServerLogicEvent.AddListener(delegate { SpawnRewards(combatSquad.gameObject); });
 
             PrefabAPI.RegisterNetworkPrefab(prefab);
 
@@ -64,15 +70,58 @@ namespace Sandswept.Interactables.Regular
             LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_CONTEXT", "Defy");
 
             On.RoR2.CombatDirector.Spawn += CombatDirector_Spawn;
+            On.RoR2.DirectorCore.TrySpawnObject += DirectorCore_TrySpawnObject;
             On.RoR2.SceneDirector.Start += SceneDirector_Start;
             On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
 
             PostInit();
         }
 
+        private bool CombatDirector_Spawn(On.RoR2.CombatDirector.orig_Spawn orig, CombatDirector self, SpawnCard spawnCard, EliteDef eliteDef, Transform spawnTarget, DirectorCore.MonsterSpawnDistance spawnDistance, bool preventOverhead, float valueMultiplier, DirectorPlacementRule.PlacementMode placementMode)
+        {
+            isCorrectDirector = false;
+            if (spawnCard.prefab && spawnCard.prefab.TryGetComponent<CharacterMaster>(out var master) && master.bodyPrefab && master.bodyPrefab.TryGetComponent<CharacterBody>(out var body))
+            {
+                if (body.isChampion)
+                {
+                    spawnCard = null;
+                }
+
+                if (self.customName == "ShrineOfTheFutureDirector" && spawnCard != null)
+                {
+                    isCorrectDirector = true;
+                }
+            }
+
+            return orig(self, spawnCard, eliteDef, spawnTarget, spawnDistance, preventOverhead, valueMultiplier, placementMode);
+        }
+
+        private GameObject DirectorCore_TrySpawnObject(On.RoR2.DirectorCore.orig_TrySpawnObject orig, DirectorCore self, DirectorSpawnRequest directorSpawnRequest)
+        {
+            // run only if director is shrine of the future directorrrr :sob:
+            if (isCorrectDirector)
+            {
+                var randomPair = GetRandomT2EliteDefToEquipmentIndexPair();
+                var equipmentIndex = randomPair.Values.First();
+                var eliteDef = randomPair.Keys.First();
+
+                directorSpawnRequest.onSpawnedServer = (spawnResult) =>
+                {
+                    var instance = spawnResult.spawnedInstance;
+                    var master = instance.GetComponent<CharacterMaster>();
+                    master.inventory.SetEquipmentIndex(equipmentIndex);
+                    master.inventory.GiveItem(RoR2Content.Items.BoostHp, Mathf.RoundToInt((eliteDef.healthBoostCoefficient - 1f) * 10f));
+                    master.inventory.GiveItem(RoR2Content.Items.BoostDamage, Mathf.RoundToInt((eliteDef.damageBoostCoefficient - 1f) * 10f));
+                };
+            }
+
+            return orig(self, directorSpawnRequest);
+        }
+
         private void ClassicStageInfo_RebuildCards(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self)
         {
             orig(self);
+
             if (Run.instance.loopClearCount > 0)
             {
                 self.interactableCategories.RemoveCardsThatFailFilter(x => x.spawnCard != Instance.interactableSpawnCard);
@@ -129,32 +178,14 @@ namespace Sandswept.Interactables.Regular
             return new PickupPickerController.Option[] { white, green };
         }
 
-        private bool CombatDirector_Spawn(On.RoR2.CombatDirector.orig_Spawn orig, CombatDirector self, SpawnCard spawnCard, EliteDef eliteDef, Transform spawnTarget, DirectorCore.MonsterSpawnDistance spawnDistance, bool preventOverhead, float valueMultiplier, DirectorPlacementRule.PlacementMode placementMode)
+        public Dictionary<EliteDef, EquipmentIndex> GetRandomT2EliteDefToEquipmentIndexPair()
         {
-            // we're gonna cheat a bit hehe
-            if (self.customName == "ShrineOfTheFutureDirector")
+            var tier2Elites = EliteAPI.VanillaEliteTiers[3].eliteTypes;
+            var randomElite = tier2Elites[Run.instance.runRNG.RangeInt(0, tier2Elites.Length)];
+            return new Dictionary<EliteDef, EquipmentIndex>()
             {
-                var prefab = spawnCard.prefab;
-                if (prefab)
-                {
-                    var spawnCardMaster = spawnCard.prefab.GetComponent<CharacterMaster>();
-                    if (spawnCardMaster)
-                    {
-                        var body = spawnCardMaster.GetBody();
-                        if (body.isChampion)
-                        {
-                            spawnCard = null;
-                        }
-                        else
-                        {
-                            self.monsterCredit = 150f * self.creditMultiplier;
-                            eliteDef = eliteTiers[2].GetRandomAvailableEliteDef(self.rng); // always t2
-                            self.monsterCredit *= EliteAPI.VanillaEliteTiers[1].costMultiplier;
-                        }
-                    }
-                }
-            }
-            return orig(self, spawnCard, eliteDef, spawnTarget, spawnDistance, preventOverhead, valueMultiplier, placementMode);
+                { randomElite, randomElite.eliteEquipmentDef.equipmentIndex }
+            };
         }
     }
 }
