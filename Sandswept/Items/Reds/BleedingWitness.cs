@@ -30,10 +30,10 @@ namespace Sandswept.Items.Reds
         [ConfigField("Hemorrhage Duration", "", 3f)]
         public static float hemorrhageDuration;
 
-        [ConfigField("Base DoT Healing", "Decimal.", 0.005f)]
+        [ConfigField("Base DoT Healing", "Decimal.", 0.004f)]
         public static float baseDoTHealing;
 
-        [ConfigField("Stack DoT Healing", "Decimal.", 0.0025f)]
+        [ConfigField("Stack DoT Healing", "Decimal.", 0.004f)]
         public static float stackDoTHealing;
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Healing };
