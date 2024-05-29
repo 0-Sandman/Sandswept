@@ -75,7 +75,7 @@ namespace Sandswept.Survivors.Ranger.States
             locator.special.UnsetSkillOverride(gameObject, SpecialSkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.special.DeductStock(1);
 
-            GetModelAnimator().SetBool("gunOpen", true);
+            GetModelAnimator().SetBool("gunOpen", false);
             Util.PlaySound("Play_lunar_wisp_attack2_windDown", gameObject);
 
             if (characterBody)
