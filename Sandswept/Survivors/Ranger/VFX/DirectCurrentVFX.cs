@@ -156,9 +156,11 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var matrixDPSR = matrixDirectional.GetComponent<ParticleSystemRenderer>();
 
-            var newMat2 = Object.Instantiate(Assets.Material.matMageMatrixDirectionalLightning);
-            newMat2.SetColor("_TintColor", tintColor);
-            newMat2.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("texRampDirectCurrentMatrix" + trimmedName + ".png"));
+            // var newMat2 = Object.Instantiate(Assets.Material.matMageMatrixDirectionalLightning);
+            // newMat2.SetColor("_TintColor", tintColor);
+            // newMat2.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("texRampDirectCurrentMatrix" + trimmedName + ".png"));
+
+            var newMat2 = Assets.Material.matMageMatrixDirectionalLightning; // the version above does not have a transparent bg so it looks weird in-game
 
             matrixDPSR.material = newMat2;
 
