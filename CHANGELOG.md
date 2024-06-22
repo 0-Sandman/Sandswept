@@ -1,4 +1,4 @@
-# ?.?.? Patch Notes
+# 0.9.0 Patch Notes
 * Ranger
   * Added survivor log
   * Reworked animations, rig, IK, FK, etc
@@ -16,13 +16,14 @@
   * Reworked Universal VIP Paws to have a chance of dropping extra items from category chests
   * Made Fractured Timepiece scale Healing and Special Cooldown Reduction with Utility Skill Base Max Stock
   * Fixed Fractured Timepiece working too well with Thermal Harpoons
+  * Fixed Smouldering Document throwing an NRE
   * Fixed Ceremonial Jar description not reflecting config changes
   * Fixed Ceremonial Jar description missing stacking information
   * Fixed some things I forgot about (it's been like 5 months)
   * Optimized Nuclear Salvo
 * Elites
   * Added Osmium (Tier 2)
-  * Improved Motivating Elite visuals
+  * Improved Motivating visuals
 
 # 0.8.1 Patch Notes
 * Items

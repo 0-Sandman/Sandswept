@@ -41,7 +41,7 @@
 |<img src="https://i.postimg.cc/sfH2YN1y/tex-Fractured-Timepiece.png" width="96"/> | **Fractured Timepiece** | Upon using your utility skill, heal for 5% (+5% per stack) of your maximum health and reduce special skill cooldown by 15%. | White |
 |<img src="https://i.postimg.cc/1RVSGrFJ/tex-Red-Spring-Water.png" width="96"/> | **Red Spring Water** | Increase health regeneration by 0.4 hp/s, plus an additional 0.4 hp/s (+0.4 hp/s per stack) for every buff you have. | White |
 | | | |
-|<img src="" width="96"/> | **Crown's Diamond** | Being out of danger grants 15% of maximum health as barrier. Barrier decays 20% (+20% per stack, hyperbolic) slower while out of combat or danger. | Green |
+|<img src="https://i.postimg.cc/8C88VqNw/tex-Crowns-Diamond.png" width="96"/> | **Crown's Diamond** | Being out of danger grants 15% of maximum health as barrier. Barrier decays 15% (+15% per stack, hyperbolic) slower while out of combat or danger. | Green |
 |<img src="https://i.postimg.cc/LXcqFPFd/tex-Sun-Fragment.png" width="96"/> | **Sun Fragment** | 9% chance on hit to create a blinding flash in a 12m area, stunning for 1.5s and igniting enemies for 150% (+150% per stack) TOTAL damage. | Green |
 |<img src="https://i.postimg.cc/1XN5VLQJ/tex-Pocket-Plutonium.png" width="96"/> | **Pocket Plutonium** | Gain a shield equal to 10% of your maximum health. Upon losing all shield, create a nuclear pool in a 16m area that deals 750% (+750% per stack) base damage, plus an additional 250% (+250% per stack) of shields. | Green |
 |<img src="https://i.postimg.cc/yd9LgHmF/tex-Nuclear-Salvo.png" width="96"/> | **Nuclear Salvo** | Every 5 seconds, all mechanical allies fire 2 (+2 per stack) nuclear missiles that deal 100% base damage each and ignite on hit. | Green |

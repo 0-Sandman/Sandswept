@@ -14,7 +14,7 @@ namespace Sandswept.Items.VoidGreens
 
         public override string ItemFullDescription => ("$su" + chance + "%$se chance on hit to create a $sdtidal cataclysm$se in a $su" + baseExplosionRadius + "m$se $ss(+" + stackExplosionRadius + "m per stack)$se area, $sdcollapsing$se and $sugrounding$se enemies for $sd400%$se base damage. <style=cIsVoid>Corrupts all Sun Fragments</style>.").AutoFormat();
 
-        public override string ItemLore => "This voice.\r\nI hear ringing..\r\nIt asks.\r\nIt invades my mind.\r\nMy hearing, reversed..\r\nI'm falling\r\n\r\n[...]\r\n\r\nThis maze, reversed..\r\nCircled by a close fog\r\n\r\n[...]\r\n\r\nI've lost.";
+        public override string ItemLore => "This voice.\r\nI hear ringing..\r\nIt asks.\r\nIt invades my mind.\r\nMy hearing, reversed..\r\nI'm falling\r\n\r\n[...]\r\n\r\n\r\n\r\nThis maze, reversed..\r\nCircled by a close fog\r\n\r\n[...]\r\n\r\n\r\n\r\nI've lost.";
 
         [ConfigField("Chance", "", 7f)]
         public static float chance;
