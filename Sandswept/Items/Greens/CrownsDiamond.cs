@@ -31,7 +31,7 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texCrownsDiamond.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.BrotherBlacklist };
 
         public override void Init(ConfigFile config)
         {
