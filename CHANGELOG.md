@@ -4,6 +4,7 @@
   * Reworked animations, rig, IK, FK, etc
 * Items
   * Added Crown's Diamond
+  * Added Sacrificial Band
   * Added Millenium
   * Added VFX for Fractured Timepiece
   * Added item logs for Bleeding Witness and Ceremonial Jar
