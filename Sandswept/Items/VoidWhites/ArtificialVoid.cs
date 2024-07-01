@@ -41,6 +41,7 @@ namespace Sandswept.Items.VoidWhites
             shields.buffColor = Color.blue;
             shields.isCooldown = false;
             shields.canStack = false;
+            shields.name = "Artificial Void Shield - 1% Per";
 
             ContentAddition.AddBuffDef(shields);
 
@@ -51,17 +52,38 @@ namespace Sandswept.Items.VoidWhites
 
         public override void Hooks()
         {
-            CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
+            CharacterMaster.onStartGlobal += CharacterMaster_onStartGlobal;
             GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
             On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
             GlobalEventManager.onCharacterDeathGlobal += GlobalEventManager_onCharacterDeathGlobal;
         }
 
-        private void CharacterBody_onBodyStartGlobal(CharacterBody body)
+        private void CharacterMaster_onStartGlobal(CharacterMaster master)
         {
-            if (body.teamComponent.teamIndex == TeamIndex.Player && body.GetComponent<ArtificialVoidController>() == null)
+            var body = master.GetBody();
+            if (!body)
             {
-                body.AddComponent<ArtificialVoidController>();
+                Main.ModLogger.LogError("no body aaaa");
+                return;
+            }
+
+            var stack = GetCount(body);
+            if (stack <= 0)
+            {
+                return;
+            }
+
+            var increase = baseShieldGain + stackShieldGain * (stack - 1);
+
+            if (master.TryGetComponent<ArtificialVoidController>(out var artificialVoidController))
+            {
+                body.SetBuffCount(shields.buffIndex, artificialVoidController.championKills * increase);
+            }
+
+            if (!artificialVoidController)
+            {
+                master.AddComponent<ArtificialVoidController>();
+                artificialVoidController.championKills = 0;
             }
         }
 
@@ -101,10 +123,6 @@ namespace Sandswept.Items.VoidWhites
             if (artificialVoidController)
             {
                 attackerBody.SetBuffCount(shields.buffIndex, artificialVoidController.championKills * increase);
-            }
-            else
-            {
-                attackerBody.SetBuffCount(shields.buffIndex, 0);
             }
         }
 

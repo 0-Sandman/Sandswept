@@ -9,7 +9,7 @@
 
         public override string ItemPickupDesc => "Chance on hit to conjure a freezing javelin. Chance on hit to freeze stunned enemies.";
 
-        public override string ItemFullDescription => ("$sd" + chance + "%$se chance on hit to conjure a $sdjavelin$se that deals $sd" + d(baseTotalDamage) + "$se TOTAL damage $ss(+" + stackTotalDamage + " per stack)$se and $sufreezes$se enemies. Your $sustuns$se have a $su" + stunToFreezeChance + "%$se chance to $sufreeze$se instead.").AutoFormat();
+        public override string ItemFullDescription => ("$sd" + chance + "%$se chance on hit to conjure a $sdjavelin$se that deals $sd" + d(baseTotalDamage) + "$se TOTAL damage $ss(+" + stackTotalDamage + " per stack)$se and $sufreezes$se enemies. Your $sustuns$se have a $su" + stunToFreezeChance + "%$se chance to $sufreeze$se.").AutoFormat();
 
         public override string ItemLore => "";
 
@@ -19,13 +19,13 @@
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texBleedingWitness.png");
 
-        [ConfigField("Chance", "", 10f)]
+        [ConfigField("Chance", "", 8f)]
         public static float chance;
 
-        [ConfigField("Base TOTAL Damage", "Decimal.", 4f)]
+        [ConfigField("Base TOTAL Damage", "Decimal.", 4.5f)]
         public static float baseTotalDamage;
 
-        [ConfigField("Stack TOTAL Damage", "Decimal.", 4f)]
+        [ConfigField("Stack TOTAL Damage", "Decimal.", 4.5f)]
         public static float stackTotalDamage;
 
         [ConfigField("Stunned Enemy Freeze Chance", "", 8f)]

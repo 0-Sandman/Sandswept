@@ -47,6 +47,7 @@ namespace Sandswept.Items.VoidWhites
             dissonance.buffColor = Color.red;
             dissonance.isCooldown = false;
             dissonance.canStack = false;
+            dissonance.name = "Dissonance -15 Armor and -30% Damage";
 
             ContentAddition.AddBuffDef(dissonance);
 
@@ -55,16 +56,16 @@ namespace Sandswept.Items.VoidWhites
             dissonanceTracer.transform.GetChild(1).gameObject.SetActive(false);
 
             var lineRenderer = dissonanceTracer.GetComponent<LineRenderer>();
-            lineRenderer.widthMultiplier = 0.33f;
+            lineRenderer.widthMultiplier = 0.25f;
             lineRenderer.numCapVertices = 10;
 
             var newMat = GameObject.Instantiate(Assets.Material.matVoidSurvivorBeamTrail);
-            newMat.SetTexture("_RemapTex", Assets.Texture2D.texRampAncientWisp);
+            newMat.SetTexture("_RemapTex", Assets.Texture2D.texRampDeathBomb);
 
             lineRenderer.material = newMat;
 
             var animateShaderAlpha = dissonanceTracer.GetComponent<AnimateShaderAlpha>();
-            animateShaderAlpha.timeMax = 0.15f;
+            animateShaderAlpha.timeMax = 0.33f;
 
             ContentAddition.AddEffect(dissonanceTracer);
 
@@ -104,12 +105,15 @@ namespace Sandswept.Items.VoidWhites
                         var stack = GetCount(victimBody);
                         if (stack > 0)
                         {
-                            attackerBody.AddTimedBuff(dissonance, baseDuration + stackDuration * (stack - 1));
-                            EffectManager.SpawnEffect(dissonanceTracer, new EffectData
+                            if (!attackerBody.HasBuff(dissonance))
                             {
-                                start = victimBody.corePosition,
-                                origin = attackerBody.corePosition
-                            }, true);
+                                attackerBody.AddTimedBuff(dissonance, baseDuration + stackDuration * (stack - 1));
+                                EffectManager.SpawnEffect(dissonanceTracer, new EffectData
+                                {
+                                    start = victimBody.corePosition,
+                                    origin = attackerBody.corePosition
+                                }, true);
+                            }
                         }
                     }
                 }
