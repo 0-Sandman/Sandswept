@@ -29,7 +29,7 @@ namespace Sandswept.Items.VoidWhites
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texSunFragment.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
 
         public static GameObject vfx;
 
@@ -87,6 +87,7 @@ namespace Sandswept.Items.VoidWhites
             if (attackerBody.TryGetComponent<ArtificialVoidController>(out var artificialVoidController))
             {
                 artificialVoidController.championKills++;
+                Util.PlaySound("Play_bandit2_R_alt_kill", attackerBody.gameObject);
             }
 
             var stack = GetCount(attackerBody);
@@ -116,8 +117,8 @@ namespace Sandswept.Items.VoidWhites
         {
             ItemDef.Pair transformation = new()
             {
-                itemDef1 = instance.ItemDef,
-                itemDef2 = RoR2Content.Items.BarrierOnKill
+                itemDef2 = instance.ItemDef,
+                itemDef1 = RoR2Content.Items.BarrierOnKill
             };
             ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].AddToArray(transformation);
             orig();

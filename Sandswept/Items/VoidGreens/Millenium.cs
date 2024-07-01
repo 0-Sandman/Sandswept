@@ -112,8 +112,8 @@ namespace Sandswept.Items.VoidGreens
         {
             ItemDef.Pair transformation = new()
             {
-                itemDef1 = instance.ItemDef,
-                itemDef2 = Greens.SunFragment.instance.ItemDef
+                itemDef2 = instance.ItemDef,
+                itemDef1 = Greens.SunFragment.instance.ItemDef
             };
             ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].AddToArray(transformation);
             orig();

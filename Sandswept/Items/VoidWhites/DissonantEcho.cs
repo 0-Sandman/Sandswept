@@ -9,7 +9,7 @@ namespace Sandswept.Items.VoidWhites
 
         public override string ItemLangTokenName => "DISSONANT_ECHO";
 
-        public override string ItemPickupDesc => "Upon taking damage, inflict the attacker with Dissonance. $svCorrupts all Oddly-shaped Opals$se.";
+        public override string ItemPickupDesc => "Taking damage inflicts the attacker with Dissonance. $svCorrupts all Oddly-shaped Opals$se.";
 
         public override string ItemFullDescription => ("Upon taking damage, inflict the attacker with $suDissonance$se for $su" + baseDuration + "s$se $ss(+" + stackDuration + "s per stack)$se, which reduces $sharmor$ by $sh" + armorReduction + "$se and $sddamage$se by $sd" + d(damageReduction) + "$se. $svCorrupts all Oddly-shaped Opals$se.").AutoFormat();
 
@@ -37,7 +37,7 @@ namespace Sandswept.Items.VoidWhites
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
 
-        public static GameObject vfx;
+        public static GameObject dissonanceTracer;
 
         public override void Init(ConfigFile config)
         {
@@ -49,6 +49,24 @@ namespace Sandswept.Items.VoidWhites
             dissonance.canStack = false;
 
             ContentAddition.AddBuffDef(dissonance);
+
+            dissonanceTracer = PrefabAPI.InstantiateClone(Assets.GameObject.VoidSurvivorBeamTracer, "Dissonant Echo Debuff Tracer", false);
+            dissonanceTracer.transform.GetChild(0).gameObject.SetActive(false);
+            dissonanceTracer.transform.GetChild(1).gameObject.SetActive(false);
+
+            var lineRenderer = dissonanceTracer.GetComponent<LineRenderer>();
+            lineRenderer.widthMultiplier = 0.33f;
+            lineRenderer.numCapVertices = 10;
+
+            var newMat = GameObject.Instantiate(Assets.Material.matVoidSurvivorBeamTrail);
+            newMat.SetTexture("_RemapTex", Assets.Texture2D.texRampAncientWisp);
+
+            lineRenderer.material = newMat;
+
+            var animateShaderAlpha = dissonanceTracer.GetComponent<AnimateShaderAlpha>();
+            animateShaderAlpha.timeMax = 0.15f;
+
+            ContentAddition.AddEffect(dissonanceTracer);
 
             CreateLang();
             CreateItem();
@@ -87,6 +105,11 @@ namespace Sandswept.Items.VoidWhites
                         if (stack > 0)
                         {
                             attackerBody.AddTimedBuff(dissonance, baseDuration + stackDuration * (stack - 1));
+                            EffectManager.SpawnEffect(dissonanceTracer, new EffectData
+                            {
+                                start = victimBody.corePosition,
+                                origin = attackerBody.corePosition
+                            }, true);
                         }
                     }
                 }
@@ -97,8 +120,8 @@ namespace Sandswept.Items.VoidWhites
         {
             ItemDef.Pair transformation = new()
             {
-                itemDef1 = instance.ItemDef,
-                itemDef2 = DLC1Content.Items.OutOfCombatArmor
+                itemDef2 = instance.ItemDef,
+                itemDef1 = DLC1Content.Items.OutOfCombatArmor
             };
             ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].AddToArray(transformation);
             orig();
