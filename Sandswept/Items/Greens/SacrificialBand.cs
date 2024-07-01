@@ -19,7 +19,7 @@
         [ConfigField("Stack Bleed Count", "", 1)]
         public static float stackBleedCount;
 
-        [ConfigField("Per Skill Damage Scalar", "", 1.2f)]
+        [ConfigField("Per Skill Damage Scalar", "Decimal.", 1.2f)]
         public static float damageScalar;
 
         public override ItemTier Tier => ItemTier.Tier2;

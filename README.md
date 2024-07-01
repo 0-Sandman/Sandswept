@@ -61,7 +61,7 @@
 
 # Credits
 - Code: HIFU, pseudopulse, Sandman, prod
-- Models: Sandman, Smxrez, GEMO, Bog
+- Models: Sandman, Smxrez, GEMO, Bog, pseudopulse, HIFU
 - Animations: IcieTea, unmatchedpowerofthesun, Bog
 - VFX: HIFU, Sandman, prod
 - Skill Icons: prod, HIFU

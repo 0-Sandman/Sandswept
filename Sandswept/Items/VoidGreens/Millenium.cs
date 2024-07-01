@@ -10,9 +10,9 @@ namespace Sandswept.Items.VoidGreens
 
         public override string ItemLangTokenName => "MILLENIUM";
 
-        public override string ItemPickupDesc => "Create a tidal cataclysm on hit that grounds and collapses enemies. <style=cIsVoid>Corrupts all Sun Fragments</style>.";
+        public override string ItemPickupDesc => "Create a tidal cataclysm on hit that grounds and collapses enemies. $svCorrupts all Sun Fragments$se.";
 
-        public override string ItemFullDescription => ("$su" + chance + "%$se chance on hit to create a $sdtidal cataclysm$se in a $su" + baseExplosionRadius + "m$se $ss(+" + stackExplosionRadius + "m per stack)$se area, $sdcollapsing$se and $sugrounding$se enemies for $sd400%$se base damage. <style=cIsVoid>Corrupts all Sun Fragments</style>.").AutoFormat();
+        public override string ItemFullDescription => ("$su" + chance + "%$se chance on hit to create a $sdtidal cataclysm$se in a $su" + baseExplosionRadius + "m$se $ss(+" + stackExplosionRadius + "m per stack)$se area, $sdcollapsing$se and $sugrounding$se enemies for $sd400%$se base damage. $svCorrupts all Sun Fragments$se.").AutoFormat();
 
         public override string ItemLore => "This voice.\r\nI hear ringing..\r\nIt asks.\r\nIt invades my mind.\r\nMy hearing, reversed..\r\nI'm falling\r\n\r\n[...]\r\n\r\n\r\n\r\nThis maze, reversed..\r\nCircled by a close fog\r\n\r\n[...]\r\n\r\n\r\n\r\nI've lost.";
 

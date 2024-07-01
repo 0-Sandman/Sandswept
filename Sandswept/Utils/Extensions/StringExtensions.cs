@@ -124,6 +124,11 @@ namespace Sandswept.Utils
             {
                 match = "$pc",
                 expanded = "<color=#406096>"
+            },
+            new Format
+            {
+                match = "$sv",
+                expanded = "<style=cIsVoid>"
             }
         };
 
