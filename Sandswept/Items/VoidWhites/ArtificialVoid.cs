@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using EntityStates.Toolbot;
+using HarmonyLib;
 
 namespace Sandswept.Items.VoidWhites
 {
@@ -11,7 +12,7 @@ namespace Sandswept.Items.VoidWhites
 
         public override string ItemPickupDesc => "Killing a champion grants permanent shield. $svCorrupts all Topaz Brooches$se.";
 
-        public override string ItemFullDescription => ("Upon killing a $srchampion$se, gain $sh" + baseShieldGain + "$se $ss(+" + stackShieldGain + " per stack)$se $shpermanent shield$se. $svCorrupts all Topaz Brooches$se.").AutoFormat();
+        public override string ItemFullDescription => ("Upon killing a $sdchampion$se, gain $sh" + baseShieldGain + "$se $ss(+" + stackShieldGain + " per stack)$se $shpermanent shield$se. $svCorrupts all Topaz Brooches$se.").AutoFormat();
 
         public override string ItemLore => "";
 
@@ -53,6 +54,7 @@ namespace Sandswept.Items.VoidWhites
         public override void Hooks()
         {
             CharacterMaster.onStartGlobal += CharacterMaster_onStartGlobal;
+            On.RoR2.CharacterMaster.OnBodyStart += CharacterMaster_OnBodyStart;
             GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
             On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
             GlobalEventManager.onCharacterDeathGlobal += GlobalEventManager_onCharacterDeathGlobal;
@@ -60,30 +62,35 @@ namespace Sandswept.Items.VoidWhites
 
         private void CharacterMaster_onStartGlobal(CharacterMaster master)
         {
-            var body = master.GetBody();
-            if (!body)
-            {
-                Main.ModLogger.LogError("no body aaaa");
-                return;
-            }
-
-            var stack = GetCount(body);
-            if (stack <= 0)
-            {
-                return;
-            }
-
-            var increase = baseShieldGain + stackShieldGain * (stack - 1);
-
-            if (master.TryGetComponent<ArtificialVoidController>(out var artificialVoidController))
-            {
-                body.SetBuffCount(shields.buffIndex, artificialVoidController.championKills * increase);
-            }
-
-            if (!artificialVoidController)
+            if (master.teamIndex == TeamIndex.Player && master.GetComponent<ArtificialVoidController>() == null)
             {
                 master.AddComponent<ArtificialVoidController>();
-                artificialVoidController.championKills = 0;
+            }
+        }
+
+        private void CharacterMaster_OnBodyStart(On.RoR2.CharacterMaster.orig_OnBodyStart orig, CharacterMaster self, CharacterBody body)
+        {
+            orig(self, body);
+
+            var stack = GetCount(body);
+            if (stack > 0)
+            {
+                Main.ModLogger.LogError("stack above 0");
+                var increase = baseShieldGain + stackShieldGain * (stack - 1);
+
+                if (self.TryGetComponent<ArtificialVoidController>(out var artificialVoidController))
+                {
+                    body.SetBuffCount(shields.buffIndex, artificialVoidController.championKills * increase);
+                }
+
+                if (!artificialVoidController)
+                {
+                    Main.ModLogger.LogError("no av component found a A   a ");
+                }
+            }
+            else
+            {
+                body.SetBuffCount(shields.buffIndex, 0);
             }
         }
 
@@ -106,15 +113,23 @@ namespace Sandswept.Items.VoidWhites
                 return;
             }
 
-            if (attackerBody.TryGetComponent<ArtificialVoidController>(out var artificialVoidController))
+            var attackerMaster = attackerBody.master;
+            if (!attackerMaster)
             {
+                return;
+            }
+
+            if (attackerMaster.TryGetComponent<ArtificialVoidController>(out var artificialVoidController))
+            {
+                Main.ModLogger.LogError("adding to champion kills");
                 artificialVoidController.championKills++;
-                Util.PlaySound("Play_bandit2_R_alt_kill", attackerBody.gameObject);
             }
 
             var stack = GetCount(attackerBody);
             if (stack <= 0)
             {
+                Main.ModLogger.LogError("setting shields buffs to 0");
+                attackerBody.SetBuffCount(shields.buffIndex, 0);
                 return;
             }
 
@@ -122,6 +137,7 @@ namespace Sandswept.Items.VoidWhites
 
             if (artificialVoidController)
             {
+                Util.PlaySound("Play_bandit2_R_alt_kill", attackerBody.gameObject);
                 attackerBody.SetBuffCount(shields.buffIndex, artificialVoidController.championKills * increase);
             }
         }

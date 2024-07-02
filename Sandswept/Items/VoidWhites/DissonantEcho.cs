@@ -11,7 +11,7 @@ namespace Sandswept.Items.VoidWhites
 
         public override string ItemPickupDesc => "Taking damage inflicts the attacker with Dissonance. $svCorrupts all Oddly-shaped Opals$se.";
 
-        public override string ItemFullDescription => ("Upon taking damage, inflict the attacker with $suDissonance$se for $su" + baseDuration + "s$se $ss(+" + stackDuration + "s per stack)$se, which reduces $sharmor$ by $sh" + armorReduction + "$se and $sddamage$se by $sd" + d(damageReduction) + "$se. $svCorrupts all Oddly-shaped Opals$se.").AutoFormat();
+        public override string ItemFullDescription => ("Upon taking damage, inflict the attacker with $suDissonance$se for $su" + baseDuration + "s$se $ss(+" + stackDuration + "s per stack)$se, which reduces $sharmor$se by $sh" + armorReduction + "$se and $sddamage$se by $sd" + d(damageReduction) + "$se. $svCorrupts all Oddly-shaped Opals$se.").AutoFormat();
 
         public override string ItemLore => "";
 
