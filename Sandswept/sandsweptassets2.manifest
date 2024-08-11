@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1828190806
+CRC: 1690453116
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: efc3edd4f702be8da190664497892dc9
+    Hash: e8f5dfa5c0e6127da1fad8690dd45cc7
   TypeTreeHash:
     serializedVersion: 2
-    Hash: c4c4e63c7f48a1e17d3be24e843222bf
+    Hash: 78504eaa9ccc8541e74d4f856d9e3884
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -52,11 +52,29 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 161585894, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: 1143142494, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 298587437, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1533710874, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1392865457, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1297580292, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1144835783, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1918207524, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1530905962, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 306635731, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1512185436, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: 1985007777, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-- Class: 114
-  Script: {fileID: 1392865457, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1067940895, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -66,19 +84,9 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -1077198318, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 1143142494, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: 1530905962, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
   Script: {fileID: -226763392, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 802132372, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: 1297580292, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: 1144835783, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: 298587437, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -365436499, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -94,15 +102,9 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -359660931, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 1512185436, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
   Script: {fileID: -1888550019, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1699741063, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: 1533710874, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: 1918207524, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1848696948, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -113,8 +115,6 @@ ClassTypes:
   Script: {fileID: -1819008361, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -789927658, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: 306635731, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1255927399, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -128,14 +128,18 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -1624506055, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
-  Script: {fileID: -1568778350, guid: 050936fea8909af15a3fd3b64da1ff83, type: 3}
+  Script: {fileID: -72444995, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
-  Script: {fileID: -72444995, guid: b86b4b3efdef45c808a87ece376a4b18, type: 3}
+  Script: {fileID: -1568778350, guid: 050936fea8909af15a3fd3b64da1ff83, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 136
   Script: {instanceID: 0}
 - Class: 137
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
@@ -149,6 +153,8 @@ Assets:
 - Assets/Sandswept/Base/Characters/Ranger/Skindefault.asset
 - Assets/Sandswept/Base/Characters/Ranger/OverlayRanger.prefab
 - Assets/Sandswept/Base/Characters/Ranger/texCrosshairCircle.png
+- Assets/Sandswept/Base/Items/TornFeather/DashTrailEffect.prefab
+- Assets/Sandswept/Base/Items/TornFeather/matFeatherPink.mat
 - Assets/Sandswept/Base/Characters/Ranger/CrosshairRanger.prefab
 - Assets/Sandswept/Base/Characters/Ranger/skills/Dash.png
 - Assets/Sandswept/Base/Characters/Ranger/RangerBody.prefab
@@ -156,8 +162,12 @@ Assets:
 - Assets/Sandswept/Base/Characters/Ranger/skills/Overheat.png
 - Assets/Sandswept/Base/Characters/Ranger/sdRanger.asset
 - Assets/Sandswept/Base/Characters/Ranger/skills/OverheatPrimary.png
+- Assets/Sandswept/Base/Items/TornFeather/ActiveIndicatorParticles.prefab
+- Assets/Sandswept/Base/Items/TornFeather/matFeatherParticle.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/Pew.png
+- Assets/Sandswept/Base/Items/TornFeather/matFeatherPulse.mat
 - Assets/Sandswept/Base/Items/NuclearSalvo/Missile.prefab
+- Assets/Sandswept/Base/Items/TornFeather/matFeatherBlue.mat
 - Assets/Sandswept/Base/Characters/Ranger/mdl/matRanger.mat
 - Assets/Sandswept/Base/Items/NuclearSalvo/SalvoBehaviour.prefab
 Dependencies: []

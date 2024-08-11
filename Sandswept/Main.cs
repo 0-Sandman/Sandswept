@@ -346,6 +346,9 @@ namespace Sandswept
             {
                 switch (val.shader.name)
                 {
+                    case "Hopoo Games/FX/Cloud Remap":
+                        val.shader = Utils.Assets.Shader.HGCloudRemap;
+                        break;
                     case "Stubbed Hopoo Games/Deferred/Standard":
                         val.shader = Resources.Load<Shader>("shaders/deferred/hgstandard");
                         break;
