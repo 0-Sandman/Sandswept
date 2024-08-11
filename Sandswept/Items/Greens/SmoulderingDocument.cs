@@ -131,7 +131,8 @@ namespace Sandswept.Items.Greens
                         victimObject = victim.gameObject,
                         totalDamage = attackerBody.damage * totlaMad,
                         damageMultiplier = 4f,
-                        dotIndex = DotController.DotIndex.Burn
+                        dotIndex = DotController.DotIndex.Burn,
+                        maxStacksFromAttacker = uint.MaxValue
                     };
 
                     if (attackerBody?.inventory)

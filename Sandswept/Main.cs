@@ -47,7 +47,7 @@ namespace Sandswept
     {
         public const string ModGuid = "com.TeamSandswept.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVer = "0.8.2";
+        public const string ModVer = "0.9.0";
 
         public static AssetBundle MainAssets;
         public static AssetBundle Assets;
@@ -104,7 +104,7 @@ namespace Sandswept
             enableAutoConfig = config.Bind("Config", "Enable Auto Config Sync", true, "Disabling this would stop Sandswept from syncing config whenever a new version is found.");
             bool _preVersioning = !((Dictionary<ConfigDefinition, string>)AccessTools.DeclaredPropertyGetter(typeof(ConfigFile), "OrphanedEntries").Invoke(config, null)).Keys.Any(x => x.Key == "Latest Version");
             latestVersion = config.Bind("Config", "Latest Version", ModVer, "DO NOT CHANGE THIS");
-            
+
             if (enableAutoConfig.Value && (_preVersioning || (latestVersion.Value != ModVer)))
             {
                 latestVersion.Value = ModVer;

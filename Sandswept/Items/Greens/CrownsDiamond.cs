@@ -19,19 +19,19 @@ namespace Sandswept.Items.Greens
         [ConfigField("Barrier Gain", "Decimal.", 0.15f)]
         public static float barrierGain;
 
-        [ConfigField("Base Barrier Decay Reduction", "Decimal.", 0.2f)]
+        [ConfigField("Base Barrier Decay Reduction", "Decimal.", 0.15f)]
         public static float baseBarrierDecayReduction;
 
-        [ConfigField("Stack Barrier Decay Reduction", "Decimal.", 0.2f)]
+        [ConfigField("Stack Barrier Decay Reduction", "Decimal.", 0.15f)]
         public static float stackBarrierDecayReduction;
 
         public override ItemTier Tier => ItemTier.Tier2;
 
-        public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("CrownsDiamondHolder.prefab");
 
-        public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("UniVIPIcon.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texCrownsDiamond.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.BrotherBlacklist };
 
         public override void Init(ConfigFile config)
         {

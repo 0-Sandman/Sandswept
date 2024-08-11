@@ -1,4 +1,24 @@
-﻿using System;
+﻿/*
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ * also breaks tp boss spawns lol
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+using System;
 using System.Linq;
 using static RoR2.CombatDirector;
 
@@ -189,3 +209,4 @@ namespace Sandswept.Interactables.Regular
         }
     }
 }
+*/
