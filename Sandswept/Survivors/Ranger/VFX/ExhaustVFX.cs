@@ -36,7 +36,7 @@
             // aquaEquivalent = new Color32(95, 209, 177, 255);
             // orangeEquivalent = new Color32(234, 122, 51, 255);
             // salmonEquivalent = new Color32(158, 14, 0, 255);
-            var tracer = Assets.GameObject.TracerHuntressSnipe.InstantiateClone("Exhaust Tracer " + name, false);
+            var tracer = Paths.GameObject.TracerHuntressSnipe.InstantiateClone("Exhaust Tracer " + name, false);
 
             tracer.AddComponent<VFXAttributes>();
 
@@ -63,9 +63,9 @@
 
             tracerHead.colorGradient = gradient;
 
-            var newMat = Object.Instantiate(Assets.Material.matHuntressArrowBig);
+            var newMat = Object.Instantiate(Paths.Material.matHuntressArrowBig);
             newMat.SetColor("_TintColor", orangeEquivalent);
-            newMat.SetTexture("_MainTex", Assets.Texture2D.texCrosshairBullets1);
+            newMat.SetTexture("_MainTex", Paths.Texture2D.texCrosshairBullets1);
 
             tracerHead.material = newMat;
 
@@ -96,12 +96,12 @@
 
             var particleSystemRenderer = beamObject.GetComponent<ParticleSystemRenderer>();
 
-            var newMat2 = Object.Instantiate(Assets.Material.matHuntressSwingTrail);
+            var newMat2 = Object.Instantiate(Paths.Material.matHuntressSwingTrail);
             newMat2.SetColor("_TintColor", new Color32(224, 112, 92, 255));
 
             // particleSystemRenderer.material = newMat2;
 
-            var newMat3 = Object.Instantiate(Assets.Material.matHuntressSwingTrail);
+            var newMat3 = Object.Instantiate(Paths.Material.matHuntressSwingTrail);
 
             var p2 = "texRampGay";
 
@@ -131,7 +131,7 @@
             // hotPinkEquivalent = new Color32(226, 27, 128, 255);
             // redEquivalent = new Color32(209, 21, 15, 96);
             // spikeColor = new Color32(255,255,255,255);
-            var impact = Assets.GameObject.ImpactRailgunLight.InstantiateClone("Exhaust Impact" + name, false);
+            var impact = Paths.GameObject.ImpactRailgunLight.InstantiateClone("Exhaust Impact" + name, false);
 
             var trans = impact.transform;
 
@@ -150,7 +150,7 @@
             daggersPS.constantMin = 1f;
             daggersPS.constantMax = 1f;
 
-            var newMat = Object.Instantiate(Assets.Material.matRailgunImpactSpikesLight);
+            var newMat = Object.Instantiate(Paths.Material.matRailgunImpactSpikesLight);
             newMat.SetColor("_TintColor", spikeColor);
             newMat.SetFloat("_Boost", brighnessBoost);
             newMat.SetFloat("_AlphaBoost", alphaBoost);

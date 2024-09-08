@@ -67,7 +67,7 @@ namespace Sandswept.Items.Greens
             ContentAddition.AddProjectile(SalvoMissile);
             */
 
-            missilePrefab = PrefabAPI.InstantiateClone(Assets.GameObject.MissileProjectile, "Nuclear Salvo Missile");
+            missilePrefab = PrefabAPI.InstantiateClone(Paths.GameObject.MissileProjectile, "Nuclear Salvo Missile");
 
             var missileProjectileController = missilePrefab.GetComponent<ProjectileController>();
             missileProjectileController.procCoefficient = missileProcCoefficient;
@@ -88,7 +88,7 @@ namespace Sandswept.Items.Greens
             projectileImpactExplosion.fireChildren = false;
             projectileImpactExplosion.applyDot = false;
 
-            var newImpact = PrefabAPI.InstantiateClone(Assets.GameObject.ImpVoidspikeExplosion, "Nuclear Salvo Explosion", false);
+            var newImpact = PrefabAPI.InstantiateClone(Paths.GameObject.ImpVoidspikeExplosion, "Nuclear Salvo Explosion", false);
             var effectComponent = newImpact.GetComponent<EffectComponent>();
             effectComponent.soundName = "Play_item_proc_missile_explo";
 
@@ -102,14 +102,14 @@ namespace Sandswept.Items.Greens
 
             var swipe = particles.transform.GetChild(0).GetComponent<ParticleSystemRenderer>();
 
-            var newMat = Object.Instantiate(Assets.Material.matImpSwipe);
-            newMat.SetTexture("_RemapTex", Assets.Texture2D.texRampAntler);
+            var newMat = Object.Instantiate(Paths.Material.matImpSwipe);
+            newMat.SetTexture("_RemapTex", Paths.Texture2D.texRampAntler);
             newMat.SetFloat("_Boost", 6.8f);
             newMat.SetFloat("_AlphaBoost", 1.44f);
             newMat.SetColor("_TintColor", new Color32(1, 13, 0, 255));
 
-            var newMat2 = Object.Instantiate(Assets.Material.matImpSwipe);
-            newMat2.SetTexture("_RemapTex", Assets.Texture2D.texRampBeetleBreath);
+            var newMat2 = Object.Instantiate(Paths.Material.matImpSwipe);
+            newMat2.SetTexture("_RemapTex", Paths.Texture2D.texRampBeetleBreath);
             newMat2.SetColor("_TintColor", new Color32(80, 255, 54, 255));
 
             swipe.material = newMat;
@@ -139,7 +139,7 @@ namespace Sandswept.Items.Greens
             // projectileSingleTargetImpact.impactEffect = newImpact;
             projectileImpactExplosion.impactEffect = newImpact;
 
-            var ghost = PrefabAPI.InstantiateClone(Assets.GameObject.MissileGhost, "Nuclear Salvo Missile Ghost", false);
+            var ghost = PrefabAPI.InstantiateClone(Paths.GameObject.MissileGhost, "Nuclear Salvo Missile Ghost", false);
             ghost.transform.localScale = Vector3.one * 2.5f;
             ghost.transform.GetChild(1).gameObject.SetActive(false);
 
@@ -151,10 +151,10 @@ namespace Sandswept.Items.Greens
             trail.widthMultiplier = 1f;
             trail.time = 1f;
 
-            var newTrailMat = Object.Instantiate(Assets.Material.matMissileTrail);
+            var newTrailMat = Object.Instantiate(Paths.Material.matMissileTrail);
             newTrailMat.SetColor("_TintColor", new Color32(20, 255, 0, 255));
             newTrailMat.SetFloat("_AlphaBoost", 0.66f);
-            newTrailMat.SetTexture("_RemapTex", Assets.Texture2D.texRampBeetleQueen);
+            newTrailMat.SetTexture("_RemapTex", Paths.Texture2D.texRampBeetleQueen);
 
             trail.material = newTrailMat;
 
@@ -165,7 +165,7 @@ namespace Sandswept.Items.Greens
             missileModel.transform.eulerAngles = new Vector3(-90f, 0f, 0f);
             var meshRenderer = missileModel.GetComponent<MeshRenderer>();
 
-            var atgMat = Object.Instantiate(Assets.Material.matMissile);
+            var atgMat = Object.Instantiate(Paths.Material.matMissile);
             // atgMat.SetColor("_Color", new Color32(224, 94, 94, 255));
             atgMat.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("texNuclearSalvoMissile.png"));
             atgMat.EnableKeyword("DITHER");

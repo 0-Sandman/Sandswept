@@ -48,13 +48,13 @@ namespace Sandswept.Survivors.Ranger.States
                         _ => HeatVFX.heatMatDefault
                     };
 
-                    var temporaryOverlay = modelTransform.gameObject.AddComponent<TemporaryOverlay>();
+                    var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
                     temporaryOverlay.duration = 9999f;
                     temporaryOverlay.animateShaderAlpha = true;
                     temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
                     temporaryOverlay.destroyComponentOnEnd = true;
                     temporaryOverlay.originalMaterial = heatMat;
-                    temporaryOverlay.AddToCharacerModel(modelTransform.GetComponent<CharacterModel>());
+                    temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
                 }
             }
 

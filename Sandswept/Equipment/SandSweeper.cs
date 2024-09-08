@@ -54,7 +54,7 @@ namespace Sandswept.Equipment
         {
             if (slot.characterBody == null) return false;
             EffectManager.SimpleSoundEffect(EntityStates.Croco.BaseLeap.landingSound.index, slot.characterBody.footPosition, transmit: true); // sandleep! BRUH LMFAO
-            EffectManager.SpawnEffect(Assets.GameObject.Bandit2SmokeBomb, new EffectData() { origin = slot.characterBody.footPosition, scale = range / 12f }, true);
+            EffectManager.SpawnEffect(Paths.GameObject.Bandit2SmokeBomb, new EffectData() { origin = slot.characterBody.footPosition, scale = range / 12f }, true);
             sphereSearch.origin = slot.characterBody.corePosition;
             sphereSearch.mask = LayerIndex.entityPrecise.mask;
             sphereSearch.radius = range;

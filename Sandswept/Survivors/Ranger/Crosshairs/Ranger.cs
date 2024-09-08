@@ -6,7 +6,7 @@
 
         public static void Init()
         {
-            hitscanCrosshairPrefab = Assets.GameObject.StandardCrosshairSmall.InstantiateClone("Ranger Hitscan Crosshair", false);
+            hitscanCrosshairPrefab = Paths.GameObject.StandardCrosshairSmall.InstantiateClone("Ranger Hitscan Crosshair", false);
             var upArrow = hitscanCrosshairPrefab.transform.GetChild(2);
             upArrow.gameObject.SetActive(false);
 

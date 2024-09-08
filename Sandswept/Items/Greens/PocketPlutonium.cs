@@ -64,7 +64,7 @@ namespace Sandswept.Items.Greens
 
         public override void Hooks()
         {
-            pocketPlutoniumPoolProcVFX = PrefabAPI.InstantiateClone(Assets.GameObject.MolotovSingleIgniteExplosionVFXVariant, "Pocket Plutonium Proc VFX", false);
+            pocketPlutoniumPoolProcVFX = PrefabAPI.InstantiateClone(Paths.GameObject.MolotovSingleIgniteExplosionVFXVariant, "Pocket Plutonium Proc VFX", false);
 
             var vfx = pocketPlutoniumPoolProcVFX.GetComponent<ParticleSystem>().main;
             var guh = vfx.startColor;
@@ -77,7 +77,7 @@ namespace Sandswept.Items.Greens
             var omni2 = omni.GetComponent<ParticleSystem>().main.startLifetime;
             omni2.mode = ParticleSystemCurveMode.Constant;
             omni2.constant = 0.8f;
-            var newMat = Object.Instantiate(Assets.Material.matOmniHitspark3Gasoline);
+            var newMat = Object.Instantiate(Paths.Material.matOmniHitspark3Gasoline);
             newMat.SetColor("_TintColor", new Color32(46, 116, 28, 255));
 
             omni.material = newMat;
@@ -95,7 +95,7 @@ namespace Sandswept.Items.Greens
             flames2.mode = ParticleSystemCurveMode.Constant;
             flames2.constant = 0.8f;
 
-            var newMat2 = Object.Instantiate(Assets.Material.matOmniExplosion1Generic);
+            var newMat2 = Object.Instantiate(Paths.Material.matOmniExplosion1Generic);
             newMat2.SetColor("_TintColor", new Color32(46, 116, 28, 255));
 
             flames.material = newMat2;
@@ -103,7 +103,7 @@ namespace Sandswept.Items.Greens
             var flash = trans.GetChild(3).GetComponent<ParticleSystemRenderer>();
             var flash2 = flash.GetComponent<ParticleSystem>().main.startLifetime;
             flash2.constant = 0.2f;
-            var newMat3 = Object.Instantiate(Assets.Material.matTracerBright);
+            var newMat3 = Object.Instantiate(Paths.Material.matTracerBright);
             newMat3.SetColor("_TintColor", new Color32(46, 116, 28, 255));
 
             flash.material = newMat3;
@@ -113,7 +113,7 @@ namespace Sandswept.Items.Greens
 
             ContentAddition.AddEffect(pocketPlutoniumPoolProcVFX);
 
-            pocketPlutoniumConstantVFX = PrefabAPI.InstantiateClone(Assets.GameObject.MolotovProjectileDotZone, "Pocket Plutonium Pool VFX", false);
+            pocketPlutoniumConstantVFX = PrefabAPI.InstantiateClone(Paths.GameObject.MolotovProjectileDotZone, "Pocket Plutonium Pool VFX", false);
 
             var networkIdentity = pocketPlutoniumConstantVFX.GetComponent<NetworkIdentity>();
             networkIdentity.Reset();
@@ -151,16 +151,16 @@ namespace Sandswept.Items.Greens
 
             var decal = scaled.GetChild(0).GetComponent<Decal>();
 
-            var newMat4 = Object.Instantiate(Assets.Material.matMolotovDecal);
+            var newMat4 = Object.Instantiate(Paths.Material.matMolotovDecal);
             newMat4.SetColor("_Color", new Color32(17, 121, 0, 255));
-            // newMat4.SetTexture("_RemapTex", Assets.Texture2D.texRampBeetleQueen2); // breaks it for some reason???????
+            // newMat4.SetTexture("_RemapTex", Paths.Texture2D.texRampBeetleQueen2); // breaks it for some reason???????
 
             decal.Material = newMat4;
 
             var fire = scaled.GetChild(1).GetComponent<ParticleSystemRenderer>();
 
-            var newMat5 = Object.Instantiate(Assets.Material.matFirePillarParticle);
-            newMat5.SetTexture("_RemapTex", Assets.Texture2D.texRampTwotoneBlack);
+            var newMat5 = Object.Instantiate(Paths.Material.matFirePillarParticle);
+            newMat5.SetTexture("_RemapTex", Paths.Texture2D.texRampTwotoneBlack);
 
             fire.material = newMat5;
 
@@ -175,7 +175,7 @@ namespace Sandswept.Items.Greens
 
             ContentAddition.AddBuffDef(pocketPlutoniumRecharge);
 
-            poolPrefab = PrefabAPI.InstantiateClone(Assets.GameObject.HuntressArrowRain, "Pocket Plutonium Pool");
+            poolPrefab = PrefabAPI.InstantiateClone(Paths.GameObject.HuntressArrowRain, "Pocket Plutonium Pool");
             poolPrefab.transform.localScale = Vector3.one * (poolRadius * 2f);
             var projectileDamage = poolPrefab.GetComponent<ProjectileDamage>();
             projectileDamage.damageType = DamageType.Generic;
@@ -262,12 +262,12 @@ namespace Sandswept.Items.Greens
 
         public void CreatePrefab()
         {
-            indicator = Assets.GameObject.NearbyDamageBonusIndicator.InstantiateClone("Pocket Plutonium Visual", true);
+            indicator = Paths.GameObject.NearbyDamageBonusIndicator.InstantiateClone("Pocket Plutonium Visual", true);
             var radiusTrans = indicator.transform.Find("Radius, Spherical");
             radiusTrans.localScale = new Vector3(poolRadius * 2f, poolRadius * 2f, poolRadius * 2f);
 
-            var razorMat = Object.Instantiate(Assets.Material.matNearbyDamageBonusRangeIndicator);
-            var cloudTexture = Assets.Texture2D.texCloudWaterRipples;
+            var razorMat = Object.Instantiate(Paths.Material.matNearbyDamageBonusRangeIndicator);
+            var cloudTexture = Paths.Texture2D.texCloudWaterRipples;
             razorMat.SetTexture("_MainTex", cloudTexture);
             razorMat.SetTexture("_Cloud1Tex", cloudTexture);
             razorMat.SetColor("_TintColor", new Color32(175, 255, 30, 150));

@@ -36,7 +36,7 @@ namespace Sandswept.Survivors.Ranger.VFX
         public static GameObject CreateTracerRecolor(string name, Color32 whiteEquivalent, float length = 6f, float widthMultiplier = 3f, float brightnessBoost = 10f, float alphaBoost = 1.2f, float alphaBias = 0.65f)
         {
             // whiteEquivalent = new Color32(255,255,255,255);
-            var tracer = Assets.GameObject.TracerCommandoShotgun.InstantiateClone("Enflame Tracer " + name, false);
+            var tracer = Paths.GameObject.TracerCommandoShotgun.InstantiateClone("Enflame Tracer " + name, false);
 
             var tracerComponent = tracer.GetComponent<Tracer>();
             tracerComponent.length = length;
@@ -72,7 +72,7 @@ namespace Sandswept.Survivors.Ranger.VFX
             newMat.SetFloat("_Boost", 6.071373f);
             newMat.SetFloat("_AlphaBoost", 1.116706f);
             newMat.SetFloat("_AlphaBias", 0.08291277f);
-            newMat.SetTexture("_RemapTex", Assets.Texture2D.texRampBandit);
+            newMat.SetTexture("_RemapTex", Paths.Texture2D.texRampBandit);
             */
 
             var gradient = new Gradient();
@@ -89,13 +89,13 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             lineRenderer.colorGradient = gradient;
 
-            var newMat = Object.Instantiate(Assets.Material.matBandit2TracerTrail);
+            var newMat = Object.Instantiate(Paths.Material.matBandit2TracerTrail);
             newMat.SetColor("_TintColor", whiteEquivalent);
             newMat.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("texRampEnflame.png"));
             newMat.SetFloat("_Boost", brightnessBoost);
             newMat.SetFloat("_AlphaBoost", alphaBoost);
             newMat.SetFloat("_AlphaBias", alphaBias);
-            // newMat.SetTexture("_MainTex", Assets.Texture2D.texMageLaserMask);
+            // newMat.SetTexture("_MainTex", Paths.Texture2D.texMageLaserMask);
 
             lineRenderer.material = newMat;
 

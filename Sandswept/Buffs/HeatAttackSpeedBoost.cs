@@ -6,7 +6,7 @@ namespace Sandswept.Buffs
 
         public override Color Color => new Color32(246, 119, 32, 255);
 
-        public override Sprite BuffIcon => Assets.BuffDef.bdAttackSpeedOnCrit.iconSprite;
+        public override Sprite BuffIcon => Paths.BuffDef.bdAttackSpeedOnCrit.iconSprite;
         public override bool CanStack => false;
         public override bool Hidden => false;
 

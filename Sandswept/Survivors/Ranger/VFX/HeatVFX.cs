@@ -35,7 +35,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
         public static Material CreateMatRecolor(Color32 blueEquivalent)
         {
-            var mat = Object.Instantiate(Assets.Material.matHuntressFlashExpanded);
+            var mat = Object.Instantiate(Paths.Material.matHuntressFlashExpanded);
 
             mat.SetColor("_TintColor", blueEquivalent);
             mat.SetInt("_Cull", 1);

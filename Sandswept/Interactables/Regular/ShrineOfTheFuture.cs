@@ -55,7 +55,7 @@ namespace Sandswept.Interactables.Regular
         public override void Init()
         {
             base.Init();
-            prefab = PrefabAPI.InstantiateClone(Assets.GameObject.ShrineCombat, "Shrine of the Future", true);
+            prefab = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineCombat, "Shrine of the Future", true);
 
             var purchaseInteraction = prefab.GetComponent<PurchaseInteraction>();
             purchaseInteraction.displayNameToken = "SANDSWEPT_SHRINE_FUTURE_NAME";
@@ -170,7 +170,7 @@ namespace Sandswept.Interactables.Regular
                 GenericPickupController.CreatePickupInfo info = new()
                 {
                     position = shrine.transform.position + new Vector3(0, 3f, 0),
-                    prefabOverride = Assets.GameObject.OptionPickup,
+                    prefabOverride = Paths.GameObject.OptionPickup,
                     rotation = Quaternion.identity,
                     pickupIndex = PickupCatalog.FindPickupIndex(ItemTier.Lunar),
                     pickerOptions = GenerateOptions()

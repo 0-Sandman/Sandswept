@@ -220,7 +220,7 @@ namespace Sandswept.Items.Greens
                             origin = self.transform.position,
                             aimVector = (box.transform.position - self.transform.position).normalized,
                             procCoefficient = 0.2f,
-                            tracerEffectPrefab = Assets.GameObject.TracerToolbotNails,
+                            tracerEffectPrefab = Paths.GameObject.TracerToolbotNails,
                             owner = self.gameObject
                         };
 

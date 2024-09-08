@@ -46,12 +46,12 @@ namespace Sandswept.Items.Whites
 
         public override void Hooks()
         {
-            healVFX = PrefabAPI.InstantiateClone(Assets.GameObject.MedkitHealEffect, "Fractured Timepiece Heal VFX", false);
+            healVFX = PrefabAPI.InstantiateClone(Paths.GameObject.MedkitHealEffect, "Fractured Timepiece Heal VFX", false);
             var effectComponent = healVFX.GetComponent<EffectComponent>();
             effectComponent.applyScale = true;
 
-            var healRamp = Assets.Texture2D.texRampArtifactShellSoft;
-            var cdrRamp = Assets.Texture2D.texRampLaserTurbine;
+            var healRamp = Paths.Texture2D.texRampArtifactShellSoft;
+            var cdrRamp = Paths.Texture2D.texRampLaserTurbine;
 
             var trans = healVFX.transform;
 
@@ -63,7 +63,7 @@ namespace Sandswept.Items.Whites
 
             var spinner = trans.GetChild(0).GetComponent<ParticleSystemRenderer>();
 
-            var newMat = Object.Instantiate(Assets.Material.matHealTrail);
+            var newMat = Object.Instantiate(Paths.Material.matHealTrail);
             newMat.SetTexture("_RemapTex", healRamp);
             newMat.SetFloat("_Boost", 9.9f);
 
@@ -71,14 +71,14 @@ namespace Sandswept.Items.Whites
 
             var crosses = trans.GetChild(1).GetComponent<ParticleSystemRenderer>();
 
-            var newMat2 = Object.Instantiate(Assets.Material.matHealingCross);
+            var newMat2 = Object.Instantiate(Paths.Material.matHealingCross);
             newMat2.SetTexture("_RemapTex", healRamp);
 
             crosses.material = newMat2;
 
             ContentAddition.AddEffect(healVFX);
 
-            cdrVFX = PrefabAPI.InstantiateClone(Assets.GameObject.MedkitHealEffect, "Fractured Timepiece CDR VFX", false);
+            cdrVFX = PrefabAPI.InstantiateClone(Paths.GameObject.MedkitHealEffect, "Fractured Timepiece CDR VFX", false);
             var effectComponent2 = cdrVFX.GetComponent<EffectComponent>();
             effectComponent2.applyScale = true;
             effectComponent2.soundName = "";
@@ -90,7 +90,7 @@ namespace Sandswept.Items.Whites
             var spinner2guh = spinner2.GetComponent<ParticleSystem>().main;
             spinner2guh.startDelay = 0.2f;
 
-            var newMat3 = Object.Instantiate(Assets.Material.matHealTrail);
+            var newMat3 = Object.Instantiate(Paths.Material.matHealTrail);
             newMat3.SetTexture("_RemapTex", cdrRamp);
             newMat3.SetFloat("_Boost", 4.8f);
 
@@ -99,9 +99,9 @@ namespace Sandswept.Items.Whites
             var crosses2 = trans2.GetChild(1).GetComponent<ParticleSystemRenderer>();
             crosses2.transform.eulerAngles = new Vector3(90f, 0f, 0f);
 
-            var mask = Assets.Texture2D.texGalaxy1Mask;
+            var mask = Paths.Texture2D.texGalaxy1Mask;
 
-            var newMat4 = Object.Instantiate(Assets.Material.matHealingCross);
+            var newMat4 = Object.Instantiate(Paths.Material.matHealingCross);
             newMat4.SetTexture("_RemapTex", cdrRamp);
             newMat4.SetTexture("_MainTex", mask);
             newMat4.SetTexture("_Cloud1Tex", mask);

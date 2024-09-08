@@ -99,7 +99,7 @@ namespace Sandswept
             ModLogger = Logger;
 
             config = Config;
-            backupConfig = new ConfigFile(Paths.ConfigPath + "\\com.TeamSandswept.Sandswept.Backup.cfg", true);
+            backupConfig = new ConfigFile(BepInEx.Paths.ConfigPath + "\\com.TeamSandswept.Sandswept.Backup.cfg", true);
             backupConfig.Bind(": DO NOT MODIFY THIS FILES CONTENTS :", ": DO NOT MODIFY THIS FILES CONTENTS :", ": DO NOT MODIFY THIS FILES CONTENTS :", ": DO NOT MODIFY THIS FILES CONTENTS :");
             enableAutoConfig = config.Bind("Config", "Enable Auto Config Sync", true, "Disabling this would stop Sandswept from syncing config whenever a new version is found.");
             bool _preVersioning = !((Dictionary<ConfigDefinition, string>)AccessTools.DeclaredPropertyGetter(typeof(ConfigFile), "OrphanedEntries").Invoke(config, null)).Keys.Any(x => x.Key == "Latest Version");

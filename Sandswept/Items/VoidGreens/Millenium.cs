@@ -48,11 +48,11 @@ namespace Sandswept.Items.VoidGreens
         {
             milleniumDamageType = DamageAPI.ReserveDamageType();
 
-            vfx = PrefabAPI.InstantiateClone(Assets.GameObject.NullifierExplosion, "Millenium VFX", false);
+            vfx = PrefabAPI.InstantiateClone(Paths.GameObject.NullifierExplosion, "Millenium VFX", false);
 
             var trans = vfx.transform;
 
-            var newStarMat = Object.Instantiate(Assets.Material.matNullifierStarParticle);
+            var newStarMat = Object.Instantiate(Paths.Material.matNullifierStarParticle);
             newStarMat.SetColor("_TintColor", new Color32(15, 49, 44, 255));
 
             var sphere = trans.Find("Sphere");
@@ -72,21 +72,21 @@ namespace Sandswept.Items.VoidGreens
 
             var vacuumRadial = trans.Find("Vacuum Radial").GetComponent<ParticleSystemRenderer>();
 
-            var newVacuumMat = Object.Instantiate(Assets.Material.matNullifierStarPortalEdge);
+            var newVacuumMat = Object.Instantiate(Paths.Material.matNullifierStarPortalEdge);
             newVacuumMat.SetColor("_TintColor", new Color32(3, 4, 255, 246));
             newVacuumMat.SetFloat("_Boost", 13f);
             newVacuumMat.SetFloat("_AlphaBias", 0.9590086f);
-            newVacuumMat.SetTexture("_RemapTex", Assets.Texture2D.texRampCrosshair2);
+            newVacuumMat.SetTexture("_RemapTex", Paths.Texture2D.texRampCrosshair2);
 
             vacuumRadial.material = newVacuumMat;
 
-            var newPortalMat = Object.Instantiate(Assets.Material.matNullifierGemPortal);
+            var newPortalMat = Object.Instantiate(Paths.Material.matNullifierGemPortal);
             newPortalMat.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("texMillenium2.png"));
             newPortalMat.SetTexture("_EmissionTex", Main.hifuSandswept.LoadAsset<Texture2D>("texMillenium1.png"));
 
             sphereMeshRenderer.materials[0] = newPortalMat;
 
-            var newSphereMat = Object.Instantiate(Assets.Material.matGravsphereCore);
+            var newSphereMat = Object.Instantiate(Paths.Material.matGravsphereCore);
             newSphereMat.SetColor("_TintColor", new Color32(5, 0, 255, 255));
             newSphereMat.SetFloat("_InvFade", 0f);
             newSphereMat.SetFloat("_Boost", 20f);

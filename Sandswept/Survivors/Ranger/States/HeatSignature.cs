@@ -49,21 +49,21 @@ namespace Sandswept.Survivors.Ranger.States
                     _ => HeatSignatureVFX.heatDashMat2Default
                 };
 
-                var overlay1 = modelTransform.gameObject.AddComponent<TemporaryOverlay>();
+                var overlay1 = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
                 overlay1.duration = 0.4f;
                 overlay1.animateShaderAlpha = true;
                 overlay1.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
                 overlay1.destroyComponentOnEnd = true;
                 overlay1.originalMaterial = overlayMat1;
-                overlay1.AddToCharacerModel(modelTransform.GetComponent<CharacterModel>());
+                overlay1.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
 
-                var overlay2 = modelTransform.gameObject.AddComponent<TemporaryOverlay>();
+                var overlay2 = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
                 overlay2.duration = 0.5f;
                 overlay2.animateShaderAlpha = true;
                 overlay2.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
                 overlay2.destroyComponentOnEnd = true;
                 overlay2.originalMaterial = overlayMat2;
-                overlay2.AddToCharacerModel(modelTransform.GetComponent<CharacterModel>());
+                overlay2.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
 
                 hitBoxGroup = Array.Find(modelTransform.GetComponents<HitBoxGroup>(), (x) => x.groupName == "GaySex");
             }
@@ -89,7 +89,7 @@ namespace Sandswept.Survivors.Ranger.States
                 isCrit = RollCrit(),
                 procChainMask = default,
                 teamIndex = TeamComponent.GetObjectTeam(gameObject),
-                impactSound = Assets.NetworkSoundEventDef.nsePulverizeBuildupBuffApplied.index,
+                impactSound = Paths.NetworkSoundEventDef.nsePulverizeBuildupBuffApplied.index,
                 forceVector = Vector3.zero,
                 hitBoxGroup = hitBoxGroup,
                 hitEffectPrefab = ExhaustVFX.impactPrefabDefault

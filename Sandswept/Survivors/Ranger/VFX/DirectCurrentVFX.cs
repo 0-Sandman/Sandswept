@@ -69,7 +69,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var trimmedName = name.Replace(" ", "");
 
-            var impact = Assets.GameObject.OmniImpactVFXLightningMage.InstantiateClone("Direct Current Impact " + name, false);
+            var impact = Paths.GameObject.OmniImpactVFXLightningMage.InstantiateClone("Direct Current Impact " + name, false);
 
             var effectComponent = impact.GetComponent<EffectComponent>();
             effectComponent.soundName = "Play_engi_M1_explo";
@@ -83,7 +83,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var scaledHitspark1PSR = scaledHitspark1.GetComponent<ParticleSystemRenderer>();
 
-            var newMat4 = Object.Instantiate(Assets.Material.matOmniHitspark1Generic);
+            var newMat4 = Object.Instantiate(Paths.Material.matOmniHitspark1Generic);
             newMat4.SetColor("_TintColor", lightGrayEquivalent);
 
             scaledHitspark1PSR.material = newMat4;
@@ -95,7 +95,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var scaledHitspark3PSR = scaledHitspark3.GetComponent<ParticleSystemRenderer>();
 
-            var newMat5 = Object.Instantiate(Assets.Material.matOmniHitspark3Generic);
+            var newMat5 = Object.Instantiate(Paths.Material.matOmniHitspark3Generic);
             newMat5.SetColor("_TintColor", lightGrayEquivalent);
 
             scaledHitspark3PSR.material = newMat5;
@@ -113,7 +113,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var dashBrightPSR = dashBright.GetComponent<ParticleSystemRenderer>();
 
-            var newMat6 = Object.Instantiate(Assets.Material.matTracerBright);
+            var newMat6 = Object.Instantiate(Paths.Material.matTracerBright);
             newMat6.SetColor("_TintColor", whiteEquivalent);
 
             dashBrightPSR.material = newMat6;
@@ -142,7 +142,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var matrixPSR = matrixDynamic.GetComponent<ParticleSystemRenderer>();
 
-            var newTrailMat = Object.Instantiate(Assets.Material.matLightningLongBlue);
+            var newTrailMat = Object.Instantiate(Paths.Material.matLightningLongBlue);
 
             newTrailMat.SetColor("_TintColor", lavenderEquivalent);
 
@@ -156,11 +156,11 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var matrixDPSR = matrixDirectional.GetComponent<ParticleSystemRenderer>();
 
-            // var newMat2 = Object.Instantiate(Assets.Material.matMageMatrixDirectionalLightning);
+            // var newMat2 = Object.Instantiate(Paths.Material.matMageMatrixDirectionalLightning);
             // newMat2.SetColor("_TintColor", tintColor);
             // newMat2.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("texRampDirectCurrentMatrix" + trimmedName + ".png"));
 
-            var newMat2 = Assets.Material.matMageMatrixDirectionalLightning; // the version above does not have a transparent bg so it looks weird in-game
+            var newMat2 = Paths.Material.matMageMatrixDirectionalLightning; // the version above does not have a transparent bg so it looks weird in-game
 
             matrixDPSR.material = newMat2;
 
@@ -177,7 +177,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var matrixBPSR = matrixBillboard.GetComponent<ParticleSystemRenderer>();
 
-            var newMat3 = Object.Instantiate(Assets.Material.matMageMatrixLightning);
+            var newMat3 = Object.Instantiate(Paths.Material.matMageMatrixLightning);
             newMat3.SetColor("_TintColor", tintColor);
 
             matrixBPSR.material = newMat3;
@@ -188,7 +188,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var sphereExpandingPSR = sphereExpanding.GetComponent<ParticleSystemRenderer>();
 
-            var newMat = Object.Instantiate(Assets.Material.matLightningSphere);
+            var newMat = Object.Instantiate(Paths.Material.matLightningSphere);
 
             newMat.SetColor("_TintColor", darkGreenEquivalent);
             newMat.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("texRampDirectCurrentImpact" + trimmedName + ".png"));
@@ -215,7 +215,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var trimmedName = name.Replace(" ", "");
 
-            var ghost = Assets.GameObject.LunarSunProjectileGhost.InstantiateClone("Direct Current Ghost " + name, false);
+            var ghost = Paths.GameObject.LunarSunProjectileGhost.InstantiateClone("Direct Current Ghost " + name, false);
 
             Main.ModLogger.LogDebug(ghost);
             Main.ModLogger.LogDebug(ghost.transform);
@@ -232,7 +232,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var backdrop = mdl.GetChild(0).GetComponent<ParticleSystemRenderer>();
 
-            var newBackdropMat = Object.Instantiate(Assets.Material.matLunarSunProjectileBackdrop);
+            var newBackdropMat = Object.Instantiate(Paths.Material.matLunarSunProjectileBackdrop);
 
             newBackdropMat.SetTexture("_RemapTex", ramp);
             newBackdropMat.SetInt("_Cull", 1); // used to appear as a white square behind terrain so I fixed it
@@ -241,7 +241,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var quad = mdl.GetChild(1).GetComponent<MeshRenderer>();
 
-            var newQuadMat = Object.Instantiate(Assets.Material.matLunarSunProjectile);
+            var newQuadMat = Object.Instantiate(Paths.Material.matLunarSunProjectile);
 
             newQuadMat.SetColor("_EmColor", green); // 0, 187, 255, 255
             newQuadMat.SetTexture("_FresnelRamp", fresnel);
@@ -266,13 +266,13 @@ namespace Sandswept.Survivors.Ranger.VFX
             trail.widthMultiplier = 0.5f;
             trail.time = 0.2f;
 
-            var newTrailMat = Object.Instantiate(Assets.Material.matLunarSunProjectileTrail);
+            var newTrailMat = Object.Instantiate(Paths.Material.matLunarSunProjectileTrail);
 
             newTrailMat.SetTexture("_RemapTex", ramp);
             newTrailMat.SetFloat("_Boost", 1f);
             newTrailMat.SetFloat("_AlphaBoost", 4.710526f);
             newTrailMat.SetFloat("_AlphaBias", 0.3349282f);
-            newTrailMat.SetTexture("_MainTex", Assets.Texture2D.texAlphaGradient1);
+            newTrailMat.SetTexture("_MainTex", Paths.Texture2D.texAlphaGradient1);
             newTrailMat.SetColor("_TintColor", mutedAquaEquivalent);
 
             trail.material = newTrailMat;

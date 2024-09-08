@@ -1,3 +1,4 @@
+using KinematicCharacterController;
 using RoR2.UI;
 
 // using Sandswept.Survivors.Ranger.ItemDisplays;
@@ -36,14 +37,14 @@ namespace Sandswept.Survivors.Ranger
 
             PrefabAPI.RegisterNetworkPrefab(Body);
 
-            Master = PrefabAPI.InstantiateClone(Assets.GameObject.CommandoMonsterMaster, "RangerMaster");
+            Master = PrefabAPI.InstantiateClone(Paths.GameObject.CommandoMonsterMaster, "RangerMaster");
 
             Body.AddComponent<RoR2.UI.CrosshairUtils.CrosshairOverrideBehavior>();
 
             Body.RemoveComponent<RangerHeatController>();
             Body.AddComponent<RangerHeatController>();
 
-            Body.GetComponent<CameraTargetParams>().cameraParams = Assets.CharacterCameraParams.ccpStandard;
+            Body.GetComponent<CameraTargetParams>().cameraParams = Paths.CharacterCameraParams.ccpStandard;
 
             var crosshair = Main.Assets.LoadAsset<GameObject>("Assets/Sandswept/Base/Characters/Ranger/CrosshairRanger.prefab");
 
@@ -56,7 +57,7 @@ namespace Sandswept.Survivors.Ranger
             var outerCircle = crosshair.transform.GetChild(0);
             outerCircle.gameObject.SetActive(true);
             var rawImage2 = outerCircle.GetComponent<RawImage>();
-            rawImage2.texture = Assets.Texture2D.texCrosshairDot;
+            rawImage2.texture = Paths.Texture2D.texCrosshairDot;
             rawImage2.color = new Color32(200, 200, 200, 255);
             outerCircle.GetComponent<RectTransform>().localScale = Vector3.one * 1.5f;
 
@@ -67,6 +68,8 @@ namespace Sandswept.Survivors.Ranger
             var cb = Body.GetComponent<CharacterBody>();
             cb._defaultCrosshairPrefab = crosshair;
             cb.preferredPodPrefab = RangerPod.prefabDefault;
+
+            cb.GetComponent<KinematicCharacterMotor>().playerCharacter = true;
 
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdRanger.asset");
             SurvivorDef.cachedName = "Ranger"; // for eclipse fix
@@ -83,7 +86,7 @@ namespace Sandswept.Survivors.Ranger
             footstepHandler.enableFootstepDust = true;
             footstepHandler.baseFootstepString = "Play_bandit2_step";
             footstepHandler.sprintFootstepOverrideString = "Play_bandit2_step_sprint";
-            footstepHandler.footstepDustPrefab = Assets.GameObject.GenericFootstepDust;
+            footstepHandler.footstepDustPrefab = Paths.GameObject.GenericFootstepDust;
 
             SkillLocator locator = Body.GetComponent<SkillLocator>();
             ReplaceSkills(locator.primary, new SkillDef[] { Skilldefs.DirectCurrent.instance.skillDef });

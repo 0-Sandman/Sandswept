@@ -23,7 +23,7 @@ namespace Sandswept.Survivors.Ranger.Projectiles
 
         public static GameObject CreateProjectileRecolor(string name, GameObject tracerPrefab, GameObject impactPrefab)
         {
-            var prefab = Assets.GameObject.MageLightningBombProjectile.InstantiateClone("Direct Current " + name + " Projectile", true);
+            var prefab = Paths.GameObject.MageLightningBombProjectile.InstantiateClone("Direct Current " + name + " Projectile", true);
 
             var proximityDetonator = prefab.transform.GetChild(0).GetComponent<SphereCollider>();
             proximityDetonator.radius = 0.6f;
@@ -34,7 +34,7 @@ namespace Sandswept.Survivors.Ranger.Projectiles
             prefab.RemoveComponent<AkGameObj>();
 
             var sphereCollider = prefab.GetComponent<SphereCollider>();
-            // sphereCollider.material = Assets.PhysicMaterial.physmatEngiGrenade;
+            // sphereCollider.material = Paths.PhysicMaterial.physmatEngiGrenade;
             sphereCollider.radius = 0.5f;
             prefab.layer = LayerIndex.projectile.intVal;
 
