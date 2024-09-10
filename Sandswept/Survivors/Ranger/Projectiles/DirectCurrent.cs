@@ -10,6 +10,7 @@ namespace Sandswept.Survivors.Ranger.Projectiles
         public static GameObject prefabMajor;
         public static GameObject prefabRenegade;
         public static GameObject prefabMileZero;
+        public static GameObject prefabRacecar;
         public static ModdedDamageType chargeOnHit = ReserveDamageType();
         public static ModdedDamageType chargeOnHitDash = ReserveDamageType();
 
@@ -19,6 +20,7 @@ namespace Sandswept.Survivors.Ranger.Projectiles
             prefabMajor = CreateProjectileRecolor("Major", DirectCurrentVFX.ghostPrefabMajor, DirectCurrentVFX.impactPrefabMajor);
             prefabRenegade = CreateProjectileRecolor("Renegade", DirectCurrentVFX.ghostPrefabRenegade, DirectCurrentVFX.impactPrefabRenegade);
             prefabMileZero = CreateProjectileRecolor("Mile Zero", DirectCurrentVFX.ghostPrefabMileZero, DirectCurrentVFX.impactPrefabMileZero);
+            prefabMileZero = CreateProjectileRecolor("Racecar", DirectCurrentVFX.ghostPrefabRacecar, DirectCurrentVFX.impactPrefabRacecar);
         }
 
         public static GameObject CreateProjectileRecolor(string name, GameObject tracerPrefab, GameObject impactPrefab)

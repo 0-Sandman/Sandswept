@@ -14,6 +14,9 @@
         public static GameObject tracerPrefabMileZero;
         public static GameObject impactPrefabMileZero;
 
+        public static GameObject tracerPrefabRacecar;
+        public static GameObject impactPrefabRacecar;
+
         // replace with railgunner m2/special later
 
         public static void Init()
@@ -29,6 +32,9 @@
 
             tracerPrefabMileZero = CreateTracerRecolor("Mile Zero", new Color32(127, 0, 0, 255), new Color32(0, 0, 0, 255), new Color32(255, 0, 0, 255), false, 2.207824f, 1.515893f, 0.397718f);
             impactPrefabMileZero = CreateImpactRecolor("Mile Zero", new Color32(0, 0, 0, 255), new Color32(127, 0, 0, 94), new Color32(4, 0, 0, 255));
+
+            tracerPrefabRacecar = CreateTracerRecolor("Racecar", new Color32(127, 0, 0, 255), new Color32(0, 0, 0, 255), new Color32(255, 0, 0, 255), false, 2.207824f, 1.515893f, 0.397718f);
+            impactPrefabRacecar = CreateImpactRecolor("Racecar", new Color32(0, 0, 0, 255), new Color32(127, 0, 0, 94), new Color32(4, 0, 0, 255));
         }
 
         public static GameObject CreateTracerRecolor(string name, Color32 aquaEquivalent, Color32 orangeEquivalent, Color32 darkRedEquivalent, bool altRamp = false, float brightnessBoost = 1.277907f, float alphaBoost = 0f, float alphaBias = 0.2317166f)

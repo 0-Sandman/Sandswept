@@ -163,6 +163,8 @@ namespace Sandswept.Survivors.Ranger
         public static SkinDef majorDef;
         public static SkinDef renegadeDef;
         public static SkinDef mileZeroDef;
+        public static SkinDef racecarDef;
+        // public static SkinDef rainbowDef;
 
         public void AddSkins()
         {
@@ -179,9 +181,12 @@ namespace Sandswept.Survivors.Ranger
 
             modelSkinController = mdl.GetComponent<ModelSkinController>();
 
-            majorDef = CreateRecolor("Major", 4.2f, false, "perform a multikill of 10 enemies");
-            renegadeDef = CreateRecolor("Renegade", 2.5f, false, "kill 3 enemies with one use of Heat Signature");
-            mileZeroDef = CreateRecolor("Mile Zero", 4.2f, false, "finish off 10 enemies with one use of Exhaust");
+            majorDef = CreateRecolor("Major", 4.2f);
+            renegadeDef = CreateRecolor("Renegade", 2.5f);
+            mileZeroDef = CreateRecolor("Mile Zero", 4.2f);
+            racecarDef = CreateRecolor("Racecar", 4.2f);
+            // rainbowDef = CreateRecolor("Racecar", 4.2f);
+
             // CreateRecolor("Uv");
             // ideas
             // Major - as Ranger, kill 10 enemies at once

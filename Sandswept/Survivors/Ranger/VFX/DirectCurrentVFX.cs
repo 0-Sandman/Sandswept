@@ -18,6 +18,9 @@ namespace Sandswept.Survivors.Ranger.VFX
         public static GameObject ghostPrefabMileZero;
         public static GameObject impactPrefabMileZero;
 
+        public static GameObject ghostPrefabRacecar;
+        public static GameObject impactPrefabRacecar;
+
         public static void Init()
         {
             ghostPrefabDefault = CreateGhostRecolor("Default", new Color32(0, 255, 167, 255), new Color32(0, 141, 197, 255), new Color32(111, 170, 151, 255));
@@ -47,6 +50,13 @@ namespace Sandswept.Survivors.Ranger.VFX
                 new Color32(250, 0, 0, 255), new Color32(154, 0, 0, 255), new Color32(255, 0, 0, 255), new Color32(255, 0, 0, 255), new Color32(255, 19, 19, 255),
                 new Color32(216, 31, 25, 255), new Color32(255, 0, 0, 255), new Color32(255, 255, 255, 255), new Color32(255, 37, 39, 255),
                 new Color32(181, 25, 29, 255), new Color32(170, 5, 2, 255), new Color32(255, 0, 0, 255), 2.639934f, 0.1044277f);
+
+            ghostPrefabRacecar = CreateGhostRecolor("Racecar", new Color32(0, 255, 248, 255), new Color32(0, 180, 197, 255), new Color32(111, 170, 170, 255));
+
+            impactPrefabRacecar = CreateImpactRecolor("Racecar", new Color32(17, 17, 17, 255), new Color32(14, 161, 158, 255), new Color32(25, 186, 255, 255),
+                new Color32(0, 211, 238, 255), new Color32(0, 113, 147, 255), new Color32(20, 190, 255, 255), new Color32(0, 214, 255, 255), new Color32(88, 229, 255, 255),
+                new Color32(54, 178, 214, 255), new Color32(243, 211, 65, 255), new Color32(255, 255, 255, 255), new Color32(39, 140, 144, 255), new Color32(49, 166, 180, 255),
+                new Color32(0, 255, 223, 255), new Color32(0, 255, 251, 255), 1.301445f, 0.07936508f);
         }
 
         public static GameObject CreateImpactRecolor(string name, Color32 darkGreenEquivalent, Color32 darkBlueEquivalent, Color32 saturatedBlueEquivalent, Color32 brightBlueEquivalent, Color32 desaturatedBlueEquivalent, Color32 saturatedBlueEquivalent2, Color32 saturatedBlueEquivalent3, Color32 saturatedBlueEquivalent4, Color32 saturatedDarkBlueEquivalent, Color32 lavenderEquivalent, Color32 tintColor, Color32 saturatedBlueEquivalent5, Color32 lightAquaEquivalent, Color32 lightGrayEquivalent, Color32 whiteEquivalent, float alphaBoost = 3.39f, float alphaBias = 0f)
