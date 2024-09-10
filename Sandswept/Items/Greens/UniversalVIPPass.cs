@@ -34,6 +34,10 @@ namespace Sandswept.Items.Greens
 
         public override void Init(ConfigFile config)
         {
+            var uniVip = Main.MainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");
+            var uniVipMat = uniVip.transform.GetChild(0).GetComponent<MeshRenderer>().material;
+            uniVipMat.SetColor("_Color", new Color32(205, 205, 205, 249));
+
             CreateLang();
             CreateItem();
             Hooks();

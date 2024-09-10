@@ -57,6 +57,10 @@ namespace Sandswept.Items.Greens
 
         public override void Init(ConfigFile config)
         {
+            var sunFragment = Main.MainAssets.LoadAsset<GameObject>("SunFragmentPrefab.prefab");
+            var sunFragmentMat = sunFragment.transform.GetChild(0).GetComponent<MeshRenderer>().material;
+            sunFragmentMat.SetFloat("_NormalStrength", 0.8263923f);
+
             SunFragmentDamageType = DamageAPI.ReserveDamageType();
 
             FragmentVFX = Main.MainAssets.LoadAsset<GameObject>("FragmentFXRing.prefab");

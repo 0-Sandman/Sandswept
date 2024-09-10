@@ -151,8 +151,8 @@ namespace Sandswept.Survivors.Ranger
             GameObject hitBox = new("gay sex hitbox");
             hitBox.transform.parent = trans;
             hitBox.AddComponent<HitBox>();
-            hitBox.transform.localPosition = new Vector3(0f, 0.0075f, 0.02f);
-            hitBox.transform.localScale = new Vector3(0.045f, 0.05f, 0.05f);
+            hitBox.transform.localPosition = Vector3.zero;
+            hitBox.transform.localScale = Vector3.one * 7f;
             hitBox.transform.localEulerAngles = Vector3.zero;
             var hitBoxGroup = trans.AddComponent<HitBoxGroup>();
             hitBoxGroup.hitBoxes = new HitBox[] { hitBox.GetComponent<HitBox>() };
@@ -187,7 +187,7 @@ namespace Sandswept.Survivors.Ranger
             majorDef = CreateRecolor("Major", 4.2f);
             renegadeDef = CreateRecolor("Renegade", 2.5f);
             mileZeroDef = CreateRecolor("Mile Zero", 4.2f);
-            racecarDef = CreateRecolor("Racecar", 4.2f);
+            // racecarDef = CreateRecolor("Racecar", 4.2f);
             // rainbowDef = CreateRecolor("Racecar", 4.2f);
 
             // CreateRecolor("Uv");

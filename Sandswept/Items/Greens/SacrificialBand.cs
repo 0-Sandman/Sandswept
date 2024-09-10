@@ -11,7 +11,7 @@
 
         public override string ItemFullDescription => ("Hits that deal $sdmore than 400% damage$se also inflict $sd" + baseBleedCount + "$se $ss(+" + stackBleedCount + " per stack)$se $sdbleeds$se on enemies for each $sd" + d(damageScalar) + "%$se of $sdskill damage$se. Recharges every $su10$se seconds.").AutoFormat();
 
-        public override string ItemLore => "Some say a girl called HIFU wanted to name this item Band of Sacrifice as a funny reference but other devs disagreed with it because of naming convention.. :joker:";
+        public override string ItemLore => "Some say a guy called HIFU wanted to name this item Band of Sacrifice as a funny reference but other devs disagreed with it because of naming convention.. :joker:";
 
         [ConfigField("Base Bleed Count", "", 1)]
         public static float baseBleedCount;
@@ -38,16 +38,20 @@
             ready = ScriptableObject.CreateInstance<BuffDef>();
             ready.isDebuff = false;
             ready.canStack = false;
-            ready.isHidden = true;
+            ready.isHidden = false;
             ready.isCooldown = false;
+            ready.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texCrownsDiamond.png");
+            ready.buffColor = Color.white;
 
             ContentAddition.AddBuffDef(ready);
 
             cooldown = ScriptableObject.CreateInstance<BuffDef>();
             cooldown.canStack = true;
             cooldown.isDebuff = false;
-            cooldown.isHidden = true;
-            ready.isCooldown = true;
+            cooldown.isHidden = false;
+            cooldown.isCooldown = true;
+            cooldown.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texCrownsDiamond.png");
+            cooldown.buffColor = Color.gray;
 
             ContentAddition.AddBuffDef(cooldown);
 
@@ -59,31 +63,36 @@
         public override void Hooks()
         {
             On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnHitEnemy;
-            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
+            CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
         }
 
-        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
+        private void CharacterBody_onBodyStartGlobal(CharacterBody body)
         {
-            body.AddItemBehavior<SacrificialBandController>(GetCount(body));
+            var inventory = body.inventory;
+            if (!inventory)
+            {
+                return;
+            }
+            if (body.GetComponent<SacrificialBandController>() == null)
+            {
+                body.gameObject.AddComponent<SacrificialBandController>();
+            }
         }
 
         private void GlobalEventManager_OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
         {
+            bool triggered = false;
+            CharacterBody attackerBody = null;
             var attacker = damageInfo.attacker;
-            if (attacker && attacker.TryGetComponent<CharacterBody>(out var attackerBody) && victim)
+            if (attacker && victim)
             {
+                attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
                 var skillDamage = damageInfo.damage / attackerBody.damage;
-                if (!damageInfo.procChainMask.HasProc(ProcType.PlasmaCore) && skillDamage >= 4f)
+                if (attackerBody && skillDamage >= 4f)
                 {
                     if (attackerBody.HasBuff(ready))
                     {
-                        attackerBody.RemoveBuff(ready);
-                        int timer = 1;
-                        while (timer <= 10f)
-                        {
-                            attackerBody.AddTimedBuff(cooldown, timer);
-                            timer++;
-                        }
+                        triggered = true;
 
                         var stack = GetCount(attackerBody);
                         if (stack > 0)
@@ -104,6 +113,15 @@
             }
 
             orig(self, damageInfo, victim);
+
+            if (triggered && attackerBody.HasBuff(ready))
+            {
+                attackerBody.RemoveBuff(ready);
+                for (int j = 1; j <= 10f; j++)
+                {
+                    attackerBody.AddTimedBuff(cooldown, j);
+                }
+            }
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
@@ -112,13 +130,26 @@
         }
     }
 
-    public class SacrificialBandController : CharacterBody.ItemBehavior
+    public class SacrificialBandController : MonoBehaviour
     {
+        public CharacterBody body;
+
         public void Start()
         {
+            body = GetComponent<CharacterBody>();
+            if (!body)
+            {
+                Main.ModLogger.LogError("no body found");
+                return;
+            }
+
             if (!body.HasBuff(SacrificialBand.ready))
             {
+                Main.ModLogger.LogError("gave ready buff to " + body.name);
                 body.AddBuff(SacrificialBand.ready);
+                Main.ModLogger.LogError("ready buff is " + SacrificialBand.ready);
+                Main.ModLogger.LogError("cooldown buff is " + SacrificialBand.cooldown);
+                Main.ModLogger.LogError("does body have ready buff? " + body.HasBuff(SacrificialBand.ready));
             }
         }
     }

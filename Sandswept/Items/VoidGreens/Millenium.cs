@@ -10,7 +10,7 @@ namespace Sandswept.Items.VoidGreens
 
         public override string ItemLangTokenName => "MILLENIUM";
 
-        public override string ItemPickupDesc => "Create a tidal cataclysm on hit that grounds and collapses enemies. $svCorrupts all Sun Fragments$se.";
+        public override string ItemPickupDesc => "Create a tidal cataclysm on hit that grounds and collapses enemies. $svCorrupts all Sun Fragments$se.".AutoFormat();
 
         public override string ItemFullDescription => ("$su" + chance + "%$se chance on hit to create a $sdtidal cataclysm$se in a $su" + baseExplosionRadius + "m$se $ss(+" + stackExplosionRadius + "m per stack)$se area, $sdcollapsing$se and $sugrounding$se enemies for $sd400%$se base damage. $svCorrupts all Sun Fragments$se.").AutoFormat();
 
@@ -30,9 +30,9 @@ namespace Sandswept.Items.VoidGreens
 
         public override ItemTier Tier => ItemTier.VoidTier2;
 
-        public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("SunFragmentPrefab.prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("MilleniumHolder.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texSunFragment.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texMillenium.png");
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
 
@@ -46,6 +46,19 @@ namespace Sandswept.Items.VoidGreens
 
         public override void Init(ConfigFile config)
         {
+            var powerElixirGlassMat = new Material(Utils.Assets.Material.matHealingPotionGlass);
+            powerElixirGlassMat.SetFloat("_Boost", 0.3f);
+            powerElixirGlassMat.SetFloat("_RimPower", 1.567551f);
+            powerElixirGlassMat.SetFloat("_RimStrength", 3.52f);
+            powerElixirGlassMat.SetFloat("_AlphaBoost", 1f);
+            powerElixirGlassMat.SetFloat("IntersectionStrength", 1f);
+            powerElixirGlassMat.SetColor("_TintColor", new Color32(255, 44, 115, 255));
+
+            var millenium = Main.hifuSandswept.LoadAsset<GameObject>("MilleniumHolder.prefab");
+            var model = millenium.transform.GetChild(0);
+            var hourglassMr = model.Find("Vert").GetComponent<MeshRenderer>();
+            hourglassMr.material = powerElixirGlassMat;
+
             milleniumDamageType = DamageAPI.ReserveDamageType();
 
             vfx = PrefabAPI.InstantiateClone(Paths.GameObject.NullifierExplosion, "Millenium VFX", false);
@@ -104,8 +117,69 @@ namespace Sandswept.Items.VoidGreens
 
         public override void Hooks()
         {
-            GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
+            On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnHitEnemy;
             On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
+        }
+
+        private void GlobalEventManager_OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
+        {
+            var attacker = damageInfo.attacker;
+            if (attacker && victim)
+            {
+                if (attacker.TryGetComponent<CharacterBody>(out var attackerBody) && victim.TryGetComponent<CharacterBody>(out var victimBody))
+                {
+                    var stack = GetCount(attackerBody);
+                    if (stack > 0)
+                    {
+                        if (Util.CheckRoll(chance * damageInfo.procCoefficient, attackerBody.master))
+                        {
+                            var radius = baseExplosionRadius + stackExplosionRadius * (stack - 1);
+
+                            EffectData effectData = new()
+                            {
+                                origin = victimBody.corePosition,
+                                rotation = Quaternion.identity,
+                                scale = radius * 3f
+                            };
+                            EffectManager.SpawnEffect(vfx, effectData, true);
+
+                            // var damage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, baseTotalDamage + stackTotalDamage * (stack - 1));
+
+                            float mass;
+
+                            if (victimBody.characterMotor) mass = victimBody.characterMotor.mass;
+                            else if (victimBody.rigidbody) mass = victimBody.rigidbody.mass;
+                            else mass = 1f;
+
+                            BlastAttack blastAttack = new()
+                            {
+                                radius = radius,
+                                baseDamage = Mathf.Epsilon, // dont ask
+                                procCoefficient = explosionProcCoefficient,
+                                crit = damageInfo.crit,
+                                damageColorIndex = milleniumColor,
+                                attackerFiltering = AttackerFiltering.NeverHitSelf,
+                                falloffModel = BlastAttack.FalloffModel.None,
+                                attacker = attackerBody.gameObject,
+                                teamIndex = attackerBody.teamComponent.teamIndex,
+                                position = damageInfo.position,
+                                damageType = DamageType.Silent | DamageType.BypassArmor | DamageType.BypassBlock, // I said dont ask
+                                bonusForce = new Vector3(0f, -25f * mass, 0f)
+                            };
+
+                            var result = blastAttack.Fire();
+
+                            damageInfo.procChainMask.AddProc(milleniumAoE);
+
+                            attackerBody.StartCoroutine(AddCollapse(damageInfo, result));
+
+                            AkSoundEngine.PostEvent(Events.Play_voidRaid_snipe_impact, victimBody.gameObject);
+                        }
+                    }
+                }
+            }
+
+            orig(self, damageInfo, victim);
         }
 
         private void ContagiousItemManager_Init(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
@@ -119,86 +193,15 @@ namespace Sandswept.Items.VoidGreens
             orig();
         }
 
-        private void GlobalEventManager_onServerDamageDealt(DamageReport report)
-        {
-            var damageInfo = report.damageInfo;
-
-            if (damageInfo.procChainMask.HasProc(milleniumAoE))
-            {
-                return;
-            }
-
-            var attackerBody = report.attackerBody;
-            if (!attackerBody)
-            {
-                return;
-            }
-
-            var victimBody = report.victimBody;
-            if (!victimBody)
-            {
-                return;
-            }
-
-            var stack = GetCount(attackerBody);
-            if (stack > 0)
-            {
-                if (Util.CheckRoll(chance * damageInfo.procCoefficient, attackerBody.master))
-                {
-                    var radius = baseExplosionRadius + stackExplosionRadius * (stack - 1);
-
-                    EffectData effectData = new()
-                    {
-                        origin = victimBody.corePosition,
-                        rotation = Quaternion.identity,
-                        scale = radius * 3f
-                    };
-                    EffectManager.SpawnEffect(vfx, effectData, true);
-
-                    // var damage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, baseTotalDamage + stackTotalDamage * (stack - 1));
-
-                    float mass;
-
-                    if (victimBody.characterMotor) mass = victimBody.characterMotor.mass;
-                    else if (victimBody.rigidbody) mass = victimBody.rigidbody.mass;
-                    else mass = 1f;
-
-                    BlastAttack blastAttack = new()
-                    {
-                        radius = radius,
-                        baseDamage = Mathf.Epsilon, // dont ask
-                        procCoefficient = explosionProcCoefficient,
-                        crit = damageInfo.crit,
-                        damageColorIndex = milleniumColor,
-                        attackerFiltering = AttackerFiltering.NeverHitSelf,
-                        falloffModel = BlastAttack.FalloffModel.None,
-                        attacker = attackerBody.gameObject,
-                        teamIndex = attackerBody.teamComponent.teamIndex,
-                        position = damageInfo.position,
-                        damageType = DamageType.Silent | DamageType.BypassArmor | DamageType.BypassBlock, // I said dont ask
-                        bonusForce = new Vector3(0f, -25f * mass, 0f)
-                    };
-
-                    var result = blastAttack.Fire();
-
-                    damageInfo.procChainMask.AddProc(milleniumAoE);
-
-                    attackerBody.StartCoroutine(AddCollapse(damageInfo, result));
-
-                    AkSoundEngine.PostEvent(Events.Play_voidRaid_snipe_impact, victimBody.gameObject);
-                }
-            }
-        }
-
         public IEnumerator AddCollapse(DamageInfo damageInfo, BlastAttack.Result result)
         {
             foreach (BlastAttack.HitPoint hitPoint in result.hitPoints)
             {
                 if (hitPoint.hurtBox && hitPoint.hurtBox.healthComponent)
                 {
-                    yield return new WaitForSeconds(1.5f / result.hitCount);
+                    yield return new WaitForSeconds(0.03f);
                     var collapse = DotController.GetDotDef(DotController.DotIndex.Fracture);
-                    DotController.InflictDot(hitPoint.hurtBox.healthComponent.gameObject, damageInfo.attacker, DotController.DotIndex.Fracture, collapse.interval, 1f);
+                    DotController.InflictDot(hitPoint.hurtBox.healthComponent.gameObject, damageInfo.attacker, DotController.DotIndex.Fracture, collapse.interval, 1f, uint.MaxValue);
                 }
             }
         }
