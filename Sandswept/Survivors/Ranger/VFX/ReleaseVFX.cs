@@ -37,7 +37,7 @@
             // lightGreenEquivalent = new Color32(92,224,125,255);
             // tintColor = new Color32(0, 1, 255, 255);
 
-            var tracer = Assets.GameObject.TracerHuntressSnipe.InstantiateClone("Release Tracer " + name, false);
+            var tracer = Paths.GameObject.TracerHuntressSnipe.InstantiateClone("Release Tracer " + name, false);
 
             tracer.AddComponent<VFXAttributes>();
 
@@ -64,9 +64,9 @@
 
             tracerHead.colorGradient = gradient;
 
-            var newMat = Object.Instantiate(Assets.Material.matHuntressArrowBig);
+            var newMat = Object.Instantiate(Paths.Material.matHuntressArrowBig);
             newMat.SetColor("_TintColor", lightAquaEquivalent);
-            newMat.SetTexture("_MainTex", Assets.Texture2D.texCrosshairBullets1);
+            newMat.SetTexture("_MainTex", Paths.Texture2D.texCrosshairBullets1);
 
             tracerHead.material = newMat;
 
@@ -96,13 +96,13 @@
 
             var particleSystemRenderer = beamObject.GetComponent<ParticleSystemRenderer>();
 
-            var newMat2 = Object.Instantiate(Assets.Material.matHuntressSwingTrail);
+            var newMat2 = Object.Instantiate(Paths.Material.matHuntressSwingTrail);
             newMat2.SetColor("_TintColor", lightGreenEquivalent);
 
             // particleSystemRenderer.material = newMat2;
 
-            var newMat3 = Object.Instantiate(Assets.Material.matHuntressSwingTrail);
-            newMat3.SetTexture("_RemapTex", altRamp ? Assets.Texture2D.texRampBandit : Main.hifuSandswept.LoadAsset<Texture2D>("texRampGay.png"));
+            var newMat3 = Object.Instantiate(Paths.Material.matHuntressSwingTrail);
+            newMat3.SetTexture("_RemapTex", altRamp ? Paths.Texture2D.texRampBandit : Main.hifuSandswept.LoadAsset<Texture2D>("texRampGay.png"));
             newMat3.SetColor("_TintColor", tintColor);
             newMat3.SetFloat("_SoftFactor", 0.8866442f);
             newMat3.SetFloat("_Boost", brightnessBoost);
@@ -123,7 +123,7 @@
             // lessSaturatedAquaEquivalent = new Color32(23,211,148,255);
             // saturatedBlueEquivalent = new Color32(0,255,210,255);
 
-            var impact = Assets.GameObject.OmniExplosionCrowstorm.InstantiateClone("Release Impact " + name, false);
+            var impact = Paths.GameObject.OmniExplosionCrowstorm.InstantiateClone("Release Impact " + name, false);
 
             var effectComponent = impact.GetComponent<EffectComponent>();
             effectComponent.soundName = "Play_lunar_wisp_attack2_explode";
@@ -162,7 +162,7 @@
 
             var scaledHitsparks1PSR = scaledHitsparks1.GetComponent<ParticleSystemRenderer>();
 
-            var newScaledHitsparks1Mat = Object.Instantiate(Assets.Material.matOmniHitspark1Huntress);
+            var newScaledHitsparks1Mat = Object.Instantiate(Paths.Material.matOmniHitspark1Huntress);
             newScaledHitsparks1Mat.SetColor("_TintColor", saturatedBlueEquivalent);
             newScaledHitsparks1Mat.SetFloat("_Boost", 2.216648f);
             newScaledHitsparks1Mat.SetFloat("_AlphaBoost", 4.214276f);
@@ -182,7 +182,7 @@
 
             var unscaledHitsparks1 = trans.GetChild(1);
             var unscaledHitsparks1PSR = unscaledHitsparks1.GetComponent<ParticleSystemRenderer>();
-            unscaledHitsparks1PSR.material = Assets.Material.matOmniHitspark1GreaterWisp;
+            unscaledHitsparks1PSR.material = Paths.Material.matOmniHitspark1GreaterWisp;
 
             //
 
@@ -201,10 +201,10 @@
 
             var particleSystemRenderer2 = scaledSmokeRingMesh.GetComponent<ParticleSystemRenderer>();
 
-            var newMat4 = Object.Instantiate(Assets.Material.matCrowstormFeatherRepeated);
+            var newMat4 = Object.Instantiate(Paths.Material.matCrowstormFeatherRepeated);
 
             newMat4.SetColor("_TintColor", geen2);
-            newMat4.SetTexture("_MainTex", Assets.Texture2D.texShockwaveRing3Mask);
+            newMat4.SetTexture("_MainTex", Paths.Texture2D.texShockwaveRing3Mask);
             // newMat4.SetTexture("_RemapTex", ramp);
 
             particleSystemRenderer2.material = newMat4;
@@ -222,7 +222,7 @@
 
             var areaIndicatorRingBillboard = trans.GetChild(5).GetComponent<ParticleSystemRenderer>();
 
-            var newMat5 = Object.Instantiate(Assets.Material.matOmniRing2Loader);
+            var newMat5 = Object.Instantiate(Paths.Material.matOmniRing2Loader);
 
             // newMat5.SetTexture("_RemapTex", ramp);
 
@@ -253,9 +253,9 @@
 
             var particleSystemRenderer3 = dashBright.GetComponent<ParticleSystemRenderer>();
 
-            var newMat6 = Object.Instantiate(Assets.Material.matCrowstormFeather);
+            var newMat6 = Object.Instantiate(Paths.Material.matCrowstormFeather);
             newMat6.SetColor("_TintColor", geen2);
-            newMat6.SetTexture("_MainTex", Assets.Texture2D.texShockwaveRing3Mask);
+            newMat6.SetTexture("_MainTex", Paths.Texture2D.texShockwaveRing3Mask);
             // newMat6.SetTexture("_RemapTex", ramp);
 
             particleSystemRenderer3.material = newMat6;

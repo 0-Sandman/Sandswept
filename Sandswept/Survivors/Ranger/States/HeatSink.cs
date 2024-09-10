@@ -61,21 +61,21 @@ namespace Sandswept.Survivors.Ranger.States
                     _ => HeatSinkVFX.explosion2Default
                 };
 
-                var temporaryOverlay = modelTransform.gameObject.AddComponent<TemporaryOverlay>();
+                var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
                 temporaryOverlay.duration = 0.9f;
                 temporaryOverlay.animateShaderAlpha = true;
                 temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
                 temporaryOverlay.destroyComponentOnEnd = true;
                 temporaryOverlay.originalMaterial = overlayMat1;
-                temporaryOverlay.AddToCharacerModel(modelTransform.GetComponent<CharacterModel>());
+                temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
 
-                var temporaryOverlay2 = modelTransform.gameObject.AddComponent<TemporaryOverlay>();
+                var temporaryOverlay2 = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
                 temporaryOverlay2.duration = 1f;
                 temporaryOverlay2.animateShaderAlpha = true;
                 temporaryOverlay2.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
                 temporaryOverlay2.destroyComponentOnEnd = true;
                 temporaryOverlay2.originalMaterial = overlayMat2;
-                temporaryOverlay2.AddToCharacerModel(modelTransform.GetComponent<CharacterModel>());
+                temporaryOverlay2.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
             }
 
             FireNova();

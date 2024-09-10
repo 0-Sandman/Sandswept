@@ -69,7 +69,7 @@ namespace Sandswept.Elites
 
         public override void Hooks()
         {
-            distortionVFX = PrefabAPI.InstantiateClone(Assets.GameObject.TreebotShockwavePullEffect, "Osmium Pull Down Distortion VFX", false);
+            distortionVFX = PrefabAPI.InstantiateClone(Paths.GameObject.TreebotShockwavePullEffect, "Osmium Pull Down Distortion VFX", false);
 
             var transform = distortionVFX.transform;
             var pollenSingle = transform.GetChild(1);
@@ -85,13 +85,13 @@ namespace Sandswept.Elites
 
             ContentAddition.AddEffect(distortionVFX);
 
-            groundVFX = PrefabAPI.InstantiateClone(Assets.GameObject.PurchaseLockVoid, "Osmium Pull Down VFX", false);
+            groundVFX = PrefabAPI.InstantiateClone(Paths.GameObject.PurchaseLockVoid, "Osmium Pull Down VFX", false);
 
             groundVFX.RemoveComponent<NetworkIdentity>();
 
             var sphere2 = groundVFX.transform.GetChild(0).GetComponent<MeshRenderer>();
 
-            var newMat = Object.Instantiate(Assets.Material.matVoidCampLock);
+            var newMat = Object.Instantiate(Paths.Material.matVoidCampLock);
             newMat.SetColor("_TintColor", new Color32(62, 24, 211, 196));
 
             sphere2.material = newMat;
@@ -123,7 +123,7 @@ namespace Sandswept.Elites
             outsideAura.canStack = false;
             outsideAura.isHidden = true;
             outsideAura.buffColor = Color.blue;
-            outsideAura.iconSprite = Assets.BuffDef.bdArmorBoost.iconSprite;
+            outsideAura.iconSprite = Paths.BuffDef.bdArmorBoost.iconSprite;
             outsideAura.name = "Outside Osmium Aura";
 
             insideAura = ScriptableObject.CreateInstance<BuffDef>();
@@ -132,14 +132,14 @@ namespace Sandswept.Elites
             insideAura.canStack = false;
             insideAura.isHidden = true;
             insideAura.buffColor = Color.red;
-            insideAura.iconSprite = Assets.BuffDef.bdAttackSpeedOnCrit.iconSprite;
+            insideAura.iconSprite = Paths.BuffDef.bdAttackSpeedOnCrit.iconSprite;
             insideAura.name = "Inside Osmium Aura";
 
             ContentAddition.AddBuffDef(noJump);
             ContentAddition.AddBuffDef(outsideAura);
             ContentAddition.AddBuffDef(insideAura);
 
-            aura = PrefabAPI.InstantiateClone(Assets.GameObject.RailgunnerMineAltDetonated, "Osmium Aura");
+            aura = PrefabAPI.InstantiateClone(Paths.GameObject.RailgunnerMineAltDetonated, "Osmium Aura");
             aura.RemoveComponent<SlowDownProjectiles>();
 
             aura.transform.localPosition = Vector3.zero;
@@ -168,13 +168,13 @@ namespace Sandswept.Elites
             var emission = ps.emission;
             emission.rateOverTime = 60f;
 
-            var newMat2 = Object.Instantiate(Assets.Material.matRailgunTracerHead1);
+            var newMat2 = Object.Instantiate(Paths.Material.matRailgunTracerHead1);
             newMat2.SetColor("_TintColor", Color.black);
 
             psr.material = newMat2;
 
-            var newRadiusMat = Object.Instantiate(Assets.Material.matMoonbatteryCrippleRadius);
-            newRadiusMat.SetTexture("_RemapTex", Assets.Texture2D.texRampBeetleBreath);
+            var newRadiusMat = Object.Instantiate(Paths.Material.matMoonbatteryCrippleRadius);
+            newRadiusMat.SetTexture("_RemapTex", Paths.Texture2D.texRampBeetleBreath);
             newRadiusMat.SetColor("_TintColor", new Color32(60, 0, 255, 255));
             newRadiusMat.SetFloat("_SoftFactor", 0.6503434f);
             newRadiusMat.SetFloat("_SoftPower", 0.5117764f);
@@ -184,8 +184,8 @@ namespace Sandswept.Elites
             newRadiusMat.SetFloat("_AlphaBoost", 2.27f);
             newRadiusMat.SetFloat("_IntersectionStrength", 1.38f);
 
-            var newIndicatorMat = Object.Instantiate(Assets.Material.matCrippleSphereIndicator);
-            newIndicatorMat.SetTexture("_RemapTex", Assets.Texture2D.texRampFogDebug);
+            var newIndicatorMat = Object.Instantiate(Paths.Material.matCrippleSphereIndicator);
+            newIndicatorMat.SetTexture("_RemapTex", Paths.Texture2D.texRampFogDebug);
             newIndicatorMat.SetColor("_TintColor", new Color32(6, 0, 255, 7));
             newIndicatorMat.SetFloat("_SoftFactor", 3.3f);
             newIndicatorMat.SetFloat("_SoftPower", 1f);

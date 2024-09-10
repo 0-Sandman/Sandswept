@@ -199,7 +199,7 @@ namespace Sandswept.Items.Whites
                         attack.origin = self.transform.position;
                         attack.aimVector = (box.transform.position - self.transform.position).normalized;
                         attack.procCoefficient = 0.2f;
-                        attack.tracerEffectPrefab = Assets.GameObject.TracerToolbotNails;
+                        attack.tracerEffectPrefab = Paths.GameObject.TracerToolbotNails;
                         attack.owner = self.gameObject;
 
                         attack.Fire();

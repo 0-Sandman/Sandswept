@@ -101,7 +101,7 @@ namespace Sandswept.Items.Whites
 
             projectileOverlapAttack = amberKnifeProjectile.AddComponent<ProjectileOverlapAttack>();
             projectileOverlapAttack.damageCoefficient = 1f;
-            projectileOverlapAttack.impactEffect = Assets.GameObject.OmniImpactVFXSlash;
+            projectileOverlapAttack.impactEffect = Paths.GameObject.OmniImpactVFXSlash;
             projectileOverlapAttack.forceVector = Vector3.zero;
             projectileOverlapAttack.overlapProcCoefficient = procCoefficient;
             projectileOverlapAttack.resetInterval = -1f;
@@ -114,7 +114,7 @@ namespace Sandswept.Items.Whites
 
             var swingTrail = amberKnifeProjectile.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystemRenderer>();
 
-            var newMat = Object.Instantiate(Assets.Material.matBandit2SlashBlade);
+            var newMat = Object.Instantiate(Paths.Material.matBandit2SlashBlade);
             newMat.SetColor("_TintColor", new Color32(255, 180, 40, 255));
             newMat.SetFloat("_Boost", 6.25f);
             newMat.SetFloat("_AlphaBoost", 3.766f);
@@ -213,7 +213,7 @@ namespace Sandswept.Items.Whites
 
             public void AddBarrier()
             {
-                EffectManager.SimpleImpactEffect(Assets.GameObject.MagmaWormImpactExplosion, base.transform.position, -transform.forward, transmit: true);
+                EffectManager.SimpleImpactEffect(Paths.GameObject.MagmaWormImpactExplosion, base.transform.position, -transform.forward, transmit: true);
                 if (owner != null)
                 {
                     owner.healthComponent.AddBarrier(owner.healthComponent.fullHealth * percentBarrierGain);

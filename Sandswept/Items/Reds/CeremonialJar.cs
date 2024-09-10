@@ -138,7 +138,7 @@ namespace Sandswept.Items.Reds
 
                     x.healthComponent.TakeDamage(info);
 
-                    EffectManager.SpawnEffect(Assets.GameObject.IgniteExplosionVFX, new EffectData
+                    EffectManager.SpawnEffect(Paths.GameObject.IgniteExplosionVFX, new EffectData
                     {
                         scale = 2f,
                         origin = x.corePosition

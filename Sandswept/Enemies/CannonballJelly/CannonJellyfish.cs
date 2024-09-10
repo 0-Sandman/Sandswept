@@ -7,8 +7,8 @@ namespace Sandswept.Enemies.CannonJellyfish {
     {
         public override void LoadPrefabs()
         {
-            prefab = PrefabAPI.InstantiateClone(Assets.GameObject.JellyfishBody, "CannonJellyBody");
-            prefabMaster = PrefabAPI.InstantiateClone(Assets.GameObject.JellyfishMaster, "CannonJellyMaster");
+            prefab = PrefabAPI.InstantiateClone(Paths.GameObject.JellyfishBody, "CannonJellyBody");
+            prefabMaster = PrefabAPI.InstantiateClone(Paths.GameObject.JellyfishMaster, "CannonJellyMaster");
         }
 
         public override void PostCreation()
@@ -30,7 +30,7 @@ namespace Sandswept.Enemies.CannonJellyfish {
             WipeAllDrivers(master.gameObject);
             AddNewDriver(master.gameObject, "JellyCharge", AISkillDriver.AimType.AtCurrentEnemy, AISkillDriver.MovementType.ChaseMoveTarget, AISkillDriver.TargetType.CurrentEnemy, 10f, 40f, SkillSlot.Secondary);
             AddNewDriver(master.gameObject, "Strafe", AISkillDriver.AimType.AtCurrentEnemy, AISkillDriver.MovementType.StrafeMovetarget, AISkillDriver.TargetType.CurrentEnemy, 0f, 90f, SkillSlot.None);
-            SwapMaterials(prefab, Assets.Material.matVoidBarnacleBullet, true);
+            SwapMaterials(prefab, Paths.Material.matVoidBarnacleBullet, true);
 
             SkillLocator locator = prefab.GetComponent<SkillLocator>();
             ModelLocator modelLocator = prefab.GetComponent<ModelLocator>();

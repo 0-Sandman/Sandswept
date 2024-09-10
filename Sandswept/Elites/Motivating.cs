@@ -69,7 +69,7 @@ namespace Sandswept.Elites
             wrbnnerBuff.canStack = false;
             wrbnnerBuff.isCooldown = false;
             wrbnnerBuff.isDebuff = false;
-            wrbnnerBuff.iconSprite = Assets.BuffDef.bdWarbanner.iconSprite;
+            wrbnnerBuff.iconSprite = Paths.BuffDef.bdWarbanner.iconSprite;
             wrbnnerBuff.buffColor = new Color32(240, 35, 89, 255);
 
             warcryBuff = ScriptableObject.CreateInstance<BuffDef>();
@@ -77,8 +77,8 @@ namespace Sandswept.Elites
             warcryBuff.canStack = false;
             warcryBuff.isCooldown = false;
             warcryBuff.isDebuff = false;
-            warcryBuff.iconSprite = Assets.BuffDef.bdTeamWarCry.iconSprite;
-            warcryBuff.buffColor = Assets.BuffDef.bdTeamWarCry.buffColor;
+            warcryBuff.iconSprite = Paths.BuffDef.bdTeamWarCry.iconSprite;
+            warcryBuff.buffColor = Paths.BuffDef.bdTeamWarCry.buffColor;
 
             ContentAddition.AddBuffDef(wrbnnerBuff);
             ContentAddition.AddBuffDef(warcryBuff);
@@ -109,7 +109,7 @@ namespace Sandswept.Elites
                         Main.ModLogger.LogError(rule.localScale);
                         Main.ModLogger.LogError(rule.ruleType);
 
-                        if (keyAsset == Assets.EquipmentDef.EliteFireEquipment)
+                        if (keyAsset == Paths.EquipmentDef.EliteFireEquipment)
                         {
                             copiedBlazingIDRS.childName = rule.childName;
                             copiedBlazingIDRS.followerPrefab = rule.followerPrefab;
@@ -127,7 +127,7 @@ namespace Sandswept.Elites
             }
 */
 
-            warbanner = PrefabAPI.InstantiateClone(Assets.GameObject.WarbannerWard, "Motivator Warbanner");
+            warbanner = PrefabAPI.InstantiateClone(Paths.GameObject.WarbannerWard, "Motivator Warbanner");
             var mdlWarbanner = warbanner.transform.GetChild(1);
             mdlWarbanner.transform.localPosition = Vector3.zero;
             mdlWarbanner.RemoveComponent<ObjectScaleCurve>();
@@ -136,26 +136,26 @@ namespace Sandswept.Elites
             buffWard.buffDef = wrbnnerBuff;
 
             var cylinder = mdlWarbanner.GetChild(0).GetComponent<MeshRenderer>();
-            var newMat = Object.Instantiate(Assets.Material.matWarbannerPole);
+            var newMat = Object.Instantiate(Paths.Material.matWarbannerPole);
             newMat.SetColor("_TintColor", new Color32(160, 79, 60, 255));
 
             cylinder.material = newMat;
 
             var plane = mdlWarbanner.GetChild(1).GetComponent<SkinnedMeshRenderer>();
-            var newMat2 = Object.Instantiate(Assets.Material.matWarbannerFlag);
+            var newMat2 = Object.Instantiate(Paths.Material.matWarbannerFlag);
             newMat2.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("texMotivatorWarbanner.png"));
 
             plane.material = newMat2;
-            plane.GetComponent<Cloth>().enabled = false;
+            // plane.GetComponent<Cloth>().enabled = false;
 
             var indicator = warbanner.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>();
 
-            var newMat3 = Object.Instantiate(Assets.Material.matWarbannerSphereIndicator2);
+            var newMat3 = Object.Instantiate(Paths.Material.matWarbannerSphereIndicator2);
             newMat3.SetColor("_TintColor", new Color32(255, 0, 28, 255));
             newMat3.SetFloat("_InvFade", 1.622365f);
             newMat3.SetFloat("_RimStrength", 0.2729147f);
             newMat3.SetFloat("_IntersectionStrength", 1.563318f);
-            newMat3.SetTexture("_RemapTex", Assets.Texture2D.texRampBeamLightning);
+            newMat3.SetTexture("_RemapTex", Paths.Texture2D.texRampBeamLightning);
 
             indicator.material = newMat3;
 

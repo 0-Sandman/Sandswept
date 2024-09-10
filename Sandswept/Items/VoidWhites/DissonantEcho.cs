@@ -51,7 +51,7 @@ namespace Sandswept.Items.VoidWhites
 
             ContentAddition.AddBuffDef(dissonance);
 
-            dissonanceTracer = PrefabAPI.InstantiateClone(Assets.GameObject.VoidSurvivorBeamTracer, "Dissonant Echo Debuff Tracer", false);
+            dissonanceTracer = PrefabAPI.InstantiateClone(Paths.GameObject.VoidSurvivorBeamTracer, "Dissonant Echo Debuff Tracer", false);
             dissonanceTracer.transform.GetChild(0).gameObject.SetActive(false);
             dissonanceTracer.transform.GetChild(1).gameObject.SetActive(false);
 
@@ -59,8 +59,8 @@ namespace Sandswept.Items.VoidWhites
             lineRenderer.widthMultiplier = 0.25f;
             lineRenderer.numCapVertices = 10;
 
-            var newMat = GameObject.Instantiate(Assets.Material.matVoidSurvivorBeamTrail);
-            newMat.SetTexture("_RemapTex", Assets.Texture2D.texRampDeathBomb);
+            var newMat = GameObject.Instantiate(Paths.Material.matVoidSurvivorBeamTrail);
+            newMat.SetTexture("_RemapTex", Paths.Texture2D.texRampDeathBomb);
 
             lineRenderer.material = newMat;
 

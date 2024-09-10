@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1828190806
+CRC: 79022275
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: efc3edd4f702be8da190664497892dc9
+    Hash: 6a8f8facab1883bc789024def9951e86
   TypeTreeHash:
     serializedVersion: 2
-    Hash: c4c4e63c7f48a1e17d3be24e843222bf
+    Hash: 8aef4b3aed8ec61c1cdd4dc21baa2209
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -42,19 +42,13 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
 - Class: 114
-  Script: {fileID: 372142912, guid: d382a022563c7517aadbc92ca1060016, type: 3}
-- Class: 114
   Script: {fileID: 1790887305, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 1839950351, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
 - Class: 114
-  Script: {fileID: 717380117, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: 161585894, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+  Script: {fileID: 1143142494, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1985007777, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
 - Class: 114
   Script: {fileID: 1392865457, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -66,9 +60,9 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -1077198318, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 1143142494, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
   Script: {fileID: 1530905962, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 161585894, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -226763392, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -112,6 +106,10 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -1819008361, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: 1839950351, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 717380117, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: -789927658, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 306635731, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
@@ -124,18 +122,24 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -1895344032, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: 372142912, guid: d382a022563c7517aadbc92ca1060016, type: 3}
+- Class: 114
+  Script: {fileID: -1568778350, guid: 050936fea8909af15a3fd3b64da1ff83, type: 3}
+- Class: 114
   Script: {fileID: -1237287157, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
   Script: {fileID: -1624506055, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
-  Script: {fileID: -1568778350, guid: 050936fea8909af15a3fd3b64da1ff83, type: 3}
-- Class: 114
-  Script: {fileID: -72444995, guid: b86b4b3efdef45c808a87ece376a4b18, type: 3}
+  Script: {fileID: -72444995, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 136
   Script: {instanceID: 0}
 - Class: 137
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
@@ -143,21 +147,51 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 224
   Script: {instanceID: 0}
-SerializeReferenceClassIdentifiers: []
+SerializeReferenceClassIdentifiers:
+- AssemblyName: RoR2
+  ClassName: ChildLocator/NameTransformPair
+- AssemblyName: RoR2
+  ClassName: EntityStates.SerializableEntityStateType
+- AssemblyName: RoR2
+  ClassName: RoR2.CharacterFlightParameters
+- AssemblyName: RoR2
+  ClassName: RoR2.CharacterGravityParameters
+- AssemblyName: RoR2
+  ClassName: RoR2.CharacterModel/RendererInfo
+- AssemblyName: RoR2
+  ClassName: RoR2.SkillLocator/PassiveSkill
+- AssemblyName: RoR2
+  ClassName: RoR2.UI.CrosshairController/SpritePosition
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.PersistentCallGroup
+- AssemblyName: UnityEngine.CoreModule
+  ClassName: UnityEngine.Events.UnityEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
+- AssemblyName: com.unity.multiplayer-hlapi.Runtime
+  ClassName: UnityEngine.Networking.NetworkHash128
+- AssemblyName: com.unity.multiplayer-hlapi.Runtime
+  ClassName: UnityEngine.Networking.NetworkSceneId
 Assets:
-- Assets/Sandswept/Base/Characters/Ranger/RangerIDRS.asset
-- Assets/Sandswept/Base/Characters/Ranger/Skindefault.asset
-- Assets/Sandswept/Base/Characters/Ranger/OverlayRanger.prefab
 - Assets/Sandswept/Base/Characters/Ranger/texCrosshairCircle.png
-- Assets/Sandswept/Base/Characters/Ranger/CrosshairRanger.prefab
-- Assets/Sandswept/Base/Characters/Ranger/skills/Dash.png
-- Assets/Sandswept/Base/Characters/Ranger/RangerBody.prefab
+- Assets/Sandswept/Base/Items/TornFeather/matFeatherPulse.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/Blast.png
-- Assets/Sandswept/Base/Characters/Ranger/skills/Overheat.png
 - Assets/Sandswept/Base/Characters/Ranger/sdRanger.asset
 - Assets/Sandswept/Base/Characters/Ranger/skills/OverheatPrimary.png
-- Assets/Sandswept/Base/Characters/Ranger/skills/Pew.png
-- Assets/Sandswept/Base/Items/NuclearSalvo/Missile.prefab
+- Assets/Sandswept/Base/Items/TornFeather/matFeatherPink.mat
+- Assets/Sandswept/Base/Items/TornFeather/matFeatherBlue.mat
 - Assets/Sandswept/Base/Characters/Ranger/mdl/matRanger.mat
+- Assets/Sandswept/Base/Characters/Ranger/skills/Dash.png
+- Assets/Sandswept/Base/Characters/Ranger/Skindefault.asset
+- Assets/Sandswept/Base/Characters/Ranger/RangerBody.prefab
+- Assets/Sandswept/Base/Items/TornFeather/ActiveIndicatorParticles.prefab
+- Assets/Sandswept/Base/Items/TornFeather/matFeatherParticle.mat
+- Assets/Sandswept/Base/Characters/Ranger/skills/Overheat.png
+- Assets/Sandswept/Base/Characters/Ranger/OverlayRanger.prefab
+- Assets/Sandswept/Base/Items/NuclearSalvo/Missile.prefab
+- Assets/Sandswept/Base/Characters/Ranger/CrosshairRanger.prefab
 - Assets/Sandswept/Base/Items/NuclearSalvo/SalvoBehaviour.prefab
+- Assets/Sandswept/Base/Items/TornFeather/DashTrailEffect.prefab
+- Assets/Sandswept/Base/Characters/Ranger/RangerIDRS.asset
+- Assets/Sandswept/Base/Characters/Ranger/skills/Pew.png
 Dependencies: []

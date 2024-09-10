@@ -67,7 +67,7 @@
             // yellowEquivalent = new Color32(255,221,23,255);
             // yellowEquivalent2 = new Color32(207,153,0,255);
             var trimmedName = name.Replace(" ", "");
-            var explosion = PrefabAPI.InstantiateClone(Assets.GameObject.FireMeatBallExplosion, "Heat Sink Explosion 2 " + name, false);
+            var explosion = PrefabAPI.InstantiateClone(Paths.GameObject.FireMeatBallExplosion, "Heat Sink Explosion 2 " + name, false);
 
             var trans = explosion.transform.GetChild(0);
 
@@ -82,7 +82,7 @@
             flameBurstSpeed.constantMin = 3f;
             flameBurstSpeed.constantMax = 4f;
 
-            var newMat = Object.Instantiate(Assets.Material.matMageFlamethrower);
+            var newMat = Object.Instantiate(Paths.Material.matMageFlamethrower);
             newMat.SetColor("_TintColor", Color.white);
             newMat.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("texRampHeatSink" + trimmedName + ".png"));
             newMat.SetFloat("_AlphaBias", 0.38f);
@@ -95,8 +95,8 @@
             sparksPS.color = yellowEquivalent;
             var sparksPSR = sparks.GetComponent<ParticleSystemRenderer>();
 
-            var newMat2 = Object.Instantiate(Assets.Material.matTracerBright);
-            newMat2.SetTexture("_RemapTex", Assets.Texture2D.texRampShield);
+            var newMat2 = Object.Instantiate(Paths.Material.matTracerBright);
+            newMat2.SetTexture("_RemapTex", Paths.Texture2D.texRampShield);
             newMat2.SetFloat("_Boost", brightnessBoost);
             newMat2.SetFloat("_AlphaBoost", alphaBoost);
             newMat2.SetFloat("_AlphaBias", alphaBias);
@@ -127,11 +127,11 @@
             // orangeEquivalent2 = new Color32(233, 92, 0, 255);
             // orangeEquivalent3 = new Color32(146,51,0,255);
             // orangeEquivalent4 = new Color32(216, 123, 40, 255);
-            var explosion = PrefabAPI.InstantiateClone(Assets.GameObject.IgniteDirectionalExplosionVFX, "Heat Sink Explosion 1 " + name, false);
+            var explosion = PrefabAPI.InstantiateClone(Paths.GameObject.IgniteDirectionalExplosionVFX, "Heat Sink Explosion 1 " + name, false);
 
             var explosionPSR = explosion.GetComponent<ParticleSystemRenderer>();
 
-            var newMat2 = Object.Instantiate(Assets.Material.matCryoCanisterSphere);
+            var newMat2 = Object.Instantiate(Paths.Material.matCryoCanisterSphere);
             newMat2.SetColor("_TintColor", orangeEquivalent);
             newMat2.SetFloat("_InvFade", 0.1851155f);
             newMat2.SetFloat("_SoftPower", 0.480717f);
@@ -148,7 +148,7 @@
 
             var omniDirectionals = trans.GetChild(0).GetComponent<ParticleSystemRenderer>();
 
-            var newMat = Object.Instantiate(Assets.Material.matOmniHitspark3Gasoline);
+            var newMat = Object.Instantiate(Paths.Material.matOmniHitspark3Gasoline);
             newMat.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("texRampHeatSink" + trimmedName + ".png"));
             newMat.SetFloat("_AlphaBoost", 0.9377567f);
             newMat.SetFloat("_AlphaBias", 0.2189533f);
@@ -207,7 +207,7 @@
 
         public static Material CreateMat1Recolor(Color32 tintColor)
         {
-            var mat = Object.Instantiate(Assets.Material.matHuntressFlashBright);
+            var mat = Object.Instantiate(Paths.Material.matHuntressFlashBright);
 
             mat.SetColor("_TintColor", tintColor);
 
@@ -216,7 +216,7 @@
 
         public static Material CreateMat2Recolor(Color32 tintColor)
         {
-            var mat = Object.Instantiate(Assets.Material.matHuntressFlashExpanded);
+            var mat = Object.Instantiate(Paths.Material.matHuntressFlashExpanded);
 
             mat.SetColor("_TintColor", tintColor);
 

@@ -10,7 +10,7 @@ namespace Sandswept.Elites.VFX
 
         public static void Init()
         {
-            prefab = PrefabAPI.InstantiateClone(Assets.GameObject.TreebotShockwavePullEffect, "Phasing Pull VFX", false);
+            prefab = PrefabAPI.InstantiateClone(Paths.GameObject.TreebotShockwavePullEffect, "Phasing Pull VFX", false);
 
             var transform = prefab.transform;
             var pollenSingle = transform.GetChild(1);

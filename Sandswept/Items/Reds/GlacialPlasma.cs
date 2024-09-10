@@ -1,4 +1,4 @@
-﻿namespace Sandswept.Items.Reds
+﻿/*namespace Sandswept.Items.Reds
 {
     [ConfigSection("Items :: Glacial Plasma")]
     internal class GlacialPlasma : ItemBase<GlacialPlasma>
@@ -40,7 +40,7 @@
 
         public override void Init(ConfigFile config)
         {
-            javelinProjectile = PrefabAPI.InstantiateClone(Assets.GameObject.MageIceBombProjectile, "Glacial Plasma Javelin", true);
+            javelinProjectile = PrefabAPI.InstantiateClone(Paths.GameObject.MageIceBombProjectile, "Glacial Plasma Javelin", true);
 
             var projectileSimple = javelinProjectile.GetComponent<ProjectileSimple>();
             projectileSimple.desiredForwardSpeed = 120f;
@@ -179,4 +179,4 @@
             }
         }
     }
-}
+}*/

@@ -67,14 +67,14 @@ namespace Sandswept.Survivors.Ranger.Pod
         public static GameObject CreateRecolor(string name)
         {
             var trimmedName = name.Replace(" ", "");
-            var rangerPodMat = Object.Instantiate(Assets.Material.matEscapePod);
+            var rangerPodMat = Object.Instantiate(Paths.Material.matEscapePod);
             rangerPodMat.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("texRangerPod" + trimmedName + ".png"));
             rangerPodMat.SetColor("_Color", Color.white);
             rangerPodMat.SetFloat("_Smoothness", 0.5f);
             rangerPodMat.SetFloat("_SpecularExponent", 1.082716f);
             rangerPodMat.SetFloat("_NormalStrength", 2f);
 
-            var prefab = PrefabAPI.InstantiateClone(Assets.GameObject.SurvivorPod, "Ranger Pod " + name);
+            var prefab = PrefabAPI.InstantiateClone(Paths.GameObject.SurvivorPod, "Ranger Pod " + name);
 
             var modelLocator = prefab.GetComponent<ModelLocator>();
 
@@ -100,7 +100,7 @@ namespace Sandswept.Survivors.Ranger.Pod
         private static void InstantiatePrefabBehavior_Start(On.RoR2.InstantiatePrefabBehavior.orig_Start orig, InstantiatePrefabBehavior self)
         {
             orig(self);
-            if (self.prefab == Assets.GameObject.SurvivorPodBatteryPanel)
+            if (self.prefab == Paths.GameObject.SurvivorPodBatteryPanel)
             {
                 var trans = self.transform;
                 var a = trans.GetChild(0);

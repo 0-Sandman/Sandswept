@@ -1,5 +1,6 @@
 ﻿using RoR2.UI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -69,9 +70,9 @@ namespace Sandswept.Components
             return false;
         }
 
-        private static void Stage_Start(On.RoR2.Stage.orig_Start orig, RoR2.Stage self)
+        private static IEnumerator Stage_Start(On.RoR2.Stage.orig_Start orig, RoR2.Stage self)
         {
-            orig(self);
+            yield return orig(self);
             foreach (PlayerCharacterMasterController pcmc in PlayerCharacterMasterController.instances)
             {
                 if (pcmc.TryGetComponent<SandsweptObjectiveController>(out var sandsweep))
