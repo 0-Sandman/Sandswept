@@ -73,6 +73,12 @@
             {
                 return;
             }
+
+            if (body.teamComponent.teamIndex != TeamIndex.Player)
+            {
+                return;
+            }
+
             if (body.GetComponent<SacrificialBandController>() == null)
             {
                 body.gameObject.AddComponent<SacrificialBandController>();
@@ -87,16 +93,22 @@
             if (attacker && victim)
             {
                 attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
-                var skillDamage = damageInfo.damage / attackerBody.damage;
-                if (attackerBody && skillDamage >= 4f)
+                if (attackerBody)
                 {
-                    if (attackerBody.HasBuff(ready))
+                    var stack = GetCount(attackerBody);
+                    if (stack > 0)
                     {
-                        triggered = true;
-
-                        var stack = GetCount(attackerBody);
-                        if (stack > 0)
+                        if (!attackerBody.HasBuff(ready))
                         {
+                            attackerBody.AddBuff(ready);
+                        }
+
+                        var skillDamage = damageInfo.damage / attackerBody.damage;
+
+                        if (attackerBody.HasBuff(ready) && skillDamage >= 4f)
+                        {
+                            triggered = true;
+
                             var realerDamageScalar = 1f / damageScalar;
                             var scaledSkillDamage = skillDamage * realerDamageScalar;
                             var roundedSkillDamage = Mathf.RoundToInt(scaledSkillDamage);
@@ -105,9 +117,9 @@
                             {
                                 DotController.InflictDot(victim, attacker, DotController.DotIndex.Bleed, 4f * damageInfo.procCoefficient, 1f, uint.MaxValue);
                             }
-                        }
 
-                        damageInfo.procChainMask.AddProc(ProcType.PlasmaCore);
+                            // damageInfo.procChainMask.AddProc(ProcType.PlasmaCore);
+                        }
                     }
                 }
             }
@@ -137,19 +149,19 @@
         public void Start()
         {
             body = GetComponent<CharacterBody>();
+        }
+
+        public void FixedUpdate()
+        {
             if (!body)
             {
-                Main.ModLogger.LogError("no body found");
                 return;
             }
 
-            if (!body.HasBuff(SacrificialBand.ready))
+            if (body.HasBuff(SacrificialBand.cooldown) && !body.HasBuff(SacrificialBand.ready))
             {
-                Main.ModLogger.LogError("gave ready buff to " + body.name);
+                body.RemoveBuff(SacrificialBand.cooldown);
                 body.AddBuff(SacrificialBand.ready);
-                Main.ModLogger.LogError("ready buff is " + SacrificialBand.ready);
-                Main.ModLogger.LogError("cooldown buff is " + SacrificialBand.cooldown);
-                Main.ModLogger.LogError("does body have ready buff? " + body.HasBuff(SacrificialBand.ready));
             }
         }
     }
