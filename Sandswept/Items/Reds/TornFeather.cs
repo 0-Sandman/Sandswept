@@ -1,4 +1,3 @@
-/*
 using System;
 using static Rewired.Controller;
 
@@ -12,7 +11,7 @@ namespace Sandswept.Items.Reds
 
         public override string ItemPickupDesc => "Gain an omni-directional dash when tapping Interact. Refreshes when grounded.";
 
-        public override string ItemFullDescription => "Tap $sdInteract$se to perform an $suomni-directional dash$se. Can dash twice until hitting the ground. Gain $su20%se $ss(+20% per stack)$se movement speed.";
+        public override string ItemFullDescription => "Tap $sdInteract$se to perform an $suomni-directional dash$se. Can dash twice until hitting the ground. Gain $su20%se $ss(+20% per stack)$se movement speed.".AutoFormat();
 
         public override string ItemLore => "TBD";
 
@@ -20,7 +19,7 @@ namespace Sandswept.Items.Reds
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.AIBlacklist };
 
-        public override GameObject ItemModel => null;
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("TornFeatherHolder.prefab");
 
         public override Sprite ItemIcon => null;
 
@@ -234,4 +233,3 @@ namespace Sandswept.Items.Reds
         }
     }
 }
-*/

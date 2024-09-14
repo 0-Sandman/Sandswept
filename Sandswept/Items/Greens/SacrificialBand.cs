@@ -9,7 +9,7 @@
 
         public override string ItemPickupDesc => "High damage hits also make enemies bleed. Recharges over time.";
 
-        public override string ItemFullDescription => ("Hits that deal $sdmore than 400% damage$se also inflict $sd" + baseBleedCount + "$se $ss(+" + stackBleedCount + " per stack)$se $sdbleeds$se on enemies for each $sd" + d(damageScalar) + "%$se of $sdskill damage$se. Recharges every $su10$se seconds.").AutoFormat();
+        public override string ItemFullDescription => ("Hits that deal $sdmore than 400% damage$se also inflict $sd" + baseBleedCount + "$se $ss(+" + stackBleedCount + " per stack)$se $sdbleeds$se on enemies for each $sd" + d(damageScalar) + "$se of $sdskill damage$se. Recharges every $su10$se seconds.").AutoFormat();
 
         public override string ItemLore => "Some say a guy called HIFU wanted to name this item Band of Sacrifice as a funny reference but other devs disagreed with it because of naming convention.. :joker:";
 
@@ -19,12 +19,12 @@
         [ConfigField("Stack Bleed Count", "", 1)]
         public static float stackBleedCount;
 
-        [ConfigField("Per Skill Damage Scalar", "Decimal.", 1.2f)]
+        [ConfigField("Per Skill Damage Scalar", "Decimal.", 1.1f)]
         public static float damageScalar;
 
         public override ItemTier Tier => ItemTier.Tier2;
 
-        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("CrownsDiamondHolder.prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("SacrificialBandHolder.prefab");
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texCrownsDiamond.png");
 
@@ -42,6 +42,7 @@
             ready.isCooldown = false;
             ready.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texCrownsDiamond.png");
             ready.buffColor = Color.white;
+            ready.name = "Sacrificial Band Ready";
 
             ContentAddition.AddBuffDef(ready);
 
@@ -51,7 +52,8 @@
             cooldown.isHidden = false;
             cooldown.isCooldown = true;
             cooldown.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texCrownsDiamond.png");
-            cooldown.buffColor = Color.gray;
+            cooldown.buffColor = new Color32(70, 70, 70, 200);
+            cooldown.name = "Sacrificial Band Cooldown";
 
             ContentAddition.AddBuffDef(cooldown);
 
@@ -98,11 +100,6 @@
                     var stack = GetCount(attackerBody);
                     if (stack > 0)
                     {
-                        if (!attackerBody.HasBuff(ready))
-                        {
-                            attackerBody.AddBuff(ready);
-                        }
-
                         var skillDamage = damageInfo.damage / attackerBody.damage;
 
                         if (attackerBody.HasBuff(ready) && skillDamage >= 4f)
@@ -111,7 +108,7 @@
 
                             var realerDamageScalar = 1f / damageScalar;
                             var scaledSkillDamage = skillDamage * realerDamageScalar;
-                            var roundedSkillDamage = Mathf.RoundToInt(scaledSkillDamage);
+                            var roundedSkillDamage = Mathf.RoundToInt(scaledSkillDamage) * stack;
 
                             for (int i = 0; i < roundedSkillDamage; i++)
                             {
@@ -145,22 +142,27 @@
     public class SacrificialBandController : MonoBehaviour
     {
         public CharacterBody body;
+        public bool shouldRun = false;
 
         public void Start()
         {
             body = GetComponent<CharacterBody>();
+            if (!body.HasBuff(SacrificialBand.ready))
+            {
+                body.AddBuff(SacrificialBand.ready);
+                shouldRun = true;
+            }
         }
 
         public void FixedUpdate()
         {
-            if (!body)
+            if (!body || !shouldRun)
             {
                 return;
             }
 
-            if (body.HasBuff(SacrificialBand.cooldown) && !body.HasBuff(SacrificialBand.ready))
+            if (!body.HasBuff(SacrificialBand.cooldown) && !body.HasBuff(SacrificialBand.ready))
             {
-                body.RemoveBuff(SacrificialBand.cooldown);
                 body.AddBuff(SacrificialBand.ready);
             }
         }
