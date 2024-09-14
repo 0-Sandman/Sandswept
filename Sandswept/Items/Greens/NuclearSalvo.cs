@@ -49,7 +49,7 @@ namespace Sandswept.Items.Greens
 
         public static GameObject missilePrefab;
 
-        // for salvo display you can instantiate Main.hifuSandswept.LoadAsset<GameObject>("NuclearSalvo.prefab");
+        // for salvo display you can instantiate Main.hifuSandswept.LoadAsset<GameObject>("NuclearSalvoHolder.prefab");
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {

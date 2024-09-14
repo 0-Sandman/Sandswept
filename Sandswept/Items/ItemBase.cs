@@ -116,6 +116,13 @@ namespace Sandswept.Items
 
         protected void CreateItem()
         {
+            var modelPanelParameters = ItemModel.AddComponent<ModelPanelParameters>();
+            var firstMesh = ItemModel.transform.GetChild(0);
+            modelPanelParameters.focusPointTransform = firstMesh;
+            modelPanelParameters.cameraPositionTransform = firstMesh;
+            modelPanelParameters.minDistance = 0.07f;
+            modelPanelParameters.maxDistance = 0.28f;
+
             ItemDef = ScriptableObject.CreateInstance<ItemDef>();
             ItemDef.name = "ITEM_SANDSWEPT_" + ItemLangTokenName;
             ItemDef.nameToken = "ITEM_SANDSWEPT_" + ItemLangTokenName + "_NAME";

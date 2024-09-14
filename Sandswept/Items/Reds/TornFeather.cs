@@ -11,7 +11,7 @@ namespace Sandswept.Items.Reds
 
         public override string ItemPickupDesc => "Gain an omni-directional dash when tapping Interact. Refreshes when grounded.";
 
-        public override string ItemFullDescription => "Tap $sdInteract$se to perform an $suomni-directional dash$se. Can dash twice until hitting the ground. Gain $su20%se $ss(+20% per stack)$se movement speed.".AutoFormat();
+        public override string ItemFullDescription => "Tap $sdInteract$se to perform an $suomni-directional dash$se. Can dash twice until hitting the ground. Gain $su20%$se $ss(+20% per stack)$se movement speed.".AutoFormat();
 
         public override string ItemLore => "TBD";
 
