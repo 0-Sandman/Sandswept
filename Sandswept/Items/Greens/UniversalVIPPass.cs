@@ -21,6 +21,8 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("UniVIPIcon.png");
 
+        public override bool nonstandardScaleModel => true;
+
         [ConfigField("Chance", "", 75f)]
         public static float chance;
 
@@ -114,7 +116,7 @@ namespace Sandswept.Items.Greens
                                     AkSoundEngine.PostEvent(Events.Play_UI_commandHUD_select, chestBehavior.gameObject);
                                     AkSoundEngine.PostEvent(Events.Play_UI_commandHUD_select, chestBehavior.gameObject);
 
-                                    if (Random.Range(0f, 100f) >= 96f)
+                                    if (Random.Range(0f, 100f) >= 94f)
                                     {
                                         Chat.AddMessage("<style=cIsDamage>Developer 1</style>: Universal VIP Paws :3 x3 OwO UwU :3 <3");
                                         Chat.AddMessage("<style=cIsUtility>Developer 2</style>: What???");

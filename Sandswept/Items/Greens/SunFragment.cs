@@ -49,6 +49,8 @@ namespace Sandswept.Items.Greens
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
 
+        public override bool nonstandardScaleModel => true;
+
         public GameObject FragmentVFX;
 
         public static GameObject FragmentVFXSphere;

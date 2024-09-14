@@ -139,7 +139,7 @@ namespace Sandswept.Items.VoidGreens
                             {
                                 origin = victimBody.corePosition,
                                 rotation = Quaternion.identity,
-                                scale = radius * 3f
+                                scale = radius * 1.5f
                             };
                             EffectManager.SpawnEffect(vfx, effectData, true);
 
@@ -157,7 +157,6 @@ namespace Sandswept.Items.VoidGreens
                                 baseDamage = Mathf.Epsilon, // dont ask
                                 procCoefficient = explosionProcCoefficient,
                                 crit = damageInfo.crit,
-                                damageColorIndex = milleniumColor,
                                 attackerFiltering = AttackerFiltering.NeverHitSelf,
                                 falloffModel = BlastAttack.FalloffModel.None,
                                 attacker = attackerBody.gameObject,
@@ -173,7 +172,11 @@ namespace Sandswept.Items.VoidGreens
 
                             attackerBody.StartCoroutine(AddCollapse(damageInfo, result));
 
-                            AkSoundEngine.PostEvent(Events.Play_voidRaid_snipe_impact, victimBody.gameObject);
+                            AkSoundEngine.PostEvent(Events.Play_item_void_clover, victimBody.gameObject);
+                            AkSoundEngine.PostEvent(Events.Play_voidDevastator_death_VO, victimBody.gameObject);
+                            AkSoundEngine.PostEvent(Events.Play_voidDevastator_death_VO, victimBody.gameObject);
+                            AkSoundEngine.PostEvent(Events.Play_clayboss_m2_explo, victimBody.gameObject);
+                            AkSoundEngine.PostEvent(Events.Play_engi_M2_explo, victimBody.gameObject);
                         }
                     }
                 }
