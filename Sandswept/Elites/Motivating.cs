@@ -167,7 +167,7 @@ namespace Sandswept.Elites
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
             GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
 
-            On.RoR2.BodyCatalog.Init += BodyCatalog_Init;
+            // On.RoR2.BodyCatalog.Init += BodyCatalog_Init;
         }
 
         private System.Collections.IEnumerator BodyCatalog_Init(On.RoR2.BodyCatalog.orig_Init orig)

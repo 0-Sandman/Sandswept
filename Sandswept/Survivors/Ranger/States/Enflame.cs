@@ -90,6 +90,8 @@ namespace Sandswept.Survivors.Ranger.States
         {
             Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
             Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
+            Util.PlayAttackSpeedSound("Play_lunar_wisp_attack1_shoot_bullet", gameObject, attackSpeedStat);
+            Util.PlayAttackSpeedSound("Play_lunar_wisp_attack1_shoot_bullet", gameObject, attackSpeedStat);
 
             PlayAnimation("Gesture, Override", "OverdriveFire");
 
