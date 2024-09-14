@@ -69,10 +69,12 @@ namespace Sandswept.Items.Reds
 
         private void HandleStats(CharacterBody sender, StatHookEventArgs args)
         {
-            int stack = sender.inventory.GetItemCount(ItemDef);
-            sender.AddItemBehavior<FeatherBehaviour>(stack);
-
-            args.moveSpeedMultAdd += 0.2f * stack;
+            if (sender.inventory)
+            {
+                int stack = sender.inventory.GetItemCount(ItemDef);
+                sender.AddItemBehavior<FeatherBehaviour>(stack);
+                args.moveSpeedMultAdd += 0.2f * stack;
+            }
         }
 
         public class FeatherBehaviour : CharacterBody.ItemBehavior

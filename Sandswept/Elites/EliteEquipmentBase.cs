@@ -41,6 +41,8 @@ namespace Sandswept.Elites
         public abstract GameObject EliteEquipmentModel { get; }
         public abstract Sprite EliteEquipmentIcon { get; }
 
+        public virtual GameObject EliteCrownModel { get; }
+
         public EquipmentDef EliteEquipmentDef;
 
         public BuffDef EliteBuffDef;
@@ -93,6 +95,70 @@ namespace Sandswept.Elites
         private static GameObject firePrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/EliteFire/PickupEliteFire.prefab").WaitForCompletion();
 
         public abstract ItemDisplayRuleDict CreateItemDisplayRules();
+
+        public static Dictionary<string, Dictionary<object, List<ItemDisplayRule>>> perBodyDisplayRules = new Dictionary<string, Dictionary<object, List<ItemDisplayRule>>>();
+
+        public virtual void AddDisplayRule(string bodyName, string childName, Vector3 localPos, Vector3 localAngles, Vector3 localScale)
+        {
+            AddDisplayRule(bodyName, EliteCrownModel, childName, localPos, localAngles, localScale);
+        }
+
+        public virtual void AddDisplayRule(string bodyName, GameObject itemDisplayPrefab, string childName, Vector3 localPos, Vector3 localAngles, Vector3 localScale)
+        {
+            AddDisplayRule(bodyName, this, itemDisplayPrefab, childName, localPos, localAngles, localScale);
+        }
+
+        public static void AddDisplayRule(string bodyName, object keyAsset, GameObject itemDisplayPrefab, string childName, Vector3 localPos, Vector3 localAngles, Vector3 localScale)
+        {
+            Dictionary<object, List<ItemDisplayRule>> perItemDisplayRules;
+            if (!perBodyDisplayRules.TryGetValue(bodyName, out perItemDisplayRules))
+            {
+                perItemDisplayRules = new Dictionary<object, List<ItemDisplayRule>>();
+                perBodyDisplayRules[bodyName] = perItemDisplayRules;
+            }
+            List<ItemDisplayRule> displayRulesForThisItem;
+            if (!perItemDisplayRules.TryGetValue(keyAsset, out displayRulesForThisItem))
+            {
+                displayRulesForThisItem = new List<ItemDisplayRule>();
+                perItemDisplayRules[keyAsset] = displayRulesForThisItem;
+            }
+            displayRulesForThisItem.Add(new ItemDisplayRule
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                followerPrefab = itemDisplayPrefab,
+                childName = childName,
+                localPos = localPos,
+                localAngles = localAngles,
+                localScale = localScale
+            });
+        }
+
+        // maybe im calling this too late, idk
+        internal static void PostGameLoad()
+        {
+            var changedIDRS = new List<ItemDisplayRuleSet>();
+            foreach (var kvp in perBodyDisplayRules)
+            {
+                var bodyName = kvp.Key;
+                var bodyIndex = BodyCatalog.FindBodyIndex(bodyName);
+                if (bodyIndex != BodyIndex.None)
+                {
+                    var bodyPrefab = BodyCatalog.GetBodyPrefab(bodyIndex);
+                    var characterModel = bodyPrefab.GetComponentInChildren<CharacterModel>();
+                    var idrs = characterModel.itemDisplayRuleSet;
+                    if (idrs && !changedIDRS.Contains(idrs))
+                    {
+                        foreach (var displayRules in kvp.Value)
+                        {
+                            idrs.SetDisplayRuleGroup((Object)displayRules.Key, new DisplayRuleGroup { rules = displayRules.Value.ToArray() });
+                        }
+                        changedIDRS.Add(idrs);
+                    }
+                }
+            }
+            foreach (var idrs in changedIDRS)
+                idrs.GenerateRuntimeValues();
+        }
 
         public static bool DefaultEnabledCallback(EliteEquipmentBase self)
         {
@@ -187,6 +253,7 @@ namespace Sandswept.Elites
 
             EliteBuffDef.eliteDef = EliteDef;
             ContentAddition.AddBuffDef(EliteBuffDef);
+            PostGameLoad();
         }
 
         protected bool PerformEquipmentAction(On.RoR2.EquipmentSlot.orig_PerformEquipmentAction orig, EquipmentSlot self, EquipmentDef equipmentDef)
