@@ -34,7 +34,7 @@ namespace Sandswept.Elites
 
         public override Color EliteBuffColor => Color.white; /*new Color32(200, 101, 105, 255);*/
 
-        public override GameObject EliteCrownModel => Main.hifuSandswept.LoadAsset<GameObject>("eliteMotivatingCrown.prefab");
+        public override GameObject EliteCrownModel => Main.hifuSandswept.LoadAsset<GameObject>("EliteMotivatingCrownHolder.prefab");
 
         public static ItemDisplayRule copiedBlazingIDRS = new();
 
@@ -173,7 +173,6 @@ namespace Sandswept.Elites
         private System.Collections.IEnumerator BodyCatalog_Init(On.RoR2.BodyCatalog.orig_Init orig)
         {
             yield return orig();
-
             foreach (CharacterBody allBodyPrefabBodyBodyComponent in BodyCatalog.allBodyPrefabBodyBodyComponents)
             {
                 CharacterModel componentInChildren = allBodyPrefabBodyBodyComponent.GetComponentInChildren<CharacterModel>();
