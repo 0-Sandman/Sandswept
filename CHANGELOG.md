@@ -2,11 +2,13 @@
 * Ranger
   * Added survivor log
   * Reworked animations, rig, IK, FK, etc
+  * Due to a SOTS bug, her overdrive overlay doesn't disappear
 * Items
   * Added Crown's Diamond
   * Added Sacrificial Band
   * Added Torn Feather
   * Added Millenium
+    * Due to a SOTS bug, this item might not work properly half the time
   * Added VFX for Fractured Timepiece
   * Added item logs for Bleeding Witness and Ceremonial Jar
   * Buffed Sun Fragment Chance from 7% to 9%
@@ -22,6 +24,8 @@
   * Fixed Ceremonial Jar description not reflecting config changes
   * Fixed Ceremonial Jar description missing stacking information
   * Fixed most models not having correct outlines and scale
+  * Fixed most models not showing up in the logbook
+    * Due to a SOTS bug, they look very glitchy
   * Fixed some things I forgot about (it's been like 53456253 months)
   * Optimized Nuclear Salvo
 * Elites
