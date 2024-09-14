@@ -51,8 +51,8 @@
 | ‎ | ‎ | ‎ |
 |<img src="https://i.postimg.cc/L625CrWK/tex-Millenium.png" width="96"/> | **Millenium** | 7% chance on hit to create a tidal cataclysm in a 12m (+4m per stack) area, collapsing and grounding enemies for 400% base damage. Corrupts all Sun Fragments. | Void Green |
 | ‎ | ‎ | ‎ |
-|<img src="https://i.postimg.cc/PxjsGfV3/tex-Bleeding-Witness.png" width="96"/> | **Bleeding Witness** | 5% chance to hemorrhage enemies for 480% base damage. Your damage over time effects heal all allies for 0.5% (+0.25% per stack) of their maximum health. | Red |
-|<img src="https://i.postimg.cc/pXf50nwk/tex-Ceremonial-Jar.png" width="96"/> | **Ceremonial Jar** | On hit, link enemies up to 3 times. Linked enemies take 1500% (+750% per stack) base damage each and cannot be linked for 5s afterwards. | Red |
+|<img src="https://i.postimg.cc/PxjsGfV3/tex-Bleeding-Witness.png" width="96"/> | **Bleeding Witness** | 5% chance to hemorrhage enemies for 480% base damage. Your damage over time effects heal all allies for 0.4% (+0.4% per stack) of their maximum health. | Red |
+|<img src="https://i.postimg.cc/pXf50nwk/tex-Ceremonial-Jar.png" width="96"/> | **Ceremonial Jar** | On hit, link enemies up to 3 times. Linked enemies take 1500% (+1500% per stack) base damage each and cannot be linked for 5s afterwards. | Red |
 |<img src="https://i.postimg.cc/rp3zfsBQ/tex-Torn-Feather.png" width="96"/> | **Torn Feather** | Tap Interact to perform an omni-directional dash. Can dash twice until hitting the ground. Gain 20% (+20% per stack) movement speed. | Red |
 # Equipment
 | Icon | Equipment | Description | Tier |
