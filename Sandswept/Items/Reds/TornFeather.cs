@@ -1,6 +1,8 @@
-/*using System;
+using System;
+using static Rewired.Controller;
 
-namespace Sandswept.Items.Reds {
+namespace Sandswept.Items.Reds
+{
     public class TornFeather : ItemBase<TornFeather>
     {
         public override string ItemName => "Torn Feather";
@@ -20,11 +22,17 @@ namespace Sandswept.Items.Reds {
         public override GameObject ItemModel => null;
 
         public override Sprite ItemIcon => null;
+
         //
         public static GameObject PassiveParticleEffect;
+
         public static GameObject DashTrailEffect;
         public static Material BlueParticles;
         public static Material PinkParticles;
+
+        public static Material pinkOverlay;
+        public static Material blueOverlay;
+        public static Material whiteOverlay;
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
@@ -39,6 +47,18 @@ namespace Sandswept.Items.Reds {
             DashTrailEffect = Main.Assets.LoadAsset<GameObject>("DashTrailEffect.prefab");
             BlueParticles = Main.Assets.LoadAsset<Material>("matFeatherBlue.mat");
             PinkParticles = Main.Assets.LoadAsset<Material>("matFeatherPink.mat");
+
+            pinkOverlay = new Material(Paths.Material.matHuntressFlashExpanded);
+            pinkOverlay.SetColor("_TintColor", new Color32(245, 169, 184, 150));
+            pinkOverlay.SetInt("_Cull", 1); // 0 = no cull = whole body, 1 = front = outline, 2 = back = whole body
+
+            blueOverlay = new Material(Paths.Material.matHuntressFlashExpanded);
+            blueOverlay.SetColor("_TintColor", new Color32(91, 206, 250, 150));
+            blueOverlay.SetInt("_Cull", 1); // 0 = no cull = whole body, 1 = front = outline, 2 = back = whole body
+
+            whiteOverlay = new Material(Paths.Material.matHuntressFlashExpanded);
+            whiteOverlay.SetColor("_TintColor", Color.white);
+            whiteOverlay.SetInt("_Cull", 1); // 0 = no cull = whole body, 1 = front = outline, 2 = back = whole body
         }
 
         public override void Hooks()
@@ -55,7 +75,8 @@ namespace Sandswept.Items.Reds {
             args.moveSpeedMultAdd += 0.2f * stack;
         }
 
-        public class FeatherBehaviour : CharacterBody.ItemBehavior {
+        public class FeatherBehaviour : CharacterBody.ItemBehavior
+        {
             private int DashesRemaining = 2;
             private const float dashCooldown = 1.4f;
             private const float minAirborneTimer = 0.3f;
@@ -70,7 +91,8 @@ namespace Sandswept.Items.Reds {
             private Vector3 dashVector;
             private int localHurtboxIntangibleCount;
 
-            public void OnEnable() {
+            public void OnEnable()
+            {
                 GameObject trail = GameObject.Instantiate(DashTrailEffect, base.transform);
                 dashTrail = trail.GetComponent<ParticleSystem>();
                 GameObject indicatorPrefab = GameObject.Instantiate(PassiveParticleEffect, base.transform);
@@ -78,68 +100,82 @@ namespace Sandswept.Items.Reds {
                 renderer = indicator.GetComponent<ParticleSystemRenderer>();
             }
 
-            public void OnDisable() {
-                if (dashTrail) {
+            public void OnDisable()
+            {
+                if (dashTrail)
+                {
                     GameObject.Destroy(dashTrail.gameObject);
                 }
 
-                if (indicator) {
+                if (indicator)
+                {
                     GameObject.Destroy(indicator.gameObject);
                 }
             }
 
-            public void Update() {
-                if (body.inputBank.interact.justPressed) {
+            public void Update()
+            {
+                if (body.inputBank.interact.justPressed)
+                {
                     PerformDash();
                 }
 
-                if (indicator) {
+                if (indicator)
+                {
                     indicator.gameObject.SetActive(DashesRemaining > 0);
                     renderer.material = DashesRemaining == 2 ? PinkParticles : BlueParticles;
                     indicator.gameObject.transform.position = body.corePosition;
                 }
 
-                if (dashTrail) {
+                if (dashTrail)
+                {
                     dashTrail.gameObject.transform.position = body.corePosition;
                 }
-                
             }
 
-            public void FixedUpdate() {
-                if (DashesRemaining < 2 && !body.characterMotor.isGrounded) {
+            public void FixedUpdate()
+            {
+                if (DashesRemaining < 2 && !body.characterMotor.isGrounded)
+                {
                     airborneTimer += Time.fixedDeltaTime;
                 }
 
-                if (airborneTimer >= minAirborneTimer && body.characterMotor.isGrounded) {
+                if (airborneTimer >= minAirborneTimer && body.characterMotor.isGrounded)
+                {
                     DashesRemaining = 2;
                     airborneTimer = 0f;
                     dashCooldownTimer = 0f;
                 }
 
-                if (DashesRemaining < 2) {
+                if (DashesRemaining < 2)
+                {
                     dashCooldownTimer += Time.fixedDeltaTime;
 
-                    if (dashCooldownTimer >= dashCooldown && body.characterMotor.isGrounded) {
+                    if (dashCooldownTimer >= dashCooldown && body.characterMotor.isGrounded)
+                    {
                         DashesRemaining = 2;
                         airborneTimer = 0f;
                         dashCooldownTimer = 0f;
                     }
                 }
 
-                if (dashTimer > 0f) {
+                if (dashTimer > 0f)
+                {
                     dashTimer -= Time.fixedDeltaTime;
 
                     float speed = dashTravelDistance / dashDuration;
                     base.body.characterMotor.velocity = speed * dashVector;
 
-                    if (dashTimer <= 0f) {
+                    if (dashTimer <= 0f)
+                    {
                         dashTimer = 0f;
                         EndDash();
                     }
                 }
             }
 
-            public void EndDash() {
+            public void EndDash()
+            {
                 body.hurtBoxGroup.hurtBoxesDeactivatorCounter -= localHurtboxIntangibleCount;
                 localHurtboxIntangibleCount = 0;
                 body.gameObject.layer = LayerIndex.defaultLayer.intVal;
@@ -148,7 +184,8 @@ namespace Sandswept.Items.Reds {
                 body.characterMotor.velocity = body.characterMotor.velocity *= 0.2f;
             }
 
-            public void PerformDash() {
+            public void PerformDash()
+            {
                 if (DashesRemaining <= 0 || (dashTimer <= (dashDuration / 4f) && dashTimer > 0f)) return;
 
                 localHurtboxIntangibleCount++;
@@ -164,16 +201,21 @@ namespace Sandswept.Items.Reds {
                 body.characterMotor.Motor.RebuildCollidableLayers();
 
                 dashVector = body.inputBank.moveVector;
-                if (dashVector == Vector3.zero) {
-                    if (!body.inputBank.jump.down) {
+                if (dashVector == Vector3.zero)
+                {
+                    if (!body.inputBank.jump.down)
+                    {
                         dashVector = body.inputBank.aimDirection;
                     }
-                    else {
+                    else
+                    {
                         dashVector = Vector3.up;
                     }
                 }
-                else {
-                    if (body.inputBank.jump.down) {
+                else
+                {
+                    if (body.inputBank.jump.down)
+                    {
                         dashVector = Quaternion.AngleAxis(45f, base.transform.right) * dashVector;
                     }
                 }
@@ -190,4 +232,4 @@ namespace Sandswept.Items.Reds {
             }
         }
     }
-}*/
+}
