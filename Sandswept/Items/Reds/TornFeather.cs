@@ -21,7 +21,7 @@ namespace Sandswept.Items.Reds
 
         public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("TornFeatherHolder.prefab");
 
-        public override Sprite ItemIcon => null;
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texTornFeather.png");
 
         //
         public static GameObject PassiveParticleEffect;

@@ -11,7 +11,7 @@
 
         public override string ItemFullDescription => ("Hits that deal $sdmore than 400% damage$se also inflict $sd" + baseBleedCount + "$se $ss(+" + stackBleedCount + " per stack)$se $sdbleeds$se on enemies for each $sd" + d(damageScalar) + "$se of $sdskill damage$se. Recharges every $su10$se seconds.").AutoFormat();
 
-        public override string ItemLore => "Some say a guy called HIFU wanted to name this item Band of Sacrifice as a funny reference but other devs disagreed with it because of naming convention.. :joker:";
+        public override string ItemLore => "Some say a guy called HIFU wanted to name this item Band of Sacrifice as a funny reference but other devs disagreed with it because of naming convention.. :joker:\n\nAnyways this item goes against the convention becauseee";
 
         [ConfigField("Base Bleed Count", "", 1)]
         public static float baseBleedCount;
@@ -26,7 +26,7 @@
 
         public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("SacrificialBandHolder.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texCrownsDiamond.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texSacrificialBand.png");
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
 
@@ -38,7 +38,7 @@
             ready = ScriptableObject.CreateInstance<BuffDef>();
             ready.isDebuff = false;
             ready.canStack = false;
-            ready.isHidden = false;
+            ready.isHidden = true;
             ready.isCooldown = false;
             ready.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texCrownsDiamond.png");
             ready.buffColor = Color.white;
@@ -49,7 +49,7 @@
             cooldown = ScriptableObject.CreateInstance<BuffDef>();
             cooldown.canStack = true;
             cooldown.isDebuff = false;
-            cooldown.isHidden = false;
+            cooldown.isHidden = true;
             cooldown.isCooldown = true;
             cooldown.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texCrownsDiamond.png");
             cooldown.buffColor = new Color32(70, 70, 70, 200);
