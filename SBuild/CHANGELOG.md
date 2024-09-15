@@ -2,6 +2,7 @@
 * Ranger
   * Added survivor log
   * Reworked animations, rig, IK, FK, etc
+  * Fixed skins not showing changes in the lobby
   * Due to a SOTS bug, her overdrive overlay doesn't disappear
 * Items
   * Added Crown's Diamond

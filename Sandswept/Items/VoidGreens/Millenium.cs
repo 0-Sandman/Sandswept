@@ -162,7 +162,7 @@ namespace Sandswept.Items.VoidGreens
                                 attacker = attackerBody.gameObject,
                                 teamIndex = attackerBody.teamComponent.teamIndex,
                                 position = damageInfo.position,
-                                damageType = DamageType.Silent | DamageType.BypassArmor | DamageType.BypassBlock, // I said dont ask
+                                damageType = DamageType.Silent | DamageType.BypassArmor, // I said dont ask
                                 bonusForce = new Vector3(0f, -25f * mass, 0f)
                             };
 
