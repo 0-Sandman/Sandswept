@@ -10,7 +10,7 @@ namespace Sandswept.Survivors.Ranger
     {
         public bool isFiring = false;
         public Animator anim;
-        private CharacterBody cb;
+        public CharacterBody cb;
         private HealthComponent hc;
 
         public GameObject overlayPrefab;
@@ -180,6 +180,9 @@ namespace Sandswept.Survivors.Ranger
         public static RuntimeAnimatorController runtimeAnimatorController;
         public float colorUpdateInterval = 0.05f;
         public float colorUpdateTimer;
+        public CharacterBody body;
+        public Color32 lowHeatColor;
+        public Color32 inHeatColor;
 
         public void Start()
         {
@@ -200,6 +203,34 @@ namespace Sandswept.Survivors.Ranger
 
             element = GetComponent<HudElement>();
             ifc = GetComponentInChildren<ImageFillController>();
+
+            body = target.cb;
+
+            Transform modelTransform = null;
+            if (body.modelLocator)
+            {
+                modelTransform = body.modelLocator.modelTransform;
+            }
+
+            if (modelTransform)
+            {
+                var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[body.skinIndex].nameToken;
+
+                lowHeatColor = skinNameToken switch
+                {
+                    "SKINDEF_MAJOR" => new Color32(0, 130, 224, 140),
+                    "SKINDEF_RENEGADE" => new Color32(244, 95, 197, 140),
+                    "SKINDEF_MILEZERO" => new Color32(153, 0, 23, 140),
+                    _ => new Color32(255, 200, 0, 140),
+                };
+                inHeatColor = skinNameToken switch
+                {
+                    "SKINDEF_MAJOR" => new Color32(60, 0, 244, 180),
+                    "SKINDEF_RENEGADE" => new Color32(114, 39, 244, 180),
+                    "SKINDEF_MILEZERO" => new Color32(226, 0, 33, 180),
+                    _ => new Color32(255, 70, 0, 180),
+                };
+            }
         }
 
         public void FixedUpdate()
@@ -214,9 +245,8 @@ namespace Sandswept.Survivors.Ranger
             colorUpdateTimer += Time.fixedDeltaTime;
             if (colorUpdateTimer >= colorUpdateInterval)
             {
-                var heatPercentScaled = Mathf.Clamp01(target.currentHeat * 3f / RangerHeatController.maxHeat);
-                image.color = new Color32(255, (byte)Mathf.Lerp(200, 70, heatPercent), 0, (byte)Mathf.Lerp(0, 200, heatPercentScaled));
-                backdropImage.color = new Color32(53, 53, 53, (byte)Mathf.Lerp(0, 200, heatPercentScaled));
+                image.color = Color32.Lerp(lowHeatColor, inHeatColor, heatPercent);
+                backdropImage.color = new Color32(53, 53, 53, (byte)Mathf.Lerp(0, 190, heatPercent));
                 colorUpdateTimer = 0f;
             }
 

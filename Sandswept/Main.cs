@@ -150,26 +150,6 @@ namespace Sandswept
             SwapAllShaders(hifuSandswept);
             DamageColourHelper.Init();
 
-            var powerElixirGlassMat = Instantiate(Utils.Assets.Material.matHealingPotionGlass);
-            powerElixirGlassMat.SetFloat("_Boost", 0.25f);
-            powerElixirGlassMat.SetFloat("_RimPower", 1.706559f);
-            powerElixirGlassMat.SetFloat("_RimStrength", 3.538423f);
-            powerElixirGlassMat.SetFloat("_AlphaBoost", 1.147384f);
-            powerElixirGlassMat.SetFloat("IntersectionStrength", 1f);
-
-            var redSpringWaterHolder = hifuSandswept.LoadAsset<GameObject>("RedSpringWaterHolder.prefab");
-            var model = redSpringWaterHolder.transform.GetChild(0);
-            var jarMr = model.GetChild(0).GetComponent<MeshRenderer>();
-            jarMr.material = powerElixirGlassMat;
-
-            var sunFragment = MainAssets.LoadAsset<GameObject>("SunFragmentPrefab.prefab");
-            var sunFragmentMat = sunFragment.transform.GetChild(0).GetComponent<MeshRenderer>().material;
-            sunFragmentMat.SetFloat("_NormalStrength", 0.8263923f);
-
-            var uniVip = MainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");
-            var uniVipMat = uniVip.transform.GetChild(0).GetComponent<MeshRenderer>().material;
-            uniVipMat.SetColor("_Color", new Color32(205, 205, 205, 249));
-
             //This section automatically scans the project for all artifacts
             var ArtifactTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(ArtifactBase)));
 
@@ -349,6 +329,7 @@ namespace Sandswept
                     case "Hopoo Games/FX/Cloud Remap":
                         val.shader = Utils.Assets.Shader.HGCloudRemap;
                         break;
+
                     case "Stubbed Hopoo Games/Deferred/Standard":
                         val.shader = Resources.Load<Shader>("shaders/deferred/hgstandard");
                         break;

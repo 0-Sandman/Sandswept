@@ -15,6 +15,7 @@ namespace Sandswept.Survivors.Ranger.States
         public RangerHeatController heat;
         public Material heatMat;
         public Transform modelTransform;
+        public TemporaryOverlayInstance tempOverlayInstance;
 
         public override void OnEnter()
         {
@@ -48,13 +49,13 @@ namespace Sandswept.Survivors.Ranger.States
                         _ => HeatVFX.heatMatDefault
                     };
 
-                    var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
-                    temporaryOverlay.duration = 9999f;
-                    temporaryOverlay.animateShaderAlpha = true;
-                    temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
-                    temporaryOverlay.destroyComponentOnEnd = true;
-                    temporaryOverlay.originalMaterial = heatMat;
-                    temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
+                    tempOverlayInstance = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
+                    tempOverlayInstance.duration = 9999f;
+                    tempOverlayInstance.animateShaderAlpha = true;
+                    tempOverlayInstance.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                    tempOverlayInstance.destroyComponentOnEnd = true;
+                    tempOverlayInstance.originalMaterial = heatMat;
+                    tempOverlayInstance.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
                 }
             }
 
@@ -85,10 +86,7 @@ namespace Sandswept.Survivors.Ranger.States
 
                 if (modelTransform)
                 {
-                    foreach (TemporaryOverlay overlay in modelTransform.GetComponents<TemporaryOverlay>())
-                    {
-                        Destroy(overlay);
-                    }
+                    TemporaryOverlayManager.RemoveOverlay(tempOverlayInstance.managerIndex);
                 }
             }
 

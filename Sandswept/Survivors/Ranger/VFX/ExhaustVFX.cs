@@ -14,6 +14,9 @@
         public static GameObject tracerPrefabMileZero;
         public static GameObject impactPrefabMileZero;
 
+        public static GameObject tracerPrefabRacecar;
+        public static GameObject impactPrefabRacecar;
+
         // replace with railgunner m2/special later
 
         public static void Init()
@@ -29,6 +32,9 @@
 
             tracerPrefabMileZero = CreateTracerRecolor("Mile Zero", new Color32(127, 0, 0, 255), new Color32(0, 0, 0, 255), new Color32(255, 0, 0, 255), false, 2.207824f, 1.515893f, 0.397718f);
             impactPrefabMileZero = CreateImpactRecolor("Mile Zero", new Color32(0, 0, 0, 255), new Color32(127, 0, 0, 94), new Color32(4, 0, 0, 255));
+
+            tracerPrefabRacecar = CreateTracerRecolor("Racecar", new Color32(127, 0, 0, 255), new Color32(0, 0, 0, 255), new Color32(255, 0, 0, 255), false, 2.207824f, 1.515893f, 0.397718f);
+            impactPrefabRacecar = CreateImpactRecolor("Racecar", new Color32(0, 0, 0, 255), new Color32(127, 0, 0, 94), new Color32(4, 0, 0, 255));
         }
 
         public static GameObject CreateTracerRecolor(string name, Color32 aquaEquivalent, Color32 orangeEquivalent, Color32 darkRedEquivalent, bool altRamp = false, float brightnessBoost = 1.277907f, float alphaBoost = 0f, float alphaBias = 0.2317166f)
@@ -96,6 +102,25 @@
 
             var particleSystemRenderer = beamObject.GetComponent<ParticleSystemRenderer>();
 
+            var beamObjectPS = beamObject.GetComponent<ParticleSystem>();
+            var beamObjectMain = beamObjectPS.main;
+            var startLifetime = beamObjectMain.startLifetime;
+            startLifetime.constant = 1f;
+            var colorOverLifetime = beamObjectPS.colorOverLifetime;
+
+            var gradient2 = new Gradient();
+            var colors2 = new GradientColorKey[2];
+            colors2[0] = new GradientColorKey(Color.white, 0f);
+            colors2[1] = new GradientColorKey(Color.black, 1f);
+
+            var alphas2 = new GradientAlphaKey[2];
+            alphas2[0] = new GradientAlphaKey(1f, 0f);
+            alphas2[1] = new GradientAlphaKey(0f, 1f);
+
+            gradient2.SetKeys(colors2, alphas2);
+
+            colorOverLifetime.color = gradient2;
+
             var newMat2 = Object.Instantiate(Paths.Material.matHuntressSwingTrail);
             newMat2.SetColor("_TintColor", new Color32(224, 112, 92, 255));
 
@@ -120,6 +145,13 @@
             particleSystemRenderer.sharedMaterials = new Material[] { newMat2, newMat3 };
 
             //
+            /*
+            var animateShaderAlpha2 = beamObject.AddComponent<AnimateShaderAlpha>();
+            animateShaderAlpha2.targetRenderer = particleSystemRenderer;
+            animateShaderAlpha2.alphaCurve = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 0f));
+            animateShaderAlpha2.timeMax = 1f;
+            doesnt even do anything
+             */
 
             ContentAddition.AddEffect(tracer);
 

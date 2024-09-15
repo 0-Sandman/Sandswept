@@ -15,6 +15,9 @@ namespace Sandswept.Survivors.Ranger.States
         private GameObject explosion1;
         private GameObject explosion2;
 
+        private TemporaryOverlayInstance tempOverlayInstance1;
+        private TemporaryOverlayInstance tempOverlayInstance2;
+
         public override void OnEnter()
         {
             base.OnEnter();
@@ -61,21 +64,23 @@ namespace Sandswept.Survivors.Ranger.States
                     _ => HeatSinkVFX.explosion2Default
                 };
 
-                var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
-                temporaryOverlay.duration = 0.9f;
-                temporaryOverlay.animateShaderAlpha = true;
-                temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
-                temporaryOverlay.destroyComponentOnEnd = true;
-                temporaryOverlay.originalMaterial = overlayMat1;
-                temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
+                var characterModel = modelTransform.GetComponent<CharacterModel>();
 
-                var temporaryOverlay2 = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
-                temporaryOverlay2.duration = 1f;
-                temporaryOverlay2.animateShaderAlpha = true;
-                temporaryOverlay2.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
-                temporaryOverlay2.destroyComponentOnEnd = true;
-                temporaryOverlay2.originalMaterial = overlayMat2;
-                temporaryOverlay2.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
+                tempOverlayInstance1 = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
+                tempOverlayInstance1.duration = 9999f;
+                tempOverlayInstance1.animateShaderAlpha = true;
+                tempOverlayInstance1.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                tempOverlayInstance1.destroyComponentOnEnd = true;
+                tempOverlayInstance1.originalMaterial = overlayMat1;
+                tempOverlayInstance1.inspectorCharacterModel = characterModel;
+
+                tempOverlayInstance2 = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
+                tempOverlayInstance2.duration = 9999f;
+                tempOverlayInstance2.animateShaderAlpha = true;
+                tempOverlayInstance2.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                tempOverlayInstance2.destroyComponentOnEnd = true;
+                tempOverlayInstance2.originalMaterial = overlayMat2;
+                tempOverlayInstance2.inspectorCharacterModel = characterModel;
             }
 
             FireNova();
@@ -113,7 +118,7 @@ namespace Sandswept.Survivors.Ranger.States
             AkSoundEngine.PostEvent(Events.Play_voidRaid_m1_explode, gameObject);
             AkSoundEngine.PostEvent(Events.Play_captain_shift_impact, gameObject);
 
-            PlayAnimation("Body", "Twirl");
+            PlayAnimation("FullBody, Override", "Twirl");
 
             if (isAuthority)
                 new BlastAttack()
@@ -159,10 +164,8 @@ namespace Sandswept.Survivors.Ranger.States
 
             if (modelTransform)
             {
-                foreach (TemporaryOverlay overlay in modelTransform.GetComponents<TemporaryOverlay>())
-                {
-                    Object.Destroy(overlay);
-                }
+                TemporaryOverlayManager.RemoveOverlay(tempOverlayInstance1.managerIndex);
+                TemporaryOverlayManager.RemoveOverlay(tempOverlayInstance2.managerIndex);
             }
         }
     }

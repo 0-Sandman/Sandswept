@@ -1,4 +1,5 @@
-﻿using static Sandswept.Main;
+﻿/*
+using static Sandswept.Main;
 
 namespace Sandswept.Equipment
 {
@@ -176,3 +177,4 @@ namespace Sandswept.Equipment
         }
     }
 }
+*/

@@ -1,4 +1,4 @@
-﻿using HarmonyLib;
+﻿/*
 
 namespace Sandswept.Items.VoidWhites
 {
@@ -137,3 +137,4 @@ namespace Sandswept.Items.VoidWhites
         }
     }
 }
+*/

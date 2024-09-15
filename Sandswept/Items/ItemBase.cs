@@ -40,6 +40,8 @@ namespace Sandswept.Items
         public virtual Func<string> GetHowToUnlock => () => AchievementName + "\n<style=cStack>" + AchievementDesc + "</style>";
         public virtual Func<string> GetUnlocked => () => AchievementName + "\n<style=cStack>" + AchievementDesc + "</style>";
 
+        public virtual bool nonstandardScaleModel { get; } = false;
+
         public static bool DefaultEnabledCallback(ItemBase self)
         {
             ConfigSectionAttribute attribute = self.GetType().GetCustomAttribute<ConfigSectionAttribute>();
@@ -116,6 +118,13 @@ namespace Sandswept.Items
 
         protected void CreateItem()
         {
+            var modelPanelParameters = ItemModel.AddComponent<ModelPanelParameters>();
+            var firstMesh = ItemModel.transform.GetChild(0);
+            modelPanelParameters.focusPointTransform = firstMesh;
+            modelPanelParameters.cameraPositionTransform = firstMesh;
+            modelPanelParameters.minDistance = nonstandardScaleModel ? 2f : 0.02f;
+            modelPanelParameters.maxDistance = nonstandardScaleModel ? 10f : 0.1f;
+
             ItemDef = ScriptableObject.CreateInstance<ItemDef>();
             ItemDef.name = "ITEM_SANDSWEPT_" + ItemLangTokenName;
             ItemDef.nameToken = "ITEM_SANDSWEPT_" + ItemLangTokenName + "_NAME";

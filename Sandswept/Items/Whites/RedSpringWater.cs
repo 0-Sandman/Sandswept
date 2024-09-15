@@ -32,6 +32,18 @@
 
         public override void Init(ConfigFile config)
         {
+            var powerElixirGlassMat = new Material(Utils.Assets.Material.matHealingPotionGlass);
+            powerElixirGlassMat.SetFloat("_Boost", 0.25f);
+            powerElixirGlassMat.SetFloat("_RimPower", 1.706559f);
+            powerElixirGlassMat.SetFloat("_RimStrength", 3.538423f);
+            powerElixirGlassMat.SetFloat("_AlphaBoost", 1.147384f);
+            powerElixirGlassMat.SetFloat("IntersectionStrength", 1f);
+
+            var redSpringWaterHolder = Main.hifuSandswept.LoadAsset<GameObject>("RedSpringWaterHolder.prefab");
+            var model = redSpringWaterHolder.transform.GetChild(0);
+            var jarMr = model.GetChild(0).GetComponent<MeshRenderer>();
+            jarMr.material = powerElixirGlassMat;
+
             CreateLang();
             CreateItem();
             Hooks();

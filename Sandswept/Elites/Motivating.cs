@@ -34,6 +34,8 @@ namespace Sandswept.Elites
 
         public override Color EliteBuffColor => Color.white; /*new Color32(200, 101, 105, 255);*/
 
+        public override GameObject EliteCrownModel => Main.hifuSandswept.LoadAsset<GameObject>("EliteMotivatingCrownHolder.prefab");
+
         public static ItemDisplayRule copiedBlazingIDRS = new();
 
         public static BuffDef wrbnnerBuff;
@@ -164,6 +166,31 @@ namespace Sandswept.Elites
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
             GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
+
+            // On.RoR2.BodyCatalog.Init += BodyCatalog_Init;
+        }
+
+        private System.Collections.IEnumerator BodyCatalog_Init(On.RoR2.BodyCatalog.orig_Init orig)
+        {
+            yield return orig();
+            foreach (CharacterBody allBodyPrefabBodyBodyComponent in BodyCatalog.allBodyPrefabBodyBodyComponents)
+            {
+                CharacterModel componentInChildren = allBodyPrefabBodyBodyComponent.GetComponentInChildren<CharacterModel>();
+                if ((bool)componentInChildren && componentInChildren.itemDisplayRuleSet != null)
+                {
+                    DisplayRuleGroup equipmentDisplayRuleGroup = componentInChildren.itemDisplayRuleSet.GetEquipmentDisplayRuleGroup(RoR2Content.Equipment.AffixRed.equipmentIndex);
+                    if (!equipmentDisplayRuleGroup.Equals(DisplayRuleGroup.empty))
+                    {
+                        string bodyName = BodyCatalog.GetBodyName(allBodyPrefabBodyBodyComponent.bodyIndex);
+                        ItemDisplayRule[] rules = equipmentDisplayRuleGroup.rules;
+                        for (int i = 0; i < rules.Length; i++)
+                        {
+                            ItemDisplayRule itemDisplayRule = rules[i];
+                            AddDisplayRule(bodyName, itemDisplayRule.childName, itemDisplayRule.localPos, itemDisplayRule.localAngles, itemDisplayRule.localScale);
+                        }
+                    }
+                }
+            }
         }
 
         private void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender, StatHookEventArgs args)
