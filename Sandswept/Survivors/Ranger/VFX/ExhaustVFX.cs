@@ -102,6 +102,25 @@
 
             var particleSystemRenderer = beamObject.GetComponent<ParticleSystemRenderer>();
 
+            var beamObjectPS = beamObject.GetComponent<ParticleSystem>();
+            var beamObjectMain = beamObjectPS.main;
+            var startLifetime = beamObjectMain.startLifetime;
+            startLifetime.constant = 1f;
+            var colorOverLifetime = beamObjectPS.colorOverLifetime;
+
+            var gradient2 = new Gradient();
+            var colors2 = new GradientColorKey[2];
+            colors2[0] = new GradientColorKey(Color.white, 0f);
+            colors2[1] = new GradientColorKey(Color.black, 1f);
+
+            var alphas2 = new GradientAlphaKey[2];
+            alphas2[0] = new GradientAlphaKey(1f, 0f);
+            alphas2[1] = new GradientAlphaKey(0f, 1f);
+
+            gradient2.SetKeys(colors2, alphas2);
+
+            colorOverLifetime.color = gradient2;
+
             var newMat2 = Object.Instantiate(Paths.Material.matHuntressSwingTrail);
             newMat2.SetColor("_TintColor", new Color32(224, 112, 92, 255));
 
@@ -126,6 +145,13 @@
             particleSystemRenderer.sharedMaterials = new Material[] { newMat2, newMat3 };
 
             //
+            /*
+            var animateShaderAlpha2 = beamObject.AddComponent<AnimateShaderAlpha>();
+            animateShaderAlpha2.targetRenderer = particleSystemRenderer;
+            animateShaderAlpha2.alphaCurve = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 0f));
+            animateShaderAlpha2.timeMax = 1f;
+            doesnt even do anything
+             */
 
             ContentAddition.AddEffect(tracer);
 

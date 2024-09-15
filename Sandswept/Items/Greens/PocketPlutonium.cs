@@ -150,6 +150,8 @@ namespace Sandswept.Items.Greens
             teamIndicator.gameObject.SetActive(false);
 
             var decal = scaled.GetChild(0).GetComponent<Decal>();
+            // decal Fade keeps increasing, and once it reaches 2, it completely disappears
+            // idk what causes it to increase - like where
 
             var newMat4 = Object.Instantiate(Paths.Material.matMolotovDecal);
             newMat4.SetColor("_Color", new Color32(17, 121, 0, 255));

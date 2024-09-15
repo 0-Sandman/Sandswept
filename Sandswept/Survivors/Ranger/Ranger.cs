@@ -119,6 +119,8 @@ namespace Sandswept.Survivors.Ranger
 
             RegisterStuff();
 
+            SurvivorDef.displayPrefab = _modelTransform.gameObject;
+
             CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
 
             // not sure if hgstandard has hdr emission color, but it would make the green texture pop, while still having that glow instead of being a white lightbulb with green glow
