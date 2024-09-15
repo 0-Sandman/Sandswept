@@ -11,7 +11,7 @@ namespace Sandswept.Items.Reds
 
         public override string ItemPickupDesc => "Gain an omni-directional dash when tapping Interact. Refreshes when grounded.";
 
-        public override string ItemFullDescription => "Tap $sdInteract$se to perform an $suomni-directional dash$se. Can dash twice until hitting the ground. Gain $su20%$se $ss(+20% per stack)$se movement speed.".AutoFormat();
+        public override string ItemFullDescription => ("Tap $sdInteract$se to perform an $suomni-directional dash$se. Can dash twice until hitting the ground. Gain $su" + d(baseMovementSpeedGain) + "$se $ss(+" + d(stackMovementSpeedGain) + " per stack)$se movement speed.").AutoFormat();
 
         public override string ItemLore => "TBD";
 
@@ -22,6 +22,12 @@ namespace Sandswept.Items.Reds
         public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("TornFeatherHolder.prefab");
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texTornFeather.png");
+
+        [ConfigField("Base Movement Speed Gain", "Decimal.", 0.2f)]
+        public static float baseMovementSpeedGain;
+
+        [ConfigField("Stack Movement Speed Gain", "Decimal.", 0.35f)]
+        public static float stackMovementSpeedGain;
 
         //
         public static GameObject PassiveParticleEffect;
@@ -73,7 +79,7 @@ namespace Sandswept.Items.Reds
             {
                 int stack = sender.inventory.GetItemCount(ItemDef);
                 sender.AddItemBehavior<FeatherBehaviour>(stack);
-                args.moveSpeedMultAdd += 0.2f * stack;
+                args.moveSpeedMultAdd += baseMovementSpeedGain + stackMovementSpeedGain * (stack - 1);
             }
         }
 
@@ -192,6 +198,30 @@ namespace Sandswept.Items.Reds
 
                 localHurtboxIntangibleCount++;
                 body.hurtBoxGroup.hurtBoxesDeactivatorCounter++;
+
+                Transform modelTransform = null;
+                if (body.modelLocator)
+                {
+                    modelTransform = body.modelLocator.modelTransform;
+                }
+
+                if (modelTransform)
+                {
+                    var overlayMat = DashesRemaining switch
+                    {
+                        2 => blueOverlay,
+                        1 => pinkOverlay,
+                        _ => whiteOverlay
+                    };
+
+                    var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
+                    temporaryOverlay.duration = 0.2f;
+                    temporaryOverlay.animateShaderAlpha = true;
+                    temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                    temporaryOverlay.destroyComponentOnEnd = true;
+                    temporaryOverlay.originalMaterial = overlayMat;
+                    temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
+                }
 
                 DashesRemaining -= 1;
                 dashTimer = dashDuration;
