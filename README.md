@@ -30,9 +30,9 @@
 # Elites
 | Icon | Elite | Description | Tier |
 |:-|-|------|-|
-|<img src="https://i.postimg.cc/yxFxrwbW/tex-Motivator-Affix.png" width="64"/> | **Motivator** | Passively carries a warbanner that grants all allies and itself 25% movement speed and 25% attack speed in a 20m radius. On hit, increases all ally attack speed by 25% in a 20m radius for 4s. | Tier 1 |
+|<img src="https://i.postimg.cc/Px5Q36cQ/tex-Motivator-Buff2.png" width="64"/> | **Motivator** | Passively carries a warbanner that grants all allies and itself 25% movement speed and 25% attack speed in a 20m radius. On hit, increases all ally attack speed by 25% in a 20m radius for 4s. | Tier 1 |
 | ‎ | ‎ | ‎ |
-|<img src="https://i.postimg.cc/NMWbpbzn/tex-Osmium-Buff.png" width="64"/> | **Osmium** | Passively has a 13m-40m aura, scaling with base max health, that makes every ally and itself inside take 85% less damage and reduce procs by 50% from the outside. From the inside, takes 33% more damage instead, but passively pulls down all airborne enemies every second. Immune to knockback. | Tier 2 |
+|<img src="https://i.postimg.cc/NMWbpbzn/tex-Osmium-Buff.png" width="64"/> | **Osmium** | Passively has a 13m-40m aura, scaling with base max health, that makes every ally and itself take 85% less damage and reduce procs by 50% from outside the aura. From the inside, takes 33% more damage instead, but passively pulls down all airborne enemies every second. Immune to knockback. | Tier 2 |
 
 # Items
 | Icon | Item | Description | Tier |
