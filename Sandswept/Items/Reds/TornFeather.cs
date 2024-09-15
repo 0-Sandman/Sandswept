@@ -87,25 +87,23 @@ namespace Sandswept.Items.Reds
     {
         public int DashesRemaining = 2;
         public float dashCooldown = 1.4f;
-        public float minAirborneTimer = 0.3f;
+        public float minAirborneTimer = 0.5f;
         public float dashTravelDistance = 15f;
         public float dashDuration = 0.2f;
         public float airborneTimer = 0f;
         public float dashCooldownTimer = 0f;
         public float dashTimer = 0f;
         public ParticleSystem dashTrail;
-        public ParticleSystem indicator;
-        public ParticleSystemRenderer renderer;
         public Vector3 dashVector;
         public int localHurtboxIntangibleCount;
+        public InteractionDriver driver;
 
         public void OnEnable()
         {
             GameObject trail = GameObject.Instantiate(TornFeather.DashTrailEffect, base.transform);
             dashTrail = trail.GetComponent<ParticleSystem>();
-            GameObject indicatorPrefab = GameObject.Instantiate(TornFeather.PassiveParticleEffect, base.transform);
-            indicator = indicatorPrefab.GetComponent<ParticleSystem>();
-            renderer = indicator.GetComponent<ParticleSystemRenderer>();
+
+            driver = GetComponent<InteractionDriver>();
         }
 
         public void OnDisable()
@@ -114,25 +112,13 @@ namespace Sandswept.Items.Reds
             {
                 GameObject.Destroy(dashTrail.gameObject);
             }
-
-            if (indicator)
-            {
-                GameObject.Destroy(indicator.gameObject);
-            }
         }
 
         public void Update()
         {
-            if (body.inputBank.interact.justPressed)
+            if (body.inputBank.interact.justPressed && !driver.currentInteractable)
             {
                 PerformDash();
-            }
-
-            if (indicator)
-            {
-                indicator.gameObject.SetActive(DashesRemaining > 0);
-                renderer.material = DashesRemaining == 2 ? TornFeather.PinkParticles : TornFeather.BlueParticles;
-                indicator.gameObject.transform.position = body.corePosition;
             }
 
             if (dashTrail)
@@ -254,7 +240,7 @@ namespace Sandswept.Items.Reds
 
             dashVector.y = Mathf.Abs(dashVector.y);
 
-            indicator.TriggerSubEmitter(0);
+            // indicator.TriggerSubEmitter(0);
 
             dashTrail.transform.forward = -dashVector;
 
