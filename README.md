@@ -60,6 +60,9 @@
 | <img src="https://i.postimg.cc/90551q0y/tex-Sandsw-eeper.png" width="64"/> | **The Sand Sweeper** | Pushes all enemies within 20m, dealing up to 500% damage and stunning for up to 6 seconds based on the distance. | Orange |
 
 # Credits
+
+### Support us on KOFI! https://linktr.ee/SandsweptTeam
+
 - Code: HIFU, pseudopulse, Sandman, prod
 - Models: Smxrez, Sandman, GEMO, Bog, pseudopulse, HIFU
 - Animations: IcieTea, unmatchedpowerofthesun, Bog
