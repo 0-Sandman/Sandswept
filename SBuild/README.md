@@ -6,7 +6,7 @@
 - 1 Survivor
 - 2 Elites
 - 1 Equipment
-- 12 Items
+- 14 Items
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
@@ -44,16 +44,16 @@
 |<img src="https://i.postimg.cc/8C88VqNw/tex-Crowns-Diamond.png" width="96"/> | **Crown's Diamond** | Being out of danger grants 15% of maximum health as barrier. Barrier decays 15% (+15% per stack, hyperbolic) slower while out of combat or danger. | Green |
 |<img src="https://i.postimg.cc/yd9LgHmF/tex-Nuclear-Salvo.png" width="96"/> | **Nuclear Salvo** | Every 5 seconds, all mechanical allies fire 2 (+2 per stack) nuclear missiles that deal 100% base damage each and ignite on hit. | Green |
 |<img src="https://i.postimg.cc/1XN5VLQJ/tex-Pocket-Plutonium.png" width="96"/> | **Pocket Plutonium** | Gain a shield equal to 10% of your maximum health. Upon losing all shield, create a nuclear pool in a 16m area that deals 750% (+750% per stack) base damage, plus an additional 250% (+250% per stack) of shields. | Green |
-|<img src="" width="96"/> | **Sacrificial Band** | Hits that deal mroe than 400% damage also inflict 1 (+1 per stack) bleeds on enemies for each 100% of skill damage. Recharges every 10 seconds. | Green |
+|<img src="https://i.postimg.cc/gcvrKYNH/tex-Sacrificial-Band.png" width="96"/> | **Sacrificial Band** | Hits that deal more than 400% damage also inflict 1 (+1 per stack) bleeds on enemies for each 110% of skill damage. Recharges every 10 seconds. | Green |
 |<img src="https://i.postimg.cc/QtFVs3R3/Document-Icon.png" width="96"/> | **Smouldering Document** | 5% chance to ignite enemies on hit for 250% TOTAL damage. Damage over time effects burden enemies, reducing their damage by 12.5% (+12.5% per stack, hyperbolic) and attack speed by 12.5% (+12.5% per stack, hyperbolic). | Green |
 |<img src="https://i.postimg.cc/LXcqFPFd/tex-Sun-Fragment.png" width="96"/> | **Sun Fragment** | 9% chance on hit to create a blinding flash in a 12m area, stunning for 1.5s and igniting enemies for 150% (+150% per stack) TOTAL damage. | Green |
 |<img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"/> | **Universal VIP Pass** | Category chests have a 75% chance of dropping 1 (+1 per stack) extra items.  | Green |
 | ‎ | ‎ | ‎ |
-|<img src="" width="96"/> | **Millenium** | 6% chance on hit to create a tidal cataclysm in a 12m (+4m per stack) area, collapsing and grounding enemies for 400% base damage. Corrupts all Sun Fragments. | Void Green |
+|<img src="https://i.postimg.cc/L625CrWK/tex-Millenium.png" width="96"/> | **Millenium** | 7% chance on hit to create a tidal cataclysm in a 12m (+4m per stack) area, collapsing and grounding enemies for 400% base damage. Corrupts all Sun Fragments. | Void Green |
 | ‎ | ‎ | ‎ |
-|<img src="https://i.postimg.cc/PxjsGfV3/tex-Bleeding-Witness.png" width="96"/> | <a href="https://www.youtube.com/watch?v=7YXoXter6H0" target="_blank">**B**</a>**leeding Witness** | 5% chance to hemorrhage enemies for 480% base damage. Your damage over time effects heal all allies for 0.5% (+0.25% per stack) of their maximum health. | Red |
-|<img src="https://i.postimg.cc/pXf50nwk/tex-Ceremonial-Jar.png" width="96"/> | **Ceremonial Jar** | On hit, link enemies up to 3 times. Linked enemies take 1500% (+750% per stack) base damage each and cannot be linked for 5s afterwards. | Red |
-
+|<img src="https://i.postimg.cc/PxjsGfV3/tex-Bleeding-Witness.png" width="96"/> | **Bleeding Witness** | 5% chance to hemorrhage enemies for 480% base damage. Your damage over time effects heal all allies for 0.4% (+0.4% per stack) of their maximum health. | Red |
+|<img src="https://i.postimg.cc/pXf50nwk/tex-Ceremonial-Jar.png" width="96"/> | **Ceremonial Jar** | On hit, link enemies up to 3 times. Linked enemies take 1500% (+1500% per stack) base damage each and cannot be linked for 5s afterwards. | Red |
+|<img src="https://i.postimg.cc/rp3zfsBQ/tex-Torn-Feather.png" width="96"/> | **Torn Feather** | Tap Interact to perform an omni-directional dash. Can dash twice until hitting the ground. Gain 20% (+20% per stack) movement speed. | Red |
 # Equipment
 | Icon | Equipment | Description | Tier |
 |:-|-|------|-|
@@ -61,7 +61,7 @@
 
 # Credits
 - Code: HIFU, pseudopulse, Sandman, prod
-- Models: Sandman, Smxrez, GEMO, Bog, pseudopulse, HIFU
+- Models: Smxrez, Sandman, GEMO, Bog, pseudopulse, HIFU
 - Animations: IcieTea, unmatchedpowerofthesun, Bog
 - VFX: HIFU, Sandman, prod
 - Skill Icons: prod, HIFU

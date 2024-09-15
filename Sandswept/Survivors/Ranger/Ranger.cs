@@ -119,7 +119,7 @@ namespace Sandswept.Survivors.Ranger
 
             RegisterStuff();
 
-            SurvivorDef.displayPrefab = _modelTransform.gameObject;
+            // SurvivorDef.displayPrefab = _modelTransform.gameObject;
 
             CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
 
