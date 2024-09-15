@@ -3,7 +3,7 @@
   * Added survivor log
   * Reworked animations, rig, IK, FK, etc
   * Fixed skins not showing changes in the lobby
-  * Due to a SOTS bug, her overdrive overlay doesn't disappear
+  * Due to a SOTS bug, her overdrive overlay will be temporarily disabled until we get a proper fix
 * Items
   * Added Crown's Diamond
   * Added Sacrificial Band
