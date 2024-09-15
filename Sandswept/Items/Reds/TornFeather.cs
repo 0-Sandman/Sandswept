@@ -1,4 +1,4 @@
-/*using System;
+using System;
 
 namespace Sandswept.Items.Reds {
     public class TornFeather : ItemBase<TornFeather>
@@ -190,4 +190,4 @@ namespace Sandswept.Items.Reds {
             }
         }
     }
-}*/
+}
