@@ -97,6 +97,8 @@ namespace Sandswept.Survivors.Ranger
 
             // anim.SetFloat("combat", Mathf.Lerp(anim.GetFloat("combat"), cb.outOfCombat ? -1f : 1f, 3f * Time.fixedDeltaTime));
             anim.SetFloat("combat", 1);
+
+            // Debug.Log(anim.GetFloat("aimYawCycle"));
         }
 
         public void EnterOverdrive()

@@ -1,8 +1,6 @@
-using System;
-using static Rewired.Controller;
-
 namespace Sandswept.Items.Reds
 {
+    [ConfigSection("Items :: Torn Feather")]
     public class TornFeather : ItemBase<TornFeather>
     {
         public override string ItemName => "Torn Feather";
@@ -42,12 +40,14 @@ namespace Sandswept.Items.Reds
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
-            return null;
+            return new ItemDisplayRuleDict();
         }
 
         public override void Init(ConfigFile config)
         {
-            base.Init(config);
+            CreateLang();
+            CreateItem();
+            Hooks();
 
             PassiveParticleEffect = Main.Assets.LoadAsset<GameObject>("ActiveIndicatorParticles.prefab");
             DashTrailEffect = Main.Assets.LoadAsset<GameObject>("DashTrailEffect.prefab");
@@ -69,7 +69,6 @@ namespace Sandswept.Items.Reds
 
         public override void Hooks()
         {
-            base.Hooks();
             RecalculateStatsAPI.GetStatCoefficients += HandleStats;
         }
 
@@ -82,186 +81,186 @@ namespace Sandswept.Items.Reds
                 args.moveSpeedMultAdd += baseMovementSpeedGain + stackMovementSpeedGain * (stack - 1);
             }
         }
+    }
 
-        public class FeatherBehaviour : CharacterBody.ItemBehavior
+    public class FeatherBehaviour : CharacterBody.ItemBehavior
+    {
+        public int DashesRemaining = 2;
+        public float dashCooldown = 1.4f;
+        public float minAirborneTimer = 0.3f;
+        public float dashTravelDistance = 15f;
+        public float dashDuration = 0.2f;
+        public float airborneTimer = 0f;
+        public float dashCooldownTimer = 0f;
+        public float dashTimer = 0f;
+        public ParticleSystem dashTrail;
+        public ParticleSystem indicator;
+        public ParticleSystemRenderer renderer;
+        public Vector3 dashVector;
+        public int localHurtboxIntangibleCount;
+
+        public void OnEnable()
         {
-            private int DashesRemaining = 2;
-            private const float dashCooldown = 1.4f;
-            private const float minAirborneTimer = 0.3f;
-            private const float dashTravelDistance = 15f;
-            private const float dashDuration = 0.2f;
-            private float airborneTimer = 0f;
-            private float dashCooldownTimer = 0f;
-            private float dashTimer = 0f;
-            private ParticleSystem dashTrail;
-            private ParticleSystem indicator;
-            private ParticleSystemRenderer renderer;
-            private Vector3 dashVector;
-            private int localHurtboxIntangibleCount;
+            GameObject trail = GameObject.Instantiate(TornFeather.DashTrailEffect, base.transform);
+            dashTrail = trail.GetComponent<ParticleSystem>();
+            GameObject indicatorPrefab = GameObject.Instantiate(TornFeather.PassiveParticleEffect, base.transform);
+            indicator = indicatorPrefab.GetComponent<ParticleSystem>();
+            renderer = indicator.GetComponent<ParticleSystemRenderer>();
+        }
 
-            public void OnEnable()
+        public void OnDisable()
+        {
+            if (dashTrail)
             {
-                GameObject trail = GameObject.Instantiate(DashTrailEffect, base.transform);
-                dashTrail = trail.GetComponent<ParticleSystem>();
-                GameObject indicatorPrefab = GameObject.Instantiate(PassiveParticleEffect, base.transform);
-                indicator = indicatorPrefab.GetComponent<ParticleSystem>();
-                renderer = indicator.GetComponent<ParticleSystemRenderer>();
+                GameObject.Destroy(dashTrail.gameObject);
             }
 
-            public void OnDisable()
+            if (indicator)
             {
-                if (dashTrail)
-                {
-                    GameObject.Destroy(dashTrail.gameObject);
-                }
+                GameObject.Destroy(indicator.gameObject);
+            }
+        }
 
-                if (indicator)
-                {
-                    GameObject.Destroy(indicator.gameObject);
-                }
+        public void Update()
+        {
+            if (body.inputBank.interact.justPressed)
+            {
+                PerformDash();
             }
 
-            public void Update()
+            if (indicator)
             {
-                if (body.inputBank.interact.justPressed)
-                {
-                    PerformDash();
-                }
-
-                if (indicator)
-                {
-                    indicator.gameObject.SetActive(DashesRemaining > 0);
-                    renderer.material = DashesRemaining == 2 ? PinkParticles : BlueParticles;
-                    indicator.gameObject.transform.position = body.corePosition;
-                }
-
-                if (dashTrail)
-                {
-                    dashTrail.gameObject.transform.position = body.corePosition;
-                }
+                indicator.gameObject.SetActive(DashesRemaining > 0);
+                renderer.material = DashesRemaining == 2 ? TornFeather.PinkParticles : TornFeather.BlueParticles;
+                indicator.gameObject.transform.position = body.corePosition;
             }
 
-            public void FixedUpdate()
+            if (dashTrail)
             {
-                if (DashesRemaining < 2 && !body.characterMotor.isGrounded)
-                {
-                    airborneTimer += Time.fixedDeltaTime;
-                }
+                dashTrail.gameObject.transform.position = body.corePosition;
+            }
+        }
 
-                if (airborneTimer >= minAirborneTimer && body.characterMotor.isGrounded)
+        public void FixedUpdate()
+        {
+            if (DashesRemaining < 2 && !body.characterMotor.isGrounded)
+            {
+                airborneTimer += Time.fixedDeltaTime;
+            }
+
+            if (airborneTimer >= minAirborneTimer && body.characterMotor.isGrounded)
+            {
+                DashesRemaining = 2;
+                airborneTimer = 0f;
+                dashCooldownTimer = 0f;
+            }
+
+            if (DashesRemaining < 2)
+            {
+                dashCooldownTimer += Time.fixedDeltaTime;
+
+                if (dashCooldownTimer >= dashCooldown && body.characterMotor.isGrounded)
                 {
                     DashesRemaining = 2;
                     airborneTimer = 0f;
                     dashCooldownTimer = 0f;
                 }
-
-                if (DashesRemaining < 2)
-                {
-                    dashCooldownTimer += Time.fixedDeltaTime;
-
-                    if (dashCooldownTimer >= dashCooldown && body.characterMotor.isGrounded)
-                    {
-                        DashesRemaining = 2;
-                        airborneTimer = 0f;
-                        dashCooldownTimer = 0f;
-                    }
-                }
-
-                if (dashTimer > 0f)
-                {
-                    dashTimer -= Time.fixedDeltaTime;
-
-                    float speed = dashTravelDistance / dashDuration;
-                    base.body.characterMotor.velocity = speed * dashVector;
-
-                    if (dashTimer <= 0f)
-                    {
-                        dashTimer = 0f;
-                        EndDash();
-                    }
-                }
             }
 
-            public void EndDash()
+            if (dashTimer > 0f)
             {
-                body.hurtBoxGroup.hurtBoxesDeactivatorCounter -= localHurtboxIntangibleCount;
-                localHurtboxIntangibleCount = 0;
-                body.gameObject.layer = LayerIndex.defaultLayer.intVal;
-                body.characterMotor.Motor.RebuildCollidableLayers();
-                dashTrail.Stop();
-                body.characterMotor.velocity = body.characterMotor.velocity *= 0.2f;
+                dashTimer -= Time.fixedDeltaTime;
+
+                float speed = dashTravelDistance / dashDuration;
+                base.body.characterMotor.velocity = speed * dashVector;
+
+                if (dashTimer <= 0f)
+                {
+                    dashTimer = 0f;
+                    EndDash();
+                }
+            }
+        }
+
+        public void EndDash()
+        {
+            body.hurtBoxGroup.hurtBoxesDeactivatorCounter -= localHurtboxIntangibleCount;
+            localHurtboxIntangibleCount = 0;
+            body.gameObject.layer = LayerIndex.defaultLayer.intVal;
+            body.characterMotor.Motor.RebuildCollidableLayers();
+            dashTrail.Stop();
+            body.characterMotor.velocity = body.characterMotor.velocity *= 0.2f;
+        }
+
+        public void PerformDash()
+        {
+            if (DashesRemaining <= 0 || (dashTimer <= (dashDuration / 4f) && dashTimer > 0f)) return;
+
+            localHurtboxIntangibleCount++;
+            body.hurtBoxGroup.hurtBoxesDeactivatorCounter++;
+
+            Transform modelTransform = null;
+            if (body.modelLocator)
+            {
+                modelTransform = body.modelLocator.modelTransform;
             }
 
-            public void PerformDash()
+            if (modelTransform)
             {
-                if (DashesRemaining <= 0 || (dashTimer <= (dashDuration / 4f) && dashTimer > 0f)) return;
-
-                localHurtboxIntangibleCount++;
-                body.hurtBoxGroup.hurtBoxesDeactivatorCounter++;
-
-                Transform modelTransform = null;
-                if (body.modelLocator)
+                var overlayMat = DashesRemaining switch
                 {
-                    modelTransform = body.modelLocator.modelTransform;
-                }
+                    2 => TornFeather.blueOverlay,
+                    1 => TornFeather.pinkOverlay,
+                    _ => TornFeather.whiteOverlay
+                };
 
-                if (modelTransform)
+                var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
+                temporaryOverlay.duration = 0.2f;
+                temporaryOverlay.animateShaderAlpha = true;
+                temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                temporaryOverlay.destroyComponentOnEnd = true;
+                temporaryOverlay.originalMaterial = overlayMat;
+                temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
+            }
+
+            DashesRemaining -= 1;
+            dashTimer = dashDuration;
+
+            airborneTimer = 0f;
+            dashCooldownTimer = 0f;
+
+            body.gameObject.layer = LayerIndex.fakeActor.intVal;
+            body.characterMotor.Motor.RebuildCollidableLayers();
+
+            dashVector = body.inputBank.moveVector;
+            if (dashVector == Vector3.zero)
+            {
+                if (!body.inputBank.jump.down)
                 {
-                    var overlayMat = DashesRemaining switch
-                    {
-                        2 => blueOverlay,
-                        1 => pinkOverlay,
-                        _ => whiteOverlay
-                    };
-
-                    var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
-                    temporaryOverlay.duration = 0.2f;
-                    temporaryOverlay.animateShaderAlpha = true;
-                    temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
-                    temporaryOverlay.destroyComponentOnEnd = true;
-                    temporaryOverlay.originalMaterial = overlayMat;
-                    temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
-                }
-
-                DashesRemaining -= 1;
-                dashTimer = dashDuration;
-
-                airborneTimer = 0f;
-                dashCooldownTimer = 0f;
-
-                body.gameObject.layer = LayerIndex.fakeActor.intVal;
-                body.characterMotor.Motor.RebuildCollidableLayers();
-
-                dashVector = body.inputBank.moveVector;
-                if (dashVector == Vector3.zero)
-                {
-                    if (!body.inputBank.jump.down)
-                    {
-                        dashVector = body.inputBank.aimDirection;
-                    }
-                    else
-                    {
-                        dashVector = Vector3.up;
-                    }
+                    dashVector = body.inputBank.aimDirection;
                 }
                 else
                 {
-                    if (body.inputBank.jump.down)
-                    {
-                        dashVector = Quaternion.AngleAxis(45f, base.transform.right) * dashVector;
-                    }
+                    dashVector = Vector3.up;
                 }
-
-                dashVector.y = Mathf.Abs(dashVector.y);
-
-                indicator.TriggerSubEmitter(0);
-
-                dashTrail.transform.forward = -dashVector;
-
-                dashTrail.Play();
-
-                AkSoundEngine.PostEvent(Events.Play_huntress_shift_mini_blink, base.gameObject);
             }
+            else
+            {
+                if (body.inputBank.jump.down)
+                {
+                    dashVector = Quaternion.AngleAxis(45f, base.transform.right) * dashVector;
+                }
+            }
+
+            dashVector.y = Mathf.Abs(dashVector.y);
+
+            indicator.TriggerSubEmitter(0);
+
+            dashTrail.transform.forward = -dashVector;
+
+            dashTrail.Play();
+
+            AkSoundEngine.PostEvent(Events.Play_huntress_shift_mini_blink, base.gameObject);
         }
     }
 }

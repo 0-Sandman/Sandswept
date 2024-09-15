@@ -1,19 +1,19 @@
 {
     "name": "Sandswept",
-    "version_number": "0.8.1",
+    "version_number": "0.9.0",
     "website_url": "https://github.com/0-Sandman/Sandswept/",
-    "description": "A work in progress content mod that aims to add a variety of content to the game.",
+    "description": "A work in progress mod that aims to add a variety of unique and high quality content to the game.",
     "dependencies": [
-        "bbepis-BepInExPack-5.4.2113",
-        "RiskofThunder-R2API_Skins-1.0.0",
-		"RiskofThunder-R2API_Dot-1.0.1",
-		"RiskofThunder-R2API_Items-1.0.3",
-		"RiskofThunder-R2API_Elites-1.0.3",
-		"RiskofThunder-R2API_DamageType-1.0.4",
-		"RiskofThunder-R2API_Prefab-1.0.3",
+        "bbepis-BepInExPack-5.4.2117",
+        "RiskofThunder-R2API_Skins-1.2.0",
+		"RiskofThunder-R2API_Dot-1.0.3",
+		"RiskofThunder-R2API_Items-1.0.4",
+		"RiskofThunder-R2API_Elites-1.0.4",
+		"RiskofThunder-R2API_DamageType-1.1.2",
+		"RiskofThunder-R2API_Prefab-1.0.4",
 		"RiskofThunder-R2API_Language-1.0.1",
-		"RiskofThunder-R2API_RecalculateStats-1.2.0",
-		"RiskofThunder-R2API_ContentManagement-1.0.2",
+		"RiskofThunder-R2API_RecalculateStats-1.4.0",
+		"RiskofThunder-R2API_ContentManagement-1.0.6",
 		"RiskofThunder-R2API_Networking-1.0.2"
     ]
 }
