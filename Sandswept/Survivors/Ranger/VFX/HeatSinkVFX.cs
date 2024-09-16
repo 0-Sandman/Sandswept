@@ -14,6 +14,9 @@
         public static Material explodeMat1MileZero;
         public static Material explodeMat2MileZero;
 
+        public static Material explodeMat1Sandswept;
+        public static Material explodeMat2Sandswept;
+
         public static GameObject explosion1Default;
         public static GameObject explosion2Default;
 
@@ -25,6 +28,9 @@
 
         public static GameObject explosion1MileZero;
         public static GameObject explosion2MileZero;
+
+        public static GameObject explosion1Sandswept;
+        public static GameObject explosion2Sandswept;
 
         public static void Init()
         {
@@ -50,15 +56,24 @@
 
             explodeMat2MileZero = CreateMat2Recolor(Color.black);
 
+            //
+
+            explodeMat1Sandswept = CreateMat1Recolor(new Color32(150, 150, 150, 255));
+            explodeMat2Sandswept = CreateMat2Recolor(new Color32(249, 197, 143, 255));
+
+            //
+
             explosion1Default = CreateExplosion1Recolor("Default", new Color32(224, 164, 52, 255), new Color32(206, 114, 15, 255), new Color32(255, 247, 158, 255), new Color32(233, 92, 0, 255), new Color32(146, 51, 0, 255), new Color32(216, 123, 40, 255));
             explosion1Major = CreateExplosion1Recolor("Major", new Color32(52, 152, 224, 255), new Color32(15, 152, 206, 255), new Color32(158, 189, 255, 255), new Color32(0, 195, 233, 255), new Color32(0, 129, 146, 255), new Color32(40, 174, 216, 255));
             explosion1Renegade = CreateExplosion1Recolor("Renegade", new Color32(164, 52, 224, 255), new Color32(114, 15, 206, 255), new Color32(247, 158, 255, 255), new Color32(92, 0, 233, 255), new Color32(51, 0, 146, 255), new Color32(123, 40, 216, 255));
             explosion1MileZero = CreateExplosion1Recolor("Mile Zero", new Color32(224, 58, 52, 255), new Color32(255, 0, 0, 255), new Color32(0, 0, 0, 255), new Color32(233, 0, 5, 255), new Color32(146, 0, 5, 255), new Color32(177, 33, 37, 255));
+            explosion1Sandswept = CreateExplosion1Recolor("Sandswept", new Color32(249, 197, 143, 255), new Color32(214, 159, 79, 255), new Color32(150, 150, 150, 255), new Color32(87, 87, 87, 255), new Color32(150, 150, 150, 255), new Color32(249, 197, 143, 255));
 
             explosion2Default = CreateExplosion2Recolor("Default", new Color32(255, 221, 23, 255), new Color32(207, 153, 0, 255), new Color32(255, 20, 255, 255), 20f, 1.266667f);
             explosion2Major = CreateExplosion2Recolor("Major", new Color32(23, 173, 255, 255), new Color32(0, 157, 207, 255), new Color32(1, 0, 255, 255));
             explosion2Renegade = CreateExplosion2Recolor("Renegade", new Color32(147, 23, 255, 255), new Color32(87, 0, 207, 255), new Color32(157, 0, 214, 255));
             explosion2MileZero = CreateExplosion2Recolor("Mile Zero", new Color32(255, 23, 30, 255), new Color32(207, 0, 2, 255), new Color32(255, 0, 0, 255));
+            explosion2Sandswept = CreateExplosion2Recolor("Sandswept", new Color32(150, 150, 150, 255), new Color32(87, 87, 87, 255), new Color32(214, 159, 79, 255));
         }
 
         public static GameObject CreateExplosion2Recolor(string name, Color32 yellowEquivalent, Color32 yellowEquivalent2, Color32 tintColor, float brightnessBoost = 4.87f, float alphaBoost = 6.6f, float alphaBias = 0f)

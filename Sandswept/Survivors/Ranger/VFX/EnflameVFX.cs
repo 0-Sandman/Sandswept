@@ -21,6 +21,9 @@ namespace Sandswept.Survivors.Ranger.VFX
         public static GameObject tracerPrefabRacecar;
         public static GameObject tracerHeatedPrefabRacecar;
 
+        public static GameObject tracerPrefabSandswept;
+        public static GameObject tracerHeatedPrefabSandswept;
+
         public static void Init()
         {
             tracerPrefabDefault = CreateTracerRecolor("Default", new Color32(255, 27, 0, 255));
@@ -37,6 +40,9 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             tracerPrefabRacecar = CreateTracerRecolor("Racecar", new Color32(25, 144, 129, 255));
             tracerHeatedPrefabRacecar = CreateTracerRecolor("Racecar", new Color32(118, 202, 205, 255), 9f, 4f);
+
+            tracerPrefabSandswept = CreateTracerRecolor("Sandswept", new Color32(150, 150, 150, 255));
+            tracerHeatedPrefabSandswept = CreateTracerRecolor("Sandswept", new Color32(249, 197, 143, 255), 9f, 4f);
         }
 
         public static GameObject CreateTracerRecolor(string name, Color32 whiteEquivalent, float length = 6f, float widthMultiplier = 3f, float brightnessBoost = 10f, float alphaBoost = 1.2f, float alphaBias = 0.65f)

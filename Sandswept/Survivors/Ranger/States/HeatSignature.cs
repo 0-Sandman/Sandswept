@@ -38,6 +38,7 @@ namespace Sandswept.Survivors.Ranger.States
                     "SKINDEF_MAJOR" => HeatSignatureVFX.heatDashMat1Major,
                     "SKINDEF_RENEGADE" => HeatSignatureVFX.heatDashMat1Renegade,
                     "SKINDEF_MILEZERO" => HeatSignatureVFX.heatDashMat1MileZero,
+                    "SKINDEF_SANDSWEPT" => HeatSignatureVFX.heatDashMat1Sandswept,
                     _ => HeatSignatureVFX.heatDashMat1Default
                 };
 
@@ -46,6 +47,7 @@ namespace Sandswept.Survivors.Ranger.States
                     "SKINDEF_MAJOR" => HeatSignatureVFX.heatDashMat2Major,
                     "SKINDEF_RENEGADE" => HeatSignatureVFX.heatDashMat2Renegade,
                     "SKINDEF_MILEZERO" => HeatSignatureVFX.heatDashMat2MileZero,
+                    "SKINDEF_SANDSWEPT" => HeatSignatureVFX.heatDashMat2Sandswept,
                     _ => HeatSignatureVFX.heatDashMat2Default
                 };
 

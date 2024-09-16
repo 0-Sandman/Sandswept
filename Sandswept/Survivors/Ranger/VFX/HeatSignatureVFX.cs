@@ -14,6 +14,9 @@
         public static Material heatDashMat1MileZero;
         public static Material heatDashMat2MileZero;
 
+        public static Material heatDashMat1Sandswept;
+        public static Material heatDashMat2Sandswept;
+
         public static void Init()
         {
             heatDashMat1Default = CreateMat1Recolor(new Color32(191, 27, 3, 200));
@@ -37,6 +40,12 @@
             heatDashMat1MileZero = CreateMat1Recolor(new Color32(0, 0, 0, 200));
 
             heatDashMat2MileZero = CreateMat2Recolor(new Color32(99, 0, 0, 200));
+
+            //
+
+            heatDashMat1Sandswept = CreateMat1Recolor(new Color32(249, 197, 143, 200));
+
+            heatDashMat2Sandswept = CreateMat2Recolor(new Color32(150, 150, 150, 200));
         }
 
         public static Material CreateMat1Recolor(Color32 blueEquivalent)

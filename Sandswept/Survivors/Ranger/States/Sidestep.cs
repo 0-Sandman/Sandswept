@@ -32,6 +32,7 @@ namespace Sandswept.Survivors.Ranger.States
                     "SKINDEF_MAJOR" => SidestepVFX.dashMat1Major,
                     "SKINDEF_RENEGADE" => SidestepVFX.dashMat1Renegade,
                     "SKINDEF_MILEZERO" => SidestepVFX.dashMat1MileZero,
+                    "SKINDEF_SANDSWEPT" => SidestepVFX.dashMat1Sandswept,
                     _ => SidestepVFX.dashMat1Default
                 };
 
@@ -40,6 +41,7 @@ namespace Sandswept.Survivors.Ranger.States
                     "SKINDEF_MAJOR" => SidestepVFX.dashMat2Major,
                     "SKINDEF_RENEGADE" => SidestepVFX.dashMat2Renegade,
                     "SKINDEF_MILEZERO" => SidestepVFX.dashMat2MileZero,
+                    "SKINDEF_SANDSWEPT" => SidestepVFX.dashMat2Sandswept,
                     _ => SidestepVFX.dashMat2Default
                 };
                 var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);

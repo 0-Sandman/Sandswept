@@ -14,6 +14,9 @@
         public static GameObject tracerPrefabMileZero;
         public static GameObject impactPrefabMileZero;
 
+        public static GameObject tracerPrefabSandswept;
+        public static GameObject impactPrefabSandswept;
+
         public static void Init()
         {
             tracerPrefabDefault = CreateTracerRecolor("Default", new Color32(95, 209, 177, 255), new Color32(51, 234, 149, 255), new Color32(95, 224, 125, 255), new Color32(0, 121, 255, 255), true, 2.675917f, 0.8582755f, 10f);
@@ -27,6 +30,9 @@
 
             tracerPrefabMileZero = CreateTracerRecolor("Mile Zero", new Color32(209, 95, 95, 255), new Color32(234, 51, 84, 255), new Color32(224, 95, 157, 255), new Color32(255, 0, 2, 255), false, 20f, 4.072613f, 0.1128651f);
             impactPrefabMileZero = CreateImpactRecolor("Mile Zero", new Color32(234, 23, 68, 255), new Color32(211, 23, 33, 255), new Color32(255, 27, 0, 255));
+
+            tracerPrefabMajor = CreateTracerRecolor("Major", new Color32(214, 159, 79, 255), new Color32(150, 150, 150, 255), new Color32(87, 87, 87, 255), new Color32(249, 197, 143, 255), false, 10.65977f, 0.4565004f, 0.06634249f);
+            impactPrefabMajor = CreateImpactRecolor("Major", new Color32(214, 159, 79, 255), new Color32(150, 150, 150, 255), new Color32(87, 87, 87, 255));
         }
 
         public static GameObject CreateTracerRecolor(string name, Color32 lightBlueEquivalent, Color32 lightAquaEquivalent, Color32 lightGreenEquivalent, Color32 tintColor, bool altRamp = false, float brightnessBoost = 20f, float alphaBias = 0.2612987f, float alphaBoost = 0.5506042f)

@@ -169,6 +169,7 @@ namespace Sandswept.Survivors.Ranger
         public static SkinDef renegadeDef;
         public static SkinDef mileZeroDef;
         public static SkinDef racecarDef;
+        public static SkinDef sandsweptDef;
         // public static SkinDef rainbowDef;
 
         public void AddSkins()
@@ -189,6 +190,7 @@ namespace Sandswept.Survivors.Ranger
             majorDef = CreateRecolor("Major", 4.2f);
             renegadeDef = CreateRecolor("Renegade", 2.5f);
             mileZeroDef = CreateRecolor("Mile Zero", 4.2f);
+            sandsweptDef = CreateRecolor("Sandswept", 4.2f);
             // racecarDef = CreateRecolor("Racecar", 4.2f);
             // rainbowDef = CreateRecolor("Racecar", 4.2f);
 

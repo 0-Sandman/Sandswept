@@ -35,6 +35,7 @@ namespace Sandswept.Survivors.Ranger.States
                     "SKINDEF_MAJOR" => EnflameVFX.tracerPrefabMajor,
                     "SKINDEF_RENEGADE" => EnflameVFX.tracerPrefabRenegade,
                     "SKINDEF_MILEZERO" => EnflameVFX.tracerPrefabMileZero,
+                    "SKINDEF_SANDSWEPT" => EnflameVFX.tracerPrefabSandswept,
                     _ => EnflameVFX.tracerPrefabDefault
                 };
 
@@ -43,6 +44,7 @@ namespace Sandswept.Survivors.Ranger.States
                     "SKINDEF_MAJOR" => EnflameVFX.tracerHeatedPrefabMajor,
                     "SKINDEF_RENEGADE" => EnflameVFX.tracerHeatedPrefabRenegade,
                     "SKINDEF_MILEZERO" => EnflameVFX.tracerHeatedPrefabMileZero,
+                    "SKINDEF_SANDSWEPT" => EnflameVFX.tracerHeatedPrefabSandswept,
                     _ => EnflameVFX.tracerHeatedPrefabDefault
                 };
             }

@@ -34,7 +34,7 @@ namespace Sandswept.Survivors.Ranger.States
             {
                 var crosshairOverrideBehavior = characterBody.GetComponent<RoR2.UI.CrosshairUtils.CrosshairOverrideBehavior>();
                 crosshairRequest = crosshairOverrideBehavior.AddRequest(Crosshairs.Ranger.hitscanCrosshairPrefab, RoR2.UI.CrosshairUtils.OverridePriority.Skill);
-                /*
+
                 var modelTransform = GetModelTransform();
 
                 if (modelTransform)
@@ -46,6 +46,7 @@ namespace Sandswept.Survivors.Ranger.States
                         "SKINDEF_MAJOR" => HeatVFX.heatMatMajor,
                         "SKINDEF_RENEGADE" => HeatVFX.heatMatRenegade,
                         "SKINDEF_MILEZERO" => HeatVFX.heatMatMileZero,
+                        "SKINDEF_SANDSWEPT" => HeatVFX.heatMatSandswept,
                         _ => HeatVFX.heatMatDefault
                     };
 
@@ -57,7 +58,6 @@ namespace Sandswept.Survivors.Ranger.States
                     tempOverlayInstance.originalMaterial = heatMat;
                     tempOverlayInstance.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
                 }
-                */
             }
 
             GetModelAnimator().SetBool("gunOpen", true);

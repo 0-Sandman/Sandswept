@@ -14,6 +14,8 @@ namespace Sandswept.Survivors.Ranger.VFX
 
         public static Material heatMatMileZero;
 
+        public static Material heatMatSandswept;
+
         public static void Init()
         {
             heatMatDefault = CreateMatRecolor(new Color32(191, 80, 3, 100));
@@ -29,6 +31,10 @@ namespace Sandswept.Survivors.Ranger.VFX
             //
 
             heatMatMileZero = CreateMatRecolor(new Color32(50, 0, 0, 100));
+
+            //
+
+            heatMatSandswept = CreateMatRecolor(new Color32(150, 150, 150, 100));
         }
 
         // heat vfx color = first heat signature vfx color + hue shift 17 to the right or left in paint.net :smirk_cat: except mile zero lmoa

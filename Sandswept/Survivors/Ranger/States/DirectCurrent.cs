@@ -25,6 +25,7 @@ namespace Sandswept.Survivors.Ranger.States
                     "SKINDEF_MAJOR" => Projectiles.DirectCurrent.prefabMajor,
                     "SKINDEF_RENEGADE" => Projectiles.DirectCurrent.prefabRenegade,
                     "SKINDEF_MILEZERO" => Projectiles.DirectCurrent.prefabMileZero,
+                    "SKINDEF_SANDSWEPT" => Projectiles.DirectCurrent.prefabSandswept,
                     _ => Projectiles.DirectCurrent.prefabDefault,
                 };
             }

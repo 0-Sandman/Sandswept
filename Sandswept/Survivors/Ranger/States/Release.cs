@@ -60,6 +60,11 @@ namespace Sandswept.Survivors.Ranger.States
                         tracerEffect = ReleaseVFX.tracerPrefabMileZero;
                         impactEffect = ReleaseVFX.impactPrefabMileZero;
                         break;
+
+                    case "SKINDEF_SANDSWEPT":
+                        tracerEffect = ReleaseVFX.tracerPrefabSandswept;
+                        impactEffect = ReleaseVFX.impactPrefabSandswept;
+                        break;
                 }
             }
         }
