@@ -6,6 +6,8 @@
 
         public static void Init()
         {
+            Achievements.UnlockableDefs.Init();
+
             hitscanCrosshairPrefab = Paths.GameObject.StandardCrosshairSmall.InstantiateClone("Ranger Hitscan Crosshair", false);
             var upArrow = hitscanCrosshairPrefab.transform.GetChild(2);
             upArrow.gameObject.SetActive(false);

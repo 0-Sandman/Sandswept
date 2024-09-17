@@ -17,9 +17,9 @@ namespace Sandswept.Survivors.Ranger
 
         public override string Subtitle => "Infernal Marshal";
 
-        public override string Outro => "...and so she left ready to listen to Periphery for the 43,945th time (not Periphery 3 tho it sucks it's barely replayable like she's only played it 4,874 times and got extremely fed up with it it's their most overrated album I swear)... Although she has discovered that Unprocessed may just be the better band for her overall...";
+        public override string Outro => "...and so she left, with more questions than answers.";
 
-        public override string Failure => "...and so she didn't leave lmao skill issue btw you should listen to these albums --- Unprocessed - In Concretion, Unprocessed - Perception, Unprocessed - Covenant, Unprocessed - And Everything In Between, Periphery - Periphery 1, Periphery - Periphery 2... Also you might have noticed one of Unprocessed's albums is missing - Gold - and that is because it's completely different than all their other albums, being much more pop-py and overall a sellout album.";
+        public override string Failure => "...and so she vanished, consumed by doubt.";
 
         public override void LoadAssets()
         {
@@ -94,7 +94,7 @@ namespace Sandswept.Survivors.Ranger
             ReplaceSkills(locator.utility, new SkillDef[] { Skilldefs.Sidestep.instance.skillDef });
             ReplaceSkills(locator.special, new SkillDef[] { Skilldefs.OverdriveEnter.instance.skillDef });
 
-            "SS_RANGER_BODY_LORE".Add("After the Purge, the Hall of the Revered invested quite a lot into its own defense. For most groups, that meant shield generators, missile systems, or armies -- but the Hall's measures were more...singular.\r\n\r\nAs they had told their chosen defense when training began, the Hall was not a military organization. All they wanted was a looming threat, a force unstoppable but not flaunted or oft-used -- and unstoppable she soon became. The miracles and relics held in the trust of the Hall for eons held strength unimaginable by the known superpowers of the galaxy. \"But do not abuse them,\" she had been told. \"Our restraint and dedication to peace are the reason we were entrusted with such power, and the Hall can never betray that trust.\"\r\n\r\nAlthough her trust was firmly and eternally with the Hall and its members, the shadowed part of her brain raised doubts about this directive, echoing those words against the walls of her skull. Rather than a defense, a response to something, this felt like an attack. Sneaking aboard a UES ship was questionable to begin with; now that she was at its destination, slaughtering the denizens of the alien planet by the dozens, the doubtful questions came in floods. Out of each fatal arc of electricity and cruel burst of flame, more hesitation seeped, lodging into her mind. Had the Hall fallen? Was she receiving orders from a malicious outsider? If not, was one ancient sword, however powerful, really worth all this?");
+            "SS_RANGER_BODY_LORE".Add("After the Purge, the Hall of the Revered invested quite a lot into its own defense. For most groups, that meant shield generators, missile systems, or armies — but the Hall's measures were more...singular.\r\n\r\nAs they had told their chosen defense when training began, the Hall is not a military organization. All they wanted was a looming threat, a force unstoppable but not flaunted or oft-used — and unstoppable she soon became. The miracles and relics held in the trust of the Hall for eons contained strength unimaginable by the known superpowers of the galaxy. \"But do not abuse them,\" she had been told. \"Our restraint and dedication to peace are the reason we are entrusted with such power, and the Hall can never betray that trust.\"\r\n\r\nAlthough she always had firm and eternal trust in the Hall and its members, the shadowed part of her brain raised doubts about this order, echoing those words against the walls of her skull. Rather than a defense, a response to something, this felt like an attack. Sneaking aboard a UES ship was questionable to begin with; now that she was at its destination, slaughtering the denizens of the alien planet by the dozens, the doubtful questions came in floods. Out of each fatal arc of electricity and cruel burst of flame, more hesitation seeped, lodging into her mind. Had the Hall fallen? Was she receiving instructions from some malicious outsider? If not, was one ancient sword, however powerful, really worth all this destruction?\r\n\r\nYet, she refused to falter. She could not. The torrent of worry threatened only an inky darkness should she accept its embrace, a storm of great hail and thunder, unnavigable in this cruel place so far from humanity. The Hall's principles were her only guiding light here, even if that light might burn her. She would not wander into the tempest's depths, not like the one who came before her.\r\n\r\n\"Take this as a lesson.\" The words were hammered into her memory — indeed, nearly everything from the moment was preserved in agonizing clarity, even the parts of her vision which had been blurred by tears not seen since that day. \"The greatest strength of all is strength of will, and of devotion. The Hall has paved a path for you, and though thorns may sometimes cross it, they are nothing compared to the thicket of brambles that surround it.\"\r\n\r\nThe Hall had given her this directive, and as its only defense, she was soul-bound to follow it.");
 
             "SS_RANGER_PASSIVE_NAME".Add("Power Surge");
             "SS_RANGER_PASSIVE_DESC".Add("Hold up to " + Projectiles.DirectCurrent.maxCharge + " $rcCharge$ec. Each $rcCharge$ec increases $shbase health regeneration$se by $sh0.25 hp/s$se. $rcCharge decays over time$ec.".AutoFormat());
@@ -190,7 +190,9 @@ namespace Sandswept.Survivors.Ranger
             majorDef = CreateRecolor("Major", 4.2f);
             renegadeDef = CreateRecolor("Renegade", 2.5f);
             mileZeroDef = CreateRecolor("Mile Zero", 4.2f);
-            sandsweptDef = CreateRecolor("Sandswept", 4.2f);
+
+            // sandsweptDef = CreateRecolor("Sandswept", 4.2f, Achievements.UnlockableDefs.masteryUnlock);
+
             // racecarDef = CreateRecolor("Racecar", 4.2f);
             // rainbowDef = CreateRecolor("Racecar", 4.2f);
 
@@ -217,7 +219,7 @@ namespace Sandswept.Survivors.Ranger
             ContentAddition.AddEntityState(typeof(Sidestep), out _);
         }
 
-        public SkinDef CreateRecolor(string skinName, float emissionValue = 2.5f, bool unlockable = false, string unlockDesc = "ugh fill me")
+        public SkinDef CreateRecolor(string skinName, float emissionValue = 2.5f, UnlockableDef unlockableDef = null)
         {
             var trimmedName = skinName.Replace(" ", "");
             var mainTex = Main.hifuSandswept.LoadAsset<Texture2D>("texRangerDiffuse" + trimmedName + ".png");
@@ -270,21 +272,6 @@ namespace Sandswept.Survivors.Ranger
             var newRendererInfos = new CharacterModel.RendererInfo[] { gunRendererInfo, legsRendererInfo, scarfRendererInfo };
 
             var icon = Skins.CreateSkinIcon(scarfAndPantsColor, helmetColor, armorColor, suitColor);
-
-            UnlockableDef unlockableDef = null;
-            if (unlockable)
-            {
-                unlockableDef = ScriptableObject.CreateInstance<UnlockableDef>();
-                unlockableDef.achievementIcon = icon;
-                unlockableDef.hidden = false;
-                unlockableDef.nameToken = "SKIN_" + trimmedName.ToUpper();
-                unlockableDef._cachedName = "Skins.Ranger." + trimmedName;
-
-                ("ACHIEVEMENT_" + unlockableDef.nameToken + "_NAME").Add("Ranger: " + skinName);
-                ("ACHIEVEMENT_" + unlockableDef.nameToken + "_DESCRIPTION").Add("As Ranger, " + unlockDesc + ".");
-
-                ContentAddition.AddUnlockableDef(unlockableDef);
-            }
 
             var newSkinDefInfo = new SkinDefInfo()
             {

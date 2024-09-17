@@ -1,3 +1,17 @@
+# 0.9.1 Patch Notes
+* Ranger
+  * Updated survivor log
+  * Updated escape & vanish quotes
+* Items
+  * Added item log to Crown's Diamond, Sacrificial Band, Universal VIP Pass and Torn Feather
+  * Added buff icons to Sacrificial Band
+  * Buffed Crown's Diamond Barrier Gain 15% => 20%
+  * Nerfed Universal VIP Pass Chance from 75% to 66%
+  * Updated all logs
+  * Fixed Smouldering Document throwing another NRE, hopefully (I love when NULLABLE values need a value)
+* Equipment
+  * Added equipment log to The Sand Sweeper
+
 # 0.9.0 Patch Notes
 * Ranger
   * Added survivor log
@@ -11,7 +25,7 @@
   * Added Millenium
     * Due to a SOTS bug, this item might not work properly half the time
   * Added VFX for Fractured Timepiece
-  * Added item logs for Bleeding Witness and Ceremonial Jar
+  * Added item logs to Bleeding Witness and Ceremonial Jar
   * Buffed Sun Fragment Chance from 7% to 9%
   * Buffed Bleeding Witness Stack DoT Healing from 0.25% to 0.4%
   * Buffed Ceremonial Jar Stack Damage from 750% to 1500%
@@ -35,7 +49,7 @@
 
 # 0.8.1 Patch Notes
 * Items
-  * Added item logs for Smouldering Document and Sun Fragment
+  * Added item logs to Smouldering Document and Sun Fragment
   * Added sound to Sun Fragment proc
   * Buffed Amber Knife Base Damage from 120% to 140%
   * Buffed Amber Knife Stack Damage from 120% to 140%

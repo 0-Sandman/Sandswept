@@ -41,13 +41,13 @@
 |<img src="https://i.postimg.cc/sfH2YN1y/tex-Fractured-Timepiece.png" width="96"/> | **Fractured Timepiece** | Upon using your utility skill, heal for 5% (+5% per stack) of your maximum health and reduce special skill cooldown by 15%. | White |
 |<img src="https://i.postimg.cc/1RVSGrFJ/tex-Red-Spring-Water.png" width="96"/> | **Red Spring Water** | Increase health regeneration by 0.4 hp/s, plus an additional 0.4 hp/s (+0.4 hp/s per stack) for every buff you have. | White |
 | ‎ | ‎ | ‎ |
-|<img src="https://i.postimg.cc/8C88VqNw/tex-Crowns-Diamond.png" width="96"/> | **Crown's Diamond** | Being out of danger grants 15% of maximum health as barrier. Barrier decays 15% (+15% per stack, hyperbolic) slower while out of combat or danger. | Green |
+|<img src="https://i.postimg.cc/8C88VqNw/tex-Crowns-Diamond.png" width="96"/> | **Crown's Diamond** | Being out of danger grants 20% of maximum health as barrier. Barrier decays 15% (+15% per stack, hyperbolic) slower while out of combat or danger. | Green |
 |<img src="https://i.postimg.cc/yd9LgHmF/tex-Nuclear-Salvo.png" width="96"/> | **Nuclear Salvo** | Every 5 seconds, all mechanical allies fire 2 (+2 per stack) nuclear missiles that deal 100% base damage each and ignite on hit. | Green |
 |<img src="https://i.postimg.cc/1XN5VLQJ/tex-Pocket-Plutonium.png" width="96"/> | **Pocket Plutonium** | Gain a shield equal to 10% of your maximum health. Upon losing all shield, create a nuclear pool in a 16m area that deals 750% (+750% per stack) base damage, plus an additional 250% (+250% per stack) of shields. | Green |
 |<img src="https://i.postimg.cc/gcvrKYNH/tex-Sacrificial-Band.png" width="96"/> | **Sacrificial Band** | Hits that deal more than 400% damage also inflict 1 (+1 per stack) bleeds on enemies for each 110% of skill damage. Recharges every 10 seconds. | Green |
 |<img src="https://i.postimg.cc/QtFVs3R3/Document-Icon.png" width="96"/> | **Smouldering Document** | 5% chance to ignite enemies on hit for 250% TOTAL damage. Damage over time effects burden enemies, reducing their damage by 12.5% (+12.5% per stack, hyperbolic) and attack speed by 12.5% (+12.5% per stack, hyperbolic). | Green |
 |<img src="https://i.postimg.cc/LXcqFPFd/tex-Sun-Fragment.png" width="96"/> | **Sun Fragment** | 9% chance on hit to create a blinding flash in a 12m area, stunning for 1.5s and igniting enemies for 150% (+150% per stack) TOTAL damage. | Green |
-|<img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"/> | **Universal VIP Pass** | Category chests have a 75% chance of dropping 1 (+1 per stack) extra items.  | Green |
+|<img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"/> | **Universal VIP Pass** | Category chests have a 66% chance of dropping 1 (+1 per stack) extra items. | Green |
 | ‎ | ‎ | ‎ |
 |<img src="https://i.postimg.cc/L625CrWK/tex-Millenium.png" width="96"/> | **Millenium** | 7% chance on hit to create a tidal cataclysm in a 12m (+4m per stack) area, collapsing and grounding enemies for 400% base damage. Corrupts all Sun Fragments. | Void Green |
 | ‎ | ‎ | ‎ |

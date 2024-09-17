@@ -47,7 +47,7 @@ namespace Sandswept
     {
         public const string ModGuid = "com.TeamSandswept.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVer = "0.9.0";
+        public const string ModVer = "0.9.1";
 
         public static AssetBundle MainAssets;
         public static AssetBundle Assets;

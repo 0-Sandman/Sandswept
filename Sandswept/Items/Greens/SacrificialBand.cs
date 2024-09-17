@@ -11,7 +11,7 @@
 
         public override string ItemFullDescription => ("Hits that deal $sdmore than 400% damage$se also inflict $sd" + baseBleedCount + "$se $ss(+" + stackBleedCount + " per stack)$se $sdbleeds$se on enemies for each $sd" + d(damageScalar) + "$se of $sdskill damage$se. Recharges every $su10$se seconds.").AutoFormat();
 
-        public override string ItemLore => "Some say a guy called HIFU wanted to name this item Band of Sacrifice as a funny reference but other devs disagreed with it because of naming convention.. :joker:\n\nAnyways this item goes against the convention becauseee";
+        public override string ItemLore => "\"When we draw our final breaths,\r\nWhen N'kuhana's grasp entwines us,\r\nMay our patience and our solace\r\nClear the clouds of deathly silence.\r\nWill you live with me?\"\r\n\r\n- The Syzygy of Io and Europa";
 
         [ConfigField("Base Bleed Count", "", 1)]
         public static float baseBleedCount;
@@ -38,10 +38,10 @@
             ready = ScriptableObject.CreateInstance<BuffDef>();
             ready.isDebuff = false;
             ready.canStack = false;
-            ready.isHidden = true;
+            ready.isHidden = false;
             ready.isCooldown = false;
-            ready.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texCrownsDiamond.png");
-            ready.buffColor = Color.white;
+            ready.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffSacrificialBandReady.png");
+            ready.buffColor = new Color32(160, 0, 5, 255);
             ready.name = "Sacrificial Band Ready";
 
             ContentAddition.AddBuffDef(ready);
@@ -49,10 +49,10 @@
             cooldown = ScriptableObject.CreateInstance<BuffDef>();
             cooldown.canStack = true;
             cooldown.isDebuff = false;
-            cooldown.isHidden = true;
+            cooldown.isHidden = false;
             cooldown.isCooldown = true;
-            cooldown.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texCrownsDiamond.png");
-            cooldown.buffColor = new Color32(70, 70, 70, 200);
+            cooldown.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffSacrificialBandCooldown.png");
+            cooldown.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1f);
             cooldown.name = "Sacrificial Band Cooldown";
 
             ContentAddition.AddBuffDef(cooldown);
@@ -65,26 +65,17 @@
         public override void Hooks()
         {
             On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnHitEnemy;
-            CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
+            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
         }
 
-        private void CharacterBody_onBodyStartGlobal(CharacterBody body)
+        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
             var inventory = body.inventory;
             if (!inventory)
             {
                 return;
             }
-
-            if (body.teamComponent.teamIndex != TeamIndex.Player)
-            {
-                return;
-            }
-
-            if (body.GetComponent<SacrificialBandController>() == null)
-            {
-                body.gameObject.AddComponent<SacrificialBandController>();
-            }
+            body.AddItemBehavior<SacrificialBandController>(inventory.GetItemCount(instance.ItemDef));
         }
 
         private void GlobalEventManager_OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
@@ -139,7 +130,7 @@
         }
     }
 
-    public class SacrificialBandController : MonoBehaviour
+    public class SacrificialBandController : CharacterBody.ItemBehavior
     {
         public CharacterBody body;
         public bool shouldRun = false;
@@ -147,7 +138,7 @@
         public void Start()
         {
             body = GetComponent<CharacterBody>();
-            if (!body.HasBuff(SacrificialBand.ready))
+            if (!body.HasBuff(SacrificialBand.ready) && stack > 0)
             {
                 body.AddBuff(SacrificialBand.ready);
                 shouldRun = true;
@@ -164,6 +155,18 @@
             if (!body.HasBuff(SacrificialBand.cooldown) && !body.HasBuff(SacrificialBand.ready))
             {
                 body.AddBuff(SacrificialBand.ready);
+            }
+        }
+
+        public void OnDestroy()
+        {
+            if (body.HasBuff(SacrificialBand.ready))
+            {
+                body.RemoveBuff(SacrificialBand.ready);
+            }
+            if (body.HasBuff(SacrificialBand.cooldown))
+            {
+                body.RemoveBuff(SacrificialBand.cooldown);
             }
         }
     }
