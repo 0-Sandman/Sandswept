@@ -3,6 +3,7 @@ using System.Linq;
 
 namespace Sandswept.Elites
 {
+    [ConfigSection("Elites :: Motivating")]
     internal class Motivating : EliteEquipmentBase<Motivating>
     {
         public override string EliteEquipmentName => "John Hopoo";
@@ -40,6 +41,24 @@ namespace Sandswept.Elites
 
         public static BuffDef wrbnnerBuff;
         public static BuffDef warcryBuff;
+
+        [ConfigField("Passive Attack Speed Buff", "Decimal.", 0.25f)]
+        public static float passiveAttackSpeedBuff;
+
+        [ConfigField("Passive Movement Speed Buff", "Decimal.", 0.25f)]
+        public static float passiveMovementSpeedBuff;
+
+        [ConfigField("On Hit Attack Speed Buff", "Decimal.", 0.25f)]
+        public static float onHitAttackSpeedBuff;
+
+        [ConfigField("On Hit Attack Speed Buff Duration", "", 4f)]
+        public static float onHitAttackSpeedBuffDuration;
+
+        [ConfigField("Passive Buff Radius", "", 20f)]
+        public static float passiveBuffRadius;
+
+        [ConfigField("On Hit Buff Radius", "", 20f)]
+        public static float onHitBuffRadius;
 
         public override void Init(ConfigFile config)
         {
@@ -197,12 +216,12 @@ namespace Sandswept.Elites
         {
             if (sender.HasBuff(wrbnnerBuff))
             {
-                args.moveSpeedMultAdd += 0.25f;
-                args.baseAttackSpeedAdd += 0.25f;
+                args.moveSpeedMultAdd += passiveMovementSpeedBuff;
+                args.baseAttackSpeedAdd += passiveAttackSpeedBuff;
             }
             if (sender.HasBuff(warcryBuff))
             {
-                args.baseAttackSpeedAdd += 0.25f;
+                args.baseAttackSpeedAdd += onHitAttackSpeedBuff;
             }
         }
 
@@ -270,8 +289,8 @@ namespace Sandswept.Elites
     {
         public GameObject warbannerPrefab = Motivating.warbanner;
         public GameObject warbannerInstance;
-        public float warbannerRadius = 20f;
-        public float onHitRadius = 20f;
+        public float warbannerRadius = Motivating.passiveBuffRadius;
+        public float onHitRadius = Motivating.onHitBuffRadius;
         public CharacterBody body;
         public Transform modelTransform;
         public HealthComponent healthComponent;
@@ -310,8 +329,8 @@ namespace Sandswept.Elites
                 if (body)
                 {
                     mdlWarbanner.localScale = Vector3.one * body.radius * 0.3f;
-                    if (body.isPlayerControlled)
-                        mdlWarbanner.gameObject.SetActive(false);
+                    // if (body.isPlayerControlled)
+                    mdlWarbanner.gameObject.SetActive(false);
                 }
             }
 
@@ -381,7 +400,7 @@ namespace Sandswept.Elites
                     var targetBody = hurtBox.healthComponent.body;
                     if (targetBody && !targetBody.HasBuff(Motivating.Instance.EliteBuffDef) && targetBody.teamComponent.teamIndex == body.teamComponent.teamIndex)
                     {
-                        targetBody.AddTimedBuff(Motivating.warcryBuff, 4f);
+                        targetBody.AddTimedBuff(Motivating.warcryBuff, Motivating.onHitAttackSpeedBuffDuration);
                     }
                 }
             }

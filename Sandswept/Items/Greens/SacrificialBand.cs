@@ -33,6 +33,8 @@
         public static BuffDef ready;
         public static BuffDef cooldown;
 
+        public static GameObject vfx;
+
         public override void Init(ConfigFile config)
         {
             ready = ScriptableObject.CreateInstance<BuffDef>();
@@ -105,6 +107,10 @@
                             {
                                 DotController.InflictDot(victim, attacker, DotController.DotIndex.Bleed, 4f * damageInfo.procCoefficient, 1f, uint.MaxValue);
                             }
+
+                            Util.PlaySound("Play_bleedOnCritAndExplode_explode", victim);
+                            Util.PlaySound("Play_bleedOnCritAndExplode_explode", victim);
+                            Object.Instantiate(GlobalEventManager.CommonAssets.bleedOnHitAndExplodeBlastEffect, victim.transform.position, Quaternion.identity);
 
                             // damageInfo.procChainMask.AddProc(ProcType.PlasmaCore);
                         }

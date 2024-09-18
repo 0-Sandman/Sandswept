@@ -1,3 +1,17 @@
+# 0.9.2 Patch Notes
+* Ranger
+  * Fixed Major skin having the wrong VFX
+* Items
+  * Added VFX & SFX to Sacrificial Band
+  * Nerfed Universal VIP Pass to scale chance with player count (so that it's consistent in strength regardless of player numbers)
+  * Nerfed Universal VIP Pass Chance from 66% to 50%
+  * Fixed Nuclear Salvo VFX not being transparent
+  * Fixed Nuclear Salvo throwing an NRE in Void Fields
+  * Fixed Nuclear Salvo ignoring range check
+* Elites
+  * Added configs
+  * Fixed Osmium sphere VFX being too small
+
 # 0.9.1 Patch Notes
 * Ranger
   * Updated survivor log
@@ -24,7 +38,7 @@
   * Added Torn Feather
   * Added Millenium
     * Due to a SOTS bug, this item might not work properly half the time
-  * Added VFX for Fractured Timepiece
+  * Added VFX to Fractured Timepiece
   * Added item logs to Bleeding Witness and Ceremonial Jar
   * Buffed Sun Fragment Chance from 7% to 9%
   * Buffed Bleeding Witness Stack DoT Healing from 0.25% to 0.4%

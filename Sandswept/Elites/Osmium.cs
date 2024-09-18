@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace Sandswept.Elites
 {
+    [ConfigSection("Elites :: Motivating")]
     internal class Osmium : EliteEquipmentBase<Osmium>
     {
         public override string EliteEquipmentName => "Artificial Void";
@@ -14,7 +15,7 @@ namespace Sandswept.Elites
 
         public override string EliteEquipmentPickupDesc => "Become an aspect of singularity.";
 
-        public override string EliteEquipmentFullDescription => "Become an aspect of singularity.";
+        public override string EliteEquipmentFullDescription => "Become an aspect of singularity. https://www.youtube.com/watch?v=3yd4myHf81E";
 
         public override string EliteEquipmentLore => "";
 
@@ -43,6 +44,27 @@ namespace Sandswept.Elites
         public static BuffDef noJump;
         public static GameObject groundVFX;
         public static GameObject distortionVFX;
+
+        [ConfigField("Outside Damage Taken Multiplier", "Decimal.", 0.15f)]
+        public static float outsideDamageTakenMultiplier;
+
+        [ConfigField("Player Outside Damage Taken Multiplier", "Only works if a player has the aspect. Decimal.", 0.75f)]
+        public static float playerOutsideDamageTakenMultiplier;
+
+        [ConfigField("Outside Proc Coefficient Multiplier", "Decimal.", 0.5f)]
+        public static float outsideProcCoefficientMultiplier;
+
+        [ConfigField("Inside Damage Taken Multiplier", "Decimal.", 1.33f)]
+        public static float insideDamageTakenMultiplier;
+
+        [ConfigField("Minimum Aura Radius", "Scales with Base Max Health.", 13f)]
+        public static float minimumAuraRadius;
+
+        [ConfigField("Maximum Aura Radius", "Scales with Base Max Health.", 40f)]
+        public static float maximumAuraRadius;
+
+        [ConfigField("Aura Grounding Interval", "", 1.25f)]
+        public static float auraGroundingInterval;
 
         public override void Init(ConfigFile config)
         {
@@ -291,18 +313,18 @@ namespace Sandswept.Elites
                             {
                                 if (victimBody.isPlayerControlled)
                                 {
-                                    damageInfo.damage *= 0.75f;
+                                    damageInfo.damage *= playerOutsideDamageTakenMultiplier;
                                 }
                                 else
                                 {
-                                    damageInfo.damage *= 0.15f;
+                                    damageInfo.damage *= outsideDamageTakenMultiplier;
                                 }
 
-                                damageInfo.procCoefficient *= 0.5f;
+                                damageInfo.procCoefficient *= outsideProcCoefficientMultiplier;
                             }
                             else if (attackerBody.HasBuff(insideAura))
                             {
-                                damageInfo.damage *= 1.33f;
+                                damageInfo.damage *= insideDamageTakenMultiplier;
                             }
                         }
                     }
@@ -384,20 +406,31 @@ namespace Sandswept.Elites
         public GameObject wardInstance;
         public Vector3 pullDownStrength = new(0f, -30f, 0f);
         public float timer;
-        public float pullDownInterval = 1.25f;
+        public float pullDownInterval = Osmium.auraGroundingInterval;
         public Vector3 myPosition;
         public float radius;
-        public Transform model;
 
         public void Start()
         {
             healthComponent = GetComponent<HealthComponent>();
             body = healthComponent.body;
-            model = body.modelLocator?.modelTransform;
-            radius = Util.Remap(body.baseMaxHealth, 0f, 1125, 13f, 40f);
-            wardInstance = Instantiate(Osmium.aura, model);
+            radius = Util.Remap(body.baseMaxHealth, 0f, 1125, Osmium.minimumAuraRadius, Osmium.maximumAuraRadius);
+            wardInstance = Instantiate(Osmium.aura, body.transform);
             wardInstance.GetComponent<BuffWard>().Networkradius = radius;
             wardInstance.GetComponent<TeamFilter>().teamIndex = TeamIndex.None;
+            wardInstance.transform.Find("AreaIndicator/Sphere").localScale = Vector3.one * 2f;
+            /*
+            var sphere = wardInstance.transform.Find("AreaIndicator/Sphere");
+            var modelScale = model.localScale;
+            Vector3 idealModelScale = Vector3.one * 2f;
+
+            if (modelScale.sqrMagnitude <= idealModelScale.sqrMagnitude)
+            {
+                idealModelScale -= modelScale;
+            }
+
+            sphere.localScale = Vector3.Scale(sphere.localScale, idealModelScale);
+            */
             NetworkServer.Spawn(wardInstance);
         }
 
@@ -413,7 +446,7 @@ namespace Sandswept.Elites
             {
                 wardInstance.transform.localPosition = Vector3.zero;
                 wardInstance.transform.localEulerAngles = Vector3.zero;
-                wardInstance.transform.position = model.position;
+                wardInstance.transform.position = body.transform.position;
                 wardInstance.transform.eulerAngles = Vector3.zero;
                 // I HATE THIS WHY DOES IT GET OFFSET OVER TIME
             }

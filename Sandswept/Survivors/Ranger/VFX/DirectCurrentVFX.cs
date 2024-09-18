@@ -63,7 +63,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             ghostPrefabSandswept = CreateGhostRecolor("Sandswept", new Color32(249, 197, 143, 255), new Color32(214, 159, 79, 255), new Color32(87, 87, 87, 255));
 
-            impactPrefabMajor = CreateImpactRecolor("Sandswept", new Color32(17, 17, 17, 255), new Color32(214, 159, 79, 255), new Color32(249, 197, 143, 255),
+            impactPrefabSandswept = CreateImpactRecolor("Sandswept", new Color32(17, 17, 17, 255), new Color32(214, 159, 79, 255), new Color32(249, 197, 143, 255),
                 new Color32(214, 159, 79, 255), new Color32(59, 45, 23, 255), new Color32(150, 150, 150, 255), new Color32(249, 197, 143, 255), new Color32(87, 87, 87, 255),
                 new Color32(150, 150, 150, 255), new Color32(150, 150, 150, 255), new Color32(255, 255, 255, 255), new Color32(100, 70, 36, 255),
                 new Color32(59, 45, 23, 255), new Color32(214, 159, 79, 255), new Color32(249, 197, 143, 255));

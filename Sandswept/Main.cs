@@ -42,12 +42,13 @@ namespace Sandswept
     [BepInDependency(RecalculateStatsAPI.PluginGUID, RecalculateStatsAPI.PluginVersion)]
     [BepInDependency(R2APIContentManager.PluginGUID, R2APIContentManager.PluginVersion)]
     [BepInDependency(NetworkingAPI.PluginGUID, NetworkingAPI.PluginVersion)]
+    [BepInDependency(DirectorAPI.PluginGUID, DirectorAPI.PluginVersion)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
     {
         public const string ModGuid = "com.TeamSandswept.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVer = "0.9.1";
+        public const string ModVer = "0.9.2";
 
         public static AssetBundle MainAssets;
         public static AssetBundle Assets;

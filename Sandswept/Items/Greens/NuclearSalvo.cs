@@ -103,9 +103,10 @@ namespace Sandswept.Items.Greens
             var swipe = particles.transform.GetChild(0).GetComponent<ParticleSystemRenderer>();
 
             var newMat = Object.Instantiate(Paths.Material.matImpSwipe);
-            newMat.SetTexture("_RemapTex", Paths.Texture2D.texRampAntler);
-            newMat.SetFloat("_Boost", 6.8f);
+            newMat.SetTexture("_RemapTex", Paths.Texture2D.texRampArchWisp);
+            newMat.SetFloat("_Boost", 9f);
             newMat.SetFloat("_AlphaBoost", 1.44f);
+            newMat.SetFloat("_AlphaBias", 0.6f);
             newMat.SetColor("_TintColor", new Color32(1, 13, 0, 255));
 
             var newMat2 = Object.Instantiate(Paths.Material.matImpSwipe);
@@ -416,9 +417,12 @@ namespace Sandswept.Items.Greens
 
             if (enemyCheckTimer >= enemyCheckInterval)
             {
+                shouldFire = false;
+
                 if (!body)
                 {
                     body = master.GetBody();
+                    return;
                 }
 
                 var sphereSearch = new SphereSearch()
@@ -441,18 +445,18 @@ namespace Sandswept.Items.Greens
                         continue;
                     }
 
-                    var body = hc.body;
-                    if (!body)
+                    var enemyBody = hc.body;
+                    if (!enemyBody)
                     {
                         continue;
                     }
 
-                    if (!body.teamComponent)
+                    if (!enemyBody.teamComponent)
                     {
                         continue;
                     }
 
-                    if (body.teamComponent.teamIndex == TeamIndex.Player)
+                    if (enemyBody.teamComponent.teamIndex == TeamIndex.Player)
                     {
                         continue;
                     }

@@ -23,7 +23,7 @@ namespace Sandswept.Items.Greens
 
         public override bool nonstandardScaleModel => true;
 
-        [ConfigField("Chance", "", 66f)]
+        [ConfigField("Chance", "", 50f)]
         public static float chance;
 
         [ConfigField("Base Extra Items", "", 1)]
@@ -104,7 +104,8 @@ namespace Sandswept.Items.Greens
                         if (interactorBody)
                         {
                             var stack = GetCount(interactorBody);
-                            if (stack > 0 && Util.CheckRoll(chance))
+                            var scale = 0.5f + Run.instance.participatingPlayerCount * 0.5f;
+                            if (stack > 0 && Util.CheckRoll(chance / scale))
                             {
                                 var isCategoryChestFinal = interactableObject.name.ToLower().Contains("category") || isCategoryChest;
                                 if (isCategoryChestFinal)
