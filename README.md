@@ -47,7 +47,7 @@
 |<img src="https://i.postimg.cc/gcvrKYNH/tex-Sacrificial-Band.png" width="96"/> | **Sacrificial Band** | Hits that deal more than 400% damage also inflict 1 (+1 per stack) bleeds on enemies for each 110% of skill damage. Recharges every 10 seconds. | Green |
 |<img src="https://i.postimg.cc/QtFVs3R3/Document-Icon.png" width="96"/> | **Smouldering Document** | 5% chance to ignite enemies on hit for 250% TOTAL damage. Damage over time effects burden enemies, reducing their damage by 12.5% (+12.5% per stack, hyperbolic) and attack speed by 12.5% (+12.5% per stack, hyperbolic). | Green |
 |<img src="https://i.postimg.cc/LXcqFPFd/tex-Sun-Fragment.png" width="96"/> | **Sun Fragment** | 9% chance on hit to create a blinding flash in a 12m area, stunning for 1.5s and igniting enemies for 150% (+150% per stack) TOTAL damage. | Green |
-|<img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"/> | **Universal VIP Pass** | Category chests have a 66% chance of dropping 1 (+1 per stack) extra items. | Green |
+|<img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"/> | **Universal VIP Pass** | Category chests have a 50% chance of dropping 1 (+1 per stack) extra items. | Green |
 | ‎ | ‎ | ‎ |
 |<img src="https://i.postimg.cc/L625CrWK/tex-Millenium.png" width="96"/> | **Millenium** | 7% chance on hit to create a tidal cataclysm in a 12m (+4m per stack) area, collapsing and grounding enemies for 400% base damage. Corrupts all Sun Fragments. | Void Green |
 | ‎ | ‎ | ‎ |
