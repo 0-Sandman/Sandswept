@@ -1,6 +1,9 @@
 # 0.9.2 Patch Notes
 * Ranger
   * Fixed Major skin having the wrong VFX
+  * Fixed Ranger having too slow of a walk animation and too fast of a sprint animation
+  * Moved Rangers crosshair up
+  * Modified Rangers crosshair visual
 * Items
   * Added VFX & SFX to Sacrificial Band
   * Nerfed Universal VIP Pass to scale chance with player count (so that it's consistent in strength regardless of player numbers)
@@ -8,8 +11,6 @@
   * Fixed Nuclear Salvo VFX not being transparent
   * Fixed Nuclear Salvo throwing an NRE in Void Fields
   * Fixed Nuclear Salvo ignoring range check
-  * Fixed Ranger having too slow of a walk animation and too fast of a sprint animation
-  * Fixed Ranger crosshair being too low
 * Elites
   * Added configs
   * Fixed Osmium sphere VFX being too small
