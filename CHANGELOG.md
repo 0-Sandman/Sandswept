@@ -1,3 +1,7 @@
+# 0.9.3 Patch Notes
+* Items
+  * Fixed Nuclear Salvo???
+
 # 0.9.2 Patch Notes
 * Ranger
   * Fixed Major skin having the wrong VFX
