@@ -23,7 +23,7 @@ namespace Sandswept.Items.Greens
 
         public override bool nonstandardScaleModel => true;
 
-        [ConfigField("Chance", "", 50f)]
+        [ConfigField("Chance", "", 45f)]
         public static float chance;
 
         [ConfigField("Base Extra Items", "", 1)]
