@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Sandswept.Elites
 {
-    [ConfigSection("Elites :: Motivating")]
+    [ConfigSection("Elites :: Osmium")]
     internal class Osmium : EliteEquipmentBase<Osmium>
     {
         public override string EliteEquipmentName => "Artificial Void";
