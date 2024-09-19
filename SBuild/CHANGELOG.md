@@ -1,17 +1,48 @@
+# 0.9.2 Patch Notes
+* Ranger
+  * Fixed Major skin having the wrong VFX
+  * Fixed Ranger having too slow of a walk animation and too fast of a sprint animation
+  * Moved Rangers crosshair up
+  * Modified Rangers crosshair visual
+* Items
+  * Added VFX & SFX to Sacrificial Band
+  * Nerfed Universal VIP Pass to scale chance with player count (so that it's consistent in strength regardless of player numbers)
+  * Nerfed Universal VIP Pass Chance from 66% to 45%
+  * Fixed Nuclear Salvo VFX not being transparent
+  * Fixed Nuclear Salvo throwing an NRE in Void Fields
+  * Fixed Nuclear Salvo ignoring range check
+* Elites
+  * Added configs
+  * Fixed Osmium sphere VFX being too small
+
+# 0.9.1 Patch Notes
+* Ranger
+  * Updated survivor log
+  * Updated escape & vanish quotes
+* Items
+  * Added item log to Crown's Diamond, Sacrificial Band, Universal VIP Pass and Torn Feather
+  * Added buff icons to Sacrificial Band
+  * Buffed Crown's Diamond Barrier Gain 15% => 20%
+  * Nerfed Universal VIP Pass Chance from 75% to 66%
+  * Updated all logs
+  * Fixed Smouldering Document throwing another NRE, hopefully (I love when NULLABLE values need a value)
+* Equipment
+  * Added equipment log to The Sand Sweeper
+
 # 0.9.0 Patch Notes
 * Ranger
   * Added survivor log
   * Reworked animations, rig, IK, FK, etc
   * Fixed skins not showing changes in the lobby
-  * Due to a SOTS bug, her overdrive overlay doesn't disappear
+  * Due to a SOTS bug, her overdrive overlay will be temporarily disabled until we get a proper fix
 * Items
   * Added Crown's Diamond
   * Added Sacrificial Band
   * Added Torn Feather
   * Added Millenium
     * Due to a SOTS bug, this item might not work properly half the time
-  * Added VFX for Fractured Timepiece
-  * Added item logs for Bleeding Witness and Ceremonial Jar
+  * Added VFX to Fractured Timepiece
+  * Added item logs to Bleeding Witness and Ceremonial Jar
   * Buffed Sun Fragment Chance from 7% to 9%
   * Buffed Bleeding Witness Stack DoT Healing from 0.25% to 0.4%
   * Buffed Ceremonial Jar Stack Damage from 750% to 1500%
@@ -35,7 +66,7 @@
 
 # 0.8.1 Patch Notes
 * Items
-  * Added item logs for Smouldering Document and Sun Fragment
+  * Added item logs to Smouldering Document and Sun Fragment
   * Added sound to Sun Fragment proc
   * Buffed Amber Knife Base Damage from 120% to 140%
   * Buffed Amber Knife Stack Damage from 120% to 140%

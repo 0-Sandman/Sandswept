@@ -1,6 +1,6 @@
 {
     "name": "Sandswept",
-    "version_number": "0.9.0",
+    "version_number": "0.9.1",
     "website_url": "https://github.com/0-Sandman/Sandswept/",
     "description": "A work in progress mod that aims to add a variety of unique and high quality content to the game.",
     "dependencies": [
@@ -14,6 +14,7 @@
 		"RiskofThunder-R2API_Language-1.0.1",
 		"RiskofThunder-R2API_RecalculateStats-1.4.0",
 		"RiskofThunder-R2API_ContentManagement-1.0.6",
-		"RiskofThunder-R2API_Networking-1.0.2"
+		"RiskofThunder-R2API_Networking-1.0.2",
+		"RiskofThunder-R2API_Director-2.2.1"
     ]
 }

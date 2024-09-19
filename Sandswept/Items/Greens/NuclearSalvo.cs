@@ -405,6 +405,11 @@ namespace Sandswept.Items.Greens
 
         public void FixedUpdate()
         {
+            if (!master || !master.inventory)
+            {
+                return;
+            }
+
             stopwatch -= Time.fixedDeltaTime;
             enemyCheckTimer += Time.fixedDeltaTime;
 
