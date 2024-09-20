@@ -6,7 +6,7 @@ namespace Sandswept.Buffs
 {
     public class Charge : BuffBase<Charge>
     {
-        public override string BuffName => "Charge - 0.25 hp/s Regen Per, 10% Base Damage Amp in Full Heat Per";
+        public override string BuffName => "Charge - 0.25 hp/s Regen and 1.5 Armor Per, 10% Base Damage Amp in Full Heat Per";
 
         public override Color Color => new Color32(45, 188, 148, 255);
 
@@ -26,6 +26,7 @@ namespace Sandswept.Buffs
             {
                 var levelScale = 0.25f * 0.2f * (body.level - 1);
                 args.baseRegenAdd += (0.25f + levelScale) * body.GetBuffCount(BuffDef);
+                args.armorAdd += 1.5f * body.GetBuffCount(BuffDef);
             }
         }
 

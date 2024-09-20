@@ -200,7 +200,7 @@ namespace Sandswept.Items.VoidGreens
         {
             foreach (BlastAttack.HitPoint hitPoint in result.hitPoints)
             {
-                if (hitPoint.hurtBox && hitPoint.hurtBox.healthComponent)
+                if (hitPoint.hurtBox && hitPoint.hurtBox.healthComponent && damageInfo.attacker)
                 {
                     yield return new WaitForSeconds(0.03f);
                     var collapse = DotController.GetDotDef(DotController.DotIndex.Fracture);
