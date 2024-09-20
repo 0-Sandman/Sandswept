@@ -30,8 +30,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Reference Include="CustomEmotesAPI">
+	    <HintPath>..\libs\CustomEmotesAPI.dll</HintPath>
+	  </Reference>
 	  <Reference Include="Decalicious">
-	    <HintPath>P:\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\Decalicious.dll</HintPath>
+	    <HintPath>..\libs\Decalicious.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 </Project>

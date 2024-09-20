@@ -19434,6 +19434,7 @@ namespace Sandswept.Utils.Assets {
     }
     public static class Sprite {
        public static UnityEngine.Sprite texBasicArrowRight => Addressables.LoadAssetAsync<UnityEngine.Sprite>("RoR2/Base/UI/texBasicArrowRight.asset").WaitForCompletion();
+        public static UnityEngine.Sprite texUnlockIconSprite => Addressables.LoadAssetAsync<UnityEngine.Sprite>("RoR2/Base/Common/MiscIcons/texUnlockIcon.png").WaitForCompletion();
     }
     public static class UILayer {
        public static RoR2.UILayer uiDevCheatMenu => Addressables.LoadAssetAsync<RoR2.UILayer>("RoR2/Base/UI/uiDevCheatMenu.asset").WaitForCompletion();

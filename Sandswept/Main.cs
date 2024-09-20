@@ -43,6 +43,7 @@ namespace Sandswept
     [BepInDependency(R2APIContentManager.PluginGUID, R2APIContentManager.PluginVersion)]
     [BepInDependency(NetworkingAPI.PluginGUID, NetworkingAPI.PluginVersion)]
     [BepInDependency(DirectorAPI.PluginGUID, DirectorAPI.PluginVersion)]
+    [BepInDependency("com.weliveinasociety.CustomEmotesAPI",BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
     {
@@ -54,10 +55,12 @@ namespace Sandswept
         public static AssetBundle Assets;
         public static AssetBundle prodAssets;
         public static AssetBundle hifuSandswept;
+        public static AssetBundle dgoslingAssets;
 
         public static ModdedDamageType HeatSelfDamage = ReserveDamageType();
 
         public static ExpansionDef SOTV;
+        public static ExpansionDef SSDef;
 
         public static Dictionary<string, string> ShaderLookup = new()
     {
@@ -96,7 +99,7 @@ namespace Sandswept
             var stopwatch = Stopwatch.StartNew();
 
             SOTV = Utils.Assets.ExpansionDef.DLC1;
-
+            
             ModLogger = Logger;
 
             config = Config;
@@ -116,7 +119,8 @@ namespace Sandswept
             Assets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweptassets2"));
             prodAssets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // MFS I SAID MERGE INTO OTHER ASSETS
             hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
-
+            dgoslingAssets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "dgoslingstuff"));
+            GenerateExpensionDef();
             RangerPod.Init();
             Ranger.Init();
 
@@ -127,7 +131,12 @@ namespace Sandswept
             DirectCurrent.Init();
             ChargeGain.Init();
             // Based.Init();
-
+            
+            if (Utils.CustomEmoteAPICheck.enabled)
+            {
+                On.RoR2.SurvivorCatalog.Init += CustomEmoteAPICheck.SurvivorCatalog_Init;
+                EmotesAPI.CustomEmotesAPI.animChanged += CustomEmoteAPICheck.CustomEmotesAPI_animChanged;
+            }
             AutoRunCollector.HandleAutoRun();
             ConfigManager.HandleConfigAttributes(Assembly.GetExecutingAssembly(), Config);
 
@@ -221,6 +230,17 @@ namespace Sandswept
             ModLogger.LogDebug("Initialized mod in " + stopwatch.ElapsedMilliseconds + "ms");
 
             // On.RoR2.Networking.NetworkManagerSystemSteam.OnClientConnect += (s, u, t) => { }; // for having multiple instances of the game at once - mp testing, make sure to comment out before release
+        }
+
+
+        public void GenerateExpensionDef()
+        {
+            SSDef = dgoslingAssets.LoadAsset<ExpansionDef>("SandSweptExpDef");
+            SSDef.nameToken.Add(ModName);
+            SSDef.descriptionToken.Add("Temp Desc");
+            SSDef.disabledIconSprite = Utils.Assets.Sprite.texUnlockIconSprite;
+
+            ContentAddition.AddExpansionDef(SSDef);
         }
 
         internal static void ScanTypes<T>(Action<T> action)
