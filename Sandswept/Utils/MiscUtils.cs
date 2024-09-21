@@ -206,5 +206,17 @@ namespace Sandswept.Utils
 
             return SurfaceAlignmentInfo;
         }
+
+        public static FireProjectileInfo GetProjectile(GameObject prefab, float coeff, CharacterBody owner) {
+            FireProjectileInfo info = new();
+            info.damage = owner.damage * coeff;
+            info.crit = owner.RollCrit();
+            info.projectilePrefab = prefab;
+            info.owner = owner.gameObject;
+            info.position = owner.corePosition;
+            info.rotation = Util.QuaternionSafeLookRotation(owner.inputBank.aimDirection);
+            
+            return info;
+        }
     }
 }

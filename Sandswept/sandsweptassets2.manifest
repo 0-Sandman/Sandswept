@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 854809322
+CRC: 2345741228
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: f5c00de7f1810a565235c127eceb3614
+    Hash: 66ba6720f0d393ef5c1995f9e5940056
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 202247e4247d26b9259124e33536a778
+    Hash: d733e39bd4f6d17ed40ca799aeaeb9f1
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -37,6 +37,10 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 95
   Script: {instanceID: 0}
+- Class: 96
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
 - Class: 114
   Script: {fileID: 1143142494, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -65,6 +69,8 @@ ClassTypes:
   Script: {fileID: -226763392, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 802132372, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1080798252, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1297580292, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -102,6 +108,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -317677761, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: -1515867781, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: -1819008361, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1839950351, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
@@ -129,7 +137,13 @@ ClassTypes:
   Script: {fileID: -1624506055, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
   Script: {fileID: -72444995, guid: ca6fb10b837101520834a90b90b15080, type: 3}
+- Class: 114
+  Script: {fileID: 1201914036, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 115
+  Script: {instanceID: 0}
+- Class: 134
+  Script: {instanceID: 0}
+- Class: 135
   Script: {instanceID: 0}
 - Class: 136
   Script: {instanceID: 0}
@@ -171,24 +185,37 @@ SerializeReferenceClassIdentifiers:
 - AssemblyName: com.unity.multiplayer-hlapi.Runtime
   ClassName: UnityEngine.Networking.NetworkSceneId
 Assets:
+- Assets/Sandswept/Base/Characters/Electrician/ElectricianBody.prefab
+- Assets/Sandswept/Base/Characters/Electrician/sdElectrician.asset
 - Assets/Sandswept/Base/Characters/Ranger/texCrosshairCircle.png
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherPulse.mat
+- Assets/Sandswept/Base/Characters/Electrician/matBeeRizz.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/Blast.png
 - Assets/Sandswept/Base/Characters/Ranger/sdRanger.asset
-- Assets/Sandswept/Base/Characters/Ranger/skills/OverheatPrimary.png
+- Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvSpark.mat
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherPink.mat
+- Assets/Sandswept/Base/Characters/Ranger/skills/OverheatPrimary.png
+- Assets/Sandswept/Base/Characters/Electrician/projectiles/tempest sphere/myFuckingBalls.mat
+- Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvanicBall.mat
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherBlue.mat
-- Assets/Sandswept/Base/Characters/Ranger/mdl/matRanger.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/Dash.png
 - Assets/Sandswept/Base/Characters/Ranger/Skindefault.asset
 - Assets/Sandswept/Base/Characters/Ranger/RangerBody.prefab
+- Assets/Sandswept/Base/Characters/Electrician/projectiles/tempest sphere/matSparkPuff.mat
 - Assets/Sandswept/Base/Items/TornFeather/ActiveIndicatorParticles.prefab
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherParticle.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/Overheat.png
+- Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallGhost.prefab
 - Assets/Sandswept/Base/Characters/Ranger/OverlayRanger.prefab
-- Assets/Sandswept/Base/Items/NuclearSalvo/Missile.prefab
+- Assets/Sandswept/Base/Characters/Electrician/projectiles/tempest sphere/inYoJaws.mat
 - Assets/Sandswept/Base/Characters/Ranger/CrosshairRanger.prefab
+- Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvSparkFlare.mat
 - Assets/Sandswept/Base/Items/NuclearSalvo/SalvoBehaviour.prefab
+- Assets/Sandswept/Base/Items/NuclearSalvo/Missile.prefab
+- Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvOverlay.mat
+- Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallProjectile.prefab
+- Assets/Sandswept/Base/Characters/Ranger/mdl/matRanger.mat
+- Assets/Sandswept/Base/Characters/Electrician/projectiles/tempest sphere/TempestSphereProjectile.prefab
 - Assets/Sandswept/Base/Items/TornFeather/DashTrailEffect.prefab
 - Assets/Sandswept/Base/Characters/Ranger/RangerIDRS.asset
 - Assets/Sandswept/Base/Characters/Ranger/skills/Pew.png

@@ -7,6 +7,10 @@ namespace Sandswept.Survivors
     {
         public static T instance;
 
+        public static implicit operator SkillDef(SkillBase<T> skill) {
+            return skill.skillDef;
+        }
+
         public SkillBase()
         {
             instance = this as T;

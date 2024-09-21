@@ -132,11 +132,7 @@ namespace Sandswept
             ChargeGain.Init();
             // Based.Init();
             
-            if (Utils.CustomEmoteAPICheck.enabled)
-            {
-                On.RoR2.SurvivorCatalog.Init += CustomEmoteAPICheck.SurvivorCatalog_Init;
-                EmotesAPI.CustomEmotesAPI.animChanged += CustomEmoteAPICheck.CustomEmotesAPI_animChanged;
-            }
+            
             AutoRunCollector.HandleAutoRun();
             ConfigManager.HandleConfigAttributes(Assembly.GetExecutingAssembly(), Config);
 
@@ -146,6 +142,12 @@ namespace Sandswept
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Sandswept.sandsweptassets"))
             {
                 MainAssets = AssetBundle.LoadFromStream(stream);
+            }
+
+            if (Utils.CustomEmoteAPICheck.enabled)
+            {
+                On.RoR2.SurvivorCatalog.Init += CustomEmoteAPICheck.SurvivorCatalog_Init;
+                EmotesAPI.CustomEmotesAPI.animChanged += CustomEmoteAPICheck.CustomEmotesAPI_animChanged;
             }
 
             SwapAllShaders(MainAssets);
