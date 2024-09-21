@@ -58,7 +58,7 @@ namespace Sandswept.Items.Whites
                         return;
                     }
 
-                    var chance = MathHelpers.InverseHyperbolicScaling(baseChance, stackChance, 1f, stack);
+                    var chance = MathHelpers.InverseHyperbolicScaling(baseChance, stackChance, 1f, stack) * 100f;
 
                     if (!Util.CheckRoll(chance))
                     {
@@ -72,6 +72,18 @@ namespace Sandswept.Items.Whites
                     }
 
                     teleporterInteraction.AddShrineStack();
+                    Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage
+                    {
+                        subjectAsCharacterBody = interactorBody,
+                        baseToken = "SHRINE_BOSS_USE_MESSAGE"
+                    });
+                    EffectManager.SpawnEffect(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/ShrineUseEffect"), new EffectData
+                    {
+                        origin = interactorBody.transform.position,
+                        rotation = Quaternion.identity,
+                        scale = 1f,
+                        color = new Color(0.7372549f, 0.90588236f, 0.94509804f)
+                    }, true);
                 }
             }
         }
