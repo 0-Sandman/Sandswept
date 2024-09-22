@@ -28,7 +28,7 @@ namespace Sandswept.Survivors.Ranger.Projectiles
             projectileImpactExplosion.enabled = false;
 
             var projectileProximityBeamController = prefabDefault.GetComponent<ProjectileProximityBeamController>();
-            projectileProximityBeamController.attackInterval = 0.04f;
+            projectileProximityBeamController.attackInterval = 0.5f;
             projectileProximityBeamController.listClearInterval = 0.5f;
             projectileProximityBeamController.procCoefficient = 0.5f;
             projectileProximityBeamController.damageCoefficient = 0.5f;
