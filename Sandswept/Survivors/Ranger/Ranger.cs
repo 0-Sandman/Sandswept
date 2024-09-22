@@ -220,6 +220,7 @@ namespace Sandswept.Survivors.Ranger
             ContentAddition.AddEntityState(typeof(OverdriveExitHeatSink), out _);
             ContentAddition.AddEntityState(typeof(Release), out _);
             ContentAddition.AddEntityState(typeof(Sidestep), out _);
+            ContentAddition.AddEntityState(typeof(Galvanize), out _);
         }
 
         public SkinDef CreateRecolor(string skinName, float emissionValue = 2.5f, UnlockableDef unlockableDef = null)
