@@ -1,16 +1,20 @@
 using System;
 
-namespace Sandswept.Survivors.Electrician.States {
-    public class GalvanicBolt : BaseSkillState {
+namespace Sandswept.Survivors.Electrician.States.Primary
+{
+    public class GalvanicBolt : BaseSkillState
+    {
         public float duration = 1.1f;
+
         public override void OnEnter()
         {
             base.OnEnter();
 
-            duration /= base.attackSpeedStat;
+            duration /= attackSpeedStat;
 
-            if (base.isAuthority) {
-                FireProjectileInfo info = MiscUtils.GetProjectile(Electrician.GalvanicBolt, 2f, base.characterBody);
+            if (isAuthority)
+            {
+                FireProjectileInfo info = MiscUtils.GetProjectile(Electrician.GalvanicBolt, 2f, characterBody);
                 ProjectileManager.instance.FireProjectile(info);
             }
         }
@@ -19,7 +23,8 @@ namespace Sandswept.Survivors.Electrician.States {
         {
             base.FixedUpdate();
 
-            if (base.fixedAge >= duration) {
+            if (fixedAge >= duration)
+            {
                 outer.SetNextStateToMain();
             }
         }

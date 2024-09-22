@@ -129,6 +129,7 @@ namespace Sandswept
             Eclipse8.Init();
 
             DirectCurrent.Init();
+            TheFuckingBFG.Init();
             ChargeGain.Init();
             // Based.Init();
 
@@ -236,10 +237,11 @@ namespace Sandswept
         public void GenerateExpensionDef()
         {
             SSDef = dgoslingAssets.LoadAsset<ExpansionDef>("SandSweptExpDef");
-            SSDef.nameToken.Add(ModName);
-            SSDef.descriptionToken.Add("Temp Desc");
+            SSDef.nameToken.Add("SANDSWEPT_EXPANSION_NAME");
+            SSDef.descriptionToken.Add("SANDSWEPT_EXPANSION_DESCRIPTION");
+            "SANDSWEPT_EXPANSION_NAME".Add("Sandswept");
+            "SANDSWEPT_EXPANSION_DESC".Add("Adds content from the 'Sandswept' expansion to the game <3.");
             SSDef.disabledIconSprite = Utils.Assets.Sprite.texUnlockIconSprite;
-
             ContentAddition.AddExpansionDef(SSDef);
         }
 

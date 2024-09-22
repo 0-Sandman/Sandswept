@@ -1,7 +1,6 @@
 using System;
-using Sandswept.Survivors;
 
-namespace Sandswept.Survivors.Ranger.Skilldefs
+namespace Sandswept.Survivors.Ranger.SkillDefs.Special
 {
     public class OverdriveEnter : SkillBase<OverdriveEnter>
     {
@@ -9,7 +8,7 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
 
         public override string Description => "<style=cIsUtility>Agile</style>. <style=cIsDamage>Transform your rifle</style>, replacing all of your skills with <style=cIsDamage>scorching forms</style>. <color=#36D7A9>Charge</color> amplifies <style=cIsDamage>base damage gain</style> while in full heat.";
 
-        public override Type ActivationStateType => typeof(States.OverdriveEnter);
+        public override Type ActivationStateType => typeof(States.Special.OverdriveEnter);
 
         public override string ActivationMachineName => "Overdrive";
 

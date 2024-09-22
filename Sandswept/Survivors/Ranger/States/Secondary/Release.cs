@@ -1,7 +1,7 @@
 using Sandswept.Survivors.Ranger.Projectiles;
 using Sandswept.Survivors.Ranger.VFX;
 
-namespace Sandswept.Survivors.Ranger.States
+namespace Sandswept.Survivors.Ranger.States.Secondary
 {
     public class Release : BaseState
     {
@@ -114,7 +114,7 @@ namespace Sandswept.Survivors.Ranger.States
                 {
                     aimVector = aimDirection,
                     falloffModel = BulletAttack.FalloffModel.None,
-                    damage = damageStat * Util.Remap(buffCount, 0, Projectiles.DirectCurrent.maxCharge, DamageCoefficient, MaxDamageCoefficient),
+                    damage = damageStat * Util.Remap(buffCount, 0, DirectCurrent.maxCharge, DamageCoefficient, MaxDamageCoefficient),
                     isCrit = RollCrit(),
                     minSpread = 0,
                     maxSpread = 0,
@@ -138,7 +138,7 @@ namespace Sandswept.Survivors.Ranger.States
                 attack.Fire();
             }
 
-            characterBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Max(0, buffCount - Projectiles.DirectCurrent.maxCharge));
+            characterBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Max(0, buffCount - DirectCurrent.maxCharge));
         }
     }
 }

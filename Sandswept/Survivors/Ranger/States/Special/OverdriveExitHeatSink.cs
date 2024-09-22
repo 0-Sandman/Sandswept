@@ -1,4 +1,4 @@
-﻿namespace Sandswept.Survivors.Ranger.States
+﻿namespace Sandswept.Survivors.Ranger.States.Special
 {
     public class OverdriveExitHeatSink : BaseState
     {

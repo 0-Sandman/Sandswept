@@ -2,7 +2,7 @@ using RoR2.UI;
 using RoR2.HudOverlay;
 using UnityEngine.UI;
 using Sandswept.Buffs;
-using Sandswept.Survivors.Ranger.States;
+using Sandswept.Survivors.Ranger.States.Special;
 
 namespace Sandswept.Survivors.Ranger
 {

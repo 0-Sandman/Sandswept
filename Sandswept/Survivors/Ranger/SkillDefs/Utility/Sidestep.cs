@@ -1,9 +1,7 @@
 using JetBrains.Annotations;
-using Sandswept.Skills.Ranger;
-using Sandswept.Survivors;
 using System;
 
-namespace Sandswept.Survivors.Ranger.Skilldefs
+namespace Sandswept.Survivors.Ranger.SkillDefs.Utility
 {
     public class Sidestep : SkillBase<Sidestep>
     {
@@ -11,7 +9,7 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
 
         public override string Description => "$suAgile$se. Quickly $susidestep$se a short distance. Getting hit during Sidestep generates $rc5 Charge$ec.".AutoFormat();
 
-        public override Type ActivationStateType => typeof(States.Sidestep);
+        public override Type ActivationStateType => typeof(States.Utility.Sidestep);
 
         public override string ActivationMachineName => "Dash";
 

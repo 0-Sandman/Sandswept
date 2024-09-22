@@ -1,8 +1,6 @@
 using System;
-using Sandswept.Survivors;
-using Sandswept.Survivors.Ranger.States;
 
-namespace Sandswept.Survivors.Ranger.Skilldefs
+namespace Sandswept.Survivors.Ranger.SkillDefs.Primary
 {
     public class DirectCurrent : SkillBase<DirectCurrent>
     {
@@ -10,7 +8,7 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
 
         public override string Description => "Fire an arcing electric current for $sd250% damage$se. Hitting enemies generates $rc1 Charge$ec.".AutoFormat();
 
-        public override Type ActivationStateType => typeof(States.DirectCurrent);
+        public override Type ActivationStateType => typeof(States.Primary.DirectCurrent);
 
         public override string ActivationMachineName => "Weapon";
 

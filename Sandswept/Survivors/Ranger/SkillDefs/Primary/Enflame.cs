@@ -1,7 +1,6 @@
 using System;
-using Sandswept.Survivors;
 
-namespace Sandswept.Survivors.Ranger.Skilldefs
+namespace Sandswept.Survivors.Ranger.SkillDefs.Primary
 {
     public class Enflame : SkillBase<Enflame>
     {
@@ -9,7 +8,7 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
 
         public override string Description => "$suAgile$se. Fire a rapid stream of bullets for $sd90% damage$se. $srHeat$se increases $sdignite chance$se and $srspread$se.".AutoFormat();
 
-        public override Type ActivationStateType => typeof(States.Enflame);
+        public override Type ActivationStateType => typeof(States.Primary.Enflame);
 
         public override string ActivationMachineName => "Weapon";
 

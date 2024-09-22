@@ -27,6 +27,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Interactables\Void\" />
+	  <Folder Include="Survivors\Ranger\SkillDefs\Passive\" />
 	</ItemGroup>
 
 	<ItemGroup>

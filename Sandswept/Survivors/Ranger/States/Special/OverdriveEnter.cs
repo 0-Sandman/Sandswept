@@ -1,16 +1,19 @@
 using Sandswept.Buffs;
+using Sandswept.Survivors.Ranger.SkillDefs.Primary;
+using Sandswept.Survivors.Ranger.SkillDefs.Secondary;
+using Sandswept.Survivors.Ranger.SkillDefs.Utility;
 using Sandswept.Survivors.Ranger.VFX;
 
-namespace Sandswept.Survivors.Ranger.States
+namespace Sandswept.Survivors.Ranger.States.Special
 {
     public class OverdriveEnter : BaseState
     {
-        public static SkillDef PrimarySkill => Skilldefs.Enflame.instance.skillDef;
+        public static SkillDef PrimarySkill => Enflame.instance.skillDef;
 
-        public static SkillDef SecondarySkill => Skilldefs.Exhaust.instance.skillDef;
-        public static SkillDef UtilitySkill => Skilldefs.HeatSignature.instance.skillDef;
+        public static SkillDef SecondarySkill => Exhaust.instance.skillDef;
+        public static SkillDef UtilitySkill => HeatSignature.instance.skillDef;
 
-        public static SkillDef SpecialSkill => Skilldefs.HeatSink.instance.skillDef;
+        public static SkillDef SpecialSkill => SkillDefs.Special.HeatSink.instance.skillDef;
         public RoR2.UI.CrosshairUtils.OverrideRequest crosshairRequest;
         public RangerHeatController heat;
         public Material heatMat;

@@ -1,7 +1,7 @@
 using Sandswept.Survivors.Ranger.VFX;
 using System;
 
-namespace Sandswept.Survivors.Ranger.States
+namespace Sandswept.Survivors.Ranger.States.Primary
 {
     public class Enflame : BaseState
     {
