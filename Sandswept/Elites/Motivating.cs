@@ -26,8 +26,8 @@ namespace Sandswept.Elites
 
         public override Texture2D EliteRampTexture => Main.hifuSandswept.LoadAsset<Texture2D>("texRampMotivator.png");
 
-        public override float DamageMultiplier => 2f;
-        public override float HealthMultiplier => 4f;
+        public override float DamageMultiplier => damageMultiplier;
+        public override float HealthMultiplier => healthMultiplier;
 
         public static GameObject warbanner;
 
@@ -41,6 +41,12 @@ namespace Sandswept.Elites
 
         public static BuffDef wrbnnerBuff;
         public static BuffDef warcryBuff;
+
+        [ConfigField("Damage Multiplier", "Decimal.", 2f)]
+        public static float damageMultiplier;
+
+        [ConfigField("Health Multiplier", "Decimal.", 4f)]
+        public static float healthMultiplier;
 
         [ConfigField("Passive Attack Speed Buff", "Decimal.", 0.25f)]
         public static float passiveAttackSpeedBuff;

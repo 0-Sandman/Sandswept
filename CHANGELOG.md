@@ -1,3 +1,16 @@
+# 1.0.0 Patch Notes
+* General
+  * Added Expansion icon
+* Ranger
+  * Added Emotes support
+  * Buffed Charge to also give 1.5 armor per stack
+* Items
+  * Added Drifting Perception
+  * Added Their Prominence
+  * Fixed Millenium throwing an NRE
+* Elites
+  * Added more configs
+
 # 0.9.3 Patch Notes
 * Items
   * Fixed Nuclear Salvo???

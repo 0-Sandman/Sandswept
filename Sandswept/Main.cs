@@ -43,13 +43,13 @@ namespace Sandswept
     [BepInDependency(R2APIContentManager.PluginGUID, R2APIContentManager.PluginVersion)]
     [BepInDependency(NetworkingAPI.PluginGUID, NetworkingAPI.PluginVersion)]
     [BepInDependency(DirectorAPI.PluginGUID, DirectorAPI.PluginVersion)]
-    [BepInDependency("com.weliveinasociety.CustomEmotesAPI",BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.weliveinasociety.CustomEmotesAPI", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
     {
         public const string ModGuid = "com.TeamSandswept.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVer = "0.9.3";
+        public const string ModVer = "1.0.0";
 
         public static AssetBundle MainAssets;
         public static AssetBundle Assets;
@@ -99,7 +99,7 @@ namespace Sandswept
             var stopwatch = Stopwatch.StartNew();
 
             SOTV = Utils.Assets.ExpansionDef.DLC1;
-            
+
             ModLogger = Logger;
 
             config = Config;
@@ -131,8 +131,7 @@ namespace Sandswept
             DirectCurrent.Init();
             ChargeGain.Init();
             // Based.Init();
-            
-            
+
             AutoRunCollector.HandleAutoRun();
             ConfigManager.HandleConfigAttributes(Assembly.GetExecutingAssembly(), Config);
 
@@ -233,7 +232,6 @@ namespace Sandswept
 
             // On.RoR2.Networking.NetworkManagerSystemSteam.OnClientConnect += (s, u, t) => { }; // for having multiple instances of the game at once - mp testing, make sure to comment out before release
         }
-
 
         public void GenerateExpensionDef()
         {
