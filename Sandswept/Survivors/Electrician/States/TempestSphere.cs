@@ -15,7 +15,7 @@ namespace Sandswept.Survivors.Electrician.States {
         {
             base.FixedUpdate();
 
-            if (base.fixedAge >= chargeDuration && !base.inputBank.skill2.down) {
+            if (base.fixedAge >= chargeDuration) {
                 outer.SetNextState(new TempestSphereFire());
             }
         }
@@ -29,6 +29,7 @@ namespace Sandswept.Survivors.Electrician.States {
     public class TempestSphereFire : BaseSkillState {
         public float damageCoeff = 8f;
         public float recoilTime = 0.8f;
+        public bool locked = false;
         public override void OnEnter()
         {
             base.OnEnter();
@@ -45,14 +46,28 @@ namespace Sandswept.Survivors.Electrician.States {
         {
             base.FixedUpdate();
 
-            if (base.fixedAge >= recoilTime) {
+            if (!base.inputBank.skill2.down && !locked) {
+                locked = true;
+                TempestBallController.LockAllOrbs(base.characterBody);
+            }
+
+            if (base.fixedAge >= recoilTime && !base.inputBank.skill2.down) {
                 outer.SetNextStateToMain();
+            }
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+
+            if (!locked) {
+                TempestBallController.LockAllOrbs(base.characterBody);
             }
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            return InterruptPriority.PrioritySkill;
+            return InterruptPriority.Frozen;
         }
     }
 }
