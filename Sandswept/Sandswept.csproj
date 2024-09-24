@@ -27,14 +27,15 @@
 
 	<ItemGroup>
 	  <Folder Include="Interactables\Void\" />
+	  <Folder Include="Survivors\Ranger\SkillDefs\Passive\" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Reference Include="CustomEmotesAPI">
-	    <HintPath>..\libs\CustomEmotesAPI.dll</HintPath>
+	    <HintPath>..\..\..\..\..\CustomEmotesAPI.dll</HintPath>
 	  </Reference>
 	  <Reference Include="Decalicious">
-	    <HintPath>..\libs\Decalicious.dll</HintPath>
+	    <HintPath>P:\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\Decalicious.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 </Project>

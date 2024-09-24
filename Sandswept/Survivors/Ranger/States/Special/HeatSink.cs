@@ -1,7 +1,7 @@
 ﻿using Sandswept.Buffs;
 using Sandswept.Survivors.Ranger.VFX;
 
-namespace Sandswept.Survivors.Ranger.States
+namespace Sandswept.Survivors.Ranger.States.Special
 {
     public class HeatSink : BaseState
     {

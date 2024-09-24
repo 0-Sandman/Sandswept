@@ -1,7 +1,7 @@
 using Sandswept.Survivors.Ranger.VFX;
 using System.Collections;
 
-namespace Sandswept.Survivors.Ranger.States
+namespace Sandswept.Survivors.Ranger.States.Secondary
 {
     public class Exhaust : BaseState
     {

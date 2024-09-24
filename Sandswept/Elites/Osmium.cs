@@ -13,9 +13,9 @@ namespace Sandswept.Elites
 
         public override string EliteAffixToken => "OSMIUM";
 
-        public override string EliteEquipmentPickupDesc => "Become an aspect of singularity.";
+        public override string EliteEquipmentPickupDesc => "uzJ7tC6fFnk Bec'om`e a\"n as/pect o/f/ sing|ul&arity._ 3yd4myHf81E";
 
-        public override string EliteEquipmentFullDescription => "Become an aspect of singularity. https://www.youtube.com/watch?v=3yd4myHf81E";
+        public override string EliteEquipmentFullDescription => "uzJ7tC6fFnk Bec'om`e a\"n as/pect o/f/ sing|ul&arity._ 3yd4myHf81E";
 
         public override string EliteEquipmentLore => "";
 
@@ -29,8 +29,8 @@ namespace Sandswept.Elites
 
         public override Texture2D EliteRampTexture => Main.hifuSandswept.LoadAsset<Texture2D>("texRampOsmium.png");
 
-        public override float DamageMultiplier => 6f;
-        public override float HealthMultiplier => 18f;
+        public override float DamageMultiplier => damageMultiplier;
+        public override float HealthMultiplier => healthMultiplier;
 
         public static GameObject warbanner;
 
@@ -44,6 +44,12 @@ namespace Sandswept.Elites
         public static BuffDef noJump;
         public static GameObject groundVFX;
         public static GameObject distortionVFX;
+
+        [ConfigField("Damage Multiplier", "Decimal.", 6f)]
+        public static float damageMultiplier;
+
+        [ConfigField("Health Multiplier", "Decimal.", 18f)]
+        public static float healthMultiplier;
 
         [ConfigField("Outside Damage Taken Multiplier", "Decimal.", 0.15f)]
         public static float outsideDamageTakenMultiplier;

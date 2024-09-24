@@ -35,7 +35,7 @@ namespace Sandswept.Survivors.Electrician
             Master = PrefabAPI.InstantiateClone(Paths.GameObject.EngiMonsterMaster, "ElectricianMaster");
 
             SkillLocator locator = Body.GetComponent<SkillLocator>();
-            ReplaceSkills(locator.primary, new SkillDef[] { Skills.GalvanicBolt.instance });
+            ReplaceSkills(locator.primary, new SkillDef[] { SkillsDefs.Primary.GalvanicBolt.instance });
             ReplaceSkills(locator.secondary, new SkillDef[] { Skills.TempestSphere.instance });
             ReplaceSkills(locator.utility, new SkillDef[] { Skills.StaticSnare.instance });
             ReplaceSkills(locator.special, new SkillDef[] { Skills.SignalOverload.instance });

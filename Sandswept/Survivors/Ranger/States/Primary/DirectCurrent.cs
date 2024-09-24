@@ -1,6 +1,6 @@
 ﻿using Sandswept.Survivors.Ranger.VFX;
 
-namespace Sandswept.Survivors.Ranger.States
+namespace Sandswept.Survivors.Ranger.States.Primary
 {
     public class DirectCurrent : BaseState
     {

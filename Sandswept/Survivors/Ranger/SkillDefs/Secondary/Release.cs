@@ -1,8 +1,6 @@
 using System;
-using Sandswept.Skills.Ranger;
-using Sandswept.Survivors;
 
-namespace Sandswept.Survivors.Ranger.Skilldefs
+namespace Sandswept.Survivors.Ranger.SkillDefs.Secondary
 {
     public class Release : SkillBase<Release>
     {
@@ -10,7 +8,7 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
 
         public override string Description => "$rcLose all Charge$ec. Fire a piercing blast for $sd400% damage$se, increasing up to $sd1600%$se at full $rcCharge$ec.".AutoFormat();
 
-        public override Type ActivationStateType => typeof(States.Release);
+        public override Type ActivationStateType => typeof(States.Secondary.Release);
 
         public override string ActivationMachineName => "Weapon";
 

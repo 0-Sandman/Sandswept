@@ -1,8 +1,4 @@
-﻿using Sandswept.Skills.Ranger;
-using Sandswept.Survivors;
-using Sandswept.Survivors.Ranger.States;
-
-namespace Sandswept.Survivors.Ranger.Skilldefs
+﻿namespace Sandswept.Survivors.Ranger.SkillDefs.Utility
 {
     public class HeatSignature : SkillBase<HeatSignature>
     {
@@ -12,7 +8,7 @@ namespace Sandswept.Survivors.Ranger.Skilldefs
 
         // should be 3 charge no matter how many you hit
         // also the overlapattack should stop as soon as you hit someone
-        public override Type ActivationStateType => typeof(States.HeatSignature);
+        public override Type ActivationStateType => typeof(States.Utility.HeatSignature);
 
         public override string ActivationMachineName => "Dash";
 

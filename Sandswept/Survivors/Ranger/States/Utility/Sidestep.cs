@@ -1,6 +1,6 @@
 using Sandswept.Survivors.Ranger.VFX;
 
-namespace Sandswept.Survivors.Ranger.States
+namespace Sandswept.Survivors.Ranger.States.Utility
 {
     public class Sidestep : BaseState
     {

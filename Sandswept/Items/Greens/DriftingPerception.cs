@@ -22,7 +22,7 @@
         [ConfigField("Stack Crit Damage Gain", "Decimal.", 0.6f)]
         public static float stackCritDamageGain;
 
-        [ConfigField("Cloak Buff Duration", "", 7f)]
+        [ConfigField("Cloak Buff Duration", "", 6f)]
         public static float cloakBuffDuration;
 
         [ConfigField("Recharge Time", "", 25f)]
