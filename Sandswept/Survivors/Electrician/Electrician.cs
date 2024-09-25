@@ -17,6 +17,7 @@ namespace Sandswept.Survivors.Electrician
         public static GameObject GalvanicBolt;
         public static GameObject TempestSphere;
         public static GameObject StaticSnare;
+        public static DamageAPI.ModdedDamageType Grounding = DamageAPI.ReserveDamageType();
         public override void LoadAssets()
         {
             base.LoadAssets();
@@ -35,7 +36,7 @@ namespace Sandswept.Survivors.Electrician
             Master = PrefabAPI.InstantiateClone(Paths.GameObject.EngiMonsterMaster, "ElectricianMaster");
 
             SkillLocator locator = Body.GetComponent<SkillLocator>();
-            ReplaceSkills(locator.primary, new SkillDef[] { SkillsDefs.Primary.GalvanicBolt.instance });
+            ReplaceSkills(locator.primary, new SkillDef[] { Skills.GalvanicBolt.instance });
             ReplaceSkills(locator.secondary, new SkillDef[] { Skills.TempestSphere.instance });
             ReplaceSkills(locator.utility, new SkillDef[] { Skills.StaticSnare.instance });
             ReplaceSkills(locator.special, new SkillDef[] { Skills.SignalOverload.instance });
@@ -52,6 +53,36 @@ namespace Sandswept.Survivors.Electrician
 
             StaticSnare = Main.Assets.LoadAsset<GameObject>("TripwireMineProjectile.prefab");
             ContentAddition.AddProjectile(StaticSnare);
+
+            On.RoR2.HealthComponent.TakeDamage += HandleGroundingShock;
+        }
+
+        private void HandleGroundingShock(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
+        {
+            if (damageInfo.HasModdedDamageType(Grounding) && NetworkServer.active) {
+                CharacterMotor motor = self.GetComponent<CharacterMotor>();
+                RigidbodyMotor motor2 = self.GetComponent<RigidbodyMotor>();
+
+                if ((motor && !motor.isGrounded) || (motor2)) {
+                    damageInfo.damage *= 1.5f;
+                    damageInfo.damageType |= DamageType.Shock5s;
+                    damageInfo.damageColorIndex = DamageColorIndex.Luminous;
+
+                    EffectManager.SpawnEffect(Paths.GameObject.SojournExplosionVFX, new EffectData {
+                        origin = self.body.corePosition,
+                        scale = self.body.bestFitRadius
+                    }, true);
+
+                    PhysForceInfo info = default;
+                    info.massIsOne = true;
+                    info.force = Vector3.down * 40f;
+
+                    if (motor) motor.ApplyForceImpulse(in info);
+                    if (motor2) motor2.ApplyForceImpulse(in info);
+                }
+            }
+
+            orig(self, damageInfo);
         }
     }
 
