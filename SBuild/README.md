@@ -15,7 +15,7 @@
 |:-|-|------|-|
 | <img src="https://i.postimg.cc/66fDYrZC/tex-Ranger-Icon.png"  width="196"/> | **Ranger** | The Ranger is a versatile character with two distinct forms. Her base form excels at burst damage from any range using electricity, while the other is much more resource managing focused with high risk, but extremely high damage fire attacks. | She currently has 3 recolor skins, with recolored VFX for every skill and a custom pod, also recolored for every skin. |
 | ‎ | ‎ | ‎ | ‎ |
-| <img src="https://i.postimg.cc/fRqDz6fz/image.png" width="64"/> | **Passive:** Charge | Hold up to 10 Charge. Each Charge increases base health regeneration by 0.25 hp/s. Charge decays over time. | Charge decays by 2 per 6s. |
+| <img src="https://i.postimg.cc/fRqDz6fz/image.png" width="64"/> | **Passive:** Charge | Hold up to 10 Charge. Each Charge increases base health regeneration by 0.25 hp/s and armor by 1.5. Charge decays over time. | Charge decays by 1 per 3s. |
 | <img src="https://i.postimg.cc/FzvQCmNZ/image1.png" width="64"/> | **Primary:** Direct Current | Fire an arcing electric current for 250% damage. Hitting enemies generates 1 Charge. | Has no damage falloff, a blast radius of 2.5m and a proc coefficient of 1.0. Hitting multiple enemies with one projectiles gives Charge for each enemy hit. |
 | <img src="https://i.postimg.cc/TwM8hGL6/image2.png" width="64"/> | **Secondary:** Release | Lose all Charge. Fire a piercing blast for 400% damage, increasing up to 1600% at full Charge. | Has no damage falloff, a bullet radius of 2m and a proc coefficient of 1.0. Gains 120% base damage per Charge linearly. Has medium knockback and self knockback, which both increase by 10% per Charge linearly. |
 | <img src="https://i.postimg.cc/qR8P3YyC/image3.png" width="64"/> | **Utility:** Sidestep | Agile. Quickly sidestep a short distance. Getting hit during Sidestep generates 5 Charge. | Has 0.15s of i-frames and does a small hop at the end. |
@@ -42,6 +42,7 @@
 |<img src="https://i.postimg.cc/1RVSGrFJ/tex-Red-Spring-Water.png" width="96"/> | **Red Spring Water** | Increase health regeneration by 0.4 hp/s, plus an additional 0.4 hp/s (+0.4 hp/s per stack) for every buff you have. | White |
 | ‎ | ‎ | ‎ |
 |<img src="https://i.postimg.cc/8C88VqNw/tex-Crowns-Diamond.png" width="96"/> | **Crown's Diamond** | Being out of danger grants 20% of maximum health as barrier. Barrier decays 15% (+15% per stack, hyperbolic) slower while out of combat or danger. | Green |
+|<img src="https://i.postimg.cc/8C88VqNw/tex-Crowns-Diamond.png" width="96"/> | **Drifting Perception** | Upon entering combat, become cloaked for 6s. While cloaked, increase 'Critical Strike' chance by 20% and 'Critical Strike' damage by 60% (+60% per stack). Recharges every 25 seconds. | Green |
 |<img src="https://i.postimg.cc/yd9LgHmF/tex-Nuclear-Salvo.png" width="96"/> | **Nuclear Salvo** | Every 5 seconds, all mechanical allies fire 2 (+2 per stack) nuclear missiles that deal 100% base damage each and ignite on hit. | Green |
 |<img src="https://i.postimg.cc/1XN5VLQJ/tex-Pocket-Plutonium.png" width="96"/> | **Pocket Plutonium** | Gain a shield equal to 10% of your maximum health. Upon losing all shield, create a nuclear pool in a 16m area that deals 750% (+750% per stack) base damage, plus an additional 250% (+250% per stack) of shields. | Green |
 |<img src="https://i.postimg.cc/gcvrKYNH/tex-Sacrificial-Band.png" width="96"/> | **Sacrificial Band** | Hits that deal more than 400% damage also inflict 1 (+1 per stack) bleeds on enemies for each 110% of skill damage. Recharges every 10 seconds. | Green |
@@ -54,6 +55,8 @@
 |<img src="https://i.postimg.cc/PxjsGfV3/tex-Bleeding-Witness.png" width="96"/> | **Bleeding Witness** | 5% chance to hemorrhage enemies for 480% base damage. Your damage over time effects heal all allies for 0.4% (+0.4% per stack) of their maximum health. | Red |
 |<img src="https://i.postimg.cc/pXf50nwk/tex-Ceremonial-Jar.png" width="96"/> | **Ceremonial Jar** | On hit, link enemies up to 3 times. Linked enemies take 1500% (+1500% per stack) base damage each and cannot be linked for 5s afterwards. | Red |
 |<img src="https://i.postimg.cc/rp3zfsBQ/tex-Torn-Feather.png" width="96"/> | **Torn Feather** | Tap Interact to perform an omni-directional dash. Can dash twice until hitting the ground. Gain 20% (+35% per stack) movement speed. | Red |
+|  |  |  |
+|<img src="https://i.postimg.cc/sfH2YN1y/tex-Fractured-Timepiece.png" width="96"/> | **Their  Prominence** | Using a Shrine has a 35% (+15% per stack, hyperbolic) chance to invite the challenge of the Mountain. | Lunar |
 # Equipment
 | Icon | Equipment | Description | Tier |
 |:-|-|------|-|
