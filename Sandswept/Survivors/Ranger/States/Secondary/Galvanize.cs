@@ -152,7 +152,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 
                 AddRecoil(1f + 0.1f * buffCount, 1f + 0.1f * buffCount, 0f, 0f);
 
-                characterMotor?.ApplyForce((-350f - 35f * buffCount) * aimDirection, false, false);
+                characterMotor?.ApplyForce((-150f - 15f * buffCount) * aimDirection, false, false);
                 projectilesFired++;
                 yield return new WaitForSeconds(duration * 2f / projectileCount);
             }

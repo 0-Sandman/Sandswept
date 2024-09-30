@@ -25,7 +25,7 @@ namespace Sandswept.Interactables
         public abstract HullClassification Size { get; }
         public abstract int MinimumStageToAppearOn { get; }
         public abstract int SpawnWeight { get; }
-        public virtual List<Stage> Stages { get; } = new() { Stage.DistantRoost, DirectorAPI.Stage.TitanicPlains, DirectorAPI.Stage.SiphonedForest, DirectorAPI.Stage.AbandonedAqueduct, DirectorAPI.Stage.WetlandAspect, DirectorAPI.Stage.AphelianSanctuary, DirectorAPI.Stage.RallypointDelta, DirectorAPI.Stage.ScorchedAcres, DirectorAPI.Stage.SulfurPools, DirectorAPI.Stage.AbyssalDepths, DirectorAPI.Stage.SirensCall, DirectorAPI.Stage.SunderedGrove, DirectorAPI.Stage.SkyMeadow };
+        public virtual List<Stage> Stages { get; } = new() { Stage.DistantRoost, Stage.TitanicPlains, Stage.SiphonedForest, Stage.AbandonedAqueduct, Stage.WetlandAspect, Stage.AphelianSanctuary, Stage.RallypointDelta, Stage.ScorchedAcres, Stage.SulfurPools, Stage.AbyssalDepths, Stage.SirensCall, Stage.SunderedGrove, Stage.SkyMeadow };
         public virtual bool SpawnInSimulacrum { get; } = false;
         public virtual bool SpawnInVoid { get; } = false;
         public virtual bool SkipOnSacrifice { get; } = false;
