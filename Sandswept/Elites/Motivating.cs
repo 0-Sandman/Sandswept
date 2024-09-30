@@ -30,7 +30,7 @@ namespace Sandswept.Elites
         public override float HealthMultiplier => healthMultiplier;
 
         public static GameObject warbanner;
-
+        public static GameObject Crown;
         public override CombatDirector.EliteTierDef[] CanAppearInEliteTiers => EliteAPI.GetCombatDirectorEliteTiers().Where(x => x.eliteTypes.Contains(Addressables.LoadAssetAsync<EliteDef>("RoR2/Base/EliteFire/edFire.asset").WaitForCompletion())).ToArray();
 
         public override Color EliteBuffColor => Color.white; /*new Color32(200, 101, 105, 255);*/
@@ -69,13 +69,22 @@ namespace Sandswept.Elites
         public override void Init(ConfigFile config)
         {
             CreateConfig(config);
+           
             CreateLang();
             CreateEquipment();
             CreateEliteTiers();
             CreateElite();
             Hooks();
         }
+        private void CreateCrown()
+        {
+            Crown = Utils.Assets.GameObject.DisplayColossusItem;
+            Crown.transform.localScale = new Vector3(10, 10, 10);
+            Crown.transform.localRotation = Quaternion.Euler(90,0,0);
+            Crown.transform.Find("meshColossusBuffCrownGlow").GetComponent<MeshRenderer>().material = Utils.Assets.Material.matColossusItemGlow;
+            
 
+        }
         private void CreateConfig(ConfigFile config)
         {
         }
@@ -86,7 +95,678 @@ namespace Sandswept.Elites
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
-            return new ItemDisplayRuleDict();
+            CreateCrown();
+            Crown.AddComponent<ItemDisplay>();
+            Crown.GetComponent<ItemDisplay>().rendererInfos = ItemHelpers.ItemDisplaySetup(Crown);
+            ItemDisplayRuleDict dict = new ItemDisplayRuleDict(Array.Empty<ItemDisplayRule>());
+            //ItemDisplayRule[] tmpRules = Utils.Assets.ItemDisplayRuleSet.idrsAcidLarva.FindDisplayRuleGroup(RoR2Content.Equipment.AffixWhite).rules;
+            //tmpRules[0].followerPrefab = Crown;
+            //tmpRules[1].followerPrefab = Crown;
+            //dict.Add("AcidLarva", tmpRules);
+            // tmpRules = Utils.Assets.ItemDisplayRuleSet.idrsAssassin2.FindDisplayRuleGroup(RoR2Content.Equipment.AffixWhite).rules;
+            //tmpRules[0].followerPrefab = Crown;
+            //dict.Add("mdlAssassin",tmpRules);
+            //tmpRules = Utils.Assets.ItemDisplayRuleSet.idrsBandit2.FindDisplayRuleGroup(RoR2Content.Equipment.AffixWhite).rules;
+            //tmpRules[0].followerPrefab= Crown;
+            //dict.Add("mdlBandit2", tmpRules);
+            //tmpRules = Utils.Assets.ItemDisplayRuleSet.idrsBeetle.FindDisplayRuleGroup(RoR2Content.Equipment.AffixWhite).rules;
+            //tmpRules[0].followerPrefab = Crown;
+            dict.Add("mdlBeetle", new ItemDisplayRule
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Head",
+                localPos = new Vector3(0F, 0F, 0.47F),
+                localAngles = new Vector3(304.7969F, 180F, 0F),
+                localScale = new Vector3(2.5F, 2.5F, 2.5F),
+                followerPrefab = Crown,
+                limbMask = LimbFlags.None
+            });
+
+            //tmpRules = Utils.Assets.ItemDisplayRuleSet.idrsBeetleGuard.FindDisplayRuleGroup(RoR2Content.Equipment.AffixWhite).rules;
+            //tmpRules[0].followerPrefab = Crown;
+            //dict.Add("mdlBeetleGuard",tmpRules);
+            //tmpRules = Utils.Assets.ItemDisplayRuleSet.idrsBeetleQueen.FindDisplayRuleGroup(RoR2Content.Equipment.AffixWhite).rules;
+            //tmpRules[0].followerPrefab = Crown;
+            //dict.Add("mdlBeetleQueen", tmpRules);
+            dict.Add("mdlCommandoDualies", new ItemDisplayRule[1]
+      {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          
+            childName = "Head",
+            localPos = new Vector3(-0.00065F, 0.19587F, 0.01865F),
+            localAngles = new Vector3(6.12111F, 0F, 0F),
+            localScale = new Vector3(1F, 1F, 1F)
+        }
+      });
+            dict.Add("mdlHuntress", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlToolbot", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlToolbot", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlEngi", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "HeadCenter",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlMage", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlMerc", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlLoader", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlCroco", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlCaptain", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlBandit2", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlEquipmentDrone", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "HeadCenter",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlWarframeWisp(Clone)", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlRailGunner", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlVoidSurvivor", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlHeretic", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            
+            dict.Add("AcidLarva", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "BodyBase",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlBeetleGuard", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlBeetleQueen", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlBell", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Chain",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlBison", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlBrother", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlClayBoss", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "PotLidTop",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlClayBruiser", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlClayGrenadier", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlMagmaWorm", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlFlyingVermin", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Body",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlGolem", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlGrandparent", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlGravekeeper", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlGreaterWisp", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "MaskBase",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlGup", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "MainBody2",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlHermitCrab", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Base",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlImp", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Neck",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlImpBoss", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Neck",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlJellyfish", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Hull2",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlLemurian", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlLemurianBruiser", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlMiniMushroom", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlMinorConstruct", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "CapTop",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlNullifier", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Center",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlParent", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlRoboBallBoss", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "MainEyeMuzzle",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlRoboBallMini", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Muzzle",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlScav", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlTitan", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlVagrant", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Hull",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlVermin", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlVoidBarnacle", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlVoidJailer", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlVoidMegaCrab", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "BodyBase",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlVulture", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            dict.Add("mdlWisp1Mouth", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+          localPos = new Vector3(),
+          localAngles = new Vector3(),
+          localScale = new Vector3(),
+        }
+            });
+            return dict;
         }
 
         public override void Hooks()
