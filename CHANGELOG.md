@@ -13,6 +13,7 @@
   * Fixed Sun Fragment bugs
 * Elites
   * Added more configs
+  * Added item displays to Motivating
 
 # 0.9.3 Patch Notes
 * Items
