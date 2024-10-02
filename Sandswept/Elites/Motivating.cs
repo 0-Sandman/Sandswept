@@ -115,8 +115,8 @@ namespace Sandswept.Elites
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Head",
-                localPos = new Vector3(0F, 0F, 0.47F),
-                localAngles = new Vector3(304.7969F, 180F, 0F),
+                localPos = new Vector3(0F, 0.32926F, 0.6006F),
+                localAngles = new Vector3(326.3988F, 180F, 0F),
                 localScale = new Vector3(2.5F, 2.5F, 2.5F),
                 followerPrefab = Crown,
                 limbMask = LimbFlags.None
@@ -148,45 +148,46 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(-0.00162F, 0.19032F, -0.03598F),
+localAngles = new Vector3(343.7789F, 0F, 0F),
+localScale = new Vector3(0.75F, 0.75F, 0.75F)
         }
             });
             dict.Add("mdlToolbot", new ItemDisplayRule[1]
-            {
-        new ItemDisplayRule()
-        {
-          ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = Crown,
-          childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
-        }
-            });
-            dict.Add("mdlToolbot", new ItemDisplayRule[1]
-            {
-        new ItemDisplayRule()
-        {
-          ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = Crown,
-          childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
-        }
-            });
-            dict.Add("mdlEngi", new ItemDisplayRule[1]
             {
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "HeadCenter",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0.12113F, 0.66826F, 0.93F),
+localAngles = new Vector3(54.30067F, 0F, 0F),
+localScale = new Vector3(5.5F, 5.5F, 5.5F)
+        }
+            });
+            dict.Add("mdlTreebot", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "FlowerBase",
+localPos = new Vector3(0F, 1.21606F, -0.0031F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(2.5F, 2.5F, 2.5F)
+        }
+            });
+
+            dict.Add("mdlEngi", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Chest",
+localPos = new Vector3(0F, 0.51827F, 0.03488F),
+localAngles = new Vector3(56.93467F, 180F, 180F),
+localScale = new Vector3(0.85F, 0.85F, 0.85F)
         }
             });
             dict.Add("mdlMage", new ItemDisplayRule[1]
@@ -196,9 +197,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 0.04525F, 0.00195F),
+localAngles = new Vector3(18.72627F, 0F, 0F),
+localScale = new Vector3(0.9F, 0.9F, 0.9F)
         }
             });
             dict.Add("mdlMerc", new ItemDisplayRule[1]
@@ -208,9 +209,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 0.10737F, 0.01007F),
+localAngles = new Vector3(2.94553F, 0F, 0F),
+localScale = new Vector3(1F, 1F, 1F)
         }
             });
             dict.Add("mdlLoader", new ItemDisplayRule[1]
@@ -220,9 +221,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 0.11864F, 0.01685F),
+localAngles = new Vector3(9.6236F, 0F, 0F),
+localScale = new Vector3(0.8F, 0.8F, 0.8F)
         }
             });
             dict.Add("mdlCroco", new ItemDisplayRule[1]
@@ -232,9 +233,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 0.29673F, -0.23156F),
+localAngles = new Vector3(83.55682F, 180F, 180F),
+localScale = new Vector3(10.5F, 10.5F, 10.5F)
         }
             });
             dict.Add("mdlCaptain", new ItemDisplayRule[1]
@@ -244,9 +245,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 0.13914F, 0.0176F),
+localAngles = new Vector3(4.4224F, 0F, 0F),
+localScale = new Vector3(1F, 1F, 1F)
         }
             });
             dict.Add("mdlBandit2", new ItemDisplayRule[1]
@@ -255,24 +256,28 @@ namespace Sandswept.Elites
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
-          childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+          childName = "Hat",
+localPos = new Vector3(-0.00004F, 0.01713F, -0.00378F),
+localAngles = new Vector3(335F, 0F, 0F),
+localScale = new Vector3(0.6F, 0.6F, 0.6F)
+//childName = "Hat",
+//localPos = new Vector3(-0.00005F, 0.06572F, -0.02642F),
+//localAngles = new Vector3(335F, 0F, 0F),
+//localScale = new Vector3(0.6F, 0.6F, 0.6F)
         }
             });
-            dict.Add("mdlEquipmentDrone", new ItemDisplayRule[1]
-            {
-        new ItemDisplayRule()
-        {
-          ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = Crown,
-          childName = "HeadCenter",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
-        }
-            });
+        //    dict.Add("mdlEquipmentDrone", new ItemDisplayRule[1]
+        //    {
+        //new ItemDisplayRule()
+        //{
+        //  ruleType = ItemDisplayRuleType.ParentedPrefab,
+        //  followerPrefab = Crown,
+        //  childName = "HeadCenter",
+        //  localPos = new Vector3(),
+        //  localAngles = new Vector3(),
+        //  localScale = new Vector3(),
+        //}
+        //    });
             dict.Add("mdlWarframeWisp(Clone)", new ItemDisplayRule[1]
             {
         new ItemDisplayRule()
@@ -292,9 +297,57 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 0.11616F, 0.01647F),
+localAngles = new Vector3(14.89151F, 0F, 0F),
+localScale = new Vector3(0.6F, 0.6F, 0.6F)
+        }
+            });
+            dict.Add("mdlSeeker", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+localPos = new Vector3(0F, 0.13553F, 0.01291F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(0.8F, 0.8F, 0.8F)
+        }
+            });
+            dict.Add("mdlFalseSon", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+localPos = new Vector3(0.00429F, 0.23886F, -0.01F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(1.25F, 1.25F, 1.25F)
+        }
+            });
+            dict.Add("mdlChef", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+localPos = new Vector3(-0.7005F, -0.02469F, -0.00003F),
+localAngles = new Vector3(270F, 90F, 0F),
+localScale = new Vector3(1.5F, 1.5F, 1.5F)
+        }
+            });
+            dict.Add("Ranger", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+localPos = new Vector3(0F, 0.12856F, 0.05948F),
+localAngles = new Vector3(9.49379F, 0F, 0F),
+localScale = new Vector3(0.8F, 0.8F, 0.8F)
         }
             });
             dict.Add("mdlVoidSurvivor", new ItemDisplayRule[1]
@@ -304,23 +357,23 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 0.02375F, 0.00002F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(1.1F, 1.1F, 1.1F)
         }
             });
-            dict.Add("mdlHeretic", new ItemDisplayRule[1]
-            {
-        new ItemDisplayRule()
-        {
-          ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = Crown,
-          childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
-        }
-            });
+        //    dict.Add("mdlHeretic", new ItemDisplayRule[1]
+        //    {
+        //new ItemDisplayRule()
+        //{
+        //  ruleType = ItemDisplayRuleType.ParentedPrefab,
+        //  followerPrefab = Crown,
+        //  childName = "Head",
+        //  localPos = new Vector3(),
+        //  localAngles = new Vector3(),
+        //  localScale = new Vector3(),
+        //}
+        //    });
             
             dict.Add("AcidLarva", new ItemDisplayRule[1]
             {
@@ -329,9 +382,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "BodyBase",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 5.0664F, -3.21779F),
+localAngles = new Vector3(348.773F, 0F, 0F),
+localScale = new Vector3(5F, 5F, 5F)
         }
             });
             dict.Add("mdlBeetleGuard", new ItemDisplayRule[1]
@@ -341,9 +394,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(-0.00001F, 0.38995F, 0.5643F),
+localAngles = new Vector3(85.00005F, 180F, 180F),
+localScale = new Vector3(5F, 5F, 5F)
         }
             });
             dict.Add("mdlBeetleQueen", new ItemDisplayRule[1]
@@ -353,9 +406,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0.00005F, 3.5F, 0.68988F),
+localAngles = new Vector3(354.3496F, 0F, 0F),
+localScale = new Vector3(6F, 6F, 6F)
         }
             });
             dict.Add("mdlBell", new ItemDisplayRule[1]
@@ -365,9 +418,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Chain",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, -0.25873F, 0F),
+localAngles = new Vector3(0F, 239.4491F, 180F),
+localScale = new Vector3(5F, 5F, 5F)
         }
             });
             dict.Add("mdlBison", new ItemDisplayRule[1]
@@ -377,9 +430,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 0.33377F, 0.39525F),
+localAngles = new Vector3(84.8304F, 180F, 180F),
+localScale = new Vector3(2F, 2F, 2F)
         }
             });
             dict.Add("mdlBrother", new ItemDisplayRule[1]
@@ -389,9 +442,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0.00001F, 0.17994F, 0.02854F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(1.1F, 1.1F, 1.1F)
         }
             });
             dict.Add("mdlClayBoss", new ItemDisplayRule[1]
@@ -401,9 +454,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "PotLidTop",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 0.61259F, 1.01702F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(3F, 3F, 3F)
         }
             });
             dict.Add("mdlClayBruiser", new ItemDisplayRule[1]
@@ -413,9 +466,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(-0.00001F, 0.45847F, 0.08446F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(1.2F, 1.2F, 1.2F)
         }
             });
             dict.Add("mdlClayGrenadier", new ItemDisplayRule[1]
@@ -424,10 +477,10 @@ namespace Sandswept.Elites
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
-          childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+          childName = "Torso",
+localPos = new Vector3(0F, 0.42413F, 0.02598F),
+localAngles = new Vector3(3F, 0F, 0F),
+localScale = new Vector3(0.75F, 0.75F, 0.75F)
         }
             });
             dict.Add("mdlMagmaWorm", new ItemDisplayRule[1]
@@ -436,10 +489,10 @@ namespace Sandswept.Elites
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
-          childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+          childName = "LowerJaw",
+localPos = new Vector3(0F, 0F, -0.32798F),
+localAngles = new Vector3(90F, 0F, 0F),
+localScale = new Vector3(5F, 5F, 5F)
         }
             });
             dict.Add("mdlFlyingVermin", new ItemDisplayRule[1]
@@ -449,9 +502,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Body",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 1.34924F, 0F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(3F, 3F, 3F)
         }
             });
             dict.Add("mdlGolem", new ItemDisplayRule[1]
@@ -461,9 +514,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 1.28836F, 0F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(2F, 2F, 2F)
         }
             });
             dict.Add("mdlGrandparent", new ItemDisplayRule[1]
@@ -473,9 +526,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 7.02552F, -0.12349F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(10F, 10F, 10F)
         }
             });
             dict.Add("mdlGravekeeper", new ItemDisplayRule[1]
@@ -485,9 +538,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 7.02552F, -0.12349F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(10F, 10F, 10F)
         }
             });
             dict.Add("mdlGreaterWisp", new ItemDisplayRule[1]
@@ -497,9 +550,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "MaskBase",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 1.05182F, 0.06994F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(3F, 3F, 3F)
         }
             });
             dict.Add("mdlGup", new ItemDisplayRule[1]
@@ -509,9 +562,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "MainBody2",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 1.05103F, -0.10032F),
+localAngles = new Vector3(352.8643F, 0F, 0F),
+localScale = new Vector3(1.5F, 1.5F, 1.5F)
         }
             });
             dict.Add("mdlHermitCrab", new ItemDisplayRule[1]
@@ -521,9 +574,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Base",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 1.82328F, 0F),
+localAngles = new Vector3(0F, 328.9559F, 0F),
+localScale = new Vector3(1.5F, 1.5F, 1.5F)
         }
             });
             dict.Add("mdlImp", new ItemDisplayRule[1]
@@ -533,9 +586,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Neck",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 0.09156F, 0.00001F),
+localAngles = new Vector3(0F, 180F, 0F),
+localScale = new Vector3(1.1F, 1.1F, 1.1F)
         }
             });
             dict.Add("mdlImpBoss", new ItemDisplayRule[1]
@@ -545,9 +598,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Neck",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 0.41799F, 0F),
+localAngles = new Vector3(0F, 180F, 0F),
+localScale = new Vector3(1.3F, 1.3F, 1.3F)
         }
             });
             dict.Add("mdlJellyfish", new ItemDisplayRule[1]
@@ -557,9 +610,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Hull2",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0.01431F, 1.13175F, 0.02581F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(3F, 3F, 3F)
         }
             });
             dict.Add("mdlLemurian", new ItemDisplayRule[1]
@@ -569,9 +622,21 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(-0.00001F, 0.26014F, -0.07975F),
+localAngles = new Vector3(270F, 0F, 0F),
+localScale = new Vector3(6F, 6F, 6F)
+        }
+            });
+            dict.Add("mdlChild", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+localPos = new Vector3(0.00002F, 0.20758F, 0.01853F),
+localAngles = new Vector3(5.10126F, 0.00389F, -0.00481F),
+localScale = new Vector3(1.5F, 1.5F, 1.5F)
         }
             });
             dict.Add("mdlLemurianBruiser", new ItemDisplayRule[1]
@@ -581,9 +646,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 0.98952F, 0.78549F),
+localAngles = new Vector3(270F, 180F, 0F),
+localScale = new Vector3(6F, 6F, 6F)
         }
             });
             dict.Add("mdlMiniMushroom", new ItemDisplayRule[1]
@@ -593,9 +658,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(-0.44661F, 0F, 0.00092F),
+localAngles = new Vector3(90F, 270F, 0F),
+localScale = new Vector3(2F, 2F, 2F)
         }
             });
             dict.Add("mdlMinorConstruct", new ItemDisplayRule[1]
@@ -605,9 +670,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "CapTop",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 0.52153F, 0F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(2F, 2F, 2F)
         }
             });
             dict.Add("mdlNullifier", new ItemDisplayRule[1]
@@ -616,10 +681,10 @@ namespace Sandswept.Elites
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
-          childName = "Center",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+          childName = "Muzzle",
+localPos = new Vector3(0F, 1.2162F, 0.49685F),
+localAngles = new Vector3(16.76504F, 0F, 0F),
+localScale = new Vector3(3F, 3F, 3F)
         }
             });
             dict.Add("mdlParent", new ItemDisplayRule[1]
@@ -629,9 +694,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(-63.81822F, 114.8034F, -0.00011F),
+localAngles = new Vector3(316.5069F, 90F, 0F),
+localScale = new Vector3(200F, 200F, 200F)
         }
             });
             dict.Add("mdlRoboBallBoss", new ItemDisplayRule[1]
@@ -641,9 +706,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "MainEyeMuzzle",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 0F, -0.13112F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(1F, 1F, 1F)
         }
             });
             dict.Add("mdlRoboBallMini", new ItemDisplayRule[1]
@@ -652,10 +717,10 @@ namespace Sandswept.Elites
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
-          childName = "Muzzle",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+          childName = "Root",
+localPos = new Vector3(0F, 0F, 1.02261F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(1F, 1F, 1F)
         }
             });
             dict.Add("mdlScav", new ItemDisplayRule[1]
@@ -665,9 +730,21 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(-3.68493F, -7.12428F, -9.26112F),
+localAngles = new Vector3(290.0912F, 180F, 197.6753F),
+localScale = new Vector3(15F, 15F, 15F)
+        }
+            });
+            dict.Add("mdlScorchling", new ItemDisplayRule[1]
+            {
+        new ItemDisplayRule()
+        {
+          ruleType = ItemDisplayRuleType.ParentedPrefab,
+          followerPrefab = Crown,
+          childName = "Head",
+localPos = new Vector3(-0.1471F, 0.42499F, 0.012F),
+localAngles = new Vector3(12.19688F, 90F, 0F),
+localScale = new Vector3(2F, 2F, 2F)
         }
             });
             dict.Add("mdlTitan", new ItemDisplayRule[1]
@@ -677,9 +754,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 5.25825F, 0.39198F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(10F, 10F, 10F)
         }
             });
             dict.Add("mdlVagrant", new ItemDisplayRule[1]
@@ -689,9 +766,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Hull",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 1.78913F, 0.02596F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(3F, 3F, 3F)
         }
             });
             dict.Add("mdlVermin", new ItemDisplayRule[1]
@@ -701,9 +778,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(-0.03629F, -0.42449F, -0.3745F),
+localAngles = new Vector3(332.5934F, 180F, 180F),
+localScale = new Vector3(2F, 2F, 2F)
         }
             });
             dict.Add("mdlVoidBarnacle", new ItemDisplayRule[1]
@@ -713,9 +790,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(-0.69995F, -0.00004F, 0.22737F),
+localAngles = new Vector3(0F, 270F, 90F),
+localScale = new Vector3(0.5F, 0.5F, 0.5F)
         }
             });
             dict.Add("mdlVoidJailer", new ItemDisplayRule[1]
@@ -725,9 +802,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(-0.81369F, 0.00001F, -0.23035F),
+localAngles = new Vector3(0F, 0F, 90F),
+localScale = new Vector3(1.5F, 1.5F, 1.5F)
         }
             });
             dict.Add("mdlVoidMegaCrab", new ItemDisplayRule[1]
@@ -737,9 +814,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "BodyBase",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, 9.8578F, -0.00002F),
+localAngles = new Vector3(0F, 0F, 0F),
+localScale = new Vector3(20F, 20F, 20F)
         }
             });
             dict.Add("mdlVulture", new ItemDisplayRule[1]
@@ -749,9 +826,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(-0.0001F, 0.27165F, -0.81025F),
+localAngles = new Vector3(270F, 0F, 0F),
+localScale = new Vector3(5F, 5F, 5F)
         }
             });
             dict.Add("mdlWisp1Mouth", new ItemDisplayRule[1]
@@ -761,9 +838,9 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
           childName = "Head",
-          localPos = new Vector3(),
-          localAngles = new Vector3(),
-          localScale = new Vector3(),
+localPos = new Vector3(0F, -0.12267F, 0.17931F),
+localAngles = new Vector3(270F, 180F, 0F),
+localScale = new Vector3(3.25F, 3.25F, 3.25F)
         }
             });
             return dict;
