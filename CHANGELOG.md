@@ -8,6 +8,9 @@
   * Added Drifting Perception
   * Added Their Prominence
   * Fixed Millenium throwing an NRE
+  * Fixed Millenium proccing itself
+  * Fixed Millenium sounds being global
+  * Fixed Sun Fragment bugs
 * Elites
   * Added more configs
 

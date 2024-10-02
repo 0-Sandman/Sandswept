@@ -70,15 +70,31 @@ namespace Sandswept.Items.Reds
         public override void Hooks()
         {
             RecalculateStatsAPI.GetStatCoefficients += HandleStats;
+            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
+        }
+
+        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
+        {
+            var inventory = body.inventory;
+            if (!inventory)
+            {
+                return;
+            }
+
+            var stack = GetCount(body);
+
+            body.AddItemBehavior<FeatherBehaviour>(stack);
         }
 
         private void HandleStats(CharacterBody sender, StatHookEventArgs args)
         {
             if (sender.inventory)
             {
-                int stack = sender.inventory.GetItemCount(ItemDef);
-                sender.AddItemBehavior<FeatherBehaviour>(stack);
-                args.moveSpeedMultAdd += baseMovementSpeedGain + stackMovementSpeedGain * (stack - 1);
+                var stack = GetCount(sender);
+                if (stack > 0)
+                {
+                    args.moveSpeedMultAdd += baseMovementSpeedGain + stackMovementSpeedGain * (stack - 1);
+                }
             }
         }
     }

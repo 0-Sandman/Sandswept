@@ -124,7 +124,7 @@ namespace Sandswept.Items.VoidGreens
         private void GlobalEventManager_OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
         {
             var attacker = damageInfo.attacker;
-            if (attacker && victim)
+            if (!damageInfo.procChainMask.HasProc(milleniumAoE) && attacker && victim)
             {
                 if (attacker.TryGetComponent<CharacterBody>(out var attackerBody) && victim.TryGetComponent<CharacterBody>(out var victimBody))
                 {
@@ -172,11 +172,11 @@ namespace Sandswept.Items.VoidGreens
 
                             attackerBody.StartCoroutine(AddCollapse(damageInfo, result));
 
-                            AkSoundEngine.PostEvent(Events.Play_item_void_clover, victimBody.gameObject);
-                            AkSoundEngine.PostEvent(Events.Play_voidDevastator_death_VO, victimBody.gameObject);
-                            AkSoundEngine.PostEvent(Events.Play_voidDevastator_death_VO, victimBody.gameObject);
-                            AkSoundEngine.PostEvent(Events.Play_clayboss_m2_explo, victimBody.gameObject);
-                            AkSoundEngine.PostEvent(Events.Play_engi_M2_explo, victimBody.gameObject);
+                            Util.PlaySound("Play_item_void_clover", victimBody.gameObject);
+                            Util.PlaySound("Play_voidDevastator_death_VO", victimBody.gameObject);
+                            Util.PlaySound("Play_voidDevastator_death_VO", victimBody.gameObject);
+                            Util.PlaySound("Play_clayboss_m2_explo", victimBody.gameObject);
+                            Util.PlaySound("Play_engi_M2_explo", victimBody.gameObject);
                         }
                     }
                 }

@@ -94,43 +94,6 @@ namespace Sandswept.Items.Greens
         public override void Hooks()
         {
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
-            On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
-        }
-
-        private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
-        {
-            var attacker = damageInfo.attacker;
-            if (!damageInfo.procChainMask.HasProc(sunFragmentDoTProcType) && attacker && damageInfo.HasModdedDamageType(SunFragmentDamageType))
-            {
-                var attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
-                if (attackerBody)
-                {
-                    var inventory = attackerBody.inventory;
-                    if (inventory)
-                    {
-                        var stack = inventory.GetItemCount(instance.ItemDef);
-                        if (stack > 0)
-                        {
-                            var totalDamage = baseTotalDamage + stackTotalDamage * (stack - 1);
-                            var dot = new InflictDotInfo()
-                            {
-                                attackerObject = damageInfo.attacker,
-                                victimObject = self.gameObject,
-                                totalDamage = damageInfo.damage * totalDamage,
-                                damageMultiplier = 3f,
-                                dotIndex = DotController.DotIndex.Burn,
-                                maxStacksFromAttacker = null,
-                            };
-
-                            StrengthenBurnUtils.CheckDotForUpgrade(inventory, ref dot);
-                            DotController.InflictDot(ref dot);
-
-                            damageInfo.procChainMask.AddProc(sunFragmentDoTProcType);
-                        }
-                    }
-                }
-            }
-            orig(self, damageInfo);
         }
 
         private void GlobalEventManager_onServerDamageDealt(DamageReport report)
@@ -148,6 +111,12 @@ namespace Sandswept.Items.Greens
                 return;
             }
 
+            var inventory = attackerBody.inventory;
+            if (!inventory)
+            {
+                return;
+            }
+
             var victimBody = report.victimBody;
             if (!victimBody)
             {
@@ -155,52 +124,84 @@ namespace Sandswept.Items.Greens
             }
 
             var stack = GetCount(attackerBody);
-            if (stack > 0)
+            if (stack <= 0)
             {
-                if (Util.CheckRoll(chance * damageInfo.procCoefficient, attackerBody.master))
+                return;
+            }
+
+            if (!Util.CheckRoll(chance * damageInfo.procCoefficient, attackerBody.master))
+            {
+                return;
+            }
+
+            EffectData effectData = new()
+            {
+                origin = victimBody.corePosition,
+                rotation = Util.QuaternionSafeLookRotation(damageInfo.force != Vector3.zero ? damageInfo.force : Random.onUnitSphere),
+                scale = explosionRadius
+            };
+            EffectData effectData2 = new()
+            {
+                origin = victimBody.corePosition,
+                scale = explosionRadius
+            };
+            EffectManager.SpawnEffect(FragmentVFX, effectData, true);
+            EffectManager.SpawnEffect(FragmentVFXSphere, effectData2, true);
+
+            var setStateOnHurt = victimBody.GetComponent<SetStateOnHurt>();
+            setStateOnHurt?.SetStun(stunDuration);
+
+            // var damage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, baseTotalDamage + stackTotalDamage * (stack - 1));
+
+            BlastAttack blastAttack = new()
+            {
+                radius = explosionRadius,
+                baseDamage = Mathf.Epsilon, // dont ask
+                procCoefficient = explosionProcCoefficient,
+                crit = damageInfo.crit,
+                damageColorIndex = SolarFlareColour,
+                attackerFiltering = AttackerFiltering.NeverHitSelf,
+                falloffModel = BlastAttack.FalloffModel.None,
+                attacker = attackerBody.gameObject,
+                teamIndex = attackerBody.teamComponent.teamIndex,
+                position = damageInfo.position,
+                damageType = DamageType.Silent
+            };
+
+            var result = blastAttack.Fire();
+
+            var totalDamage = baseTotalDamage + stackTotalDamage * (stack - 1);
+
+            for (int i = 0; i < result.hitPoints.Length; i++)
+            {
+                var hitPoint = result.hitPoints[i];
+                var hurtBox = hitPoint.hurtBox;
+                if (hurtBox)
                 {
-                    EffectData effectData = new()
+                    var hc = hurtBox.healthComponent;
+                    if (hc)
                     {
-                        origin = victimBody.corePosition,
-                        rotation = Util.QuaternionSafeLookRotation(damageInfo.force != Vector3.zero ? damageInfo.force : Random.onUnitSphere),
-                        scale = explosionRadius
-                    };
-                    EffectData effectData2 = new()
-                    {
-                        origin = victimBody.corePosition,
-                        scale = explosionRadius
-                    };
-                    EffectManager.SpawnEffect(FragmentVFX, effectData, true);
-                    EffectManager.SpawnEffect(FragmentVFXSphere, effectData2, true);
+                        var body = hc.body;
 
-                    var setStateOnHurt = victimBody.GetComponent<SetStateOnHurt>();
-                    setStateOnHurt?.SetStun(stunDuration);
+                        var dot = new InflictDotInfo()
+                        {
+                            attackerObject = damageInfo.attacker,
+                            victimObject = body.gameObject,
+                            totalDamage = damageInfo.damage * totalDamage,
+                            damageMultiplier = 2f,
+                            dotIndex = DotController.DotIndex.Burn,
+                            maxStacksFromAttacker = null,
+                        };
 
-                    // var damage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, baseTotalDamage + stackTotalDamage * (stack - 1));
-
-                    BlastAttack blastAttack = new()
-                    {
-                        radius = explosionRadius,
-                        baseDamage = Mathf.Epsilon, // dont ask
-                        procCoefficient = explosionProcCoefficient,
-                        crit = damageInfo.crit,
-                        damageColorIndex = SolarFlareColour,
-                        attackerFiltering = AttackerFiltering.NeverHitSelf,
-                        falloffModel = BlastAttack.FalloffModel.None,
-                        attacker = attackerBody.gameObject,
-                        teamIndex = attackerBody.teamComponent.teamIndex,
-                        position = damageInfo.position,
-                        damageType = DamageType.Silent | DamageType.BypassArmor | DamageType.BypassBlock // I said dont ask
-                    };
-
-                    blastAttack.AddModdedDamageType(SunFragmentDamageType);
-                    blastAttack.Fire();
-
-                    damageInfo.procChainMask.AddProc(sunFragmentAreaProcType);
-
-                    AkSoundEngine.PostEvent(Events.Play_fireballsOnHit_shoot, victimBody.gameObject);
+                        StrengthenBurnUtils.CheckDotForUpgrade(inventory, ref dot);
+                        DotController.InflictDot(ref dot);
+                    }
                 }
             }
+
+            damageInfo.procChainMask.AddProc(sunFragmentAreaProcType);
+
+            AkSoundEngine.PostEvent(Events.Play_fireballsOnHit_shoot, victimBody.gameObject);
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
