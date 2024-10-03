@@ -194,7 +194,7 @@ namespace Sandswept.Items.Greens
                     attackerObject = damageInfo.attacker,
                     victimObject = body.gameObject,
                     totalDamage = damageInfo.damage * totalDamage,
-                    damageMultiplier = 2f,
+                    damageMultiplier = 2f * stack,
                     dotIndex = DotController.DotIndex.Burn,
                     maxStacksFromAttacker = null,
                 };
