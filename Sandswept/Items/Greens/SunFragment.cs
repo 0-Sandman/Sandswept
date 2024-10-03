@@ -156,7 +156,7 @@ namespace Sandswept.Items.Greens
             BlastAttack blastAttack = new()
             {
                 radius = explosionRadius,
-                baseDamage = Mathf.Epsilon, // dont ask
+                baseDamage = 0, // dont ask
                 procCoefficient = explosionProcCoefficient,
                 crit = damageInfo.crit,
                 damageColorIndex = SolarFlareColour,
@@ -165,7 +165,8 @@ namespace Sandswept.Items.Greens
                 attacker = attackerBody.gameObject,
                 teamIndex = attackerBody.teamComponent.teamIndex,
                 position = damageInfo.position,
-                damageType = DamageType.Silent
+                damageType = DamageType.Silent,
+                procChainMask = damageInfo.procChainMask
             };
 
             var result = blastAttack.Fire();

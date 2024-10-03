@@ -123,13 +123,15 @@ namespace Sandswept.Items.VoidGreens
 
         private void GlobalEventManager_onServerDamageDealt(DamageReport report)
         {
+            var damageInfo = report.damageInfo;
+
             var attackerBody = report.attackerBody;
             if (!attackerBody)
             {
                 return;
             }
 
-            if (report.damageInfo.procChainMask.HasProc(ProcType.AACannon))
+            if (damageInfo.procChainMask.HasProc(ProcType.AACannon))
             {
                 return;
             }
@@ -146,12 +148,12 @@ namespace Sandswept.Items.VoidGreens
                 return;
             }
 
-            if (!Util.CheckRoll(chance * report.damageInfo.procCoefficient, attackerBody.master))
+            if (!Util.CheckRoll(chance * damageInfo.procCoefficient, attackerBody.master))
             {
                 return;
             }
 
-            report.damageInfo.procChainMask.AddProc(ProcType.AACannon);
+            damageInfo.procChainMask.AddProc(ProcType.AACannon);
 
             var radius = baseExplosionRadius + stackExplosionRadius * (stack - 1);
 
@@ -159,7 +161,7 @@ namespace Sandswept.Items.VoidGreens
             {
                 origin = victimBody.corePosition,
                 rotation = Quaternion.identity,
-                scale = radius * 1.3f
+                scale = Mathf.Sqrt(radius * 20f)
             };
             EffectManager.SpawnEffect(vfx, effectData, true);
 
@@ -174,16 +176,17 @@ namespace Sandswept.Items.VoidGreens
             BlastAttack blastAttack = new()
             {
                 radius = radius,
-                baseDamage = Mathf.Epsilon, // dont ask
+                baseDamage = 0, // dont ask
                 procCoefficient = explosionProcCoefficient,
-                crit = report.damageInfo.crit,
+                crit = damageInfo.crit,
                 attackerFiltering = AttackerFiltering.NeverHitSelf,
                 falloffModel = BlastAttack.FalloffModel.None,
                 attacker = attackerBody.gameObject,
                 teamIndex = attackerBody.teamComponent.teamIndex,
-                position = report.damageInfo.position,
+                position = damageInfo.position,
                 damageType = DamageType.Silent,
-                bonusForce = new Vector3(0f, -25f * mass, 0f)
+                bonusForce = new Vector3(0f, -25f * mass, 0f),
+                procChainMask = damageInfo.procChainMask
             };
 
             var result = blastAttack.Fire();
