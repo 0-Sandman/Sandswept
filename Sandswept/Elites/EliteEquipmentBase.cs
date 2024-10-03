@@ -208,6 +208,7 @@ namespace Sandswept.Elites
             EliteEquipmentDef.canDrop = CanDrop;
             EliteEquipmentDef.cooldown = Cooldown;
             EliteEquipmentDef.passiveBuffDef = EliteBuffDef;
+            EliteEquipmentDef.requiredExpansion = Main.SandsweptExpansionDef;
 
             ItemAPI.Add(new CustomEquipment(EliteEquipmentDef, CreateItemDisplayRules()));
 

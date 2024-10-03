@@ -162,7 +162,7 @@ namespace Sandswept.Survivors.Ranger
                 cb.healthComponent.TakeDamage(info);
             }
 
-            AkSoundEngine.PostEvent(Events.Play_item_proc_igniteOnKill, gameObject);
+            Util.PlaySound("Play_item_proc_igniteOnKill", gameObject);
         }
     }
 

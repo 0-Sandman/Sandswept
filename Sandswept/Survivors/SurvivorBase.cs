@@ -1,3 +1,4 @@
+using RoR2.ExpansionManagement;
 using System;
 using System.Reflection;
 
@@ -64,6 +65,9 @@ namespace Sandswept.Survivors
             SurvivorDef.outroFlavorToken.Add(Outro);
             SurvivorDef.mainEndingEscapeFailureFlavorToken.Add(Failure);
             SurvivorDef.descriptionToken.Add(Description);
+            // var expansionRequirementComponent = Body.AddComponent<ExpansionRequirementComponent>();
+            // expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
+            // sots changed this I believe? so this should more closely mimic vanilla behavior
         }
 
         public EntityStateMachine AddESM(GameObject prefab, string name, SerializableEntityStateType initial)

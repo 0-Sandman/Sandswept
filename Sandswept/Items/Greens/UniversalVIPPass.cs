@@ -114,8 +114,8 @@ namespace Sandswept.Items.Greens
 
                                     chestBehavior.dropCount = 1 + extraItemCount;
 
-                                    AkSoundEngine.PostEvent(Events.Play_UI_commandHUD_select, chestBehavior.gameObject);
-                                    AkSoundEngine.PostEvent(Events.Play_UI_commandHUD_select, chestBehavior.gameObject);
+                                    Util.PlaySound("Play_UI_commandHUD_select", chestBehavior.gameObject);
+                                    Util.PlaySound("Play_UI_commandHUD_select", chestBehavior.gameObject);
 
                                     if (Random.Range(0f, 100f) >= 96f)
                                     {

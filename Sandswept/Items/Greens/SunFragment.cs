@@ -54,8 +54,6 @@ namespace Sandswept.Items.Greens
         public GameObject FragmentVFX;
 
         public static GameObject FragmentVFXSphere;
-        public static ProcType sunFragmentDoTProcType = (ProcType)1298571298;
-        public static ProcType sunFragmentAreaProcType = (ProcType)1298571264;
 
         public override void Init(ConfigFile config)
         {
@@ -100,7 +98,7 @@ namespace Sandswept.Items.Greens
         {
             var damageInfo = report.damageInfo;
 
-            if (damageInfo.procChainMask.HasProc(sunFragmentAreaProcType))
+            if (damageInfo.procChainMask.HasProc(ProcType.VoidSurvivorCrush))
             {
                 return;
             }
@@ -133,6 +131,8 @@ namespace Sandswept.Items.Greens
             {
                 return;
             }
+
+            damageInfo.procChainMask.AddProc(ProcType.VoidSurvivorCrush);
 
             EffectData effectData = new()
             {
@@ -176,32 +176,33 @@ namespace Sandswept.Items.Greens
             {
                 var hitPoint = result.hitPoints[i];
                 var hurtBox = hitPoint.hurtBox;
-                if (hurtBox)
+                if (!hurtBox)
                 {
-                    var hc = hurtBox.healthComponent;
-                    if (hc)
-                    {
-                        var body = hc.body;
-
-                        var dot = new InflictDotInfo()
-                        {
-                            attackerObject = damageInfo.attacker,
-                            victimObject = body.gameObject,
-                            totalDamage = damageInfo.damage * totalDamage,
-                            damageMultiplier = 2f,
-                            dotIndex = DotController.DotIndex.Burn,
-                            maxStacksFromAttacker = null,
-                        };
-
-                        StrengthenBurnUtils.CheckDotForUpgrade(inventory, ref dot);
-                        DotController.InflictDot(ref dot);
-                    }
+                    continue;
                 }
+                var hc = hurtBox.healthComponent;
+                if (!hc)
+                {
+                    continue;
+                }
+
+                var body = hc.body;
+
+                var dot = new InflictDotInfo()
+                {
+                    attackerObject = damageInfo.attacker,
+                    victimObject = body.gameObject,
+                    totalDamage = damageInfo.damage * totalDamage,
+                    damageMultiplier = 2f,
+                    dotIndex = DotController.DotIndex.Burn,
+                    maxStacksFromAttacker = null,
+                };
+
+                StrengthenBurnUtils.CheckDotForUpgrade(inventory, ref dot);
+                DotController.InflictDot(ref dot);
             }
 
-            damageInfo.procChainMask.AddProc(sunFragmentAreaProcType);
-
-            AkSoundEngine.PostEvent(Events.Play_fireballsOnHit_shoot, victimBody.gameObject);
+            Util.PlaySound("Play_fireballsOnHit_shoot", victimBody.gameObject);
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()

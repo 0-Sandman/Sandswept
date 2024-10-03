@@ -4,13 +4,14 @@ namespace Sandswept.Survivors.Electrician.States
 {
     public class GalvanicBolt : BaseSkillState
     {
-        public float duration = 1.1f;
+        public float baseDuration = 1.1f;
+        public float duration;
 
         public override void OnEnter()
         {
             base.OnEnter();
 
-            duration /= attackSpeedStat;
+            duration = baseDuration / attackSpeedStat;
 
             if (isAuthority)
             {

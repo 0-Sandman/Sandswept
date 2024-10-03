@@ -36,11 +36,7 @@ namespace Sandswept.Items.VoidGreens
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
 
-        public static ProcType milleniumAoE = (ProcType)3298571264;
-
         public static DamageColorIndex milleniumColor = DamageColourHelper.RegisterDamageColor(new Color32(75, 27, 174, 255));
-
-        public static DamageAPI.ModdedDamageType milleniumDamageType;
 
         public static GameObject vfx;
 
@@ -59,13 +55,11 @@ namespace Sandswept.Items.VoidGreens
             var hourglassMr = model.Find("Vert").GetComponent<MeshRenderer>();
             hourglassMr.material = powerElixirGlassMat;
 
-            milleniumDamageType = DamageAPI.ReserveDamageType();
-
             vfx = PrefabAPI.InstantiateClone(Paths.GameObject.NullifierExplosion, "Millenium VFX", false);
 
             var trans = vfx.transform;
 
-            var newStarMat = Object.Instantiate(Paths.Material.matNullifierStarParticle);
+            var newStarMat = new Material(Paths.Material.matNullifierStarParticle);
             newStarMat.SetColor("_TintColor", new Color32(15, 49, 44, 255));
 
             var sphere = trans.Find("Sphere");
@@ -74,7 +68,7 @@ namespace Sandswept.Items.VoidGreens
 
             var explosionSphere = trans.Find("ExplosionSphere").GetComponent<ParticleSystemRenderer>();
 
-            var newExplosionMat = Object.Instantiate(Addressables.LoadAssetAsync<Material>("RoR2/Base/Nullifier/matNullifierExplosionAreaIndicatorSoft.mat").WaitForCompletion());
+            var newExplosionMat = new Material(Addressables.LoadAssetAsync<Material>("RoR2/Base/Nullifier/matNullifierExplosionAreaIndicatorSoft.mat").WaitForCompletion());
             newExplosionMat.SetTexture("_RemapTex", Addressables.LoadAssetAsync<Texture2D>("RoR2/Base/Common/ColorRamps/texRampArcaneCircle.png").WaitForCompletion());
             newExplosionMat.SetColor("_TintColor", new Color32(72, 0, 255, 255));
             newExplosionMat.SetFloat("_RimPower", 1.569113f);
@@ -85,28 +79,34 @@ namespace Sandswept.Items.VoidGreens
 
             var vacuumRadial = trans.Find("Vacuum Radial").GetComponent<ParticleSystemRenderer>();
 
-            var newVacuumMat = Object.Instantiate(Paths.Material.matNullifierStarPortalEdge);
+            var newVacuumMat = new Material(Paths.Material.matNullifierStarPortalEdge);
             newVacuumMat.SetColor("_TintColor", new Color32(3, 4, 255, 246));
             newVacuumMat.SetFloat("_Boost", 13f);
-            newVacuumMat.SetFloat("_AlphaBias", 0.9590086f);
+            newVacuumMat.SetFloat("_AlphaBias", 0.8564593f);
             newVacuumMat.SetTexture("_RemapTex", Paths.Texture2D.texRampCrosshair2);
 
             vacuumRadial.material = newVacuumMat;
 
-            var newPortalMat = Object.Instantiate(Paths.Material.matNullifierGemPortal);
+            var newSphereMaterials = new Material[2];
+
+            var newPortalMat = new Material(Paths.Material.matNullifierGemPortal);
             newPortalMat.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("texMillenium2.png"));
             newPortalMat.SetTexture("_EmissionTex", Main.hifuSandswept.LoadAsset<Texture2D>("texMillenium1.png"));
 
             sphereMeshRenderer.materials[0] = newPortalMat;
 
-            var newSphereMat = Object.Instantiate(Paths.Material.matGravsphereCore);
+            var newSphereMat = new Material(Paths.Material.matGravsphereCore);
             newSphereMat.SetColor("_TintColor", new Color32(5, 0, 255, 255));
             newSphereMat.SetFloat("_InvFade", 0f);
-            newSphereMat.SetFloat("_Boost", 20f);
-            newSphereMat.SetFloat("_AlphaBoost", 0.148027f);
-            newSphereMat.SetFloat("_AlphaBias", 1f);
+            newSphereMat.SetFloat("_Boost", 1.090909f);
+            newSphereMat.SetFloat("_AlphaBoost", 2.18f);
+            newSphereMat.SetFloat("_AlphaBias", 0f);
+            newSphereMat.SetTexture("_RemapTex", Paths.Texture2D.texRampHuntressAltColossusArrow);
 
-            sphereMeshRenderer.materials[1] = newSphereMat;
+            newSphereMaterials[0] = newPortalMat;
+            newSphereMaterials[1] = newSphereMat;
+
+            sphereMeshRenderer.materials = newSphereMaterials;
 
             ContentAddition.AddEffect(vfx);
 
@@ -117,72 +117,103 @@ namespace Sandswept.Items.VoidGreens
 
         public override void Hooks()
         {
-            On.RoR2.GlobalEventManager.OnHitEnemy += GlobalEventManager_OnHitEnemy;
+            GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
             On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
         }
 
-        private void GlobalEventManager_OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo damageInfo, GameObject victim)
+        private void GlobalEventManager_onServerDamageDealt(DamageReport report)
         {
-            var attacker = damageInfo.attacker;
-            if (!damageInfo.procChainMask.HasProc(milleniumAoE) && attacker && victim)
+            var attackerBody = report.attackerBody;
+            if (!attackerBody)
             {
-                if (attacker.TryGetComponent<CharacterBody>(out var attackerBody) && victim.TryGetComponent<CharacterBody>(out var victimBody))
-                {
-                    var stack = GetCount(attackerBody);
-                    if (stack > 0)
-                    {
-                        if (Util.CheckRoll(chance * damageInfo.procCoefficient, attackerBody.master))
-                        {
-                            var radius = baseExplosionRadius + stackExplosionRadius * (stack - 1);
-
-                            EffectData effectData = new()
-                            {
-                                origin = victimBody.corePosition,
-                                rotation = Quaternion.identity,
-                                scale = radius * 1.5f
-                            };
-                            EffectManager.SpawnEffect(vfx, effectData, true);
-
-                            // var damage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, baseTotalDamage + stackTotalDamage * (stack - 1));
-
-                            float mass;
-
-                            if (victimBody.characterMotor) mass = victimBody.characterMotor.mass;
-                            else if (victimBody.rigidbody) mass = victimBody.rigidbody.mass;
-                            else mass = 1f;
-
-                            BlastAttack blastAttack = new()
-                            {
-                                radius = radius,
-                                baseDamage = Mathf.Epsilon, // dont ask
-                                procCoefficient = explosionProcCoefficient,
-                                crit = damageInfo.crit,
-                                attackerFiltering = AttackerFiltering.NeverHitSelf,
-                                falloffModel = BlastAttack.FalloffModel.None,
-                                attacker = attackerBody.gameObject,
-                                teamIndex = attackerBody.teamComponent.teamIndex,
-                                position = damageInfo.position,
-                                damageType = DamageType.Silent | DamageType.BypassArmor, // I said dont ask
-                                bonusForce = new Vector3(0f, -25f * mass, 0f)
-                            };
-
-                            var result = blastAttack.Fire();
-
-                            damageInfo.procChainMask.AddProc(milleniumAoE);
-
-                            attackerBody.StartCoroutine(AddCollapse(damageInfo, result));
-
-                            Util.PlaySound("Play_item_void_clover", victimBody.gameObject);
-                            Util.PlaySound("Play_voidDevastator_death_VO", victimBody.gameObject);
-                            Util.PlaySound("Play_voidDevastator_death_VO", victimBody.gameObject);
-                            Util.PlaySound("Play_clayboss_m2_explo", victimBody.gameObject);
-                            Util.PlaySound("Play_engi_M2_explo", victimBody.gameObject);
-                        }
-                    }
-                }
+                return;
             }
 
-            orig(self, damageInfo, victim);
+            if (report.damageInfo.procChainMask.HasProc(ProcType.AACannon))
+            {
+                return;
+            }
+
+            var victimBody = report.victimBody;
+            if (!victimBody)
+            {
+                return;
+            }
+
+            var stack = GetCount(attackerBody);
+            if (stack <= 0)
+            {
+                return;
+            }
+
+            if (!Util.CheckRoll(chance * report.damageInfo.procCoefficient, attackerBody.master))
+            {
+                return;
+            }
+
+            report.damageInfo.procChainMask.AddProc(ProcType.AACannon);
+
+            var radius = baseExplosionRadius + stackExplosionRadius * (stack - 1);
+
+            EffectData effectData = new()
+            {
+                origin = victimBody.corePosition,
+                rotation = Quaternion.identity,
+                scale = radius * 1.3f
+            };
+            EffectManager.SpawnEffect(vfx, effectData, true);
+
+            // var damage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, baseTotalDamage + stackTotalDamage * (stack - 1));
+
+            float mass;
+
+            if (victimBody.characterMotor) mass = victimBody.characterMotor.mass;
+            else if (victimBody.rigidbody) mass = victimBody.rigidbody.mass;
+            else mass = 1f;
+
+            BlastAttack blastAttack = new()
+            {
+                radius = radius,
+                baseDamage = Mathf.Epsilon, // dont ask
+                procCoefficient = explosionProcCoefficient,
+                crit = report.damageInfo.crit,
+                attackerFiltering = AttackerFiltering.NeverHitSelf,
+                falloffModel = BlastAttack.FalloffModel.None,
+                attacker = attackerBody.gameObject,
+                teamIndex = attackerBody.teamComponent.teamIndex,
+                position = report.damageInfo.position,
+                damageType = DamageType.Silent,
+                bonusForce = new Vector3(0f, -25f * mass, 0f)
+            };
+
+            var result = blastAttack.Fire();
+
+            var collapse = DotController.GetDotDef(DotController.DotIndex.Fracture);
+
+            for (int i = 0; i < result.hitPoints.Length; i++)
+            {
+                var hitPoint = result.hitPoints[i];
+
+                var hurtBox = hitPoint.hurtBox;
+                if (!hurtBox)
+                {
+                    continue;
+                }
+
+                var hc = hurtBox.healthComponent;
+                if (!hc)
+                {
+                    continue;
+                }
+
+                DotController.InflictDot(hitPoint.hurtBox.healthComponent.gameObject, attackerBody.gameObject, DotController.DotIndex.Fracture, collapse.interval, 1f, uint.MaxValue);
+            }
+
+            Util.PlaySound("Play_item_void_clover", victimBody.gameObject);
+            Util.PlaySound("Play_voidDevastator_death_VO", victimBody.gameObject);
+            Util.PlaySound("Play_voidDevastator_death_VO", victimBody.gameObject);
+            Util.PlaySound("Play_clayboss_m2_explo", victimBody.gameObject);
+            Util.PlaySound("Play_engi_M2_explo", victimBody.gameObject);
         }
 
         private void ContagiousItemManager_Init(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
@@ -194,19 +225,6 @@ namespace Sandswept.Items.VoidGreens
             };
             ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].AddToArray(transformation);
             orig();
-        }
-
-        public IEnumerator AddCollapse(DamageInfo damageInfo, BlastAttack.Result result)
-        {
-            foreach (BlastAttack.HitPoint hitPoint in result.hitPoints)
-            {
-                if (hitPoint.hurtBox && hitPoint.hurtBox.healthComponent && damageInfo.attacker)
-                {
-                    yield return new WaitForSeconds(0.03f);
-                    var collapse = DotController.GetDotDef(DotController.DotIndex.Fracture);
-                    DotController.InflictDot(hitPoint.hurtBox.healthComponent.gameObject, damageInfo.attacker, DotController.DotIndex.Fracture, collapse.interval, 1f, uint.MaxValue);
-                }
-            }
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()

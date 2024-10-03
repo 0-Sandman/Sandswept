@@ -1,6 +1,7 @@
 # 1.0.0 Patch Notes
 * General
   * Added Expansion icon
+  * Fixed a bunch of sounds being global
 * Ranger
   * Added Emotes support
   * Buffed Charge to also give 1.5 armor per stack
@@ -9,7 +10,6 @@
   * Added Their Prominence
   * Fixed Millenium throwing an NRE
   * Fixed Millenium proccing itself
-  * Fixed Millenium sounds being global
   * Fixed Sun Fragment bugs
 * Elites
   * Added more configs

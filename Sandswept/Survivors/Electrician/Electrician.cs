@@ -18,6 +18,7 @@ namespace Sandswept.Survivors.Electrician
         public static GameObject TempestSphere;
         public static GameObject StaticSnare;
         public static DamageAPI.ModdedDamageType Grounding = DamageAPI.ReserveDamageType();
+
         public override void LoadAssets()
         {
             base.LoadAssets();
@@ -59,16 +60,19 @@ namespace Sandswept.Survivors.Electrician
 
         private void HandleGroundingShock(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
         {
-            if (damageInfo.HasModdedDamageType(Grounding) && NetworkServer.active) {
+            if (damageInfo.HasModdedDamageType(Grounding) && NetworkServer.active)
+            {
                 CharacterMotor motor = self.GetComponent<CharacterMotor>();
                 RigidbodyMotor motor2 = self.GetComponent<RigidbodyMotor>();
 
-                if ((motor && !motor.isGrounded) || (motor2)) {
+                if ((motor && !motor.isGrounded) || (motor2))
+                {
                     damageInfo.damage *= 1.5f;
                     damageInfo.damageType |= DamageType.Shock5s;
                     damageInfo.damageColorIndex = DamageColorIndex.Luminous;
 
-                    EffectManager.SpawnEffect(Paths.GameObject.SojournExplosionVFX, new EffectData {
+                    EffectManager.SpawnEffect(Paths.GameObject.SojournExplosionVFX, new EffectData
+                    {
                         origin = self.body.corePosition,
                         scale = self.body.bestFitRadius
                     }, true);
@@ -86,7 +90,8 @@ namespace Sandswept.Survivors.Electrician
         }
     }
 
-    public class TripwireController : MonoBehaviour {
+    public class TripwireController : MonoBehaviour
+    {
         public LineRenderer lineRenderer;
         public Transform explo;
         public float interval;
@@ -103,60 +108,71 @@ namespace Sandswept.Survivors.Electrician
         private BlastAttack blast;
         private GameObject effect;
 
-        public void Start() {
+        public void Start()
+        {
             controller = GetComponent<ProjectileController>();
             pDamage = GetComponent<ProjectileDamage>();
 
             delay = 1f / hitRate;
 
-            attack = new();
-            attack.damage = pDamage.damage * 3f * delay;
-            attack.radius = lineRenderer.startWidth;
-            attack.damageType = DamageType.Stun1s;
-            attack.isCrit = pDamage.crit;
-            attack.owner = controller.owner;
-            attack.procCoefficient = 0.1f;
-            attack.stopperMask = LayerIndex.noCollision.mask;
-            attack.falloffModel = BulletAttack.FalloffModel.None;
+            attack = new()
+            {
+                damage = pDamage.damage * 3f * delay,
+                radius = lineRenderer.startWidth,
+                damageType = DamageType.Stun1s,
+                isCrit = pDamage.crit,
+                owner = controller.owner,
+                procCoefficient = 0.1f,
+                stopperMask = LayerIndex.noCollision.mask,
+                falloffModel = BulletAttack.FalloffModel.None
+            };
 
-            blast = new();
-            blast.radius = 3f;
-            blast.attacker = attack.owner;
-            blast.crit = pDamage.crit;
-            blast.losType = BlastAttack.LoSType.None;
-            blast.falloffModel = BlastAttack.FalloffModel.None;
-            blast.damageType = pDamage.damageType;
-            blast.teamIndex = controller.teamFilter.teamIndex;
-            blast.procCoefficient = 1f;
-            blast.baseDamage = pDamage.damage * 3f;
+            blast = new()
+            {
+                radius = 3f,
+                attacker = attack.owner,
+                crit = pDamage.crit,
+                losType = BlastAttack.LoSType.None,
+                falloffModel = BlastAttack.FalloffModel.None,
+                damageType = pDamage.damageType,
+                teamIndex = controller.teamFilter.teamIndex,
+                procCoefficient = 1f,
+                baseDamage = pDamage.damage * 3f
+            };
             blast.damageType = DamageType.Shock5s;
 
             effect = Paths.GameObject.LoaderGroundSlam;
         }
 
-        public void FixedUpdate() {
+        public void FixedUpdate()
+        {
             stopwatch2 += Time.fixedDeltaTime;
 
-            if (stopwatch2 >= 0.2f && !paired && AllTripwireControllers.Count >= 2) {
+            if (stopwatch2 >= 0.2f && !paired && AllTripwireControllers.Count >= 2)
+            {
                 paired = AllTripwireControllers.OrderBy(x => Vector3.Distance(base.transform.position, x.transform.position)).FirstOrDefault(x => x.paired != this && x != this);
                 stopwatch2 = 0f;
             }
 
             lineRenderer.enabled = paired;
 
-            if (paired) {
+            if (paired)
+            {
                 lineRenderer.SetPosition(0, explo.position);
                 lineRenderer.SetPosition(1, paired.explo.position);
             }
 
-            if (!NetworkServer.active) {
+            if (!NetworkServer.active)
+            {
                 return;
             }
 
-            if (paired) {
+            if (paired)
+            {
                 stopwatchBeam += Time.fixedDeltaTime;
 
-                if (stopwatchBeam >= delay) {
+                if (stopwatchBeam >= delay)
+                {
                     stopwatchBeam = 0f;
 
                     attack.origin = explo.position;
@@ -169,28 +185,34 @@ namespace Sandswept.Survivors.Electrician
 
             stopwatch += Time.fixedDeltaTime;
 
-            if (stopwatch >= interval) {
+            if (stopwatch >= interval)
+            {
                 stopwatch = 0f;
-                
+
                 blast.position = explo.position;
                 blast.Fire();
 
-                EffectManager.SpawnEffect(effect, new EffectData {
+                EffectManager.SpawnEffect(effect, new EffectData
+                {
                     origin = blast.position,
                     scale = blast.radius * 2
                 }, true);
             }
         }
 
-        public void OnEnable() {
+        public void OnEnable()
+        {
             AllTripwireControllers.Add(this);
         }
-        public void OnDisable() {
+
+        public void OnDisable()
+        {
             AllTripwireControllers.Remove(this);
         }
     }
 
-    public class GalvanicBallController : MonoBehaviour {
+    public class GalvanicBallController : MonoBehaviour
+    {
         public float radius = 7f;
         public float damage = 1f;
         private bool hasBouncedEnemy = false;
@@ -199,34 +221,41 @@ namespace Sandswept.Survivors.Electrician
         private CharacterBody owner;
         private Rigidbody body;
 
-        public void Start() {
+        public void Start()
+        {
             pDamage = GetComponent<ProjectileDamage>();
             controller = GetComponent<ProjectileController>();
             owner = controller.owner.GetComponent<CharacterBody>();
             body = GetComponent<Rigidbody>();
         }
 
-        public void OnCollisionEnter(Collision collision) {
-            if (!hasBouncedEnemy && NetworkServer.active && body.velocity.magnitude > 10f) {
-                if (collision.collider && collision.collider.GetComponent<HurtBox>()) {
+        public void OnCollisionEnter(Collision collision)
+        {
+            if (!hasBouncedEnemy && NetworkServer.active && body.velocity.magnitude > 10f)
+            {
+                if (collision.collider && collision.collider.GetComponent<HurtBox>())
+                {
                     hasBouncedEnemy = true;
 
-                    BlastAttack attack = new();
-                    attack.radius = radius;
-                    attack.attacker = owner.gameObject;
-                    attack.position = base.transform.position;
-                    attack.crit = pDamage.crit;
-                    attack.losType = BlastAttack.LoSType.None;
-                    attack.falloffModel = BlastAttack.FalloffModel.None;
-                    attack.damageType = pDamage.damageType;
-                    attack.teamIndex = owner.teamComponent.teamIndex;
-                    attack.procCoefficient = 1f;
-                    attack.baseDamage = pDamage.damage * damage;
+                    BlastAttack attack = new()
+                    {
+                        radius = radius,
+                        attacker = owner.gameObject,
+                        position = base.transform.position,
+                        crit = pDamage.crit,
+                        losType = BlastAttack.LoSType.None,
+                        falloffModel = BlastAttack.FalloffModel.None,
+                        damageType = pDamage.damageType,
+                        teamIndex = owner.teamComponent.teamIndex,
+                        procCoefficient = 1f,
+                        baseDamage = pDamage.damage * damage
+                    };
 
                     attack.Fire();
-                    
-                    AkSoundEngine.PostEvent(Events.Play_loader_R_shock, base.gameObject);
-                    EffectManager.SpawnEffect(Paths.GameObject.LoaderGroundSlam, new EffectData {
+
+                    Util.PlaySound("Play_loader_R_shock", base.gameObject);
+                    EffectManager.SpawnEffect(Paths.GameObject.LoaderGroundSlam, new EffectData
+                    {
                         origin = attack.position,
                         scale = attack.radius * 2f
                     }, true);
@@ -270,16 +299,18 @@ namespace Sandswept.Survivors.Electrician
                 }
             }
 
-            attack = new();
-            attack.radius = sphere.radius;
-            attack.attacker = controller.owner;
-            attack.baseDamage = damage.damage / ticksPerSecond;
-            attack.crit = damage.crit;
-            attack.damageType = damage.damageType;
-            attack.procCoefficient = 1f;
-            attack.teamIndex = controller.teamFilter.teamIndex;
-            attack.losType = BlastAttack.LoSType.None;
-            attack.falloffModel = BlastAttack.FalloffModel.None;
+            attack = new()
+            {
+                radius = sphere.radius,
+                attacker = controller.owner,
+                baseDamage = damage.damage / ticksPerSecond,
+                crit = damage.crit,
+                damageType = damage.damageType,
+                procCoefficient = 1f,
+                teamIndex = controller.teamFilter.teamIndex,
+                losType = BlastAttack.LoSType.None,
+                falloffModel = BlastAttack.FalloffModel.None
+            };
         }
 
         public void FixedUpdate()

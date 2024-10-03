@@ -99,10 +99,10 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 
         public void FireShot()
         {
-            AkSoundEngine.PostEvent(Events.Play_lunar_wisp_attack2_launch, gameObject);
-            AkSoundEngine.PostEvent(Events.Play_bleedOnCritAndExplode_impact, gameObject);
-            AkSoundEngine.PostEvent(Events.Play_item_use_meteor_impact, gameObject);
-            AkSoundEngine.PostEvent(Events.Play_commando_M2_impact, gameObject);
+            Util.PlaySound("Play_lunar_wisp_attack2_launch", gameObject);
+            Util.PlaySound("Play_bleedOnCritAndExplode_impact", gameObject);
+            Util.PlaySound("Play_item_use_meteor_impact", gameObject);
+            Util.PlaySound("Play_commando_M2_impact", gameObject);
 
             var buffCount = characterBody.GetBuffCount(Buffs.Charge.instance.BuffDef);
 

@@ -60,7 +60,7 @@ namespace Sandswept
         public static ModdedDamageType HeatSelfDamage = ReserveDamageType();
 
         public static ExpansionDef SOTV;
-        public static ExpansionDef SSDef;
+        public static ExpansionDef SandsweptExpansionDef;
 
         public static Dictionary<string, string> ShaderLookup = new()
     {
@@ -236,11 +236,11 @@ namespace Sandswept
 
         public void GenerateExpensionDef()
         {
-            SSDef = dgoslingAssets.LoadAsset<ExpansionDef>("SandSweptExpDef");
-            SSDef.nameToken.Add("Sandswept");
-            SSDef.descriptionToken.Add("Adds content from the 'Sandswept' expansion to the game <3. Have fun <3.");
-            SSDef.disabledIconSprite = Utils.Assets.Sprite.texUnlockIconSprite;
-            ContentAddition.AddExpansionDef(SSDef);
+            SandsweptExpansionDef = dgoslingAssets.LoadAsset<ExpansionDef>("SandSweptExpDef");
+            SandsweptExpansionDef.nameToken.Add("Sandswept");
+            SandsweptExpansionDef.descriptionToken.Add("Adds content from the 'Sandswept' expansion to the game <3. Have fun <3.");
+            SandsweptExpansionDef.disabledIconSprite = Utils.Assets.Sprite.texUnlockIconSprite;
+            ContentAddition.AddExpansionDef(SandsweptExpansionDef);
         }
 
         internal static void ScanTypes<T>(Action<T> action)

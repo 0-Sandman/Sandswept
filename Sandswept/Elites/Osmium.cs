@@ -507,7 +507,7 @@ namespace Sandswept.Elites
 
             if (anyEnemies)
             {
-                AkSoundEngine.PostEvent(Events.Play_artifactBoss_attack1_explode, gameObject);
+                Util.PlaySound("Play_artifactBoss_attack1_explode", gameObject);
             }
 
             yield return null;

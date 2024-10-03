@@ -262,7 +262,7 @@ namespace Sandswept.Items.Reds
 
             dashTrail.Play();
 
-            AkSoundEngine.PostEvent(Events.Play_huntress_shift_mini_blink, base.gameObject);
+            Util.PlaySound("Play_huntress_shift_mini_blink", base.gameObject);
         }
     }
 }

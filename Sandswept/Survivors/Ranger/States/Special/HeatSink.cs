@@ -118,9 +118,9 @@ namespace Sandswept.Survivors.Ranger.States.Special
             Util.PlaySound("Play_magmaWorm_death_small_explos", gameObject);
             Util.PlaySound("Play_item_proc_igniteOnKill", gameObject);
             Util.PlaySound("Play_clayboss_m2_explo", gameObject);
-            AkSoundEngine.PostEvent(Events.Play_roboBall_death_small_explo, gameObject);
-            AkSoundEngine.PostEvent(Events.Play_voidRaid_m1_explode, gameObject);
-            AkSoundEngine.PostEvent(Events.Play_captain_shift_impact, gameObject);
+            Util.PlaySound("Play_roboBall_death_small_explo", gameObject);
+            Util.PlaySound("Play_voidRaid_m1_explode", gameObject);
+            Util.PlaySound("Play_captain_shift_impact", gameObject);
 
             PlayAnimation("FullBody, Override", "Twirl");
 

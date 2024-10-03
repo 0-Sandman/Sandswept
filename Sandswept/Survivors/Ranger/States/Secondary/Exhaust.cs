@@ -99,12 +99,12 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                 damageColorIndex = DamageColorIndex.Fragile
             };
 
-            AkSoundEngine.PostEvent(Events.Play_wisp_attack_fire, gameObject);
-            AkSoundEngine.PostEvent(Events.Play_lemurian_fireball_shoot, gameObject);
-            AkSoundEngine.PostEvent(Events.Play_lunar_wisp_attack2_launch, gameObject);
-            AkSoundEngine.PostEvent(Events.Play_bleedOnCritAndExplode_impact, gameObject);
-            AkSoundEngine.PostEvent(Events.Play_greater_wisp_impact, gameObject);
-            AkSoundEngine.PostEvent(Events.Play_item_use_molotov_impact_big, gameObject);
+            Util.PlaySound("Play_wisp_attack_fire", gameObject);
+            Util.PlaySound("Play_lemurian_fireball_shoot", gameObject);
+            Util.PlaySound("Play_lunar_wisp_attack2_launch", gameObject);
+            Util.PlaySound("Play_bleedOnCritAndExplode_impact", gameObject);
+            Util.PlaySound("Play_greater_wisp_impact", gameObject);
+            Util.PlaySound("Play_item_use_molotov_impact_big", gameObject);
 
             attack.Fire();
 
