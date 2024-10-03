@@ -161,7 +161,7 @@ namespace Sandswept.Items.VoidGreens
             {
                 origin = victimBody.corePosition,
                 rotation = Quaternion.identity,
-                scale = Mathf.Sqrt(radius * 20f)
+                scale = baseExplosionRadius + Mathf.Sqrt(radius)
             };
             EffectManager.SpawnEffect(vfx, effectData, true);
 
