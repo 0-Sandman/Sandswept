@@ -11,11 +11,14 @@
   * Added Drifting Perception
   * Added Their Prominence
   * Changed Millenium VFX
-  * Fixed Millenium throwing an NRE
-  * Fixed Millenium proccing itself
+  * Fixed Nuclear Salvo throwing an NRE
   * Fixed Smouldering Document throwing an NRE
   * Fixed Sun Fragment DoT ticking once
   * Fixed Sun Fragment proccing itself
+  * Fixed Millenium throwing an NRE
+  * Fixed Millenium proccing itself
+* Interactables
+  * Added Shrine of Sacrifice
 * Elites
   * Added more configs
   * Added item displays to Motivating

@@ -36,6 +36,14 @@ namespace Sandswept.Interactables.Regular
 
         public override bool SlightlyRandomizeOrientation => false;
 
+        [ConfigField("Curse Cost", "", 20)]
+        public static int curseCost;
+
+        [ConfigField("Item Count", "", 2)]
+        public static int itemCount;
+
+        public static GameObject shrineVFX;
+
         public override void Init()
         {
             base.Init();
@@ -45,16 +53,22 @@ namespace Sandswept.Interactables.Regular
             mdl.name = "mdlShrineSacrifice";
             mdl.GetComponent<MeshFilter>().sharedMesh = Main.prodAssets.LoadAsset<Mesh>("assets/sandswept/shrinesacrifice.fbx");
             mdl.GetComponent<MeshRenderer>().sharedMaterial = Main.prodAssets.LoadAsset<Material>("assets/sandswept/shrinesacrifice.fbx");
-            prefab.transform.Find("Symbol").localPosition = new(0, 4, 0);
-            prefab.transform.Find("Symbol").GetComponent<MeshRenderer>().material.mainTexture = Main.prodAssets.LoadAsset<Texture2D>("assets/sandswept/shrinesacrificeicon.png");
-            prefab.transform.Find("Symbol").GetComponent<MeshRenderer>().material.SetColor("_TintColor", new Color(96 / 255f, 20 / 255f, 87 / 255f, 255 / 255f));
+            var symbol = prefab.transform.Find("Symbol");
+            symbol.localPosition = new(0, 4, 0);
+            var meshRenderer = symbol.GetComponent<MeshRenderer>();
+            meshRenderer.material.mainTexture = Main.prodAssets.LoadAsset<Texture2D>("assets/sandswept/shrinesacrificeicon.png");
+            meshRenderer.material.SetColor("_TintColor", new Color32(96, 20, 87, 255));
+
+            shrineVFX = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.ShrineUseEffect, "Shrine of Sacrifice VFX", false);
+            shrineVFX.GetComponent<EffectComponent>().soundName = "Play_affix_void_bug_spawn";
+            ContentAddition.AddEffect(shrineVFX);
 
             var purchaseInteraction = prefab.GetComponent<PurchaseInteraction>();
             purchaseInteraction.displayNameToken = "SANDSWEPT_SHRINE_SACRIFICE_NAME";
             purchaseInteraction.contextToken = "SANDSWEPT_SHRINE_SACRIFICE_CONTEXT";
             purchaseInteraction.Networkavailable = true;
             purchaseInteraction.costType = CostTypeIndex.SoulCost;
-            purchaseInteraction.cost = 20;
+            purchaseInteraction.cost = curseCost;
 
             var genericDisplayNameProvider = prefab.GetComponent<GenericDisplayNameProvider>();
             genericDisplayNameProvider.displayToken = "SANDSWEPT_SHRINE_SACRIFICE_NAME";
@@ -81,10 +95,10 @@ namespace Sandswept.Interactables.Regular
                 TitleColor = Color.white
             };
             // add this to base later tbh?
-            LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_DESCRIPTION", "When activated by a survivor the Shrine of Sacrifice consumes a percentage of the survivors maximum health in exchange for two items.");
+            LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_DESCRIPTION", "When activated by a survivor the Shrine of Sacrifice consumes " + curseCost + "% of the survivors maximum health in exchange for " + itemCount + " items.");
 
-            LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE_2P", "<style=cShrine>You have sacrificed time and have been rewarded.</color>");
-            LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE", "<style=cShrine>{0} has sacrificed time and has been rewarded.</color>");
+            LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE_2P", "<style=cShrine>Your time has been sacrificed.</color>");
+            LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE", "<style=cShrine>{0}'s time has been sacrificed.</color>");
 
             prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo.Info = inspectInfo;
 
@@ -130,7 +144,7 @@ namespace Sandswept.Interactables.Regular
 
         private bool waitingForRefresh;
 
-        public int itemCount = 2;
+        public int itemCount = ShrineOfSacrifice.itemCount;
 
         public override int GetNetworkChannel()
         {
@@ -139,7 +153,7 @@ namespace Sandswept.Interactables.Regular
 
         private void Start()
         {
-            Main.ModLogger.LogError("shrine sacrifice behavior start");
+            // Main.ModLogger.LogError("shrine sacrifice behavior start");
             purchaseInteraction = GetComponent<PurchaseInteraction>();
             symbolTransform = transform.Find("Symbol");
         }
@@ -152,7 +166,7 @@ namespace Sandswept.Interactables.Regular
                 if (refreshTimer <= 0f && purchaseCount < maxPurchaseCount)
                 {
                     purchaseInteraction.SetAvailable(true);
-                    purchaseInteraction.Networkcost = 20;
+                    purchaseInteraction.Networkcost = ShrineOfSacrifice.curseCost;
                     waitingForRefresh = false;
                 }
             }
@@ -160,17 +174,17 @@ namespace Sandswept.Interactables.Regular
 
         public void AddShrineStack(Interactor interactor)
         {
-            Main.ModLogger.LogError("trying to run add shrine stack");
+            // Main.ModLogger.LogError("trying to run add shrine stack");
             if (!NetworkServer.active)
             {
-                Main.ModLogger.LogError("NETWORK SERVER NOT ACTRIVE EEEE ");
+                // Main.ModLogger.LogError("NETWORK SERVER NOT ACTRIVE EEEE ");
                 // Debug.LogWarning("[Server] function 'System.Void RoR2.ShrineBloodBehavior::AddShrineStack(RoR2.Interactor)' called on client");
                 return;
             }
             waitingForRefresh = true;
             var interactorBody = interactor.GetComponent<CharacterBody>();
 
-            Main.ModLogger.LogError("interactor body is " + interactorBody);
+            // Main.ModLogger.LogError("interactor body is " + interactorBody);
 
             var dropPickup = PickupIndex.none;
 
@@ -183,7 +197,7 @@ namespace Sandswept.Interactables.Regular
                 dropPickup = Run.instance.treasureRng.NextElementUniform(dropList);
             }
 
-            Main.ModLogger.LogError("random white pickupindex is " + dropPickup);
+            // Main.ModLogger.LogError("random white pickupindex is " + dropPickup);
 
             float angle = 360f / itemCount;
             Vector3 vector = Quaternion.AngleAxis(Random.Range(0, 360), Vector3.up) * (Vector3.up * 40f + Vector3.forward * 5f);
@@ -211,13 +225,16 @@ namespace Sandswept.Interactables.Regular
                 });
             }
 
-            EffectManager.SpawnEffect(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/ShrineUseEffect"), new EffectData
+            EffectManager.SpawnEffect(ShrineOfSacrifice.shrineVFX, new EffectData
             {
                 origin = base.transform.position,
                 rotation = Quaternion.identity,
-                scale = 1f,
-                color = Color.red
+                scale = 1.5f,
+                color = new Color32(96, 20, 87, 255)
             }, true);
+
+            Util.PlaySound("Play_deathProjectile_pulse", gameObject);
+            Util.PlaySound("Play_deathProjectile_pulse", gameObject);
 
             purchaseCount++;
             refreshTimer = 2f;
