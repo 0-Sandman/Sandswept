@@ -1,4 +1,5 @@
-﻿using System;
+﻿using R2API.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -40,6 +41,13 @@ namespace Sandswept.Interactables.Regular
             base.Init();
 
             prefab = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineBlood, "Shrine of Sacrifice", true);
+            var mdl = prefab.transform.Find("Base/mdlShrineHealing").gameObject;
+            mdl.name = "mdlShrineSacrifice";
+            mdl.GetComponent<MeshFilter>().sharedMesh = Main.prodAssets.LoadAsset<Mesh>("assets/sandswept/shrinesacrifice.fbx");
+            mdl.GetComponent<MeshRenderer>().sharedMaterial = Main.prodAssets.LoadAsset<Material>("assets/sandswept/shrinesacrifice.fbx");
+            prefab.transform.Find("Symbol").localPosition = new(0, 4, 0);
+            prefab.transform.Find("Symbol").GetComponent<MeshRenderer>().material.mainTexture = Main.prodAssets.LoadAsset<Texture2D>("assets/sandswept/shrinesacrificeicon.png");
+            prefab.transform.Find("Symbol").GetComponent<MeshRenderer>().material.SetColor("_TintColor", new Color(96 / 255f, 20 / 255f, 87 / 255f, 255 / 255f));
 
             var purchaseInteraction = prefab.GetComponent<PurchaseInteraction>();
             purchaseInteraction.displayNameToken = "SANDSWEPT_SHRINE_SACRIFICE_NAME";
