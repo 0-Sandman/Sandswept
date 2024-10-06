@@ -315,6 +315,12 @@ namespace Sandswept.Items.Greens
                     continue;
                 }
 
+                var inventory = npcMaster.inventory;
+                if (!inventory)
+                {
+                    return;
+                }
+
                 var npcBody = npcMaster.GetBody();
                 if (!npcBody)
                 {
@@ -333,8 +339,8 @@ namespace Sandswept.Items.Greens
 
                     var stack = body.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
 
-                    npcBody.inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
-                    npcBody.inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
+                    inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
+                    inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
                 }
             }
         }
@@ -357,6 +363,12 @@ namespace Sandswept.Items.Greens
                 return;
             }
 
+            var inventory = npcMaster.inventory;
+            if (!inventory)
+            {
+                return;
+            }
+
             var npcBody = npcMaster.GetBody();
             if (npcBody && (npcBody.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
             {
@@ -369,8 +381,8 @@ namespace Sandswept.Items.Greens
 
                 var stack = body.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
 
-                npcMaster.inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
-                npcMaster.inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
+                inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
+                inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
             }
         }
 
