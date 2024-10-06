@@ -57,10 +57,16 @@
 |<img src="https://i.postimg.cc/rp3zfsBQ/tex-Torn-Feather.png" width="96"/> | **Torn Feather** | Tap Interact to perform an omni-directional dash. Can dash twice until hitting the ground. Gain 20% (+35% per stack) movement speed. | Red |
 |  |  |  |
 |<img src="https://i.postimg.cc/sfH2YN1y/tex-Fractured-Timepiece.png" width="96"/> | **Their  Prominence** | Using a Shrine has a 35% (+15% per stack, hyperbolic) chance to invite the challenge of the Mountain. | Lunar |
+
 # Equipment
 | Icon | Equipment | Description | Tier |
 |:-|-|------|-|
 | <img src="https://i.postimg.cc/90551q0y/tex-Sandsw-eeper.png" width="64"/> | **The Sand Sweeper** | Pushes all enemies within 20m, dealing up to 500% damage and stunning for up to 6 seconds based on the distance. | Orange |
+
+# Interactables
+| Icon | Name | Description | Rarity |
+|:-|-|------|-|
+|<img src="https://i.postimg.cc/gkCDYxzs/tex-Shrine-Of-Sacrifice.png" width="64"/> | **Shrine of Sacrifice** | Gain 20% curse to drop a random white item twice. Usable once. | Common |
 
 # Credits
 
