@@ -1,15 +1,22 @@
 using System;
 using RoR2.Orbs;
 
-namespace Sandswept.Survivors.Electrician.States {
-    public class SignalOverloadCharge : BaseSkillState {
+namespace Sandswept.Survivors.Electrician.States
+{
+    public class SignalOverloadCharge : BaseSkillState
+    {
         public float chargeTime = 2f;
         public float movePenalty = 0.5f;
         public float modifier = 1f;
-        public SignalOverloadCharge(float effectMultiplier) {
+
+        public SignalOverloadCharge(float effectMultiplier)
+        {
             modifier = effectMultiplier;
         }
-        public SignalOverloadCharge() {}
+
+        public SignalOverloadCharge()
+        { }
+
         public override void OnEnter()
         {
             base.OnEnter();
@@ -21,7 +28,8 @@ namespace Sandswept.Survivors.Electrician.States {
         {
             base.FixedUpdate();
 
-            if (base.fixedAge >= chargeTime) {
+            if (base.fixedAge >= chargeTime)
+            {
                 outer.SetNextState(new SignalOverloadFire(modifier));
             }
         }
@@ -32,7 +40,8 @@ namespace Sandswept.Survivors.Electrician.States {
         }
     }
 
-    public class SignalOverloadFire : BaseSkillState {
+    public class SignalOverloadFire : BaseSkillState
+    {
         public float recoilDuration = 0.8f;
         public float effectMultiplier = 1f;
         private float damageCoeff = 8f;
@@ -40,6 +49,7 @@ namespace Sandswept.Survivors.Electrician.States {
         public SignalOverloadFire(float modifier) {
             effectMultiplier = modifier;
         }
+
         public override void OnEnter()
         {
             base.OnEnter();
@@ -48,11 +58,13 @@ namespace Sandswept.Survivors.Electrician.States {
             damageCoeff *= effectMultiplier;
             radius *= effectMultiplier;
 
-            if (base.isAuthority) {
+            if (base.isAuthority)
+            {
                 HandleBlastAuthority();
             }
 
-            EffectManager.SpawnEffect(Paths.GameObject.LoaderGroundSlam, new EffectData {
+            EffectManager.SpawnEffect(Paths.GameObject.LoaderGroundSlam, new EffectData
+            {
                 origin = base.transform.position,
                 scale = radius * 2f
             }, true);
@@ -62,7 +74,8 @@ namespace Sandswept.Survivors.Electrician.States {
         {
             base.FixedUpdate();
 
-            if (base.fixedAge >= recoilDuration) {
+            if (base.fixedAge >= recoilDuration)
+            {
                 outer.SetNextStateToMain();
             }
         }
@@ -74,7 +87,8 @@ namespace Sandswept.Survivors.Electrician.States {
             characterMotor.walkSpeedPenaltyCoefficient = 1f;
         }
 
-        public void HandleBlastAuthority() {
+        public void HandleBlastAuthority()
+        {
             SphereSearch search = new();
             search.radius = radius;
             search.mask = LayerIndex.entityPrecise.mask;
@@ -83,7 +97,8 @@ namespace Sandswept.Survivors.Electrician.States {
             search.FilterCandidatesByDistinctHurtBoxEntities();
             search.FilterCandidatesByHurtBoxTeam(TeamMask.GetUnprotectedTeams(base.GetTeam()));
 
-            foreach (HurtBox box in search.GetHurtBoxes()) {
+            foreach (HurtBox box in search.GetHurtBoxes())
+            {
                 LightningOrb orb = new();
                 orb.attacker = base.gameObject;
                 orb.damageValue = base.damageStat;
@@ -95,7 +110,7 @@ namespace Sandswept.Survivors.Electrician.States {
                 orb.target = box;
                 orb.teamIndex = base.GetTeam();
                 orb.AddModdedDamageType(Electrician.Grounding);
-                
+
                 OrbManager.instance.AddOrb(orb);
             }
         }

@@ -1,15 +1,19 @@
 using System;
 
-namespace Sandswept.Survivors.Electrician.States {
-    public class StaticSnare : BaseSkillState {
+namespace Sandswept.Survivors.Electrician.States
+{
+    public class StaticSnare : BaseSkillState
+    {
         public float duration = 2f;
+
         public override void OnEnter()
         {
             base.OnEnter();
 
             duration /= base.attackSpeedStat;
 
-            if (base.isAuthority) {
+            if (base.isAuthority)
+            {
                 FireProjectileInfo info = MiscUtils.GetProjectile(Electrician.StaticSnare, 1f, base.characterBody);
                 ProjectileManager.instance.FireProjectile(info);
             }
@@ -19,7 +23,8 @@ namespace Sandswept.Survivors.Electrician.States {
         {
             base.FixedUpdate();
 
-            if (base.fixedAge >= duration) {
+            if (base.fixedAge >= duration)
+            {
                 outer.SetNextStateToMain();
             }
         }

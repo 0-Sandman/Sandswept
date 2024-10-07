@@ -11,7 +11,7 @@ namespace Sandswept.Items.Reds
 
         public override string ItemFullDescription => ("Tap $sdInteract$se to perform an $suomni-directional dash$se. Can dash twice until hitting the ground. Gain $su" + d(baseMovementSpeedGain) + "$se $ss(+" + d(stackMovementSpeedGain) + " per stack)$se movement speed.").AutoFormat();
 
-        public override string ItemLore => "<style=cMono>//--AUTO-TRANSCRIPTION FROM LOADING BAY 6 OF THE UES [Redacted] --//\r\n\r\n</style>\"Whoa...\"\r\n\r\n\"Quite something, eh?\"\r\n\r\n\"Yeah, it's...it's like holding a dream.\"\r\n\r\n\"I know the feeling. Once in a while, these steel tubes of hell are blessed with something so special, it's hard to resist the temptation to just take it for yourself and fly away.\"\r\n\r\n\"...mhm.\"\r\n\r\n\"But—\"\r\n\r\n\"Hey!\"\r\n\r\n\"—we must not fall prey to it. The steel-toed boot of the UESC is swift and agonizing.\"\r\n\r\n\"...yeah, you're right.\"\r\n\r\n\"Indeed I am! As with many things, you will soon learn. I can't blame you, though. Honestly, this might just be the most magical thing I've seen in these docks. It probably ought to be in the Hall of the Revered, but I guess some lucky sap nabbed it first. Time will tell how long it'll be before those Martians get their divine mitts on it. They always do, in the end.\"\r\n\r\n...\r\n\r\n\"Well, now you're just ogling at it, too.\"\r\n\r\n\"Ah, so I am! See, not even I in my ultimate wisdom, am fully immune to such things. Oh, well; into the abyssal maw of the shipping crate it goes!\"\r\n\r\n...you'll get over it, with time. Just try not to think about it, especially while it's still in this dock. For us, it's back to work.\"";
+        public override string ItemLore => "<style=cMono>//--AUTO-TRANSCRIPTION FROM LOADING BAY 6 OF THE UES [Redacted] --//\r\n\r\n</style>\"Whoa...\"\r\n\r\n\"Quite something, eh?\"\r\n\r\n\"Yeah, it's...it's like holding a dream.\"\r\n\r\n\"I know the feeling. Once in a while, these steel tubes of hell are blessed with something so special, it's hard to resist the temptation to just take it for yourself and fly away.\"\r\n\r\n\"...mhm.\"\r\n\r\n\"But?\"\r\n\r\n\"Hey!\"\r\n\r\n\"—we must not fall prey to it. The steel-toed boot of the UESC is swift and agonizing.\"\r\n\r\n\"...yeah, you're right.\"\r\n\r\n\"Indeed I am! As with many things, you will soon learn. I can't blame you, though. Honestly, this might just be the most magical thing I've seen in these docks. It probably ought to be in the Hall of the Revered, but I guess some lucky sap nabbed it first. Time will tell how long it'll be before those Martians get their divine mitts on it. They always do, in the end.\"\r\n\r\n...\r\n\r\n\"Well, now you're just ogling at it, too.\"\r\n\r\n\"Ah, so I am! See, not even I in my ultimate wisdom, am fully immune to such things. Oh, well; into the abyssal maw of the shipping crate it goes!\"\r\n\r\n...you'll get over it, with time. Just try not to think about it, especially while it's still in this dock. For us, it's back to work.\"";
 
         public override ItemTier Tier => ItemTier.Tier3;
 
@@ -70,15 +70,31 @@ namespace Sandswept.Items.Reds
         public override void Hooks()
         {
             RecalculateStatsAPI.GetStatCoefficients += HandleStats;
+            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
+        }
+
+        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
+        {
+            var inventory = body.inventory;
+            if (!inventory)
+            {
+                return;
+            }
+
+            var stack = GetCount(body);
+
+            body.AddItemBehavior<FeatherBehaviour>(stack);
         }
 
         private void HandleStats(CharacterBody sender, StatHookEventArgs args)
         {
             if (sender.inventory)
             {
-                int stack = sender.inventory.GetItemCount(ItemDef);
-                sender.AddItemBehavior<FeatherBehaviour>(stack);
-                args.moveSpeedMultAdd += baseMovementSpeedGain + stackMovementSpeedGain * (stack - 1);
+                var stack = GetCount(sender);
+                if (stack > 0)
+                {
+                    args.moveSpeedMultAdd += baseMovementSpeedGain + stackMovementSpeedGain * (stack - 1);
+                }
             }
         }
     }
@@ -246,7 +262,7 @@ namespace Sandswept.Items.Reds
 
             dashTrail.Play();
 
-            AkSoundEngine.PostEvent(Events.Play_huntress_shift_mini_blink, base.gameObject);
+            Util.PlaySound("Play_huntress_shift_mini_blink", base.gameObject);
         }
     }
 }

@@ -108,10 +108,10 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 
         public void FireShot()
         {
-            AkSoundEngine.PostEvent(Events.Play_lunar_wisp_attack2_launch, gameObject);
-            AkSoundEngine.PostEvent(Events.Play_bleedOnCritAndExplode_impact, gameObject);
-            AkSoundEngine.PostEvent(Events.Play_item_use_meteor_impact, gameObject);
-            AkSoundEngine.PostEvent(Events.Play_commando_M2_impact, gameObject);
+            Util.PlaySound("Play_lunar_wisp_attack2_launch", gameObject);
+            Util.PlaySound("Play_bleedOnCritAndExplode_impact", gameObject);
+            Util.PlaySound("Play_item_use_meteor_impact", gameObject);
+            Util.PlaySound("Play_commando_M2_impact", gameObject);
 
             var buffCount = characterBody.GetBuffCount(Buffs.Charge.instance.BuffDef);
             var aimDirection = GetAimRay().direction;
@@ -152,7 +152,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 
                 AddRecoil(1f + 0.1f * buffCount, 1f + 0.1f * buffCount, 0f, 0f);
 
-                characterMotor?.ApplyForce((-350f - 35f * buffCount) * aimDirection, false, false);
+                characterMotor?.ApplyForce((-150f - 15f * buffCount) * aimDirection, false, false);
                 projectilesFired++;
                 yield return new WaitForSeconds(duration * 2f / projectileCount);
             }

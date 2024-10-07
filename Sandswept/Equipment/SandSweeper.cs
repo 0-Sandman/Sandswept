@@ -1,4 +1,5 @@
-﻿using static Sandswept.Main;
+﻿using EntityStates.Bandit2;
+using static Sandswept.Main;
 
 namespace Sandswept.Equipment
 {
@@ -82,8 +83,7 @@ namespace Sandswept.Equipment
                 });
                 body.healthComponent.GetComponent<SetStateOnHurt>()?.SetStun(Mathf.Lerp(maxStun, minStun, dist / range));
             }
-            if (slot.characterBody?.characterMotor?.isGrounded ?? false)
-                slot.characterBody.characterMotor.velocity = new Vector3(slot.characterBody.characterMotor.velocity.x, EntityStates.Bandit2.StealthMode.shortHopVelocity, slot.characterBody.characterMotor.velocity.z);
+            slot.characterBody.characterMotor.velocity = Vector3.ProjectOnPlane(slot.characterBody.characterMotor.velocity, slot.gameObject.transform.up) + (slot.gameObject.transform.up * StealthMode.shortHopVelocity);
             return true;
         }
 

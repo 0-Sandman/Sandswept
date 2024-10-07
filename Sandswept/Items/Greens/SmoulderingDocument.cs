@@ -89,10 +89,10 @@ namespace Sandswept.Items.Greens
 
             if (stacks > 0)
             {
-                var infoStorage = victimBody.GetComponent<SmoulderingDocumentController>() ? victimBody.GetComponent<SmoulderingDocumentController>() : victimBody.AddComponent<SmoulderingDocumentController>();
+                var smoulderingDocumentController = victimBody.GetComponent<SmoulderingDocumentController>() ? victimBody.GetComponent<SmoulderingDocumentController>() : victimBody.AddComponent<SmoulderingDocumentController>();
 
-                infoStorage.body = victimBody;
-                infoStorage.stacks = GetCount(attackerBody);
+                smoulderingDocumentController.body = victimBody;
+                smoulderingDocumentController.stacks = GetCount(attackerBody);
 
                 if (inflictDotInfo.dotIndex == DotController.DotIndex.Burn && inflictDotInfo.totalDamage != null)
                 {
@@ -151,10 +151,12 @@ namespace Sandswept.Items.Greens
         {
             if (sender.HasBuff(SmoulderingDocumentDebuff))
             {
-                var token = sender.gameObject.GetComponent<SmoulderingDocumentController>();
-                var damageReduction = Util.ConvertAmplificationPercentageIntoReductionPercentage((burdenBaseDamageReduction * 100f) + (burdenStackDamageReduction * 100f) * (token.stacks - 1)) * -0.01f;
-                args.damageMultAdd += damageReduction;
-                args.attackSpeedMultAdd -= burdenBaseAttackSpeedReduction + burdenStackAttackSpeedReduction * (token.stacks - 1);
+                if (sender.TryGetComponent<SmoulderingDocumentController>(out var smoulderingDocumentController))
+                {
+                    var damageReduction = Util.ConvertAmplificationPercentageIntoReductionPercentage((burdenBaseDamageReduction * 100f) + (burdenStackDamageReduction * 100f) * (smoulderingDocumentController.stacks - 1)) * -0.01f;
+                    args.damageMultAdd += damageReduction;
+                    args.attackSpeedMultAdd -= burdenBaseAttackSpeedReduction + burdenStackAttackSpeedReduction * (smoulderingDocumentController.stacks - 1);
+                }
             }
         }
 

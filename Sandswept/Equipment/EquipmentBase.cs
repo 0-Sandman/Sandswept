@@ -109,6 +109,7 @@ namespace Sandswept.Equipment
             EquipmentDef.enigmaCompatible = EnigmaCompatible;
             EquipmentDef.isBoss = IsBoss;
             EquipmentDef.isLunar = IsLunar;
+            EquipmentDef.requiredExpansion = Main.SandsweptExpansionDef;
 
             ItemAPI.Add(new CustomEquipment(EquipmentDef, CreateItemDisplayRules()));
             On.RoR2.EquipmentSlot.PerformEquipmentAction += PerformEquipmentAction;

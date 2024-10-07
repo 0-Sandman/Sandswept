@@ -97,12 +97,12 @@ namespace Sandswept.Buffs
                     temporaryOverlay2.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
                 }
 
-                AkSoundEngine.PostEvent(Events.Play_loader_R_shock, self.gameObject);
+                Util.PlaySound("Play_loader_R_shock", self.gameObject);
 
                 if (buffCount > (DirectCurrent.maxCharge - 1))
                 {
-                    AkSoundEngine.PostEvent(Events.Play_vagrant_attack1_pop, self.gameObject);
-                    AkSoundEngine.PostEvent(Events.Play_vagrant_attack1_pop, self.gameObject);
+                    Util.PlaySound("Play_vagrant_attack1_pop", self.gameObject);
+                    Util.PlaySound("Play_vagrant_attack1_pop", self.gameObject);
                 }
             }
         }

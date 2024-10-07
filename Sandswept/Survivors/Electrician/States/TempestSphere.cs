@@ -1,7 +1,9 @@
 using System;
 
-namespace Sandswept.Survivors.Electrician.States {
-    public class TempestSphereCharge : BaseSkillState {
+namespace Sandswept.Survivors.Electrician.States
+{
+    public class TempestSphereCharge : BaseSkillState
+    {
         public float chargeDuration = 1.4f;
 
         public override void OnEnter()
@@ -18,7 +20,8 @@ namespace Sandswept.Survivors.Electrician.States {
         {
             base.FixedUpdate();
 
-            if (base.fixedAge >= chargeDuration) {
+            if (base.fixedAge >= chargeDuration)
+            {
                 outer.SetNextState(new TempestSphereFire());
             }
         }
@@ -29,17 +32,20 @@ namespace Sandswept.Survivors.Electrician.States {
         }
     }
 
-    public class TempestSphereFire : BaseSkillState {
+    public class TempestSphereFire : BaseSkillState
+    {
         public float damageCoeff = 8f;
         public float recoilTime = 0.3f;
         public bool locked = false;
+
         public override void OnEnter()
         {
             base.OnEnter();
 
             recoilTime /= base.attackSpeedStat;
 
-            if (base.isAuthority) {
+            if (base.isAuthority)
+            {
                 FireProjectileInfo info = MiscUtils.GetProjectile(Electrician.TempestSphere, damageCoeff, base.characterBody);
                 ProjectileManager.instance.FireProjectile(info);
             }

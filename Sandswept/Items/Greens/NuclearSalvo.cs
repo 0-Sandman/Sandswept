@@ -210,73 +210,6 @@ namespace Sandswept.Items.Greens
             body.gameObject.AddComponent<SalvoPlayerController>();
             // Main.ModLogger.LogError("oninventorychagned: giving itembehavior");
         }
-
-        /* THIS IS THE PREVIOUS CODE THAT PSEUDOPULSE WROTE :SOB:
-        public void GiveItem(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
-        {
-            orig(self);
-            if (NetworkServer.active && self.isPlayerControlled)
-            {
-                var stack = self.inventory.GetItemCount(ItemDef);
-                if (stack > 0)
-                {
-                    for (int i = 0; i < CharacterMaster.readOnlyInstancesList.Count; i++)
-                    {
-                        var master = CharacterMaster.readOnlyInstancesList[i];
-                        if (!master.inventory)
-                        {
-                            continue;
-                        }
-
-                        if (master.inventory.GetItemCount(ItemDef) < stack)
-                        {
-                            master.inventory.ResetItem(ItemDef);
-                            master.inventory.GiveItem(ItemDef, stack);
-                        }
-
-                        var body = master.GetBody();
-                        if (!body)
-                        {
-                            continue;
-                        }
-
-                        body.AddComponent<SalvoBehaviour>();
-                    }
-                }
-            }
-        }
-
-        public void RecheckItems(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, CharacterBody self)
-        {
-            orig(self);
-
-            if (NetworkServer.active && self.isPlayerControlled && self.inventory.GetItemCount(ItemDef) == 0)
-            {
-                for (int i = 0; i < CharacterMaster.readOnlyInstancesList.Count; i++)
-                {
-                    var master = CharacterMaster.readOnlyInstancesList[i];
-                    if (!master.minionOwnership)
-                    {
-                        continue;
-                    }
-
-                    if (master.minionOwnership.ownerMaster != self.master)
-                    {
-                        continue;
-                    }
-
-                    master.inventory.RemoveItem(ItemDef, master.inventory.GetItemCount(ItemDef));
-                    var body = master.GetBody();
-                    if (!body)
-                    {
-                        continue;
-                    }
-
-                    body.RemoveComponent<SalvoBehaviour>();
-                }
-            }
-        }
-        */
     }
 
     public class SalvoPlayerController : MonoBehaviour
@@ -315,6 +248,12 @@ namespace Sandswept.Items.Greens
                     continue;
                 }
 
+                var inventory = npcMaster.inventory;
+                if (!inventory)
+                {
+                    continue;
+                }
+
                 var npcBody = npcMaster.GetBody();
                 if (!npcBody)
                 {
@@ -333,8 +272,8 @@ namespace Sandswept.Items.Greens
 
                     var stack = body.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
 
-                    npcBody.inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
-                    npcBody.inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
+                    inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
+                    inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
                 }
             }
         }
@@ -357,6 +296,12 @@ namespace Sandswept.Items.Greens
                 return;
             }
 
+            var inventory = npcMaster.inventory;
+            if (!inventory)
+            {
+                return;
+            }
+
             var npcBody = npcMaster.GetBody();
             if (npcBody && (npcBody.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
             {
@@ -369,8 +314,8 @@ namespace Sandswept.Items.Greens
 
                 var stack = body.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
 
-                npcMaster.inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
-                npcMaster.inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
+                inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
+                inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
             }
         }
 

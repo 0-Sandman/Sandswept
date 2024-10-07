@@ -32,7 +32,7 @@ namespace Sandswept.Survivors.Ranger.Projectiles
             projectileProximityBeamController.listClearInterval = 0.5f;
             projectileProximityBeamController.procCoefficient = 0.5f;
             projectileProximityBeamController.damageCoefficient = 0.5f;
-            projectileProximityBeamController.attackRange = 35f;
+            projectileProximityBeamController.attackRange = 20f;
 
             PrefabAPI.RegisterNetworkPrefab(prefabDefault);
             ContentAddition.AddProjectile(prefabDefault);

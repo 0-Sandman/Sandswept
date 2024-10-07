@@ -54,8 +54,6 @@ namespace Sandswept.Items.Greens
         public GameObject FragmentVFX;
 
         public static GameObject FragmentVFXSphere;
-        public static ProcType sunFragmentDoTProcType = (ProcType)1298571298;
-        public static ProcType sunFragmentAreaProcType = (ProcType)1298571264;
 
         public override void Init(ConfigFile config)
         {
@@ -94,56 +92,25 @@ namespace Sandswept.Items.Greens
         public override void Hooks()
         {
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
-            On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
-        }
-
-        private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
-        {
-            var attacker = damageInfo.attacker;
-            if (!damageInfo.procChainMask.HasProc(sunFragmentDoTProcType) && attacker && damageInfo.HasModdedDamageType(SunFragmentDamageType))
-            {
-                var attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
-                if (attackerBody)
-                {
-                    var inventory = attackerBody.inventory;
-                    if (inventory)
-                    {
-                        var stack = inventory.GetItemCount(instance.ItemDef);
-                        if (stack > 0)
-                        {
-                            var totalDamage = baseTotalDamage + stackTotalDamage * (stack - 1);
-                            var dot = new InflictDotInfo()
-                            {
-                                attackerObject = damageInfo.attacker,
-                                victimObject = self.gameObject,
-                                totalDamage = damageInfo.damage * totalDamage,
-                                damageMultiplier = 3f,
-                                dotIndex = DotController.DotIndex.Burn,
-                                maxStacksFromAttacker = null,
-                            };
-
-                            StrengthenBurnUtils.CheckDotForUpgrade(inventory, ref dot);
-                            DotController.InflictDot(ref dot);
-
-                            damageInfo.procChainMask.AddProc(sunFragmentDoTProcType);
-                        }
-                    }
-                }
-            }
-            orig(self, damageInfo);
         }
 
         private void GlobalEventManager_onServerDamageDealt(DamageReport report)
         {
             var damageInfo = report.damageInfo;
 
-            if (damageInfo.procChainMask.HasProc(sunFragmentAreaProcType))
+            if (damageInfo.procChainMask.HasProc(ProcType.VoidSurvivorCrush))
             {
                 return;
             }
 
             var attackerBody = report.attackerBody;
             if (!attackerBody)
+            {
+                return;
+            }
+
+            var inventory = attackerBody.inventory;
+            if (!inventory)
             {
                 return;
             }
@@ -155,52 +122,88 @@ namespace Sandswept.Items.Greens
             }
 
             var stack = GetCount(attackerBody);
-            if (stack > 0)
+            if (stack <= 0)
             {
-                if (Util.CheckRoll(chance * damageInfo.procCoefficient, attackerBody.master))
-                {
-                    EffectData effectData = new()
-                    {
-                        origin = victimBody.corePosition,
-                        rotation = Util.QuaternionSafeLookRotation(damageInfo.force != Vector3.zero ? damageInfo.force : Random.onUnitSphere),
-                        scale = explosionRadius
-                    };
-                    EffectData effectData2 = new()
-                    {
-                        origin = victimBody.corePosition,
-                        scale = explosionRadius
-                    };
-                    EffectManager.SpawnEffect(FragmentVFX, effectData, true);
-                    EffectManager.SpawnEffect(FragmentVFXSphere, effectData2, true);
-
-                    var setStateOnHurt = victimBody.GetComponent<SetStateOnHurt>();
-                    setStateOnHurt?.SetStun(stunDuration);
-
-                    // var damage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, baseTotalDamage + stackTotalDamage * (stack - 1));
-
-                    BlastAttack blastAttack = new()
-                    {
-                        radius = explosionRadius,
-                        baseDamage = Mathf.Epsilon, // dont ask
-                        procCoefficient = explosionProcCoefficient,
-                        crit = damageInfo.crit,
-                        damageColorIndex = SolarFlareColour,
-                        attackerFiltering = AttackerFiltering.NeverHitSelf,
-                        falloffModel = BlastAttack.FalloffModel.None,
-                        attacker = attackerBody.gameObject,
-                        teamIndex = attackerBody.teamComponent.teamIndex,
-                        position = damageInfo.position,
-                        damageType = DamageType.Silent | DamageType.BypassArmor | DamageType.BypassBlock // I said dont ask
-                    };
-
-                    blastAttack.AddModdedDamageType(SunFragmentDamageType);
-                    blastAttack.Fire();
-
-                    damageInfo.procChainMask.AddProc(sunFragmentAreaProcType);
-
-                    AkSoundEngine.PostEvent(Events.Play_fireballsOnHit_shoot, victimBody.gameObject);
-                }
+                return;
             }
+
+            if (!Util.CheckRoll(chance * damageInfo.procCoefficient, attackerBody.master))
+            {
+                return;
+            }
+
+            damageInfo.procChainMask.AddProc(ProcType.VoidSurvivorCrush);
+
+            EffectData effectData = new()
+            {
+                origin = victimBody.corePosition,
+                rotation = Util.QuaternionSafeLookRotation(damageInfo.force != Vector3.zero ? damageInfo.force : Random.onUnitSphere),
+                scale = explosionRadius
+            };
+            EffectData effectData2 = new()
+            {
+                origin = victimBody.corePosition,
+                scale = explosionRadius
+            };
+            EffectManager.SpawnEffect(FragmentVFX, effectData, true);
+            EffectManager.SpawnEffect(FragmentVFXSphere, effectData2, true);
+
+            var setStateOnHurt = victimBody.GetComponent<SetStateOnHurt>();
+            setStateOnHurt?.SetStun(stunDuration);
+
+            // var damage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, baseTotalDamage + stackTotalDamage * (stack - 1));
+
+            BlastAttack blastAttack = new()
+            {
+                radius = explosionRadius,
+                baseDamage = 0, // dont ask
+                procCoefficient = explosionProcCoefficient,
+                crit = damageInfo.crit,
+                damageColorIndex = SolarFlareColour,
+                attackerFiltering = AttackerFiltering.NeverHitSelf,
+                falloffModel = BlastAttack.FalloffModel.None,
+                attacker = attackerBody.gameObject,
+                teamIndex = attackerBody.teamComponent.teamIndex,
+                position = damageInfo.position,
+                damageType = DamageType.Silent,
+                procChainMask = damageInfo.procChainMask
+            };
+
+            var result = blastAttack.Fire();
+
+            var totalDamage = baseTotalDamage + stackTotalDamage * (stack - 1);
+
+            for (int i = 0; i < result.hitPoints.Length; i++)
+            {
+                var hitPoint = result.hitPoints[i];
+                var hurtBox = hitPoint.hurtBox;
+                if (!hurtBox)
+                {
+                    continue;
+                }
+                var hc = hurtBox.healthComponent;
+                if (!hc)
+                {
+                    continue;
+                }
+
+                var body = hc.body;
+
+                var dot = new InflictDotInfo()
+                {
+                    attackerObject = damageInfo.attacker,
+                    victimObject = body.gameObject,
+                    totalDamage = damageInfo.damage * totalDamage,
+                    damageMultiplier = 2f * stack,
+                    dotIndex = DotController.DotIndex.Burn,
+                    maxStacksFromAttacker = null,
+                };
+
+                StrengthenBurnUtils.CheckDotForUpgrade(inventory, ref dot);
+                DotController.InflictDot(ref dot);
+            }
+
+            Util.PlaySound("Play_fireballsOnHit_shoot", victimBody.gameObject);
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()

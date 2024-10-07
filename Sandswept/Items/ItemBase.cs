@@ -138,6 +138,7 @@ namespace Sandswept.Items
 #pragma warning disable
             ItemDef.deprecatedTier = Tier;
 #pragma warning enable
+            ItemDef.requiredExpansion = Main.SandsweptExpansionDef;
 
             if (AchievementName != null)
             {

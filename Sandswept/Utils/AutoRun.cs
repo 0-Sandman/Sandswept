@@ -1,6 +1,7 @@
 using System.Reflection;
 using System.Collections;
 using System;
+using System.Linq;
 
 namespace Sandswept.Utils
 {
@@ -17,8 +18,13 @@ namespace Sandswept.Utils
         public static void HandleAutoRun()
         {
             Type[] types = Assembly.GetExecutingAssembly().GetTypes();
+            List<Type> tmp = types.ToList();
+            tmp.RemoveAll(asdf);
+            types = tmp.ToArray();
             foreach (Type type in types)
             {
+                if (!type.FullName.Contains("CustomEmotesAPI"))
+                    continue;
                 TypeInfo tInfo = type.GetTypeInfo();
                 foreach (MethodInfo info in tInfo.GetMethods((BindingFlags)(-1)))
                 {
@@ -29,6 +35,10 @@ namespace Sandswept.Utils
                     }
                 }
             }
+        }
+        static bool asdf(Type s)
+        {
+            return s.FullName.Contains("CustomEmotesAPI");
         }
     }
 }

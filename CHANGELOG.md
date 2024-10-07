@@ -1,13 +1,31 @@
 # 1.0.0 Patch Notes
 * General
-  * Added Expansion icon
+  * Added Sandswept Expansion >w<
+* Electrician
+  * Added
 * Ranger
   * Added Emotes support
-  * Buffed Charge to also give 1.5 armor per stack
 * Items
   * Added Drifting Perception
   * Added Their Prominence
+* Interactables
+  * Added Shrine of Sacrifice
+* Elites
+  * Added item displays to Motivating
+
+# 0.9.4 Patch Notes
+* General
+  * Fixed a bunch of sounds being global
+* Ranger
+  * Buffed Charge to also give 1.5 armor per stack
+* Items
+  * Changed Millenium VFX
+  * Fixed Nuclear Salvo throwing an NRE
+  * Fixed Smouldering Document throwing an NRE
+  * Fixed Sun Fragment DoT ticking once
+  * Fixed Sun Fragment proccing itself
   * Fixed Millenium throwing an NRE
+  * Fixed Millenium proccing itself
 * Elites
   * Added more configs
 
@@ -17,10 +35,9 @@
 
 # 0.9.2 Patch Notes
 * Ranger
+  * Changed crosshair
   * Fixed Major skin having the wrong VFX
   * Fixed Ranger having too slow of a walk animation and too fast of a sprint animation
-  * Moved Rangers crosshair up
-  * Modified Rangers crosshair visual
 * Items
   * Added VFX & SFX to Sacrificial Band
   * Nerfed Universal VIP Pass to scale chance with player count (so that it's consistent in strength regardless of player numbers)
@@ -222,7 +239,18 @@
   * Fixed wrong descriptions
 
 # 0.5.0 Patch Notes
-* Release
-* Added 1 Survivor
-* Added 1 Elite
-* Added 10 Items
+* Ranger
+  * Added
+* Elites
+  * Added Motivating
+* Items
+  * Added Amber Knife
+  * Added Bleeding Witness
+  * Added Ceremonial Jar
+  * Added Fractured Timepiece
+  * Added Nuclear Salvo
+  * Added Pocket Plutonium
+  * Added Red Spring Water
+  * Added Smouldering Document
+  * Added Sun Fragment
+  * Added Universal VIP Pass
