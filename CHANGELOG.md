@@ -1,6 +1,6 @@
 # 1.0.0 Patch Notes
 * General
-  * Added Sandswept Expansion
+  * Added Sandswept Expansion >w<
   * Fixed a bunch of sounds being global
 * Electrician
   * Added
