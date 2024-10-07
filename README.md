@@ -73,7 +73,7 @@
 ### Support us on KOFI! https://linktr.ee/SandsweptTeam
 
 - Code: HIFU, pseudopulse, Sandman, prod
-- Models: Smxrez, Sandman, GEMO, Bog, pseudopulse, HIFU
+- Models: Smxrez, Sandman, GEMO, Bog, pseudopulse, HIFU, prod
 - Animations: IcieTea, unmatchedpowerofthesun, Bog
 - VFX: HIFU, Sandman, prod
 - Skill Icons: prod, HIFU
