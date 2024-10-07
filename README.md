@@ -66,7 +66,7 @@
 # Interactables
 | Icon | Name | Description | Rarity |
 |:-|-|------|-|
-|<img src="https://i.postimg.cc/gkCDYxzs/tex-Shrine-Of-Sacrifice.png" width="64"/> | **Shrine of Sacrifice** | Gain 20% curse to drop a random white item twice. Usable once. | Common |
+|<img src="https://i.postimg.cc/gkCDYxzs/tex-Shrine-Of-Sacrifice.png" width="64"/> | **Shrine of Sacrifice** | Gain 20% curse to drop 2 copies of random white item. Usable once. | Common |
 
 # Credits
 
