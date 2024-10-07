@@ -17,6 +17,10 @@ namespace Sandswept.Survivors.Electrician.States
                 FireProjectileInfo info = MiscUtils.GetProjectile(Electrician.GalvanicBolt, 2f, characterBody);
                 ProjectileManager.instance.FireProjectile(info);
             }
+
+            // base.StartAimMode(duration * 0.5f);
+
+            PlayAnimation("Gesture, Override", "ShootLeft", "Generic.playbackRate", duration);
         }
 
         public override void FixedUpdate()

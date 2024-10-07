@@ -9,6 +9,9 @@ namespace Sandswept.Survivors.Electrician.States {
             base.OnEnter();
 
             chargeDuration /= base.attackSpeedStat;
+
+            PlayAnimation("Gesture, Override", "ChargeOrb", "Generic.playbackRate", chargeDuration);
+            GetModelAnimator().SetBool("chargingOrb", true);
         }
 
         public override void FixedUpdate()
@@ -28,7 +31,7 @@ namespace Sandswept.Survivors.Electrician.States {
 
     public class TempestSphereFire : BaseSkillState {
         public float damageCoeff = 8f;
-        public float recoilTime = 0.8f;
+        public float recoilTime = 0.3f;
         public bool locked = false;
         public override void OnEnter()
         {
@@ -46,11 +49,6 @@ namespace Sandswept.Survivors.Electrician.States {
         {
             base.FixedUpdate();
 
-            if (!base.inputBank.skill2.down && !locked) {
-                locked = true;
-                TempestBallController.LockAllOrbs(base.characterBody);
-            }
-
             if (base.fixedAge >= recoilTime && !base.inputBank.skill2.down) {
                 outer.SetNextStateToMain();
             }
@@ -59,6 +57,8 @@ namespace Sandswept.Survivors.Electrician.States {
         public override void OnExit()
         {
             base.OnExit();
+
+            GetModelAnimator().SetBool("chargingOrb", false);
 
             if (!locked) {
                 TempestBallController.LockAllOrbs(base.characterBody);
