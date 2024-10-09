@@ -1,0 +1,41 @@
+ManifestFileVersion: 0
+CRC: 1417562214
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 943bdc388a4dd6a5b057a52c5522fb67
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: aed327fc6a4e126575372b29af4f6aca
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 90
+  Script: {instanceID: 0}
+- Class: 95
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 802575700, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 137
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/SandSweptExpDef.asset
+- Assets/Sandswept_expansion_icon_new.png
+- Assets/mdlRangerEmote.prefab
+Dependencies: []

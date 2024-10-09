@@ -1,0 +1,55 @@
+ManifestFileVersion: 0
+CRC: 1758680598
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 2f4f541acdc2f28ef26afc713613455f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: a86f78335e5f2f8d9b0f367daea406f6
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 198
+  Script: {instanceID: 0}
+- Class: 199
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/VFX/FragmentFX/FragmentFXSphere.prefab
+- Assets/VFX/FragmentFX/FragmentFXRing.prefab
+- Assets/Models/Items/Witness/WitnessTex.mat
+- Assets/Models/Items/UniVIP/UniVIPTex.mat
+- Assets/Models/Items/MakeshiftPlate/MakeshiftPlatePrefab.prefab
+- Assets/Models/Items/SmoulDoc/DocumentPrefab.prefab
+- Assets/Models/Items/SmoulDoc/DocumentTex.mat
+- Assets/Models/Items/Fragment/SunFragmentPrefab.prefab
+- Assets/VFX/FragmentFX/FragmentFXSphere.mat
+- Assets/Models/Items/AmberKnife/AmberKnifePrefab.prefab
+- Assets/Icons/Buffs/LinkedIcon.png
+- Assets/Models/Items/Witness/WitnessPrefab.prefab
+- Assets/Icons/Items/UniVIPIcon.png
+- Assets/Icons/Items/SunFragmentIcon.png
+- Assets/Models/Items/AmberKnife/AmberKnifeTex.mat
+- Assets/Models/Items/MakeshiftPlate/MakeshiftplateTex.mat
+- Assets/Models/Items/Fragment/SunFragmentTex.mat
+- Assets/Models/Items/UniVIP/UniVIPPrefab.prefab
+- Assets/Icons/Items/DocumentIcon.png
+Dependencies: []

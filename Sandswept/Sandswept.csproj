@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>netstandard2.1</TargetFramework>
+		<LangVersion>preview</LangVersion>
+		<BaseOutputPath></BaseOutputPath>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="sandsweptassets" />
+		<EmbeddedResource Include="sandsweptassets.manifest" />
+	</ItemGroup>
+
+	<ItemGroup>
+  <PackageReference Include="BepInEx.Analyzers" Version="1.0.*">
+	<PrivateAssets>all</PrivateAssets>
+	<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+  </PackageReference>
+
+	<PackageReference Include="BepInEx.Core" Version="5.4.21" />
+
+    <PackageReference Include="UnityEngine.Modules" Version="2021.3.33" IncludeAssets="compile" />
+	<PackageReference Include="RiskOfRain2.GameLibs" Version="*-*" />
+	<PackageReference Include="MMHOOK.RoR2" Version="*-*" NoWarn="NU1701" />
+	<PackageReference Include="R2API" Version="*-*" />
+  </ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Interactables\Void\" />
+	  <Folder Include="Survivors\Ranger\SkillDefs\Passive\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="CustomEmotesAPI">
+	    <HintPath>..\..\CustomEmotesAPI.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Decalicious">
+	    <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\Decalicious.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+</Project>
