@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 4086326336
+CRC: 1159247672
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 50ff4b9d8117e789f5a30412373d7ab0
+    Hash: ec57781cd235faa1e24cbc875e7f4198
   TypeTreeHash:
     serializedVersion: 2
     Hash: 2136433b178d9294baae3a83ed204065
@@ -60,6 +60,7 @@ Assets:
 - Assets/MushroomLunarWard.prefab
 - Assets/SandSweptExpDef.asset
 - Assets/Sandswept_expansion_icon_new.png
+- Assets/texColossusItemDiffuseMot.png
 - Assets/stubbed/RoR2/Base/Shaders/FX/HGIntersectionCloudRemap.shader
 - Assets/mdlRangerEmote.prefab
 - Assets/matLunarMInd.mat

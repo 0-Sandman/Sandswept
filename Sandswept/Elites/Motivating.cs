@@ -97,7 +97,7 @@ namespace Sandswept.Elites
             newGlowMat.SetColor("_TintColor", new Color32(255, 115, 126, 255));
 
             crownGlow.material = newGlowMat;
-
+            Crown.transform.GetChild(0).GetComponent<MeshRenderer>().material.SetTexture("_MainTex", Main.dgoslingAssets.LoadAsset<Texture2D>("texColossusItemDiffuseMot.png"));
             Crown.transform.localScale = new Vector3(10, 10, 10);
             Crown.transform.localRotation = Quaternion.Euler(90, 0, 0);
             Crown.transform.Find("meshColossusBuffCrownGlow").GetComponent<MeshRenderer>().material = Utils.Assets.Material.matColossusItemGlow;
