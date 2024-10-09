@@ -69,22 +69,40 @@ namespace Sandswept.Elites
         public override void Init(ConfigFile config)
         {
             CreateConfig(config);
-           
+
             CreateLang();
             CreateEquipment();
             CreateEliteTiers();
             CreateElite();
             Hooks();
         }
+
         private void CreateCrown()
         {
-            Crown = Utils.Assets.GameObject.DisplayColossusItem;
-            Crown.transform.localScale = new Vector3(10, 10, 10);
-            Crown.transform.localRotation = Quaternion.Euler(90,0,0);
-            Crown.transform.Find("meshColossusBuffCrownGlow").GetComponent<MeshRenderer>().material = Utils.Assets.Material.matColossusItemGlow;
-            
+            Crown = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.DisplayColossusItem, "Motivating Crown", false);
+            /*
+            var crownModel = Crown.transform.Find("meshColossusBuffCrown").GetComponent<MeshRenderer>();
 
+            var newCrownMat = new Material(Utils.Assets.Material.matColossusItem);
+            newCrownMat.SetColor("_EmColor", new Color32(215, 0, 29, 255));
+            newCrownMat.SetFloat("_EmPower", 0.1f);
+            newCrownMat.SetFloat("_SpecularStrength", 0.1648568f);
+            newCrownMat.SetFloat("_SpecularExponent", 0.8268503f);
+
+            crownModel.material = newCrownMat;
+            */
+            var crownGlow = Crown.transform.Find("meshColossusBuffCrownGlow").GetComponent<MeshRenderer>();
+
+            var newGlowMat = new Material(Utils.Assets.Material.matColossusItemGlow);
+            newGlowMat.SetColor("_TintColor", new Color32(255, 115, 126, 255));
+
+            crownGlow.material = newGlowMat;
+
+            Crown.transform.localScale = new Vector3(10, 10, 10);
+            Crown.transform.localRotation = Quaternion.Euler(90, 0, 0);
+            Crown.transform.Find("meshColossusBuffCrownGlow").GetComponent<MeshRenderer>().material = Utils.Assets.Material.matColossusItemGlow;
         }
+
         private void CreateConfig(ConfigFile config)
         {
         }
@@ -134,7 +152,7 @@ namespace Sandswept.Elites
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown,
-          
+
             childName = "Head",
             localPos = new Vector3(-0.00065F, 0.19587F, 0.01865F),
             localAngles = new Vector3(6.12111F, 0F, 0F),
@@ -266,18 +284,18 @@ localScale = new Vector3(0.6F, 0.6F, 0.6F)
 //localScale = new Vector3(0.6F, 0.6F, 0.6F)
         }
             });
-        //    dict.Add("mdlEquipmentDrone", new ItemDisplayRule[1]
-        //    {
-        //new ItemDisplayRule()
-        //{
-        //  ruleType = ItemDisplayRuleType.ParentedPrefab,
-        //  followerPrefab = Crown,
-        //  childName = "HeadCenter",
-        //  localPos = new Vector3(),
-        //  localAngles = new Vector3(),
-        //  localScale = new Vector3(),
-        //}
-        //    });
+            //    dict.Add("mdlEquipmentDrone", new ItemDisplayRule[1]
+            //    {
+            //new ItemDisplayRule()
+            //{
+            //  ruleType = ItemDisplayRuleType.ParentedPrefab,
+            //  followerPrefab = Crown,
+            //  childName = "HeadCenter",
+            //  localPos = new Vector3(),
+            //  localAngles = new Vector3(),
+            //  localScale = new Vector3(),
+            //}
+            //    });
             dict.Add("mdlWarframeWisp(Clone)", new ItemDisplayRule[1]
             {
         new ItemDisplayRule()
@@ -362,19 +380,19 @@ localAngles = new Vector3(0F, 0F, 0F),
 localScale = new Vector3(1.1F, 1.1F, 1.1F)
         }
             });
-        //    dict.Add("mdlHeretic", new ItemDisplayRule[1]
-        //    {
-        //new ItemDisplayRule()
-        //{
-        //  ruleType = ItemDisplayRuleType.ParentedPrefab,
-        //  followerPrefab = Crown,
-        //  childName = "Head",
-        //  localPos = new Vector3(),
-        //  localAngles = new Vector3(),
-        //  localScale = new Vector3(),
-        //}
-        //    });
-            
+            //    dict.Add("mdlHeretic", new ItemDisplayRule[1]
+            //    {
+            //new ItemDisplayRule()
+            //{
+            //  ruleType = ItemDisplayRuleType.ParentedPrefab,
+            //  followerPrefab = Crown,
+            //  childName = "Head",
+            //  localPos = new Vector3(),
+            //  localAngles = new Vector3(),
+            //  localScale = new Vector3(),
+            //}
+            //    });
+
             dict.Add("AcidLarva", new ItemDisplayRule[1]
             {
         new ItemDisplayRule()
