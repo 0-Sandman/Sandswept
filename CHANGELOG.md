@@ -1,15 +1,28 @@
 # 1.0.0 Patch Notes
 * General
   * Added Sandswept Expansion >w<
-  * Fixed a bunch of sounds being global
 * Electrician
   * Added
 * Ranger
   * Added Emotes support
-  * Buffed Charge to also give 1.5 armor per stack
 * Items
   * Added Drifting Perception
   * Added Their Prominence
+  * Buffed Bleeding Witness Hemorrhage Chance from 5% to 8%.
+  * Buffed Bleeding Witness Hemorrhage Damage from 480% to 500%.
+  * Nerfed Bleeding Witness Base DoT Healing from 0.4% to 0.33%.
+  * Nerfed Bleeding Witness Stack DoT Healing from 0.4% to 0.33%.
+* Interactables
+  * Added Shrine of Sacrifice
+* Elites
+  * Added item displays to Motivating
+
+# 0.9.4 Patch Notes
+* General
+  * Fixed a bunch of sounds being global
+* Ranger
+  * Buffed Charge to also give 1.5 armor per stack
+* Items
   * Changed Millenium VFX
   * Fixed Nuclear Salvo throwing an NRE
   * Fixed Smouldering Document throwing an NRE
@@ -17,11 +30,8 @@
   * Fixed Sun Fragment proccing itself
   * Fixed Millenium throwing an NRE
   * Fixed Millenium proccing itself
-* Interactables
-  * Added Shrine of Sacrifice
 * Elites
   * Added more configs
-  * Added item displays to Motivating
 
 # 0.9.3 Patch Notes
 * Items

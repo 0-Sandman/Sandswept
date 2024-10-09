@@ -14,6 +14,7 @@ namespace Sandswept.Utils
 
         public static bool enabled
         {
+            [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
             get
             {
                 if (_enabled == null)
@@ -35,7 +36,7 @@ namespace Sandswept.Utils
             var boneMapper = skele.GetComponentInChildren<BoneMapper>();
             boneMapper.scale = 0.9f;
             bonemapperName = boneMapper.name;
-
+            EmotesAPI.CustomEmotesAPI.animChanged += CustomEmoteAPICheck.CustomEmotesAPI_animChanged;
             /*
             foreach(var item in RoR2.SurvivorCatalog.allSurvivorDefs)
             {

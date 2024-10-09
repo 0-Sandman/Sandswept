@@ -147,7 +147,7 @@ namespace Sandswept
             if (Utils.CustomEmoteAPICheck.enabled)
             {
                 On.RoR2.SurvivorCatalog.Init += CustomEmoteAPICheck.SurvivorCatalog_Init;
-                EmotesAPI.CustomEmotesAPI.animChanged += CustomEmoteAPICheck.CustomEmotesAPI_animChanged;
+                
             }
 
             SwapAllShaders(MainAssets);
