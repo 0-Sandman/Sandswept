@@ -396,7 +396,7 @@ namespace Sandswept
                         val.shader = Resources.Load<Shader>("shaders/environment/hgdistantwater");
                         break;
                     case "StubbedRoR2/Base/Shaders/HGStandard":
-                        val.shader = Utils.Assets.Shader.HGStandard;
+                        val.shader = LegacyShaderAPI.Find("Hopoo Games/Deferred/Standard");
                         break;
                     case "StubbedRoR2/Base/Shaders/HGCloudRemap":
                         val.shader = Utils.Assets.Shader.HGCloudRemap;

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1159247672
+CRC: 2722742650
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ec57781cd235faa1e24cbc875e7f4198
+    Hash: 5ea34a18106e853b926bc4107645de10
   TypeTreeHash:
     serializedVersion: 2
     Hash: 2136433b178d9294baae3a83ed204065
@@ -62,6 +62,7 @@ Assets:
 - Assets/Sandswept_expansion_icon_new.png
 - Assets/texColossusItemDiffuseMot.png
 - Assets/stubbed/RoR2/Base/Shaders/FX/HGIntersectionCloudRemap.shader
+- Assets/osmiumCrown/DisplayosmiumCrown.prefab
 - Assets/mdlRangerEmote.prefab
 - Assets/matLunarMInd.mat
 - Assets/texRampLunarWispFire.png
