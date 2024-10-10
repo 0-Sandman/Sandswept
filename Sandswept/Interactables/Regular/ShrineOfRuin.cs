@@ -13,7 +13,7 @@ namespace Sandswept.Interactables.Regular
     // destinations don't get changed properly (stage 2 would land you on stage 1 simulacrum if it worked)
     // destinations are hardcoded to work with specific stage numbers (messing with stage count would mess with the stage order completely once you use a shrine of ruin)
     // enemy pools don't get swapped for some reason
-    // item cost doesn't take item stacks into account
+    // item cost doesn't take item stacks into account.
     [ConfigSection("Interactables :: Shrine of Ruin")]
     internal class ShrineOfRuin : InteractableBase<ShrineOfRuin>
     {
