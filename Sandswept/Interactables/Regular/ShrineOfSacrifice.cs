@@ -17,7 +17,7 @@ namespace Sandswept.Interactables.Regular
 
         public override int MaxSpawnsPerStage => 1;
 
-        public override int CreditCost => 30;
+        public override int CreditCost => 20;
 
         public override HullClassification Size => HullClassification.Golem;
 
@@ -189,7 +189,7 @@ namespace Sandswept.Interactables.Regular
             var dropPickup = PickupIndex.none;
 
             WeightedSelection<List<PickupIndex>> selector = new();
-            selector.AddChoice(Run.instance.availableTier1DropList.ToList(), 100f);
+            selector.AddChoice(Run.instance.availableTier1DropList, 100f);
 
             List<PickupIndex> dropList = selector.Evaluate(Run.instance.treasureRng.nextNormalizedFloat);
             if (dropList != null && dropList.Count > 0)
