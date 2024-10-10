@@ -101,4 +101,29 @@ namespace Sandswept.Interactables
             }
         }
     }
+
+    public class DisableOnTeleporterStart : MonoBehaviour
+    {
+        public float interval = 0.1f;
+        public float timer;
+        public bool shouldRun = true;
+
+        public void FixedUpdate()
+        {
+            if (!shouldRun || !TeleporterInteraction.instance)
+            {
+                return;
+            }
+
+            timer += Time.fixedDeltaTime;
+            if (timer >= interval)
+            {
+                if (TeleporterInteraction.instance.activationState <= TeleporterInteraction.ActivationState.IdleToCharging)
+                {
+                    shouldRun = false;
+                }
+                timer = 0f;
+            }
+        }
+    }
 }

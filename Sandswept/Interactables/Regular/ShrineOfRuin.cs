@@ -10,6 +10,10 @@ using static Rewired.UI.ControlMapper.ControlMapper;
 
 namespace Sandswept.Interactables.Regular
 {
+    // destinations don't get changed properly (stage 2 would land you on stage 1 simulacrum if it worked)
+    // destinations are hardcoded to work with specific stage numbers (messing with stage count would mess with the stage order completely once you use a shrine of ruin)
+    // enemy pools don't get swapped for some reason
+    // item cost doesn't take item stacks into account
     [ConfigSection("Interactables :: Shrine of Ruin")]
     internal class ShrineOfRuin : InteractableBase<ShrineOfRuin>
     {
@@ -38,7 +42,7 @@ namespace Sandswept.Interactables.Regular
 
         public override bool SlightlyRandomizeOrientation => false;
 
-        [ConfigField("White Item Cost", "", 7)]
+        [ConfigField("White Item Cost", "", 8)]
         public static int whiteItemCost;
 
         [ConfigField("Item Count", "", 2)]
@@ -54,7 +58,7 @@ namespace Sandswept.Interactables.Regular
         {
             base.Init();
 
-            prefab = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineBlood, "Shrine of Sacrifice", true);
+            prefab = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineBlood, "Shrine of Ruin", true);
             var mdl = prefab.transform.Find("Base/mdlShrineHealing").gameObject;
             mdl.name = "mdlShrineRuin";
             mdl.GetComponent<MeshFilter>().sharedMesh = Main.prodAssets.LoadAsset<Mesh>("assets/sandswept/shrinesacrifice.fbx");
@@ -266,12 +270,11 @@ namespace Sandswept.Interactables.Regular
 
             List<ItemDef> itemsToRemove = new();
 
-            var items = inventory.itemStacks;
-            for (int i = 0; i < items.Length; i++)
+            var items = inventory.itemAcquisitionOrder;
+            for (int i = 0; i < items.Count; i++)
             {
                 var item = items[i];
-                var itemIndex = (ItemIndex)item;
-                var itemDef = ItemCatalog.GetItemDef(itemIndex);
+                var itemDef = ItemCatalog.GetItemDef(item);
 
                 if (itemDef.tier == ItemTier.Tier1)
                 {
@@ -279,14 +282,14 @@ namespace Sandswept.Interactables.Regular
                     itemsToRemove.Add(itemDef);
                 }
 
-                if (itemsToRemove.Count >= 6)
+                if (itemsToRemove.Count >= ShrineOfRuin.whiteItemCost)
                 {
                     Main.ModLogger.LogError("found 6 items to remove, exiting loop");
                     break;
                 }
             }
 
-            if (itemsToRemove.Count <= 6)
+            if (itemsToRemove.Count < ShrineOfRuin.whiteItemCost)
             {
                 Main.ModLogger.LogError("couldnt get 6 white items");
                 return;
@@ -346,27 +349,27 @@ namespace Sandswept.Interactables.Regular
                 {
                     case 1:
                         Main.ModLogger.LogError("setting destination to plains simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = [titanicPlainsSimulacrum];
+                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { titanicPlainsSimulacrum };
                         break;
 
                     case 2:
                         Main.ModLogger.LogError("setting destinations to aqueduct, sanctuary simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = [abandonedAqueductSimulacrum, aphelianSanctuarySimulacrum];
+                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { abandonedAqueductSimulacrum, aphelianSanctuarySimulacrum };
                         break;
 
                     case 3:
                         Main.ModLogger.LogError("setting destination to rpd simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = [rallypointDeltaSimulacrum];
+                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { rallypointDeltaSimulacrum };
                         break;
 
                     case 4:
                         Main.ModLogger.LogError("setting destination to depths simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = [abyssalDepthsSimulacrum];
+                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { abyssalDepthsSimulacrum };
                         break;
 
                     case 5:
                         Main.ModLogger.LogError("setting destination to meadow simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = [skyMeadowSimulacrum];
+                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { skyMeadowSimulacrum };
                         break;
 
                     default:
@@ -402,6 +405,7 @@ namespace Sandswept.Interactables.Regular
             {
                 symbolTransform.gameObject.SetActive(false);
                 CallRpcSetPingable(false);
+                gameObject.SetActive(false);
             }
         }
 

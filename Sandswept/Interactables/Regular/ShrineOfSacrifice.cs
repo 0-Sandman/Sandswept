@@ -79,6 +79,8 @@ namespace Sandswept.Interactables.Regular
 
             prefab.AddComponent<UnityIsAFuckingPieceOfShit>();
 
+            prefab.AddComponent<DisableOnTeleporterStart>();
+
             PrefabAPI.RegisterNetworkPrefab(prefab);
 
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_NAME", "Shrine of Sacrifice");

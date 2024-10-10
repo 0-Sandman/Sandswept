@@ -83,7 +83,11 @@ namespace Sandswept.Equipment
                 });
                 body.healthComponent.GetComponent<SetStateOnHurt>()?.SetStun(Mathf.Lerp(maxStun, minStun, dist / range));
             }
-            slot.characterBody.characterMotor.velocity = Vector3.ProjectOnPlane(slot.characterBody.characterMotor.velocity, slot.gameObject.transform.up) + (slot.gameObject.transform.up * StealthMode.shortHopVelocity);
+            if (slot.characterBody.characterMotor)
+            {
+                slot.characterBody.characterMotor.velocity = Vector3.ProjectOnPlane(slot.characterBody.characterMotor.velocity, slot.gameObject.transform.up) + (slot.gameObject.transform.up * StealthMode.shortHopVelocity);
+            }
+
             return true;
         }
 
