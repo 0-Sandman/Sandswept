@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 using static Rewired.UI.ControlMapper.ControlMapper;
 
 namespace Sandswept.Interactables.Regular
@@ -144,11 +145,29 @@ namespace Sandswept.Interactables.Regular
                 poolCategories = allCategories
             };
 
-            On.RoR2.ClassicStageInfo.Start += ClassicStageInfo_Start;
+            // On.RoR2.ClassicStageInfo.Start += ClassicStageInfo_Start;
             On.RoR2.PickupDropTable.GenerateDropFromWeightedSelection += PickupDropTable_GenerateDropFromWeightedSelection;
             On.RoR2.PickupDropTable.GenerateUniqueDropsFromWeightedSelection += PickupDropTable_GenerateUniqueDropsFromWeightedSelection;
-
+            SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
             PostInit();
+        }
+
+        private void SceneManager_activeSceneChanged(Scene oldScene, Scene newScene)
+        {
+            if (shouldCorruptNextStage)
+            {
+                var sceneInfo = GameObject.Find("SceneInfo");
+                if (!sceneInfo)
+                {
+                    Main.ModLogger.LogError("no scene info found");
+                    return;
+                }
+
+                if (sceneInfo.TryGetComponent<ClassicStageInfo>(out var classicStageInfo))
+                {
+                    classicStageInfo.monsterDccsPool = voidEnemiesDccsPool;
+                }
+            }
         }
 
         private PickupIndex PickupDropTable_GenerateDropFromWeightedSelection(On.RoR2.PickupDropTable.orig_GenerateDropFromWeightedSelection orig, Xoroshiro128Plus rng, WeightedSelection<PickupIndex> weightedSelection)
@@ -188,12 +207,9 @@ namespace Sandswept.Interactables.Regular
 
         private void ClassicStageInfo_Start(On.RoR2.ClassicStageInfo.orig_Start orig, ClassicStageInfo self)
         {
+            self.monsterDccsPool = voidEnemiesDccsPool;
+            self.RebuildCards();
             orig(self);
-            if (shouldCorruptNextStage)
-            {
-                self.monsterDccsPool = voidEnemiesDccsPool;
-                self.RebuildCards();
-            }
         }
     }
 
@@ -364,21 +380,26 @@ namespace Sandswept.Interactables.Regular
                         break;
 
                     case 1:
+                        Main.ModLogger.LogError("setting destination to plains simulacrum");
+                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { titanicPlainsSimulacrum };
+                        break;
+
+                    case 2:
                         Main.ModLogger.LogError("setting destinations to aqueduct, sanctuary simulacrum");
                         currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { abandonedAqueductSimulacrum, aphelianSanctuarySimulacrum };
                         break;
 
-                    case 2:
+                    case 3:
                         Main.ModLogger.LogError("setting destination to rpd simulacrum");
                         currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { rallypointDeltaSimulacrum };
                         break;
 
-                    case 3:
+                    case 4:
                         Main.ModLogger.LogError("setting destination to depths simulacrum");
                         currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { abyssalDepthsSimulacrum };
                         break;
 
-                    case 4:
+                    case 5:
                         Main.ModLogger.LogError("setting destination to meadow simulacrum");
                         currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { skyMeadowSimulacrum };
                         break;
