@@ -31,9 +31,14 @@ namespace Sandswept.Enemies
         public GameObject prefabMaster;
         public CharacterBody body;
         public CharacterMaster master;
+
         public virtual void Create()
         {
             LoadPrefabs();
+
+            var expansionRequirementComponent = prefab.AddComponent<ExpansionRequirementComponent>();
+            expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
+
             body = prefab.GetComponent<CharacterBody>();
             master = prefabMaster.GetComponent<CharacterMaster>();
             Modify();
@@ -83,7 +88,8 @@ namespace Sandswept.Enemies
             }
         }
 
-        public void SwapStats(GameObject prefab, float damage, float crit, float speed, float health, float regen, float accel, float armor) {
+        public void SwapStats(GameObject prefab, float damage, float crit, float speed, float health, float regen, float accel, float armor)
+        {
             CharacterBody body = prefab.GetComponent<CharacterBody>();
             body.baseArmor = armor;
             body.baseCrit = crit;
@@ -96,19 +102,24 @@ namespace Sandswept.Enemies
             body.PerformAutoCalculateLevelStats();
         }
 
-        public void ClearESM(GameObject prefab, GameObject master = null) {
-            foreach(EntityStateMachine esm in prefab.GetComponents<EntityStateMachine>()) {
+        public void ClearESM(GameObject prefab, GameObject master = null)
+        {
+            foreach (EntityStateMachine esm in prefab.GetComponents<EntityStateMachine>())
+            {
                 GameObject.DestroyImmediate(esm);
             }
 
-            if (master) {
-                foreach(EntityStateMachine esm in master.GetComponents<EntityStateMachine>()) {
+            if (master)
+            {
+                foreach (EntityStateMachine esm in master.GetComponents<EntityStateMachine>())
+                {
                     GameObject.DestroyImmediate(esm);
                 }
             }
         }
 
-        public EntityStateMachine AddESM(GameObject prefab, string name, SerializableEntityStateType initial) {
+        public EntityStateMachine AddESM(GameObject prefab, string name, SerializableEntityStateType initial)
+        {
             EntityStateMachine esm = prefab.AddComponent<EntityStateMachine>();
             esm.customName = name;
             esm.initialStateType = initial;
@@ -160,7 +171,7 @@ namespace Sandswept.Enemies
                 model.transform.SetParent(transform);
             }
         }
-        
+
         /// <summary>
         /// A method to replace the meshes (either all or via a list of renderers) of a prefab
         /// </summary>
@@ -245,7 +256,7 @@ namespace Sandswept.Enemies
                     model.baseRendererInfos[i].defaultMaterial = mat;
                 }
             }
-        }  
+        }
 
         /// <summary>
         /// A method to replace the model of a prefab.
@@ -323,14 +334,17 @@ namespace Sandswept.Enemies
             componentInChildren.isBullseye = targetable;
         }
 
-        public void WipeAllDrivers(GameObject prefab) {
+        public void WipeAllDrivers(GameObject prefab)
+        {
             AISkillDriver[] drivers = prefab.GetComponents<AISkillDriver>();
-            for (int i = 0; i < drivers.Length; i++) {
+            for (int i = 0; i < drivers.Length; i++)
+            {
                 GameObject.Destroy(drivers[i]);
             }
         }
 
-        public void AddNewDriver(GameObject prefab, string name, AISkillDriver.AimType aim, AISkillDriver.MovementType move, AISkillDriver.TargetType target, float minDist, float maxDist, SkillSlot skill) {
+        public void AddNewDriver(GameObject prefab, string name, AISkillDriver.AimType aim, AISkillDriver.MovementType move, AISkillDriver.TargetType target, float minDist, float maxDist, SkillSlot skill)
+        {
             AISkillDriver driver = prefab.AddComponent<AISkillDriver>();
             driver.customName = name;
             driver.minDistance = minDist;

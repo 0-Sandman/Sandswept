@@ -1,4 +1,5 @@
 ﻿using R2API.Utils;
+using RoR2.ExpansionManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,6 +81,9 @@ namespace Sandswept.Interactables.Regular
             prefab.AddComponent<UnityIsAFuckingPieceOfShit>();
 
             prefab.AddComponent<DisableOnTeleporterStart>();
+
+            var expansionRequirementComponent = prefab.AddComponent<ExpansionRequirementComponent>();
+            expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
 
             PrefabAPI.RegisterNetworkPrefab(prefab);
 

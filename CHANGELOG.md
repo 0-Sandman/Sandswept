@@ -7,6 +7,7 @@
   * Added Emotes support
 * Items
   * Added Drifting Perception
+  * Added Festering Hunger
   * Added Their Prominence
   * Buffed Bleeding Witness Hemorrhage Chance from 5% to 8%.
   * Buffed Bleeding Witness Hemorrhage Damage from 480% to 500%.
@@ -19,6 +20,7 @@
   * Added Shrine of Sacrifice
 * Elites
   * Added item displays to Motivating
+  * Added item displays to Osmium
 
 # 0.9.4 Patch Notes
 * General

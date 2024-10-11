@@ -2,13 +2,14 @@ using System;
 using RoR2.CharacterAI;
 using RoR2.Navigation;
 
-namespace Sandswept.Enemies.CannonJellyfish {
-    public class CannonJellyfish : EnemyBase<CannonJellyfish>
+namespace Sandswept.Enemies.CannonballJellyfish
+{
+    public class CannonballJellyfish : EnemyBase<CannonballJellyfish>
     {
         public override void LoadPrefabs()
         {
-            prefab = PrefabAPI.InstantiateClone(Paths.GameObject.JellyfishBody, "CannonJellyBody");
-            prefabMaster = PrefabAPI.InstantiateClone(Paths.GameObject.JellyfishMaster, "CannonJellyMaster");
+            prefab = PrefabAPI.InstantiateClone(Paths.GameObject.JellyfishBody, "CannonJellyfishBody");
+            prefabMaster = PrefabAPI.InstantiateClone(Paths.GameObject.JellyfishMaster, "CannonJellyfishMaster");
         }
 
         public override void PostCreation()
@@ -25,7 +26,7 @@ namespace Sandswept.Enemies.CannonJellyfish {
             body.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
             body.baseNameToken = "SANDSWEPT_ENEMY_CBJ_NAME";
             body.baseNameToken.Add("Cannonball Jellyfish");
-            
+
             SwapStats(prefab, 12, 0, 10, 40, 0, 80, 0);
             WipeAllDrivers(master.gameObject);
             AddNewDriver(master.gameObject, "JellyCharge", AISkillDriver.AimType.AtCurrentEnemy, AISkillDriver.MovementType.ChaseMoveTarget, AISkillDriver.TargetType.CurrentEnemy, 10f, 40f, SkillSlot.Secondary);
@@ -38,7 +39,7 @@ namespace Sandswept.Enemies.CannonJellyfish {
             GameObject hitbox = new GameObject("ChargeHitbox");
             hitbox.AddComponent<HitBox>();
             hitbox.transform.localScale = new(2f, 2f, 2f);
-            
+
             Transform model = modelLocator.modelTransform;
             hitbox.transform.SetParent(model);
             hitbox.transform.position = Vector3.zero;
@@ -48,7 +49,7 @@ namespace Sandswept.Enemies.CannonJellyfish {
             group.groupName = "HBCharge";
             group.hitBoxes = new HitBox[] { hitbox.GetComponent<HitBox>() };
 
-            ReplaceSkill(locator.secondary, JellyDash.instance.skillDef);
+            ReplaceSkill(locator.secondary, SkillDefs.JellyDash.instance.skillDef);
 
             master.GetComponent<BaseAI>().aimVectorMaxSpeed = 40000f;
             master.GetComponent<BaseAI>().aimVectorDampTime = 0.1f;

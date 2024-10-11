@@ -1,6 +1,7 @@
 ﻿using R2API.Utils;
 using Rewired.Demos;
 using RoR2.EntitlementManagement;
+using RoR2.ExpansionManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,10 @@ namespace Sandswept.Interactables.Regular
     // destinations don't get changed properly (stage 2 would land you on stage 1 simulacrum if it worked)
     // destinations are hardcoded to work with specific stage numbers (messing with stage count would mess with the stage order completely once you use a shrine of ruin)
     // enemy pools don't get swapped for some reason
-    // item cost doesn't take item stacks into account.
+    // item cost doesn't take item stacks into account
+    // also for some reason it shows the tab tooltip of shrine of sacrifice??
+    // also make a new cost type def cause I don't want shitty ass scrap working on this :beenormal:
+    // fuck scrap making this a free interactable :beenormal:
     [ConfigSection("Interactables :: Shrine of Ruin")]
     internal class ShrineOfRuin : InteractableBase<ShrineOfRuin>
     {
@@ -89,6 +93,12 @@ namespace Sandswept.Interactables.Regular
 
             prefab.AddComponent<UnityIsAFuckingPieceOfShit2>();
 
+            var expansionRequirementComponent = prefab.AddComponent<ExpansionRequirementComponent>();
+            expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
+
+            var expansionRequirementComponent2 = prefab.AddComponent<ExpansionRequirementComponent>();
+            expansionRequirementComponent2.requiredExpansion = Utils.Assets.ExpansionDef.DLC1;
+
             PrefabAPI.RegisterNetworkPrefab(prefab);
 
             LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_NAME", "Shrine of Ruin");
@@ -126,7 +136,7 @@ namespace Sandswept.Interactables.Regular
             {
                 name = "Standard",
                 categoryWeight = 1,
-                alwaysIncluded = allEnemiesPoolEntries
+                alwaysIncluded = allEnemiesPoolEntries,
             };
 
             voidEnemiesDccsPool = new()
@@ -182,6 +192,7 @@ namespace Sandswept.Interactables.Regular
             if (shouldCorruptNextStage)
             {
                 self.monsterDccsPool = voidEnemiesDccsPool;
+                self.RebuildCards();
             }
         }
     }
@@ -347,27 +358,27 @@ namespace Sandswept.Interactables.Regular
 
                 switch (currentStageCount)
                 {
-                    case 1:
+                    case 0:
                         Main.ModLogger.LogError("setting destination to plains simulacrum");
                         currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { titanicPlainsSimulacrum };
                         break;
 
-                    case 2:
+                    case 1:
                         Main.ModLogger.LogError("setting destinations to aqueduct, sanctuary simulacrum");
                         currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { abandonedAqueductSimulacrum, aphelianSanctuarySimulacrum };
                         break;
 
-                    case 3:
+                    case 2:
                         Main.ModLogger.LogError("setting destination to rpd simulacrum");
                         currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { rallypointDeltaSimulacrum };
                         break;
 
-                    case 4:
+                    case 3:
                         Main.ModLogger.LogError("setting destination to depths simulacrum");
                         currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { abyssalDepthsSimulacrum };
                         break;
 
-                    case 5:
+                    case 4:
                         Main.ModLogger.LogError("setting destination to meadow simulacrum");
                         currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { skyMeadowSimulacrum };
                         break;

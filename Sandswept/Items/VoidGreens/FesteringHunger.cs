@@ -12,7 +12,7 @@ namespace Sandswept.Items.VoidGreens
 
         public override string ItemPickupDesc => "Chance to blight enemies on hit. Moving near blighted enemies increases attack speed. $svCorrupts all Smouldering Documents$se.".AutoFormat();
 
-        public override string ItemFullDescription => ("$sd" + chance + "%$se chance on hit to inflict $sdblight$se for $sd" + d(baseDamage) + "$se $ss(+" + d(stackDamage) + " per stack)$se base damage. Moving near $sdblighted$se enemies increases $sdattack speed$se by $sd" + d(attackSpeedGain) + "$se for $sd" + attackSpeedBuffDuration + "$ses. $svCorrupts all Smouldering Documents$se.").AutoFormat();
+        public override string ItemFullDescription => ("$sd" + chance + "%$se chance on hit to inflict $sdblight$se for $sd" + d(baseDamage) + "$se $ss(+" + d(stackDamage) + " per stack)$se base damage. Moving near $sdblighted$se enemies increases $sdattack speed$se by $sd" + d(attackSpeedGain) + "$se for $sd" + attackSpeedBuffDuration + "$se seconds. $svCorrupts all Smouldering Documents$se.").AutoFormat();
 
         public override string ItemLore => "This hunger..\r\nIt grows inside me.\r\nSevers mortality.\r\n\r\nIts showing its teeth.\r\n\r\n\r\nBlood like wine!";
 
@@ -113,7 +113,7 @@ namespace Sandswept.Items.VoidGreens
                         attackerObject = attackerBody.gameObject,
                         victimObject = victim.gameObject,
                         totalDamage = attackerBody.damage * damage,
-                        damageMultiplier = 1f,
+                        damageMultiplier = 1f * stack,
                         dotIndex = DotController.DotIndex.Blight,
                         maxStacksFromAttacker = uint.MaxValue,
                         duration = 3f
@@ -148,14 +148,14 @@ namespace Sandswept.Items.VoidGreens
         public float radiusSquared = FesteringHunger.attackSpeedBuffRange * FesteringHunger.attackSpeedBuffRange;
         public float distance = FesteringHunger.attackSpeedBuffRange;
         public TeamIndex ownerIndex;
-        public GameObject radiusIndicator;
+        // public GameObject radiusIndicator;
 
         private void Start()
         {
             ownerIndex = body.teamComponent.teamIndex;
             // enableRadiusIndicator = false;
-            var radiusTrans = radiusIndicator.transform.GetChild(1);
-            radiusTrans.localScale = Vector3.one * FesteringHunger.attackSpeedBuffRange;
+            // var radiusTrans = radiusIndicator.transform.GetChild(1);
+            // radiusTrans.localScale = Vector3.one * FesteringHunger.attackSpeedBuffRange;
         }
 
         private void FixedUpdate()
