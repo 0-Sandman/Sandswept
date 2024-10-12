@@ -1,4 +1,5 @@
-﻿using R2API.Utils;
+﻿using EntityStates.NullifierMonster;
+using R2API.Utils;
 using Rewired.Demos;
 using RoR2.EntitlementManagement;
 using RoR2.ExpansionManagement;
@@ -185,7 +186,7 @@ namespace Sandswept.Interactables.Regular
 
         private void OverwriteDrop(WeightedSelection<PickupIndex> weightedSelection)
         {
-            if (shouldCorruptNextStage)
+            if (shouldCorruptNextStage && weightedSelection.choices.All(x => PickupCatalog.GetPickupDef(x.value).equipmentIndex == EquipmentIndex.None))
             {
                 var dropPickup = PickupIndex.none;
 
@@ -227,12 +228,7 @@ namespace Sandswept.Interactables.Regular
         {
             shrineRuinBehavior = GetComponent<ShrineRuinBehavior>();
             purchaseInteraction = GetComponent<PurchaseInteraction>();
-            purchaseInteraction.onPurchase.AddListener(SoTrue);
-        }
-
-        public void SoTrue(Interactor interactor)
-        {
-            shrineRuinBehavior.AddShrineStack(interactor);
+            purchaseInteraction.onPurchase.AddListener(shrineRuinBehavior.AddShrineStack);
         }
     }
 
@@ -295,43 +291,27 @@ namespace Sandswept.Interactables.Regular
             var interactorBody = interactor.GetComponent<CharacterBody>();
 
             var inventory = interactorBody.inventory;
-            if (!inventory)
+            if (!inventory || inventory.itemAcquisitionOrder == null) return;
+
+
+
+            WeightedSelection<ItemIndex> itemsToRemove = new(); int numItems = 0;
+            foreach (var item in inventory.itemAcquisitionOrder)
             {
-                return;
+                var def = ItemCatalog.GetItemDef(item);
+                if (def.tier != ItemTier.Tier1 || def.ContainsTag(ItemTag.Scrap)) continue;
+                var count = inventory.GetItemCount(def);
+                itemsToRemove.AddChoice(item, count); numItems += count;
             }
-
-            List<ItemDef> itemsToRemove = new();
-
-            var items = inventory.itemAcquisitionOrder;
-            for (int i = 0; i < items.Count; i++)
+            if (numItems < ShrineOfRuin.whiteItemCost) return;
+            for (int i = 0; i < ShrineOfRuin.whiteItemCost; i++)
             {
-                var item = items[i];
-                var itemDef = ItemCatalog.GetItemDef(item);
-
-                if (itemDef.tier == ItemTier.Tier1)
-                {
-                    Main.ModLogger.LogError("found white item " + itemDef.name);
-                    itemsToRemove.Add(itemDef);
-                }
-
-                if (itemsToRemove.Count >= ShrineOfRuin.whiteItemCost)
-                {
-                    Main.ModLogger.LogError("found 6 items to remove, exiting loop");
-                    break;
-                }
-            }
-
-            if (itemsToRemove.Count < ShrineOfRuin.whiteItemCost)
-            {
-                Main.ModLogger.LogError("couldnt get 6 white items");
-                return;
-            }
-
-            foreach (ItemDef itemDef in itemsToRemove)
-            {
-                Main.ModLogger.LogError("trying to remove items");
-                inventory.RemoveItem(itemDef);
-            }
+                var idx = itemsToRemove.EvaluateToChoiceIndex(Run.instance.treasureRng.nextNormalizedFloat);
+                var choice = itemsToRemove.GetChoice(idx);
+                inventory.RemoveItem(ItemCatalog.GetItemDef(choice.value));
+                if (choice.weight <= 1) itemsToRemove.RemoveChoice(idx);
+                else itemsToRemove.ModifyChoiceWeight(idx, choice.weight - 1);
+            } 
 
             if (Run.instance)
             {
