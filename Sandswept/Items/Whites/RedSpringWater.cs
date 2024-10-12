@@ -19,7 +19,7 @@
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texRedSpringWater.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Healing, ItemTag.AIBlacklist };
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Healing };
 
         [ConfigField("Base Regen", "Only for the first stack", 0.4f)]
         public static float baseRegen;

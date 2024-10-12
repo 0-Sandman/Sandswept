@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using System.Collections;
+using static RoR2.DotController;
 
 namespace Sandswept.Items.VoidGreens
 {
@@ -10,23 +11,23 @@ namespace Sandswept.Items.VoidGreens
 
         public override string ItemLangTokenName => "FESTERING_HUNGER";
 
-        public override string ItemPickupDesc => "Chance to blight enemies on hit. Moving near blighted enemies increases attack speed. $svCorrupts all Smouldering Documents$se.".AutoFormat();
+        public override string ItemPickupDesc => "Chance to decay enemies on hit. Moving near decayed enemies increases attack speed. $svCorrupts all Smouldering Documents$se.".AutoFormat();
 
-        public override string ItemFullDescription => ("$sd" + chance + "%$se chance on hit to inflict $sdblight$se for $sd" + d(baseDamage) + "$se $ss(+" + d(stackDamage) + " per stack)$se base damage. Moving near $sdblighted$se enemies increases $sdattack speed$se by $sd" + d(attackSpeedGain) + "$se for $sd" + attackSpeedBuffDuration + "$se seconds. $svCorrupts all Smouldering Documents$se.").AutoFormat();
+        public override string ItemFullDescription => ("$sd" + chance + "%$se chance on hit to inflict $sddecay$se for $sd" + d(baseDamage) + "$se base damage. Moving near $sdblighted$se enemies increases $sdattack speed$se by $sd" + d(baseAttackSpeedGain) + "$se $ss(+" + d(stackAttackSpeedGain) + " per stack)$se for $sd" + attackSpeedBuffDuration + "$se seconds. $svCorrupts all Smouldering Documents$se.").AutoFormat();
 
         public override string ItemLore => "This hunger..\r\nIt grows inside me.\r\nSevers mortality.\r\n\r\nIts showing its teeth.\r\n\r\n\r\nBlood like wine!";
 
-        [ConfigField("Chance", "", 5f)]
+        [ConfigField("Chance", "", 7f)]
         public static float chance;
 
-        [ConfigField("Base Damage", "Decimal.", 2.4f)]
+        [ConfigField("Base Damage", "Decimal.", 3f)]
         public static float baseDamage;
 
-        [ConfigField("Stack Damage", "Decimal.", 2.4f)]
-        public static float stackDamage;
+        [ConfigField("Base Attack Speed Gain", "Decimal.", 0.33f)]
+        public static float baseAttackSpeedGain;
 
-        [ConfigField("Attack Speed Gain", "Decimal.", 0.4f)]
-        public static float attackSpeedGain;
+        [ConfigField("Stack Attack Speed Gain", "Decimal.", 0.33f)]
+        public static float stackAttackSpeedGain;
 
         [ConfigField("Attack Speed Buff Duration", "", 2f)]
         public static float attackSpeedBuffDuration;
@@ -42,22 +43,35 @@ namespace Sandswept.Items.VoidGreens
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texMillenium.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage };
 
         public static DamageColorIndex milleniumColor = DamageColourHelper.RegisterDamageColor(new Color32(75, 27, 174, 255));
 
         public static GameObject vfx;
+
+        public static BuffDef decay;
+        public static DotDef decayDef;
+        public static DotIndex decayIndex;
 
         public override void Init(ConfigFile config)
         {
             attackSpeedBuff = ScriptableObject.CreateInstance<BuffDef>();
             attackSpeedBuff.canStack = false;
             attackSpeedBuff.isCooldown = false;
-            attackSpeedBuff.buffColor = new Color32(177, 56, 127, 255);
+            attackSpeedBuff.buffColor = new Color32(96, 56, 177, 255);
             attackSpeedBuff.iconSprite = Addressables.LoadAssetAsync<BuffDef>("RoR2/Base/AttackSpeedOnCrit/bdAttackSpeedOnCrit.asset").WaitForCompletion().iconSprite;
             attackSpeedBuff.isHidden = false;
             attackSpeedBuff.isDebuff = false;
             ContentAddition.AddBuffDef(attackSpeedBuff);
+
+            decay = ScriptableObject.CreateInstance<BuffDef>();
+            decay.canStack = true;
+            decay.isCooldown = false;
+            decay.isDebuff = true;
+            decay.isHidden = false;
+            decay.buffColor = new Color32(96, 56, 177, 255);
+            decay.name = "Decay - ";
+            ContentAddition.AddBuffDef(decay);
 
             CreateLang();
             CreateItem();
@@ -81,7 +95,8 @@ namespace Sandswept.Items.VoidGreens
         {
             if (sender.HasBuff(attackSpeedBuff))
             {
-                args.baseAttackSpeedAdd += attackSpeedGain;
+                var stack = GetCount(sender);
+                args.baseAttackSpeedAdd += baseAttackSpeedGain + stackAttackSpeedGain * (stack - 1);
             }
         }
 
@@ -106,14 +121,12 @@ namespace Sandswept.Items.VoidGreens
             {
                 if (Util.CheckRoll(chance * damageInfo.procCoefficient, attackerBody.master))
                 {
-                    var damage = baseDamage + stackDamage * (stack - 1);
-
                     InflictDotInfo inflictDotInfo = new()
                     {
                         attackerObject = attackerBody.gameObject,
                         victimObject = victim.gameObject,
-                        totalDamage = attackerBody.damage * damage,
-                        damageMultiplier = 1f * stack,
+                        totalDamage = attackerBody.damage * baseDamage,
+                        damageMultiplier = 1f,
                         dotIndex = DotController.DotIndex.Blight,
                         maxStacksFromAttacker = uint.MaxValue,
                         duration = 3f

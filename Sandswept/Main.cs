@@ -148,7 +148,6 @@ namespace Sandswept
             if (Utils.CustomEmoteAPICheck.enabled)
             {
                 On.RoR2.SurvivorCatalog.Init += CustomEmoteAPICheck.SurvivorCatalog_Init;
-                
             }
 
             SwapAllShaders(MainAssets);
@@ -235,7 +234,6 @@ namespace Sandswept
             ModLogger.LogDebug("#SANDSWEEP");
             ModLogger.LogDebug("Initialized mod in " + stopwatch.ElapsedMilliseconds + "ms");
 
-                
             // On.RoR2.Networking.NetworkManagerSystemSteam.OnClientConnect += (s, u, t) => { }; // for having multiple instances of the game at once - mp testing, make sure to comment out before release
         }
 
@@ -395,12 +393,15 @@ namespace Sandswept
                     case "Stubbed Hopoo Games/Environment/Distant Water":
                         val.shader = Resources.Load<Shader>("shaders/environment/hgdistantwater");
                         break;
+
                     case "StubbedRoR2/Base/Shaders/HGStandard":
                         val.shader = LegacyShaderAPI.Find("Hopoo Games/Deferred/Standard");
                         break;
+
                     case "StubbedRoR2/Base/Shaders/HGCloudRemap":
                         val.shader = Utils.Assets.Shader.HGCloudRemap;
                         break;
+
                     case "StubbedRoR2/Base/Shaders/HGIntersectionCloudRemap":
                         val.shader = LegacyShaderAPI.Find("Hopoo Games/FX/Cloud Intersection Remap");
                         break;

@@ -138,12 +138,12 @@ namespace Sandswept.Interactables.Regular
                 name = "Standard",
                 categoryWeight = 1f,
                 alwaysIncluded = allEnemiesPoolEntries,
+                includedIfNoConditionsMet = Array.Empty<DccsPool.PoolEntry>(),
+                includedIfConditionsMet = Array.Empty<DccsPool.ConditionalPoolEntry>()
             };
 
-            voidEnemiesDccsPool = new()
-            {
-                poolCategories = allCategories
-            };
+            voidEnemiesDccsPool = ScriptableObject.CreateInstance<DccsPool>();
+            voidEnemiesDccsPool.poolCategories = allCategories;
 
             // On.RoR2.ClassicStageInfo.Start += ClassicStageInfo_Start;
             On.RoR2.PickupDropTable.GenerateDropFromWeightedSelection += PickupDropTable_GenerateDropFromWeightedSelection;
