@@ -136,7 +136,7 @@ namespace Sandswept.Interactables.Regular
             allCategories[0] = new()
             {
                 name = "Standard",
-                categoryWeight = 1,
+                categoryWeight = 1f,
                 alwaysIncluded = allEnemiesPoolEntries,
             };
 
@@ -166,6 +166,7 @@ namespace Sandswept.Interactables.Regular
                 if (sceneInfo.TryGetComponent<ClassicStageInfo>(out var classicStageInfo))
                 {
                     classicStageInfo.monsterDccsPool = voidEnemiesDccsPool;
+                    classicStageInfo.monsterCategories = Utils.Assets.DirectorCardCategorySelection.dccsITVoidMonsters;
                 }
             }
         }
@@ -207,8 +208,12 @@ namespace Sandswept.Interactables.Regular
 
         private void ClassicStageInfo_Start(On.RoR2.ClassicStageInfo.orig_Start orig, ClassicStageInfo self)
         {
-            self.monsterDccsPool = voidEnemiesDccsPool;
-            self.RebuildCards();
+            if (shouldCorruptNextStage)
+            {
+                self.monsterDccsPool = voidEnemiesDccsPool;
+                self.RebuildCards();
+            }
+
             orig(self);
         }
     }
