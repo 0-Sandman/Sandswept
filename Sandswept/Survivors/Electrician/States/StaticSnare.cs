@@ -4,13 +4,15 @@ namespace Sandswept.Survivors.Electrician.States
 {
     public class StaticSnare : BaseSkillState
     {
-        public float duration = 2f;
+        public float duration = 1f;
 
         public override void OnEnter()
         {
             base.OnEnter();
 
             duration /= base.attackSpeedStat;
+
+            PlayAnimation("Gesture, Override", "Throw", "Generic.playbackRate", duration);
 
             if (base.isAuthority)
             {

@@ -22,6 +22,8 @@ namespace Sandswept.Survivors.Electrician.States
             base.OnEnter();
             characterMotor.walkSpeedPenaltyCoefficient = (1f + movePenalty) - modifier;
             chargeTime *= modifier;
+
+            PlayAnimation("Fullbody, Override", "ChargeOverload", "Generic.playbackRate", chargeTime * 2.2f);
         }
 
         public override void FixedUpdate()
@@ -57,6 +59,8 @@ namespace Sandswept.Survivors.Electrician.States
             recoilDuration *= effectMultiplier;
             damageCoeff *= effectMultiplier;
             radius *= effectMultiplier;
+
+            PlayAnimation("Fullbody, Override", "Discharge", "Generic.playbackRate", recoilDuration);
 
             if (base.isAuthority)
             {
