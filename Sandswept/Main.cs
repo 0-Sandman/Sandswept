@@ -120,6 +120,7 @@ namespace Sandswept
             prodAssets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // MFS I SAID MERGE INTO OTHER ASSETS
             hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
             dgoslingAssets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "dgoslingstuff"));
+
             GenerateExpensionDef();
             RangerPod.Init();
             Ranger.Init();
@@ -147,7 +148,6 @@ namespace Sandswept
             if (Utils.CustomEmoteAPICheck.enabled)
             {
                 On.RoR2.SurvivorCatalog.Init += CustomEmoteAPICheck.SurvivorCatalog_Init;
-                
             }
 
             SwapAllShaders(MainAssets);
@@ -160,6 +160,9 @@ namespace Sandswept
 
             SwapAllShaders(prodAssets);
             SwapAllShaders(hifuSandswept);
+            SwapAllShaders(dgoslingAssets);
+            //Material matMushLun = dgoslingAssets.LoadAsset<Material>("matLunarMInd.mat");
+            //matMushLun.shader = LegacyShaderAPI.Find("Hopoo Games/FX/Cloud Intersection Remap");
             DamageColourHelper.Init();
 
             //This section automatically scans the project for all artifacts
@@ -389,6 +392,18 @@ namespace Sandswept
 
                     case "Stubbed Hopoo Games/Environment/Distant Water":
                         val.shader = Resources.Load<Shader>("shaders/environment/hgdistantwater");
+                        break;
+
+                    case "StubbedRoR2/Base/Shaders/HGStandard":
+                        val.shader = LegacyShaderAPI.Find("Hopoo Games/Deferred/Standard");
+                        break;
+
+                    case "StubbedRoR2/Base/Shaders/HGCloudRemap":
+                        val.shader = Utils.Assets.Shader.HGCloudRemap;
+                        break;
+
+                    case "StubbedRoR2/Base/Shaders/HGIntersectionCloudRemap":
+                        val.shader = LegacyShaderAPI.Find("Hopoo Games/FX/Cloud Intersection Remap");
                         break;
                 }
             }

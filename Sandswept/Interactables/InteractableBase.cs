@@ -25,7 +25,7 @@ namespace Sandswept.Interactables
         public abstract HullClassification Size { get; }
         public abstract int MinimumStageToAppearOn { get; }
         public abstract int SpawnWeight { get; }
-        public virtual List<Stage> Stages { get; } = new() { Stage.DistantRoost, Stage.TitanicPlains, Stage.SiphonedForest, Stage.AbandonedAqueduct, Stage.WetlandAspect, Stage.AphelianSanctuary, Stage.RallypointDelta, Stage.ScorchedAcres, Stage.SulfurPools, Stage.AbyssalDepths, Stage.SirensCall, Stage.SunderedGrove, Stage.SkyMeadow };
+        public virtual List<Stage> Stages { get; } = new() { Stage.DistantRoost, Stage.TitanicPlains, Stage.SiphonedForest, Stage.VerdantFalls, Stage.ViscousFalls, Stage.ShatteredAbodes, Stage.DisturbedImpact, Stage.AbandonedAqueduct, Stage.WetlandAspect, Stage.AphelianSanctuary, Stage.ReformedAltar, Stage.RallypointDelta, Stage.ScorchedAcres, Stage.SulfurPools, Stage.TreebornColony, Stage.GoldenDieback, Stage.AbyssalDepths, Stage.SirensCall, Stage.SunderedGrove, Stage.SkyMeadow, Stage.HelminthHatchery };
         public virtual bool SpawnInSimulacrum { get; } = false;
         public virtual bool SpawnInVoid { get; } = false;
         public virtual bool SkipOnSacrifice { get; } = false;
@@ -98,6 +98,32 @@ namespace Sandswept.Interactables
             else
             {
                 return true;
+            }
+        }
+    }
+
+    public class DisableOnTeleporterStart : MonoBehaviour
+    {
+        public float interval = 0.1f;
+        public float timer;
+        public bool shouldRun = true;
+
+        public void FixedUpdate()
+        {
+            if (!shouldRun || !TeleporterInteraction.instance)
+            {
+                return;
+            }
+
+            timer += Time.fixedDeltaTime;
+            if (timer >= interval)
+            {
+                if (TeleporterInteraction.instance.activationState <= TeleporterInteraction.ActivationState.IdleToCharging)
+                {
+                    gameObject.SetActive(false);
+                    shouldRun = false;
+                }
+                timer = 0f;
             }
         }
     }

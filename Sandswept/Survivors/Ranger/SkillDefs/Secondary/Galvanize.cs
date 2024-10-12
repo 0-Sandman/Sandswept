@@ -6,7 +6,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Secondary
     {
         public override string Name => "Galvanize";
 
-        public override string Description => "$rcLose all Charge$ec. Fire $sd3$se orbs of electricity, increasing up to $sd10$se at full $rcCharge$ec for $sd40%$se damage per second each.".AutoFormat();
+        public override string Description => "$rcLose all Charge$ec. Fire $sd3$se orbs of electricity, increasing up to $sd10$se at full $rcCharge$ec for $sd70%$se damage per second each.".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Secondary.Galvanize);
 

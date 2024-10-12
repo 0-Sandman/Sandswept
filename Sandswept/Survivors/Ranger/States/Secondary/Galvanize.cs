@@ -7,7 +7,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 {
     public class Galvanize : BaseState
     {
-        public static float DamageCoefficient = 0.4f;
+        public static float DamageCoefficient = 0.7f;
         public static int Projectiles = 3;
         public static int MaxProjectiles = 10;
         public static float baseDuration = 0.25f;
@@ -130,7 +130,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
             var aimDirection = GetAimRay().direction;
             for (int i = 0; i < projectileCount; i++)
             {
-                var num3 = (float)Mathf.FloorToInt(projectilesFired - (projectileCount - 1) / 2f) / (projectileCount - 1) * 60f;
+                var angleSpread = (float)Mathf.FloorToInt(projectilesFired - (projectileCount - 1) / 2f) / (projectileCount - 1) * 60f;
                 if (isAuthority)
                 {
                     var fpi = new FireProjectileInfo()
@@ -139,7 +139,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                         crit = RollCrit(),
                         damageColorIndex = DamageColorIndex.Default,
                         owner = gameObject,
-                        rotation = Util.QuaternionSafeLookRotation(Util.ApplySpread(aimDirection, 0f, 0f, 1f, 1f, num3, 0f)),
+                        rotation = Util.QuaternionSafeLookRotation(Util.ApplySpread(aimDirection, 0f, 0f, 1f, 1f, angleSpread, 0f)),
                         //position = GetModelChildLocator().FindChild("Muzzle").position,
                         position = transform.position,
                         force = 500f,

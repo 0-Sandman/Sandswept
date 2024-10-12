@@ -21,19 +21,19 @@ namespace Sandswept.Items.Reds
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texBleedingWitness.png");
 
-        [ConfigField("Hemorrhage Chance", "", 5f)]
+        [ConfigField("Hemorrhage Chance", "", 8f)]
         public static float hemorrhageChance;
 
-        [ConfigField("Hemorrhage Damage", "Decimal.", 4.8f)]
+        [ConfigField("Hemorrhage Damage", "Decimal.", 5f)]
         public static float hemorrhageDamage;
 
         [ConfigField("Hemorrhage Duration", "", 3f)]
         public static float hemorrhageDuration;
 
-        [ConfigField("Base DoT Healing", "Decimal.", 0.004f)]
+        [ConfigField("Base DoT Healing", "Decimal.", 0.0033f)]
         public static float baseDoTHealing;
 
-        [ConfigField("Stack DoT Healing", "Decimal.", 0.004f)]
+        [ConfigField("Stack DoT Healing", "Decimal.", 0.0033f)]
         public static float stackDoTHealing;
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Healing };
