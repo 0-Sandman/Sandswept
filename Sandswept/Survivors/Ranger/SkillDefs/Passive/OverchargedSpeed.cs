@@ -5,7 +5,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
     public class OverchargedSpeed : SkillBase<OverchargedSpeed>
     {
         public override string Name => "Overcharged Speed";
-        public override string Description => "Hold up to " + Projectiles.DirectCurrent.maxCharge + " $rcCharge$ec. Each $rcCharge$ec increases $sumovement speed$se by $su5%$se and $sharmor$se by $sh1.5$se. Consume a charge to $sudouble jump$se. $rcCharge decays over time$ec.".AutoFormat();
+        public override string Description => "Hold up to " + Projectiles.DirectCurrent.maxCharge + " $rcCharge$ec. Each $rcCharge$ec increases $sumovement speed$se by $su2.5%$se and $sharmor$se by $sh1.5$se. Consume 3 charges to $sudouble jump$se. $rcCharge decays over time$ec.".AutoFormat();
         public override Type ActivationStateType => typeof(GenericCharacterMain);
         public override string ActivationMachineName => "Body";
         public override float Cooldown => 0f;
@@ -32,17 +32,18 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
             if (NetworkServer.active && body)
             {
                 args.armorAdd += 1.5f * body.GetBuffCount(Charge.instance.BuffDef);
-                args.moveSpeedMultAdd += 0.05f * body.GetBuffCount(Charge.instance.BuffDef);
+                args.moveSpeedMultAdd += 0.025f * body.GetBuffCount(Charge.instance.BuffDef);
             }
         }
         private void GenericCharacterMain_ProcessJump(On.EntityStates.GenericCharacterMain.orig_ProcessJump orig, GenericCharacterMain self)
         {
             if (!self.hasCharacterMotor || !self.jumpInputReceived) { orig(self); return; }
+            var count = self.characterBody.GetBuffCount(Charge.instance.BuffDef);
             if (self.characterMotor.jumpCount == self.characterBody.maxJumpCount 
-                && self.characterBody.HasBuff(Charge.instance.BuffDef))
+                && count >= 3)
             {
                 var cnt = self.characterBody.maxJumpCount;
-                self.characterBody.SetBuffCount(Charge.instance.BuffDef.buffIndex, self.characterBody.GetBuffCount(Charge.instance.BuffDef) - 1);
+                self.characterBody.SetBuffCount(Charge.instance.BuffDef.buffIndex, self.characterBody.GetBuffCount(Charge.instance.BuffDef) - 3);
                 self.characterBody.maxJumpCount += 1;
                 orig(self);
                 self.characterBody.maxJumpCount = cnt;
