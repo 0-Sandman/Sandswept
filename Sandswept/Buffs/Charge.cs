@@ -6,30 +6,15 @@ namespace Sandswept.Buffs
 {
     public class Charge : BuffBase<Charge>
     {
-        public override string BuffName => "Charge - 0.25 hp/s Regen and 1.5 Armor Per, 10% Base Damage Amp in Full Heat Per";
-
+        public override string BuffName => "Charge";
         public override Color Color => new Color32(45, 188, 148, 255);
-
         public override Sprite BuffIcon => Main.hifuSandswept.LoadAsset<Sprite>("texBuffCharged.png");
         public override bool CanStack => true;
-
         public override void Init()
         {
             base.Init();
-            GetStatCoefficients += Charged_GetStatCoefficients;
             On.RoR2.CharacterBody.AddBuff_BuffDef += CharacterBody_AddBuff_BuffDef;
         }
-
-        private void Charged_GetStatCoefficients(CharacterBody body, StatHookEventArgs args)
-        {
-            if (NetworkServer.active && body)
-            {
-                var levelScale = 0.25f * 0.2f * (body.level - 1);
-                args.baseRegenAdd += (0.25f + levelScale) * body.GetBuffCount(BuffDef);
-                args.armorAdd += 1.5f * body.GetBuffCount(BuffDef);
-            }
-        }
-
         private static Transform GetModelTransform(CharacterBody body)
         {
             if (!body.modelLocator)
@@ -38,7 +23,6 @@ namespace Sandswept.Buffs
             }
             return body.modelLocator.modelTransform;
         }
-
         private static void CharacterBody_AddBuff_BuffDef(On.RoR2.CharacterBody.orig_AddBuff_BuffDef orig, CharacterBody self, BuffDef buffDef)
         {
             orig(self, buffDef);
