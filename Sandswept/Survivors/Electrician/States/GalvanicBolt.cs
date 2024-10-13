@@ -19,9 +19,11 @@ namespace Sandswept.Survivors.Electrician.States
                 ProjectileManager.instance.FireProjectile(info);
             }
 
-            // base.StartAimMode(duration * 0.5f);
+            base.StartAimMode(duration * 0.5f);
 
             PlayAnimation("Gesture, Override", "ShootLeft", "Generic.playbackRate", duration);
+
+            AkSoundEngine.PostEvent(Events.Play_loader_R_shock, base.gameObject);
         }
 
         public override void FixedUpdate()

@@ -4,7 +4,7 @@ namespace Sandswept.Survivors.Electrician.States
 {
     public class TempestSphereCharge : BaseSkillState
     {
-        public float chargeDuration = 1.4f;
+        public float chargeDuration = 0.4f;
 
         public override void OnEnter()
         {

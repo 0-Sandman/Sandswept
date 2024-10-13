@@ -231,9 +231,9 @@ namespace Sandswept.Survivors.Electrician
 
         public void OnCollisionEnter(Collision collision)
         {
-            if (!hasBouncedEnemy && NetworkServer.active && body.velocity.magnitude > 10f)
+            if (!hasBouncedEnemy && NetworkServer.active)
             {
-                if (collision.collider && collision.collider.GetComponent<HurtBox>())
+                if (collision.collider)
                 {
                     hasBouncedEnemy = true;
 
@@ -259,6 +259,11 @@ namespace Sandswept.Survivors.Electrician
                         origin = attack.position,
                         scale = attack.radius * 2f
                     }, true);
+
+                    var rb = GetComponent<Rigidbody>();
+                    rb.useGravity = true;
+                    rb.velocity = Vector3.zero;
+                    rb.velocity += Physics.gravity * 2f;
                 }
             }
         }

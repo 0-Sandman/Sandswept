@@ -3,36 +3,26 @@ using RoR2.Orbs;
 
 namespace Sandswept.Survivors.Electrician.States
 {
-    public class SignalOverloadCharge : BaseSkillState
-    {
-        public float chargeTime = 2f;
-        public float movePenalty = 0.5f;
-        public float modifier = 1f;
-
-        public SignalOverloadCharge(float effectMultiplier)
-        {
-            modifier = effectMultiplier;
-        }
-
-        public SignalOverloadCharge()
-        { }
+    public class SignalOverloadCharge : BaseSkillState {
+        public float baseDuration = 1.2f;
 
         public override void OnEnter()
         {
             base.OnEnter();
-            characterMotor.walkSpeedPenaltyCoefficient = (1f + movePenalty) - modifier;
-            chargeTime *= modifier;
 
-            PlayAnimation("Fullbody, Override", "ChargeOverload", "Generic.playbackRate", chargeTime * 2.2f);
+            baseDuration /= base.attackSpeedStat;
+
+            PlayAnimation("Fullbody, Override", "WindDischarge", "Generic.playbackRate", baseDuration * 2f);
+
+            base.characterMotor.walkSpeedPenaltyCoefficient = 0.8f;
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
 
-            if (base.fixedAge >= chargeTime)
-            {
-                outer.SetNextState(new SignalOverloadFire(modifier));
+            if (base.fixedAge >= baseDuration) {
+                outer.SetNextState(new SignalOverloadDischarge());
             }
         }
 
@@ -41,6 +31,97 @@ namespace Sandswept.Survivors.Electrician.States
             return InterruptPriority.Frozen;
         }
     }
+
+    public class SignalOverloadDischarge : BaseSkillState {
+        public float duration = 3f;
+        public float totalDamageCoef = 30f;
+        public int totalHits = 10;
+        public float delay => duration / totalHits;
+        public float coeff => totalDamageCoef / totalHits;
+        public float radius = 60f;
+        public float stopwatch = 0f;
+        public Animator animator;
+        public override void OnEnter()
+        {
+            base.OnEnter();
+
+            PlayAnimation("Fullbody, Override", "EnterDischarge", "Generic.playbackRate", 0.5f);
+            animator = GetModelAnimator();
+            animator.SetBool("discharging", true);
+        }
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+
+            stopwatch += Time.fixedDeltaTime;
+            if (stopwatch >= delay) {
+                stopwatch = 0f;
+
+                HandleBlastAuthority();
+            }
+
+            if (base.fixedAge >= duration) {
+                outer.SetNextStateToMain();
+            }
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+            animator.SetBool("discharging", false);
+        }
+
+        public override InterruptPriority GetMinimumInterruptPriority()
+        {
+            return InterruptPriority.Frozen;
+        }
+
+        public void HandleBlastAuthority()
+        {
+            SphereSearch search = new();
+            search.radius = radius;
+            search.mask = LayerIndex.entityPrecise.mask;
+            search.origin = base.transform.position;
+            search.RefreshCandidates();
+            search.FilterCandidatesByDistinctHurtBoxEntities();
+            search.FilterCandidatesByHurtBoxTeam(TeamMask.GetUnprotectedTeams(base.GetTeam()));
+
+            foreach (HurtBox box in search.GetHurtBoxes())
+            {
+                LightningOrb orb = new();
+                orb.attacker = base.gameObject;
+                orb.damageValue = base.damageStat;
+                orb.bouncesRemaining = 0;
+                orb.isCrit = base.RollCrit();
+                orb.lightningType = LightningOrb.LightningType.Loader;
+                orb.origin = base.transform.position;
+                orb.procCoefficient = 1f;
+                orb.target = box;
+                orb.teamIndex = base.GetTeam();
+                orb.AddModdedDamageType(Electrician.Grounding);
+
+                if (box.healthComponent) {
+                    CharacterMotor motor = box.healthComponent.GetComponent<CharacterMotor>();
+                    RigidbodyMotor motor2 = box.healthComponent.GetComponent<RigidbodyMotor>();
+                    
+                    if (motor) {
+                        motor.velocity += (base.transform.position - motor.transform.position).normalized * ((4.5f) * delay);
+                    }
+
+                    if (motor2) {
+                        PhysForceInfo info = new();
+                        info.massIsOne = true;
+                        info.force = (base.transform.position - motor2.transform.position).normalized * (4.5f * delay);
+                        motor2.ApplyForceImpulse(in info);
+                    }
+                }
+
+                OrbManager.instance.AddOrb(orb);
+            }
+        }
+    }
+
 
     public class SignalOverloadFire : BaseSkillState
     {

@@ -4,7 +4,7 @@ namespace Sandswept.Survivors.Electrician.States
 {
     public class StaticSnare : BaseSkillState
     {
-        public float duration = 1f;
+        public float duration = 0.5f;
 
         public override void OnEnter()
         {
@@ -19,6 +19,8 @@ namespace Sandswept.Survivors.Electrician.States
                 FireProjectileInfo info = MiscUtils.GetProjectile(Electrician.StaticSnare, 1f, base.characterBody);
                 ProjectileManager.instance.FireProjectile(info);
             }
+
+            AkSoundEngine.PostEvent(Events.Play_MULT_m2_throw, base.gameObject);
         }
 
         public override void FixedUpdate()

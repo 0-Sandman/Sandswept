@@ -7,11 +7,20 @@
   * Added Emotes support
 * Items
   * Added Drifting Perception
+  * Added Festering Hunger
   * Added Their Prominence
+  * Buffed Bleeding Witness Hemorrhage Chance from 5% to 8%.
+  * Buffed Bleeding Witness Hemorrhage Damage from 480% to 500%.
+  * Nerfed Bleeding Witness Base DoT Healing from 0.4% to 0.33%.
+  * Nerfed Bleeding Witness Stack DoT Healing from 0.4% to 0.33%.
+* Equipment
+  * Fix The Sand Sweeper throwing an NRE
 * Interactables
+  * Added Shrine of Ruin
   * Added Shrine of Sacrifice
 * Elites
   * Added item displays to Motivating
+  * Added item displays to Osmium
 
 # 0.9.4 Patch Notes
 * General
