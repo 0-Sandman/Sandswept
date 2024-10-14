@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2722742650
+CRC: 1599575093
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 5ea34a18106e853b926bc4107645de10
+    Hash: 3adb2cfbdca2c644b34ecfa4463e4402
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 2136433b178d9294baae3a83ed204065
+    Hash: 5fb173061b6c6eeab722b2d79fe314b7
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -36,6 +36,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: f8258ea15b8f74c4889ce485d21cbbb1, type: 3}
 - Class: 114
+  Script: {fileID: -830614127, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: -1845404088, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 802575700, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
@@ -64,6 +66,7 @@ Assets:
 - Assets/stubbed/RoR2/Base/Shaders/FX/HGIntersectionCloudRemap.shader
 - Assets/osmiumCrown/DisplayosmiumCrown.prefab
 - Assets/mdlRangerEmote.prefab
+- Assets/ACAparryVFXScale.asset
 - Assets/matLunarMInd.mat
 - Assets/texRampLunarWispFire.png
 - Assets/texCloudOrganic1.png
