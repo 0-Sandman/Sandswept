@@ -12,6 +12,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
         public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("Dash.png");
         public override int StockToConsume => 0;
         public override InterruptPriority InterruptPriority => InterruptPriority.Skill;
+
         public override void CreateSkillDef()
         {
             skillDef = ScriptableObject.CreateInstance<RangerPassiveDef>();
@@ -27,26 +28,33 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
                 On.EntityStates.GenericCharacterMain.ProcessJump -= GenericCharacterMain_ProcessJump;
             };
         }
+
         private void Charged_GetStatCoefficients(CharacterBody body, StatHookEventArgs args)
         {
-            if (NetworkServer.active && body)
+            if (body)
             {
-                args.armorAdd += 1.5f * body.GetBuffCount(Charge.instance.BuffDef);
                 args.moveSpeedMultAdd += 0.025f * body.GetBuffCount(Charge.instance.BuffDef);
             }
         }
+
         private void GenericCharacterMain_ProcessJump(On.EntityStates.GenericCharacterMain.orig_ProcessJump orig, GenericCharacterMain self)
         {
-            if (!self.hasCharacterMotor || !self.jumpInputReceived) { orig(self); return; }
-            var count = self.characterBody.GetBuffCount(Charge.instance.BuffDef);
-            if (self.characterMotor.jumpCount == self.characterBody.maxJumpCount 
-                && count >= 3)
+            if (!self.hasCharacterMotor || !self.jumpInputReceived)
             {
-                var cnt = self.characterBody.maxJumpCount;
+                orig(self);
+                return;
+            }
+            var buffCount = self.characterBody.GetBuffCount(Charge.instance.BuffDef);
+            if (self.characterMotor.jumpCount == self.characterBody.maxJumpCount && buffCount >= 3)
+            {
+                var jumpCount = self.characterBody.maxJumpCount;
+
                 self.characterBody.SetBuffCount(Charge.instance.BuffDef.buffIndex, self.characterBody.GetBuffCount(Charge.instance.BuffDef) - 3);
                 self.characterBody.maxJumpCount += 1;
+
                 orig(self);
-                self.characterBody.maxJumpCount = cnt;
+
+                self.characterBody.maxJumpCount = jumpCount;
             }
             else orig(self);
         }

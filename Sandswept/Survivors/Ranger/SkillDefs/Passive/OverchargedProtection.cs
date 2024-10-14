@@ -1,8 +1,4 @@
 ﻿using Sandswept.Buffs;
-using Sandswept.Survivors.Ranger.SkillDefs.Secondary;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
 {
@@ -16,8 +12,9 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
         public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("Overheat.png");
         public override int StockToConsume => 0;
         public override InterruptPriority InterruptPriority => InterruptPriority.Skill;
-        public override void CreateSkillDef() 
-        { 
+
+        public override void CreateSkillDef()
+        {
             skillDef = ScriptableObject.CreateInstance<RangerPassiveDef>();
             var passive = (RangerPassiveDef)skillDef;
             passive.onHook += () =>
@@ -29,9 +26,10 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
                 GetStatCoefficients -= Charged_GetStatCoefficients;
             };
         }
+
         private void Charged_GetStatCoefficients(CharacterBody body, StatHookEventArgs args)
         {
-            if (NetworkServer.active && body)
+            if (body)
             {
                 var levelScale = 0.25f * 0.2f * (body.level - 1);
                 args.baseRegenAdd += (0.25f + levelScale) * body.GetBuffCount(Charge.instance.BuffDef);
