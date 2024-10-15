@@ -41,13 +41,13 @@
 
 	<ItemGroup>
 	  <Reference Include="CustomEmotesAPI">
-	    <HintPath>..\..\CustomEmotesAPI.dll</HintPath>
+	    <HintPath>..\..\..\..\..\CustomEmotesAPI.dll</HintPath>
 	  </Reference>
 	  <Reference Include="Decalicious">
-	    <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\Decalicious.dll</HintPath>
+	    <HintPath>P:\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\Decalicious.dll</HintPath>
 	  </Reference>
 	  <Reference Include="PassiveAgression">
-	    <HintPath>..\..\PassiveAgression.dll</HintPath>
+	    <HintPath>..\..\..\..\..\PassiveAgression.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 </Project>

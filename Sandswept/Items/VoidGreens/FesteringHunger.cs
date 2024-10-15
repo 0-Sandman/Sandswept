@@ -15,18 +15,12 @@ namespace Sandswept.Items.VoidGreens
 
         public override string ItemPickupDesc => "Chance to decay enemies on hit. Moving near decaying enemies increases attack speed. $svCorrupts all Smouldering Documents$se.".AutoFormat();
 
-        public override string ItemFullDescription => ("$sd" + chance + "%$se chance on hit to inflict $sddecay$se for $sd" + d(baseDamage) + "$se base damage. Moving near $sddecaying$se enemies increases $sdattack speed$se by $sd" + d(baseAttackSpeedGain) + "$se $ss(+" + d(stackAttackSpeedGain) + " per stack)$se for $sd" + attackSpeedBuffDuration + "$se seconds. $svCorrupts all Smouldering Documents$se.").AutoFormat();
+        public override string ItemFullDescription => ("$sd" + chance + "%$se chance on hit to inflict $sddecay$se for $sd" + d(DoTs.Decay.baseDamage) + "$se base damage. Moving near $sddecaying$se enemies increases $sdattack speed$se by $sd" + d(baseAttackSpeedGain) + "$se $ss(+" + d(stackAttackSpeedGain) + " per stack)$se for $sd" + attackSpeedBuffDuration + "$se seconds. $svCorrupts all Smouldering Documents$se.").AutoFormat();
 
         public override string ItemLore => "This hunger..\r\nIt grows inside me.\r\nSevers mortality.\r\n\r\nIts showing its teeth.\r\n\r\n\r\nBlood like wine!";
 
         [ConfigField("Chance", "", 7f)]
         public static float chance;
-
-        [ConfigField("Base Damage", "Decimal.", 3f)]
-        public static float baseDamage;
-
-        [ConfigField("Scale Damage with Enemy Missing Health?", "Scales decay's base damage up to 200% of its damage value linearly with the enemy's missing health.", true)]
-        public static bool scaleDamage;
 
         [ConfigField("Base Attack Speed Gain", "Decimal.", 0.33f)]
         public static float baseAttackSpeedGain;
@@ -54,10 +48,6 @@ namespace Sandswept.Items.VoidGreens
 
         public static GameObject vfx;
 
-        public static BuffDef decay;
-        public static DotDef decayDef;
-        public static DotIndex decayIndex;
-
         public override void Init(ConfigFile config)
         {
             attackSpeedBuff = ScriptableObject.CreateInstance<BuffDef>();
@@ -68,46 +58,6 @@ namespace Sandswept.Items.VoidGreens
             attackSpeedBuff.isHidden = false;
             attackSpeedBuff.isDebuff = false;
             ContentAddition.AddBuffDef(attackSpeedBuff);
-
-            decay = ScriptableObject.CreateInstance<BuffDef>();
-            decay.canStack = true;
-            decay.isCooldown = false;
-            decay.isDebuff = true;
-            decay.isHidden = false;
-            decay.buffColor = new Color32(96, 56, 177, 255);
-            decay.name = "Decay";
-            decay.iconSprite = Utils.Assets.BuffDef.bdBlight.iconSprite;
-            ContentAddition.AddBuffDef(decay);
-
-            decayDef = new()
-            {
-                associatedBuff = decay,
-                resetTimerOnAdd = false,
-                interval = 0.2f,
-                damageColorIndex = DamageColorIndex.DeathMark,
-                damageCoefficient = 1f
-            };
-
-            CustomDotBehaviour behavior = delegate (DotController self, DotStack dotStack)
-            {
-                var victimBody = self.victimBody;
-                var attackerBody = dotStack.attackerObject?.GetComponent<CharacterBody>();
-                if (victimBody && attackerBody)
-                {
-                    dotStack.damage = attackerBody.damage * baseDamage * 0.2f;
-                    if (scaleDamage)
-                    {
-                        var victimHc = victimBody.healthComponent;
-                        if (victimHc)
-                        {
-                            var scalar = 1f + (1f - victimHc.combinedHealthFraction);
-                            dotStack.damage = attackerBody.damage * baseDamage * 0.2f * scalar;
-                        }
-                    }
-                }
-            };
-
-            decayIndex = RegisterDotDef(decayDef, behavior);
 
             CreateLang();
             CreateItem();
@@ -163,7 +113,7 @@ namespace Sandswept.Items.VoidGreens
                         victimObject = victim.gameObject,
                         totalDamage = null,
                         damageMultiplier = 1f,
-                        dotIndex = decayIndex,
+                        dotIndex = DoTs.Decay.decayIndex,
                         maxStacksFromAttacker = uint.MaxValue,
                         duration = 3f
                     };
@@ -249,7 +199,7 @@ namespace Sandswept.Items.VoidGreens
                 return;
             }
 
-            if (!victimBody.HasBuff(FesteringHunger.decay))
+            if (!victimBody.HasBuff(DoTs.Decay.decayBuff))
             {
                 return;
             }

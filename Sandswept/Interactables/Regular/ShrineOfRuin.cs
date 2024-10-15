@@ -48,7 +48,7 @@ namespace Sandswept.Interactables.Regular
 
         public override bool SlightlyRandomizeOrientation => false;
 
-        [ConfigField("White Item Cost", "", 8)]
+        [ConfigField("White Item Cost", "", 10)]
         public static int whiteItemCost;
 
         [ConfigField("Item Count", "", 2)]
@@ -288,14 +288,19 @@ namespace Sandswept.Interactables.Regular
                 return;
             }
             waitingForRefresh = true;
+
             var interactorBody = interactor.GetComponent<CharacterBody>();
 
             var inventory = interactorBody.inventory;
-            if (!inventory || inventory.itemAcquisitionOrder == null) return;
+            if (!inventory || inventory.itemAcquisitionOrder == null)
+            {
+                return;
+            }
 
+            WeightedSelection<ItemIndex> itemsToRemove = new();
 
+            int numItems = 0;
 
-            WeightedSelection<ItemIndex> itemsToRemove = new(); int numItems = 0;
             foreach (var item in inventory.itemAcquisitionOrder)
             {
                 var def = ItemCatalog.GetItemDef(item);
@@ -303,15 +308,26 @@ namespace Sandswept.Interactables.Regular
                 var count = inventory.GetItemCount(def);
                 itemsToRemove.AddChoice(item, count); numItems += count;
             }
-            if (numItems < ShrineOfRuin.whiteItemCost) return;
+
+            if (numItems < ShrineOfRuin.whiteItemCost)
+            {
+                return;
+            }
+
             for (int i = 0; i < ShrineOfRuin.whiteItemCost; i++)
             {
                 var idx = itemsToRemove.EvaluateToChoiceIndex(Run.instance.treasureRng.nextNormalizedFloat);
                 var choice = itemsToRemove.GetChoice(idx);
                 inventory.RemoveItem(ItemCatalog.GetItemDef(choice.value));
-                if (choice.weight <= 1) itemsToRemove.RemoveChoice(idx);
-                else itemsToRemove.ModifyChoiceWeight(idx, choice.weight - 1);
-            } 
+                if (choice.weight <= 1)
+                {
+                    itemsToRemove.RemoveChoice(idx);
+                }
+                else
+                {
+                    itemsToRemove.ModifyChoiceWeight(idx, choice.weight - 1);
+                }
+            }
 
             if (Run.instance)
             {

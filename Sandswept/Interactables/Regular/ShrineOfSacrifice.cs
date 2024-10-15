@@ -16,7 +16,7 @@ namespace Sandswept.Interactables.Regular
 
         public override InteractableCategory Category => InteractableCategory.Shrines;
 
-        public override int MaxSpawnsPerStage => 1;
+        public override int MaxSpawnsPerStage => 2;
 
         public override int CreditCost => 20;
 

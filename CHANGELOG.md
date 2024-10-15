@@ -5,6 +5,8 @@
   * Added
 * Ranger
   * Added Emotes support
+* Enemies
+  * Added Cannonball Jellyfish
 * Items
   * Added Drifting Perception
   * Added Festering Hunger

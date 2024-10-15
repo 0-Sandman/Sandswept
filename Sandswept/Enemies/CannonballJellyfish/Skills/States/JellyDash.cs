@@ -8,7 +8,7 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
     [ConfigSection("Enemies :: Cannonball Jellyfish")]
     public class JellyDash : BaseState
     {
-        [ConfigField("Primary - Damage Coefficient", "The damage multiplier to deal.", 6f)]
+        [ConfigField("Primary - Damage Coefficient", "Decimal.", 4f)]
         public static float DamageCoefficient;
 
         [ConfigField("Primary - Dash Force", "The amount of force to use when dashing", 4000f)]
@@ -32,14 +32,16 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
                 ai = base.characterBody.master.GetComponent<BaseAI>();
             }
 
-            attack = new();
-            attack.attacker = base.gameObject;
-            attack.damage = base.damageStat * DamageCoefficient;
-            attack.isCrit = base.RollCrit();
-            attack.hitBoxGroup = base.FindHitBoxGroup("HBCharge");
-            attack.procCoefficient = 1f;
-            attack.teamIndex = base.GetTeam();
-            attack.attackerFiltering = AttackerFiltering.NeverHitSelf;
+            attack = new()
+            {
+                attacker = base.gameObject,
+                damage = base.damageStat * DamageCoefficient,
+                isCrit = base.RollCrit(),
+                hitBoxGroup = base.FindHitBoxGroup("HBCharge"),
+                procCoefficient = 1f,
+                teamIndex = base.GetTeam(),
+                attackerFiltering = AttackerFiltering.NeverHitSelf
+            };
 
             if (NetworkServer.active)
             {
