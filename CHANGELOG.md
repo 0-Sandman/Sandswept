@@ -13,9 +13,13 @@
   * Buffed Bleeding Witness Hemorrhage Damage from 480% to 500%.
   * Nerfed Bleeding Witness Base DoT Healing from 0.4% to 0.33%.
   * Nerfed Bleeding Witness Stack DoT Healing from 0.4% to 0.33%.
+  * Fixed Nuclear Salvo!?!??!
 * Equipment
-  * Fix The Sand Sweeper throwing an NRE
+  * Added Mushroom Lunar (name to be changed)
+  * Added Twinblade (name to be changed)
+  * Fixed The Sand Sweeper throwing an NRE
 * Interactables
+  * Added Fallen Survivor
   * Added Shrine of Ruin
   * Added Shrine of Sacrifice
 * Elites

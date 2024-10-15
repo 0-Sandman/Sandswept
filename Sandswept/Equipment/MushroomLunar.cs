@@ -25,37 +25,63 @@ namespace Sandswept.Equipment
         public override bool IsLunar => true;
         public override Sprite EquipmentIcon => Utils.Assets.Sprite.texEquipmentBGIcon;
         public override float Cooldown => 35f;
-        [ConfigField("Aura Length", "", 15f)]
-        public static float AuraLength;
-        [ConfigField("Aura Radius","",30f)]
-        public static float AuraRadius;
-        public static List<BuffDef> moddedWhitelist;
+
+        [ConfigField("Buff Duration", "", 15f)]
+        public static float buffDuration;
+
+        [ConfigField("Buff Radius", "", 30f)]
+        public static float buffRadius;
+
+        public static List<BuffDef> moddedBuffWhitelist;
         public static List<BuffDef> buffBlacklist;
-        public static List<BuffDef> availibleDefs = new List<BuffDef>();
-        public static readonly SphereSearch sphereSearch = new SphereSearch();
-        public static GameObject wardReference;
+
+        public static List<BuffDef> availableBuffs = new();
         public static bool buffDefsSetup = false;
+
+        public static readonly SphereSearch sphereSearch = new();
+
+        public static GameObject wardReference;
+
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             //throw new NotImplementedException();
             return new ItemDisplayRuleDict();
         }
-        void LoadAssets()
+
+        public override void Init(ConfigFile config)
+        {
+            CreateConfig(config);
+            CreateLang();
+            LoadAssets();
+
+            CreateEquipment();
+            //SetupBuffDefLists();
+            Hooks();
+        }
+
+        private void LoadAssets()
         {
             wardReference = Main.dgoslingAssets.LoadAsset<GameObject>("MushroomLunarWard");
             wardReference.GetComponentInChildren<Renderer>().AddComponent<MaterialControllerComponents.HGIntersectionController>();
 
             PrefabAPI.RegisterNetworkPrefab(wardReference);
         }
+
+        public override void Hooks()
+        {
+            base.Hooks();
+            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
+            RoR2Application.onLoad += SetupBuffDefLists;
+        }
+
         public static void SetupBuffDefLists()
         {
-            moddedWhitelist = new List<BuffDef>
+            moddedBuffWhitelist = new List<BuffDef>
             {
-
-
             };
 
-            buffBlacklist = new List<BuffDef> {
+            buffBlacklist = new List<BuffDef>
+            {
                 RoR2Content.Buffs.AffixBlue,
                 RoR2Content.Buffs.AffixEcho,
                 RoR2Content.Buffs.AffixHaunted,
@@ -93,7 +119,6 @@ namespace Sandswept.Equipment
                 JunkContent.Buffs.GoldEmpowered,
                 JunkContent.Buffs.LoaderPylonPowered,
                 JunkContent.Buffs.Slow30
-
             };
 
             PropertyInfo[] propertyInfos = typeof(Utils.Assets.BuffDef).GetProperties();
@@ -101,108 +126,98 @@ namespace Sandswept.Equipment
             foreach (PropertyInfo item in propertyInfos)
             {
                 if (buffBlacklist.Contains((BuffDef)item.GetValue(item)))
-                    availibleDefs.Add((BuffDef)item.GetValue(item));
+                {
+                    availableBuffs.Add((BuffDef)item.GetValue(item));
+                }
             }
 
-            if (moddedWhitelist.Count > 0) 
-                availibleDefs.AddRange(moddedWhitelist);
-            if(availibleDefs.Count > 0)
+            if (moddedBuffWhitelist.Count > 0)
+            {
+                availableBuffs.AddRange(moddedBuffWhitelist);
+            }
+
+            if (availableBuffs.Count > 0)
             {
                 buffDefsSetup = true;
-                Main.ModLogger.LogInfo("finished settingup buffdefs");
+                // Main.ModLogger.LogInfo("finished settingup buffdefs");
             }
-                
-        }
-        public override void Hooks()
-        {
-            base.Hooks();
-            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
-            RoR2Application.onLoad += () =>
-            {
-                SetupBuffDefLists();
-            };
         }
 
-        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody obj)
+        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
-            obj.AddItemBehavior<MushroomLunarController>((obj.inventory.GetEquipment(obj.inventory.activeEquipmentSlot).equipmentDef == this.EquipmentDef) ? 1 : 0);
-        }
-
-
-
-        public override void Init(ConfigFile config)
-        {
-            CreateConfig(config);
-            CreateLang();
-            LoadAssets();
-            
-            CreateEquipment();
-            //SetupBuffDefLists();
-            Hooks();
+            body.AddItemBehavior<MushroomLunarController>((body.inventory.GetEquipment(body.inventory.activeEquipmentSlot).equipmentDef == EquipmentDef) ? 1 : 0);
         }
 
         protected override bool ActivateEquipment(EquipmentSlot slot)
         {
-           if(slot.characterBody == null) return false;
-           
+            if (!slot.characterBody)
+            {
+                return false;
+            }
 
-            BuffDef rand = availibleDefs[RoR2.Run.instance.stageRng.RangeInt(0, availibleDefs.Count - 1)];
-            MushroomLunarController mushroomLunarController = slot.characterBody.GetComponentInChildren<MushroomLunarController>();
-            if (mushroomLunarController)
+            BuffDef randomBuff = availableBuffs[Run.instance.stageRng.RangeInt(0, availableBuffs.Count - 1)];
+
+            if (slot.characterBody.TryGetComponent<MushroomLunarController>(out var mushroomLunarController))
             {
                 if (mushroomLunarController.buffDef != null && mushroomLunarController.ward == null)
+                {
                     mushroomLunarController.buffDef = null;
-                mushroomLunarController.buffDef = rand;
-                mushroomLunarController.run = true;
-                //if(mushroomLunarController.ward!=null)
+                }
+
+                mushroomLunarController.buffDef = randomBuff;
+                mushroomLunarController.shouldRun = true;
             }
-           
 
             return true;
         }
     }
+
     public class MushroomLunarController : CharacterBody.ItemBehavior
     {
         public GameObject ward;
 
         public BuffDef buffDef;
-        public bool run = false;
-        void FixedUpdate()
+        public bool shouldRun = false;
+
+        private void FixedUpdate()
         {
             if (!NetworkServer.active)
-                return;
-            bool flag = stack > 0;
-            if (ward != flag&&(run&&buffDef))
             {
+                return;
+            }
 
-
-                if (flag)
+            bool what = stack > 0;
+            if (ward != what && (shouldRun && buffDef))
+            {
+                if (what)
                 {
-                    ward = Object.Instantiate(MushroomLunar.wardReference);
-                    ward.GetComponent<BuffWard>().Networkradius += body.radius;
-                    ward.GetComponent<BuffWard>().invertTeamFilter = true;
-                    ward.GetComponent<BuffWard>().buffDef = buffDef;
-                        ward.GetComponent<NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(body.gameObject);
-                    run = false;
+                    ward = Instantiate(MushroomLunar.wardReference);
+                    var buffWard = ward.GetComponent<BuffWard>();
+                    buffWard.Networkradius = MushroomLunar.buffRadius + body.radius;
+                    buffWard.invertTeamFilter = true;
+                    buffWard.buffDef = buffDef;
+                    ward.GetComponent<NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(body.gameObject);
+                    shouldRun = false;
                 }
                 else
                 {
                     Object.Destroy(ward);
+                    // shouldnt it be NetworkServer.Destroy?
                     ward = null;
                     buffDef = null;
-                    run = false;
+                    shouldRun = false;
                 }
-                    
             }
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             if (ward)
             {
                 Object.Destroy(ward);
+                // shouldnt it be NetworkServer.Destroy?
                 buffDef = null;
-                run=false;
+                shouldRun = false;
             }
         }
     }
