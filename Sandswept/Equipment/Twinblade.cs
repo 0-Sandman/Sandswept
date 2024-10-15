@@ -55,17 +55,28 @@ namespace Sandswept.Equipment
   
         public override void Hooks()
         {
-            vfx = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.EngiShield, "Parry VFX");
-            Object.Destroy(vfx.GetComponent<TemporaryVisualEffect>());
+            vfx = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.EngiShield, "Parry VFX",false);
+            vfx.RemoveComponent<TemporaryVisualEffect>();
+            foreach (ObjectScaleCurve item in vfx.GetComponents<ObjectScaleCurve>())
+            {
+                Object.Destroy(item);
+            }
+            vfx.RemoveComponent<Billboard>();
+            vfx.AddComponent<NetworkIdentity>();
             var component = vfx.AddComponent<EffectComponent>();
-            //component.applyScale = true;
+           // component.applyScale = true;
+            component.parentToReferencedTransform = true;
+            component.positionAtReferencedTransform = true;
             
-            vfx.RemoveComponents<ObjectScaleCurve>();
-            var scale = vfx.AddComponent<ObjectScaleCurve>();
-            scale.overallCurve = Main.dgoslingAssets.LoadAsset<AnimationCurveAsset>("ACAparryVFXScale").value;
-            scale.useOverallCurveOnly = true;
-            scale.timeMax = 1;
+            
+            //var scale = vfx.AddComponent<ObjectScaleCurve>();
+            //scale.overallCurve = Main.dgoslingAssets.LoadAsset<AnimationCurveAsset>("ACAparryVFXScale").value;
+            //scale.useOverallCurveOnly = true;
+            //scale.timeMax = 1;
+            //scale.resetOnAwake = false;
+            //scale.enabled = false;
             vfx.GetComponent<DestroyOnTimer>().enabled = true;
+            PrefabAPI.RegisterNetworkPrefab(vfx);
             Main.EffectPrefabs.Add(vfx);
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
@@ -123,7 +134,11 @@ namespace Sandswept.Equipment
         //        if (!body.HasBuff(Buffs.ParryBuff.instance.BuffDef)) body.AddBuff(Buffs.ParryBuff.instance.BuffDef);
         //    }
             projdelradius = Twinblade.grazeRadius + body.radius;
+           // On.RoR2.ObjectScaleCurve.Reset += ObjectScaleCurve_Reset;
+           // On.RoR2.EffectManager.SpawnEffect_GameObject_EffectData_bool += EffectManager_SpawnEffect_GameObject_EffectData_bool;
         }
+
+
         void CleanBuffsServer()
         {
             if(!NetworkServer.active) return;
@@ -138,7 +153,13 @@ namespace Sandswept.Equipment
                 if (!effectPrefab)
                 {
                     effectPrefab = Twinblade.vfx;
-                    effectPrefab.GetComponent<ObjectScaleCurve>().baseScale = new Vector3(Twinblade.radius, Twinblade.radius, Twinblade.radius);
+                    var component = effectPrefab.AddComponent<ObjectScaleCurve>();
+                    component.baseScale = new Vector3(Twinblade.radius, Twinblade.radius, Twinblade.radius);
+                    component.overallCurve = Main.dgoslingAssets.LoadAsset<AnimationCurveAsset>("ACAparryVFXScale").value;
+                    component.useOverallCurveOnly = true;
+                    component.timeMax = 1f;
+                    component.resetOnAwake = true;
+                    component.enabled = true;
                     CleanBuffsServer();
                     if (!body.HasBuff(Buffs.ParryBuff.instance.BuffDef)) body.AddBuff(Buffs.ParryBuff.instance.BuffDef);
                 }
@@ -158,6 +179,9 @@ namespace Sandswept.Equipment
                 
             }
         }
+
+
+
         void reset()
         {
             damageInfo = null;
@@ -183,13 +207,14 @@ namespace Sandswept.Equipment
 
                 DeleteProjectilesServer(projdelradius);
                 EffectData effectData = new() { 
-                    origin = body.corePosition,
+                    origin = body.modelLocator.modelBaseTransform.position,
                     scale = radius,
                     rootObject = body.gameObject
                    
                    
                 };
                 EffectManager.SpawnEffect(effectPrefab, effectData,true);
+               // effectPrefab.GetComponent<ObjectScaleCurve>().enabled = true;
                 BlastAttack.Result result;
                 result = new BlastAttack
                 {
@@ -257,5 +282,6 @@ namespace Sandswept.Equipment
                     Object.Destroy(toDelete);
             }
         }
+
     }
 }
