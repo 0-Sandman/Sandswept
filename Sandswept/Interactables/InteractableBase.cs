@@ -123,7 +123,7 @@ namespace Sandswept.Interactables
             timer += Time.fixedDeltaTime;
             if (timer >= interval)
             {
-                if (TeleporterInteraction.instance.activationState <= TeleporterInteraction.ActivationState.IdleToCharging)
+                if (TeleporterInteraction.instance.activationState != TeleporterInteraction.ActivationState.Idle)
                 {
                     gameObject.SetActive(false);
                     shouldRun = false;

@@ -46,7 +46,7 @@ namespace Sandswept.Interactables.Regular
 
         public static GameObject shrineVFX;
 
-        public CostTypeIndex costTypeIndex = (CostTypeIndex)19;
+        public static CostTypeIndex costTypeIndex;
         public CostTypeDef def;
 
         public override void Init()
@@ -57,7 +57,7 @@ namespace Sandswept.Interactables.Regular
             {
                 buildCostString = delegate (CostTypeDef def, CostTypeDef.BuildCostStringContext c)
                 {
-                    c.stringBuilder.Append("<style=cDeath>" + d(curseCost) + " Curse</style>");
+                    c.stringBuilder.Append("<style=cDeath>" + curseCost + "% Curse</style>");
                 },
 
                 isAffordable = delegate (CostTypeDef def, CostTypeDef.IsAffordableContext c)
@@ -67,34 +67,27 @@ namespace Sandswept.Interactables.Regular
 
                 payCost = delegate (CostTypeDef def, CostTypeDef.PayCostContext c)
                 {
+                    if (c.activatorBody) {
+                        int count = c.activatorBody.GetBuffCount(RoR2Content.Buffs.PermanentCurse);
+                        c.activatorBody.SetBuffCount(RoR2Content.Buffs.PermanentCurse.buffIndex, count + curseCost);
+
+                        Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage
+                        {
+                            subjectAsCharacterBody = c.activatorBody,
+                            baseToken = "SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE",
+                        });
+                    }
                 }
             };
 
             On.RoR2.CostTypeCatalog.Init += (orig) =>
             {
                 orig();
+                int index = CostTypeCatalog.costTypeDefs.Length;
+                Array.Resize(ref CostTypeCatalog.costTypeDefs, index + 1);
+                costTypeIndex = (CostTypeIndex)index;
+
                 CostTypeCatalog.Register(costTypeIndex, def);
-            };
-
-            IL.RoR2.CostTypeCatalog.Init += (il) =>
-            {
-                ILCursor c = new(il);
-                bool found = c.TryGotoNext(MoveType.Before,
-                    x => x.MatchLdcI4(15)
-                );
-
-                if (found)
-                {
-                    c.Index++;
-                    c.EmitDelegate<Func<int, int>>((c) =>
-                    {
-                        return 20;
-                    });
-                }
-                else
-                {
-                    Main.ModLogger.LogError("Failed to apply CostTypeCatalog IL hook");
-                }
             };
 
             prefab = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineBlood, "Shrine of Sacrifice", true);
@@ -117,7 +110,7 @@ namespace Sandswept.Interactables.Regular
             purchaseInteraction.contextToken = "SANDSWEPT_SHRINE_SACRIFICE_CONTEXT";
             purchaseInteraction.Networkavailable = true;
             purchaseInteraction.costType = costTypeIndex;
-            purchaseInteraction.cost = 0;
+            purchaseInteraction.cost = curseCost;
 
             var genericDisplayNameProvider = prefab.GetComponent<GenericDisplayNameProvider>();
             genericDisplayNameProvider.displayToken = "SANDSWEPT_SHRINE_SACRIFICE_NAME";
@@ -171,6 +164,7 @@ namespace Sandswept.Interactables.Regular
         {
             shrineSacrificeBehavior = GetComponent<ShrineOfSacrificeController>();
             purchaseInteraction = GetComponent<PurchaseInteraction>();
+            purchaseInteraction.costType = ShrineOfSacrifice.costTypeIndex;
             purchaseInteraction.onPurchase.AddListener(SoTrue);
         }
 
@@ -268,23 +262,6 @@ namespace Sandswept.Interactables.Regular
 
                 PickupDropletController.CreatePickupDroplet(info, transform.position + new Vector3(0, 3f, 0), vector);
                 vector = quaternion * vector;
-            }
-
-            if (interactorBody)
-            {
-                float amount = interactorBody.healthComponent.fullCombinedHealth * ShrineOfSacrifice.curseCost;
-                float curse = Mathf.RoundToInt(amount / interactorBody.healthComponent.fullCombinedHealth * 100f);
-
-                for (int j = 0; j < curse; j++)
-                {
-                    interactorBody.AddBuff(RoR2Content.Buffs.PermanentCurse);
-                }
-
-                Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage
-                {
-                    subjectAsCharacterBody = interactorBody,
-                    baseToken = "SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE",
-                });
             }
 
             EffectManager.SpawnEffect(ShrineOfSacrifice.shrineVFX, new EffectData

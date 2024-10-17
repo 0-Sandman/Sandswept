@@ -63,7 +63,7 @@ namespace Sandswept.Interactables.Regular
 
         public static DccsPool voidEnemiesDccsPool;
 
-        public CostTypeIndex costTypeIndex = (CostTypeIndex)19;
+        public static CostTypeIndex costTypeIndex;
         public CostTypeDef def;
 
         public override void Init()
@@ -74,7 +74,7 @@ namespace Sandswept.Interactables.Regular
             {
                 buildCostString = delegate (CostTypeDef def, CostTypeDef.BuildCostStringContext c)
                 {
-                    c.stringBuilder.Append(whiteItemCost + " Items");
+                    c.stringBuilder.Append(whiteItemCost + " Common Items");
                 },
 
                 isAffordable = delegate (CostTypeDef def, CostTypeDef.IsAffordableContext c)
@@ -100,28 +100,12 @@ namespace Sandswept.Interactables.Regular
             On.RoR2.CostTypeCatalog.Init += (orig) =>
             {
                 orig();
+                
+                int index = CostTypeCatalog.costTypeDefs.Length;
+                Array.Resize(ref CostTypeCatalog.costTypeDefs, index + 1);
+                costTypeIndex = (CostTypeIndex)index;
+
                 CostTypeCatalog.Register(costTypeIndex, def);
-            };
-
-            IL.RoR2.CostTypeCatalog.Init += (il) =>
-            {
-                ILCursor c = new(il);
-                bool found = c.TryGotoNext(MoveType.Before,
-                    x => x.MatchLdcI4(15)
-                );
-
-                if (found)
-                {
-                    c.Index++;
-                    c.EmitDelegate<Func<int, int>>((c) =>
-                    {
-                        return 20;
-                    });
-                }
-                else
-                {
-                    Main.ModLogger.LogError("Failed to apply CostTypeCatalog IL hook");
-                }
             };
 
             prefab = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineBlood, "Shrine of Ruin", true);
@@ -144,7 +128,7 @@ namespace Sandswept.Interactables.Regular
             purchaseInteraction.contextToken = "SANDSWEPT_SHRINE_RUIN_CONTEXT";
             purchaseInteraction.Networkavailable = true;
             purchaseInteraction.costType = costTypeIndex;
-            purchaseInteraction.cost = 0;
+            purchaseInteraction.cost = whiteItemCost;
 
             var genericDisplayNameProvider = prefab.GetComponent<GenericDisplayNameProvider>();
             genericDisplayNameProvider.displayToken = "SANDSWEPT_SHRINE_RUIN_NAME";
@@ -288,6 +272,7 @@ namespace Sandswept.Interactables.Regular
         {
             shrineRuinBehavior = GetComponent<ShrineOfRuinController>();
             purchaseInteraction = GetComponent<PurchaseInteraction>();
+            purchaseInteraction.costType = ShrineOfRuin.costTypeIndex;
             purchaseInteraction.onPurchase.AddListener(shrineRuinBehavior.AddShrineStack);
         }
     }
