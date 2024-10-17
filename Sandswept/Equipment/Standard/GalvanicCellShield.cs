@@ -78,9 +78,9 @@
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
         }
 
-        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody obj)
+        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
-            obj.AddItemBehavior<TwinbladeController>(obj.inventory.GetEquipment(obj.inventory.activeEquipmentSlot).equipmentDef == EquipmentDef ? 1 : 0);
+            body.AddItemBehavior<GalvanicCellShieldController>(body.inventory.GetEquipment(body.inventory.activeEquipmentSlot).equipmentDef == EquipmentDef ? 1 : 0);
         }
 
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
@@ -100,11 +100,11 @@
                 return false;
             }
 
-            TwinbladeController twinbladeItemBehavior = slot.characterBody.GetComponent<TwinbladeController>();
+            var galvanicCellShieldController = slot.characterBody.GetComponent<GalvanicCellShieldController>();
 
-            if (twinbladeItemBehavior)
+            if (galvanicCellShieldController)
             {
-                twinbladeItemBehavior.activated = true;
+                galvanicCellShieldController.activated = true;
             }
 
             return true;
@@ -123,12 +123,12 @@
             }
 
             body.AddTimedBuff(Paths.BuffDef.bdImmune, 0.5f);
-            body.GetComponent<TwinbladeController>().damageInfo = damageInfo;
+            body.GetComponent<GalvanicCellShieldController>().damageInfo = damageInfo;
             return;
         }
     }
 
-    public class TwinbladeController : CharacterBody.ItemBehavior
+    public class GalvanicCellShieldController : CharacterBody.ItemBehavior
     {
         private GameObject effectPrefab;
         private float timer = 0;
@@ -144,7 +144,7 @@
             //        CleanBuffsServer();
             //        if (!body.HasBuff(Buffs.ParryBuff.instance.BuffDef)) body.AddBuff(Buffs.ParryBuff.instance.BuffDef);
             //    }
-            projectileDeletionRadius = Twinblade.grazeRadius + body.radius;
+            projectileDeletionRadius = GalvanicCellShield.grazeRadius + body.radius;
             // On.RoR2.ObjectScaleCurve.Reset += ObjectScaleCurve_Reset;
             // On.RoR2.EffectManager.SpawnEffect_GameObject_EffectData_bool += EffectManager_SpawnEffect_GameObject_EffectData_bool;
         }
@@ -173,9 +173,9 @@
             {
                 if (!effectPrefab)
                 {
-                    effectPrefab = Twinblade.vfx;
+                    effectPrefab = GalvanicCellShield.vfx;
                     var component = effectPrefab.AddComponent<ObjectScaleCurve>();
-                    component.baseScale = new Vector3(Twinblade.radius, Twinblade.radius, Twinblade.radius);
+                    component.baseScale = Vector3.one * GalvanicCellShield.radius;
                     component.overallCurve = Main.dgoslingAssets.LoadAsset<AnimationCurveAsset>("ACAparryVFXScale").value;
                     component.useOverallCurveOnly = true;
                     component.timeMax = 1f;
@@ -196,7 +196,7 @@
                     }
                 }
 
-                if (timer >= Twinblade.activationTime)
+                if (timer >= GalvanicCellShield.activationTime)
                 {
                     Reset();
                 }
@@ -228,8 +228,8 @@
 
             DamageType damageType = DamageType.Shock5s;
 
-            float damageCoefficient = Twinblade.baseDamage * body.damage + damageInfo.damage * Twinblade.hitDamage;
-            float radius = Twinblade.radius;
+            float damageCoefficient = GalvanicCellShield.baseDamage * body.damage + damageInfo.damage * GalvanicCellShield.hitDamage;
+            float radius = GalvanicCellShield.radius;
             if (parry)
             {
                 hasFired = true;
