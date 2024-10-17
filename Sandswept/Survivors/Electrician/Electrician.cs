@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Linq;
 
 namespace Sandswept.Survivors.Electrician
@@ -48,14 +49,52 @@ namespace Sandswept.Survivors.Electrician
             GalvanicBolt = Main.Assets.LoadAsset<GameObject>("GalvanicBallProjectile.prefab");
             ContentAddition.AddProjectile(GalvanicBolt);
 
-            TempestSphere = Main.Assets.LoadAsset<GameObject>("TempestSphereProjectile.prefab");
-            TempestSphere.transform.Find("AreaIndicator").GetComponent<MeshRenderer>().sharedMaterial = Paths.Material.matGrandparentGravArea;
+            // this gets instantiatecloned to break its prefab status so i can parent stuff to it over in CreateVFX
+            TempestSphere = PrefabAPI.InstantiateClone(Main.Assets.LoadAsset<GameObject>("TempestSphereProjectile.prefab"), "TempestSphereProjectile");
             ContentAddition.AddProjectile(TempestSphere);
 
             StaticSnare = Main.Assets.LoadAsset<GameObject>("TripwireMineProjectile.prefab");
             ContentAddition.AddProjectile(StaticSnare);
 
+            Main.Instance.StartCoroutine(CreateVFX());
+
             On.RoR2.HealthComponent.TakeDamage += HandleGroundingShock;
+        }
+
+        public IEnumerator CreateVFX() {
+            GameObject sphereVFX = new("joe sigma");
+            sphereVFX.transform.position = Vector3.zero;
+            sphereVFX.transform.localPosition = Vector3.zero;
+
+            GameObject tempestSphereIndicator = PrefabAPI.InstantiateClone(Paths.GameObject.VagrantNovaAreaIndicator, "TempestSphereIndicator");
+            tempestSphereIndicator.GetComponentInChildren<ParticleSystemRenderer>().gameObject.SetActive(false);
+            tempestSphereIndicator.GetComponent<MeshRenderer>().sharedMaterials = new Material[] {
+                Paths.Material.matWarbannerSphereIndicator,
+                Paths.Material.matLightningSphere
+            };
+            tempestSphereIndicator.RemoveComponent<ObjectScaleCurve>();
+            yield return new WaitForSeconds(0.1f);
+            tempestSphereIndicator.transform.localScale = new(14f, 14f, 14f);
+            tempestSphereIndicator.RemoveComponent<AnimateShaderAlpha>();
+
+            GameObject tempestOrb = PrefabAPI.InstantiateClone(Paths.GameObject.VoidSurvivorChargeMegaBlaster, "TempestOrb");
+            tempestOrb.transform.Find("Base").gameObject.SetActive(false);
+            tempestOrb.transform.Find("Base (1)").gameObject.SetActive(false);
+            tempestOrb.transform.Find("Sparks, In").GetComponent<ParticleSystemRenderer>().sharedMaterial = Paths.Material.matLoaderCharging;
+            tempestOrb.transform.Find("Sparks, Misc").GetComponent<ParticleSystemRenderer>().sharedMaterial = Paths.Material.matIceOrbCore;
+            tempestOrb.transform.Find("OrbCore").GetComponent<MeshRenderer>().sharedMaterials = new Material[] { Paths.Material.matLoaderLightningTile, Paths.Material.matJellyfishLightningSphere };
+            tempestOrb.transform.RemoveComponent<ObjectScaleCurve>();
+            yield return new WaitForSeconds(0.1f);
+            tempestOrb.transform.localScale = new(3f, 3f, 3f);
+
+            tempestSphereIndicator.transform.parent = sphereVFX.transform;
+            tempestOrb.transform.parent = sphereVFX.transform;
+            sphereVFX.transform.SetParent(TempestSphere.transform);
+            tempestSphereIndicator.transform.position = Vector3.zero;
+            tempestSphereIndicator.transform.localPosition = Vector3.zero;
+            tempestOrb.transform.position = Vector3.zero;
+            tempestOrb.transform.localPosition = Vector3.zero;
+            TempestSphere.GetComponentInChildren<LineRenderer>().sharedMaterial = Paths.Material.matLightningLongYellow;
         }
 
         private void HandleGroundingShock(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
@@ -263,7 +302,7 @@ namespace Sandswept.Survivors.Electrician
                     var rb = GetComponent<Rigidbody>();
                     rb.useGravity = true;
                     rb.velocity = Vector3.zero;
-                    rb.velocity += Physics.gravity * 2f;
+                    // rb.velocity += Physics.gravity;
                 }
             }
         }

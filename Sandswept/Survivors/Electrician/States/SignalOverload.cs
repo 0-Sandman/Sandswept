@@ -14,7 +14,13 @@ namespace Sandswept.Survivors.Electrician.States
 
             PlayAnimation("Fullbody, Override", "WindDischarge", "Generic.playbackRate", baseDuration * 2f);
 
-            base.characterMotor.walkSpeedPenaltyCoefficient = 0.8f;
+            base.characterMotor.walkSpeedPenaltyCoefficient = 0.1f;
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+            base.characterMotor.walkSpeedPenaltyCoefficient = 1f;
         }
 
         public override void FixedUpdate()
@@ -48,6 +54,8 @@ namespace Sandswept.Survivors.Electrician.States
             PlayAnimation("Fullbody, Override", "EnterDischarge", "Generic.playbackRate", 0.5f);
             animator = GetModelAnimator();
             animator.SetBool("discharging", true);
+
+            base.characterMotor.walkSpeedPenaltyCoefficient = 0.1f;
         }
 
         public override void FixedUpdate()
@@ -69,6 +77,7 @@ namespace Sandswept.Survivors.Electrician.States
         public override void OnExit()
         {
             base.OnExit();
+            base.characterMotor.walkSpeedPenaltyCoefficient = 1f;
             animator.SetBool("discharging", false);
         }
 
@@ -106,7 +115,8 @@ namespace Sandswept.Survivors.Electrician.States
                     RigidbodyMotor motor2 = box.healthComponent.GetComponent<RigidbodyMotor>();
                     
                     if (motor) {
-                        motor.velocity += (base.transform.position - motor.transform.position).normalized * ((4.5f) * delay);
+                        motor.Motor.ForceUnground();
+                        motor.velocity += (base.transform.position - motor.transform.position).normalized * ((20.5f) * delay);
                     }
 
                     if (motor2) {

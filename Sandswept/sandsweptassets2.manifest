@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3065709996
+CRC: 2006694381
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 81f06d70ece2eb6e5d7364bc7622f66f
+    Hash: 8b3f79d629c9922da73ca892da8a3e14
   TypeTreeHash:
     serializedVersion: 2
     Hash: b76c0de144fb34be5be326aa1f3b5c2b
@@ -221,7 +221,6 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvSpark.mat
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherPink.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/OverheatPrimary.png
-- Assets/Sandswept/Base/Characters/Electrician/projectiles/tempest sphere/myFuckingBalls.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvanicBall.mat
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherBlue.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/Dash.png
@@ -231,18 +230,16 @@ Assets:
 - Assets/Sandswept/Base/Items/TornFeather/ActiveIndicatorParticles.prefab
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherParticle.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/Overheat.png
-- Assets/Sandswept/Base/Characters/Electrician/projectiles/tempest sphere/matSparkPuff.mat
+- Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallGhost.prefab
 - Assets/Sandswept/Base/Characters/Ranger/OverlayRanger.prefab
-- Assets/Sandswept/Base/Characters/Electrician/projectiles/tempest sphere/inYoJaws.mat
+- Assets/Sandswept/Base/Items/NuclearSalvo/Missile.prefab
 - Assets/Sandswept/Base/Characters/Ranger/CrosshairRanger.prefab
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvSparkFlare.mat
 - Assets/Sandswept/Base/Items/NuclearSalvo/SalvoBehaviour.prefab
-- Assets/Sandswept/Base/Items/NuclearSalvo/Missile.prefab
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvOverlay.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallProjectile.prefab
 - Assets/Sandswept/Base/Characters/Ranger/mdl/matRanger.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tempest sphere/TempestSphereProjectile.prefab
-- Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallGhost.prefab
 - Assets/Sandswept/Base/Items/TornFeather/DashTrailEffect.prefab
 - Assets/Sandswept/Base/Characters/Ranger/RangerIDRS.asset
 - Assets/Sandswept/Base/Characters/Ranger/skills/Pew.png
