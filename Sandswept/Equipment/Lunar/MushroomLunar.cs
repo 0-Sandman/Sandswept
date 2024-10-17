@@ -1,12 +1,14 @@
-﻿using RoR2.ContentManagement;
+﻿using IL.RoR2.Items;
+using RoR2.ContentManagement;
 using Sandswept.Utils.Components;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using UnityEngine.PlayerLoop;
+using UnityEngine.VFX;
 
-namespace Sandswept.Equipment
+namespace Sandswept.Equipment.Lunar
 {
     [ConfigSection("Equipment :: Mushroom lunar")]
     public class MushroomLunar : EquipmentBase
@@ -15,15 +17,15 @@ namespace Sandswept.Equipment
 
         public override string EquipmentLangTokenName => "MUSHROOM_LUNAR";
 
-        public override string EquipmentPickupDesc => "";
+        public override string EquipmentPickupDesc => "Create an aura that buffs all allies and enemies alike.";
 
-        public override string EquipmentFullDescription => "";
+        public override string EquipmentFullDescription => ("Create a $su" + buffRadius + "m$se aura that gives all allies and enemies a $surandom buff$se for $su" + buffDuration + "seconds$se.").AutoFormat();
 
-        public override string EquipmentLore => "";
+        public override string EquipmentLore => "TBD";
 
-        public override GameObject EquipmentModel => Utils.Assets.GameObject.GenericPickup;
+        public override GameObject EquipmentModel => Paths.GameObject.GenericPickup;
         public override bool IsLunar => true;
-        public override Sprite EquipmentIcon => Utils.Assets.Sprite.texEquipmentBGIcon;
+        public override Sprite EquipmentIcon => Paths.Sprite.texEquipmentBGIcon;
         public override float Cooldown => 35f;
 
         [ConfigField("Buff Duration", "", 15f)]
@@ -64,7 +66,7 @@ namespace Sandswept.Equipment
             wardReference = Main.dgoslingAssets.LoadAsset<GameObject>("MushroomLunarWard");
             wardReference.GetComponentInChildren<Renderer>().AddComponent<MaterialControllerComponents.HGIntersectionController>();
 
-            PrefabAPI.RegisterNetworkPrefab(wardReference);
+            wardReference.RegisterNetworkPrefab();
         }
 
         public override void Hooks()
@@ -121,7 +123,7 @@ namespace Sandswept.Equipment
                 JunkContent.Buffs.Slow30
             };
 
-            PropertyInfo[] propertyInfos = typeof(Utils.Assets.BuffDef).GetProperties();
+            PropertyInfo[] propertyInfos = typeof(Paths.BuffDef).GetProperties();
 
             foreach (PropertyInfo item in propertyInfos)
             {
@@ -145,7 +147,7 @@ namespace Sandswept.Equipment
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
-            body.AddItemBehavior<MushroomLunarController>((body.inventory.GetEquipment(body.inventory.activeEquipmentSlot).equipmentDef == EquipmentDef) ? 1 : 0);
+            body.AddItemBehavior<MushroomLunarController>(body.inventory.GetEquipment(body.inventory.activeEquipmentSlot).equipmentDef == EquipmentDef ? 1 : 0);
         }
 
         protected override bool ActivateEquipment(EquipmentSlot slot)
@@ -187,7 +189,7 @@ namespace Sandswept.Equipment
             }
 
             bool what = stack > 0;
-            if (ward != what && (shouldRun && buffDef))
+            if (ward != what && shouldRun && buffDef)
             {
                 if (what)
                 {
@@ -201,7 +203,7 @@ namespace Sandswept.Equipment
                 }
                 else
                 {
-                    Object.Destroy(ward);
+                    Destroy(ward);
                     // shouldnt it be NetworkServer.Destroy?
                     ward = null;
                     buffDef = null;
@@ -214,7 +216,7 @@ namespace Sandswept.Equipment
         {
             if (ward)
             {
-                Object.Destroy(ward);
+                Destroy(ward);
                 // shouldnt it be NetworkServer.Destroy?
                 buffDef = null;
                 shouldRun = false;

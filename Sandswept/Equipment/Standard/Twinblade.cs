@@ -1,13 +1,4 @@
-﻿using R2API.Networking;
-using RoR2.ContentManagement;
-using Sandswept.Utils.Components;
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
-using UnityEngine.PlayerLoop;
-
-namespace Sandswept.Equipment
+﻿namespace Sandswept.Equipment.Standard
 {
     [ConfigSection("Equipment :: Twinblade")]
     public class Twinblade : EquipmentBase
@@ -16,29 +7,34 @@ namespace Sandswept.Equipment
 
         public override string EquipmentLangTokenName => "TWINBLADE";
 
-        public override string EquipmentPickupDesc => "";
+        public override string EquipmentPickupDesc => "Conjure a <> that parries the next attack. Upon successfully parrying, shock and damage your attacker and nearby enemies.";
 
-        public override string EquipmentFullDescription => "";
+        public override string EquipmentFullDescription => ("Conjure a $sd<>$se that $suparries$se the next attack. Upon successfully parrying, $sushock$se and $sddamage$se your attacker and nearby enemies for $sd" + d(baseDamage) + " damage$se.").AutoFormat();
 
-        public override string EquipmentLore => "";
-   
-        public override GameObject EquipmentModel => Utils.Assets.GameObject.GenericPickup;
+        public override string EquipmentLore => "TBD";
+
+        public override GameObject EquipmentModel => Paths.GameObject.GenericPickup;
         public override float Cooldown => 20f;
-        public override Sprite EquipmentIcon => Utils.Assets.Sprite.texEquipmentBGIcon;
+        public override Sprite EquipmentIcon => Paths.Sprite.texEquipmentBGIcon;
+
         [ConfigField("Activation Length", "", 0.2f)]
         public static float activationTime;
-        [ConfigField("Base Damage", "Decimal", 20f)]
+
+        [ConfigField("Base Damage", "Decimal.", 20f)]
         public static float baseDamage;
-        [ConfigField("Hit Damage", "Decimal", 2f)]
+
+        [ConfigField("Hit Damage", "Decimal.", 2f)]
         public static float hitDamage;
-        [ConfigField("Blast Field Radius","",15f)]
+
+        [ConfigField("Blast Field Radius", "", 12f)]
         public static float radius;
-        [ConfigField("Projectile Graze Radius","",2.5f)]
+
+        [ConfigField("Projectile Graze Radius", "", 2.5f)]
         public static float grazeRadius;
 
         public static GameObject vfx;
         public static BlastAttack blastAttack;
-        
+
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
@@ -52,10 +48,10 @@ namespace Sandswept.Equipment
             CreateEquipment();
             Hooks();
         }
-  
+
         public override void Hooks()
         {
-            vfx = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.EngiShield, "Parry VFX",false);
+            vfx = Paths.GameObject.EngiShield.InstantiateClone("Parry VFX", false);
             vfx.RemoveComponent<TemporaryVisualEffect>();
             foreach (ObjectScaleCurve item in vfx.GetComponents<ObjectScaleCurve>())
             {
@@ -64,11 +60,10 @@ namespace Sandswept.Equipment
             vfx.RemoveComponent<Billboard>();
             vfx.AddComponent<NetworkIdentity>();
             var component = vfx.AddComponent<EffectComponent>();
-           // component.applyScale = true;
+            // component.applyScale = true;
             component.parentToReferencedTransform = true;
             component.positionAtReferencedTransform = true;
-            
-            
+
             //var scale = vfx.AddComponent<ObjectScaleCurve>();
             //scale.overallCurve = Main.dgoslingAssets.LoadAsset<AnimationCurveAsset>("ACAparryVFXScale").value;
             //scale.useOverallCurveOnly = true;
@@ -76,7 +71,7 @@ namespace Sandswept.Equipment
             //scale.resetOnAwake = false;
             //scale.enabled = false;
             vfx.GetComponent<DestroyOnTimer>().enabled = true;
-            PrefabAPI.RegisterNetworkPrefab(vfx);
+            vfx.RegisterNetworkPrefab();
             Main.EffectPrefabs.Add(vfx);
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
@@ -84,14 +79,14 @@ namespace Sandswept.Equipment
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody obj)
         {
-            obj.AddItemBehavior<TwinbladeItemBehavior>((obj.inventory.GetEquipment(obj.inventory.activeEquipmentSlot).equipmentDef == this.EquipmentDef)?1:0);
+            obj.AddItemBehavior<TwinbladeController>(obj.inventory.GetEquipment(obj.inventory.activeEquipmentSlot).equipmentDef == EquipmentDef ? 1 : 0);
         }
 
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
         {
-            if(NetworkServer.active && self.body.HasBuff(Buffs.ParryBuff.instance.BuffDef) && damageInfo.damage > 0f)
+            if (NetworkServer.active && self.body.HasBuff(Buffs.ParryBuff.instance.BuffDef) && damageInfo.damage > 0f)
             {
-                HandleParryBuffsServer(self.body,damageInfo);
+                HandleParryBuffsServer(self.body, damageInfo);
                 return;
             }
             orig(self, damageInfo);
@@ -99,57 +94,82 @@ namespace Sandswept.Equipment
 
         protected override bool ActivateEquipment(EquipmentSlot slot)
         {
-            if(slot.characterBody == null) return false;
-            TwinbladeItemBehavior twinbladeItemBehavior = slot.characterBody.GetComponentInChildren<TwinbladeItemBehavior>();
+            if (slot.characterBody == null)
+            {
+                return false;
+            }
+
+            TwinbladeController twinbladeItemBehavior = slot.characterBody.GetComponent<TwinbladeController>();
+
             if (twinbladeItemBehavior)
             {
                 twinbladeItemBehavior.activated = true;
             }
+
             return true;
         }
+
         public static void HandleParryBuffsServer(CharacterBody body, DamageInfo damageInfo)
         {
-            if(body.HasBuff(Buffs.ParryBuff.instance.BuffDef)) body.RemoveBuff(Buffs.ParryBuff.instance.BuffDef);
-            if (!body.HasBuff(Buffs.ParryActivatedBuff.instance.BuffDef)) body.AddBuff(Buffs.ParryActivatedBuff.instance.BuffDef);
+            if (body.HasBuff(Buffs.ParryBuff.instance.BuffDef))
+            {
+                body.RemoveBuff(Buffs.ParryBuff.instance.BuffDef);
+            }
 
-            body.AddTimedBuff(Utils.Assets.BuffDef.bdImmune, 0.5f);
-            body.GetComponentInChildren<TwinbladeItemBehavior>().damageInfo = damageInfo;
+            if (!body.HasBuff(Buffs.ParryActivatedBuff.instance.BuffDef))
+            {
+                body.AddBuff(Buffs.ParryActivatedBuff.instance.BuffDef);
+            }
+
+            body.AddTimedBuff(Paths.BuffDef.bdImmune, 0.5f);
+            body.GetComponent<TwinbladeController>().damageInfo = damageInfo;
             return;
         }
     }
-    public class TwinbladeItemBehavior : CharacterBody.ItemBehavior
-    {
 
-        GameObject effectPrefab;
-        float timer = 0;
+    public class TwinbladeController : CharacterBody.ItemBehavior
+    {
+        private GameObject effectPrefab;
+        private float timer = 0;
         public DamageInfo damageInfo;
         public bool activated = false;
-        bool hasFired = false;
-        float projdelradius;
+        private bool hasFired = false;
+        private float projectileDeletionRadius;
+
         public void Start()
         {
-          //  if (NetworkServer.active)
-         //   {
-        //        CleanBuffsServer();
-        //        if (!body.HasBuff(Buffs.ParryBuff.instance.BuffDef)) body.AddBuff(Buffs.ParryBuff.instance.BuffDef);
-        //    }
-            projdelradius = Twinblade.grazeRadius + body.radius;
-           // On.RoR2.ObjectScaleCurve.Reset += ObjectScaleCurve_Reset;
-           // On.RoR2.EffectManager.SpawnEffect_GameObject_EffectData_bool += EffectManager_SpawnEffect_GameObject_EffectData_bool;
+            //  if (NetworkServer.active)
+            //   {
+            //        CleanBuffsServer();
+            //        if (!body.HasBuff(Buffs.ParryBuff.instance.BuffDef)) body.AddBuff(Buffs.ParryBuff.instance.BuffDef);
+            //    }
+            projectileDeletionRadius = Twinblade.grazeRadius + body.radius;
+            // On.RoR2.ObjectScaleCurve.Reset += ObjectScaleCurve_Reset;
+            // On.RoR2.EffectManager.SpawnEffect_GameObject_EffectData_bool += EffectManager_SpawnEffect_GameObject_EffectData_bool;
         }
 
-
-        void CleanBuffsServer()
+        private void CleanBuffsServer()
         {
-            if(!NetworkServer.active) return;
-            if (body.HasBuff(Buffs.ParryActivatedBuff.instance.BuffDef)) body.RemoveBuff(Buffs.ParryActivatedBuff.instance.BuffDef);
-            if (body.HasBuff(Buffs.ParryBuff.instance.BuffDef)) body.RemoveBuff(Buffs.ParryBuff.instance.BuffDef);
+            if (!NetworkServer.active)
+            {
+                return;
+            }
+
+            if (body.HasBuff(Buffs.ParryActivatedBuff.instance.BuffDef))
+            {
+                body.RemoveBuff(Buffs.ParryActivatedBuff.instance.BuffDef);
+            }
+
+            if (body.HasBuff(Buffs.ParryBuff.instance.BuffDef))
+            {
+                body.RemoveBuff(Buffs.ParryBuff.instance.BuffDef);
+            }
         }
-        void FixedUpdate()
+
+        private void FixedUpdate()
         {
             if (activated)
             {
-                
                 if (!effectPrefab)
                 {
                     effectPrefab = Twinblade.vfx;
@@ -161,9 +181,12 @@ namespace Sandswept.Equipment
                     component.resetOnAwake = true;
                     component.enabled = true;
                     CleanBuffsServer();
-                    if (!body.HasBuff(Buffs.ParryBuff.instance.BuffDef)) body.AddBuff(Buffs.ParryBuff.instance.BuffDef);
+                    if (!body.HasBuff(Buffs.ParryBuff.instance.BuffDef))
+                    {
+                        body.AddBuff(Buffs.ParryBuff.instance.BuffDef);
+                    }
                 }
-                if (body.HasBuff(Buffs.ParryBuff.instance.BuffDef)||body.HasBuff(Buffs.ParryActivatedBuff.instance.BuffDef))
+                if (body.HasBuff(Buffs.ParryBuff.instance.BuffDef) || body.HasBuff(Buffs.ParryActivatedBuff.instance.BuffDef))
                 {
                     timer += Time.fixedDeltaTime;
                     if (damageInfo != null && !hasFired)
@@ -171,18 +194,15 @@ namespace Sandswept.Equipment
                         DoAttack();
                     }
                 }
-                
+
                 if (timer >= Twinblade.activationTime)
                 {
-                    reset();
+                    Reset();
                 }
-                
             }
         }
 
-
-
-        void reset()
+        private void Reset()
         {
             damageInfo = null;
             activated = false;
@@ -191,30 +211,38 @@ namespace Sandswept.Equipment
             effectPrefab = null;
             CleanBuffsServer();
         }
-        void DoAttack()
+
+        private void DoAttack()
         {
-            if (!NetworkServer.active || !body) return;
-            
+            if (!NetworkServer.active || !body)
+            {
+                return;
+            }
+
             bool parry = body.HasBuff(Buffs.ParryActivatedBuff.instance.BuffDef);
-            if(!parry) return;
+            if (!parry)
+            {
+                return;
+            }
+
             DamageType damageType = DamageType.Shock5s;
 
-            float damageCoef = (Twinblade.baseDamage * body.damage) + (damageInfo.damage * Twinblade.hitDamage);
+            float damageCoefficient = Twinblade.baseDamage * body.damage + damageInfo.damage * Twinblade.hitDamage;
             float radius = Twinblade.radius;
             if (parry)
             {
                 hasFired = true;
 
-                DeleteProjectilesServer(projdelradius);
-                EffectData effectData = new() { 
+                //DeleteProjectilesServer(projectileDeletionRadius);
+                Util.CleanseBody(body, false, false, false, false, false, true);
+                EffectData effectData = new()
+                {
                     origin = body.modelLocator.modelBaseTransform.position,
                     scale = radius,
                     rootObject = body.gameObject
-                   
-                   
                 };
-                EffectManager.SpawnEffect(effectPrefab, effectData,true);
-               // effectPrefab.GetComponent<ObjectScaleCurve>().enabled = true;
+                EffectManager.SpawnEffect(effectPrefab, effectData, true);
+                // effectPrefab.GetComponent<ObjectScaleCurve>().enabled = true;
                 BlastAttack.Result result;
                 result = new BlastAttack
                 {
@@ -230,46 +258,57 @@ namespace Sandswept.Equipment
                     damageType = damageType,
                     attackerFiltering = AttackerFiltering.NeverHitSelf
                 }.Fire();
-                damageInfo.attacker.GetComponent<CharacterBody>().healthComponent.TakeDamage(new DamageInfo
+
+                var attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
+                if (!attackerBody)
+                {
+                    return;
+                }
+
+                var attackerHc = attackerBody.healthComponent;
+                if (!attackerHc)
+                {
+                    return;
+                }
+
+                attackerHc.TakeDamage(new DamageInfo
                 {
                     attacker = body.gameObject,
-                    damage = damageCoef,
+                    damage = damageCoefficient,
                     damageType = damageType,
                     crit = Util.CheckRoll(body.master.luck, body.master),
                     position = body.corePosition,
                     force = Vector3.zero,
                     damageColorIndex = DamageColorIndex.Default,
                     procCoefficient = 0f,
-                    procChainMask = default(ProcChainMask)
-
-
+                    procChainMask = default
                 });
-                reset();
+                Reset();
             }
         }
 
-        void DeleteProjectilesServer(float rad)
+        private void DeleteProjectilesServer(float rad)
         {
             List<ProjectileController> projectileControllers = new List<ProjectileController>();
 
             Collider[] array = Physics.OverlapSphere(body.corePosition, rad, LayerIndex.projectile.mask);
             for (int i = 0; i < array.Length; i++)
             {
-                ProjectileController pc = array[i].GetComponentInParent<ProjectileController>();
-                if (pc && !pc.cannotBeDeleted && pc.owner != body.gameObject && !(pc.teamFilter && pc.teamFilter.teamIndex == TeamComponent.GetObjectTeam(body.gameObject)))
+                var projectileController = array[i].GetComponentInParent<ProjectileController>();
+                if (projectileController && !projectileController.cannotBeDeleted && projectileController.owner != body.gameObject && !(projectileController.teamFilter && projectileController.teamFilter.teamIndex == TeamComponent.GetObjectTeam(body.gameObject)))
                 {
                     bool cannotDelete = false;
-                    ProjectileSimple ps = pc.gameObject.GetComponent<ProjectileSimple>();
-                    ProjectileCharacterController pcc = pc.gameObject.GetComponent<ProjectileCharacterController>();
+                    var projectileSimple = projectileController.gameObject.GetComponent<ProjectileSimple>();
+                    var projectileCharacterController = projectileController.gameObject.GetComponent<ProjectileCharacterController>();
 
-                    if ((!ps || (ps.desiredForwardSpeed == 0)) && !pcc)
+                    if ((!projectileSimple || projectileSimple.desiredForwardSpeed == 0) && !projectileCharacterController)
                     {
                         cannotDelete = true;
                     }
 
-                    if (!cannotDelete && !projectileControllers.Contains(pc))
+                    if (!cannotDelete && !projectileControllers.Contains(projectileController))
                     {
-                        projectileControllers.Add(pc);
+                        projectileControllers.Add(projectileController);
                     }
                 }
             }
@@ -279,9 +318,11 @@ namespace Sandswept.Equipment
             {
                 GameObject toDelete = projectileControllers[i].gameObject;
                 if (toDelete)
-                    Object.Destroy(toDelete);
+                {
+                    Destroy(toDelete);
+                    // shouldnt it be NetworkServer.Destroy()?
+                }
             }
         }
-
     }
 }
