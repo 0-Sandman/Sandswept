@@ -100,6 +100,11 @@ namespace Sandswept.Interactables
                 return true;
             }
         }
+
+        public string d(float f)
+        {
+            return (f * 100f).ToString() + "%";
+        }
     }
 
     public class DisableOnTeleporterStart : MonoBehaviour

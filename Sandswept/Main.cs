@@ -24,6 +24,7 @@ using Sandswept.Enemies;
 using Sandswept.Elites.VFX;
 using RoR2.ExpansionManagement;
 using Sandswept.Interactables;
+using Sandswept.DoTs;
 
 // using Sandswept.Survivors.Ranger.ItemDisplays;
 
@@ -122,9 +123,11 @@ namespace Sandswept
             }
 
             Assets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweptassets2"));
-            prodAssets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // MFS I SAID MERGE INTO OTHER ASSETS
+            prodAssets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // MFS I SAID MERGE INTO OTHER ASSETS // nuh uh :3c
             hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
             dgoslingAssets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "dgoslingstuff"));
+
+            Decay.Init();
 
             GenerateExpensionDef();
             RangerPod.Init();

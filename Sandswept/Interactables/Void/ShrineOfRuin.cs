@@ -1,12 +1,15 @@
 ﻿using EntityStates.NullifierMonster;
+using MonoMod.Cil;
 using R2API.Utils;
 using Rewired.Demos;
+using RoR2;
 using RoR2.EntitlementManagement;
 using RoR2.ExpansionManagement;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using static Rewired.UI.ControlMapper.ControlMapper;
@@ -48,7 +51,7 @@ namespace Sandswept.Interactables.Regular
 
         public override bool SlightlyRandomizeOrientation => false;
 
-        [ConfigField("White Item Cost", "", 8)]
+        [ConfigField("White Item Cost", "", 10)]
         public static int whiteItemCost;
 
         [ConfigField("Item Count", "", 2)]
@@ -60,9 +63,66 @@ namespace Sandswept.Interactables.Regular
 
         public static DccsPool voidEnemiesDccsPool;
 
+        public CostTypeIndex costTypeIndex = (CostTypeIndex)19;
+        public CostTypeDef def;
+
         public override void Init()
         {
             base.Init();
+
+            def = new()
+            {
+                buildCostString = delegate (CostTypeDef def, CostTypeDef.BuildCostStringContext c)
+                {
+                    c.stringBuilder.Append(whiteItemCost + " Items");
+                },
+
+                isAffordable = delegate (CostTypeDef def, CostTypeDef.IsAffordableContext c)
+                {
+                    var interactor = c.activator;
+                    if (interactor)
+                    {
+                        var interactorBody = interactor.GetComponent<CharacterBody>();
+                        if (interactorBody)
+                        {
+                            return ShrineOfRuinController.HasMetRequirement(interactorBody);
+                        }
+                    }
+
+                    return false;
+                },
+
+                payCost = delegate (CostTypeDef def, CostTypeDef.PayCostContext c)
+                {
+                }
+            };
+
+            On.RoR2.CostTypeCatalog.Init += (orig) =>
+            {
+                orig();
+                CostTypeCatalog.Register(costTypeIndex, def);
+            };
+
+            IL.RoR2.CostTypeCatalog.Init += (il) =>
+            {
+                ILCursor c = new(il);
+                bool found = c.TryGotoNext(MoveType.Before,
+                    x => x.MatchLdcI4(15)
+                );
+
+                if (found)
+                {
+                    c.Index++;
+                    c.EmitDelegate<Func<int, int>>((c) =>
+                    {
+                        return 20;
+                    });
+                }
+                else
+                {
+                    Main.ModLogger.LogError("Failed to apply CostTypeCatalog IL hook");
+                }
+            };
 
             prefab = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineBlood, "Shrine of Ruin", true);
             var mdl = prefab.transform.Find("Base/mdlShrineHealing").gameObject;
@@ -83,7 +143,7 @@ namespace Sandswept.Interactables.Regular
             purchaseInteraction.displayNameToken = "SANDSWEPT_SHRINE_RUIN_NAME";
             purchaseInteraction.contextToken = "SANDSWEPT_SHRINE_RUIN_CONTEXT";
             purchaseInteraction.Networkavailable = true;
-            purchaseInteraction.costType = CostTypeIndex.None;
+            purchaseInteraction.costType = costTypeIndex;
             purchaseInteraction.cost = 0;
 
             var genericDisplayNameProvider = prefab.GetComponent<GenericDisplayNameProvider>();
@@ -91,7 +151,7 @@ namespace Sandswept.Interactables.Regular
 
             UnityEngine.Object.DestroyImmediate(prefab.GetComponent<ShrineBloodBehavior>()); // kill yourself
 
-            prefab.AddComponent<ShrineRuinBehavior>();
+            prefab.AddComponent<ShrineOfRuinController>();
 
             prefab.AddComponent<UnityIsAFuckingPieceOfShit2>();
 
@@ -117,7 +177,7 @@ namespace Sandswept.Interactables.Regular
                 TitleColor = Color.white
             };
             // add this to base later tbh?
-            LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_DESCRIPTION", "When activated by a survivor the Shrine of Ruin consumes " + whiteItemCost + " white items from the survivor's inventory and corrupts the next stage.");
+            LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_DESCRIPTION", "When activated by a survivor, the Shrine of Ruin consumes " + whiteItemCost + " white items from the survivor's inventory and corrupts the next stage.");
 
             LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_USE_MESSAGE_2P", "<style=cShrine>The corruption spreads.</color>");
             LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_USE_MESSAGE", "<style=cShrine>The corruption spreads.</color>");
@@ -222,17 +282,17 @@ namespace Sandswept.Interactables.Regular
     public class UnityIsAFuckingPieceOfShit2 : MonoBehaviour
     {
         public PurchaseInteraction purchaseInteraction;
-        public ShrineRuinBehavior shrineRuinBehavior;
+        public ShrineOfRuinController shrineRuinBehavior;
 
         public void Start()
         {
-            shrineRuinBehavior = GetComponent<ShrineRuinBehavior>();
+            shrineRuinBehavior = GetComponent<ShrineOfRuinController>();
             purchaseInteraction = GetComponent<PurchaseInteraction>();
             purchaseInteraction.onPurchase.AddListener(shrineRuinBehavior.AddShrineStack);
         }
     }
 
-    public class ShrineRuinBehavior : ShrineBehavior
+    public class ShrineOfRuinController : ShrineBehavior
     {
         public int maxPurchaseCount = 1;
 
@@ -272,7 +332,7 @@ namespace Sandswept.Interactables.Regular
                 if (refreshTimer <= 0f && purchaseCount < maxPurchaseCount)
                 {
                     purchaseInteraction.SetAvailable(true);
-                    purchaseInteraction.Networkcost = ShrineOfSacrifice.curseCost;
+                    purchaseInteraction.Networkcost = ShrineOfRuin.whiteItemCost;
                     waitingForRefresh = false;
                 }
             }
@@ -288,14 +348,19 @@ namespace Sandswept.Interactables.Regular
                 return;
             }
             waitingForRefresh = true;
+
             var interactorBody = interactor.GetComponent<CharacterBody>();
 
             var inventory = interactorBody.inventory;
-            if (!inventory || inventory.itemAcquisitionOrder == null) return;
+            if (!inventory || inventory.itemAcquisitionOrder == null)
+            {
+                return;
+            }
 
+            WeightedSelection<ItemIndex> itemsToRemove = new();
 
+            int numItems = 0;
 
-            WeightedSelection<ItemIndex> itemsToRemove = new(); int numItems = 0;
             foreach (var item in inventory.itemAcquisitionOrder)
             {
                 var def = ItemCatalog.GetItemDef(item);
@@ -303,15 +368,26 @@ namespace Sandswept.Interactables.Regular
                 var count = inventory.GetItemCount(def);
                 itemsToRemove.AddChoice(item, count); numItems += count;
             }
-            if (numItems < ShrineOfRuin.whiteItemCost) return;
+
+            if (numItems < ShrineOfRuin.whiteItemCost)
+            {
+                return;
+            }
+
             for (int i = 0; i < ShrineOfRuin.whiteItemCost; i++)
             {
                 var idx = itemsToRemove.EvaluateToChoiceIndex(Run.instance.treasureRng.nextNormalizedFloat);
                 var choice = itemsToRemove.GetChoice(idx);
                 inventory.RemoveItem(ItemCatalog.GetItemDef(choice.value));
-                if (choice.weight <= 1) itemsToRemove.RemoveChoice(idx);
-                else itemsToRemove.ModifyChoiceWeight(idx, choice.weight - 1);
-            } 
+                if (choice.weight <= 1)
+                {
+                    itemsToRemove.RemoveChoice(idx);
+                }
+                else
+                {
+                    itemsToRemove.ModifyChoiceWeight(idx, choice.weight - 1);
+                }
+            }
 
             if (Run.instance)
             {
@@ -359,32 +435,32 @@ namespace Sandswept.Interactables.Regular
 
                 switch (currentStageCount)
                 {
-                    case 0:
-                        Main.ModLogger.LogError("setting destination to plains simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { titanicPlainsSimulacrum };
-                        break;
-
                     case 1:
                         Main.ModLogger.LogError("setting destination to plains simulacrum");
                         currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { titanicPlainsSimulacrum };
                         break;
 
                     case 2:
+                        Main.ModLogger.LogError("setting destination to plains simulacrum");
+                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { titanicPlainsSimulacrum };
+                        break;
+
+                    case 3:
                         Main.ModLogger.LogError("setting destinations to aqueduct, sanctuary simulacrum");
                         currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { abandonedAqueductSimulacrum, aphelianSanctuarySimulacrum };
                         break;
 
-                    case 3:
+                    case 4:
                         Main.ModLogger.LogError("setting destination to rpd simulacrum");
                         currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { rallypointDeltaSimulacrum };
                         break;
 
-                    case 4:
+                    case 5:
                         Main.ModLogger.LogError("setting destination to depths simulacrum");
                         currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { abyssalDepthsSimulacrum };
                         break;
 
-                    case 5:
+                    case 6:
                         Main.ModLogger.LogError("setting destination to meadow simulacrum");
                         currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { skyMeadowSimulacrum };
                         break;
@@ -424,6 +500,34 @@ namespace Sandswept.Interactables.Regular
                 CallRpcSetPingable(false);
                 gameObject.SetActive(false);
             }
+        }
+
+        public static bool HasMetRequirement(CharacterBody interactorBody)
+        {
+            var inventory = interactorBody.inventory;
+            if (!inventory || inventory.itemAcquisitionOrder == null)
+            {
+                return false;
+            }
+
+            WeightedSelection<ItemIndex> itemsToRemove = new();
+
+            int numItems = 0;
+
+            foreach (var item in inventory.itemAcquisitionOrder)
+            {
+                var def = ItemCatalog.GetItemDef(item);
+                if (def.tier != ItemTier.Tier1 || def.ContainsTag(ItemTag.Scrap)) continue;
+                var count = inventory.GetItemCount(def);
+                itemsToRemove.AddChoice(item, count); numItems += count;
+            }
+
+            if (numItems < ShrineOfRuin.whiteItemCost)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private void UNetVersion()

@@ -1,5 +1,7 @@
 ﻿using HarmonyLib;
 using System.Collections;
+using UnityEngine.UIElements;
+using static R2API.DotAPI;
 using static RoR2.DotController;
 
 namespace Sandswept.Items.VoidGreens
@@ -11,17 +13,14 @@ namespace Sandswept.Items.VoidGreens
 
         public override string ItemLangTokenName => "FESTERING_HUNGER";
 
-        public override string ItemPickupDesc => "Chance to decay enemies on hit. Moving near decayed enemies increases attack speed. $svCorrupts all Smouldering Documents$se.".AutoFormat();
+        public override string ItemPickupDesc => "Chance to decay enemies on hit. Moving near decaying enemies increases attack speed. $svCorrupts all Smouldering Documents$se.".AutoFormat();
 
-        public override string ItemFullDescription => ("$sd" + chance + "%$se chance on hit to inflict $sddecay$se for $sd" + d(baseDamage) + "$se base damage. Moving near $sdblighted$se enemies increases $sdattack speed$se by $sd" + d(baseAttackSpeedGain) + "$se $ss(+" + d(stackAttackSpeedGain) + " per stack)$se for $sd" + attackSpeedBuffDuration + "$se seconds. $svCorrupts all Smouldering Documents$se.").AutoFormat();
+        public override string ItemFullDescription => ("$sd" + chance + "%$se chance on hit to inflict $sddecay$se for $sd" + d(DoTs.Decay.baseDamage) + "$se base damage. Moving near $sddecaying$se enemies increases $sdattack speed$se by $sd" + d(baseAttackSpeedGain) + "$se $ss(+" + d(stackAttackSpeedGain) + " per stack)$se for $sd" + attackSpeedBuffDuration + "$se seconds. $svCorrupts all Smouldering Documents$se.").AutoFormat();
 
         public override string ItemLore => "This hunger..\r\nIt grows inside me.\r\nSevers mortality.\r\n\r\nIts showing its teeth.\r\n\r\n\r\nBlood like wine!";
 
         [ConfigField("Chance", "", 7f)]
         public static float chance;
-
-        [ConfigField("Base Damage", "Decimal.", 3f)]
-        public static float baseDamage;
 
         [ConfigField("Base Attack Speed Gain", "Decimal.", 0.33f)]
         public static float baseAttackSpeedGain;
@@ -49,29 +48,16 @@ namespace Sandswept.Items.VoidGreens
 
         public static GameObject vfx;
 
-        public static BuffDef decay;
-        public static DotDef decayDef;
-        public static DotIndex decayIndex;
-
         public override void Init(ConfigFile config)
         {
             attackSpeedBuff = ScriptableObject.CreateInstance<BuffDef>();
             attackSpeedBuff.canStack = false;
             attackSpeedBuff.isCooldown = false;
             attackSpeedBuff.buffColor = new Color32(96, 56, 177, 255);
-            attackSpeedBuff.iconSprite = Addressables.LoadAssetAsync<BuffDef>("RoR2/Base/AttackSpeedOnCrit/bdAttackSpeedOnCrit.asset").WaitForCompletion().iconSprite;
+            attackSpeedBuff.iconSprite = Utils.Assets.BuffDef.bdAttackSpeedOnCrit.iconSprite;
             attackSpeedBuff.isHidden = false;
             attackSpeedBuff.isDebuff = false;
             ContentAddition.AddBuffDef(attackSpeedBuff);
-
-            decay = ScriptableObject.CreateInstance<BuffDef>();
-            decay.canStack = true;
-            decay.isCooldown = false;
-            decay.isDebuff = true;
-            decay.isHidden = false;
-            decay.buffColor = new Color32(96, 56, 177, 255);
-            decay.name = "Decay - ";
-            ContentAddition.AddBuffDef(decay);
 
             CreateLang();
             CreateItem();
@@ -125,9 +111,9 @@ namespace Sandswept.Items.VoidGreens
                     {
                         attackerObject = attackerBody.gameObject,
                         victimObject = victim.gameObject,
-                        totalDamage = attackerBody.damage * baseDamage,
+                        totalDamage = null,
                         damageMultiplier = 1f,
-                        dotIndex = DotController.DotIndex.Blight,
+                        dotIndex = DoTs.Decay.decayIndex,
                         maxStacksFromAttacker = uint.MaxValue,
                         duration = 3f
                     };
@@ -213,7 +199,7 @@ namespace Sandswept.Items.VoidGreens
                 return;
             }
 
-            if (!victimBody.HasBuff(RoR2Content.Buffs.Blight))
+            if (!victimBody.HasBuff(DoTs.Decay.decayBuff))
             {
                 return;
             }

@@ -1,7 +1,7 @@
 ﻿using EntityStates.Bandit2;
 using static Sandswept.Main;
 
-namespace Sandswept.Equipment
+namespace Sandswept.Equipment.Standard
 {
     [ConfigSection("Equipment :: The Sand Sweeper")]
     public class SandSweeper : EquipmentBase
@@ -78,14 +78,14 @@ namespace Sandswept.Equipment
                     inflictor = slot.gameObject,
                     damage = slot.characterBody.damage * Mathf.Lerp(maxDamage, minDamage, dist / range),
                     damageColorIndex = DamageColorIndex.Item,
-                    force = ((range - dist) * Vector3.Normalize(temp) + (Vector3.up * Mathf.Lerp(10, 5, dist / range))) * force,
+                    force = ((range - dist) * Vector3.Normalize(temp) + Vector3.up * Mathf.Lerp(10, 5, dist / range)) * force,
                     procCoefficient = procCoefficient
                 });
                 body.healthComponent.GetComponent<SetStateOnHurt>()?.SetStun(Mathf.Lerp(maxStun, minStun, dist / range));
             }
             if (slot.characterBody.characterMotor)
             {
-                slot.characterBody.characterMotor.velocity = Vector3.ProjectOnPlane(slot.characterBody.characterMotor.velocity, slot.gameObject.transform.up) + (slot.gameObject.transform.up * StealthMode.shortHopVelocity);
+                slot.characterBody.characterMotor.velocity = Vector3.ProjectOnPlane(slot.characterBody.characterMotor.velocity, slot.gameObject.transform.up) + slot.gameObject.transform.up * StealthMode.shortHopVelocity;
             }
 
             return true;

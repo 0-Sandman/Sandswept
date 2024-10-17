@@ -248,8 +248,8 @@ namespace Sandswept.Items.Greens
                     continue;
                 }
 
-                var inventory = npcMaster.inventory;
-                if (!inventory)
+                var npcInventory = npcMaster.inventory;
+                if (!npcInventory)
                 {
                     continue;
                 }
@@ -261,20 +261,7 @@ namespace Sandswept.Items.Greens
                     continue;
                 }
 
-                if (npcBody && (npcBody.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
-                {
-                    // Main.ModLogger.LogError("member is mechanical");
-                    var salvo = npcMaster.GetComponent<SalvoBehaviour>();
-                    if (salvo == null)
-                    {
-                        npcMaster.AddComponent<SalvoBehaviour>();
-                    }
-
-                    var stack = body.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
-
-                    inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
-                    inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
-                }
+                TryGiveItemInternal(npcMaster, npcBody, npcInventory);
             }
         }
 
@@ -290,32 +277,42 @@ namespace Sandswept.Items.Greens
                 return;
             }
 
-            var npcMaster = masterSummonReport.summonMasterInstance;
+            TryGiveItem(masterSummonReport.summonMasterInstance);
+        }
+
+        public void TryGiveItem(CharacterMaster npcMaster)
+        {
             if (!npcMaster)
             {
                 return;
             }
 
-            var inventory = npcMaster.inventory;
-            if (!inventory)
+            var npcInventory = npcMaster.inventory;
+            if (!npcInventory)
             {
                 return;
             }
 
             var npcBody = npcMaster.GetBody();
+
+            TryGiveItemInternal(npcMaster, npcBody, npcInventory);
+        }
+
+        public void TryGiveItemInternal(CharacterMaster npcMaster, CharacterBody npcBody, Inventory npcInventory)
+        {
             if (npcBody && (npcBody.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
             {
-                // Main.ModLogger.LogError("master summon: ally is mechanical");
+                // Main.ModLogger.LogError("member is mechanical");
                 var salvo = npcMaster.GetComponent<SalvoBehaviour>();
                 if (salvo == null)
                 {
                     npcMaster.AddComponent<SalvoBehaviour>();
                 }
 
-                var stack = body.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
+                var playerItemCount = body.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
+                var npcItemCount = npcInventory.GetItemCount(NuclearSalvo.instance.ItemDef);
 
-                inventory.ResetItem(NuclearSalvo.instance.ItemDef.itemIndex);
-                inventory.GiveItem(NuclearSalvo.instance.ItemDef, stack);
+                npcInventory.GiveItem(NuclearSalvo.instance.ItemDef, playerItemCount - npcItemCount);
             }
         }
 
