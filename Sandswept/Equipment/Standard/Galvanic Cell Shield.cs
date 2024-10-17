@@ -1,16 +1,17 @@
 ﻿namespace Sandswept.Equipment.Standard
 {
-    [ConfigSection("Equipment :: Twinblade")]
-    public class Twinblade : EquipmentBase
+    [ConfigSection("Equipment :: Galvanic Cell Shield")]
+    public class GalvanicCellShield : EquipmentBase
     {
-        public override string EquipmentName => "Twinblade";
+        public override string EquipmentName => "Galvanic Cell Shield";
 
-        public override string EquipmentLangTokenName => "TWINBLADE";
+        public override string EquipmentLangTokenName => "GALVANIC_CELL_SHIELD";
 
-        public override string EquipmentPickupDesc => "Conjure a <> that parries the next attack. Upon successfully parrying, shock and damage your attacker and nearby enemies.";
+        public override string EquipmentPickupDesc => "Raise a shield that parries the next attack. Upon successfully parrying, shock and damage your attacker and nearby enemies.";
 
-        public override string EquipmentFullDescription => ("Conjure a $sd<>$se that $suparries$se the next attack. Upon successfully parrying, $sushock$se and $sddamage$se your attacker and nearby enemies for $sd" + d(baseDamage) + " damage$se.").AutoFormat();
+        public override string EquipmentFullDescription => ("Raise a $shshield$se that $shparries$se the next attack. Upon successfully parrying, $sushock$se and $sddamage$se your attacker and nearby enemies for $sd" + d(baseDamage) + " damage$se.").AutoFormat();
 
+        // this description is fucked, idk how to unfuck it due to how complex the item is
         public override string EquipmentLore => "TBD";
 
         public override GameObject EquipmentModel => Paths.GameObject.GenericPickup;

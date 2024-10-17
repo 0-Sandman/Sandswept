@@ -10,12 +10,12 @@ using UnityEngine.VFX;
 
 namespace Sandswept.Equipment.Lunar
 {
-    [ConfigSection("Equipment :: Mushroom lunar")]
-    public class MushroomLunar : EquipmentBase
+    [ConfigSection("Equipment :: Corrupted Catalyst")]
+    public class CorruptedCatalyst : EquipmentBase
     {
-        public override string EquipmentName => "Mushroom lunar";
+        public override string EquipmentName => "Corrupted Catalyst";
 
-        public override string EquipmentLangTokenName => "MUSHROOM_LUNAR";
+        public override string EquipmentLangTokenName => "CORRUPTED_CATALYST";
 
         public override string EquipmentPickupDesc => "Create an aura that buffs all allies and enemies alike.";
 
@@ -147,7 +147,7 @@ namespace Sandswept.Equipment.Lunar
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
-            body.AddItemBehavior<MushroomLunarController>(body.inventory.GetEquipment(body.inventory.activeEquipmentSlot).equipmentDef == EquipmentDef ? 1 : 0);
+            body.AddItemBehavior<CorruptedCatalystController>(body.inventory.GetEquipment(body.inventory.activeEquipmentSlot).equipmentDef == EquipmentDef ? 1 : 0);
         }
 
         protected override bool ActivateEquipment(EquipmentSlot slot)
@@ -159,22 +159,22 @@ namespace Sandswept.Equipment.Lunar
 
             BuffDef randomBuff = availableBuffs[Run.instance.stageRng.RangeInt(0, availableBuffs.Count - 1)];
 
-            if (slot.characterBody.TryGetComponent<MushroomLunarController>(out var mushroomLunarController))
+            if (slot.characterBody.TryGetComponent<CorruptedCatalystController>(out var CorruptedCatalystController))
             {
-                if (mushroomLunarController.buffDef != null && mushroomLunarController.ward == null)
+                if (CorruptedCatalystController.buffDef != null && CorruptedCatalystController.ward == null)
                 {
-                    mushroomLunarController.buffDef = null;
+                    CorruptedCatalystController.buffDef = null;
                 }
 
-                mushroomLunarController.buffDef = randomBuff;
-                mushroomLunarController.shouldRun = true;
+                CorruptedCatalystController.buffDef = randomBuff;
+                CorruptedCatalystController.shouldRun = true;
             }
 
             return true;
         }
     }
 
-    public class MushroomLunarController : CharacterBody.ItemBehavior
+    public class CorruptedCatalystController : CharacterBody.ItemBehavior
     {
         public GameObject ward;
 
@@ -193,9 +193,9 @@ namespace Sandswept.Equipment.Lunar
             {
                 if (what)
                 {
-                    ward = Instantiate(MushroomLunar.wardReference);
+                    ward = Instantiate(CorruptedCatalyst.wardReference);
                     var buffWard = ward.GetComponent<BuffWard>();
-                    buffWard.Networkradius = MushroomLunar.buffRadius + body.radius;
+                    buffWard.Networkradius = CorruptedCatalyst.buffRadius + body.radius;
                     buffWard.invertTeamFilter = true;
                     buffWard.buffDef = buffDef;
                     ward.GetComponent<NetworkedBodyAttachment>().AttachToGameObjectAndSpawn(body.gameObject);

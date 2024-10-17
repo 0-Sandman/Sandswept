@@ -143,7 +143,7 @@ namespace Sandswept.Interactables.Regular
             purchaseInteraction.displayNameToken = "SANDSWEPT_SHRINE_RUIN_NAME";
             purchaseInteraction.contextToken = "SANDSWEPT_SHRINE_RUIN_CONTEXT";
             purchaseInteraction.Networkavailable = true;
-            purchaseInteraction.costType = CostTypeIndex.None;
+            purchaseInteraction.costType = costTypeIndex;
             purchaseInteraction.cost = 0;
 
             var genericDisplayNameProvider = prefab.GetComponent<GenericDisplayNameProvider>();

@@ -42,6 +42,8 @@ namespace Sandswept.Interactables.Regular
             purchaseInteraction.displayNameToken = "SANDSWEPT_SHRINE_FUTURE_NAME";
             purchaseInteraction.contextToken = "SANDSWEPT_SHRINE_FUTURE_CONTEXT";
             purchaseInteraction.Networkavailable = true;
+            purchaseInteraction.costType = CostTypeIndex.None;
+            purchaseInteraction.cost = 0;
 
             var genericDisplayNameProvider = prefab.GetComponent<GenericDisplayNameProvider>();
             genericDisplayNameProvider.displayToken = "SANDSWEPT_SHRINE_FUTURE_NAME";
@@ -249,6 +251,25 @@ namespace Sandswept.Interactables.Regular
 
         public void SpawnRewards()
         {
+            int itemCount = Run.instance.participatingPlayerCount * ShrineOfTheFuture.itemCount;
+            float angle = 360f / itemCount;
+            Vector3 vector = Quaternion.AngleAxis(Random.Range(0, 360), Vector3.up) * (Vector3.up * 40f + Vector3.forward * 5f);
+            Quaternion quaternion = Quaternion.AngleAxis(angle, Vector3.up);
+
+            for (int i = 0; i < itemCount; i++)
+            {
+                GenericPickupController.CreatePickupInfo info = new()
+                {
+                    position = transform.position + new Vector3(0, 3f, 0),
+                    prefabOverride = Paths.GameObject.OptionPickup,
+                    rotation = Quaternion.identity,
+                    pickupIndex = PickupCatalog.FindPickupIndex(ItemTier.Lunar),
+                    pickerOptions = GenerateOptions()
+                };
+
+                PickupDropletController.CreatePickupDroplet(info, transform.position + new Vector3(0, 3f, 0), vector);
+                vector = quaternion * vector;
+            }
         }
 
         public static PickupPickerController.Option[] GenerateOptions()
