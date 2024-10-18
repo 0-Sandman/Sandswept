@@ -1,24 +1,4 @@
-﻿/*
- *
- *
- *
- *
- *
- *
- *
- *
- * also breaks tp boss spawns lol
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
-using System;
+﻿using System;
 using System.Linq;
 using static RoR2.CombatDirector;
 
@@ -50,7 +30,8 @@ namespace Sandswept.Interactables.Regular
 
         public GameObject prefab;
 
-        public static bool isCorrectDirector = false;
+        [ConfigField("Item Count Per Player", "", 4)]
+        public static int itemCount;
 
         public override void Init()
         {
@@ -61,106 +42,216 @@ namespace Sandswept.Interactables.Regular
             purchaseInteraction.displayNameToken = "SANDSWEPT_SHRINE_FUTURE_NAME";
             purchaseInteraction.contextToken = "SANDSWEPT_SHRINE_FUTURE_CONTEXT";
             purchaseInteraction.Networkavailable = true;
+            purchaseInteraction.costType = CostTypeIndex.None;
+            purchaseInteraction.cost = 0;
 
             var genericDisplayNameProvider = prefab.GetComponent<GenericDisplayNameProvider>();
             genericDisplayNameProvider.displayToken = "SANDSWEPT_SHRINE_FUTURE_NAME";
 
-            var shrineCombatBehavior = prefab.GetComponent<ShrineCombatBehavior>();
-            shrineCombatBehavior.baseMonsterCredit = 150; // the higher end of miniboss cost
-            shrineCombatBehavior.shrineEffectColor = new Color32(69, 71, 238, 255);
+            prefab.RemoveComponent<ShrineCombatBehavior>();
+            prefab.RemoveComponent<CombatDirector>();
 
-            var combatDirector = prefab.GetComponent<CombatDirector>();
-            combatDirector.maximumNumberToSpawnBeforeSkipping = 1;
-            combatDirector.skipSpawnIfTooCheap = false;
-            combatDirector.shouldSpawnOneWave = true;
-            combatDirector.spawnDistanceMultiplier = 0.66f;
-            combatDirector.goldRewardCoefficient = 0f;
-            combatDirector.customName = "ShrineOfTheFutureDirector";
-            combatDirector.minRerollSpawnInterval = 0.01f;
-            combatDirector.maxRerollSpawnInterval = 0.03f;
+            prefab.AddComponent<UnityIsAFuckingPieceOfShit3>();
 
             interactableSpawnCard.prefab = prefab;
 
             var combatSquad = prefab.GetComponent<CombatSquad>();
-            combatSquad.onDefeatedServerLogicEvent.AddListener(delegate { SpawnRewards(combatSquad.gameObject); });
+            combatSquad.grantBonusHealthInMultiplayer = true;
+
+            var spawnInfos = new ScriptedCombatEncounter.SpawnInfo[8];
+            spawnInfos[0] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscBeetleGuard };
+            spawnInfos[1] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscBell };
+            spawnInfos[2] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscClayGrenadier };
+            spawnInfos[3] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscClayBruiser };
+            spawnInfos[4] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscLemurianBruiser };
+            spawnInfos[5] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscGreaterWisp };
+            spawnInfos[6] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscParent };
+            spawnInfos[7] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscGolem };
+
+            // sorry for hardcoding :<
+
+            var scriptedCombatEncounter = prefab.AddComponent<ScriptedCombatEncounter>();
+            scriptedCombatEncounter.grantUniqueBonusScaling = false;
+            scriptedCombatEncounter.spawns = spawnInfos;
+            scriptedCombatEncounter.teamIndex = TeamIndex.Monster;
+            scriptedCombatEncounter.randomizeSeed = true;
+            scriptedCombatEncounter.spawnOnStart = false;
 
             PrefabAPI.RegisterNetworkPrefab(prefab);
 
             LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_NAME", "Shrine of the Future");
-            LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_CONTEXT", "Defy");
+            LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_CONTEXT", "Offer to Shrine of The Future");
 
-            On.RoR2.CombatDirector.Spawn += CombatDirector_Spawn;
-            On.RoR2.DirectorCore.TrySpawnObject += DirectorCore_TrySpawnObject;
-            On.RoR2.SceneDirector.Start += SceneDirector_Start;
-            On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
+            var inspectDef = ScriptableObject.CreateInstance<InspectDef>();
+            var inspectInfo = inspectDef.Info = new()
+            {
+                TitleToken = genericDisplayNameProvider.displayToken,
+                DescriptionToken = "SANDSWEPT_SHRINE_FUTURE_DESCRIPTION",
+                FlavorToken = "Nonbinary Sex #Sandswept",
+                isConsumedItem = false,
+                Visual = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/MiscIcons/texShrineIconOutlined.png").WaitForCompletion(),
+                TitleColor = Color.white
+            };
+            // add this to base later tbh?
+            LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_DESCRIPTION", "When activated by a survivor, the Shrine of The Future spawns a random strong elite miniboss that when defeated, drops " + itemCount + " items per player.");
+
+            LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_USE_MESSAGE_2P", "<style=cShrine>Time has shifted.</color>");
+            LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_USE_MESSAGE", "<style=cShrine>Time has warped.</color>");
+
+            prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo.Info = inspectInfo;
 
             PostInit();
         }
+    }
 
-        private bool CombatDirector_Spawn(On.RoR2.CombatDirector.orig_Spawn orig, CombatDirector self, SpawnCard spawnCard, EliteDef eliteDef, Transform spawnTarget, DirectorCore.MonsterSpawnDistance spawnDistance, bool preventOverhead, float valueMultiplier, DirectorPlacementRule.PlacementMode placementMode)
+    public class UnityIsAFuckingPieceOfShit3 : MonoBehaviour
+    {
+        public PurchaseInteraction purchaseInteraction;
+        public ShrineOfTheFutureController shrineOfTheFutureController;
+        public CombatSquad combatSquad;
+
+        public void Start()
         {
-            isCorrectDirector = false;
-            if (spawnCard.prefab && spawnCard.prefab.TryGetComponent<CharacterMaster>(out var master) && master.bodyPrefab && master.bodyPrefab.TryGetComponent<CharacterBody>(out var body))
+            shrineOfTheFutureController = GetComponent<ShrineOfTheFutureController>();
+            purchaseInteraction = GetComponent<PurchaseInteraction>();
+            purchaseInteraction.onPurchase.AddListener(SoTrue);
+            combatSquad.onMemberAddedServer += CombatSquad_onMemberAddedServer;
+            combatSquad.onDefeatedServer += CombatSquad_onDefeatedServer;
+        }
+
+        public Dictionary<EliteDef, EquipmentIndex> GetRandomT2EliteDefToEquipmentIndexPair()
+        {
+            var tier2Elites = EliteAPI.VanillaEliteTiers[3].eliteTypes;
+            var randomElite = tier2Elites[Run.instance.runRNG.RangeInt(0, tier2Elites.Length)];
+            return new Dictionary<EliteDef, EquipmentIndex>()
             {
-                if (body.isChampion)
+                { randomElite, randomElite.eliteEquipmentDef.equipmentIndex }
+            };
+        }
+
+        private void CombatSquad_onMemberAddedServer(CharacterMaster master)
+        {
+            var inventory = master.inventory;
+            if (!inventory)
+            {
+                return;
+            }
+
+            var randomPair = GetRandomT2EliteDefToEquipmentIndexPair();
+            var equipmentIndex = randomPair.Values.First();
+            var eliteDef = randomPair.Keys.First();
+
+            inventory.SetEquipmentIndex(equipmentIndex);
+            inventory.GiveItem(RoR2Content.Items.BoostHp, Mathf.RoundToInt((eliteDef.healthBoostCoefficient - 1f) * 10f));
+            inventory.GiveItem(RoR2Content.Items.BoostDamage, Mathf.RoundToInt((eliteDef.damageBoostCoefficient - 1f) * 10f));
+        }
+
+        private void CombatSquad_onDefeatedServer()
+        {
+            shrineOfTheFutureController.SpawnRewards();
+        }
+
+        public void SoTrue(Interactor interactor)
+        {
+            shrineOfTheFutureController.AddShrineStack(interactor);
+        }
+    }
+
+    public class ShrineOfTheFutureController : ShrineBehavior
+    {
+        public int maxPurchaseCount = 1;
+
+        public float costMultiplierPerPurchase;
+
+        public Transform symbolTransform;
+
+        private PurchaseInteraction purchaseInteraction;
+
+        private int purchaseCount;
+
+        private float refreshTimer;
+
+        private const float refreshDuration = 2f;
+
+        private bool waitingForRefresh;
+
+        public ScriptedCombatEncounter scriptedCombatEncounter;
+
+        public override int GetNetworkChannel()
+        {
+            return RoR2.Networking.QosChannelIndex.defaultReliable.intVal;
+        }
+
+        private void Start()
+        {
+            // Main.ModLogger.LogError("shrine sacrifice behavior start");
+            purchaseInteraction = GetComponent<PurchaseInteraction>();
+            symbolTransform = transform.Find("Symbol");
+            scriptedCombatEncounter = GetComponent<ScriptedCombatEncounter>();
+        }
+
+        public void FixedUpdate()
+        {
+            if (waitingForRefresh)
+            {
+                refreshTimer -= Time.fixedDeltaTime;
+                if (refreshTimer <= 0f && purchaseCount < maxPurchaseCount)
                 {
-                    spawnCard = null;
+                    purchaseInteraction.SetAvailable(true);
+                    purchaseInteraction.Networkcost = ShrineOfSacrifice.curseCost;
+                    waitingForRefresh = false;
                 }
+            }
+        }
 
-                if (self.customName == "ShrineOfTheFutureDirector" && spawnCard != null)
+        public void AddShrineStack(Interactor interactor)
+        {
+            // Main.ModLogger.LogError("trying to run add shrine stack");
+            if (!NetworkServer.active)
+            {
+                // Main.ModLogger.LogError("NETWORK SERVER NOT ACTRIVE EEEE ");
+                // Debug.LogWarning("[Server] function 'System.Void RoR2.ShrineBloodBehavior::AddShrineStack(RoR2.Interactor)' called on client");
+                return;
+            }
+            waitingForRefresh = true;
+            var interactorBody = interactor.GetComponent<CharacterBody>();
+
+            // Main.ModLogger.LogError("interactor body is " + interactorBody);
+
+            scriptedCombatEncounter.BeginEncounter();
+
+            if (interactorBody)
+            {
+                Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage
                 {
-                    isCorrectDirector = true;
-                }
+                    subjectAsCharacterBody = interactorBody,
+                    baseToken = "SANDSWEPT_SHRINE_FUTURE_USE_MESSAGE",
+                });
             }
 
-            return orig(self, spawnCard, eliteDef, spawnTarget, spawnDistance, preventOverhead, valueMultiplier, placementMode);
-        }
-
-        private GameObject DirectorCore_TrySpawnObject(On.RoR2.DirectorCore.orig_TrySpawnObject orig, DirectorCore self, DirectorSpawnRequest directorSpawnRequest)
-        {
-            // run only if director is shrine of the future directorrrr :sob:
-            if (isCorrectDirector)
+            EffectManager.SpawnEffect(ShrineOfSacrifice.shrineVFX, new EffectData
             {
-                var randomPair = GetRandomT2EliteDefToEquipmentIndexPair();
-                var equipmentIndex = randomPair.Values.First();
-                var eliteDef = randomPair.Keys.First();
+                origin = base.transform.position,
+                rotation = Quaternion.identity,
+                scale = 1.5f,
+                color = new Color32(96, 20, 87, 255)
+            }, true);
 
-                directorSpawnRequest.onSpawnedServer = (spawnResult) =>
-                {
-                    var instance = spawnResult.spawnedInstance;
-                    var master = instance.GetComponent<CharacterMaster>();
-                    master.inventory.SetEquipmentIndex(equipmentIndex);
-                    master.inventory.GiveItem(RoR2Content.Items.BoostHp, Mathf.RoundToInt((eliteDef.healthBoostCoefficient - 1f) * 10f));
-                    master.inventory.GiveItem(RoR2Content.Items.BoostDamage, Mathf.RoundToInt((eliteDef.damageBoostCoefficient - 1f) * 10f));
-                };
-            }
+            Util.PlaySound("Play_deathProjectile_pulse", gameObject);
+            Util.PlaySound("Play_deathProjectile_pulse", gameObject);
 
-            return orig(self, directorSpawnRequest);
-        }
-
-        private void ClassicStageInfo_RebuildCards(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self)
-        {
-            orig(self);
-
-            if (Run.instance.loopClearCount > 0)
+            purchaseCount++;
+            refreshTimer = 2f;
+            if (purchaseCount >= maxPurchaseCount)
             {
-                self.interactableCategories.RemoveCardsThatFailFilter(x => x.spawnCard != Instance.interactableSpawnCard);
+                symbolTransform.gameObject.SetActive(false);
+                CallRpcSetPingable(false);
             }
         }
 
-        private void SceneDirector_Start(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
+        public void SpawnRewards()
         {
-            orig(self);
-            var shrineCombatBehaviors = GameObject.FindObjectsOfType<ShrineCombatBehavior>();
-            foreach (ShrineCombatBehavior shrineCombatBehavior in shrineCombatBehaviors)
-            {
-                Main.ModLogger.LogError("found shrine " + shrineCombatBehavior.name);
-            }
-        }
-
-        public static void SpawnRewards(GameObject shrine)
-        {
-            int itemCount = Run.instance.participatingPlayerCount * 4;
+            int itemCount = Run.instance.participatingPlayerCount * ShrineOfTheFuture.itemCount;
             float angle = 360f / itemCount;
             Vector3 vector = Quaternion.AngleAxis(Random.Range(0, 360), Vector3.up) * (Vector3.up * 40f + Vector3.forward * 5f);
             Quaternion quaternion = Quaternion.AngleAxis(angle, Vector3.up);
@@ -169,14 +260,14 @@ namespace Sandswept.Interactables.Regular
             {
                 GenericPickupController.CreatePickupInfo info = new()
                 {
-                    position = shrine.transform.position + new Vector3(0, 3f, 0),
+                    position = transform.position + new Vector3(0, 3f, 0),
                     prefabOverride = Paths.GameObject.OptionPickup,
                     rotation = Quaternion.identity,
                     pickupIndex = PickupCatalog.FindPickupIndex(ItemTier.Lunar),
                     pickerOptions = GenerateOptions()
                 };
 
-                PickupDropletController.CreatePickupDroplet(info, shrine.transform.position + new Vector3(0, 3f, 0), vector);
+                PickupDropletController.CreatePickupDroplet(info, transform.position + new Vector3(0, 3f, 0), vector);
                 vector = quaternion * vector;
             }
         }
@@ -198,15 +289,23 @@ namespace Sandswept.Interactables.Regular
             return new PickupPickerController.Option[] { white, green };
         }
 
-        public Dictionary<EliteDef, EquipmentIndex> GetRandomT2EliteDefToEquipmentIndexPair()
+        private void UNetVersion()
         {
-            var tier2Elites = EliteAPI.VanillaEliteTiers[3].eliteTypes;
-            var randomElite = tier2Elites[Run.instance.runRNG.RangeInt(0, tier2Elites.Length)];
-            return new Dictionary<EliteDef, EquipmentIndex>()
-            {
-                { randomElite, randomElite.eliteEquipmentDef.equipmentIndex }
-            };
+        }
+
+        public override bool OnSerialize(NetworkWriter writer, bool forceAll)
+        {
+            return base.OnSerialize(writer, forceAll);
+        }
+
+        public override void OnDeserialize(NetworkReader reader, bool initialState)
+        {
+            base.OnDeserialize(reader, initialState);
+        }
+
+        public override void PreStartClient()
+        {
+            base.PreStartClient();
         }
     }
 }
-*/

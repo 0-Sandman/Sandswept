@@ -100,6 +100,11 @@ namespace Sandswept.Interactables
                 return true;
             }
         }
+
+        public string d(float f)
+        {
+            return (f * 100f).ToString() + "%";
+        }
     }
 
     public class DisableOnTeleporterStart : MonoBehaviour
@@ -118,7 +123,7 @@ namespace Sandswept.Interactables
             timer += Time.fixedDeltaTime;
             if (timer >= interval)
             {
-                if (TeleporterInteraction.instance.activationState <= TeleporterInteraction.ActivationState.IdleToCharging)
+                if (TeleporterInteraction.instance.activationState != TeleporterInteraction.ActivationState.Idle)
                 {
                     gameObject.SetActive(false);
                     shouldRun = false;

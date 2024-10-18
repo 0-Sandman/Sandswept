@@ -95,8 +95,13 @@ namespace Sandswept
         public ConfigEntry<bool> enableAutoConfig { get; private set; }
         public ConfigEntry<string> latestVersion { get; private set; }
 
+        public static Main Instance;
+
         private void Awake()
         {
+
+            Instance = this;
+            
             var stopwatch = Stopwatch.StartNew();
 
             SOTV = Utils.Assets.ExpansionDef.DLC1;

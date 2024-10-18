@@ -1,4 +1,5 @@
-﻿using R2API.Utils;
+﻿using MonoMod.Cil;
+using R2API.Utils;
 using RoR2.ExpansionManagement;
 using System;
 using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace Sandswept.Interactables.Regular
 
         public override InteractableCategory Category => InteractableCategory.Shrines;
 
-        public override int MaxSpawnsPerStage => 2;
+        public override int MaxSpawnsPerStage => 1;
 
         public override int CreditCost => 20;
 
@@ -45,9 +46,49 @@ namespace Sandswept.Interactables.Regular
 
         public static GameObject shrineVFX;
 
+        public static CostTypeIndex costTypeIndex;
+        public CostTypeDef def;
+
         public override void Init()
         {
             base.Init();
+
+            def = new()
+            {
+                buildCostString = delegate (CostTypeDef def, CostTypeDef.BuildCostStringContext c)
+                {
+                    c.stringBuilder.Append("<style=cDeath>" + curseCost + "% Curse</style>");
+                },
+
+                isAffordable = delegate (CostTypeDef def, CostTypeDef.IsAffordableContext c)
+                {
+                    return true;
+                },
+
+                payCost = delegate (CostTypeDef def, CostTypeDef.PayCostContext c)
+                {
+                    if (c.activatorBody) {
+                        int count = c.activatorBody.GetBuffCount(RoR2Content.Buffs.PermanentCurse);
+                        c.activatorBody.SetBuffCount(RoR2Content.Buffs.PermanentCurse.buffIndex, count + curseCost);
+
+                        Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage
+                        {
+                            subjectAsCharacterBody = c.activatorBody,
+                            baseToken = "SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE",
+                        });
+                    }
+                }
+            };
+
+            On.RoR2.CostTypeCatalog.Init += (orig) =>
+            {
+                orig();
+                int index = CostTypeCatalog.costTypeDefs.Length;
+                Array.Resize(ref CostTypeCatalog.costTypeDefs, index + 1);
+                costTypeIndex = (CostTypeIndex)index;
+
+                CostTypeCatalog.Register(costTypeIndex, def);
+            };
 
             prefab = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineBlood, "Shrine of Sacrifice", true);
             var mdl = prefab.transform.Find("Base/mdlShrineHealing").gameObject;
@@ -68,7 +109,7 @@ namespace Sandswept.Interactables.Regular
             purchaseInteraction.displayNameToken = "SANDSWEPT_SHRINE_SACRIFICE_NAME";
             purchaseInteraction.contextToken = "SANDSWEPT_SHRINE_SACRIFICE_CONTEXT";
             purchaseInteraction.Networkavailable = true;
-            purchaseInteraction.costType = CostTypeIndex.SoulCost;
+            purchaseInteraction.costType = costTypeIndex;
             purchaseInteraction.cost = curseCost;
 
             var genericDisplayNameProvider = prefab.GetComponent<GenericDisplayNameProvider>();
@@ -76,7 +117,7 @@ namespace Sandswept.Interactables.Regular
 
             UnityEngine.Object.DestroyImmediate(prefab.GetComponent<ShrineBloodBehavior>()); // kill yourself
 
-            prefab.AddComponent<ShrineSacrificeBehavior>();
+            prefab.AddComponent<ShrineOfSacrificeController>();
 
             prefab.AddComponent<UnityIsAFuckingPieceOfShit>();
 
@@ -95,13 +136,13 @@ namespace Sandswept.Interactables.Regular
             {
                 TitleToken = genericDisplayNameProvider.displayToken,
                 DescriptionToken = "SANDSWEPT_SHRINE_SACRIFICE_DESCRIPTION",
-                FlavorToken = "Gay Sex #Sandswept",
+                FlavorToken = "Lesbian Sex #Sandswept",
                 isConsumedItem = false,
                 Visual = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/MiscIcons/texShrineIconOutlined.png").WaitForCompletion(),
                 TitleColor = Color.white
             };
             // add this to base later tbh?
-            LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_DESCRIPTION", "When activated by a survivor the Shrine of Sacrifice consumes " + curseCost + "% of the survivors maximum health in exchange for " + itemCount + " items.");
+            LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_DESCRIPTION", "When activated by a survivor, the Shrine of Sacrifice consumes " + curseCost + "% of the survivors maximum health in exchange for " + itemCount + " items.");
 
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE_2P", "<style=cShrine>Your time has been sacrificed.</color>");
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE", "<style=cShrine>{0}'s time has been sacrificed.</color>");
@@ -117,12 +158,13 @@ namespace Sandswept.Interactables.Regular
     public class UnityIsAFuckingPieceOfShit : MonoBehaviour
     {
         public PurchaseInteraction purchaseInteraction;
-        public ShrineSacrificeBehavior shrineSacrificeBehavior;
+        public ShrineOfSacrificeController shrineSacrificeBehavior;
 
         public void Start()
         {
-            shrineSacrificeBehavior = GetComponent<ShrineSacrificeBehavior>();
+            shrineSacrificeBehavior = GetComponent<ShrineOfSacrificeController>();
             purchaseInteraction = GetComponent<PurchaseInteraction>();
+            purchaseInteraction.costType = ShrineOfSacrifice.costTypeIndex;
             purchaseInteraction.onPurchase.AddListener(SoTrue);
         }
 
@@ -132,7 +174,7 @@ namespace Sandswept.Interactables.Regular
         }
     }
 
-    public class ShrineSacrificeBehavior : ShrineBehavior
+    public class ShrineOfSacrificeController : ShrineBehavior
     {
         public int maxPurchaseCount = 1;
 
@@ -220,15 +262,6 @@ namespace Sandswept.Interactables.Regular
 
                 PickupDropletController.CreatePickupDroplet(info, transform.position + new Vector3(0, 3f, 0), vector);
                 vector = quaternion * vector;
-            }
-
-            if (interactorBody)
-            {
-                Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage
-                {
-                    subjectAsCharacterBody = interactorBody,
-                    baseToken = "SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE",
-                });
             }
 
             EffectManager.SpawnEffect(ShrineOfSacrifice.shrineVFX, new EffectData
