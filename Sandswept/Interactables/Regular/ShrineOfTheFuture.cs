@@ -53,8 +53,11 @@ namespace Sandswept.Interactables.Regular
             var collision = mdl.transform.Find("Collision");
             collision.localScale = Vector3.one / 400f;
 
+            var shrineMat = Main.hifuSandswept.LoadAsset<Material>("matShrineOfTheFuture.mat");
+            shrineMat.SetTexture("_FlowHeightRamp", Paths.Texture2D.texRampDeathmark);
+
             mdl.GetComponent<MeshFilter>().sharedMesh = Main.hifuSandswept.LoadAsset<Mesh>("mdlShrineOfTheFuture.fbx");
-            mdl.GetComponent<MeshRenderer>().sharedMaterial = Main.hifuSandswept.LoadAsset<Material>("matShrineOfTheFuture.mat");
+            mdl.GetComponent<MeshRenderer>().sharedMaterial = shrineMat;
 
             var symbol = prefab.transform.Find("Symbol");
             // symbol.localPosition = new(0, 6, 0);
