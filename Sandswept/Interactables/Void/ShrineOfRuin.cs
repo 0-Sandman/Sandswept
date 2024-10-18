@@ -3,6 +3,7 @@ using R2API.Utils;
 using Rewired.Demos;
 using RoR2.EntitlementManagement;
 using RoR2.ExpansionManagement;
+using Sandswept.Interactables.Regular;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using static Rewired.UI.ControlMapper.ControlMapper;
 
-namespace Sandswept.Interactables.Regular
+namespace Sandswept.Interactables.Void
 {
     // destinations don't get changed properly (stage 2 would land you on stage 1 simulacrum if it worked)
     // destinations are hardcoded to work with specific stage numbers (messing with stage count would mess with the stage order completely once you use a shrine of ruin)
@@ -64,7 +65,7 @@ namespace Sandswept.Interactables.Regular
         {
             base.Init();
 
-            prefab = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineBlood, "Shrine of Ruin", true);
+            prefab = Paths.GameObject.ShrineBlood.InstantiateClone("Shrine of Ruin", true);
             var mdl = prefab.transform.Find("Base/mdlShrineHealing").gameObject;
             mdl.name = "mdlShrineRuin";
             mdl.GetComponent<MeshFilter>().sharedMesh = Main.prodAssets.LoadAsset<Mesh>("assets/sandswept/shrinesacrifice.fbx");
@@ -75,7 +76,7 @@ namespace Sandswept.Interactables.Regular
             meshRenderer.material.mainTexture = Main.prodAssets.LoadAsset<Texture2D>("assets/sandswept/shrinesacrificeicon.png");
             meshRenderer.material.SetColor("_TintColor", new Color32(255, 255, 255, 255));
 
-            shrineVFX = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.ShrineUseEffect, "Shrine of Ruin VFX", false);
+            shrineVFX = Paths.GameObject.ShrineUseEffect.InstantiateClone("Shrine of Ruin VFX", false);
             shrineVFX.GetComponent<EffectComponent>().soundName = "Play_affix_void_bug_spawn";
             ContentAddition.AddEffect(shrineVFX);
 
@@ -89,7 +90,7 @@ namespace Sandswept.Interactables.Regular
             var genericDisplayNameProvider = prefab.GetComponent<GenericDisplayNameProvider>();
             genericDisplayNameProvider.displayToken = "SANDSWEPT_SHRINE_RUIN_NAME";
 
-            UnityEngine.Object.DestroyImmediate(prefab.GetComponent<ShrineBloodBehavior>()); // kill yourself
+            Object.DestroyImmediate(prefab.GetComponent<ShrineBloodBehavior>()); // kill yourself
 
             prefab.AddComponent<ShrineRuinBehavior>();
 
@@ -99,9 +100,9 @@ namespace Sandswept.Interactables.Regular
             expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
 
             var expansionRequirementComponent2 = prefab.AddComponent<ExpansionRequirementComponent>();
-            expansionRequirementComponent2.requiredExpansion = Utils.Assets.ExpansionDef.DLC1;
+            expansionRequirementComponent2.requiredExpansion = Paths.ExpansionDef.DLC1;
 
-            PrefabAPI.RegisterNetworkPrefab(prefab);
+            prefab.RegisterNetworkPrefab();
 
             LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_NAME", "Shrine of Ruin");
             LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_CONTEXT", "Offer to Shrine of Ruin");
@@ -130,7 +131,7 @@ namespace Sandswept.Interactables.Regular
             allEnemiesPoolEntries[0] = new()
             {
                 weight = 1f,
-                dccs = Utils.Assets.DirectorCardCategorySelection.dccsITVoidMonsters,
+                dccs = Paths.DirectorCardCategorySelection.dccsITVoidMonsters,
             };
 
             var allCategories = new DccsPool.Category[1];
@@ -167,7 +168,7 @@ namespace Sandswept.Interactables.Regular
                 if (sceneInfo.TryGetComponent<ClassicStageInfo>(out var classicStageInfo))
                 {
                     classicStageInfo.monsterDccsPool = voidEnemiesDccsPool;
-                    classicStageInfo.monsterCategories = Utils.Assets.DirectorCardCategorySelection.dccsITVoidMonsters;
+                    classicStageInfo.monsterCategories = Paths.DirectorCardCategorySelection.dccsITVoidMonsters;
                 }
             }
         }
@@ -423,7 +424,7 @@ namespace Sandswept.Interactables.Regular
 
             EffectManager.SpawnEffect(ShrineOfRuin.shrineVFX, new EffectData
             {
-                origin = base.transform.position,
+                origin = transform.position,
                 rotation = Quaternion.identity,
                 scale = 1.5f,
                 color = new Color32(96, 20, 87, 255)

@@ -36,10 +36,6 @@
   </ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Interactables\Void\" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <Reference Include="CustomEmotesAPI">
 	    <HintPath>..\..\..\..\..\CustomEmotesAPI.dll</HintPath>
 	  </Reference>
