@@ -36,7 +36,7 @@ namespace Sandswept.Interactables.Regular
 
         public override HullClassification Size => HullClassification.Golem;
 
-        public override int MinimumStageToAppearOn => 1;
+        public override int MinimumStageToAppearOn => 2;
 
         public override int SpawnWeight => 1;
 
@@ -54,12 +54,10 @@ namespace Sandswept.Interactables.Regular
         [ConfigField("White Item Cost", "", 10)]
         public static int whiteItemCost;
 
-        [ConfigField("Item Count", "", 2)]
-        public static int itemCount;
-
         public static GameObject shrineVFX;
 
         public static bool shouldCorruptNextStage = false;
+        public static bool shouldReplaceDrops = false;
 
         public static DccsPool voidEnemiesDccsPool;
 
@@ -191,10 +189,23 @@ namespace Sandswept.Interactables.Regular
             voidEnemiesDccsPool.poolCategories = allCategories;
 
             // On.RoR2.ClassicStageInfo.Start += ClassicStageInfo_Start;
+            On.RoR2.Stage.Start += Stage_Start;
             On.RoR2.PickupDropTable.GenerateDropFromWeightedSelection += PickupDropTable_GenerateDropFromWeightedSelection;
             On.RoR2.PickupDropTable.GenerateUniqueDropsFromWeightedSelection += PickupDropTable_GenerateUniqueDropsFromWeightedSelection;
             SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
             PostInit();
+        }
+
+        private System.Collections.IEnumerator Stage_Start(On.RoR2.Stage.orig_Start orig, RoR2.Stage self)
+        {
+            yield return orig(self);
+            shouldReplaceDrops = false;
+
+            var sceneName = SceneManager.GetActiveScene().name;
+            if (sceneName.StartsWith("it") && shouldCorruptNextStage)
+            {
+                shouldReplaceDrops = true;
+            }
         }
 
         private void SceneManager_activeSceneChanged(Scene oldScene, Scene newScene)
@@ -230,7 +241,7 @@ namespace Sandswept.Interactables.Regular
 
         private void OverwriteDrop(WeightedSelection<PickupIndex> weightedSelection)
         {
-            if (shouldCorruptNextStage && weightedSelection.choices.All(x => PickupCatalog.GetPickupDef(x.value).equipmentIndex == EquipmentIndex.None))
+            if (shouldReplaceDrops && weightedSelection.choices.All(x => PickupCatalog.GetPickupDef(x.value).equipmentIndex == EquipmentIndex.None))
             {
                 var dropPickup = PickupIndex.none;
 

@@ -148,9 +148,6 @@ namespace Sandswept.Items.Greens
             EffectManager.SpawnEffect(FragmentVFX, effectData, true);
             EffectManager.SpawnEffect(FragmentVFXSphere, effectData2, true);
 
-            var setStateOnHurt = victimBody.GetComponent<SetStateOnHurt>();
-            setStateOnHurt?.SetStun(stunDuration);
-
             // var damage = Util.OnHitProcDamage(damageInfo.damage, attackerBody.damage, baseTotalDamage + stackTotalDamage * (stack - 1));
 
             BlastAttack blastAttack = new()
@@ -198,6 +195,9 @@ namespace Sandswept.Items.Greens
                     dotIndex = DotController.DotIndex.Burn,
                     maxStacksFromAttacker = null,
                 };
+
+                var setStateOnHurt = body.GetComponent<SetStateOnHurt>();
+                setStateOnHurt?.SetStun(stunDuration);
 
                 StrengthenBurnUtils.CheckDotForUpgrade(inventory, ref dot);
                 DotController.InflictDot(ref dot);

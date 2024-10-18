@@ -39,6 +39,29 @@ namespace Sandswept.Interactables.Regular
             base.Init();
             prefab = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineCombat, "Shrine of the Future", true);
 
+            var modelBase = prefab.transform.Find("Base");
+            modelBase.localPosition = new Vector3(0f, 6f, 0f);
+
+            var mdl = modelBase.Find("mdlShrineCombat").gameObject;
+            mdl.name = "mdlShrineOfTheFuture";
+            mdl.transform.localScale = Vector3.one * 400f;
+
+            mdl.RemoveComponent<EntityLocator>();
+            var newEntityLocator = modelBase.AddComponent<EntityLocator>();
+            newEntityLocator.entity = prefab;
+
+            var collision = mdl.transform.Find("Collision");
+            collision.localScale = Vector3.one / 400f;
+
+            mdl.GetComponent<MeshFilter>().sharedMesh = Main.hifuSandswept.LoadAsset<Mesh>("mdlShrineOfTheFuture.fbx");
+            mdl.GetComponent<MeshRenderer>().sharedMaterial = Main.hifuSandswept.LoadAsset<Material>("matShrineOfTheFuture.mat");
+
+            var symbol = prefab.transform.Find("Symbol");
+            // symbol.localPosition = new(0, 6, 0);
+            var meshRenderer = symbol.GetComponent<MeshRenderer>();
+            meshRenderer.material.mainTexture = Main.prodAssets.LoadAsset<Texture2D>("assets/sandswept/shrinesacrificeicon.png");
+            meshRenderer.material.SetColor("_TintColor", new Color32(20, 74, 96, 255));
+
             var purchaseInteraction = prefab.GetComponent<PurchaseInteraction>();
             purchaseInteraction.displayNameToken = "SANDSWEPT_SHRINE_FUTURE_NAME";
             purchaseInteraction.contextToken = "SANDSWEPT_SHRINE_FUTURE_CONTEXT";
@@ -103,7 +126,18 @@ namespace Sandswept.Interactables.Regular
 
             prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo.Info = inspectInfo;
 
+            On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
+
             PostInit();
+        }
+
+        private void ClassicStageInfo_RebuildCards(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self, DirectorCardCategorySelection forcedMonsterCategory, DirectorCardCategorySelection forcedInteractableCategory)
+        {
+            orig(self, forcedMonsterCategory, forcedInteractableCategory);
+            if (Run.instance.stageClearCount >= 6)
+            {
+                self.interactableCategories.RemoveCardsThatFailFilter(x => x.spawnCard != interactableSpawnCard);
+            }
         }
     }
 
@@ -164,17 +198,21 @@ namespace Sandswept.Interactables.Regular
             combatSquad.onDefeatedServer += CombatSquad_onDefeatedServer;
 
             var randomIndex1 = scriptedCombatEncounter.spawns[Run.instance.stageRng.RangeInt(0, scriptedCombatEncounter.spawns.Length)];
-            var randomIndex2 = scriptedCombatEncounter.spawns[Run.instance.stageRng.RangeInt(0, scriptedCombatEncounter.spawns.Length)];
+            // var randomIndex2 = scriptedCombatEncounter.spawns[Run.instance.stageRng.RangeInt(0, scriptedCombatEncounter.spawns.Length)];
 
-            ScriptedCombatEncounter.SpawnInfo[] randomSpawn = new ScriptedCombatEncounter.SpawnInfo[2] { randomIndex1, randomIndex2 };
+            // ScriptedCombatEncounter.SpawnInfo[] randomSpawn = new ScriptedCombatEncounter.SpawnInfo[2] { randomIndex1, randomIndex2 };
+            ScriptedCombatEncounter.SpawnInfo[] randomSpawn = new ScriptedCombatEncounter.SpawnInfo[1] { randomIndex1 };
 
             scriptedCombatEncounter.spawns = randomSpawn;
         }
 
         public Dictionary<EliteDef, EquipmentIndex> GetRandomT2EliteDefToEquipmentIndexPair()
         {
-            var tier2Elites = EliteAPI.VanillaEliteTiers[3].eliteTypes;
-            var randomElite = tier2Elites[Run.instance.runRNG.RangeInt(0, tier2Elites.Length)];
+            var tier2EliteTypes = EliteAPI.VanillaEliteTiers[4].eliteTypes;
+
+            var tier2ElitesExceptFuckOffTwisted = tier2EliteTypes.Where(x => x.eliteEquipmentDef != Paths.EquipmentDef.EliteBeadEquipment).ToList();
+
+            var randomElite = tier2ElitesExceptFuckOffTwisted[Run.instance.runRNG.RangeInt(0, tier2ElitesExceptFuckOffTwisted.Count)];
             return new Dictionary<EliteDef, EquipmentIndex>()
             {
                 { randomElite, randomElite.eliteEquipmentDef.equipmentIndex }
@@ -194,8 +232,8 @@ namespace Sandswept.Interactables.Regular
             var eliteDef = randomPair.Keys.First();
 
             inventory.SetEquipmentIndex(equipmentIndex);
-            inventory.GiveItem(RoR2Content.Items.BoostHp, Mathf.RoundToInt((eliteDef.healthBoostCoefficient - 1f) * 10f));
-            inventory.GiveItem(RoR2Content.Items.BoostDamage, Mathf.RoundToInt((eliteDef.damageBoostCoefficient - 1f) * 10f));
+            inventory.GiveItem(RoR2Content.Items.BoostHp, Mathf.Max(0, Mathf.RoundToInt(((eliteDef.healthBoostCoefficient * 0.5f) - 1f) * 10f)));
+            inventory.GiveItem(RoR2Content.Items.BoostDamage, Mathf.Max(0, Mathf.RoundToInt(((eliteDef.damageBoostCoefficient * 0.5f) - 1f) * 10f)));
         }
 
         private void CombatSquad_onDefeatedServer()
@@ -264,7 +302,7 @@ namespace Sandswept.Interactables.Regular
 
         public IEnumerator SpawnEnemies()
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(1f);
             scriptedCombatEncounter.BeginEncounter();
         }
 
@@ -279,14 +317,14 @@ namespace Sandswept.Interactables.Regular
             {
                 GenericPickupController.CreatePickupInfo info = new()
                 {
-                    position = transform.position + new Vector3(0, 3f, 0),
+                    position = transform.position + new Vector3(0, 8f, 0),
                     prefabOverride = Paths.GameObject.OptionPickup,
                     rotation = Quaternion.identity,
-                    pickupIndex = PickupCatalog.FindPickupIndex(ItemTier.Lunar),
-                    pickerOptions = GenerateOptions()
+                    pickupIndex = PickupCatalog.FindPickupIndex(ItemTier.Tier2),
+                    pickerOptions = GenerateOptions(),
                 };
 
-                PickupDropletController.CreatePickupDroplet(info, transform.position + new Vector3(0, 3f, 0), vector);
+                PickupDropletController.CreatePickupDroplet(info, transform.position + new Vector3(0, 8f, 0), vector);
                 vector = quaternion * vector;
             }
         }
