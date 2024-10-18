@@ -6,8 +6,6 @@ namespace Sandswept.Items.Greens
     [ConfigSection("Items :: Pocket Plutonium")]
     public class PocketPlutonium : ItemBase<PocketPlutonium>
     {
-        // I see you copied noop's wool code trolley
-
         public override string ItemName => "Pocket Plutonium";
 
         public override string ItemLangTokenName => "POCKET_PLUTONIUM";

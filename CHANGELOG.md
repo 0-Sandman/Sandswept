@@ -17,13 +17,14 @@
   * Nerfed Bleeding Witness Stack DoT Healing from 0.4% to 0.33%.
   * Fixed Nuclear Salvo!?!??!
 * Equipment
-  * Added Mushroom Lunar (name to be changed)
-  * Added Twinblade (name to be changed)
+  * Added Galvanic Cell Shield
+  * Added Corrupted Catalyst
   * Fixed The Sand Sweeper throwing an NRE
 * Interactables
   * Added Fallen Survivor
   * Added Shrine of Ruin
   * Added Shrine of Sacrifice
+  * Added Shrine of The Future
 * Elites
   * Added item displays to Motivating
   * Added item displays to Osmium

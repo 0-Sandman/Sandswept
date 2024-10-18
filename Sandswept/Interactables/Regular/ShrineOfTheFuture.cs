@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using static RoR2.CombatDirector;
 
@@ -51,6 +52,8 @@ namespace Sandswept.Interactables.Regular
             prefab.RemoveComponent<ShrineCombatBehavior>();
             prefab.RemoveComponent<CombatDirector>();
 
+            prefab.AddComponent<ShrineOfTheFutureController>();
+
             prefab.AddComponent<UnityIsAFuckingPieceOfShit3>();
 
             interactableSpawnCard.prefab = prefab;
@@ -59,14 +62,14 @@ namespace Sandswept.Interactables.Regular
             combatSquad.grantBonusHealthInMultiplayer = true;
 
             var spawnInfos = new ScriptedCombatEncounter.SpawnInfo[8];
-            spawnInfos[0] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscBeetleGuard };
-            spawnInfos[1] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscBell };
-            spawnInfos[2] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscClayGrenadier };
-            spawnInfos[3] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscClayBruiser };
-            spawnInfos[4] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscLemurianBruiser };
-            spawnInfos[5] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscGreaterWisp };
-            spawnInfos[6] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscParent };
-            spawnInfos[7] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscGolem };
+            spawnInfos[0] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscBeetleGuard };
+            spawnInfos[1] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscBell };
+            spawnInfos[2] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscClayGrenadier };
+            spawnInfos[3] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscClayBruiser };
+            spawnInfos[4] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscLemurianBruiser };
+            spawnInfos[5] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscGreaterWisp };
+            spawnInfos[6] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscParent };
+            spawnInfos[7] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscGolem };
 
             // sorry for hardcoding :<
 
@@ -108,15 +111,64 @@ namespace Sandswept.Interactables.Regular
     {
         public PurchaseInteraction purchaseInteraction;
         public ShrineOfTheFutureController shrineOfTheFutureController;
-        public CombatSquad combatSquad;
 
         public void Start()
         {
             shrineOfTheFutureController = GetComponent<ShrineOfTheFutureController>();
             purchaseInteraction = GetComponent<PurchaseInteraction>();
             purchaseInteraction.onPurchase.AddListener(SoTrue);
+        }
+
+        public void SoTrue(Interactor interactor)
+        {
+            shrineOfTheFutureController.AddShrineStack(interactor);
+        }
+    }
+
+    public class ShrineOfTheFutureController : ShrineBehavior
+    {
+        public int maxPurchaseCount = 1;
+
+        public float costMultiplierPerPurchase;
+
+        public Transform symbolTransform;
+
+        private PurchaseInteraction purchaseInteraction;
+
+        private int purchaseCount;
+
+        private float refreshTimer;
+
+        private const float refreshDuration = 2f;
+
+        private bool waitingForRefresh;
+
+        public ScriptedCombatEncounter scriptedCombatEncounter;
+        public CombatSquad combatSquad;
+
+        public override int GetNetworkChannel()
+        {
+            return RoR2.Networking.QosChannelIndex.defaultReliable.intVal;
+        }
+
+        private void Start()
+        {
+            // Main.ModLogger.LogError("shrine sacrifice behavior start");
+            purchaseInteraction = GetComponent<PurchaseInteraction>();
+            symbolTransform = transform.Find("Symbol");
+
+            scriptedCombatEncounter = GetComponent<ScriptedCombatEncounter>();
+
+            combatSquad = GetComponent<CombatSquad>();
             combatSquad.onMemberAddedServer += CombatSquad_onMemberAddedServer;
             combatSquad.onDefeatedServer += CombatSquad_onDefeatedServer;
+
+            var randomIndex1 = scriptedCombatEncounter.spawns[Run.instance.stageRng.RangeInt(0, scriptedCombatEncounter.spawns.Length)];
+            var randomIndex2 = scriptedCombatEncounter.spawns[Run.instance.stageRng.RangeInt(0, scriptedCombatEncounter.spawns.Length)];
+
+            ScriptedCombatEncounter.SpawnInfo[] randomSpawn = new ScriptedCombatEncounter.SpawnInfo[2] { randomIndex1, randomIndex2 };
+
+            scriptedCombatEncounter.spawns = randomSpawn;
         }
 
         public Dictionary<EliteDef, EquipmentIndex> GetRandomT2EliteDefToEquipmentIndexPair()
@@ -148,46 +200,7 @@ namespace Sandswept.Interactables.Regular
 
         private void CombatSquad_onDefeatedServer()
         {
-            shrineOfTheFutureController.SpawnRewards();
-        }
-
-        public void SoTrue(Interactor interactor)
-        {
-            shrineOfTheFutureController.AddShrineStack(interactor);
-        }
-    }
-
-    public class ShrineOfTheFutureController : ShrineBehavior
-    {
-        public int maxPurchaseCount = 1;
-
-        public float costMultiplierPerPurchase;
-
-        public Transform symbolTransform;
-
-        private PurchaseInteraction purchaseInteraction;
-
-        private int purchaseCount;
-
-        private float refreshTimer;
-
-        private const float refreshDuration = 2f;
-
-        private bool waitingForRefresh;
-
-        public ScriptedCombatEncounter scriptedCombatEncounter;
-
-        public override int GetNetworkChannel()
-        {
-            return RoR2.Networking.QosChannelIndex.defaultReliable.intVal;
-        }
-
-        private void Start()
-        {
-            // Main.ModLogger.LogError("shrine sacrifice behavior start");
-            purchaseInteraction = GetComponent<PurchaseInteraction>();
-            symbolTransform = transform.Find("Symbol");
-            scriptedCombatEncounter = GetComponent<ScriptedCombatEncounter>();
+            SpawnRewards();
         }
 
         public void FixedUpdate()
@@ -218,7 +231,7 @@ namespace Sandswept.Interactables.Regular
 
             // Main.ModLogger.LogError("interactor body is " + interactorBody);
 
-            scriptedCombatEncounter.BeginEncounter();
+            StartCoroutine(SpawnEnemies());
 
             if (interactorBody)
             {
@@ -247,6 +260,12 @@ namespace Sandswept.Interactables.Regular
                 symbolTransform.gameObject.SetActive(false);
                 CallRpcSetPingable(false);
             }
+        }
+
+        public IEnumerator SpawnEnemies()
+        {
+            yield return new WaitForSeconds(0.5f);
+            scriptedCombatEncounter.BeginEncounter();
         }
 
         public void SpawnRewards()
