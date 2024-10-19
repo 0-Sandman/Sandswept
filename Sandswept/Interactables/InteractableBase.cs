@@ -28,6 +28,7 @@ namespace Sandswept.Interactables
         public virtual List<Stage> Stages { get; } = new() { Stage.DistantRoost, Stage.TitanicPlains, Stage.SiphonedForest, Stage.VerdantFalls, Stage.ViscousFalls, Stage.ShatteredAbodes, Stage.DisturbedImpact, Stage.AbandonedAqueduct, Stage.WetlandAspect, Stage.AphelianSanctuary, Stage.ReformedAltar, Stage.RallypointDelta, Stage.ScorchedAcres, Stage.SulfurPools, Stage.TreebornColony, Stage.GoldenDieback, Stage.AbyssalDepths, Stage.SirensCall, Stage.SunderedGrove, Stage.SkyMeadow, Stage.HelminthHatchery };
         public virtual bool SpawnInSimulacrum { get; } = false;
         public virtual bool SpawnInVoid { get; } = false;
+        public virtual bool SpawnOnCommencement { get; } = false;
         public virtual bool SkipOnSacrifice { get; } = false;
         public virtual float SacrificeWeightMultiplier { get; } = 1f;
         public virtual bool OrientToFloor { get; } = true;

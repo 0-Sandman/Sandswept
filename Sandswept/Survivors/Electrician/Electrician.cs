@@ -21,7 +21,7 @@ namespace Sandswept.Survivors.Electrician
         public static DamageAPI.ModdedDamageType Grounding = DamageAPI.ReserveDamageType();
 
         public override void LoadAssets()
-        {
+        {   
             base.LoadAssets();
 
             Body = Main.Assets.LoadAsset<GameObject>("ElectricianBody.prefab");
@@ -66,7 +66,7 @@ namespace Sandswept.Survivors.Electrician
             sphereVFX.transform.position = Vector3.zero;
             sphereVFX.transform.localPosition = Vector3.zero;
 
-            GameObject tempestSphereIndicator = PrefabAPI.InstantiateClone(Paths.GameObject.VagrantNovaAreaIndicator, "TempestSphereIndicator");
+            GameObject tempestSphereIndicator = PrefabAPI.InstantiateClone(Paths.GameObject.VagrantNovaAreaIndicator, "TempestSphereIndicator", false);
             tempestSphereIndicator.GetComponentInChildren<ParticleSystemRenderer>().gameObject.SetActive(false);
             tempestSphereIndicator.GetComponent<MeshRenderer>().sharedMaterials = new Material[] {
                 Paths.Material.matWarbannerSphereIndicator,
@@ -77,7 +77,7 @@ namespace Sandswept.Survivors.Electrician
             tempestSphereIndicator.transform.localScale = new(14f, 14f, 14f);
             tempestSphereIndicator.RemoveComponent<AnimateShaderAlpha>();
 
-            GameObject tempestOrb = PrefabAPI.InstantiateClone(Paths.GameObject.VoidSurvivorChargeMegaBlaster, "TempestOrb");
+            GameObject tempestOrb = PrefabAPI.InstantiateClone(Paths.GameObject.VoidSurvivorChargeMegaBlaster, "TempestOrb", false);
             tempestOrb.transform.Find("Base").gameObject.SetActive(false);
             tempestOrb.transform.Find("Base (1)").gameObject.SetActive(false);
             tempestOrb.transform.Find("Sparks, In").GetComponent<ParticleSystemRenderer>().sharedMaterial = Paths.Material.matLoaderCharging;

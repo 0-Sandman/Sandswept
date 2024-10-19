@@ -5,11 +5,13 @@
   * Added
 * Ranger
   * Added Emotes support
+  * Added Alt Passive - Overcharged Speed
+  * Renamed Base Passive to Overcharged Protection
 * Enemies
   * Added Cannonball Jellyfish
 * Items
   * Added Drifting Perception
-  * Added Festering Hunger
+  * Added Festering Hunger (most likely doesn't work correctly)
   * Added Their Prominence
   * Buffed Bleeding Witness Hemorrhage Chance from 5% to 8%.
   * Buffed Bleeding Witness Hemorrhage Damage from 480% to 500%.
@@ -17,13 +19,14 @@
   * Nerfed Bleeding Witness Stack DoT Healing from 0.4% to 0.33%.
   * Fixed Nuclear Salvo!?!??!
 * Equipment
-  * Added Mushroom Lunar (name to be changed)
-  * Added Twinblade (name to be changed)
+  * Added Galvanic Cell Shield
+  * Added Corrupted Catalyst
   * Fixed The Sand Sweeper throwing an NRE
 * Interactables
-  * Added Fallen Survivor
+  * ~~Added Fallen Survivor~~
   * Added Shrine of Ruin
   * Added Shrine of Sacrifice
+  * Added Shrine of The Future
 * Elites
   * Added item displays to Motivating
   * Added item displays to Osmium
@@ -32,6 +35,7 @@
 * General
   * Fixed a bunch of sounds being global
 * Ranger
+  * (Accidentally) Added Alt M2 - Galvanize
   * Buffed Charge to also give 1.5 armor per stack
 * Items
   * Changed Millenium VFX

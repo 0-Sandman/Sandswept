@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json.Utilities;
+using System;
+using System.Collections;
 using System.Linq;
 using static RoR2.CombatDirector;
 
@@ -37,6 +39,42 @@ namespace Sandswept.Interactables.Regular
         {
             base.Init();
             prefab = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineCombat, "Shrine of the Future", true);
+            var modelBase = prefab.transform.Find("Base");
+            modelBase.transform.localPosition = new(0, 1.1f, 0);
+            var mdl = Main.prodAssets.LoadAsset<GameObject>("assets/sandswept/shrinefuture.fbx");
+            prefab.GetComponent<ModelLocator>().modelTransform = mdl.transform;
+            Object.Destroy(prefab.GetComponent<Highlight>());
+            var hightlight = prefab.AddComponent<MultiHighlight>();
+            hightlight.targetRenderer = mdl.GetComponent<Renderer>();
+            hightlight.others = [mdl.transform.Find("Stem").GetComponent<Renderer>(), mdl.transform.Find("Stem/Crystal").GetComponent<Renderer>()];
+            On.RoR2.InteractionDriver.OnPreRenderOutlineHighlight += (orig, highlight) =>
+            {
+                var cnt = highlight.highlightQueue.Count;
+                orig(highlight);
+                if (highlight.highlightQueue.Count == cnt) return;
+                var info = highlight.highlightQueue.Last();
+                var source = Highlight.readonlyHighlightList.FirstOrDefault(x => x.targetRenderer == info.renderer);
+                if (source == null || source is not MultiHighlight mhl) return;
+                foreach (var r in mhl.others) highlight.highlightQueue.Enqueue(new OutlineHighlight.HighlightInfo
+                    { renderer = r, color = info.color });
+            };
+            mdl.name = "mdlShrineOfTheFuture";
+            mdl.transform.localScale = Vector3.one * 70;
+            mdl.AddComponent<EntityLocator>().entity = prefab;
+            mdl.AddComponent<ChildLocator>().transformPairs = [new() { name = "FireworkOrigin", transform = prefab.transform.Find("Symbol") }];
+            var from = modelBase.Find("mdlShrineCombat").GetComponent<BoxCollider>();
+            var to = mdl.AddComponent<BoxCollider>();
+            to.center = Vector3.zero; to.size = Vector3.one * 0.04f;
+            mdl.transform.Find("Stem").AddComponent<BoxCollider>().size = Vector3.zero;
+            mdl.transform.Find("Stem/Crystal").AddComponent<BoxCollider>().size = Vector3.zero;
+            mdl.transform.Find("Stem/Crystal").GetComponent<MeshRenderer>().material = Main.hifuSandswept.LoadAsset<Material>("assets/sandswept/interactables/shrineofthefuture/matshrineofthefuturediamonddiffuse2.mat");
+            modelBase.Find("mdlShrineCombat").SetParent(null);
+            mdl.transform.parent = modelBase;
+            var symbol = prefab.transform.Find("Symbol");
+            symbol.localPosition = new(0, 9, 0);
+            var meshRenderer = symbol.GetComponent<MeshRenderer>();
+            meshRenderer.material.mainTexture = Main.prodAssets.LoadAsset<Texture2D>("assets/sandswept/shrinefutureicon.png");
+            meshRenderer.material.SetColor("_TintColor", new Color32(0, 152, 110, 255));
 
             var purchaseInteraction = prefab.GetComponent<PurchaseInteraction>();
             purchaseInteraction.displayNameToken = "SANDSWEPT_SHRINE_FUTURE_NAME";
@@ -50,7 +88,7 @@ namespace Sandswept.Interactables.Regular
 
             prefab.RemoveComponent<ShrineCombatBehavior>();
             prefab.RemoveComponent<CombatDirector>();
-
+            prefab.AddComponent<ShrineOfTheFutureController>();
             prefab.AddComponent<UnityIsAFuckingPieceOfShit3>();
 
             interactableSpawnCard.prefab = prefab;
@@ -59,14 +97,14 @@ namespace Sandswept.Interactables.Regular
             combatSquad.grantBonusHealthInMultiplayer = true;
 
             var spawnInfos = new ScriptedCombatEncounter.SpawnInfo[8];
-            spawnInfos[0] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscBeetleGuard };
-            spawnInfos[1] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscBell };
-            spawnInfos[2] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscClayGrenadier };
-            spawnInfos[3] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscClayBruiser };
-            spawnInfos[4] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscLemurianBruiser };
-            spawnInfos[5] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscGreaterWisp };
-            spawnInfos[6] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscParent };
-            spawnInfos[7] = new() { cullChance = 100f, spawnCard = Utils.Assets.CharacterSpawnCard.cscGolem };
+            spawnInfos[0] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscBeetleGuard };
+            spawnInfos[1] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscBell };
+            spawnInfos[2] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscClayGrenadier };
+            spawnInfos[3] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscClayBruiser };
+            spawnInfos[4] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscLemurianBruiser };
+            spawnInfos[5] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscGreaterWisp };
+            spawnInfos[6] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscParent };
+            spawnInfos[7] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscGolem };
 
             // sorry for hardcoding :<
 
@@ -100,55 +138,33 @@ namespace Sandswept.Interactables.Regular
 
             prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo.Info = inspectInfo;
 
+            On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
+
             PostInit();
         }
+
+        private void ClassicStageInfo_RebuildCards(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self, DirectorCardCategorySelection forcedMonsterCategory, DirectorCardCategorySelection forcedInteractableCategory)
+        {
+            orig(self, forcedMonsterCategory, forcedInteractableCategory);
+            if (Run.instance.stageClearCount >= 6)
+            {
+                self.interactableCategories.RemoveCardsThatFailFilter(x => x.spawnCard != interactableSpawnCard);
+            }
+        }
     }
+
+    public class MultiHighlight: Highlight { public Renderer[] others = []; }
 
     public class UnityIsAFuckingPieceOfShit3 : MonoBehaviour
     {
         public PurchaseInteraction purchaseInteraction;
         public ShrineOfTheFutureController shrineOfTheFutureController;
-        public CombatSquad combatSquad;
 
         public void Start()
         {
             shrineOfTheFutureController = GetComponent<ShrineOfTheFutureController>();
             purchaseInteraction = GetComponent<PurchaseInteraction>();
             purchaseInteraction.onPurchase.AddListener(SoTrue);
-            combatSquad.onMemberAddedServer += CombatSquad_onMemberAddedServer;
-            combatSquad.onDefeatedServer += CombatSquad_onDefeatedServer;
-        }
-
-        public Dictionary<EliteDef, EquipmentIndex> GetRandomT2EliteDefToEquipmentIndexPair()
-        {
-            var tier2Elites = EliteAPI.VanillaEliteTiers[3].eliteTypes;
-            var randomElite = tier2Elites[Run.instance.runRNG.RangeInt(0, tier2Elites.Length)];
-            return new Dictionary<EliteDef, EquipmentIndex>()
-            {
-                { randomElite, randomElite.eliteEquipmentDef.equipmentIndex }
-            };
-        }
-
-        private void CombatSquad_onMemberAddedServer(CharacterMaster master)
-        {
-            var inventory = master.inventory;
-            if (!inventory)
-            {
-                return;
-            }
-
-            var randomPair = GetRandomT2EliteDefToEquipmentIndexPair();
-            var equipmentIndex = randomPair.Values.First();
-            var eliteDef = randomPair.Keys.First();
-
-            inventory.SetEquipmentIndex(equipmentIndex);
-            inventory.GiveItem(RoR2Content.Items.BoostHp, Mathf.RoundToInt((eliteDef.healthBoostCoefficient - 1f) * 10f));
-            inventory.GiveItem(RoR2Content.Items.BoostDamage, Mathf.RoundToInt((eliteDef.damageBoostCoefficient - 1f) * 10f));
-        }
-
-        private void CombatSquad_onDefeatedServer()
-        {
-            shrineOfTheFutureController.SpawnRewards();
         }
 
         public void SoTrue(Interactor interactor)
@@ -176,6 +192,7 @@ namespace Sandswept.Interactables.Regular
         private bool waitingForRefresh;
 
         public ScriptedCombatEncounter scriptedCombatEncounter;
+        public CombatSquad combatSquad;
 
         public override int GetNetworkChannel()
         {
@@ -187,7 +204,55 @@ namespace Sandswept.Interactables.Regular
             // Main.ModLogger.LogError("shrine sacrifice behavior start");
             purchaseInteraction = GetComponent<PurchaseInteraction>();
             symbolTransform = transform.Find("Symbol");
+
             scriptedCombatEncounter = GetComponent<ScriptedCombatEncounter>();
+
+            combatSquad = GetComponent<CombatSquad>();
+            combatSquad.onMemberAddedServer += CombatSquad_onMemberAddedServer;
+            combatSquad.onDefeatedServer += CombatSquad_onDefeatedServer;
+
+            var randomIndex1 = scriptedCombatEncounter.spawns[Run.instance.stageRng.RangeInt(0, scriptedCombatEncounter.spawns.Length)];
+            // var randomIndex2 = scriptedCombatEncounter.spawns[Run.instance.stageRng.RangeInt(0, scriptedCombatEncounter.spawns.Length)];
+
+            // ScriptedCombatEncounter.SpawnInfo[] randomSpawn = new ScriptedCombatEncounter.SpawnInfo[2] { randomIndex1, randomIndex2 };
+            ScriptedCombatEncounter.SpawnInfo[] randomSpawn = new ScriptedCombatEncounter.SpawnInfo[1] { randomIndex1 };
+
+            scriptedCombatEncounter.spawns = randomSpawn;
+        }
+
+        public Dictionary<EliteDef, EquipmentIndex> GetRandomT2EliteDefToEquipmentIndexPair()
+        {
+            var tier2EliteTypes = EliteAPI.VanillaEliteTiers[4].eliteTypes;
+
+            var tier2ElitesExceptFuckOffTwisted = tier2EliteTypes.Where(x => x.eliteEquipmentDef != Paths.EquipmentDef.EliteBeadEquipment).ToList();
+
+            var randomElite = tier2ElitesExceptFuckOffTwisted[Run.instance.runRNG.RangeInt(0, tier2ElitesExceptFuckOffTwisted.Count)];
+            return new Dictionary<EliteDef, EquipmentIndex>()
+            {
+                { randomElite, randomElite.eliteEquipmentDef.equipmentIndex }
+            };
+        }
+
+        private void CombatSquad_onMemberAddedServer(CharacterMaster master)
+        {
+            var inventory = master.inventory;
+            if (!inventory)
+            {
+                return;
+            }
+
+            var randomPair = GetRandomT2EliteDefToEquipmentIndexPair();
+            var equipmentIndex = randomPair.Values.First();
+            var eliteDef = randomPair.Keys.First();
+
+            inventory.SetEquipmentIndex(equipmentIndex);
+            inventory.GiveItem(RoR2Content.Items.BoostHp, Mathf.Max(0, Mathf.RoundToInt(((eliteDef.healthBoostCoefficient * 0.5f) - 1f) * 10f)));
+            inventory.GiveItem(RoR2Content.Items.BoostDamage, Mathf.Max(0, Mathf.RoundToInt(((eliteDef.damageBoostCoefficient * 0.5f) - 1f) * 10f)));
+        }
+
+        private void CombatSquad_onDefeatedServer()
+        {
+            SpawnRewards();
         }
 
         public void FixedUpdate()
@@ -218,7 +283,7 @@ namespace Sandswept.Interactables.Regular
 
             // Main.ModLogger.LogError("interactor body is " + interactorBody);
 
-            scriptedCombatEncounter.BeginEncounter();
+            StartCoroutine(SpawnEnemies());
 
             if (interactorBody)
             {
@@ -249,6 +314,12 @@ namespace Sandswept.Interactables.Regular
             }
         }
 
+        public IEnumerator SpawnEnemies()
+        {
+            yield return new WaitForSeconds(1f);
+            scriptedCombatEncounter.BeginEncounter();
+        }
+
         public void SpawnRewards()
         {
             int itemCount = Run.instance.participatingPlayerCount * ShrineOfTheFuture.itemCount;
@@ -260,14 +331,14 @@ namespace Sandswept.Interactables.Regular
             {
                 GenericPickupController.CreatePickupInfo info = new()
                 {
-                    position = transform.position + new Vector3(0, 3f, 0),
+                    position = transform.position + new Vector3(0, 8f, 0),
                     prefabOverride = Paths.GameObject.OptionPickup,
                     rotation = Quaternion.identity,
-                    pickupIndex = PickupCatalog.FindPickupIndex(ItemTier.Lunar),
-                    pickerOptions = GenerateOptions()
+                    pickupIndex = PickupCatalog.FindPickupIndex(ItemTier.Tier2),
+                    pickerOptions = GenerateOptions(),
                 };
 
-                PickupDropletController.CreatePickupDroplet(info, transform.position + new Vector3(0, 3f, 0), vector);
+                PickupDropletController.CreatePickupDroplet(info, transform.position + new Vector3(0, 8f, 0), vector);
                 vector = quaternion * vector;
             }
         }

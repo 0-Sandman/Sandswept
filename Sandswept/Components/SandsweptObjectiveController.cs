@@ -14,7 +14,7 @@ namespace Sandswept.Components
         public static void Init()
         {
             LanguageAPI.Add("SANDSWEPT_OBJECTIVE_CHARGE_TP_EARLY", "Find and activate the <style=cDeath>Teleporter <sprite name=\"TP\" tint=1></style> within <style=cDeath>{0}s!</style>");
-            LanguageAPI.Add("SANDSWEPT_OBJECTIVE_GET_UP_TO_X_PICKUPS", "Find up to <style=cIsUtility>{0} pickups</style>");
+            LanguageAPI.Add("SANDSWEPT_OBJECTIVE_GET_UP_TO_X_PICKUPS", "Find up to <style=cIsUtility>{0} pickups</style>.");
             On.RoR2.Stage.Start += Stage_Start;
             GlobalEventManager.OnInteractionsGlobal += GlobalEventManager_OnInteractionsGlobal;
         }

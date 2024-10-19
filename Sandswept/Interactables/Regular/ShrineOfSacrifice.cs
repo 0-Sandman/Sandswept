@@ -67,7 +67,8 @@ namespace Sandswept.Interactables.Regular
 
                 payCost = delegate (CostTypeDef def, CostTypeDef.PayCostContext c)
                 {
-                    if (c.activatorBody) {
+                    if (c.activatorBody)
+                    {
                         int count = c.activatorBody.GetBuffCount(RoR2Content.Buffs.PermanentCurse);
                         c.activatorBody.SetBuffCount(RoR2Content.Buffs.PermanentCurse.buffIndex, count + curseCost);
 
@@ -142,7 +143,7 @@ namespace Sandswept.Interactables.Regular
                 TitleColor = Color.white
             };
             // add this to base later tbh?
-            LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_DESCRIPTION", "When activated by a survivor, the Shrine of Sacrifice consumes " + curseCost + "% of the survivors maximum health in exchange for " + itemCount + " items.");
+            LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_DESCRIPTION", "When activated by a survivor, the Shrine of Sacrifice consumes " + curseCost + "% of the survivors maximum health in exchange for " + itemCount + " copies of a random common item.");
 
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE_2P", "<style=cShrine>Your time has been sacrificed.</color>");
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE", "<style=cShrine>{0}'s time has been sacrificed.</color>");
