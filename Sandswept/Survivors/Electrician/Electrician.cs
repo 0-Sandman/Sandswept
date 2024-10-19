@@ -329,7 +329,7 @@ namespace Sandswept.Survivors.Electrician
 
     public class TempestBallController : MonoBehaviour
     {
-        public float ticksPerSecond = 10;
+        public float ticksPerSecond = 6;
         public SphereCollider sphere;
         public LineRenderer lr;
         private float stopwatch = 0f;
@@ -369,7 +369,7 @@ namespace Sandswept.Survivors.Electrician
                 baseDamage = damage.damage / ticksPerSecond,
                 crit = damage.crit,
                 damageType = damage.damageType,
-                procCoefficient = 0.6f,
+                procCoefficient = 1f,
                 teamIndex = controller.teamFilter.teamIndex,
                 losType = BlastAttack.LoSType.None,
                 falloffModel = BlastAttack.FalloffModel.None
