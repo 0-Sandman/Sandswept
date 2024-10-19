@@ -27,6 +27,8 @@
 | <img src="https://i.postimg.cc/0jYnvQX6/tex-Heat-Sink.png" width="64"/> | **Special:** Heat Sink | Agile. Ignite. Release a fire nova around you that deals 300% base damage, increasing up to 900% in full heat. Consume all heat, gaining an attack speed boost, and exit overdrive. | Has a radius of 16m, and a proc coefficient of 1.0. Increases attack speed by 50% for up to 5s, duration increases per 1% of heat exponentially (0.05 * ((heat / 1.51991108) ^ 1.1). Restocks 50% of your secondary charges (rounded down), and 50% of your utility charges (rounded up), can be used to quickly combo. |
 | <img src="https://i.postimg.cc/52w9KFnf/heat-Mechanic.png" width="64"/> | **Heat Mechanic** | While in overdrive, you passively build up heat and healing reduction. While in full heat, increase base damage by a lot, which is further amplified by Charge, but take increasingly high self-damage. | While in Overdrive, you passively build up 12% heat per second, and gain a 10% healing reduction debuff per 10% of heat. Additionally, after being in full heat for at least one second your base damage increases by 30% per second, which is amplified by 10% linearly for every Charge (so, up to 60% base damage per second at 10 Charge), however you take 1.3% of your maximum health as self-damage 5 times a second, which bypasses armor and block, and increases by 40% for every second spent in full heat. Base damage gain and self-damage reset once you exit Overdrive. Healing reduction lingers for 2s afterwards. |
 
+survivor readme todo
+
 # Elites
 | Icon | Elite | Description | Tier |
 |:-|-|------|-|
@@ -58,16 +60,21 @@
 |  |  |  |
 |<img src="https://i.postimg.cc/sfH2YN1y/tex-Fractured-Timepiece.png" width="96"/> | **Their  Prominence** | Using a Shrine has a 35% (+15% per stack, hyperbolic) chance to invite the challenge of the Mountain. | Lunar |
 
+item readme todo
+
 # Equipment
 | Icon | Equipment | Description | Tier |
 |:-|-|------|-|
 | <img src="https://i.postimg.cc/90551q0y/tex-Sandsw-eeper.png" width="64"/> | **The Sand Sweeper** | Pushes all enemies within 20m, dealing up to 500% damage and stunning for up to 6 seconds based on the distance. | Orange |
 
-# Interactables
-| Icon | Name | Description | Rarity |
-|:-|-|------|-|
-|<img src="https://i.postimg.cc/gkCDYxzs/tex-Shrine-Of-Sacrifice.png" width="64"/> | **Shrine of Sacrifice** | Gain 20% curse to drop 2 copies of random white item. Usable once. | Common |
+equipment readme todo
 
+# Interactables
+| Icon | Name | Description | Details |
+|:-|-|------|-|
+|<img src="https://i.postimg.cc/gkCDYxzs/tex-Shrine-Of-Sacrifice.png" width="64"/> | **Shrine of Sacrifice** | Gain 20% curse to drop 2 copies of a random common item. | Usable only once, can only spawn once per stage, costs 20 credits. |
+| image tbd | **Shrine of Ruin** | Give 10 common items to corrupt the next stage, making it a simulacrum variant that exclusively drops void items and exclusively spawns void enemies. | Usable only once, can only spawn once per stage, can only spawn on stages >= 2, costs 45 credits. Replaces *all* loot tables with a custom void one that has a 50% chance of rolling a void common, 34% chance of rolling a void uncommon, 8% chance of rolling a void legendary and 8% chance of rolling a void boss item. |
+| image tbd | **Shrine of The Future** | Summon a random Tier 2 Elite Miniboss that upon being defeated, drops 4 item potentials per player. | Usable only once, can only spawn once per stage, can only spawn on stages >= 3 and <= 5, costs 40 credits. Item potentials have a choice between a random white and a random green. |
 # Credits
 
 ### Support us on KOFI! https://linktr.ee/SandsweptTeam
