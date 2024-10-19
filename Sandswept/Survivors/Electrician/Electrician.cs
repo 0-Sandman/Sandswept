@@ -27,14 +27,18 @@ namespace Sandswept.Survivors.Electrician
             Body = Main.Assets.LoadAsset<GameObject>("ElectricianBody.prefab");
 
             Body.GetComponent<CameraTargetParams>().cameraParams = Paths.CharacterCameraParams.ccpStandard;
-
+            var networkIdentity = Body.GetComponent<NetworkIdentity>();
+            networkIdentity.localPlayerAuthority = true;
+            networkIdentity.enabled = true;
+            networkIdentity.serverOnly = false;
+            
             var cb = Body.GetComponent<CharacterBody>();
             cb._defaultCrosshairPrefab = Paths.GameObject.StandardCrosshair;
             cb.preferredPodPrefab = Paths.GameObject.RoboCratePod;
 
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdElectrician.asset");
             SurvivorDef.cachedName = "Electrician"; // for eclipse fix
-
+            PrefabAPI.RegisterNetworkPrefab(Body);
             Master = PrefabAPI.InstantiateClone(Paths.GameObject.EngiMonsterMaster, "ElectricianMaster");
 
             SkillLocator locator = Body.GetComponent<SkillLocator>();

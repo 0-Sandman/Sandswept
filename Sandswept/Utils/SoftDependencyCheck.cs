@@ -4,6 +4,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using RoR2;
 using On.RoR2;
+using Sandswept.Survivors.Ranger;
+using Sandswept.Survivors.Electrician;
 
 namespace Sandswept.Utils
 {
@@ -11,6 +13,7 @@ namespace Sandswept.Utils
     {
         private static bool? _enabled;
         private static string bonemapperName;
+        
 
         public static bool enabled
         {
@@ -32,10 +35,14 @@ namespace Sandswept.Utils
             // var ranger = RoR2.SurvivorCatalog.FindSurvivorDef("RangerBody");
 
             var skele = Main.dgoslingAssets.LoadAsset<GameObject>("mdlRangerEmote");
-            EmotesAPI.CustomEmotesAPI.ImportArmature(Main.Assets.LoadAsset<GameObject>("RangerBody.prefab"), skele);
+            EmotesAPI.CustomEmotesAPI.ImportArmature(Ranger.instance.Body, skele);
+           var skele2 = Main.dgoslingAssets.LoadAsset<GameObject>("ElecEmote");
+           EmotesAPI.CustomEmotesAPI.ImportArmature(Electrician.instance.Body,skele2 ,jank:true);
             var boneMapper = skele.GetComponentInChildren<BoneMapper>();
             boneMapper.scale = 0.9f;
+         
             bonemapperName = boneMapper.name;
+            
             EmotesAPI.CustomEmotesAPI.animChanged += CustomEmoteAPICheck.CustomEmotesAPI_animChanged;
             /*
             foreach(var item in RoR2.SurvivorCatalog.allSurvivorDefs)
@@ -64,6 +71,7 @@ namespace Sandswept.Utils
                 else
                     gun.SetActive(true);
             }
+            
         }
     }
 }
