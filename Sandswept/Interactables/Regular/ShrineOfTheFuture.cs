@@ -56,7 +56,7 @@ namespace Sandswept.Interactables.Regular
                 var source = Highlight.readonlyHighlightList.FirstOrDefault(x => x.targetRenderer == info.renderer);
                 if (source == null || source is not MultiHighlight mhl) return;
                 foreach (var r in mhl.others) highlight.highlightQueue.Enqueue(new OutlineHighlight.HighlightInfo
-                    { renderer = r, color = info.color });
+                { renderer = r, color = info.color });
             };
             mdl.name = "mdlShrineOfTheFuture";
             mdl.transform.localScale = Vector3.one * 70;
@@ -153,7 +153,8 @@ namespace Sandswept.Interactables.Regular
         }
     }
 
-    public class MultiHighlight: Highlight { public Renderer[] others = []; }
+    public class MultiHighlight : Highlight
+    { public Renderer[] others = []; }
 
     public class UnityIsAFuckingPieceOfShit3 : MonoBehaviour
     {
