@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Utilities;
+using System;
 using System.Collections;
 using System.Linq;
 using static RoR2.CombatDirector;
@@ -38,31 +39,41 @@ namespace Sandswept.Interactables.Regular
         {
             base.Init();
             prefab = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineCombat, "Shrine of the Future", true);
-
             var modelBase = prefab.transform.Find("Base");
-            modelBase.localPosition = new Vector3(0f, 6f, 0f);
-
-            var mdl = modelBase.Find("mdlShrineCombat").gameObject;
+            modelBase.transform.localPosition = new(0, 1.1f, 0);
+            var mdl = Main.prodAssets.LoadAsset<GameObject>("assets/sandswept/shrinefuture.fbx");
+            prefab.GetComponent<ModelLocator>().modelTransform = mdl.transform;
+            Object.Destroy(prefab.GetComponent<Highlight>());
+            var hightlight = prefab.AddComponent<MultiHighlight>();
+            hightlight.targetRenderer = mdl.GetComponent<Renderer>();
+            hightlight.others = [mdl.transform.Find("Stem").GetComponent<Renderer>(), mdl.transform.Find("Stem/Crystal").GetComponent<Renderer>()];
+            On.RoR2.InteractionDriver.OnPreRenderOutlineHighlight += (orig, highlight) =>
+            {
+                var cnt = highlight.highlightQueue.Count;
+                orig(highlight);
+                if (highlight.highlightQueue.Count == cnt) return;
+                var info = highlight.highlightQueue.Last();
+                var source = Highlight.readonlyHighlightList.FirstOrDefault(x => x.targetRenderer == info.renderer);
+                if (source == null || source is not MultiHighlight mhl) return;
+                foreach (var r in mhl.others) highlight.highlightQueue.Enqueue(new OutlineHighlight.HighlightInfo
+                    { renderer = r, color = info.color });
+            };
             mdl.name = "mdlShrineOfTheFuture";
-            mdl.transform.localScale = Vector3.one * 400f;
-
-            mdl.RemoveComponent<EntityLocator>();
-            var newEntityLocator = modelBase.AddComponent<EntityLocator>();
-            newEntityLocator.entity = prefab;
-
-            var collision = mdl.transform.Find("Collision");
-            collision.localScale = Vector3.one / 400f;
-
-            var newMat = Main.hifuSandswept.LoadAsset<Material>("matShrineOfTheFutureDiamondDiffuse.mat");
-            newMat.SetTexture("_FlowHeightRamp", Paths.Texture2D.texRampArcaneCircle);
-
-            mdl.GetComponent<MeshFilter>().sharedMesh = Main.hifuSandswept.LoadAsset<Mesh>("mdlShrineOfTheFuture5.fbx");
-            mdl.GetComponent<MeshRenderer>().sharedMaterial = newMat;
-
+            mdl.transform.localScale = Vector3.one * 70;
+            mdl.AddComponent<EntityLocator>().entity = prefab;
+            mdl.AddComponent<ChildLocator>().transformPairs = [new() { name = "FireworkOrigin", transform = prefab.transform.Find("Symbol") }];
+            var from = modelBase.Find("mdlShrineCombat").GetComponent<BoxCollider>();
+            var to = mdl.AddComponent<BoxCollider>();
+            to.center = Vector3.zero; to.size = Vector3.one * 0.04f;
+            mdl.transform.Find("Stem").AddComponent<BoxCollider>().size = Vector3.zero;
+            mdl.transform.Find("Stem/Crystal").AddComponent<BoxCollider>().size = Vector3.zero;
+            mdl.transform.Find("Stem/Crystal").GetComponent<MeshRenderer>().material = Main.hifuSandswept.LoadAsset<Material>("assets/sandswept/interactables/shrineofthefuture/matshrineofthefuturediamonddiffuse2.mat");
+            modelBase.Find("mdlShrineCombat").SetParent(null);
+            mdl.transform.parent = modelBase;
             var symbol = prefab.transform.Find("Symbol");
-            symbol.localPosition = new(0, 9.5f, 0);
+            symbol.localPosition = new(0, 9, 0);
             var meshRenderer = symbol.GetComponent<MeshRenderer>();
-            meshRenderer.material.mainTexture = Main.prodAssets.LoadAsset<Texture2D>("assets/sandswept/shrinesacrificeicon.png");
+            meshRenderer.material.mainTexture = Main.prodAssets.LoadAsset<Texture2D>("assets/sandswept/shrinefutureicon.png");
             meshRenderer.material.SetColor("_TintColor", new Color32(0, 152, 110, 255));
 
             var purchaseInteraction = prefab.GetComponent<PurchaseInteraction>();
@@ -77,9 +88,7 @@ namespace Sandswept.Interactables.Regular
 
             prefab.RemoveComponent<ShrineCombatBehavior>();
             prefab.RemoveComponent<CombatDirector>();
-
             prefab.AddComponent<ShrineOfTheFutureController>();
-
             prefab.AddComponent<UnityIsAFuckingPieceOfShit3>();
 
             interactableSpawnCard.prefab = prefab;
@@ -143,6 +152,8 @@ namespace Sandswept.Interactables.Regular
             }
         }
     }
+
+    public class MultiHighlight: Highlight { public Renderer[] others = []; }
 
     public class UnityIsAFuckingPieceOfShit3 : MonoBehaviour
     {

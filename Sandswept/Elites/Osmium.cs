@@ -875,8 +875,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
             ContentAddition.AddEffect(distortionVFX);
 
             groundVFX = PrefabAPI.InstantiateClone(Paths.GameObject.PurchaseLockVoid, "Osmium Pull Down VFX", false);
-
-            groundVFX.RemoveComponent<NetworkIdentity>();
+            // groundVFX.RemoveComponent<NetworkIdentity>();
 
             var sphere2 = groundVFX.transform.GetChild(0).GetComponent<MeshRenderer>();
 
