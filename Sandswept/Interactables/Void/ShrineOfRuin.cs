@@ -526,9 +526,7 @@ namespace Sandswept.Interactables.Regular
             return true;
         }
 
-        private void UNetVersion()
-        {
-        }
+        private void UNetVersion() {}
 
         public override bool OnSerialize(NetworkWriter writer, bool forceAll)
         {

@@ -14,6 +14,8 @@ namespace Sandswept.Survivors.Electrician.States
 
             PlayAnimation("Gesture, Override", "ChargeOrb", "Generic.playbackRate", chargeDuration);
             GetModelAnimator().SetBool("chargingOrb", true);
+            Util.PlaySound("Play_vagrant_attack2_charge", gameObject);
+            Util.PlaySound("Play_loader_shift_charge_loop", gameObject);
         }
 
         public override void FixedUpdate()
@@ -48,6 +50,7 @@ namespace Sandswept.Survivors.Electrician.States
             {
                 FireProjectileInfo info = MiscUtils.GetProjectile(Electrician.TempestSphere, damageCoeff, base.characterBody);
                 ProjectileManager.instance.FireProjectile(info);
+                Util.PlaySound("Play_vagrant_attack2_charge", gameObject);
             }
         }
 
@@ -55,7 +58,8 @@ namespace Sandswept.Survivors.Electrician.States
         {
             base.FixedUpdate();
 
-            if (base.fixedAge >= recoilTime && !base.inputBank.skill2.down) {
+            if (base.fixedAge >= recoilTime && !base.inputBank.skill2.down)
+            {
                 outer.SetNextStateToMain();
             }
         }
@@ -66,7 +70,9 @@ namespace Sandswept.Survivors.Electrician.States
 
             GetModelAnimator().SetBool("chargingOrb", false);
 
-            if (!locked) {
+            if (!locked)
+            {
+                Util.PlaySound("Stop_loader_shift_charge_loop", gameObject);
                 TempestBallController.LockAllOrbs(base.characterBody);
             }
         }

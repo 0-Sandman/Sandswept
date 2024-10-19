@@ -46,7 +46,7 @@ namespace Sandswept.Interactables.Regular
             Object.Destroy(prefab.GetComponent<Highlight>());
             var hightlight = prefab.AddComponent<MultiHighlight>();
             hightlight.targetRenderer = mdl.GetComponent<Renderer>();
-            hightlight.others = [mdl.transform.Find("Stem").GetComponent<Renderer>(), mdl.transform.Find("Stem/Crystal").GetComponent<Renderer>()];
+            hightlight.others = new[] { mdl.transform.Find("Stem").GetComponent<Renderer>(), mdl.transform.Find("Stem/Crystal").GetComponent<Renderer>() };
             On.RoR2.InteractionDriver.OnPreRenderOutlineHighlight += (orig, highlight) =>
             {
                 var cnt = highlight.highlightQueue.Count;
@@ -61,7 +61,7 @@ namespace Sandswept.Interactables.Regular
             mdl.name = "mdlShrineOfTheFuture";
             mdl.transform.localScale = Vector3.one * 70;
             mdl.AddComponent<EntityLocator>().entity = prefab;
-            mdl.AddComponent<ChildLocator>().transformPairs = [new() { name = "FireworkOrigin", transform = prefab.transform.Find("Symbol") }];
+            mdl.AddComponent<ChildLocator>().transformPairs = new ChildLocator.NameTransformPair[] { new() { name = "FireworkOrigin", transform = prefab.transform.Find("Symbol") } };
             var from = modelBase.Find("mdlShrineCombat").GetComponent<BoxCollider>();
             var to = mdl.AddComponent<BoxCollider>();
             to.center = Vector3.zero; to.size = Vector3.one * 0.04f;
@@ -153,9 +153,7 @@ namespace Sandswept.Interactables.Regular
         }
     }
 
-    public class MultiHighlight : Highlight
-    { public Renderer[] others = []; }
-
+    public class MultiHighlight : Highlight { public Renderer[] others = new Renderer[] { }; }
     public class UnityIsAFuckingPieceOfShit3 : MonoBehaviour
     {
         public PurchaseInteraction purchaseInteraction;
@@ -361,9 +359,7 @@ namespace Sandswept.Interactables.Regular
             return new PickupPickerController.Option[] { white, green };
         }
 
-        private void UNetVersion()
-        {
-        }
+        private void UNetVersion() { }
 
         public override bool OnSerialize(NetworkWriter writer, bool forceAll)
         {

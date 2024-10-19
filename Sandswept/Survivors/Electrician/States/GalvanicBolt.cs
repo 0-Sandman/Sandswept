@@ -23,7 +23,8 @@ namespace Sandswept.Survivors.Electrician.States
 
             PlayAnimation("Gesture, Override", "ShootLeft", "Generic.playbackRate", duration / 3f);
 
-            AkSoundEngine.PostEvent(Events.Play_loader_R_shock, base.gameObject);
+            Util.PlaySound("Play_loader_R_shock", base.gameObject);
+            Util.PlayAttackSpeedSound("Play_voidman_m1_shoot", base.gameObject, 0.7f);
         }
 
         public override void FixedUpdate()

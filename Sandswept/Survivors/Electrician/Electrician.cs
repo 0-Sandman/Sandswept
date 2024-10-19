@@ -20,8 +20,10 @@ namespace Sandswept.Survivors.Electrician
         public static GameObject StaticSnare;
         public static DamageAPI.ModdedDamageType Grounding = DamageAPI.ReserveDamageType();
 
+        public static GameObject staticSnareImpactVFX;
+
         public override void LoadAssets()
-        {   
+        {
             base.LoadAssets();
 
             Body = Main.Assets.LoadAsset<GameObject>("ElectricianBody.prefab");
@@ -34,6 +36,9 @@ namespace Sandswept.Survivors.Electrician
 
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdElectrician.asset");
             SurvivorDef.cachedName = "Electrician"; // for eclipse fix
+
+            var kcm = Body.GetComponent<KinematicCharacterController.KinematicCharacterMotor>();
+            kcm.playerCharacter = true;
 
             Master = PrefabAPI.InstantiateClone(Paths.GameObject.EngiMonsterMaster, "ElectricianMaster");
 
@@ -61,7 +66,8 @@ namespace Sandswept.Survivors.Electrician
             On.RoR2.HealthComponent.TakeDamage += HandleGroundingShock;
         }
 
-        public IEnumerator CreateVFX() {
+        public IEnumerator CreateVFX()
+        {
             GameObject sphereVFX = new("joe sigma");
             sphereVFX.transform.position = Vector3.zero;
             sphereVFX.transform.localPosition = Vector3.zero;
@@ -95,6 +101,15 @@ namespace Sandswept.Survivors.Electrician
             tempestOrb.transform.position = Vector3.zero;
             tempestOrb.transform.localPosition = Vector3.zero;
             TempestSphere.GetComponentInChildren<LineRenderer>().sharedMaterial = Paths.Material.matLightningLongYellow;
+
+            staticSnareImpactVFX = PrefabAPI.InstantiateClone(Paths.GameObject.LoaderGroundSlam, "Sigma Gyatt Rizz Ohio Fa-", false);
+            foreach (ShakeEmitter ughShakesButt in staticSnareImpactVFX.GetComponents<ShakeEmitter>())
+            {
+                ughShakesButt.enabled = false;
+            }
+            var effectComponent = staticSnareImpactVFX.GetComponent<EffectComponent>();
+            effectComponent.soundName = "Play_loader_m1_impact";
+            ContentAddition.AddEffect(staticSnareImpactVFX);
         }
 
         private void HandleGroundingShock(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
@@ -180,7 +195,7 @@ namespace Sandswept.Survivors.Electrician
             };
             blast.damageType = DamageType.Shock5s;
 
-            effect = Paths.GameObject.LoaderGroundSlam;
+            effect = Electrician.staticSnareImpactVFX;
         }
 
         public void FixedUpdate()
@@ -293,7 +308,7 @@ namespace Sandswept.Survivors.Electrician
                     attack.Fire();
 
                     Util.PlaySound("Play_loader_R_shock", base.gameObject);
-                    EffectManager.SpawnEffect(Paths.GameObject.LoaderGroundSlam, new EffectData
+                    EffectManager.SpawnEffect(Electrician.staticSnareImpactVFX, new EffectData
                     {
                         origin = attack.position,
                         scale = attack.radius * 2f
@@ -350,7 +365,7 @@ namespace Sandswept.Survivors.Electrician
                 baseDamage = damage.damage / ticksPerSecond,
                 crit = damage.crit,
                 damageType = damage.damageType,
-                procCoefficient = 1f,
+                procCoefficient = 0.6f,
                 teamIndex = controller.teamFilter.teamIndex,
                 losType = BlastAttack.LoSType.None,
                 falloffModel = BlastAttack.FalloffModel.None
@@ -386,6 +401,7 @@ namespace Sandswept.Survivors.Electrician
                     orb.simple.updateAfterFiring = true;
                     orb.locked = true;
                     orb.lr.enabled = false;
+                    Util.PlaySound("Play_gravekeeper_attack2_shoot_singleChain", orb.gameObject);
                 }
             }
         }

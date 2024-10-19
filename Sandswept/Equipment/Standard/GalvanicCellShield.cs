@@ -18,7 +18,7 @@
         public override float Cooldown => 20f;
         public override Sprite EquipmentIcon => Paths.Sprite.texEquipmentBGIcon;
 
-        [ConfigField("Activation Length", "", 0.2f)]
+        [ConfigField("Activation Length", "", 0.5f)]
         public static float activationTime;
 
         [ConfigField("Base Damage", "Decimal.", 20f)]

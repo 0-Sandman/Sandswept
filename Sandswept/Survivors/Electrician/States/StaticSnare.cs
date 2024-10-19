@@ -20,7 +20,8 @@ namespace Sandswept.Survivors.Electrician.States
                 ProjectileManager.instance.FireProjectile(info);
             }
 
-            AkSoundEngine.PostEvent(Events.Play_MULT_m2_throw, base.gameObject);
+            Util.PlaySound("Play_MULT_m2_throw", base.gameObject);
+            Util.PlaySound("Play_mage_m1_impact_lightning", gameObject);
         }
 
         public override void FixedUpdate()
