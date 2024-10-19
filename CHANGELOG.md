@@ -24,7 +24,7 @@
   * Fixed The Sand Sweeper throwing an NRE
 * Interactables
   * ~~Added Fallen Survivor~~
-  * Added Shrine of Ruin (doesn't work)
+  * Added Shrine of Ruin
   * Added Shrine of Sacrifice
   * Added Shrine of The Future
 * Elites
