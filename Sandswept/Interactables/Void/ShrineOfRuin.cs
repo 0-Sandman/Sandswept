@@ -1,4 +1,5 @@
-﻿using EntityStates.NullifierMonster;
+﻿using EntityStates.AffixVoid;
+using EntityStates.NullifierMonster;
 using MonoMod.Cil;
 using R2API.Utils;
 using Rewired.Demos;
@@ -63,7 +64,7 @@ namespace Sandswept.Interactables.Regular
 
         public static CostTypeIndex costTypeIndex;
         public CostTypeDef def;
-
+        public BasicPickupDropTable Table;
         public override void Init()
         {
             base.Init();
@@ -130,16 +131,13 @@ namespace Sandswept.Interactables.Regular
 
             var genericDisplayNameProvider = prefab.GetComponent<GenericDisplayNameProvider>();
             genericDisplayNameProvider.displayToken = "SANDSWEPT_SHRINE_RUIN_NAME";
-
             UnityEngine.Object.DestroyImmediate(prefab.GetComponent<ShrineBloodBehavior>()); // kill yourself
 
             prefab.AddComponent<ShrineOfRuinController>();
-
             prefab.AddComponent<UnityIsAFuckingPieceOfShit2>();
 
             var expansionRequirementComponent = prefab.AddComponent<ExpansionRequirementComponent>();
             expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
-
             var expansionRequirementComponent2 = prefab.AddComponent<ExpansionRequirementComponent>();
             expansionRequirementComponent2.requiredExpansion = Utils.Assets.ExpansionDef.DLC1;
 
@@ -163,114 +161,61 @@ namespace Sandswept.Interactables.Regular
 
             LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_USE_MESSAGE_2P", "<style=cShrine>The corruption spreads.</color>");
             LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_USE_MESSAGE", "<style=cShrine>The corruption spreads.</color>");
-
             prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo.Info = inspectInfo;
 
             interactableSpawnCard.prefab = prefab;
-
-            var allEnemiesPoolEntries = new DccsPool.PoolEntry[1];
-            allEnemiesPoolEntries[0] = new()
+            Table = new BasicPickupDropTable()
             {
-                weight = 1f,
-                dccs = Utils.Assets.DirectorCardCategorySelection.dccsITVoidMonsters,
+                selector = new(),
+                tier1Weight = 0,
+                tier2Weight = 0,
+                tier3Weight = 0,
+                voidTier1Weight = 50f,
+                voidTier2Weight = 34f,
+                voidTier3Weight = 8f,
+                voidBossWeight = 8f
             };
-
-            var allCategories = new DccsPool.Category[1];
-            allCategories[0] = new()
+            On.RoR2.ClassicStageInfo.Start += (orig, self) =>
             {
-                name = "Standard",
-                categoryWeight = 1f,
-                alwaysIncluded = allEnemiesPoolEntries,
-                includedIfNoConditionsMet = Array.Empty<DccsPool.PoolEntry>(),
-                includedIfConditionsMet = Array.Empty<DccsPool.ConditionalPoolEntry>()
+                if (shouldCorruptNextStage && !SceneCatalog.currentSceneDef.cachedName.StartsWith("moon"))
+                {
+                    self.monsterDccsPool.poolCategories = [new() {
+                        name = "Ruin",
+                        categoryWeight = 99999f, // realerstagetweaker compat
+                        alwaysIncluded = [new() {
+                            dccs = Utils.Assets.DirectorCardCategorySelection.dccsITVoidMonsters,
+                            weight = 1f
+                        }],
+                        includedIfConditionsMet = [],
+                        includedIfNoConditionsMet = []
+                    }];
+                    shouldCorruptNextStage = false;
+                    shouldReplaceDrops = true;
+                    Table.selector = new();
+                    Table.GenerateWeightedSelection(Run.instance);
+                }
+                else shouldReplaceDrops = false;
+                orig(self);
             };
-
-            voidEnemiesDccsPool = ScriptableObject.CreateInstance<DccsPool>();
-            voidEnemiesDccsPool.poolCategories = allCategories;
-
-            // On.RoR2.ClassicStageInfo.Start += ClassicStageInfo_Start;
-            On.RoR2.Stage.Start += Stage_Start;
-            On.RoR2.PickupDropTable.GenerateDropFromWeightedSelection += PickupDropTable_GenerateDropFromWeightedSelection;
-            On.RoR2.PickupDropTable.GenerateUniqueDropsFromWeightedSelection += PickupDropTable_GenerateUniqueDropsFromWeightedSelection;
-            SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
+            On.RoR2.ChestBehavior.Roll += (orig, self) =>
+            {
+                if (NetworkServer.active && shouldReplaceDrops && (!self.dropTable || (self.dropTable is BasicPickupDropTable && ((BasicPickupDropTable)self.dropTable).equipmentWeight == 0)))
+                    self.dropTable = Table;
+                orig(self);
+            };
+            On.RoR2.ShopTerminalBehavior.GenerateNewPickupServer_bool += (orig, self, nh) =>
+            {
+                if (NetworkServer.active && !self.hasBeenPurchased && shouldReplaceDrops && (!self.dropTable || (self.dropTable is BasicPickupDropTable && (((BasicPickupDropTable)self.dropTable).equipmentWeight == 0))))
+                    self.dropTable = Table;
+                orig(self, nh);
+            };
+            On.RoR2.ShrineChanceBehavior.AddShrineStack += (orig, self, activator) =>
+            {
+                if (NetworkServer.active && activator.GetComponent<CharacterBody>() && activator.GetComponent<CharacterBody>().inventory && shouldReplaceDrops && (!self.dropTable || (((BasicPickupDropTable)self.dropTable).equipmentWeight == 0)))
+                    self.dropTable = Table;
+                orig(self, activator);
+            };
             PostInit();
-        }
-
-        private System.Collections.IEnumerator Stage_Start(On.RoR2.Stage.orig_Start orig, RoR2.Stage self)
-        {
-            yield return orig(self);
-            shouldReplaceDrops = false;
-
-            var sceneName = SceneManager.GetActiveScene().name;
-            if (sceneName.StartsWith("it") && shouldCorruptNextStage)
-            {
-                shouldReplaceDrops = true;
-            }
-        }
-
-        private void SceneManager_activeSceneChanged(Scene oldScene, Scene newScene)
-        {
-            if (shouldCorruptNextStage)
-            {
-                var sceneInfo = GameObject.Find("SceneInfo");
-                if (!sceneInfo)
-                {
-                    // Main.ModLogger.LogError("no scene info found");
-                    return;
-                }
-
-                if (sceneInfo.TryGetComponent<ClassicStageInfo>(out var classicStageInfo))
-                {
-                    classicStageInfo.monsterDccsPool = voidEnemiesDccsPool;
-                    classicStageInfo.monsterCategories = Utils.Assets.DirectorCardCategorySelection.dccsITVoidMonsters;
-                }
-            }
-        }
-
-        private PickupIndex PickupDropTable_GenerateDropFromWeightedSelection(On.RoR2.PickupDropTable.orig_GenerateDropFromWeightedSelection orig, Xoroshiro128Plus rng, WeightedSelection<PickupIndex> weightedSelection)
-        {
-            OverwriteDrop(weightedSelection);
-            return orig(rng, weightedSelection);
-        }
-
-        private PickupIndex[] PickupDropTable_GenerateUniqueDropsFromWeightedSelection(On.RoR2.PickupDropTable.orig_GenerateUniqueDropsFromWeightedSelection orig, int maxDrops, Xoroshiro128Plus rng, WeightedSelection<PickupIndex> weightedSelection)
-        {
-            OverwriteDrop(weightedSelection);
-            return orig(maxDrops, rng, weightedSelection);
-        }
-
-        private void OverwriteDrop(WeightedSelection<PickupIndex> weightedSelection)
-        {
-            if (shouldReplaceDrops && weightedSelection.choices.All(x => PickupCatalog.GetPickupDef(x.value).equipmentIndex == EquipmentIndex.None))
-            {
-                var dropPickup = PickupIndex.none;
-
-                WeightedSelection<List<PickupIndex>> selector = new();
-                selector.AddChoice(Run.instance.availableVoidTier1DropList, 50f);
-                selector.AddChoice(Run.instance.availableVoidTier2DropList, 34f);
-                selector.AddChoice(Run.instance.availableVoidTier3DropList, 8f);
-                selector.AddChoice(Run.instance.availableVoidBossDropList, 8f);
-
-                List<PickupIndex> dropList = selector.Evaluate(Run.instance.treasureRng.nextNormalizedFloat);
-                if (dropList != null && dropList.Count > 0)
-                {
-                    dropPickup = Run.instance.treasureRng.NextElementUniform(dropList);
-                }
-
-                weightedSelection.Clear();
-                weightedSelection.AddChoice(dropPickup, 1f);
-            }
-        }
-
-        private void ClassicStageInfo_Start(On.RoR2.ClassicStageInfo.orig_Start orig, ClassicStageInfo self)
-        {
-            if (shouldCorruptNextStage)
-            {
-                self.monsterDccsPool = voidEnemiesDccsPool;
-                self.RebuildCards();
-            }
-
-            orig(self);
         }
     }
 
@@ -308,6 +253,14 @@ namespace Sandswept.Interactables.Regular
 
         public int itemCount = ShrineOfSacrifice.itemCount;
 
+        public static Dictionary<int, string[]> SimulVariants = new()
+        {
+            {0, ["itgoolake", "itancientloft"]},
+            {1, ["itfrozenwall"]},
+            {2, ["itdampcave"]},
+            {3, ["itskymeadow"]},
+            {4, ["itgolemplains", "itmoon"]},
+        };
         public override int GetNetworkChannel()
         {
             return RoR2.Networking.QosChannelIndex.defaultReliable.intVal;
@@ -336,27 +289,14 @@ namespace Sandswept.Interactables.Regular
 
         public void AddShrineStack(Interactor interactor)
         {
-            // Main.ModLogger.LogError("trying to run add shrine stack");
-            if (!NetworkServer.active)
-            {
-                // Main.ModLogger.LogError("NETWORK SERVER NOT ACTRIVE EEEE ");
-                // Debug.LogWarning("[Server] function 'System.Void RoR2.ShrineBloodBehavior::AddShrineStack(RoR2.Interactor)' called on client");
-                return;
-            }
+            if (!NetworkServer.active) return;
             waitingForRefresh = true;
-
             var interactorBody = interactor.GetComponent<CharacterBody>();
-
             var inventory = interactorBody.inventory;
-            if (!inventory || inventory.itemAcquisitionOrder == null)
-            {
-                return;
-            }
+            if (!inventory || inventory.itemAcquisitionOrder == null) return;
 
             WeightedSelection<ItemIndex> itemsToRemove = new();
-
             int numItems = 0;
-
             foreach (var item in inventory.itemAcquisitionOrder)
             {
                 var def = ItemCatalog.GetItemDef(item);
@@ -364,25 +304,14 @@ namespace Sandswept.Interactables.Regular
                 var count = inventory.GetItemCount(def);
                 itemsToRemove.AddChoice(item, count); numItems += count;
             }
-
-            if (numItems < ShrineOfRuin.whiteItemCost)
-            {
-                return;
-            }
-
+            if (numItems < ShrineOfRuin.whiteItemCost) return;
             for (int i = 0; i < ShrineOfRuin.whiteItemCost; i++)
             {
                 var idx = itemsToRemove.EvaluateToChoiceIndex(Run.instance.treasureRng.nextNormalizedFloat);
                 var choice = itemsToRemove.GetChoice(idx);
                 inventory.RemoveItem(ItemCatalog.GetItemDef(choice.value));
-                if (choice.weight <= 1)
-                {
-                    itemsToRemove.RemoveChoice(idx);
-                }
-                else
-                {
-                    itemsToRemove.ModifyChoiceWeight(idx, choice.weight - 1);
-                }
+                if (choice.weight <= 1) itemsToRemove.RemoveChoice(idx);
+                else itemsToRemove.ModifyChoiceWeight(idx, choice.weight - 1);
             }
 
             if (Run.instance)
@@ -390,92 +319,17 @@ namespace Sandswept.Interactables.Regular
                 ShrineOfRuin.shouldCorruptNextStage = true;
                 // there's definitely a better way of doing this but I know jack shit about stages and it's a really messy system
                 var currentStageCount = Run.instance.stageClearCount % Run.stagesPerLoop;
-
                 var currentStageDestinationsGroup = SceneCatalog.currentSceneDef.destinationsGroup;
-
-                var titanicPlainsSimulacrum = new SceneCollection.SceneEntry()
-                {
-                    sceneDef = SceneCatalog.GetSceneDefFromSceneName("itgolemplains"),
-                    weightMinusOne = 0
-                };
-
-                var abandonedAqueductSimulacrum = new SceneCollection.SceneEntry()
-                {
-                    sceneDef = SceneCatalog.GetSceneDefFromSceneName("itgoolake"),
-                    weightMinusOne = 0
-                };
-
-                var aphelianSanctuarySimulacrum = new SceneCollection.SceneEntry()
-                {
-                    sceneDef = SceneCatalog.GetSceneDefFromSceneName("itancientloft"),
-                    weightMinusOne = 0
-                };
-
-                var rallypointDeltaSimulacrum = new SceneCollection.SceneEntry()
-                {
-                    sceneDef = SceneCatalog.GetSceneDefFromSceneName("itfrozenwall"),
-                    weightMinusOne = 0
-                };
-
-                var abyssalDepthsSimulacrum = new SceneCollection.SceneEntry()
-                {
-                    sceneDef = SceneCatalog.GetSceneDefFromSceneName("itdampcave"),
-                    weightMinusOne = 0
-                };
-
-                var skyMeadowSimulacrum = new SceneCollection.SceneEntry()
-                {
-                    sceneDef = SceneCatalog.GetSceneDefFromSceneName("itskymeadow"),
-                    weightMinusOne = 0
-                };
-
-                switch (currentStageCount)
-                {
-                    case 1:
-                        Main.ModLogger.LogError("setting destination to plains simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { titanicPlainsSimulacrum };
-                        break;
-
-                    case 2:
-                        Main.ModLogger.LogError("setting destination to plains simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { titanicPlainsSimulacrum };
-                        break;
-
-                    case 3:
-                        Main.ModLogger.LogError("setting destinations to aqueduct, sanctuary simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { abandonedAqueductSimulacrum, aphelianSanctuarySimulacrum };
-                        break;
-
-                    case 4:
-                        Main.ModLogger.LogError("setting destination to rpd simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { rallypointDeltaSimulacrum };
-                        break;
-
-                    case 5:
-                        Main.ModLogger.LogError("setting destination to depths simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { abyssalDepthsSimulacrum };
-                        break;
-
-                    case 6:
-                        Main.ModLogger.LogError("setting destination to meadow simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { skyMeadowSimulacrum };
-                        break;
-
-                    default:
-                        Main.ModLogger.LogError("setting should corrupt next stage to false");
-                        ShrineOfRuin.shouldCorruptNextStage = false;
-                        break;
-                }
+                string[] list = ["itmoon"];
+                if (SimulVariants.ContainsKey(currentStageCount)) list = SimulVariants[currentStageCount];
+                currentStageDestinationsGroup._sceneEntries = list.Select(x => new SceneCollection.SceneEntry() { sceneDef = SceneCatalog.GetSceneDefFromSceneName(x), weightMinusOne = 0 }).ToArray();
             }
 
-            if (interactorBody)
+            if (interactorBody) Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage
             {
-                Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage
-                {
-                    subjectAsCharacterBody = interactorBody,
-                    baseToken = "SANDSWEPT_SHRINE_RUIN_USE_MESSAGE",
-                });
-            }
+                subjectAsCharacterBody = interactorBody,
+                baseToken = "SANDSWEPT_SHRINE_RUIN_USE_MESSAGE",
+            });
 
             EffectManager.SpawnEffect(ShrineOfRuin.shrineVFX, new EffectData
             {
@@ -501,15 +355,10 @@ namespace Sandswept.Interactables.Regular
         public static bool HasMetRequirement(CharacterBody interactorBody)
         {
             var inventory = interactorBody.inventory;
-            if (!inventory || inventory.itemAcquisitionOrder == null)
-            {
-                return false;
-            }
+            if (!inventory || inventory.itemAcquisitionOrder == null) return false;
 
             WeightedSelection<ItemIndex> itemsToRemove = new();
-
             int numItems = 0;
-
             foreach (var item in inventory.itemAcquisitionOrder)
             {
                 var def = ItemCatalog.GetItemDef(item);
@@ -517,12 +366,7 @@ namespace Sandswept.Interactables.Regular
                 var count = inventory.GetItemCount(def);
                 itemsToRemove.AddChoice(item, count); numItems += count;
             }
-
-            if (numItems < ShrineOfRuin.whiteItemCost)
-            {
-                return false;
-            }
-
+            if (numItems < ShrineOfRuin.whiteItemCost) return false;
             return true;
         }
 
