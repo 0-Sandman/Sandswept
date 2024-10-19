@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2509146686
+CRC: 2430714821
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 46f1da609e6d4278aa4069ffbc4f7cf5
+    Hash: 9d8594039c55baa986dbad66cb6ea826
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5fb173061b6c6eeab722b2d79fe314b7
@@ -70,5 +70,6 @@ Assets:
 - Assets/matLunarMInd.mat
 - Assets/texRampLunarWispFire.png
 - Assets/texCloudOrganic1.png
+- Assets/ElecEmote.prefab
 - Assets/Ranger.fbx
 Dependencies: []
