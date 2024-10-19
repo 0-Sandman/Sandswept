@@ -175,7 +175,7 @@ namespace Sandswept.Interactables.Regular
                 voidTier3Weight = 8f,
                 voidBossWeight = 8f
             };
-            On.RoR2.ClassicStageInfo.Start += (orig, self) =>
+            On.RoR2.ClassicStageInfo.RebuildCards += (orig, self, a, b) =>
             {
                 if (shouldCorruptNextStage && !SceneCatalog.currentSceneDef.cachedName.StartsWith("moon"))
                 {
@@ -195,7 +195,7 @@ namespace Sandswept.Interactables.Regular
                     Table.GenerateWeightedSelection(Run.instance);
                 }
                 else shouldReplaceDrops = false;
-                orig(self);
+                orig(self, a, b);
             };
             On.RoR2.ChestBehavior.Roll += (orig, self) =>
             {
