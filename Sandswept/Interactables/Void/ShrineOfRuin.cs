@@ -215,7 +215,7 @@ namespace Sandswept.Interactables.Regular
                 var sceneInfo = GameObject.Find("SceneInfo");
                 if (!sceneInfo)
                 {
-                    Main.ModLogger.LogError("no scene info found");
+                    // Main.ModLogger.LogError("no scene info found");
                     return;
                 }
 
