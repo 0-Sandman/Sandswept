@@ -53,17 +53,17 @@ namespace Sandswept.Interactables.Regular
             var collision = mdl.transform.Find("Collision");
             collision.localScale = Vector3.one / 400f;
 
-            var shrineMat = Main.hifuSandswept.LoadAsset<Material>("matShrineOfTheFuture.mat");
-            shrineMat.SetTexture("_FlowHeightRamp", Paths.Texture2D.texRampDeathmark);
+            var newMat = Main.hifuSandswept.LoadAsset<Material>("matShrineOfTheFutureDiamondDiffuse.mat");
+            newMat.SetTexture("_FlowHeightRamp", Paths.Texture2D.texRampArcaneCircle);
 
-            mdl.GetComponent<MeshFilter>().sharedMesh = Main.hifuSandswept.LoadAsset<Mesh>("mdlShrineOfTheFuture.fbx");
-            mdl.GetComponent<MeshRenderer>().sharedMaterial = shrineMat;
+            mdl.GetComponent<MeshFilter>().sharedMesh = Main.hifuSandswept.LoadAsset<Mesh>("mdlShrineOfTheFuture5.fbx");
+            mdl.GetComponent<MeshRenderer>().sharedMaterial = newMat;
 
             var symbol = prefab.transform.Find("Symbol");
-            // symbol.localPosition = new(0, 6, 0);
+            symbol.localPosition = new(0, 9.5f, 0);
             var meshRenderer = symbol.GetComponent<MeshRenderer>();
             meshRenderer.material.mainTexture = Main.prodAssets.LoadAsset<Texture2D>("assets/sandswept/shrinesacrificeicon.png");
-            meshRenderer.material.SetColor("_TintColor", new Color32(20, 74, 96, 255));
+            meshRenderer.material.SetColor("_TintColor", new Color32(0, 152, 110, 255));
 
             var purchaseInteraction = prefab.GetComponent<PurchaseInteraction>();
             purchaseInteraction.displayNameToken = "SANDSWEPT_SHRINE_FUTURE_NAME";
