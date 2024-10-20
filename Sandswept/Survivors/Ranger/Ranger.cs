@@ -1,5 +1,7 @@
 using KinematicCharacterController;
 using RoR2.UI;
+using Sandswept.Survivors.Ranger.Achievements;
+
 
 // using Sandswept.Survivors.Ranger.ItemDisplays;
 using Sandswept.Survivors.Ranger.Pod;
@@ -33,7 +35,7 @@ namespace Sandswept.Survivors.Ranger
             var characterBody = Body.GetComponent<CharacterBody>();
             characterBody.portraitIcon = Main.hifuSandswept.LoadAsset<Texture2D>("texRangerIcon.png");
             characterBody.bodyColor = new Color32(54, 215, 169, 255);
-
+            
             var networkIdentity = Body.GetComponent<NetworkIdentity>();
             networkIdentity.localPlayerAuthority = true;
             networkIdentity.enabled = true;
@@ -175,27 +177,79 @@ namespace Sandswept.Survivors.Ranger
         public static SkinDef mileZeroDef;
         public static SkinDef racecarDef;
         public static SkinDef sandsweptDef;
+        public static SkinDef masteryDef;
         // public static SkinDef rainbowDef;
 
         public void AddSkins()
         {
             defaultDef = Main.Assets.LoadAsset<SkinDef>("Skindefault.asset");
+            Material masteryMat = Main.dgoslingAssets.LoadAsset<Material>("matRangerMastery");
+            GameObject masterObject = Main.dgoslingAssets.LoadAsset<GameObject>("RangerMastery-fixArm");
+           
+            
+            
 
+
+
+
+
+           
+            SkinDefInfo skinInfo = new SkinDefInfo();
+            skinInfo.NameToken = "SKINDEF_SANDSWEPT";
+            "SKINDEF_SANDSWEPT".Add("Mastery");
+            skinInfo.Name = "RangerMastery";
+            skinInfo.RendererInfos = new CharacterModel.RendererInfo[]
+            {
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = masteryMat,
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false,
+                    renderer = mdl.transform.Find("Legs").GetComponent<SkinnedMeshRenderer>(),
+                    hideOnDeath = false
+                },
+                new CharacterModel.RendererInfo
+                {
+                    defaultMaterial = masteryMat,
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false,
+                    renderer = mdl.transform.Find("Scarf").GetComponent<SkinnedMeshRenderer>(),
+
+                }
+            };
+            skinInfo.BaseSkins = new SkinDef[]
+            {
+                defaultDef
+            };
+          skinInfo.MeshReplacements = new SkinDef.MeshReplacement[]{
+                new SkinDef.MeshReplacement
+                {
+                    renderer = mdl.transform.Find("Legs").GetComponent<SkinnedMeshRenderer>(),
+                    mesh = masterObject.transform.Find("Legs").GetComponent<SkinnedMeshRenderer>().sharedMesh
+                },
+                new SkinDef.MeshReplacement
+                {
+                     renderer = mdl.transform.Find("Scarf").GetComponent<SkinnedMeshRenderer>(),
+                     mesh = masterObject.transform.Find("Scarf").GetComponent<SkinnedMeshRenderer>().sharedMesh
+                }
+            };
             var scarfAndPantsColor = new Color32(88, 161, 142, 255);
             var helmetColor = new Color32(0, 255, 169, 255);
             var armorColor = new Color32(223, 127, 35, 255);
             var suitColor = new Color32(49, 62, 67, 255);
-
+            skinInfo.Icon = Main.dgoslingAssets.LoadAsset<Sprite>("BeeNormalIcon");
             defaultDef.icon = Skins.CreateSkinIcon(scarfAndPantsColor, helmetColor, armorColor, suitColor);
-
+            skinInfo.RootObject = mdl.gameObject;
+            skinInfo.UnlockableDef = UnlockableDefs.masteryUnlock;
             "SKIN_DEFAULT".Add("Default");
-
+            SkinDef mastery = Skins.CreateNewSkinDef(skinInfo);
+            Skins.AddSkinToCharacter(Body, mastery);
             modelSkinController = mdl.GetComponent<ModelSkinController>();
-
+            
             majorDef = CreateRecolor("Major", 4.2f);
             renegadeDef = CreateRecolor("Renegade", 2.5f);
             mileZeroDef = CreateRecolor("Mile Zero", 4.2f);
-
+            
             // sandsweptDef = CreateRecolor("Sandswept", 4.2f, Achievements.UnlockableDefs.masteryUnlock);
 
             // racecarDef = CreateRecolor("Racecar", 4.2f);

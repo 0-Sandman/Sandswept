@@ -24,6 +24,7 @@ namespace Sandswept.Survivors
         public GameObject Body;
         public GameObject Master;
         public SurvivorDef SurvivorDef;
+        public SkinDef mastery;
 
         public static bool DefaultEnabledCallback(SurvivorBase self)
         {
