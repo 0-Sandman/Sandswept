@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using EntityStates.Chef;
 
 namespace Sandswept.Survivors.Electrician
 {
@@ -153,18 +154,41 @@ namespace Sandswept.Survivors.Electrician
         public LineRenderer lineRenderer;
         public Transform explo;
         public float interval;
+        public VehicleSeat seat;
         public int hitRate;
-        public static List<TripwireController> AllTripwireControllers = new();
+        public static Dictionary<GameObject, TripwireController> ControllerMap = new();
         private float stopwatch;
+        private Transform head;
         private BulletAttack attack;
-        public TripwireController paired;
         private ProjectileDamage pDamage;
         private ProjectileController controller;
         private float stopwatchBeam;
         private float delay;
         private float stopwatch2 = 0f;
+        private float initDelay = 2f;
+        private bool init = false;
         private BlastAttack blast;
         private GameObject effect;
+        private bool isInVehicleMode = false;
+        private float speed = 60f;
+        private CharacterBody body;
+        private Vector3 startPosition;
+
+        public void OnInteract(Interactor interactor) {
+            blast.position = explo.position;
+            blast.radius *= 2f;
+            blast.baseDamage *= 2f;
+            blast.Fire();
+
+            EffectManager.SpawnEffect(effect, new EffectData
+            {
+                origin = blast.position,
+                scale = blast.radius * 2
+            }, true);
+
+            seat.EjectPassenger();
+            GameObject.Destroy(this.gameObject);
+        }
 
         public void Start()
         {
@@ -175,12 +199,11 @@ namespace Sandswept.Survivors.Electrician
 
             attack = new()
             {
-                damage = pDamage.damage * 3f * delay,
+                damage = pDamage.damage * 2f * delay,
                 radius = lineRenderer.startWidth,
-                damageType = DamageType.Stun1s,
                 isCrit = pDamage.crit,
                 owner = controller.owner,
-                procCoefficient = 0.1f,
+                procCoefficient = 0.4f,
                 stopperMask = LayerIndex.noCollision.mask,
                 falloffModel = BulletAttack.FalloffModel.None
             };
@@ -199,25 +222,63 @@ namespace Sandswept.Survivors.Electrician
             };
             blast.damageType = DamageType.Shock5s;
 
+            ModelLocator loc = attack.owner.GetComponent<ModelLocator>();
+            head = loc.modelTransform.GetComponent<ChildLocator>().FindChild("Head");
+
             effect = Electrician.staticSnareImpactVFX;
+
+            ControllerMap.Add(controller.owner, this);
+            body = controller.owner.GetComponent<CharacterBody>();
+        }
+
+        public void StartZip() {
+            seat.AssignPassenger(body.gameObject);
+            startPosition = body.transform.position;
+            isInVehicleMode = true;
         }
 
         public void FixedUpdate()
         {
             stopwatch2 += Time.fixedDeltaTime;
+            
+            if (!init) {
+                initDelay -= Time.fixedDeltaTime;
 
-            if (stopwatch2 >= 0.2f && !paired && AllTripwireControllers.Count >= 2)
-            {
-                paired = AllTripwireControllers.OrderBy(x => Vector3.Distance(base.transform.position, x.transform.position)).FirstOrDefault(x => x.paired != this && x != this);
-                stopwatch2 = 0f;
+                if (initDelay <= 0f) {
+                    init = true;
+                }
             }
 
-            lineRenderer.enabled = paired;
+            lineRenderer.enabled = init;
 
-            if (paired)
-            {
-                lineRenderer.SetPosition(0, explo.position);
-                lineRenderer.SetPosition(1, paired.explo.position);
+            
+            lineRenderer.SetPosition(0, explo.position);
+            lineRenderer.SetPosition(1, head.transform.position);
+
+            if (isInVehicleMode) {
+                if (!body || !body.hasAuthority) {
+                    return;
+                }
+
+                startPosition = Vector3.MoveTowards(startPosition, base.transform.position, speed * Time.fixedDeltaTime);
+                seat.seatPosition.position = startPosition;
+                seat.UpdatePassengerPosition();
+
+                if (Vector3.Distance(startPosition, base.transform.position) < 0.5f) {
+                    blast.position = explo.position;
+                    blast.radius *= 2f;
+                    blast.baseDamage *= 2f;
+                    blast.Fire();
+
+                    EffectManager.SpawnEffect(effect, new EffectData
+                    {
+                        origin = blast.position,
+                        scale = blast.radius * 2
+                    }, true);
+
+                    seat.EjectPassenger();
+                    GameObject.Destroy(this.gameObject);
+                }
             }
 
             if (!NetworkServer.active)
@@ -225,7 +286,7 @@ namespace Sandswept.Survivors.Electrician
                 return;
             }
 
-            if (paired)
+            if (init)
             {
                 stopwatchBeam += Time.fixedDeltaTime;
 
@@ -234,8 +295,8 @@ namespace Sandswept.Survivors.Electrician
                     stopwatchBeam = 0f;
 
                     attack.origin = explo.position;
-                    attack.aimVector = (paired.explo.position - explo.position).normalized;
-                    attack.maxDistance = Vector3.Distance(explo.position, paired.explo.position);
+                    attack.aimVector = (head.position - explo.position).normalized;
+                    attack.maxDistance = Vector3.Distance(explo.position, head.position);
 
                     attack.Fire();
                 }
@@ -243,7 +304,7 @@ namespace Sandswept.Survivors.Electrician
 
             stopwatch += Time.fixedDeltaTime;
 
-            if (stopwatch >= interval)
+            if (stopwatch >= interval && init)
             {
                 stopwatch = 0f;
 
@@ -258,20 +319,17 @@ namespace Sandswept.Survivors.Electrician
             }
         }
 
-        public void OnEnable()
-        {
-            AllTripwireControllers.Add(this);
-        }
-
         public void OnDisable()
         {
-            AllTripwireControllers.Remove(this);
+            if (controller.owner && ControllerMap.ContainsKey(controller.owner)) {
+                ControllerMap.Remove(controller.owner);
+            }
         }
     }
 
     public class GalvanicBallController : MonoBehaviour
     {
-        public float radius = 7f;
+        public float radius = 14f;
         public float damage = 1f;
         private bool hasBouncedEnemy = false;
         private ProjectileDamage pDamage;

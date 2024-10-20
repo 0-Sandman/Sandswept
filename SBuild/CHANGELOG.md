@@ -18,6 +18,7 @@
   * Nerfed Bleeding Witness Base DoT Healing from 0.4% to 0.33%.
   * Nerfed Bleeding Witness Stack DoT Healing from 0.4% to 0.33%.
   * Fixed Nuclear Salvo!?!??!
+  * Fixed Sun Fragment not stunning every enemy
 * Equipment
   * Added Galvanic Cell Shield
   * Added Corrupted Catalyst

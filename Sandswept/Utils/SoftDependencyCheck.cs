@@ -36,8 +36,8 @@ namespace Sandswept.Utils
 
             var skele = Main.dgoslingAssets.LoadAsset<GameObject>("mdlRangerEmote");
             EmotesAPI.CustomEmotesAPI.ImportArmature(Ranger.instance.Body, skele);
-           var skele2 = Main.dgoslingAssets.LoadAsset<GameObject>("ElecEmote");
-           EmotesAPI.CustomEmotesAPI.ImportArmature(Electrician.instance.Body,skele2 ,jank:true);
+           // var skele2 = Main.dgoslingAssets.LoadAsset<GameObject>("ElecEmote");
+           // EmotesAPI.CustomEmotesAPI.ImportArmature(Electrician.instance.Body,skele2 ,jank:true);
             var boneMapper = skele.GetComponentInChildren<BoneMapper>();
             boneMapper.scale = 0.9f;
          

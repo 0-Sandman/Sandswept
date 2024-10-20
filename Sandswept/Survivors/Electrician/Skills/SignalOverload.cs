@@ -7,7 +7,7 @@ namespace Sandswept.Survivors.Electrician.Skills
     public class SignalOverload : SkillBase<SignalOverload>
     {
         public override string Name => (UnityEngine.Random.Range(0f, 100f) >= 99f) ? "Sigma Overload" : "Signal Overload";
-        public override string Description => "Overload yo <style=cIsDamage>balls</style>.";
+        public override string Description => "winds up over ~0.8s, before spinning for 3s to zap everything in a big radius, pulling things towards you and grounding aerial targets (grounding an aerial target does a bonus 50%)";
         public override Type ActivationStateType => typeof(States.SignalOverloadCharge);
         public override string ActivationMachineName => "Weapon";
         public override float Cooldown => 12f;

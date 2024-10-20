@@ -3,14 +3,15 @@
 # <img src="https://i.postimg.cc/T3FJSHfy/sandsw-ept-Icon.png" width="48"/> Sandswept is a work in progress content mod that aims to add a variety of content to the game.
 
 # It currently adds...
-- 1 Survivor
+- 2 Survivors
+- 4 Interactables
 - 2 Elites
-- 1 Equipment
-- 14 Items
+- 3 Equipments
+- 17 Items
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
-# The Survivor
+# Ranger
 | Icon | Name | Description | Details |
 |:-|-|------|-|
 | <img src="https://i.postimg.cc/66fDYrZC/tex-Ranger-Icon.png"  width="196"/> | **Ranger** | The Ranger is a versatile character with two distinct forms. Her base form excels at burst damage from any range using electricity, while the other is much more resource managing focused with high risk, but extremely high damage fire attacks. | She currently has 3 recolor skins, with recolored VFX for every skill and a custom pod, also recolored for every skin. |
@@ -27,7 +28,16 @@
 | <img src="https://i.postimg.cc/0jYnvQX6/tex-Heat-Sink.png" width="64"/> | **Special:** Heat Sink | Agile. Ignite. Release a fire nova around you that deals 300% base damage, increasing up to 900% in full heat. Consume all heat, gaining an attack speed boost, and exit overdrive. | Has a radius of 16m, and a proc coefficient of 1.0. Increases attack speed by 50% for up to 5s, duration increases per 1% of heat exponentially (0.05 * ((heat / 1.51991108) ^ 1.1). Restocks 50% of your secondary charges (rounded down), and 50% of your utility charges (rounded up), can be used to quickly combo. |
 | <img src="https://i.postimg.cc/52w9KFnf/heat-Mechanic.png" width="64"/> | **Heat Mechanic** | While in overdrive, you passively build up heat and healing reduction. While in full heat, increase base damage by a lot, which is further amplified by Charge, but take increasingly high self-damage. | While in Overdrive, you passively build up 12% heat per second, and gain a 10% healing reduction debuff per 10% of heat. Additionally, after being in full heat for at least one second your base damage increases by 30% per second, which is amplified by 10% linearly for every Charge (so, up to 60% base damage per second at 10 Charge), however you take 1.3% of your maximum health as self-damage 5 times a second, which bypasses armor and block, and increases by 40% for every second spent in full heat. Base damage gain and self-damage reset once you exit Overdrive. Healing reduction lingers for 2s afterwards. |
 
-survivor readme todo
+# Electrician
+| Icon | Name | Description | Details |
+|:-|-|------|-|
+| survivor image | **Electrician** | The Electrician is a guy who likes balls a lot, | [CENSORED] |
+|  |  |  |  |
+| passive image | **Volatile Shields** | Discharge yo balls when struck by enemy jaws. | No | 
+| m1 image | **Galvanic Bolt** | Put yo balls in enemy jaws. | No |
+| m2 image | **Tempest Sphere** | Throw out yo ball. | No |
+| util image | **Static Snare** | Toss out a pair of yo balls. | No |
+| special image | **Signal Overload** | Overload yo balls. | No |
 
 # Elites
 | Icon | Elite | Description | Tier |
@@ -52,6 +62,7 @@ survivor readme todo
 |<img src="https://i.postimg.cc/LXcqFPFd/tex-Sun-Fragment.png" width="96"/> | **Sun Fragment** | 9% chance on hit to create a blinding flash in a 12m area, stunning for 1.5s and igniting enemies for 150% (+150% per stack) TOTAL damage. | Green |
 |<img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"/> | **Universal VIP Pass** | Category chests have a 45% chance of dropping 1 (+1 per stack) extra items. | Green |
 | ‎ | ‎ | ‎ |
+|<img src="https://i.postimg.cc/L625CrWK/tex-Millenium.png" width="96"/> | **Millenium** | 7% chance on hit to inflict decay for 300% base damage. Moving near decaying enemies increases attack speed by 33% (+33% per stack) for 2s. Corrupts all Smouldering Documents. | Void Green |
 |<img src="https://i.postimg.cc/L625CrWK/tex-Millenium.png" width="96"/> | **Millenium** | 7% chance on hit to create a tidal cataclysm in a 12m (+4m per stack) area, collapsing and grounding enemies for 400% base damage. Corrupts all Sun Fragments. | Void Green |
 | ‎ | ‎ | ‎ |
 |<img src="https://i.postimg.cc/PxjsGfV3/tex-Bleeding-Witness.png" width="96"/> | **Bleeding Witness** | 8% chance on hit to hemorrhage enemies for 500% base damage. Your damage over time effects heal all allies for 0.33% (+0.33% per stack) of their maximum health. | Red |
@@ -60,21 +71,20 @@ survivor readme todo
 |  |  |  |
 |<img src="https://i.postimg.cc/sfH2YN1y/tex-Fractured-Timepiece.png" width="96"/> | **Their  Prominence** | Using a Shrine has a 35% (+15% per stack, hyperbolic) chance to invite the challenge of the Mountain. | Lunar |
 
-item readme todo
-
 # Equipment
 | Icon | Equipment | Description | Tier |
 |:-|-|------|-|
-| <img src="https://i.postimg.cc/90551q0y/tex-Sandsw-eeper.png" width="64"/> | **The Sand Sweeper** | Pushes all enemies within 20m, dealing up to 500% damage and stunning for up to 6 seconds based on the distance. | Orange |
-
-equipment readme todo
+| <img src="https://i.postimg.cc/90551q0y/tex-Sandsw-eeper.png" width="64"/> | **Galvanic Cell Shield** | Raise a shield that parries the next attack. Upon sucessfully parrying, shock and damage nearby enemies for 2000% damage. Cooldown: 20s | Orange |
+| <img src="https://i.postimg.cc/90551q0y/tex-Sandsw-eeper.png" width="64"/> | **The Sand Sweeper** | Pushes all enemies within 20m, dealing up to 500% damage and stunning for up to 6 seconds based on the distance. Cooldown: 30s | Orange |
+|  |  |  |
+| <img src="https://i.postimg.cc/90551q0y/tex-Sandsw-eeper.png" width="64"/> | **Corrupted Catalyst** | Crete a 30m aura that gives all allies and enemies a random buff for 15s. Cooldown: 35s | Lunar |
 
 # Interactables
 | Icon | Name | Description | Details |
 |:-|-|------|-|
 |<img src="https://i.postimg.cc/gkCDYxzs/tex-Shrine-Of-Sacrifice.png" width="64"/> | **Shrine of Sacrifice** | Gain 20% curse to drop 2 copies of a random common item. | Usable only once, can only spawn once per stage, costs 20 credits. |
 | image tbd | **Shrine of Ruin** | Give 10 common items to corrupt the next stage, making it a simulacrum variant that exclusively drops void items and exclusively spawns void enemies. | Usable only once, can only spawn once per stage, can only spawn on stages >= 2, costs 45 credits. Replaces *all* loot tables with a custom void one that has a 50% chance of rolling a void common, 34% chance of rolling a void uncommon, 8% chance of rolling a void legendary and 8% chance of rolling a void boss item. |
-| image tbd | **Shrine of The Future** | Summon a random Tier 2 Elite Miniboss that upon being defeated, drops 4 item potentials per player. | Usable only once, can only spawn once per stage, can only spawn on stages >= 3 and <= 5, costs 40 credits. Item potentials have a choice between a random white and a random green. |
+| image tbd | **Shrine of The Future** | Summon a random Tier 2 Elite Miniboss with halved stats that upon being defeated, drops 4 item potentials per player. | Usable only once, can only spawn once per stage, can only spawn on stages >= 3 and <= 5, costs 40 credits. Item potentials have a choice between a random white and a random green. |
 # Credits
 
 ### Support us on KOFI! https://linktr.ee/SandsweptTeam
