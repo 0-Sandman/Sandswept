@@ -28,6 +28,8 @@
         [ConfigField("Recharge Time", "", 25f)]
         public static float rechargeTime;
 
+        public static BuffDef cooldown;
+
         public override ItemTier Tier => ItemTier.Tier2;
 
         public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("CrownsDiamondHolder.prefab");
@@ -38,6 +40,15 @@
 
         public override void Init(ConfigFile config)
         {
+            cooldown = ScriptableObject.CreateInstance<BuffDef>();
+            cooldown.isHidden = false;
+            cooldown.isDebuff = false;
+            cooldown.canStack = false;
+            cooldown.isCooldown = false;
+            cooldown.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1f);
+            cooldown.iconSprite = Paths.BuffDef.bdCloak.iconSprite;
+            ContentAddition.AddBuffDef(cooldown);
+
             CreateLang();
             CreateItem();
             Hooks();
@@ -93,6 +104,11 @@
             }
             else
             {
+                if (!body.HasBuff(DriftingPerception.cooldown))
+                {
+                    body.AddTimedBuffAuthority(DriftingPerception.cooldown.buffIndex, DriftingPerception.rechargeTime);
+                }
+                Util.PlaySound("Play_bandit2_shift_exit", gameObject);
                 canProc = false;
             }
 
