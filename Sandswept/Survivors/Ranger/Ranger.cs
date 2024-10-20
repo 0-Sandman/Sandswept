@@ -2,7 +2,6 @@ using KinematicCharacterController;
 using RoR2.UI;
 using Sandswept.Survivors.Ranger.Achievements;
 
-
 // using Sandswept.Survivors.Ranger.ItemDisplays;
 using Sandswept.Survivors.Ranger.Pod;
 using Sandswept.Survivors.Ranger.SkillDefs.Passive;
@@ -35,7 +34,7 @@ namespace Sandswept.Survivors.Ranger
             var characterBody = Body.GetComponent<CharacterBody>();
             characterBody.portraitIcon = Main.hifuSandswept.LoadAsset<Texture2D>("texRangerIcon.png");
             characterBody.bodyColor = new Color32(54, 215, 169, 255);
-            
+
             var networkIdentity = Body.GetComponent<NetworkIdentity>();
             networkIdentity.localPlayerAuthority = true;
             networkIdentity.enabled = true;
@@ -102,7 +101,6 @@ namespace Sandswept.Survivors.Ranger
             ReplaceSkills(locator.secondary, new SkillDef[] { SkillDefs.Secondary.Release.instance.skillDef, SkillDefs.Secondary.Galvanize.instance.skillDef });
             ReplaceSkills(locator.utility, new SkillDef[] { SkillDefs.Utility.Sidestep.instance.skillDef });
             ReplaceSkills(locator.special, new SkillDef[] { SkillDefs.Special.OverdriveEnter.instance.skillDef });
-            
 
             "SS_RANGER_BODY_LORE".Add("After the Purge, the Hall of the Revered invested quite a lot into its own defense. For most groups, that meant shield generators, missile systems, or armies � but the Hall's measures were more...singular.\r\n\r\nAs they had told their chosen defense when training began, the Hall is not a military organization. All they wanted was a looming threat, a force unstoppable but not flaunted or oft-used � and unstoppable she soon became. The miracles and relics held in the trust of the Hall for eons contained strength unimaginable by the known superpowers of the galaxy. \"But do not abuse them,\" she had been told. \"Our restraint and dedication to peace are the reason we are entrusted with such power, and the Hall can never betray that trust.\"\r\n\r\nAlthough she always had firm and eternal trust in the Hall and its members, the shadowed part of her brain raised doubts about this order, echoing those words against the walls of her skull. Rather than a defense, a response to something, this felt like an attack. Sneaking aboard a UES ship was questionable to begin with; now that she was at its destination, slaughtering the denizens of the alien planet by the dozens, the doubtful questions came in floods. Out of each fatal arc of electricity and cruel burst of flame, more hesitation seeped, lodging into her mind. Had the Hall fallen? Was she receiving instructions from some malicious outsider? If not, was one ancient sword, however powerful, really worth all this destruction?\r\n\r\nYet, she refused to falter. She could not. The torrent of worry threatened only an inky darkness should she accept its embrace, a storm of great hail and thunder, unnavigable in this cruel place so far from humanity. The Hall's principles were her only guiding light here, even if that light might burn her. She would not wander into the tempest's depths, not like the one who came before her.\r\n\r\n\"Take this as a lesson.\" The words were hammered into her memory � indeed, nearly everything from the moment was preserved in agonizing clarity, even the parts of her vision which had been blurred by tears not seen since that day. \"The greatest strength of all is strength of will, and of devotion. The Hall has paved a path for you, and though thorns may sometimes cross it, they are nothing compared to the thicket of brambles that surround it.\"\r\n\r\nThe Hall had given her this directive, and as its only defense, she was soul-bound to follow it.");
 
@@ -112,15 +110,26 @@ namespace Sandswept.Survivors.Ranger
             var chest = rig.Find("Root/Base/Stomach/Chest");
             var neck = chest.Find("Neck");
             var head = neck.Find("Head");
+            // var freakyLeftFoot = ;
+            // var freakyRightFoot = ;
 
             var childLocator = _modelTransform.GetComponent<ChildLocator>();
             Array.Resize(ref childLocator.transformPairs, childLocator.transformPairs.Length + 3);
+            // Array.Resize(ref childLocator.transformPairs, childLocator.transformPairs.Length + 5);
             childLocator.transformPairs[1].name = "Chest";
             childLocator.transformPairs[1].transform = chest;
             childLocator.transformPairs[2].name = "Neck";
             childLocator.transformPairs[2].transform = neck;
             childLocator.transformPairs[3].name = "Head";
             childLocator.transformPairs[3].transform = head;
+            /*
+            childLocator.transformPairs[4].name = "(FREAKY WARNING!) Left Foot";
+            childLocator.transformPairs[4].transform = freakyLeftFoot;
+            childLocator.transformPairs[5].name = "(FREAKY WARNING!) Right Foot";
+            childLocator.transformPairs[5].name = freakyRightFoot;
+            */
+
+            // TODO
 
             AddSkins();
 
@@ -185,18 +194,12 @@ namespace Sandswept.Survivors.Ranger
             defaultDef = Main.Assets.LoadAsset<SkinDef>("Skindefault.asset");
             Material masteryMat = Main.dgoslingAssets.LoadAsset<Material>("matRangerMastery");
             GameObject masterObject = Main.dgoslingAssets.LoadAsset<GameObject>("RangerMastery-fixArm");
-           
-            
-            
 
-
-
-
-
-           
-            SkinDefInfo skinInfo = new SkinDefInfo();
-            skinInfo.NameToken = "SKINDEF_SANDSWEPT";
-            "SKINDEF_SANDSWEPT".Add("Mastery");
+            SkinDefInfo skinInfo = new()
+            {
+                NameToken = "SKINDEF_SANDSWEPT"
+            };
+            "SKINDEF_SANDSWEPT".Add("Sandswept");
             skinInfo.Name = "RangerMastery";
             skinInfo.RendererInfos = new CharacterModel.RendererInfo[]
             {
@@ -214,14 +217,13 @@ namespace Sandswept.Survivors.Ranger
                     defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
                     ignoreOverlays = false,
                     renderer = mdl.transform.Find("Scarf").GetComponent<SkinnedMeshRenderer>(),
-
                 }
             };
             skinInfo.BaseSkins = new SkinDef[]
             {
                 defaultDef
             };
-          skinInfo.MeshReplacements = new SkinDef.MeshReplacement[]{
+            skinInfo.MeshReplacements = new SkinDef.MeshReplacement[]{
                 new SkinDef.MeshReplacement
                 {
                     renderer = mdl.transform.Find("Legs").GetComponent<SkinnedMeshRenderer>(),
@@ -245,11 +247,11 @@ namespace Sandswept.Survivors.Ranger
             SkinDef mastery = Skins.CreateNewSkinDef(skinInfo);
             Skins.AddSkinToCharacter(Body, mastery);
             modelSkinController = mdl.GetComponent<ModelSkinController>();
-            
+
             majorDef = CreateRecolor("Major", 4.2f);
             renegadeDef = CreateRecolor("Renegade", 2.5f);
             mileZeroDef = CreateRecolor("Mile Zero", 4.2f);
-            
+
             // sandsweptDef = CreateRecolor("Sandswept", 4.2f, Achievements.UnlockableDefs.masteryUnlock);
 
             // racecarDef = CreateRecolor("Racecar", 4.2f);

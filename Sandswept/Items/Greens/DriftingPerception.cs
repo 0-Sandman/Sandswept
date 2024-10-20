@@ -110,6 +110,8 @@
                 }
                 Util.PlaySound("Play_bandit2_shift_exit", gameObject);
                 canProc = false;
+
+                // TODO TEST
             }
 
             if (canProc && !body.HasBuff(RoR2Content.Buffs.Cloak) && !body.HasBuff(RoR2Content.Buffs.CloakSpeed))

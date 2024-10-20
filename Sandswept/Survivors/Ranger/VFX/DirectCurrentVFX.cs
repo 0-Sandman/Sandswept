@@ -29,8 +29,8 @@ namespace Sandswept.Survivors.Ranger.VFX
             ghostPrefabDefault = CreateGhostRecolor("Default", new Color32(0, 255, 167, 255), new Color32(0, 141, 197, 255), new Color32(111, 170, 151, 255));
 
             impactPrefabDefault = CreateImpactRecolor("Default", new Color32(17, 17, 17, 255), new Color32(14, 32, 161, 255), new Color32(25, 67, 255, 255),
-                new Color32(0, 108, 238, 255), new Color32(0, 57, 147, 255), new Color32(20, 116, 255, 255), new Color32(0, 133, 255, 255), new Color32(88, 229, 255, 255),
-                new Color32(54, 71, 214, 255), new Color32(243, 211, 65, 255), new Color32(255, 255, 255, 255), new Color32(39, 140, 144, 255), new Color32(49, 166, 180, 255),
+                new Color32(0, 108, 238, 255), new Color32(0, 57, 147, 255), new Color32(20, 255, 168, 255), new Color32(0, 133, 255, 255), new Color32(88, 229, 255, 255),
+                new Color32(54, 71, 214, 255), new Color32(58, 218, 219, 255), new Color32(255, 255, 255, 255), new Color32(39, 140, 144, 255), new Color32(49, 166, 180, 255),
                 new Color32(0, 255, 62, 255), new Color32(0, 255, 90, 255), 1.301445f, 0.07936508f);
 
             ghostPrefabMajor = CreateGhostRecolor("Major", new Color32(0, 224, 255, 255), new Color32(0, 49, 197, 255), new Color32(100, 20, 217, 255));
@@ -64,8 +64,8 @@ namespace Sandswept.Survivors.Ranger.VFX
             ghostPrefabSandswept = CreateGhostRecolor("Sandswept", new Color32(249, 197, 143, 255), new Color32(214, 159, 79, 255), new Color32(87, 87, 87, 255));
 
             impactPrefabSandswept = CreateImpactRecolor("Sandswept", new Color32(17, 17, 17, 255), new Color32(214, 159, 79, 255), new Color32(249, 197, 143, 255),
-                new Color32(214, 159, 79, 255), new Color32(59, 45, 23, 255), new Color32(150, 150, 150, 255), new Color32(249, 197, 143, 255), new Color32(87, 87, 87, 255),
-                new Color32(150, 150, 150, 255), new Color32(150, 150, 150, 255), new Color32(255, 255, 255, 255), new Color32(100, 70, 36, 255),
+                new Color32(214, 159, 79, 255), new Color32(255, 255, 255, 255), new Color32(150, 150, 150, 255), new Color32(255, 255, 255, 255), new Color32(87, 87, 87, 255),
+                new Color32(255, 255, 255, 255), new Color32(255, 255, 255, 255), new Color32(255, 255, 255, 255), new Color32(100, 70, 36, 255),
                 new Color32(59, 45, 23, 255), new Color32(214, 159, 79, 255), new Color32(249, 197, 143, 255));
         }
 
@@ -162,9 +162,10 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var matrixPSR = matrixDynamic.GetComponent<ParticleSystemRenderer>();
 
-            var newTrailMat = Object.Instantiate(Paths.Material.matLightningLongBlue);
+            var newTrailMat = new Material(Paths.Material.matLightningLongBlue);
 
             newTrailMat.SetColor("_TintColor", lavenderEquivalent);
+            newTrailMat.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone2);
 
             matrixPSR.trailMaterial = newTrailMat;
 
@@ -180,7 +181,9 @@ namespace Sandswept.Survivors.Ranger.VFX
             // newMat2.SetColor("_TintColor", tintColor);
             // newMat2.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("texRampDirectCurrentMatrix" + trimmedName + ".png"));
 
-            var newMat2 = Paths.Material.matMageMatrixDirectionalLightning; // the version above does not have a transparent bg so it looks weird in-game
+            var newMat2 = new Material(Paths.Material.matMageMatrixDirectionalLightning); // the version above does not have a transparent bg so it looks weird in-game
+            newMat2.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone2);
+            newMat2.SetColor("_TintColor", lightGrayEquivalent);
 
             matrixDPSR.material = newMat2;
 
@@ -199,6 +202,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var newMat3 = Object.Instantiate(Paths.Material.matMageMatrixLightning);
             newMat3.SetColor("_TintColor", tintColor);
+            newMat3.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone2);
 
             matrixBPSR.material = newMat3;
 
