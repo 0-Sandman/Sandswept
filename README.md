@@ -62,7 +62,7 @@
 |<img src="https://i.postimg.cc/LXcqFPFd/tex-Sun-Fragment.png" width="96"/> | **Sun Fragment** | 9% chance on hit to create a blinding flash in a 12m area, stunning for 1.5s and igniting enemies for 150% (+150% per stack) TOTAL damage. | Green |
 |<img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"/> | **Universal VIP Pass** | Category chests have a 45% chance of dropping 1 (+1 per stack) extra items. | Green |
 | ‎ | ‎ | ‎ |
-|<img src="https://i.postimg.cc/L625CrWK/tex-Millenium.png" width="96"/> | **Millenium** | 7% chance on hit to inflict decay for 300% base damage. Moving near decaying enemies increases attack speed by 33% (+33% per stack) for 2s. Corrupts all Smouldering Documents. | Void Green |
+|<img src="https://i.postimg.cc/L625CrWK/tex-Millenium.png" width="96"/> | **Festering Hunger** | 7% chance on hit to inflict decay for 300% base damage. Moving near decaying enemies increases attack speed by 33% (+33% per stack) for 2s. Corrupts all Smouldering Documents. | Void Green |
 |<img src="https://i.postimg.cc/L625CrWK/tex-Millenium.png" width="96"/> | **Millenium** | 7% chance on hit to create a tidal cataclysm in a 12m (+4m per stack) area, collapsing and grounding enemies for 400% base damage. Corrupts all Sun Fragments. | Void Green |
 | ‎ | ‎ | ‎ |
 |<img src="https://i.postimg.cc/PxjsGfV3/tex-Bleeding-Witness.png" width="96"/> | **Bleeding Witness** | 8% chance on hit to hemorrhage enemies for 500% base damage. Your damage over time effects heal all allies for 0.33% (+0.33% per stack) of their maximum health. | Red |
