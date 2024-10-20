@@ -54,7 +54,7 @@ namespace Sandswept.Survivors.Electrician
             ReplaceSkills(locator.special, new SkillDef[] { Skills.SignalOverload.instance });
 
             "SANDSWEPT_ELECTR_PASSIVE_NAME".Add("Volatile Shields");
-            "SANDSWEPT_ELECTR_PASSIVE_DESC".Add("Discharge yo <style=cIsUtility>balls</style> when struck by enemy <style=cDeath>jaws</style>.");
+            "SANDSWEPT_ELECTR_PASSIVE_DESC".Add("On shield break overload and gain move speed<style=cDeath>jaws</style>.");
 
             GalvanicBolt = Main.Assets.LoadAsset<GameObject>("GalvanicBallProjectile.prefab");
             ContentAddition.AddProjectile(GalvanicBolt);
