@@ -22,6 +22,7 @@ namespace Sandswept.Survivors.Electrician
         public static DamageAPI.ModdedDamageType Grounding = DamageAPI.ReserveDamageType();
 
         public static GameObject staticSnareImpactVFX;
+        public static GameObject LightningZipEffect;
 
         public override void LoadAssets()
         {
@@ -29,7 +30,7 @@ namespace Sandswept.Survivors.Electrician
 
             Body = Main.Assets.LoadAsset<GameObject>("ElectricianBody.prefab");
 
-            Body.GetComponent<CameraTargetParams>().cameraParams = Paths.CharacterCameraParams.ccpStandard;
+            Body.GetComponent<CameraTargetParams>().cameraParams = Paths.CharacterCameraParams.ccpStandardMelee;
             var networkIdentity = Body.GetComponent<NetworkIdentity>();
             networkIdentity.localPlayerAuthority = true;
             networkIdentity.enabled = true;
@@ -69,6 +70,20 @@ namespace Sandswept.Survivors.Electrician
             Main.Instance.StartCoroutine(CreateVFX());
 
             On.RoR2.HealthComponent.TakeDamage += HandleGroundingShock;
+
+            //Body.AddComponent<StupidDebugComponent>();
+        }
+
+        public class StupidDebugComponent : MonoBehaviour {
+            public Animator animator;
+
+            public void Start() {
+                animator = GetComponent<ModelLocator>()._modelTransform.GetComponent<Animator>();
+            }
+
+            public void FixedUpdate() {
+                Debug.Log(animator.GetFloat("aimYawCycle"));
+            }
         }
 
         public IEnumerator CreateVFX()
@@ -115,6 +130,13 @@ namespace Sandswept.Survivors.Electrician
             var effectComponent = staticSnareImpactVFX.GetComponent<EffectComponent>();
             effectComponent.soundName = "Play_loader_m1_impact";
             ContentAddition.AddEffect(staticSnareImpactVFX);
+
+            LightningZipEffect = PrefabAPI.InstantiateClone(Paths.GameObject.BeamSphereGhost, "LightningZipOrb");
+            LightningZipEffect.RemoveComponent<ProjectileGhostController>();
+            LightningZipEffect.transform.Find("Lightning").gameObject.SetActive(false);
+            LightningZipEffect.transform.Find("Fire").transform.localScale *= 0.3f;
+            LightningZipEffect.transform.Find("Fire").GetComponent<ParticleSystemRenderer>().sharedMaterial = Paths.Material.matLoaderLightningTile;
+            LightningZipEffect.transform.Find("Fire").Find("Beams").GetComponent<ParticleSystemRenderer>().sharedMaterial = Paths.Material.matLoaderLightningTile;
         }
 
         private void HandleGroundingShock(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
@@ -170,9 +192,10 @@ namespace Sandswept.Survivors.Electrician
         private BlastAttack blast;
         private GameObject effect;
         private bool isInVehicleMode = false;
-        private float speed = 60f;
+        private float speed = 190f;
         private CharacterBody body;
         private Vector3 startPosition;
+        public GameObject lightningEffect;
 
         public void OnInteract(Interactor interactor) {
             blast.position = explo.position;
@@ -229,12 +252,35 @@ namespace Sandswept.Survivors.Electrician
 
             ControllerMap.Add(controller.owner, this);
             body = controller.owner.GetComponent<CharacterBody>();
+
+            lightningEffect = GameObject.Instantiate(Electrician.LightningZipEffect, seat.seatPosition);
+            lightningEffect.transform.localPosition = Vector3.zero;
+            lightningEffect.SetActive(false);
         }
 
-        public void StartZip() {
+        public bool StartZip() {
+            if (!head || Vector3.Distance(explo.position, head.transform.position) > 90f) {
+                return false;
+            }
+
             seat.AssignPassenger(body.gameObject);
             startPosition = body.transform.position;
             isInVehicleMode = true;
+
+            attack.origin = explo.position;
+            attack.aimVector = (head.position - explo.position).normalized;
+            attack.maxDistance = Vector3.Distance(explo.position, head.position);
+            attack.radius *= 3f;
+            attack.damage = pDamage.damage * 8f;
+            attack.damageType |= DamageType.Shock5s;
+
+            attack.Fire();
+
+            head.gameObject.SetActive(false);
+
+            lightningEffect.SetActive(true);
+
+            return true;
         }
 
         public void FixedUpdate()
@@ -249,11 +295,11 @@ namespace Sandswept.Survivors.Electrician
                 }
             }
 
-            lineRenderer.enabled = init;
+            lineRenderer.enabled = init && head && Vector3.Distance(explo.position, head.transform.position) < 90f;
 
             
             lineRenderer.SetPosition(0, explo.position);
-            lineRenderer.SetPosition(1, head.transform.position);
+            lineRenderer.SetPosition(1, isInVehicleMode ? seat.seatPosition.position : head.transform.position);
 
             if (isInVehicleMode) {
                 if (!body || !body.hasAuthority) {
@@ -275,6 +321,10 @@ namespace Sandswept.Survivors.Electrician
                         origin = blast.position,
                         scale = blast.radius * 2
                     }, true);
+
+                    if (head) {
+                        head.gameObject.SetActive(true);
+                    }
 
                     seat.EjectPassenger();
                     GameObject.Destroy(this.gameObject);
@@ -323,6 +373,10 @@ namespace Sandswept.Survivors.Electrician
         {
             if (controller.owner && ControllerMap.ContainsKey(controller.owner)) {
                 ControllerMap.Remove(controller.owner);
+            }
+
+            if (head) {
+                head.gameObject.SetActive(true);
             }
         }
     }

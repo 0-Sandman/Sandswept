@@ -27,7 +27,7 @@ namespace Sandswept.Survivors.Electrician.States
             if (!tossedOut) {
                 if (TripwireController.ControllerMap.ContainsKey(base.gameObject)) {
                     TripwireController controller = TripwireController.ControllerMap[base.gameObject];
-                    controller.StartZip();
+                    tossedOut = !controller.StartZip();
                 }
             }
 
