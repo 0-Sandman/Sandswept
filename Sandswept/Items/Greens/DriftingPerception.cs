@@ -1,4 +1,6 @@
-﻿namespace Sandswept.Items.Greens
+﻿using IL.RoR2.Achievements.Engi;
+
+namespace Sandswept.Items.Greens
 {
     [ConfigSection("Items :: Drifting Perception")]
     public class DriftingPerception : ItemBase<DriftingPerception>
@@ -9,7 +11,7 @@
 
         public override string ItemPickupDesc => "Cloak upon entering combat. Being cloaked increases your 'Critical Strike' chance and 'Critical Damage'. Recharges over time.";
 
-        public override string ItemFullDescription => ("Upon entering combat, become $sucloaked$se for $su" + cloakBuffDuration + "s$se. While $sucloaked$se, increase '$sdCritical Strike$se' chance by " + baseCritChanceGain + "% and '$sdCritical Strike$se' damage by $sd" + d(baseCritDamageGain) + "$se $ss(+" + d(stackCritDamageGain) + " per stack)$se. Recharges every $su" + rechargeTime + " seconds$se.").AutoFormat();
+        public override string ItemFullDescription => ("Upon entering combat, become $sucloaked$se for $su" + cloakBuffDuration + "s$se. While $sucloaked$se, increase '$sdCritical Strike$se' chance by $sd" + baseCritChanceGain + "%$se and '$sdCritical Strike$se' damage by $sd" + d(baseCritDamageGain) + "$se $ss(+" + d(stackCritDamageGain) + " per stack)$se. Recharges every $su" + rechargeTime + " seconds$se.").AutoFormat();
 
         public override string ItemLore => "";
 
@@ -29,12 +31,13 @@
         public static float rechargeTime;
 
         public static BuffDef cooldown;
+        public static BuffDef ready;
 
         public override ItemTier Tier => ItemTier.Tier2;
 
-        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("CrownsDiamondHolder.prefab");
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("DriftingPerceptionHolder.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texCrownsDiamond.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texDriftingPerception.png");
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility };
 
@@ -48,6 +51,15 @@
             cooldown.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1f);
             cooldown.iconSprite = Paths.BuffDef.bdCloak.iconSprite;
             ContentAddition.AddBuffDef(cooldown);
+
+            ready = ScriptableObject.CreateInstance<BuffDef>();
+            ready.isHidden = true;
+            ready.isDebuff = false;
+            ready.canStack = false;
+            ready.isCooldown = false;
+            ready.buffColor = Color.white;
+            ready.iconSprite = Paths.BuffDef.bdCloak.iconSprite;
+            ContentAddition.AddBuffDef(ready);
 
             CreateLang();
             CreateItem();
@@ -84,9 +96,6 @@
     public class DriftingPerceptionController : CharacterBody.ItemBehavior
     {
         public HealthComponent hc;
-        public float timer = 26f;
-        public float interval = 25f;
-        public bool canProc = true;
 
         public void Start()
         {
@@ -95,31 +104,34 @@
 
         public void FixedUpdate()
         {
-            timer += Time.fixedDeltaTime;
+            if (!body.HasBuff(DriftingPerception.cooldown) && stack > 0)
+            {
+                if (!body.outOfCombat && !body.HasBuff(DriftingPerception.ready))
+                {
+                    body.AddBuff(DriftingPerception.ready);
+                }
 
-            if (timer >= interval && stack > 0 && !body.outOfCombat)
-            {
-                canProc = true;
-                timer = 0f;
-            }
-            else
-            {
-                if (!body.HasBuff(DriftingPerception.cooldown))
+                if (body.HasBuff(DriftingPerception.ready))
+                {
+                    if (!body.HasBuff(RoR2Content.Buffs.Cloak) || !body.HasBuff(RoR2Content.Buffs.CloakSpeed))
+                    {
+                        body.AddTimedBuffAuthority(RoR2Content.Buffs.Cloak.buffIndex, DriftingPerception.cloakBuffDuration);
+                        body.AddTimedBuffAuthority(RoR2Content.Buffs.CloakSpeed.buffIndex, DriftingPerception.cloakBuffDuration);
+
+                        Util.PlaySound("Play_roboBall_attack2_mini_spawn", gameObject);
+                        Util.PlaySound("Play_roboBall_attack2_mini_spawn", gameObject);
+                        EffectManager.SimpleEffect(Paths.GameObject.SmokescreenEffect, body.corePosition, Quaternion.identity, true);
+                    }
+
+                    body.RemoveBuff(DriftingPerception.ready);
+                }
+                else
                 {
                     body.AddTimedBuffAuthority(DriftingPerception.cooldown.buffIndex, DriftingPerception.rechargeTime);
+
+                    Util.PlaySound("Play_roboBall_attack2_mini_laser_stop", gameObject);
+                    Util.PlaySound("Play_roboBall_attack2_mini_laser_stop", gameObject);
                 }
-                Util.PlaySound("Play_bandit2_shift_exit", gameObject);
-                canProc = false;
-
-                // TODO TEST
-            }
-
-            if (canProc && !body.HasBuff(RoR2Content.Buffs.Cloak) && !body.HasBuff(RoR2Content.Buffs.CloakSpeed))
-            {
-                body.AddTimedBuffAuthority(RoR2Content.Buffs.Cloak.buffIndex, 5f);
-                body.AddTimedBuffAuthority(RoR2Content.Buffs.CloakSpeed.buffIndex, 5f);
-                Util.PlaySound("Play_bandit2_shift_enter", gameObject);
-                // Play_bandit_shift_jump
             }
         }
     }

@@ -110,26 +110,17 @@ namespace Sandswept.Survivors.Ranger
             var chest = rig.Find("Root/Base/Stomach/Chest");
             var neck = chest.Find("Neck");
             var head = neck.Find("Head");
-            // var freakyLeftFoot = ;
-            // var freakyRightFoot = ;
+
+            // foot master!? what
 
             var childLocator = _modelTransform.GetComponent<ChildLocator>();
-            Array.Resize(ref childLocator.transformPairs, childLocator.transformPairs.Length + 3);
-            // Array.Resize(ref childLocator.transformPairs, childLocator.transformPairs.Length + 5);
+            Array.Resize(ref childLocator.transformPairs, childLocator.transformPairs.Length + 5);
             childLocator.transformPairs[1].name = "Chest";
             childLocator.transformPairs[1].transform = chest;
             childLocator.transformPairs[2].name = "Neck";
             childLocator.transformPairs[2].transform = neck;
             childLocator.transformPairs[3].name = "Head";
             childLocator.transformPairs[3].transform = head;
-            /*
-            childLocator.transformPairs[4].name = "(FREAKY WARNING!) Left Foot";
-            childLocator.transformPairs[4].transform = freakyLeftFoot;
-            childLocator.transformPairs[5].name = "(FREAKY WARNING!) Right Foot";
-            childLocator.transformPairs[5].name = freakyRightFoot;
-            */
-
-            // TODO
 
             AddSkins();
 
@@ -175,6 +166,21 @@ namespace Sandswept.Survivors.Ranger
             var hitBoxGroup = trans.AddComponent<HitBoxGroup>();
             hitBoxGroup.hitBoxes = new HitBox[] { hitBox.GetComponent<HitBox>() };
             hitBoxGroup.groupName = "GaySex";
+
+            var rig = trans.Find("Ranger Rig");
+            var footLeftEnd = rig.Find("Root/IK-FootMaster.L/MCH-Foot.L.001/MCH-Foot.L/IK-Foot.L/IK-Foot.L_end");
+            var footRightEnd = rig.Find("Root/IK-FootMaster.R/MCH-Foot.R.001/MCH-Foot.R/IK-Foot.R/IK-Foot.R_end");
+            var freakyLeftFoot = new GameObject("FootL");
+            var freakyRightFoot = new GameObject("FootR");
+            freakyLeftFoot.transform.SetParent(footLeftEnd);
+            freakyRightFoot.transform.SetParent(footRightEnd);
+
+            var childLocator = trans.GetComponent<ChildLocator>();
+
+            childLocator.transformPairs[4].name = "(FREAKY WARNING!) Left Foot";
+            childLocator.transformPairs[4].transform = freakyLeftFoot.transform;
+            childLocator.transformPairs[5].name = "(FREAKY WARNING!) Right Foot";
+            childLocator.transformPairs[5].transform = freakyRightFoot.transform;
         }
 
         public static CharacterModel mdl;
@@ -192,15 +198,36 @@ namespace Sandswept.Survivors.Ranger
         public void AddSkins()
         {
             defaultDef = Main.Assets.LoadAsset<SkinDef>("Skindefault.asset");
+
+            var scarfAndPantsColor = new Color32(88, 161, 142, 255);
+            var helmetColor = new Color32(0, 255, 169, 255);
+            var armorColor = new Color32(223, 127, 35, 255);
+            var suitColor = new Color32(49, 62, 67, 255);
+
+            defaultDef.icon = Skins.CreateSkinIcon(scarfAndPantsColor, helmetColor, armorColor, suitColor);
+
+            "SKIN_DEFAULT".Add("Default");
+
+            modelSkinController = mdl.GetComponent<ModelSkinController>();
+
+            majorDef = CreateRecolor("Major", 4.2f);
+            renegadeDef = CreateRecolor("Renegade", 2.5f);
+            mileZeroDef = CreateRecolor("Mile Zero", 4.2f);
+
             Material masteryMat = Main.dgoslingAssets.LoadAsset<Material>("matRangerMastery");
             GameObject masterObject = Main.dgoslingAssets.LoadAsset<GameObject>("RangerMastery-fixArm");
 
             SkinDefInfo skinInfo = new()
             {
-                NameToken = "SKINDEF_SANDSWEPT"
+                NameToken = "SKINDEF_SANDSWEPT",
+                Icon = Main.dgoslingAssets.LoadAsset<Sprite>("BeeNormalIcon"),
+                RootObject = mdl.gameObject,
+                UnlockableDef = UnlockableDefs.masteryUnlock,
+                Name = "RangerMastery"
             };
+
             "SKINDEF_SANDSWEPT".Add("Sandswept");
-            skinInfo.Name = "RangerMastery";
+
             skinInfo.RendererInfos = new CharacterModel.RendererInfo[]
             {
                 new CharacterModel.RendererInfo
@@ -219,10 +246,12 @@ namespace Sandswept.Survivors.Ranger
                     renderer = mdl.transform.Find("Scarf").GetComponent<SkinnedMeshRenderer>(),
                 }
             };
+
             skinInfo.BaseSkins = new SkinDef[]
             {
                 defaultDef
             };
+
             skinInfo.MeshReplacements = new SkinDef.MeshReplacement[]{
                 new SkinDef.MeshReplacement
                 {
@@ -235,33 +264,9 @@ namespace Sandswept.Survivors.Ranger
                      mesh = masterObject.transform.Find("Scarf").GetComponent<SkinnedMeshRenderer>().sharedMesh
                 }
             };
-            var scarfAndPantsColor = new Color32(88, 161, 142, 255);
-            var helmetColor = new Color32(0, 255, 169, 255);
-            var armorColor = new Color32(223, 127, 35, 255);
-            var suitColor = new Color32(49, 62, 67, 255);
-            skinInfo.Icon = Main.dgoslingAssets.LoadAsset<Sprite>("BeeNormalIcon");
-            defaultDef.icon = Skins.CreateSkinIcon(scarfAndPantsColor, helmetColor, armorColor, suitColor);
-            skinInfo.RootObject = mdl.gameObject;
-            skinInfo.UnlockableDef = UnlockableDefs.masteryUnlock;
-            "SKIN_DEFAULT".Add("Default");
+
             SkinDef mastery = Skins.CreateNewSkinDef(skinInfo);
             Skins.AddSkinToCharacter(Body, mastery);
-            modelSkinController = mdl.GetComponent<ModelSkinController>();
-
-            majorDef = CreateRecolor("Major", 4.2f);
-            renegadeDef = CreateRecolor("Renegade", 2.5f);
-            mileZeroDef = CreateRecolor("Mile Zero", 4.2f);
-
-            // sandsweptDef = CreateRecolor("Sandswept", 4.2f, Achievements.UnlockableDefs.masteryUnlock);
-
-            // racecarDef = CreateRecolor("Racecar", 4.2f);
-            // rainbowDef = CreateRecolor("Racecar", 4.2f);
-
-            // CreateRecolor("Uv");
-            // ideas
-            // Major - as Ranger, kill 10 enemies at once
-            // Renegade - as Ranger, kill 3 enemies with one use of Heat Signature in one run
-            // Mile Zero - as Ranger, finish off 10 enemies with Exhaust in one run
         }
 
         public void RegisterStuff()
