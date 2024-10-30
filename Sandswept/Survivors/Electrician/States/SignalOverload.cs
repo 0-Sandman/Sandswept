@@ -13,17 +13,21 @@ namespace Sandswept.Survivors.Electrician.States
 
             baseDuration /= base.attackSpeedStat;
 
-            PlayAnimation("Fullbody, Override", "WindDischarge", "Generic.playbackRate", baseDuration * 2f);
+            FindModelChild("Tethers").gameObject.SetActive(true);
 
-            base.characterMotor.walkSpeedPenaltyCoefficient = 0.1f;
+            PlayAnimation("Gesture, Override", "StartOverload", "Generic.playbackRate", baseDuration * 2f);
+
+            // base.characterMotor.walkSpeedPenaltyCoefficient = 0.1f;
             Util.PlaySound("Play_ui_obj_nullWard_charge_loop", gameObject);
         }
 
         public override void OnExit()
         {
             base.OnExit();
-            base.characterMotor.walkSpeedPenaltyCoefficient = 1f;
+            // base.characterMotor.walkSpeedPenaltyCoefficient = 1f;
             Util.PlaySound("Stop_ui_obj_nullWard_charge_loop", gameObject);
+
+            FindModelChild("Tethers").gameObject.SetActive(false);
         }
 
         public override void FixedUpdate()
@@ -45,31 +49,65 @@ namespace Sandswept.Survivors.Electrician.States
     public class SignalOverloadDischarge : BaseSkillState
     {
         public float duration = 3f;
-        public float totalDamageCoef = 30f;
+        public float totalDamageCoef = 18f;
         public int totalHits = 10;
         public float delay => duration / totalHits;
         public float coeff => totalDamageCoef / totalHits;
-        public float radius = 60f;
+        public float radius = 30f;
         public float stopwatch = 0f;
         public Animator animator;
+        public GameObject effect;
+        public LineRenderer lr;
+        public GameObject beamEffect;
+        public Transform head;
+        public Vector3 pos;
+        public Transform origin;
+        public Transform end;
+        public CameraTargetParams.CameraParamsOverrideHandle handle;
 
         public override void OnEnter()
         {
             base.OnEnter();
 
-            PlayAnimation("Fullbody, Override", "EnterDischarge", "Generic.playbackRate", 0.5f);
+            PlayAnimation("Gesture, Override", "OverloadLoop", "Generic.playbackRate", 0.5f);
             animator = GetModelAnimator();
             animator.SetBool("discharging", true);
 
-            base.characterMotor.walkSpeedPenaltyCoefficient = 0.1f;
+            effect = Paths.GameObject.LoaderGroundSlam;
+
             Util.PlaySound("Play_roboBall_attack2_mini_active_loop", gameObject);
             Util.PlaySound("Play_ui_obj_nullWard_charge_loop", gameObject);
             Util.PlaySound("Play_captain_m1_shotgun_charge_loop", gameObject);
+
+            head = FindModelChild("Head");
+
+            FindModelChild("Tethers").gameObject.SetActive(true);
+
+            beamEffect = GameObject.Instantiate(Main.Assets.LoadAsset<GameObject>("ElectricianChargeBeam.prefab"), head.position, head.rotation);
+            origin = beamEffect.GetComponent<ChildLocator>().FindChild("Start");
+            end = beamEffect.GetComponent<ChildLocator>().FindChild("End");
+
+            lr = beamEffect.GetComponent<LineRenderer>();
+
+            handle = base.cameraTargetParams.AddParamsOverride(new() {
+                cameraParamsData = Paths.CharacterCameraParams.ccpToolbot.data
+            }, 0.3f);
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+
+            if (Util.CharacterRaycast(base.gameObject, base.GetAimRay(), out RaycastHit info, 300f, LayerIndex.CommonMasks.bullet, QueryTriggerInteraction.Ignore)) {
+                pos = info.point;
+            }
+            else {
+                pos = base.GetAimRay().GetPoint(40f);
+            }
+
+            beamEffect.transform.position = head.transform.position;
+            origin.transform.position = head.transform.position;
+            end.transform.position = pos;
 
             stopwatch += Time.fixedDeltaTime;
             if (stopwatch >= delay)
@@ -77,7 +115,8 @@ namespace Sandswept.Survivors.Electrician.States
                 stopwatch = 0f;
                 Util.PlaySound("Play_item_proc_armorReduction_hit", gameObject);
                 Util.PlaySound("Play_mage_m1_cast_lightning", gameObject);
-                HandleBlastAuthority();
+
+                HandleBlastAuthority(pos);
             }
 
             if (base.fixedAge >= duration)
@@ -89,11 +128,19 @@ namespace Sandswept.Survivors.Electrician.States
         public override void OnExit()
         {
             base.OnExit();
-            base.characterMotor.walkSpeedPenaltyCoefficient = 1f;
+            
             animator.SetBool("discharging", false);
             Util.PlaySound("Stop_roboBall_attack2_mini_active_loop", gameObject);
             Util.PlaySound("Stop_ui_obj_nullWard_charge_loop", gameObject);
             Util.PlaySound("Stop_captain_m1_shotgun_charge_loop", gameObject);
+
+            if (beamEffect) {
+                Destroy(beamEffect);
+            }
+
+            FindModelChild("Tethers").gameObject.SetActive(false);
+
+            cameraTargetParams.RemoveParamsOverride(handle, 0.3f);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -101,25 +148,47 @@ namespace Sandswept.Survivors.Electrician.States
             return InterruptPriority.Frozen;
         }
 
-        public void HandleBlastAuthority()
+        public void HandleBlastAuthority(Vector3 position)
         {
             SphereSearch search = new();
             search.radius = radius;
             search.mask = LayerIndex.entityPrecise.mask;
-            search.origin = base.transform.position;
+            search.origin = position;
             search.RefreshCandidates();
             search.FilterCandidatesByDistinctHurtBoxEntities();
             search.FilterCandidatesByHurtBoxTeam(TeamMask.GetUnprotectedTeams(base.GetTeam()));
 
+            BlastAttack attack = new();
+            attack.radius = radius * 0.10f;
+            attack.baseDamage = base.damageStat * coeff * 1.8f;
+            attack.damageType = DamageType.Stun1s | DamageType.Shock5s;
+            attack.crit = base.RollCrit();
+            attack.attacker = base.gameObject;
+            attack.teamIndex = base.GetTeam();
+            attack.falloffModel = BlastAttack.FalloffModel.None;
+            attack.procCoefficient = 0.8f;
+            attack.position = position;
+
+            attack.Fire();
+
+            EffectManager.SpawnEffect(effect, new EffectData {
+                origin = attack.position,
+                scale = attack.radius * 2f
+            }, true);
+
             foreach (HurtBox box in search.GetHurtBoxes())
             {
+                if (Vector3.Distance(box.transform.position, attack.position) < attack.radius * 1.5f) {
+                    continue;
+                }
+
                 LightningOrb orb = new();
                 orb.attacker = base.gameObject;
-                orb.damageValue = base.damageStat;
+                orb.damageValue = base.damageStat * coeff;
                 orb.bouncesRemaining = 0;
                 orb.isCrit = base.RollCrit();
                 orb.lightningType = LightningOrb.LightningType.Loader;
-                orb.origin = base.transform.position;
+                orb.origin = position;
                 orb.procCoefficient = 1f;
                 orb.target = box;
                 orb.teamIndex = base.GetTeam();
@@ -133,14 +202,14 @@ namespace Sandswept.Survivors.Electrician.States
                     if (motor)
                     {
                         motor.Motor.ForceUnground();
-                        motor.velocity += (base.transform.position - motor.transform.position).normalized * ((20.5f) * delay);
+                        motor.velocity += (position - motor.transform.position).normalized * ((14.5f) * delay);
                     }
 
                     if (motor2)
                     {
                         PhysForceInfo info = new();
                         info.massIsOne = true;
-                        info.force = (base.transform.position - motor2.transform.position).normalized * (4.5f * delay);
+                        info.force = (position - motor2.transform.position).normalized * (2.5f * delay);
                         motor2.ApplyForceImpulse(in info);
                     }
                 }
@@ -171,6 +240,10 @@ namespace Sandswept.Survivors.Electrician.States
             radius *= effectMultiplier;
 
             PlayAnimation("Fullbody, Override", "Discharge", "Generic.playbackRate", recoilDuration);
+
+            if (NetworkServer.active) {
+                base.characterBody.AddTimedBuff(Buffs.ShieldSpeed.instance.BuffDef, 5f);
+            }
 
             if (base.isAuthority)
             {

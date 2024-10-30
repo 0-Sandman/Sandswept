@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using EntityStates.Chef;
+using Sandswept.Survivors.Electrician.States;
 
 namespace Sandswept.Survivors.Electrician
 {
@@ -23,6 +24,8 @@ namespace Sandswept.Survivors.Electrician
 
         public static GameObject staticSnareImpactVFX;
         public static GameObject LightningZipEffect;
+        public static GameObject SignalOverloadIndicator;
+        public static LazyIndex ElectricianIndex = new("ElectricianBody");
 
         public override void LoadAssets()
         {
@@ -55,7 +58,11 @@ namespace Sandswept.Survivors.Electrician
             ReplaceSkills(locator.special, new SkillDef[] { Skills.SignalOverload.instance });
 
             "SANDSWEPT_ELECTR_PASSIVE_NAME".Add("Volatile Shields");
-            "SANDSWEPT_ELECTR_PASSIVE_DESC".Add("On shield break overload and gain move speed.");
+            "SANDSWEPT_ELECTR_PASSIVE_DESC".Add("<style=cIsUtility>Start with innate shields</style>. When your shield <style=cDeath>breaks</style>, release a blast for <style=cIsDamage>400% damage</style> and gain <style=cIsUtility>+40% movement speed</style> for <style=cIsDamage>5 seconds</style>.");
+
+            "KEYWORD_GROUNDING".Add("<style=cKeywordName>Grounding</style>Deals <style=cIsDamage>1.5x</style> damage to flying targets, and <style=cDeath>knocks them down</style>.");
+
+            "KEYWORD_LIGHTWEIGHT".Add("<style=cKeywordName>Lightweight</style>Can be knocked around by heavy projectiles.");
 
             GalvanicBolt = Main.Assets.LoadAsset<GameObject>("GalvanicBallProjectile.prefab");
             ContentAddition.AddProjectile(GalvanicBolt);
@@ -70,20 +77,6 @@ namespace Sandswept.Survivors.Electrician
             Main.Instance.StartCoroutine(CreateVFX());
 
             On.RoR2.HealthComponent.TakeDamage += HandleGroundingShock;
-
-            //Body.AddComponent<StupidDebugComponent>();
-        }
-
-        public class StupidDebugComponent : MonoBehaviour {
-            public Animator animator;
-
-            public void Start() {
-                animator = GetComponent<ModelLocator>()._modelTransform.GetComponent<Animator>();
-            }
-
-            public void FixedUpdate() {
-                Debug.Log(animator.GetFloat("aimYawCycle"));
-            }
         }
 
         public IEnumerator CreateVFX()
@@ -141,12 +134,14 @@ namespace Sandswept.Survivors.Electrician
 
         private void HandleGroundingShock(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
         {
+            bool hadShield = self.shield > 0;
+
             if (damageInfo.HasModdedDamageType(Grounding) && NetworkServer.active)
             {
                 CharacterMotor motor = self.GetComponent<CharacterMotor>();
                 RigidbodyMotor motor2 = self.GetComponent<RigidbodyMotor>();
 
-                if ((motor && !motor.isGrounded) || (motor2))
+                if ((motor2))
                 {
                     damageInfo.damage *= 1.5f;
                     damageInfo.damageType |= DamageType.Shock5s;
@@ -168,370 +163,10 @@ namespace Sandswept.Survivors.Electrician
             }
 
             orig(self, damageInfo);
-        }
-    }
 
-    public class TripwireController : MonoBehaviour
-    {
-        public LineRenderer lineRenderer;
-        public Transform explo;
-        public float interval;
-        public VehicleSeat seat;
-        public int hitRate;
-        public static Dictionary<GameObject, TripwireController> ControllerMap = new();
-        private float stopwatch;
-        private Transform head;
-        private BulletAttack attack;
-        private ProjectileDamage pDamage;
-        private ProjectileController controller;
-        private float stopwatchBeam;
-        private float delay;
-        private float stopwatch2 = 0f;
-        private float initDelay = 2f;
-        private bool init = false;
-        private BlastAttack blast;
-        private GameObject effect;
-        private bool isInVehicleMode = false;
-        private float speed = 190f;
-        private CharacterBody body;
-        private Vector3 startPosition;
-        public GameObject lightningEffect;
-
-        public void OnInteract(Interactor interactor) {
-            blast.position = explo.position;
-            blast.radius *= 2f;
-            blast.baseDamage *= 2f;
-            blast.Fire();
-
-            EffectManager.SpawnEffect(effect, new EffectData
-            {
-                origin = blast.position,
-                scale = blast.radius * 2
-            }, true);
-
-            seat.EjectPassenger();
-            GameObject.Destroy(this.gameObject);
-        }
-
-        public void Start()
-        {
-            controller = GetComponent<ProjectileController>();
-            pDamage = GetComponent<ProjectileDamage>();
-
-            delay = 1f / hitRate;
-
-            attack = new()
-            {
-                damage = pDamage.damage * 2f * delay,
-                radius = lineRenderer.startWidth,
-                isCrit = pDamage.crit,
-                owner = controller.owner,
-                procCoefficient = 0.4f,
-                stopperMask = LayerIndex.noCollision.mask,
-                falloffModel = BulletAttack.FalloffModel.None
-            };
-
-            blast = new()
-            {
-                radius = 3f,
-                attacker = attack.owner,
-                crit = pDamage.crit,
-                losType = BlastAttack.LoSType.None,
-                falloffModel = BlastAttack.FalloffModel.None,
-                damageType = pDamage.damageType,
-                teamIndex = controller.teamFilter.teamIndex,
-                procCoefficient = 1f,
-                baseDamage = pDamage.damage * 3f
-            };
-            blast.damageType = DamageType.Shock5s;
-
-            ModelLocator loc = attack.owner.GetComponent<ModelLocator>();
-            head = loc.modelTransform.GetComponent<ChildLocator>().FindChild("Head");
-
-            effect = Electrician.staticSnareImpactVFX;
-
-            ControllerMap.Add(controller.owner, this);
-            body = controller.owner.GetComponent<CharacterBody>();
-
-            lightningEffect = GameObject.Instantiate(Electrician.LightningZipEffect, seat.seatPosition);
-            lightningEffect.transform.localPosition = Vector3.zero;
-            lightningEffect.SetActive(false);
-        }
-
-        public bool StartZip() {
-            if (!head || Vector3.Distance(explo.position, head.transform.position) > 90f) {
-                return false;
-            }
-
-            seat.AssignPassenger(body.gameObject);
-            startPosition = body.transform.position;
-            isInVehicleMode = true;
-
-            attack.origin = explo.position;
-            attack.aimVector = (head.position - explo.position).normalized;
-            attack.maxDistance = Vector3.Distance(explo.position, head.position);
-            attack.radius *= 3f;
-            attack.damage = pDamage.damage * 8f;
-            attack.damageType |= DamageType.Shock5s;
-
-            attack.Fire();
-
-            head.gameObject.SetActive(false);
-
-            lightningEffect.SetActive(true);
-
-            return true;
-        }
-
-        public void FixedUpdate()
-        {
-            stopwatch2 += Time.fixedDeltaTime;
-            
-            if (!init) {
-                initDelay -= Time.fixedDeltaTime;
-
-                if (initDelay <= 0f) {
-                    init = true;
-                }
-            }
-
-            lineRenderer.enabled = init && head && Vector3.Distance(explo.position, head.transform.position) < 90f;
-
-            
-            lineRenderer.SetPosition(0, explo.position);
-            lineRenderer.SetPosition(1, isInVehicleMode ? seat.seatPosition.position : head.transform.position);
-
-            if (isInVehicleMode) {
-                if (!body || !body.hasAuthority) {
-                    return;
-                }
-
-                startPosition = Vector3.MoveTowards(startPosition, base.transform.position, speed * Time.fixedDeltaTime);
-                seat.seatPosition.position = startPosition;
-                seat.UpdatePassengerPosition();
-
-                if (Vector3.Distance(startPosition, base.transform.position) < 0.5f) {
-                    blast.position = explo.position;
-                    blast.radius *= 2f;
-                    blast.baseDamage *= 2f;
-                    blast.Fire();
-
-                    EffectManager.SpawnEffect(effect, new EffectData
-                    {
-                        origin = blast.position,
-                        scale = blast.radius * 2
-                    }, true);
-
-                    if (head) {
-                        head.gameObject.SetActive(true);
-                    }
-
-                    seat.EjectPassenger();
-                    GameObject.Destroy(this.gameObject);
-                }
-            }
-
-            if (!NetworkServer.active)
-            {
-                return;
-            }
-
-            if (init)
-            {
-                stopwatchBeam += Time.fixedDeltaTime;
-
-                if (stopwatchBeam >= delay)
-                {
-                    stopwatchBeam = 0f;
-
-                    attack.origin = explo.position;
-                    attack.aimVector = (head.position - explo.position).normalized;
-                    attack.maxDistance = Vector3.Distance(explo.position, head.position);
-
-                    attack.Fire();
-                }
-            }
-
-            stopwatch += Time.fixedDeltaTime;
-
-            if (stopwatch >= interval && init)
-            {
-                stopwatch = 0f;
-
-                blast.position = explo.position;
-                blast.Fire();
-
-                EffectManager.SpawnEffect(effect, new EffectData
-                {
-                    origin = blast.position,
-                    scale = blast.radius * 2
-                }, true);
-            }
-        }
-
-        public void OnDisable()
-        {
-            if (controller.owner && ControllerMap.ContainsKey(controller.owner)) {
-                ControllerMap.Remove(controller.owner);
-            }
-
-            if (head) {
-                head.gameObject.SetActive(true);
-            }
-        }
-    }
-
-    public class GalvanicBallController : MonoBehaviour
-    {
-        public float radius = 14f;
-        public float damage = 1f;
-        private bool hasBouncedEnemy = false;
-        private ProjectileDamage pDamage;
-        private ProjectileController controller;
-        private CharacterBody owner;
-        private Rigidbody body;
-
-        public void Start()
-        {
-            pDamage = GetComponent<ProjectileDamage>();
-            controller = GetComponent<ProjectileController>();
-            owner = controller.owner.GetComponent<CharacterBody>();
-            body = GetComponent<Rigidbody>();
-        }
-
-        public void OnCollisionEnter(Collision collision)
-        {
-            if (!hasBouncedEnemy && NetworkServer.active)
-            {
-                if (collision.collider)
-                {
-                    hasBouncedEnemy = true;
-
-                    BlastAttack attack = new()
-                    {
-                        radius = radius,
-                        attacker = owner.gameObject,
-                        position = base.transform.position,
-                        crit = pDamage.crit,
-                        losType = BlastAttack.LoSType.None,
-                        falloffModel = BlastAttack.FalloffModel.None,
-                        damageType = pDamage.damageType,
-                        teamIndex = owner.teamComponent.teamIndex,
-                        procCoefficient = 1f,
-                        baseDamage = pDamage.damage * damage
-                    };
-
-                    attack.Fire();
-
-                    Util.PlaySound("Play_loader_R_shock", base.gameObject);
-                    EffectManager.SpawnEffect(Electrician.staticSnareImpactVFX, new EffectData
-                    {
-                        origin = attack.position,
-                        scale = attack.radius * 2f
-                    }, true);
-
-                    var rb = GetComponent<Rigidbody>();
-                    rb.useGravity = true;
-                    rb.velocity = Vector3.zero;
-                    // rb.velocity += Physics.gravity;
-                }
-            }
-        }
-    }
-
-    public class TempestBallController : MonoBehaviour
-    {
-        public float ticksPerSecond = 6;
-        public SphereCollider sphere;
-        public LineRenderer lr;
-        private float stopwatch = 0f;
-        private float delay;
-        private ProjectileController controller;
-        private ProjectileDamage damage;
-        private BlastAttack attack;
-        public static Dictionary<CharacterBody, List<TempestBallController>> orbs = new();
-        private ProjectileSimple simple;
-        private bool locked = false;
-        private CharacterBody body;
-
-        public void Start()
-        {
-            controller = GetComponent<ProjectileController>();
-            damage = GetComponent<ProjectileDamage>();
-
-            delay = 1f / ticksPerSecond;
-
-            simple = GetComponent<ProjectileSimple>();
-
-            if (controller.owner)
-            {
-                body = controller.owner.GetComponent<CharacterBody>();
-
-                if (body)
-                {
-                    if (!orbs.ContainsKey(body)) orbs.Add(body, new());
-                    orbs[body].Add(this);
-                }
-            }
-
-            attack = new()
-            {
-                radius = sphere.radius,
-                attacker = controller.owner,
-                baseDamage = damage.damage / ticksPerSecond,
-                crit = damage.crit,
-                damageType = damage.damageType,
-                procCoefficient = 1f,
-                teamIndex = controller.teamFilter.teamIndex,
-                losType = BlastAttack.LoSType.None,
-                falloffModel = BlastAttack.FalloffModel.None
-            };
-        }
-
-        public void FixedUpdate()
-        {
-            if (NetworkServer.active)
-            {
-                stopwatch += Time.fixedDeltaTime;
-
-                if (stopwatch >= delay)
-                {
-                    stopwatch = 0f;
-
-                    attack.position = base.transform.position;
-                    attack.Fire();
-                }
-            }
-
-            lr.SetPosition(0, base.transform.position);
-            lr.SetPosition(1, body.corePosition);
-        }
-
-        public static void LockAllOrbs(CharacterBody body)
-        {
-            if (orbs.ContainsKey(body))
-            {
-                foreach (TempestBallController orb in orbs[body])
-                {
-                    orb.simple.desiredForwardSpeed = 0;
-                    orb.simple.updateAfterFiring = true;
-                    orb.locked = true;
-                    orb.lr.enabled = false;
-                    Util.PlaySound("Play_gravekeeper_attack2_shoot_singleChain", orb.gameObject);
-                }
-            }
-        }
-
-        public void OnDestroy()
-        {
-            if (controller.owner)
-            {
-                CharacterBody body = controller.owner.GetComponent<CharacterBody>();
-
-                if (body && orbs.ContainsKey(body))
-                {
-                    orbs[body].Remove(this);
-                }
+            if (hadShield && self.body.bodyIndex == ElectricianIndex && self.shield <= 0) {
+                EntityStateMachine machine = EntityStateMachine.FindByCustomName(self.gameObject, "Shield");
+                machine.SetNextState(new SignalOverloadFire(0.65f));
             }
         }
     }

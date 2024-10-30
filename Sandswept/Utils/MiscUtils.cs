@@ -219,4 +219,24 @@ namespace Sandswept.Utils
             return info;
         }
     }
+
+    public class LazyIndex {
+        private string target;
+        private BodyIndex _value = BodyIndex.None;
+        public BodyIndex Value => UpdateValue();
+
+        public LazyIndex(string target) {
+            this.target = target;
+        }
+
+        public BodyIndex UpdateValue() {
+            if (_value == BodyIndex.None || _value == (BodyIndex)(-1)) {
+                _value = BodyCatalog.FindBodyIndex(target);
+            }
+
+            return _value;
+        }
+
+        public static implicit operator BodyIndex(LazyIndex index) => index.Value; 
+    }
 }

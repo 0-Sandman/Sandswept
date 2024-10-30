@@ -7,7 +7,7 @@ namespace Sandswept.Survivors.Electrician.Skills
     public class StaticSnare : SkillBase<StaticSnare>
     {
         public override string Name => "Static Snare";
-        public override string Description => "throw out a pylon that occasionally blasts for damage and is tethered to you. enemies hit by the tether are damaged. activate the skill again to travel along the tether (you become like a ball of light) damaging everything in your path, once you arrive at the pylon it explodes";
+        public override string Description => "<style=cIsUtility>Lightweight.</style> Toss out a pylon that shocks nearby targets for <style=cIsDamage>300% damage</style> periodically, and creates a chain between you that damages targets for <style=cIsDamage>200% damage per second</style>. Re-activate to zip to the pylon, dealing <style=cIsDamage>800% damage</style> when passing through targets.";
         public override Type ActivationStateType => typeof(States.StaticSnare);
         public override string ActivationMachineName => "Weapon";
         public override float Cooldown => 8f;
@@ -15,6 +15,6 @@ namespace Sandswept.Survivors.Electrician.Skills
         public override Sprite Icon => null;
         public override int StockToConsume => 0;
         public override InterruptPriority InterruptPriority => InterruptPriority.Skill;
-        public override string[] Keywords => null;
+        public override string[] Keywords => new string[] { "KEYWORD_LIGHTWEIGHT" };
     }
 }

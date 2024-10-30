@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3606484652
+CRC: 2942942790
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d4da70d28d1ffe815b68c624678c9e99
+    Hash: 80ca7e95020785b9ef797c2884e6d995
   TypeTreeHash:
     serializedVersion: 2
-    Hash: afb0dbcd1476326958c3999e4226624f
+    Hash: 94f260cc2712b8110361baa04668373a
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -118,6 +118,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -1888550019, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: -492659515, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: -1699741063, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1533710874, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
@@ -212,8 +214,9 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tripwire/texElecMine.png
 - Assets/Sandswept/Base/Characters/Electrician/ElectricianBody.prefab
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tripwire/TripwireMineProjectile.prefab
-- Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianOrbOuter.mat
+- Assets/Sandswept/Base/Characters/Electrician/effects/matChargeStreak.mat
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianBody.mat
+- Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianOrbOuter.mat
 - Assets/Sandswept/Base/Characters/Electrician/sdElectrician.asset
 - Assets/Sandswept/Base/Characters/Ranger/texCrosshairCircle.png
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherPulse.mat
@@ -223,6 +226,8 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvSpark.mat
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherPink.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/OverheatPrimary.png
+- Assets/Sandswept/Base/Characters/Electrician/effects/ElectricianChargeBeam.prefab
+- Assets/Sandswept/Base/Characters/Electrician/effects/matChargeFlare.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvanicBall.mat
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherBlue.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/Dash.png
@@ -242,6 +247,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallProjectile.prefab
 - Assets/Sandswept/Base/Characters/Ranger/mdl/matRanger.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tempest sphere/TempestSphereProjectile.prefab
+- Assets/Sandswept/Base/Characters/Electrician/effects/OrbChargeEffect.prefab
 - Assets/Sandswept/Base/Items/TornFeather/DashTrailEffect.prefab
 - Assets/Sandswept/Base/Characters/Ranger/RangerIDRS.asset
 - Assets/Sandswept/Base/Characters/Ranger/skills/Pew.png
