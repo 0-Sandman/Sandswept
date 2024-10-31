@@ -56,7 +56,7 @@ namespace Sandswept.Survivors.Electrician
             ReplaceSkills(locator.secondary, new SkillDef[] { Skills.TempestSphere.instance });
             ReplaceSkills(locator.utility, new SkillDef[] { Skills.StaticSnare.instance });
             ReplaceSkills(locator.special, new SkillDef[] { Skills.SignalOverload.instance });
-
+            locator.passiveSkill.icon = Main.prodAssets.LoadAsset<Sprite>("Assets/Sandswept/texElectricianSkillIcon_p.png");
             "SANDSWEPT_ELECTR_PASSIVE_NAME".Add("Volatile Shields");
             "SANDSWEPT_ELECTR_PASSIVE_DESC".Add("<style=cIsUtility>Start with innate shields</style>. When your shield <style=cDeath>breaks</style>, release a blast for <style=cIsDamage>400% damage</style> and gain <style=cIsUtility>+40% movement speed</style> for <style=cIsDamage>5 seconds</style>.");
 

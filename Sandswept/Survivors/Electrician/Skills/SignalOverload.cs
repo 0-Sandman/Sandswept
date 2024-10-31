@@ -11,7 +11,7 @@ namespace Sandswept.Survivors.Electrician.Skills
         public override Type ActivationStateType => typeof(States.SignalOverloadCharge);
         public override string ActivationMachineName => "Weapon";
         public override float Cooldown => 12f;
-        public override Sprite Icon => null;
+        public override Sprite Icon => Main.prodAssets.LoadAsset<Sprite>("Assets/Sandswept/texElectricianSkillIcon_spc.png");
         public override int StockToConsume => 1;
         public override InterruptPriority InterruptPriority => InterruptPriority.PrioritySkill;
         public override string[] Keywords => new string[] { "KEYWORD_GROUNDING" };

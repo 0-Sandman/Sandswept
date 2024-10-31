@@ -15,7 +15,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Utility
 
         public override float Cooldown => 5f;
 
-        public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("Dash.png");
+        public override Sprite Icon => Main.prodAssets.LoadAsset<Sprite>("Assets/Sandswept/texRangerSkillIcon_utl.png");
         public override string[] Keywords => new string[] { Utils.Keywords.Agile, Utils.Keywords.OverdriveFormUtility };
 
         public override bool FullRestockOnAssign => true;

@@ -12,7 +12,7 @@ namespace Sandswept.Survivors.Electrician.Skills
         public override string ActivationMachineName => "Weapon";
         public override float Cooldown => 8f;
         public override int MaxStock => 1;
-        public override Sprite Icon => null;
+        public override Sprite Icon => Main.prodAssets.LoadAsset<Sprite>("Assets/Sandswept/texElectricianSkillIcon_utl.png");
         public override int StockToConsume => 0;
         public override InterruptPriority InterruptPriority => InterruptPriority.Skill;
         public override string[] Keywords => new string[] { "KEYWORD_LIGHTWEIGHT" };

@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2951865409
+CRC: 3182078484
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: faf5e644bae8b75dbd270ecd43636b31
+    Hash: 9eb01ab22dbc019d0cfe6a475950a927
   TypeTreeHash:
     serializedVersion: 2
     Hash: 52e2e4dc385644b1ca0d4b5f03696411
@@ -36,17 +36,29 @@ ClassTypes:
 SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/Sandswept/shrineSacrificeIcon.png
+- Assets/Sandswept/texRangerSkillIcon_hm22.png
+- Assets/Sandswept/texElectricianSkillIcon_spc.png
+- Assets/Sandswept/texRangerSkillIcon_hutl.png
 - Assets/Sandswept/SandSweeperIcon.png
+- Assets/Sandswept/texRangerSkillIcon_m22.png
 - Assets/Sandswept/shrineFutureIcon.png
 - Assets/Resources/Sprites/joe160.png
 - Assets/Resources/Sprites/joe160.asset
+- Assets/Sandswept/texRangerSkillIcon_spc.png
 - Assets/Sandswept/tex2.png
 - Assets/Sandswept/shrineFuture.fbx
+- Assets/Sandswept/texRangerSkillIcon_utl.png
+- Assets/Sandswept/texElectricianSkillIcon_m1.png
 - Assets/Sandswept/shrineSacrifice.fbx
+- Assets/Sandswept/texElectricianSkillIcon_utl.png
 - Assets/Sandswept/tex5.png
 - Assets/Sandswept/tex4.png
 - Assets/JarRamp.png
+- Assets/Sandswept/texElectricianSkillIcon_m2.png
 - Assets/JarDonuts.obj
+- Assets/Sandswept/texRangerSkillIcon_hm1.png
+- Assets/Sandswept/texElectricianSkillIcon_p.png
 - Assets/Sandswept/sandsweeper.fbx
+- Assets/Sandswept/texRangerSkillIcon_hspc.png
 - Assets/Sandswept/tex.png
 Dependencies: []

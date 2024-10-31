@@ -14,7 +14,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Special
 
         public override float Cooldown => 13f;
 
-        public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("OverheatPrimary.png");
+        public override Sprite Icon => Main.prodAssets.LoadAsset<Sprite>("Assets/Sandswept/texRangerSkillIcon_spc.png");
         public override string[] Keywords => new string[] { Utils.Keywords.Agile, Utils.Keywords.OverdriveFormSpecial };
 
         public override bool Agile => true;

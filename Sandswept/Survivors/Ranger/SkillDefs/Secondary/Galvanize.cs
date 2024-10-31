@@ -14,7 +14,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Secondary
 
         public override float Cooldown => 6f;
 
-        public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("Blast.png");
+        public override Sprite Icon => Main.prodAssets.LoadAsset<Sprite>("Assets/Sandswept/texRangerSkillIcon_m22.png");
 
         public override InterruptPriority InterruptPriority => InterruptPriority.Skill;
 
