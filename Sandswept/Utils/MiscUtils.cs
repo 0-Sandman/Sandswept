@@ -207,7 +207,8 @@ namespace Sandswept.Utils
             return SurfaceAlignmentInfo;
         }
 
-        public static FireProjectileInfo GetProjectile(GameObject prefab, float coeff, CharacterBody owner) {
+        public static FireProjectileInfo GetProjectile(GameObject prefab, float coeff, CharacterBody owner)
+        {
             FireProjectileInfo info = new();
             info.damage = owner.damage * coeff;
             info.crit = owner.RollCrit();
@@ -215,28 +216,32 @@ namespace Sandswept.Utils
             info.owner = owner.gameObject;
             info.position = owner.corePosition;
             info.rotation = Util.QuaternionSafeLookRotation(owner.inputBank.aimDirection);
-            
+
             return info;
         }
     }
 
-    public class LazyIndex {
+    public class LazyIndex
+    {
         private string target;
         private BodyIndex _value = BodyIndex.None;
         public BodyIndex Value => UpdateValue();
 
-        public LazyIndex(string target) {
+        public LazyIndex(string target)
+        {
             this.target = target;
         }
 
-        public BodyIndex UpdateValue() {
-            if (_value == BodyIndex.None || _value == (BodyIndex)(-1)) {
+        public BodyIndex UpdateValue()
+        {
+            if (_value == BodyIndex.None || _value == (BodyIndex)(-1))
+            {
                 _value = BodyCatalog.FindBodyIndex(target);
             }
 
             return _value;
         }
 
-        public static implicit operator BodyIndex(LazyIndex index) => index.Value; 
+        public static implicit operator BodyIndex(LazyIndex index) => index.Value;
     }
 }

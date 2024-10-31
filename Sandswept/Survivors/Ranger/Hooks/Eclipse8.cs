@@ -10,10 +10,10 @@ namespace Sandswept.Survivors.Ranger.Hooks
     {
         public static void Init()
         {
-            IL.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
+            IL.RoR2.HealthComponent.TakeDamageProcess += HealthComponent_TakeDamageProcess;
         }
 
-        private static void HealthComponent_TakeDamage(ILContext il)
+        private static void HealthComponent_TakeDamageProcess(ILContext il)
         {
             ILCursor c = new(il);
 
@@ -30,6 +30,10 @@ namespace Sandswept.Survivors.Ranger.Hooks
                     }
                     return orig;
                 });
+            }
+            else
+            {
+                Main.ModLogger.LogError("Failed to apply Ranger Self Damage Eclipse 8 hook");
             }
         }
     }

@@ -99,9 +99,8 @@ namespace Sandswept
 
         private void Awake()
         {
-
             Instance = this;
-            
+
             var stopwatch = Stopwatch.StartNew();
 
             SOTV = Utils.Assets.ExpansionDef.DLC1;
@@ -130,17 +129,6 @@ namespace Sandswept
             Decay.Init();
 
             GenerateExpensionDef();
-            RangerPod.Init();
-            Ranger.Init();
-
-            RangerVFX.Init();
-            EliteVFX.Init();
-            Eclipse8.Init();
-
-            DirectCurrent.Init();
-            TheFuckingBFG.Init();
-            ChargeGain.Init();
-            // Based.Init();
 
             AutoRunCollector.HandleAutoRun();
             ConfigManager.HandleConfigAttributes(Assembly.GetExecutingAssembly(), Config);
@@ -153,6 +141,8 @@ namespace Sandswept
                 MainAssets = AssetBundle.LoadFromStream(stream);
             }
 
+            Survivors.Initialize.Init();
+
             if (Utils.CustomEmoteAPICheck.enabled)
             {
                 On.RoR2.SurvivorCatalog.Init += CustomEmoteAPICheck.SurvivorCatalog_Init;
@@ -160,11 +150,6 @@ namespace Sandswept
 
             SwapAllShaders(MainAssets);
             // SwapAllShaders(Assets);
-            Material matRanger = Assets.LoadAsset<Material>("matRanger.mat");
-            matRanger.shader = Utils.Assets.Shader.HGStandard;
-            matRanger.SetColor("_EmColor", Color.white);
-            matRanger.SetFloat("_EmPower", 2.5f);
-            matRanger.EnableKeyword("DITHER");
 
             SwapAllShaders(prodAssets);
             SwapAllShaders(hifuSandswept);
