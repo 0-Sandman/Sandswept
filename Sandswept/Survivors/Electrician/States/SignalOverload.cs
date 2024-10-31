@@ -64,6 +64,7 @@ namespace Sandswept.Survivors.Electrician.States
         public Transform origin;
         public Transform end;
         public CameraTargetParams.CameraParamsOverrideHandle handle;
+        public GameObject signalIndicator;
 
         public override void OnEnter()
         {
@@ -92,6 +93,16 @@ namespace Sandswept.Survivors.Electrician.States
             handle = base.cameraTargetParams.AddParamsOverride(new() {
                 cameraParamsData = Paths.CharacterCameraParams.ccpToolbot.data
             }, 0.3f);
+
+            signalIndicator = GameObject.Instantiate(Electrician.SignalOverloadIndicator, new Vector3(0, -4000, 0), Quaternion.identity);
+            signalIndicator.transform.localScale = new Vector3(radius * 2f, radius * 2f, radius * 2f);
+        }
+
+        public override void Update() {
+            beamEffect.transform.position = head.transform.position;
+            origin.transform.position = head.transform.position;
+            end.transform.position = pos;
+            signalIndicator.transform.position = pos;
         }
 
         public override void FixedUpdate()
@@ -104,10 +115,6 @@ namespace Sandswept.Survivors.Electrician.States
             else {
                 pos = base.GetAimRay().GetPoint(40f);
             }
-
-            beamEffect.transform.position = head.transform.position;
-            origin.transform.position = head.transform.position;
-            end.transform.position = pos;
 
             stopwatch += Time.fixedDeltaTime;
             if (stopwatch >= delay)
@@ -136,6 +143,10 @@ namespace Sandswept.Survivors.Electrician.States
 
             if (beamEffect) {
                 Destroy(beamEffect);
+            }
+
+            if (signalIndicator) {
+                Destroy(signalIndicator);
             }
 
             FindModelChild("Tethers").gameObject.SetActive(false);
@@ -296,6 +307,7 @@ namespace Sandswept.Survivors.Electrician.States
                 orb.procCoefficient = 1f;
                 orb.target = box;
                 orb.teamIndex = base.GetTeam();
+                orb.damageType = DamageType.Shock5s;
                 orb.AddModdedDamageType(Electrician.Grounding);
 
                 OrbManager.instance.AddOrb(orb);

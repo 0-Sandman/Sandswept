@@ -47,7 +47,7 @@ namespace Sandswept.Survivors.Electrician {
             if (col.collider && col.collider.GetComponent<GalvanicBallController>()) {
                 Rigidbody rb = GetComponent<Rigidbody>();
                 base.GetComponent<ProjectileSimple>().updateAfterFiring = false;
-                rb.velocity = col.contacts[0].normal * 180f;
+                rb.velocity = col.contacts[0].normal * 130f;
             }
         }
 

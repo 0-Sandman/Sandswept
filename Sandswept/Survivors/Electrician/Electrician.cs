@@ -96,6 +96,11 @@ namespace Sandswept.Survivors.Electrician
             tempestSphereIndicator.transform.localScale = new(14f, 14f, 14f);
             tempestSphereIndicator.RemoveComponent<AnimateShaderAlpha>();
 
+            SignalOverloadIndicator = PrefabAPI.InstantiateClone(tempestSphereIndicator, "SignalIndicator");
+            SignalOverloadIndicator.GetComponent<MeshRenderer>().sharedMaterials = new Material[] {
+                Paths.Material.matLightningSphere
+            };
+
             GameObject tempestOrb = PrefabAPI.InstantiateClone(Paths.GameObject.VoidSurvivorChargeMegaBlaster, "TempestOrb", false);
             tempestOrb.transform.Find("Base").gameObject.SetActive(false);
             tempestOrb.transform.Find("Base (1)").gameObject.SetActive(false);
