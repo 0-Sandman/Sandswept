@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1995336268
+CRC: 1392505799
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: cf8527489f7107d17347b23c2c0b693d
+    Hash: f9cf20cd2bba2f83a24b178007fcaf2e
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 94f260cc2712b8110361baa04668373a
+    Hash: 8fa711e2a61797e682e577f507675aec
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -36,8 +36,6 @@ ClassTypes:
 - Class: 91
   Script: {instanceID: 0}
 - Class: 95
-  Script: {instanceID: 0}
-- Class: 96
   Script: {instanceID: 0}
 - Class: 108
   Script: {instanceID: 0}
@@ -234,6 +232,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/Ranger/Skindefault.asset
 - Assets/Sandswept/Base/Characters/Ranger/RangerBody.prefab
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianOrbCenter.mat
+- Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matBoltFlare.mat
 - Assets/Sandswept/Base/Items/TornFeather/ActiveIndicatorParticles.prefab
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherParticle.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/Overheat.png
@@ -247,7 +246,6 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallProjectile.prefab
 - Assets/Sandswept/Base/Characters/Ranger/mdl/matRanger.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tempest sphere/TempestSphereProjectile.prefab
-- Assets/Sandswept/Base/Characters/Electrician/effects/OrbChargeEffect.prefab
 - Assets/Sandswept/Base/Items/TornFeather/DashTrailEffect.prefab
 - Assets/Sandswept/Base/Characters/Ranger/RangerIDRS.asset
 - Assets/Sandswept/Base/Characters/Ranger/skills/Pew.png

@@ -1,9 +1,10 @@
 using System;
+using RoR2.Orbs;
 
 namespace Sandswept.Survivors.Electrician {
     public class TempestBallController : MonoBehaviour
     {
-        public float ticksPerSecond = 6;
+        public float ticksPerSecond = 4;
         public SphereCollider sphere;
         public LineRenderer lr;
         private float stopwatch = 0f;
@@ -15,6 +16,7 @@ namespace Sandswept.Survivors.Electrician {
         private ProjectileSimple simple;
         private bool locked = false;
         private CharacterBody body;
+        private float damagePerTick;
 
         public void Start()
         {
@@ -36,18 +38,7 @@ namespace Sandswept.Survivors.Electrician {
                 }
             }
 
-            attack = new()
-            {
-                radius = sphere.radius,
-                attacker = controller.owner,
-                baseDamage = damage.damage / ticksPerSecond,
-                crit = damage.crit,
-                damageType = damage.damageType,
-                procCoefficient = 1f,
-                teamIndex = controller.teamFilter.teamIndex,
-                losType = BlastAttack.LoSType.None,
-                falloffModel = BlastAttack.FalloffModel.None
-            };
+            damagePerTick = damage.damage / ticksPerSecond;
         }
 
         public void FixedUpdate()
@@ -60,13 +51,41 @@ namespace Sandswept.Survivors.Electrician {
                 {
                     stopwatch = 0f;
 
-                    attack.position = base.transform.position;
-                    attack.Fire();
+                    HandleBlastAuthority(base.transform.position);
                 }
             }
 
             lr.SetPosition(0, base.transform.position);
             lr.SetPosition(1, body.corePosition);
+        }
+
+        public void HandleBlastAuthority(Vector3 pos)
+        {
+            SphereSearch search = new();
+            search.radius = sphere.radius;
+            search.mask = LayerIndex.entityPrecise.mask;
+            search.origin = base.transform.position;
+            search.RefreshCandidates();
+            search.FilterCandidatesByDistinctHurtBoxEntities();
+            search.FilterCandidatesByHurtBoxTeam(TeamMask.GetUnprotectedTeams(TeamIndex.Player));
+
+            foreach (HurtBox box in search.GetHurtBoxes())
+            {
+                LightningOrb orb = new();
+                orb.attacker = body.gameObject;
+                orb.damageValue = damagePerTick;
+                orb.bouncesRemaining = 0;
+                orb.isCrit = damage.crit;
+                orb.lightningType = LightningOrb.LightningType.Loader;
+                orb.origin = base.transform.position;
+                orb.procCoefficient = 1f;
+                orb.target = box;
+                orb.teamIndex = TeamIndex.Player;
+                orb.damageType = DamageType.SlowOnHit;
+                orb.AddModdedDamageType(Electrician.Grounding);
+
+                OrbManager.instance.AddOrb(orb);
+            }
         }
 
         public static void LockAllOrbs(CharacterBody body)

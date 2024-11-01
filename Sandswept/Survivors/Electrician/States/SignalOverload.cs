@@ -49,7 +49,7 @@ namespace Sandswept.Survivors.Electrician.States
     public class SignalOverloadDischarge : BaseSkillState
     {
         public float duration = 3f;
-        public float totalDamageCoef = 18f;
+        public float totalDamageCoef = 16f;
         public int totalHits = 10;
         public float delay => duration / totalHits;
         public float coeff => totalDamageCoef / totalHits;
@@ -113,13 +113,13 @@ namespace Sandswept.Survivors.Electrician.States
                 pos = info.point;
             }
             else {
-                pos = base.GetAimRay().GetPoint(40f);
+                pos = base.GetAimRay().GetPoint(100f);
             }
 
-            stopwatch += Time.fixedDeltaTime;
-            if (stopwatch >= delay)
+            stopwatch -= Time.fixedDeltaTime;
+            if (stopwatch <= 0f)
             {
-                stopwatch = 0f;
+                stopwatch = delay;
                 Util.PlaySound("Play_item_proc_armorReduction_hit", gameObject);
                 Util.PlaySound("Play_mage_m1_cast_lightning", gameObject);
 
@@ -152,6 +152,8 @@ namespace Sandswept.Survivors.Electrician.States
             FindModelChild("Tethers").gameObject.SetActive(false);
 
             cameraTargetParams.RemoveParamsOverride(handle, 0.3f);
+
+            base.skillLocator.special.DeductStock(1);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -235,11 +237,11 @@ namespace Sandswept.Survivors.Electrician.States
         public float recoilDuration = 0.8f;
         public float effectMultiplier = 1f;
         private float damageCoeff = 8f;
-        private float radius = 70f;
+        private float radius = 50f;
 
         public SignalOverloadFire(float modifier)
         {
-            effectMultiplier = modifier;
+            // effectMultiplier = modifier;
         }
 
         public override void OnEnter()
@@ -299,12 +301,12 @@ namespace Sandswept.Survivors.Electrician.States
             {
                 LightningOrb orb = new();
                 orb.attacker = base.gameObject;
-                orb.damageValue = base.damageStat;
+                orb.damageValue = base.damageStat * damageCoeff;
                 orb.bouncesRemaining = 0;
                 orb.isCrit = base.RollCrit();
                 orb.lightningType = LightningOrb.LightningType.Loader;
                 orb.origin = base.transform.position;
-                orb.procCoefficient = 1f;
+                orb.procCoefficient = 0f;
                 orb.target = box;
                 orb.teamIndex = base.GetTeam();
                 orb.damageType = DamageType.Shock5s;
