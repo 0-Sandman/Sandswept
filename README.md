@@ -95,6 +95,7 @@
 - VFX: HIFU, Sandman, prod
 - Skill Icons: prod, HIFU
 - Additional Help: swuff★
+- Concept Art: yorikobear, IcieTea, Sandman, Shepd
 - Playtesters: JimKas, Fyrebw42, James, swuff★, Sage
 - Lore: TheViralMelon
 
