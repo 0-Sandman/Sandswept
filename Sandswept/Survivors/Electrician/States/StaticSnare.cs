@@ -15,6 +15,8 @@ namespace Sandswept.Survivors.Electrician.States
 
             PlayAnimation("Gesture, Override", "Throw", "Generic.playbackRate", duration);
 
+            characterBody.SetSpreadBloom(12f, true);
+
             if (base.isAuthority && !TripwireController.ControllerMap.ContainsKey(base.gameObject)) 
             {
                 tossedOut = true;

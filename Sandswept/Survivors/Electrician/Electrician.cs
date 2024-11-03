@@ -40,7 +40,7 @@ namespace Sandswept.Survivors.Electrician
             networkIdentity.serverOnly = false;
 
             var cb = Body.GetComponent<CharacterBody>();
-            cb._defaultCrosshairPrefab = Paths.GameObject.StandardCrosshair;
+            // cb._defaultCrosshairPrefab = Paths.GameObject.StandardCrosshair;
             cb.preferredPodPrefab = Paths.GameObject.RoboCratePod;
 
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdElectrician.asset");

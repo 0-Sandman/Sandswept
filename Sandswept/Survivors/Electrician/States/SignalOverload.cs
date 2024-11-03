@@ -103,6 +103,8 @@ namespace Sandswept.Survivors.Electrician.States
             origin.transform.position = head.transform.position;
             end.transform.position = pos;
             signalIndicator.transform.position = pos;
+
+            characterBody.SetSpreadBloom(12f, true);
         }
 
         public override void FixedUpdate()
