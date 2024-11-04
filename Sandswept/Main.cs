@@ -149,7 +149,7 @@ namespace Sandswept
             }
 
             SwapAllShaders(MainAssets);
-            // SwapAllShaders(Assets);
+            SwapAllShaders(Assets);
 
             SwapAllShaders(prodAssets);
             SwapAllShaders(hifuSandswept);
