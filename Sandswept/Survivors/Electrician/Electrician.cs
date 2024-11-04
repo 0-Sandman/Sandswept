@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using EntityStates.Chef;
+using Sandswept.Survivors.Electrician.Achievements;
 using Sandswept.Survivors.Electrician.States;
 
 namespace Sandswept.Survivors.Electrician
@@ -85,6 +86,8 @@ namespace Sandswept.Survivors.Electrician
 
             On.RoR2.HealthComponent.TakeDamage += HandleGroundingShock;
 
+            UnlockableDefs.Init();
+
             sdElecDefault = Main.Assets.LoadAsset<SkinDef>("sdElecDefault.asset");
             sdElecDefault.icon = Skins.CreateSkinIcon(
                 new Color32(93, 79, 107, 255),
@@ -100,6 +103,8 @@ namespace Sandswept.Survivors.Electrician
                 new Color32(68, 50, 109, 255),
                 new Color32(34, 34, 34, 255)
             );
+            sdElecMastery.unlockableDef = UnlockableDefs.masteryUnlock;
+            sdElecMastery.unlockableDef.achievementIcon = sdElecMastery.icon;
 
             matElecOrbInner = Main.Assets.LoadAsset<Material>("matElectricianOrbCenter.mat");
             matElecOrbOuter = Main.Assets.LoadAsset<Material>("matElectricianOrbOuter.mat");
