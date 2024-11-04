@@ -87,11 +87,7 @@ namespace Sandswept.Survivors.Ranger
 
             _modelTransform.Find("HurtBox").localPosition = new(0, 0.01f, 0);*/
 
-            var footstepHandler = _modelTransform.AddComponent<FootstepHandler>();
-            footstepHandler.enableFootstepDust = true;
-            footstepHandler.baseFootstepString = "Play_bandit2_step";
-            footstepHandler.sprintFootstepOverrideString = "Play_bandit2_step_sprint";
-            footstepHandler.footstepDustPrefab = Paths.GameObject.GenericFootstepDust;
+            Body.GetComponent<ModelLocator>()._modelTransform.GetComponent<FootstepHandler>().footstepDustPrefab = Paths.GameObject.GenericFootstepDust;
 
             SkillLocator locator = Body.GetComponent<SkillLocator>();
             locator.passiveSkill = default; PassiveFix.Init();
@@ -114,13 +110,20 @@ namespace Sandswept.Survivors.Ranger
             // foot master!? what
 
             var childLocator = _modelTransform.GetComponent<ChildLocator>();
-            Array.Resize(ref childLocator.transformPairs, childLocator.transformPairs.Length + 5);
-            childLocator.transformPairs[1].name = "Chest";
-            childLocator.transformPairs[1].transform = chest;
-            childLocator.transformPairs[2].name = "Neck";
-            childLocator.transformPairs[2].transform = neck;
-            childLocator.transformPairs[3].name = "Head";
-            childLocator.transformPairs[3].transform = head;
+            List<ChildLocator.NameTransformPair> sigma = childLocator.transformPairs.ToList();
+            sigma.Add(new() {
+                name = "Chest",
+                transform = chest
+            });
+            sigma.Add(new() {
+                name = "Neck",
+                transform = neck
+            });
+            sigma.Add(new() {
+                name = "Head",
+                transform = head
+            });
+            childLocator.transformPairs = sigma.ToArray();
 
             AddSkins();
 
@@ -166,21 +169,6 @@ namespace Sandswept.Survivors.Ranger
             var hitBoxGroup = trans.AddComponent<HitBoxGroup>();
             hitBoxGroup.hitBoxes = new HitBox[] { hitBox.GetComponent<HitBox>() };
             hitBoxGroup.groupName = "GaySex";
-
-            var rig = trans.Find("Ranger Rig");
-            var footLeftEnd = rig.Find("Root/IK-FootMaster.L/MCH-Foot.L.001/MCH-Foot.L/IK-Foot.L/IK-Foot.L_end");
-            var footRightEnd = rig.Find("Root/IK-FootMaster.R/MCH-Foot.R.001/MCH-Foot.R/IK-Foot.R/IK-Foot.R_end");
-            var freakyLeftFoot = new GameObject("FootL");
-            var freakyRightFoot = new GameObject("FootR");
-            freakyLeftFoot.transform.SetParent(footLeftEnd);
-            freakyRightFoot.transform.SetParent(footRightEnd);
-
-            var childLocator = trans.GetComponent<ChildLocator>();
-
-            childLocator.transformPairs[4].name = "(FREAKY WARNING!) Left Foot";
-            childLocator.transformPairs[4].transform = freakyLeftFoot.transform;
-            childLocator.transformPairs[5].name = "(FREAKY WARNING!) Right Foot";
-            childLocator.transformPairs[5].transform = freakyRightFoot.transform;
         }
 
         public static CharacterModel mdl;

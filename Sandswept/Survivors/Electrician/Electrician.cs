@@ -47,6 +47,8 @@ namespace Sandswept.Survivors.Electrician
             networkIdentity.enabled = true;
             networkIdentity.serverOnly = false;
 
+            Body.GetComponent<ModelLocator>()._modelTransform.GetComponent<FootstepHandler>().footstepDustPrefab = Paths.GameObject.GenericFootstepDust;
+
             var cb = Body.GetComponent<CharacterBody>();
             // cb._defaultCrosshairPrefab = Paths.GameObject.StandardCrosshair;
             cb.preferredPodPrefab = Paths.GameObject.RoboCratePod;
