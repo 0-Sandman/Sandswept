@@ -1,4 +1,5 @@
-﻿using IL.RoR2.Achievements.Engi;
+﻿using System.Collections;
+using IL.RoR2.Achievements.Engi;
 
 namespace Sandswept.Items.Greens
 {
@@ -106,12 +107,13 @@ namespace Sandswept.Items.Greens
         {
             if (!body.HasBuff(DriftingPerception.cooldown) && stack > 0)
             {
-                if (!body.outOfCombat && !body.HasBuff(DriftingPerception.ready))
+                if (!body.HasBuff(DriftingPerception.ready))
                 {
                     body.AddBuff(DriftingPerception.ready);
+                    return;
                 }
 
-                if (body.HasBuff(DriftingPerception.ready))
+                if (body.HasBuff(DriftingPerception.ready) && !body.outOfCombat)
                 {
                     if (!body.HasBuff(RoR2Content.Buffs.Cloak) || !body.HasBuff(RoR2Content.Buffs.CloakSpeed))
                     {
@@ -121,16 +123,10 @@ namespace Sandswept.Items.Greens
                         Util.PlaySound("Play_roboBall_attack2_mini_spawn", gameObject);
                         Util.PlaySound("Play_roboBall_attack2_mini_spawn", gameObject);
                         EffectManager.SimpleEffect(Paths.GameObject.SmokescreenEffect, body.corePosition, Quaternion.identity, true);
+
+                        body.RemoveBuff(DriftingPerception.ready);
+                        body.AddTimedBuffAuthority(DriftingPerception.cooldown.buffIndex, DriftingPerception.rechargeTime + DriftingPerception.cloakBuffDuration);
                     }
-
-                    body.RemoveBuff(DriftingPerception.ready);
-                }
-                else
-                {
-                    body.AddTimedBuffAuthority(DriftingPerception.cooldown.buffIndex, DriftingPerception.rechargeTime);
-
-                    Util.PlaySound("Play_roboBall_attack2_mini_laser_stop", gameObject);
-                    Util.PlaySound("Play_roboBall_attack2_mini_laser_stop", gameObject);
                 }
             }
         }

@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1987810778
+CRC: 1930688002
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b4f6d43150a0c6919638ea37687f81b6
+    Hash: 27ef65bc88608b8d9b5018ee1f1a8874
   TypeTreeHash:
     serializedVersion: 2
-    Hash: f90fb5c8c473f0b1108080b063d9d720
+    Hash: 2f8c2920ee49e1647bed5208201c0227
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -124,7 +124,11 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 1512185436, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: -1479993534, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: -1888550019, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1093966913, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -492659515, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -234,6 +238,7 @@ Assets:
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherPulse.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/Blast.png
 - Assets/Sandswept/Base/Characters/Ranger/sdRanger.asset
+- Assets/Sandswept/Base/Items/CellShield/matCellShield.mat
 - Assets/Sandswept/Base/Characters/Electrician/mdl/ElecMastery.fbx
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvSpark.mat
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherPink.mat
@@ -243,12 +248,15 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/effects/matChargeFlare.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvanicBall.mat
 - Assets/Sandswept/Base/Characters/Ranger/mdl/matRanger.mat
+- Assets/Sandswept/Base/Items/CellShield/DisplayCellShieldFollower.prefab
 - Assets/Sandswept/Base/Characters/Ranger/RangerBody.prefab
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianOrbCenter.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallGhost.prefab
 - Assets/Sandswept/Base/Items/TornFeather/ActiveIndicatorParticles.prefab
+- Assets/Sandswept/Base/Items/CellShield/DisplayCellShield.prefab
 - Assets/Sandswept/Base/Characters/Ranger/OverlayRanger.prefab
 - Assets/Sandswept/Base/Characters/Ranger/CrosshairRanger.prefab
+- Assets/Sandswept/Base/Items/CellShield/matSparkFlare.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvOverlay.mat
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElecMastery.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tempest sphere/TempestSphereProjectile.prefab
@@ -259,14 +267,15 @@ Assets:
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherBlue.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/Dash.png
 - Assets/Sandswept/Base/Characters/Ranger/Skindefault.asset
-- Assets/Sandswept/Base/Characters/Electrician/mdl/matMasteryElecOrbCenter.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matBoltFlare.mat
+- Assets/Sandswept/Base/Characters/Electrician/mdl/matMasteryElecOrbCenter.mat
+- Assets/Sandswept/Base/Items/NuclearSalvo/SalvoBehaviour.prefab
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherParticle.mat
 - Assets/Sandswept/Base/Characters/Electrician/skins/sdElecMastery.asset
 - Assets/Sandswept/Base/Characters/Ranger/skills/Overheat.png
 - Assets/Sandswept/Base/Items/NuclearSalvo/Missile.prefab
-- Assets/Sandswept/Base/Items/NuclearSalvo/SalvoBehaviour.prefab
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvSparkFlare.mat
+- Assets/Sandswept/Base/Items/CellShield/PickupCellShield.prefab
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallProjectile.prefab
 - Assets/Sandswept/Base/Characters/Electrician/skins/sdElecDefault.asset
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tripwire/texElecMine.png

@@ -8,7 +8,7 @@ namespace Sandswept.Survivors.Electrician.Skills
         public override string Description => "Blast out a galvanic ball that <style=cIsUtility>sticks</style> into terrain, zapping nearby enemies for <style=cIsDamage>200% damage</style> periodically. <style=cIsUtility>Explodes</style> for <style=cIsDamage>200% damage</style> on impact.";
         public override Type ActivationStateType => typeof(States.GalvanicBolt);
         public override string ActivationMachineName => "Weapon";
-        public override float Cooldown => 1.8f;
+        public override float Cooldown => 1.55f;
         public override Sprite Icon => Main.prodAssets.LoadAsset<Sprite>("Assets/Sandswept/texElectricianSkillIcon_m1.png");
         public override int StockToConsume => 1;
         public override InterruptPriority InterruptPriority => InterruptPriority.Any;

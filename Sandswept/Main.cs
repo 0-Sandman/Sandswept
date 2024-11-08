@@ -158,6 +158,8 @@ namespace Sandswept
             //matMushLun.shader = LegacyShaderAPI.Find("Hopoo Games/FX/Cloud Intersection Remap");
             DamageColourHelper.Init();
 
+            SandsweptTemporaryEffects.ApplyHooks();
+
             //This section automatically scans the project for all artifacts
             var ArtifactTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(ArtifactBase)));
 
