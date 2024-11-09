@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1930688002
+CRC: 1256800747
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 27ef65bc88608b8d9b5018ee1f1a8874
+    Hash: 4e1df5a2c95ee442767a99200236c67b
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 2f8c2920ee49e1647bed5208201c0227
+    Hash: 40591233786f451a99ef705726ed672d
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -134,6 +134,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -1699741063, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: -1864444436, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: 1533710874, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1918207524, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
@@ -170,9 +172,13 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -1895344032, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: 1679506310, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: 105922711, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 372142912, guid: d382a022563c7517aadbc92ca1060016, type: 3}
+- Class: 114
+  Script: {fileID: 1013091703, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 120
@@ -233,6 +239,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tripwire/TripwireMineProjectile.prefab
 - Assets/Sandswept/Base/Characters/Electrician/effects/matChargeStreak.mat
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianBody.mat
+- Assets/Sandswept/Base/Items/LunarCatalyst/matLunarCatalyst.mat
 - Assets/Sandswept/Base/Characters/Electrician/sdElectrician.asset
 - Assets/Sandswept/Base/Characters/Ranger/texCrosshairCircle.png
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherPulse.mat
@@ -250,11 +257,13 @@ Assets:
 - Assets/Sandswept/Base/Characters/Ranger/mdl/matRanger.mat
 - Assets/Sandswept/Base/Items/CellShield/DisplayCellShieldFollower.prefab
 - Assets/Sandswept/Base/Characters/Ranger/RangerBody.prefab
+- Assets/Sandswept/Base/Items/LunarCatalyst/PickupLunarCatalyst.prefab
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianOrbCenter.mat
-- Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallGhost.prefab
 - Assets/Sandswept/Base/Items/TornFeather/ActiveIndicatorParticles.prefab
+- Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallGhost.prefab
 - Assets/Sandswept/Base/Items/CellShield/DisplayCellShield.prefab
 - Assets/Sandswept/Base/Characters/Ranger/OverlayRanger.prefab
+- Assets/Sandswept/Base/Items/LunarCatalyst/matCatalystCore.mat
 - Assets/Sandswept/Base/Characters/Ranger/CrosshairRanger.prefab
 - Assets/Sandswept/Base/Items/CellShield/matSparkFlare.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvOverlay.mat
@@ -267,15 +276,16 @@ Assets:
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherBlue.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/Dash.png
 - Assets/Sandswept/Base/Characters/Ranger/Skindefault.asset
-- Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matBoltFlare.mat
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matMasteryElecOrbCenter.mat
-- Assets/Sandswept/Base/Items/NuclearSalvo/SalvoBehaviour.prefab
+- Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matBoltFlare.mat
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherParticle.mat
 - Assets/Sandswept/Base/Characters/Electrician/skins/sdElecMastery.asset
 - Assets/Sandswept/Base/Characters/Ranger/skills/Overheat.png
 - Assets/Sandswept/Base/Items/NuclearSalvo/Missile.prefab
+- Assets/Sandswept/Base/Items/LunarCatalyst/matCatalystFlame.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvSparkFlare.mat
 - Assets/Sandswept/Base/Items/CellShield/PickupCellShield.prefab
+- Assets/Sandswept/Base/Items/NuclearSalvo/SalvoBehaviour.prefab
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallProjectile.prefab
 - Assets/Sandswept/Base/Characters/Electrician/skins/sdElecDefault.asset
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tripwire/texElecMine.png
