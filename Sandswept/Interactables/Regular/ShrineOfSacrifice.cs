@@ -81,6 +81,8 @@ namespace Sandswept.Interactables.Regular
                 }
             };
 
+            def.colorIndex = ColorCatalog.ColorIndex.Blood;
+
             On.RoR2.CostTypeCatalog.Init += (orig) =>
             {
                 orig();

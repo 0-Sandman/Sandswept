@@ -14,7 +14,7 @@
         // this description is fucked, idk how to unfuck it due to how complex the item is
         public override string EquipmentLore => "TBD";
 
-        public override GameObject EquipmentModel => Paths.GameObject.GenericPickup;
+        public override GameObject EquipmentModel => Main.Assets.LoadAsset<GameObject>("PickupCellShield.prefab");
         public override float Cooldown => 20f;
         public override Sprite EquipmentIcon => Paths.Sprite.texEquipmentBGIcon;
 
@@ -35,10 +35,18 @@
 
         public static GameObject vfx;
         public static BlastAttack blastAttack;
+        public static GameObject ShieldEffect;
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
-            return new ItemDisplayRuleDict();
+            return new ItemDisplayRuleDict(new ItemDisplayRule() {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Base",
+                localPos = new Vector3(1, -1, -0.9f),
+                localScale = new Vector3(0.5f, 0.5f, 0.5f),
+                followerPrefab = Main.Assets.LoadAsset<GameObject>("DisplayCellShield.prefab"),
+                limbMask = LimbFlags.None
+            });
         }
 
         public override void Init(ConfigFile config)
@@ -48,6 +56,31 @@
 
             CreateEquipment();
             Hooks();
+        }
+
+        public static void PulseShieldForBody(CharacterBody body) {
+            if (!body.equipmentSlot) return;
+            Transform display = body.equipmentSlot.FindActiveEquipmentDisplay();
+            if (!display.GetComponent<ItemFollower>()) {
+                return;
+            }
+
+            display = display.GetComponent<ItemFollower>().followerInstance.transform;
+
+            ChildLocator loc = display.GetComponent<ChildLocator>();
+            if (!loc) return;
+
+            Transform model = loc.FindChild("model");
+
+            if (!model) return;
+
+            Animator anim = model.GetComponent<Animator>();
+            int layer = anim.GetLayerIndex("Base");
+            anim.Play("Pulse", layer);
+
+            foreach (ParticleSystem system in model.parent.GetComponentsInChildren<ParticleSystem>()) {
+                system.Play();
+            }
         }
 
         public override void Hooks()
@@ -76,6 +109,9 @@
             Main.EffectPrefabs.Add(vfx);
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
+
+            ShieldEffect = PrefabAPI.InstantiateClone(Paths.GameObject.EngiShield, "GalvanicShieldEffect");
+            ShieldEffect.GetComponent<ObjectScaleCurve>().timeMax = 0.1f;
         }
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
@@ -101,6 +137,8 @@
             }
 
             var galvanicCellShieldController = slot.characterBody.GetComponent<GalvanicCellShieldController>();
+
+            PulseShieldForBody(slot.characterBody);
 
             if (galvanicCellShieldController)
             {

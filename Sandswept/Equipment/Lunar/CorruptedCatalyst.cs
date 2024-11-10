@@ -23,7 +23,7 @@ namespace Sandswept.Equipment.Lunar
 
         public override string EquipmentLore => "TBD";
 
-        public override GameObject EquipmentModel => Paths.GameObject.GenericPickup;
+        public override GameObject EquipmentModel => Main.Assets.LoadAsset<GameObject>("PickupLunarCatalyst.prefab");
         public override bool IsLunar => true;
         public override Sprite EquipmentIcon => Paths.Sprite.texEquipmentBGIcon;
         public override float Cooldown => 35f;

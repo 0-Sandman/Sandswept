@@ -221,6 +221,28 @@ namespace Sandswept.Utils
         }
     }
 
+    public class LazyAddressable<T> where T : UnityEngine.Object {
+        private Func<T> func;
+        private T asset = null;
+        public T Asset {
+            get {
+                if (!asset) {
+                    asset = func();
+                }
+
+                return asset;
+            }
+        }
+
+        public LazyAddressable(Func<T> func) {
+            this.func = func;
+        }
+
+        public static implicit operator T(LazyAddressable<T> addressable) {
+            return addressable.Asset;
+        }
+    }
+
     public class LazyIndex
     {
         private string target;

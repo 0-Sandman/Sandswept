@@ -25,6 +25,7 @@ using Sandswept.Elites.VFX;
 using RoR2.ExpansionManagement;
 using Sandswept.Interactables;
 using Sandswept.DoTs;
+using Sandswept.Drones;
 
 // using Sandswept.Survivors.Ranger.ItemDisplays;
 
@@ -149,7 +150,7 @@ namespace Sandswept
             }
 
             SwapAllShaders(MainAssets);
-            // SwapAllShaders(Assets);
+            SwapAllShaders(Assets);
 
             SwapAllShaders(prodAssets);
             SwapAllShaders(hifuSandswept);
@@ -157,6 +158,8 @@ namespace Sandswept
             //Material matMushLun = dgoslingAssets.LoadAsset<Material>("matLunarMInd.mat");
             //matMushLun.shader = LegacyShaderAPI.Find("Hopoo Games/FX/Cloud Intersection Remap");
             DamageColourHelper.Init();
+
+            SandsweptTemporaryEffects.ApplyHooks();
 
             //This section automatically scans the project for all artifacts
             var ArtifactTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(ArtifactBase)));
@@ -221,6 +224,7 @@ namespace Sandswept
             ScanTypes<SurvivorBase>((x) => x.Init());
             ScanTypes<EnemyBase>((x) => x.Create());
             ScanTypes<InteractableBase>((x) => x.Init());
+            ScanTypes<DroneBase>((x) => x.Initialize());
 
             new ContentPacks().Initialize();
 

@@ -47,7 +47,7 @@ namespace Sandswept.Survivors.Electrician {
                     {
                         radius = radius,
                         attacker = owner.gameObject,
-                        position = base.transform.position,
+                        position = collision.contacts[0].point,
                         crit = pDamage.crit,
                         losType = BlastAttack.LoSType.None,
                         falloffModel = BlastAttack.FalloffModel.None,

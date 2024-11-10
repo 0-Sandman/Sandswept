@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using EntityStates.Chef;
+using Sandswept.Survivors.Electrician.Achievements;
 using Sandswept.Survivors.Electrician.States;
 
 namespace Sandswept.Survivors.Electrician
@@ -26,6 +27,13 @@ namespace Sandswept.Survivors.Electrician
         public static GameObject LightningZipEffect;
         public static GameObject SignalOverloadIndicator;
         public static LazyIndex ElectricianIndex = new("ElectricianBody");
+        //
+        public static SkinDef sdElecDefault;
+        public static SkinDef sdElecMastery;
+        public static Material matElecOrbOuter;
+        public static Material matElecOrbInner;
+        public static Material matMasteryElecOrbOuter;
+        public static Material matMasteryElecOrbInner;
 
         public override void LoadAssets()
         {
@@ -39,8 +47,10 @@ namespace Sandswept.Survivors.Electrician
             networkIdentity.enabled = true;
             networkIdentity.serverOnly = false;
 
+            Body.GetComponent<ModelLocator>()._modelTransform.GetComponent<FootstepHandler>().footstepDustPrefab = Paths.GameObject.GenericFootstepDust;
+
             var cb = Body.GetComponent<CharacterBody>();
-            cb._defaultCrosshairPrefab = Paths.GameObject.StandardCrosshair;
+            // cb._defaultCrosshairPrefab = Paths.GameObject.StandardCrosshair;
             cb.preferredPodPrefab = Paths.GameObject.RoboCratePod;
 
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdElectrician.asset");
@@ -77,6 +87,33 @@ namespace Sandswept.Survivors.Electrician
             Main.Instance.StartCoroutine(CreateVFX());
 
             On.RoR2.HealthComponent.TakeDamage += HandleGroundingShock;
+
+            UnlockableDefs.Init();
+
+            sdElecDefault = Main.Assets.LoadAsset<SkinDef>("sdElecDefault.asset");
+            sdElecDefault.icon = Skins.CreateSkinIcon(
+                new Color32(93, 79, 107, 255),
+                new Color32(76, 21, 197, 255),
+                new Color32(255, 248, 154, 255),
+                new Color32(60, 46, 74, 255)
+            );
+
+            sdElecMastery = Main.Assets.LoadAsset<SkinDef>("sdElecMastery.asset");
+            sdElecMastery.icon = Skins.CreateSkinIcon(
+                new Color32(162, 103, 255, 255),
+                new Color32(185, 175, 201, 255),
+                new Color32(68, 50, 109, 255),
+                new Color32(34, 34, 34, 255)
+            );
+            sdElecMastery.unlockableDef = UnlockableDefs.masteryUnlock;
+            sdElecMastery.unlockableDef.achievementIcon = sdElecMastery.icon;
+
+            matElecOrbInner = Main.Assets.LoadAsset<Material>("matElectricianOrbCenter.mat");
+            matElecOrbOuter = Main.Assets.LoadAsset<Material>("matElectricianOrbOuter.mat");
+            matMasteryElecOrbInner = Main.Assets.LoadAsset<Material>("matMasteryElecOrbCenter.mat");
+            matMasteryElecOrbOuter = Main.Assets.LoadAsset<Material>("matMasteryElecOrbOuter.mat");
+
+            LanguageAPI.Add("SKIN_ELEC_MASTERY", "Covenant");
         }
 
         public IEnumerator CreateVFX()

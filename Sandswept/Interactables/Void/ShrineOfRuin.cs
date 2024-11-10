@@ -95,6 +95,8 @@ namespace Sandswept.Interactables.Regular
                 }
             };
 
+            def.colorIndex = ColorCatalog.ColorIndex.Tier1Item;
+
             On.RoR2.CostTypeCatalog.Init += (orig) =>
             {
                 orig();
@@ -193,7 +195,55 @@ namespace Sandswept.Interactables.Regular
             On.RoR2.PickupDropTable.GenerateDropFromWeightedSelection += PickupDropTable_GenerateDropFromWeightedSelection;
             On.RoR2.PickupDropTable.GenerateUniqueDropsFromWeightedSelection += PickupDropTable_GenerateUniqueDropsFromWeightedSelection;
             SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
+            On.RoR2.SceneExitController.Begin += OnSceneExit;
+            On.RoR2.Run.PickNextStageSceneFromCurrentSceneDestinations += HandleScenes;
+            On.RoR2.SceneDirector.Start += Gyatttttt;
+
             PostInit();
+        }
+
+        private void Gyatttttt(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
+        {
+            if (shouldReplaceDrops) {
+                self.teleporterSpawnCard = Paths.InteractableSpawnCard.iscTeleporter;
+            }
+
+            orig(self);
+        }
+
+        private void HandleScenes(On.RoR2.Run.orig_PickNextStageSceneFromCurrentSceneDestinations orig, Run self)
+        {
+            if (shouldCorruptNextStage) {
+                WeightedSelection<SceneDef> ws = new WeightedSelection<SceneDef>();
+                SceneCatalog.mostRecentSceneDef.AddDestinationsToWeightedSelection(ws, (x) => {
+                    SceneDef simulacrumScene = SceneCatalog.FindSceneDef("it" + x.cachedName);
+
+                    return x && self.CanPickStage(x);
+                });
+                
+                if (ws.choices.Length > 0) {
+                    self.PickNextStageScene(ws);
+                    return;
+                }
+            }
+            
+            orig(self);
+        }
+
+        private void OnSceneExit(On.RoR2.SceneExitController.orig_Begin orig, SceneExitController self)
+        {
+            if (shouldCorruptNextStage) {
+                SceneDef originalScene = self.useRunNextStageScene ? Run.instance.nextStageScene : self.destinationScene;
+
+                SceneDef simulacrumScene = SceneCatalog.FindSceneDef("it" + originalScene.cachedName);
+
+                if (simulacrumScene) {
+                    self.destinationScene = simulacrumScene;
+                    Run.instance.nextStageScene = simulacrumScene;
+                }
+            }
+
+            orig(self);
         }
 
         private System.Collections.IEnumerator Stage_Start(On.RoR2.Stage.orig_Start orig, RoR2.Stage self)
@@ -205,6 +255,7 @@ namespace Sandswept.Interactables.Regular
             if (sceneName.StartsWith("it") && shouldCorruptNextStage)
             {
                 shouldReplaceDrops = true;
+                shouldCorruptNextStage = false;
             }
         }
 
@@ -388,84 +439,6 @@ namespace Sandswept.Interactables.Regular
             if (Run.instance)
             {
                 ShrineOfRuin.shouldCorruptNextStage = true;
-                // there's definitely a better way of doing this but I know jack shit about stages and it's a really messy system
-                var currentStageCount = Run.instance.stageClearCount % Run.stagesPerLoop;
-
-                var currentStageDestinationsGroup = SceneCatalog.currentSceneDef.destinationsGroup;
-
-                var titanicPlainsSimulacrum = new SceneCollection.SceneEntry()
-                {
-                    sceneDef = SceneCatalog.GetSceneDefFromSceneName("itgolemplains"),
-                    weightMinusOne = 0
-                };
-
-                var abandonedAqueductSimulacrum = new SceneCollection.SceneEntry()
-                {
-                    sceneDef = SceneCatalog.GetSceneDefFromSceneName("itgoolake"),
-                    weightMinusOne = 0
-                };
-
-                var aphelianSanctuarySimulacrum = new SceneCollection.SceneEntry()
-                {
-                    sceneDef = SceneCatalog.GetSceneDefFromSceneName("itancientloft"),
-                    weightMinusOne = 0
-                };
-
-                var rallypointDeltaSimulacrum = new SceneCollection.SceneEntry()
-                {
-                    sceneDef = SceneCatalog.GetSceneDefFromSceneName("itfrozenwall"),
-                    weightMinusOne = 0
-                };
-
-                var abyssalDepthsSimulacrum = new SceneCollection.SceneEntry()
-                {
-                    sceneDef = SceneCatalog.GetSceneDefFromSceneName("itdampcave"),
-                    weightMinusOne = 0
-                };
-
-                var skyMeadowSimulacrum = new SceneCollection.SceneEntry()
-                {
-                    sceneDef = SceneCatalog.GetSceneDefFromSceneName("itskymeadow"),
-                    weightMinusOne = 0
-                };
-
-                switch (currentStageCount)
-                {
-                    case 1:
-                        Main.ModLogger.LogError("setting destination to plains simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { titanicPlainsSimulacrum };
-                        break;
-
-                    case 2:
-                        Main.ModLogger.LogError("setting destination to plains simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { titanicPlainsSimulacrum };
-                        break;
-
-                    case 3:
-                        Main.ModLogger.LogError("setting destinations to aqueduct, sanctuary simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { abandonedAqueductSimulacrum, aphelianSanctuarySimulacrum };
-                        break;
-
-                    case 4:
-                        Main.ModLogger.LogError("setting destination to rpd simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { rallypointDeltaSimulacrum };
-                        break;
-
-                    case 5:
-                        Main.ModLogger.LogError("setting destination to depths simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { abyssalDepthsSimulacrum };
-                        break;
-
-                    case 6:
-                        Main.ModLogger.LogError("setting destination to meadow simulacrum");
-                        currentStageDestinationsGroup._sceneEntries = new SceneCollection.SceneEntry[] { skyMeadowSimulacrum };
-                        break;
-
-                    default:
-                        Main.ModLogger.LogError("setting should corrupt next stage to false");
-                        ShrineOfRuin.shouldCorruptNextStage = false;
-                        break;
-                }
             }
 
             if (interactorBody)

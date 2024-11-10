@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using Unity;
+using System.Linq;
 
 namespace Sandswept.Utils
 {
@@ -18,6 +19,10 @@ namespace Sandswept.Utils
             {
                 Object.Destroy(coms[i]);
             }
+        }
+
+        public static T FindComponent<T>(this GameObject self, string name) where T : Component {
+            return self.GetComponentsInChildren<T>().FirstOrDefault(x => x.gameObject.name == name);
         }
 
         public static void RemoveComponent<T>(this Component self) where T : Component
