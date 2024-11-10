@@ -25,6 +25,7 @@ using Sandswept.Elites.VFX;
 using RoR2.ExpansionManagement;
 using Sandswept.Interactables;
 using Sandswept.DoTs;
+using Sandswept.Drones;
 
 // using Sandswept.Survivors.Ranger.ItemDisplays;
 
@@ -223,6 +224,7 @@ namespace Sandswept
             ScanTypes<SurvivorBase>((x) => x.Init());
             ScanTypes<EnemyBase>((x) => x.Create());
             ScanTypes<InteractableBase>((x) => x.Init());
+            ScanTypes<DroneBase>((x) => x.Initialize());
 
             new ContentPacks().Initialize();
 

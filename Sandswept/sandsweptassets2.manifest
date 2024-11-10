@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1256800747
+CRC: 2816471947
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 4e1df5a2c95ee442767a99200236c67b
+    Hash: a3376e4882390395c2f87c80fe27b0a5
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 40591233786f451a99ef705726ed672d
+    Hash: ed82303cc212bdae751c38d959450c5f
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -52,6 +52,14 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 802132372, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: 733712478, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1679506310, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1093966913, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1013091703, guid: ca6fb10b837101520834a90b90b15080, type: 3}
+- Class: 114
   Script: {fileID: 1080798252, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
@@ -84,6 +92,10 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 1392865457, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: -1811796171, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1357070253, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: -1067940895, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -197296741, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
@@ -91,6 +103,8 @@ ClassTypes:
   Script: {fileID: -1277448904, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1077198318, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -2096938146, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1530905962, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -100,15 +114,23 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 662316482, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: -1161602148, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: 1297580292, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1144835783, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1480773730, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: -1620867292, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: 298587437, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -365436499, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 871971028, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1322397448, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -146705984, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -124,13 +146,15 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 1512185436, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: 682687671, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: -1479993534, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1888550019, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 1093966913, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
   Script: {fileID: -492659515, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1578512655, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1699741063, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -158,7 +182,19 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 717380117, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: 370243918, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -2053006600, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: -517518216, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1954827382, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -600610627, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1044368294, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -1218053310, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -789927658, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -166,19 +202,19 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -1255927399, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: -2131767276, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: -1881990681, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -315171339, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1895344032, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 1679506310, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+  Script: {fileID: 52559370, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 105922711, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 372142912, guid: d382a022563c7517aadbc92ca1060016, type: 3}
-- Class: 114
-  Script: {fileID: 1013091703, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 120
@@ -215,6 +251,10 @@ SerializeReferenceClassIdentifiers:
 - AssemblyName: RoR2
   ClassName: RoR2.CharacterModel/RendererInfo
 - AssemblyName: RoR2
+  ClassName: RoR2.PickupIndex
+- AssemblyName: RoR2
+  ClassName: RoR2.PurchaseEvent
+- AssemblyName: RoR2
   ClassName: RoR2.SkillLocator/PassiveSkill
 - AssemblyName: RoR2
   ClassName: RoR2.SkinDef/MeshReplacement
@@ -239,7 +279,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tripwire/TripwireMineProjectile.prefab
 - Assets/Sandswept/Base/Characters/Electrician/effects/matChargeStreak.mat
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianBody.mat
-- Assets/Sandswept/Base/Items/LunarCatalyst/matLunarCatalyst.mat
+- Assets/Sandswept/Base/Characters/InfernoDrone/matPropellor.mat
 - Assets/Sandswept/Base/Characters/Electrician/sdElectrician.asset
 - Assets/Sandswept/Base/Characters/Ranger/texCrosshairCircle.png
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherPulse.mat
@@ -251,6 +291,7 @@ Assets:
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherPink.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tripwire/matElecMine.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/OverheatPrimary.png
+- Assets/Sandswept/Base/Items/LunarCatalyst/matLunarCatalyst.mat
 - Assets/Sandswept/Base/Characters/Electrician/effects/ElectricianChargeBeam.prefab
 - Assets/Sandswept/Base/Characters/Electrician/effects/matChargeFlare.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvanicBall.mat
@@ -269,10 +310,15 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvOverlay.mat
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElecMastery.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tempest sphere/TempestSphereProjectile.prefab
+- Assets/Sandswept/Base/Characters/InfernoDrone/InfernoDroneBroken.prefab
 - Assets/Sandswept/Base/Items/TornFeather/DashTrailEffect.prefab
 - Assets/Sandswept/Base/Characters/Ranger/RangerIDRS.asset
+- Assets/Sandswept/Base/Characters/InfernoDrone/InfernoDroneBody.prefab
+- Assets/Sandswept/Base/Characters/InfernoDrone/InfernoDroneMaster.prefab
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matMasteryElecOrbOuter.mat
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianOrbOuter.mat
+- Assets/Sandswept/Base/Characters/InfernoDrone/matSmoke.mat
+- Assets/Sandswept/Base/Characters/InfernoDrone/matInfernoDrone.mat
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherBlue.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/Dash.png
 - Assets/Sandswept/Base/Characters/Ranger/Skindefault.asset
