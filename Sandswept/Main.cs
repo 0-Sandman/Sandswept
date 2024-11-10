@@ -45,6 +45,7 @@ namespace Sandswept
     [BepInDependency(R2APIContentManager.PluginGUID, R2APIContentManager.PluginVersion)]
     [BepInDependency(NetworkingAPI.PluginGUID, NetworkingAPI.PluginVersion)]
     [BepInDependency(DirectorAPI.PluginGUID, DirectorAPI.PluginVersion)]
+    [BepInDependency(ProcTypeAPI.PluginGUID, ProcTypeAPI.PluginVersion)]
     [BepInDependency("com.weliveinasociety.CustomEmotesAPI", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
