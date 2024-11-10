@@ -36,8 +36,6 @@ namespace Sandswept.Items.VoidGreens
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility };
 
-        public static DamageColorIndex milleniumColor = DamageColourHelper.RegisterDamageColor(new Color32(75, 27, 174, 255));
-
         public static GameObject vfx;
 
         public static ModdedProcType millenium = ProcTypeAPI.ReserveProcType();

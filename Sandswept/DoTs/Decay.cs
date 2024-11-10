@@ -1,4 +1,5 @@
-﻿using static R2API.DotAPI;
+﻿using Sandswept.Items.VoidGreens;
+using static R2API.DotAPI;
 using static RoR2.DotController;
 
 namespace Sandswept.DoTs
@@ -15,6 +16,8 @@ namespace Sandswept.DoTs
 
         [ConfigField("Scale Damage with Enemy Missing Health?", "Scales decay's base damage up to 200% of its damage value linearly with the enemy's missing health.", true)]
         public static bool scaleDamage;
+
+        public static DamageColorIndex decayColor = DamageColourHelper.RegisterDamageColor(new Color32(96, 56, 177, 255));
 
         public static void Init()
         {
@@ -33,7 +36,7 @@ namespace Sandswept.DoTs
                 associatedBuff = decayBuff,
                 resetTimerOnAdd = false,
                 interval = 0.2f,
-                damageColorIndex = DamageColorIndex.DeathMark,
+                damageColorIndex = decayColor,
                 damageCoefficient = 1f
             };
 
