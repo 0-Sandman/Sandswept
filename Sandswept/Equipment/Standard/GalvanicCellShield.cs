@@ -16,7 +16,7 @@
 
         public override GameObject EquipmentModel => Main.Assets.LoadAsset<GameObject>("PickupCellShield.prefab");
         public override float Cooldown => 20f;
-        public override Sprite EquipmentIcon => Paths.Sprite.texEquipmentBGIcon;
+        public override Sprite EquipmentIcon => Main.hifuSandswept.LoadAsset<Sprite>("texGalvanicCellShield.png");
 
         [ConfigField("Activation Length", "", 0.5f)]
         public static float activationTime;
@@ -39,7 +39,8 @@
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
-            return new ItemDisplayRuleDict(new ItemDisplayRule() {
+            return new ItemDisplayRuleDict(new ItemDisplayRule()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Base",
                 localPos = new Vector3(1, -1, -0.9f),
@@ -58,10 +59,12 @@
             Hooks();
         }
 
-        public static void PulseShieldForBody(CharacterBody body) {
+        public static void PulseShieldForBody(CharacterBody body)
+        {
             if (!body.equipmentSlot) return;
             Transform display = body.equipmentSlot.FindActiveEquipmentDisplay();
-            if (!display.GetComponent<ItemFollower>()) {
+            if (!display.GetComponent<ItemFollower>())
+            {
                 return;
             }
 
@@ -78,7 +81,8 @@
             int layer = anim.GetLayerIndex("Base");
             anim.Play("Pulse", layer);
 
-            foreach (ParticleSystem system in model.parent.GetComponentsInChildren<ParticleSystem>()) {
+            foreach (ParticleSystem system in model.parent.GetComponentsInChildren<ParticleSystem>())
+            {
                 system.Play();
             }
         }

@@ -13,26 +13,26 @@ namespace Sandswept.Items.VoidGreens
 
         public override string ItemLangTokenName => "FESTERING_HUNGER";
 
-        public override string ItemPickupDesc => "Chance to decay enemies on hit. Moving near decaying enemies increases attack speed. $svCorrupts all Smouldering Documents$se.".AutoFormat();
+        public override string ItemPickupDesc => "Chance to decay enemies on hit. Moving near decaying enemies increases movement speed. $svCorrupts all Smouldering Documents$se.".AutoFormat();
 
-        public override string ItemFullDescription => ("$sd" + chance + "%$se chance on hit to inflict $sddecay$se for $sd" + d(DoTs.Decay.baseDamage) + "$se base damage. Moving near $sddecaying$se enemies increases $sdattack speed$se by $sd" + d(baseAttackSpeedGain) + "$se $ss(+" + d(stackAttackSpeedGain) + " per stack)$se for $sd" + attackSpeedBuffDuration + "$se seconds. $svCorrupts all Smouldering Documents$se.").AutoFormat();
+        public override string ItemFullDescription => ("$sd" + chance + "%$se chance on hit to inflict $sddecay$se for $sd" + d(DoTs.Decay.baseDamage) + "$se base damage. Moving near $sddecaying$se enemies increases $sumovement speed$se by $sd" + d(baseMovementSpeedGain) + "$se $ss(+" + d(stackMovementSpeedGain) + " per stack)$se for $su" + movementSpeedBuffDuration + "$se seconds. $svCorrupts all Smouldering Documents$se.").AutoFormat();
 
         public override string ItemLore => "This hunger..\r\nIt grows inside me.\r\nSevers mortality.\r\n\r\nIts showing its teeth.\r\n\r\n\r\nBlood like wine!";
 
         [ConfigField("Chance", "", 7f)]
         public static float chance;
 
-        [ConfigField("Base Attack Speed Gain", "Decimal.", 0.33f)]
-        public static float baseAttackSpeedGain;
+        [ConfigField("Base Movement Speed Gain", "Decimal.", 0.33f)]
+        public static float baseMovementSpeedGain;
 
-        [ConfigField("Stack Attack Speed Gain", "Decimal.", 0.33f)]
-        public static float stackAttackSpeedGain;
+        [ConfigField("Stack Movement Speed Gain", "Decimal.", 0.33f)]
+        public static float stackMovementSpeedGain;
 
-        [ConfigField("Attack Speed Buff Duration", "", 2f)]
-        public static float attackSpeedBuffDuration;
+        [ConfigField("Movement Speed Buff Duration", "", 2f)]
+        public static float movementSpeedBuffDuration;
 
-        [ConfigField("Attack Speed Buff Range", "", 13f)]
-        public static float attackSpeedBuffRange;
+        [ConfigField("Movement Speed Buff Range", "", 13f)]
+        public static float movementSpeedBuffRange;
 
         public static BuffDef attackSpeedBuff;
 
@@ -82,7 +82,7 @@ namespace Sandswept.Items.VoidGreens
             if (sender.HasBuff(attackSpeedBuff))
             {
                 var stack = GetCount(sender);
-                args.baseAttackSpeedAdd += baseAttackSpeedGain + stackAttackSpeedGain * (stack - 1);
+                args.moveSpeedMultAdd += baseMovementSpeedGain + stackMovementSpeedGain * (stack - 1);
             }
         }
 
@@ -149,8 +149,8 @@ namespace Sandswept.Items.VoidGreens
     {
         public float checkInterval = 0.05f;
         public float timer;
-        public float radiusSquared = FesteringHunger.attackSpeedBuffRange * FesteringHunger.attackSpeedBuffRange;
-        public float distance = FesteringHunger.attackSpeedBuffRange;
+        public float radiusSquared = FesteringHunger.movementSpeedBuffRange * FesteringHunger.movementSpeedBuffRange;
+        public float distance = FesteringHunger.movementSpeedBuffRange;
         public TeamIndex ownerIndex;
         // public GameObject radiusIndicator;
 
@@ -214,7 +214,7 @@ namespace Sandswept.Items.VoidGreens
                 return;
             }
 
-            body.AddTimedBuffAuthority(FesteringHunger.attackSpeedBuff.buffIndex, FesteringHunger.attackSpeedBuffDuration);
+            body.AddTimedBuffAuthority(FesteringHunger.attackSpeedBuff.buffIndex, FesteringHunger.movementSpeedBuffDuration);
         }
 
         /*

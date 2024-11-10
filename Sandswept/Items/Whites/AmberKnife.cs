@@ -28,7 +28,7 @@ namespace Sandswept.Items.Whites
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility, ItemTag.Healing };
 
-        public static ProcType amberKnife = (ProcType)12785281;
+        public static ModdedProcType amberKnife = ProcTypeAPI.ReserveProcType();
 
         public static GameObject amberKnifeProjectile;
         public static GameObject amberKnifeGhost;
@@ -137,7 +137,7 @@ namespace Sandswept.Items.Whites
 
         private void GlobalEventManager_onServerDamageDealt(DamageReport report)
         {
-            if (report.damageInfo.procChainMask.HasProc(amberKnife))
+            if (report.damageInfo.procChainMask.HasModdedProc(amberKnife))
             {
                 return;
             }
@@ -174,7 +174,7 @@ namespace Sandswept.Items.Whites
 
                     Util.PlaySound("Play_bandit2_m2_slash", attackerBody.gameObject);
 
-                    fpi.procChainMask.AddProc(amberKnife);
+                    fpi.procChainMask.AddModdedProc(amberKnife);
 
                     // fpi.projectilePrefab.GetComponent<AmberKnifeProjectile>().owner = attackerBody;
                     ProjectileManager.instance.FireProjectile(fpi);

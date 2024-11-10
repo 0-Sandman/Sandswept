@@ -55,6 +55,8 @@ namespace Sandswept.Items.Greens
 
         public static GameObject FragmentVFXSphere;
 
+        public static ModdedProcType sunFragment = ProcTypeAPI.ReserveProcType();
+
         public override void Init(ConfigFile config)
         {
             var sunFragment = Main.MainAssets.LoadAsset<GameObject>("SunFragmentPrefab.prefab");
@@ -98,7 +100,7 @@ namespace Sandswept.Items.Greens
         {
             var damageInfo = report.damageInfo;
 
-            if (damageInfo.procChainMask.HasProc(ProcType.VoidSurvivorCrush))
+            if (damageInfo.procChainMask.HasModdedProc(sunFragment))
             {
                 return;
             }
@@ -132,7 +134,7 @@ namespace Sandswept.Items.Greens
                 return;
             }
 
-            damageInfo.procChainMask.AddProc(ProcType.VoidSurvivorCrush);
+            damageInfo.procChainMask.AddModdedProc(sunFragment);
 
             EffectData effectData = new()
             {

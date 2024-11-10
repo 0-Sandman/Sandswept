@@ -25,7 +25,7 @@ namespace Sandswept.Equipment.Lunar
 
         public override GameObject EquipmentModel => Main.Assets.LoadAsset<GameObject>("PickupLunarCatalyst.prefab");
         public override bool IsLunar => true;
-        public override Sprite EquipmentIcon => Paths.Sprite.texEquipmentBGIcon;
+        public override Sprite EquipmentIcon => Main.hifuSandswept.LoadAsset<Sprite>("texCorruptedCatalyst.png");
         public override float Cooldown => 35f;
 
         [ConfigField("Buff Duration", "", 15f)]

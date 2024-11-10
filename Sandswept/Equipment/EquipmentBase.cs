@@ -110,6 +110,7 @@ namespace Sandswept.Equipment
             EquipmentDef.isBoss = IsBoss;
             EquipmentDef.isLunar = IsLunar;
             EquipmentDef.requiredExpansion = Main.SandsweptExpansionDef;
+            EquipmentDef.colorIndex = IsLunar ? ColorCatalog.ColorIndex.LunarItem : ColorCatalog.ColorIndex.Equipment;
 
             ItemAPI.Add(new CustomEquipment(EquipmentDef, CreateItemDisplayRules()));
             On.RoR2.EquipmentSlot.PerformEquipmentAction += PerformEquipmentAction;

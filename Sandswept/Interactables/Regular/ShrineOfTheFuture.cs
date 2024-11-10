@@ -62,19 +62,39 @@ namespace Sandswept.Interactables.Regular
             mdl.transform.localScale = Vector3.one * 70;
             mdl.AddComponent<EntityLocator>().entity = prefab;
             mdl.AddComponent<ChildLocator>().transformPairs = new ChildLocator.NameTransformPair[] { new() { name = "FireworkOrigin", transform = prefab.transform.Find("Symbol") } };
+
+            var areYouFuckingKiddingMe = mdl.GetComponent<MeshRenderer>();
+            areYouFuckingKiddingMe.material.shader = Paths.Shader.HGStandard;
+
             var from = modelBase.Find("mdlShrineCombat").GetComponent<BoxCollider>();
             var to = mdl.AddComponent<BoxCollider>();
             to.center = Vector3.zero; to.size = Vector3.one * 0.04f;
-            mdl.transform.Find("Stem").AddComponent<BoxCollider>().size = Vector3.zero;
+            var stem = mdl.transform.Find("Stem");
+            stem.AddComponent<BoxCollider>().size = Vector3.zero;
+
+            var stemMeshRenderer = stem.GetComponent<MeshRenderer>();
+            var mat = stemMeshRenderer.material;
+            mat.shader = Paths.Shader.HGStandard;
+            mat.SetColor("_TintColor", Color.white);
+            mat.SetColor("_EmColor", new Color32(15, 19, 38, 255));
+            mat.SetTexture("_NormalTex", Paths.Texture2D.texNormalBumpyRock);
+            mat.SetFloat("_NormalStrength", 1f);
+
+            areYouFuckingKiddingMe.material = stemMeshRenderer.material;
+
             mdl.transform.Find("Stem/Crystal").AddComponent<BoxCollider>().size = Vector3.zero;
             mdl.transform.Find("Stem/Crystal").GetComponent<MeshRenderer>().material = Main.hifuSandswept.LoadAsset<Material>("assets/sandswept/interactables/shrineofthefuture/matshrineofthefuturediamonddiffuse2.mat");
             modelBase.Find("mdlShrineCombat").SetParent(null);
             mdl.transform.parent = modelBase;
+
             var symbol = prefab.transform.Find("Symbol");
             symbol.localPosition = new(0, 9, 0);
-            var meshRenderer = symbol.GetComponent<MeshRenderer>();
-            meshRenderer.material.mainTexture = Main.prodAssets.LoadAsset<Texture2D>("assets/sandswept/shrinefutureicon.png");
-            meshRenderer.material.SetColor("_TintColor", new Color32(0, 152, 110, 255));
+            var symbolMeshRenderer = symbol.GetComponent<MeshRenderer>();
+            var symbolMaterial = symbolMeshRenderer.material;
+            symbolMaterial.SetColor("_TintColor", new Color32(0, 72, 255, 255));
+            symbolMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone);
+            symbolMaterial.SetFloat("_AlphaBoost", 3f);
+            symbolMaterial.mainTexture = Main.prodAssets.LoadAsset<Texture2D>("assets/sandswept/shrinefutureicon.png");
 
             var purchaseInteraction = prefab.GetComponent<PurchaseInteraction>();
             purchaseInteraction.displayNameToken = "SANDSWEPT_SHRINE_FUTURE_NAME";
@@ -146,14 +166,16 @@ namespace Sandswept.Interactables.Regular
         private void ClassicStageInfo_RebuildCards(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self, DirectorCardCategorySelection forcedMonsterCategory, DirectorCardCategorySelection forcedInteractableCategory)
         {
             orig(self, forcedMonsterCategory, forcedInteractableCategory);
-            if (Run.instance.stageClearCount >= 6)
+            if (Run.instance.stageClearCount >= 11)
             {
                 self.interactableCategories.RemoveCardsThatFailFilter(x => x.spawnCard != interactableSpawnCard);
             }
         }
     }
 
-    public class MultiHighlight : Highlight { public Renderer[] others = new Renderer[] { }; }
+    public class MultiHighlight : Highlight
+    { public Renderer[] others = new Renderer[] { }; }
+
     public class UnityIsAFuckingPieceOfShit3 : MonoBehaviour
     {
         public PurchaseInteraction purchaseInteraction;
@@ -359,7 +381,8 @@ namespace Sandswept.Interactables.Regular
             return new PickupPickerController.Option[] { white, green };
         }
 
-        private void UNetVersion() { }
+        private void UNetVersion()
+        { }
 
         public override bool OnSerialize(NetworkWriter writer, bool forceAll)
         {

@@ -40,6 +40,8 @@ namespace Sandswept.Items.VoidGreens
 
         public static GameObject vfx;
 
+        public static ModdedProcType millenium = ProcTypeAPI.ReserveProcType();
+
         public override void Init(ConfigFile config)
         {
             var powerElixirGlassMat = new Material(Utils.Assets.Material.matHealingPotionGlass);
@@ -131,7 +133,7 @@ namespace Sandswept.Items.VoidGreens
                 return;
             }
 
-            if (damageInfo.procChainMask.HasProc(ProcType.AACannon))
+            if (damageInfo.procChainMask.HasModdedProc(millenium))
             {
                 return;
             }
@@ -153,7 +155,7 @@ namespace Sandswept.Items.VoidGreens
                 return;
             }
 
-            damageInfo.procChainMask.AddProc(ProcType.AACannon);
+            damageInfo.procChainMask.AddModdedProc(millenium);
 
             var radius = baseExplosionRadius + stackExplosionRadius * (stack - 1);
 
