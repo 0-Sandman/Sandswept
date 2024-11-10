@@ -1,7 +1,8 @@
 using System;
 using RoR2.Orbs;
 
-namespace Sandswept.Survivors.Electrician {
+namespace Sandswept.Survivors.Electrician
+{
     public class TempestBallController : MonoBehaviour
     {
         public float ticksPerSecond = 4;
@@ -61,27 +62,31 @@ namespace Sandswept.Survivors.Electrician {
 
         public void HandleBlastAuthority(Vector3 pos)
         {
-            SphereSearch search = new();
-            search.radius = sphere.radius;
-            search.mask = LayerIndex.entityPrecise.mask;
-            search.origin = base.transform.position;
+            SphereSearch search = new()
+            {
+                radius = sphere.radius,
+                mask = LayerIndex.entityPrecise.mask,
+                origin = base.transform.position
+            };
             search.RefreshCandidates();
             search.FilterCandidatesByDistinctHurtBoxEntities();
             search.FilterCandidatesByHurtBoxTeam(TeamMask.GetUnprotectedTeams(TeamIndex.Player));
 
             foreach (HurtBox box in search.GetHurtBoxes())
             {
-                LightningOrb orb = new();
-                orb.attacker = body.gameObject;
-                orb.damageValue = damagePerTick;
-                orb.bouncesRemaining = 0;
-                orb.isCrit = damage.crit;
-                orb.lightningType = LightningOrb.LightningType.Loader;
-                orb.origin = base.transform.position;
-                orb.procCoefficient = 1f;
-                orb.target = box;
-                orb.teamIndex = TeamIndex.Player;
-                orb.damageType = DamageType.SlowOnHit;
+                LightningOrb orb = new()
+                {
+                    attacker = body.gameObject,
+                    damageValue = damagePerTick,
+                    bouncesRemaining = 0,
+                    isCrit = damage.crit,
+                    lightningType = LightningOrb.LightningType.Loader,
+                    origin = base.transform.position,
+                    procCoefficient = 1f,
+                    target = box,
+                    teamIndex = TeamIndex.Player,
+                    damageType = DamageType.SlowOnHit
+                };
                 orb.AddModdedDamageType(Electrician.Grounding);
 
                 OrbManager.instance.AddOrb(orb);

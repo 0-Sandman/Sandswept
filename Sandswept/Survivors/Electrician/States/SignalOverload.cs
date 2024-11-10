@@ -90,7 +90,8 @@ namespace Sandswept.Survivors.Electrician.States
 
             lr = beamEffect.GetComponent<LineRenderer>();
 
-            handle = base.cameraTargetParams.AddParamsOverride(new() {
+            handle = base.cameraTargetParams.AddParamsOverride(new()
+            {
                 cameraParamsData = Paths.CharacterCameraParams.ccpToolbot.data
             }, 0.3f);
 
@@ -98,7 +99,8 @@ namespace Sandswept.Survivors.Electrician.States
             signalIndicator.transform.localScale = new Vector3(radius * 2f, radius * 2f, radius * 2f);
         }
 
-        public override void Update() {
+        public override void Update()
+        {
             beamEffect.transform.position = head.transform.position;
             origin.transform.position = head.transform.position;
             end.transform.position = pos;
@@ -111,10 +113,12 @@ namespace Sandswept.Survivors.Electrician.States
         {
             base.FixedUpdate();
 
-            if (Util.CharacterRaycast(base.gameObject, base.GetAimRay(), out RaycastHit info, 300f, LayerIndex.CommonMasks.bullet, QueryTriggerInteraction.Ignore)) {
+            if (Util.CharacterRaycast(base.gameObject, base.GetAimRay(), out RaycastHit info, 300f, LayerIndex.CommonMasks.bullet, QueryTriggerInteraction.Ignore))
+            {
                 pos = info.point;
             }
-            else {
+            else
+            {
                 pos = base.GetAimRay().GetPoint(100f);
             }
 
@@ -137,17 +141,19 @@ namespace Sandswept.Survivors.Electrician.States
         public override void OnExit()
         {
             base.OnExit();
-            
+
             animator.SetBool("discharging", false);
             Util.PlaySound("Stop_roboBall_attack2_mini_active_loop", gameObject);
             Util.PlaySound("Stop_ui_obj_nullWard_charge_loop", gameObject);
             Util.PlaySound("Stop_captain_m1_shotgun_charge_loop", gameObject);
 
-            if (beamEffect) {
+            if (beamEffect)
+            {
                 Destroy(beamEffect);
             }
 
-            if (signalIndicator) {
+            if (signalIndicator)
+            {
                 Destroy(signalIndicator);
             }
 
@@ -165,48 +171,56 @@ namespace Sandswept.Survivors.Electrician.States
 
         public void HandleBlastAuthority(Vector3 position)
         {
-            SphereSearch search = new();
-            search.radius = radius;
-            search.mask = LayerIndex.entityPrecise.mask;
-            search.origin = position;
+            SphereSearch search = new()
+            {
+                radius = radius,
+                mask = LayerIndex.entityPrecise.mask,
+                origin = position
+            };
             search.RefreshCandidates();
             search.FilterCandidatesByDistinctHurtBoxEntities();
             search.FilterCandidatesByHurtBoxTeam(TeamMask.GetUnprotectedTeams(base.GetTeam()));
 
-            BlastAttack attack = new();
-            attack.radius = radius * 0.10f;
-            attack.baseDamage = base.damageStat * coeff * 1.8f;
-            attack.damageType = DamageType.Stun1s | DamageType.Shock5s;
-            attack.crit = base.RollCrit();
-            attack.attacker = base.gameObject;
-            attack.teamIndex = base.GetTeam();
-            attack.falloffModel = BlastAttack.FalloffModel.None;
-            attack.procCoefficient = 0.8f;
-            attack.position = position;
+            BlastAttack attack = new()
+            {
+                radius = radius * 0.10f,
+                baseDamage = base.damageStat * coeff * 1.8f,
+                damageType = DamageType.Stun1s | DamageType.Shock5s,
+                crit = base.RollCrit(),
+                attacker = base.gameObject,
+                teamIndex = base.GetTeam(),
+                falloffModel = BlastAttack.FalloffModel.None,
+                procCoefficient = 0.8f,
+                position = position
+            };
 
             attack.Fire();
 
-            EffectManager.SpawnEffect(effect, new EffectData {
+            EffectManager.SpawnEffect(effect, new EffectData
+            {
                 origin = attack.position,
                 scale = attack.radius * 2f
             }, true);
 
             foreach (HurtBox box in search.GetHurtBoxes())
             {
-                if (Vector3.Distance(box.transform.position, attack.position) < attack.radius * 1.5f) {
+                if (Vector3.Distance(box.transform.position, attack.position) < attack.radius * 1.5f)
+                {
                     continue;
                 }
 
-                LightningOrb orb = new();
-                orb.attacker = base.gameObject;
-                orb.damageValue = base.damageStat * coeff;
-                orb.bouncesRemaining = 0;
-                orb.isCrit = base.RollCrit();
-                orb.lightningType = LightningOrb.LightningType.Loader;
-                orb.origin = position;
-                orb.procCoefficient = 1f;
-                orb.target = box;
-                orb.teamIndex = base.GetTeam();
+                LightningOrb orb = new()
+                {
+                    attacker = base.gameObject,
+                    damageValue = base.damageStat * coeff,
+                    bouncesRemaining = 0,
+                    isCrit = base.RollCrit(),
+                    lightningType = LightningOrb.LightningType.Loader,
+                    origin = position,
+                    procCoefficient = 1f,
+                    target = box,
+                    teamIndex = base.GetTeam()
+                };
                 orb.AddModdedDamageType(Electrician.Grounding);
 
                 if (box.healthComponent)
@@ -256,7 +270,8 @@ namespace Sandswept.Survivors.Electrician.States
 
             PlayAnimation("Fullbody, Override", "Discharge", "Generic.playbackRate", recoilDuration);
 
-            if (NetworkServer.active) {
+            if (NetworkServer.active)
+            {
                 base.characterBody.AddTimedBuff(Buffs.ShieldSpeed.instance.BuffDef, 5f);
             }
 
@@ -291,27 +306,31 @@ namespace Sandswept.Survivors.Electrician.States
 
         public void HandleBlastAuthority()
         {
-            SphereSearch search = new();
-            search.radius = radius;
-            search.mask = LayerIndex.entityPrecise.mask;
-            search.origin = base.transform.position;
+            SphereSearch search = new()
+            {
+                radius = radius,
+                mask = LayerIndex.entityPrecise.mask,
+                origin = base.transform.position
+            };
             search.RefreshCandidates();
             search.FilterCandidatesByDistinctHurtBoxEntities();
             search.FilterCandidatesByHurtBoxTeam(TeamMask.GetUnprotectedTeams(base.GetTeam()));
 
             foreach (HurtBox box in search.GetHurtBoxes())
             {
-                LightningOrb orb = new();
-                orb.attacker = base.gameObject;
-                orb.damageValue = base.damageStat * damageCoeff;
-                orb.bouncesRemaining = 0;
-                orb.isCrit = base.RollCrit();
-                orb.lightningType = LightningOrb.LightningType.Loader;
-                orb.origin = base.transform.position;
-                orb.procCoefficient = 0f;
-                orb.target = box;
-                orb.teamIndex = base.GetTeam();
-                orb.damageType = DamageType.Shock5s;
+                LightningOrb orb = new()
+                {
+                    attacker = base.gameObject,
+                    damageValue = base.damageStat * damageCoeff,
+                    bouncesRemaining = 0,
+                    isCrit = base.RollCrit(),
+                    lightningType = LightningOrb.LightningType.Loader,
+                    origin = base.transform.position,
+                    procCoefficient = 0f,
+                    target = box,
+                    teamIndex = base.GetTeam(),
+                    damageType = DamageType.Shock5s
+                };
                 orb.AddModdedDamageType(Electrician.Grounding);
 
                 OrbManager.instance.AddOrb(orb);

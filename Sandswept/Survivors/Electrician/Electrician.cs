@@ -27,8 +27,10 @@ namespace Sandswept.Survivors.Electrician
         public static GameObject LightningZipEffect;
         public static GameObject SignalOverloadIndicator;
         public static LazyIndex ElectricianIndex = new("ElectricianBody");
+
         //
         public static SkinDef sdElecDefault;
+
         public static SkinDef sdElecMastery;
         public static Material matElecOrbOuter;
         public static Material matElecOrbInner;
@@ -85,6 +87,14 @@ namespace Sandswept.Survivors.Electrician
             ContentAddition.AddProjectile(StaticSnare);
 
             Main.Instance.StartCoroutine(CreateVFX());
+
+            ContentAddition.AddEntityState(typeof(States.GalvanicBolt), out _);
+            ContentAddition.AddEntityState(typeof(States.SignalOverloadCharge), out _);
+            ContentAddition.AddEntityState(typeof(States.SignalOverloadFire), out _);
+            ContentAddition.AddEntityState(typeof(States.SignalOverloadDischarge), out _);
+            ContentAddition.AddEntityState(typeof(States.StaticSnare), out _);
+            ContentAddition.AddEntityState(typeof(States.TempestSphereCharge), out _);
+            ContentAddition.AddEntityState(typeof(States.TempestSphereFire), out _);
 
             On.RoR2.HealthComponent.TakeDamage += HandleGroundingShock;
 
@@ -206,7 +216,8 @@ namespace Sandswept.Survivors.Electrician
 
             orig(self, damageInfo);
 
-            if (hadShield && self.body.bodyIndex == ElectricianIndex && self.shield <= 0) {
+            if (hadShield && self.body.bodyIndex == ElectricianIndex && self.shield <= 0)
+            {
                 EntityStateMachine machine = EntityStateMachine.FindByCustomName(self.gameObject, "Shield");
                 machine.SetNextState(new SignalOverloadFire(0.65f));
             }

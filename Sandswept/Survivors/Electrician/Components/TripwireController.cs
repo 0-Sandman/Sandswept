@@ -1,6 +1,7 @@
 using System;
 
-namespace Sandswept.Survivors.Electrician {
+namespace Sandswept.Survivors.Electrician
+{
     public class TripwireController : MonoBehaviour
     {
         public LineRenderer lineRenderer;
@@ -27,7 +28,8 @@ namespace Sandswept.Survivors.Electrician {
         private Vector3 startPosition;
         public GameObject lightningEffect;
 
-        public void OnInteract(Interactor interactor) {
+        public void OnInteract(Interactor interactor)
+        {
             blast.position = explo.position;
             blast.radius *= 2f;
             blast.baseDamage *= 2f;
@@ -43,8 +45,10 @@ namespace Sandswept.Survivors.Electrician {
             GameObject.Destroy(this.gameObject);
         }
 
-        public void OnCollisionEnter(Collision col) {
-            if (col.collider && col.collider.GetComponent<GalvanicBallController>()) {
+        public void OnCollisionEnter(Collision col)
+        {
+            if (col.collider && col.collider.GetComponent<GalvanicBallController>())
+            {
                 Rigidbody rb = GetComponent<Rigidbody>();
                 base.GetComponent<ProjectileSimple>().updateAfterFiring = false;
                 rb.velocity = col.contacts[0].normal * 130f;
@@ -81,7 +85,6 @@ namespace Sandswept.Survivors.Electrician {
                 procCoefficient = 1f,
                 baseDamage = pDamage.damage * 3f
             };
-        
 
             ModelLocator loc = attack.owner.GetComponent<ModelLocator>();
             head = loc.modelTransform.GetComponent<ChildLocator>().FindChild("Head");
@@ -96,8 +99,10 @@ namespace Sandswept.Survivors.Electrician {
             lightningEffect.SetActive(false);
         }
 
-        public bool StartZip() {
-            if (!head) {
+        public bool StartZip()
+        {
+            if (!head)
+            {
                 return false;
             }
 
@@ -124,23 +129,26 @@ namespace Sandswept.Survivors.Electrician {
         public void FixedUpdate()
         {
             stopwatch2 += Time.fixedDeltaTime;
-            
-            if (!init) {
+
+            if (!init)
+            {
                 initDelay -= Time.fixedDeltaTime;
 
-                if (initDelay <= 0f) {
+                if (initDelay <= 0f)
+                {
                     init = true;
                 }
             }
 
             lineRenderer.enabled = init && head;
 
-            
             lineRenderer.SetPosition(0, explo.position);
             lineRenderer.SetPosition(1, isInVehicleMode ? seat.seatPosition.position : head.transform.position);
 
-            if (isInVehicleMode) {
-                if (!body || !body.hasAuthority) {
+            if (isInVehicleMode)
+            {
+                if (!body || !body.hasAuthority)
+                {
                     return;
                 }
 
@@ -148,7 +156,8 @@ namespace Sandswept.Survivors.Electrician {
                 seat.seatPosition.position = startPosition;
                 seat.UpdatePassengerPosition();
 
-                if (Vector3.Distance(startPosition, base.transform.position) < 0.5f) {
+                if (Vector3.Distance(startPosition, base.transform.position) < 0.5f)
+                {
                     blast.position = explo.position;
                     blast.radius *= 2f;
                     blast.baseDamage *= 2f;
@@ -160,7 +169,8 @@ namespace Sandswept.Survivors.Electrician {
                         scale = blast.radius * 2
                     }, true);
 
-                    if (head) {
+                    if (head)
+                    {
                         head.gameObject.SetActive(true);
                     }
 
@@ -209,11 +219,13 @@ namespace Sandswept.Survivors.Electrician {
 
         public void OnDisable()
         {
-            if (controller.owner && ControllerMap.ContainsKey(controller.owner)) {
+            if (controller.owner && ControllerMap.ContainsKey(controller.owner))
+            {
                 ControllerMap.Remove(controller.owner);
             }
 
-            if (head) {
+            if (head)
+            {
                 head.gameObject.SetActive(true);
             }
         }

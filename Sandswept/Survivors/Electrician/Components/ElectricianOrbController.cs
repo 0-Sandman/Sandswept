@@ -1,15 +1,18 @@
 using System;
 using System.Linq;
 
-namespace Sandswept.Survivors.Electrician {
-    public class ElectricianOrbController : MonoBehaviour {
+namespace Sandswept.Survivors.Electrician
+{
+    public class ElectricianOrbController : MonoBehaviour
+    {
         private MeshRenderer target;
         public ModelSkinController MSC;
         private Pair[] MaterialMap;
         public SkinnedMeshRenderer VisibilityTarget;
         private int lastSkinIndex = -1;
 
-        public void Start() {
+        public void Start()
+        {
             target = GetComponent<MeshRenderer>();
 
             MaterialMap = new Pair[] {
@@ -31,15 +34,18 @@ namespace Sandswept.Survivors.Electrician {
             };
         }
 
-        public void Update() {
-            if (MSC.currentSkinIndex != lastSkinIndex) {
+        public void Update()
+        {
+            if (MSC.currentSkinIndex != lastSkinIndex)
+            {
                 RefreshOrb();
             }
 
             target.enabled = VisibilityTarget.enabled;
         }
 
-        public void RefreshOrb() {
+        public void RefreshOrb()
+        {
             lastSkinIndex = MSC.currentSkinIndex;
             SkinDef targetSkin = MSC.skins[MSC.currentSkinIndex];
             Pair pair = MaterialMap.FirstOrDefault(x => x.TargetSkin == targetSkin);
@@ -47,8 +53,8 @@ namespace Sandswept.Survivors.Electrician {
         }
     }
 
-    
-    public class Pair {
+    public class Pair
+    {
         public SkinDef TargetSkin;
         public Material[] Materials;
     }

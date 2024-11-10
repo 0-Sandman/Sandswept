@@ -17,7 +17,7 @@ namespace Sandswept.Survivors.Electrician.States
 
             characterBody.SetSpreadBloom(12f, true);
 
-            if (base.isAuthority && !TripwireController.ControllerMap.ContainsKey(base.gameObject)) 
+            if (base.isAuthority && !TripwireController.ControllerMap.ContainsKey(base.gameObject))
             {
                 tossedOut = true;
                 FireProjectileInfo info = MiscUtils.GetProjectile(Electrician.StaticSnare, 1f, base.characterBody);
@@ -26,8 +26,10 @@ namespace Sandswept.Survivors.Electrician.States
                 Util.PlaySound("Play_MULT_m2_throw", base.gameObject);
             }
 
-            if (!tossedOut) {
-                if (TripwireController.ControllerMap.ContainsKey(base.gameObject)) {
+            if (!tossedOut)
+            {
+                if (TripwireController.ControllerMap.ContainsKey(base.gameObject))
+                {
                     TripwireController controller = TripwireController.ControllerMap[base.gameObject];
                     tossedOut = !controller.StartZip();
                 }
@@ -52,11 +54,12 @@ namespace Sandswept.Survivors.Electrician.States
         {
             base.OnExit();
 
-            if (tossedOut) {
+            if (tossedOut)
+            {
                 float cd = base.skillLocator.utility.baseRechargeInterval * 0.75f;
                 base.skillLocator.utility.RunRecharge(cd);
             }
-        } 
+        }
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {

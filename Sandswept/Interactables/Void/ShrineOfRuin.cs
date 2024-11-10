@@ -92,10 +92,9 @@ namespace Sandswept.Interactables.Regular
 
                 payCost = delegate (CostTypeDef def, CostTypeDef.PayCostContext c)
                 {
-                }
+                },
+                colorIndex = ColorCatalog.ColorIndex.Tier1Item
             };
-
-            def.colorIndex = ColorCatalog.ColorIndex.Tier1Item;
 
             On.RoR2.CostTypeCatalog.Init += (orig) =>
             {
@@ -204,7 +203,8 @@ namespace Sandswept.Interactables.Regular
 
         private void Gyatttttt(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
         {
-            if (shouldReplaceDrops) {
+            if (shouldReplaceDrops)
+            {
                 self.teleporterSpawnCard = Paths.InteractableSpawnCard.iscTeleporter;
             }
 
@@ -213,31 +213,36 @@ namespace Sandswept.Interactables.Regular
 
         private void HandleScenes(On.RoR2.Run.orig_PickNextStageSceneFromCurrentSceneDestinations orig, Run self)
         {
-            if (shouldCorruptNextStage) {
+            if (shouldCorruptNextStage)
+            {
                 WeightedSelection<SceneDef> ws = new WeightedSelection<SceneDef>();
-                SceneCatalog.mostRecentSceneDef.AddDestinationsToWeightedSelection(ws, (x) => {
+                SceneCatalog.mostRecentSceneDef.AddDestinationsToWeightedSelection(ws, (x) =>
+                {
                     SceneDef simulacrumScene = SceneCatalog.FindSceneDef("it" + x.cachedName);
 
                     return x && self.CanPickStage(x);
                 });
-                
-                if (ws.choices.Length > 0) {
+
+                if (ws.choices.Length > 0)
+                {
                     self.PickNextStageScene(ws);
                     return;
                 }
             }
-            
+
             orig(self);
         }
 
         private void OnSceneExit(On.RoR2.SceneExitController.orig_Begin orig, SceneExitController self)
         {
-            if (shouldCorruptNextStage) {
+            if (shouldCorruptNextStage)
+            {
                 SceneDef originalScene = self.useRunNextStageScene ? Run.instance.nextStageScene : self.destinationScene;
 
                 SceneDef simulacrumScene = SceneCatalog.FindSceneDef("it" + originalScene.cachedName);
 
-                if (simulacrumScene) {
+                if (simulacrumScene)
+                {
                     self.destinationScene = simulacrumScene;
                     Run.instance.nextStageScene = simulacrumScene;
                 }
@@ -499,7 +504,8 @@ namespace Sandswept.Interactables.Regular
             return true;
         }
 
-        private void UNetVersion() {}
+        private void UNetVersion()
+        { }
 
         public override bool OnSerialize(NetworkWriter writer, bool forceAll)
         {

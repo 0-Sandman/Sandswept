@@ -1,6 +1,7 @@
 using System;
 
-namespace Sandswept.Survivors.Electrician {
+namespace Sandswept.Survivors.Electrician
+{
     public class GalvanicBallController : MonoBehaviour
     {
         public float radius = 14f;
@@ -25,8 +26,10 @@ namespace Sandswept.Survivors.Electrician {
             GetComponent<ProjectileProximityBeamController>().attackInterval /= owner.attackSpeed;
         }
 
-        public void UnstickAndDrop() {
-            if (stick.stuckTransform && stick.stuckTransform.parent.GetComponent<TripwireController>()) {
+        public void UnstickAndDrop()
+        {
+            if (stick.stuckTransform && stick.stuckTransform.parent.GetComponent<TripwireController>())
+            {
                 stick.Detach();
                 stick.rigidbody.velocity = Vector3.zero;
                 stick.rigidbody.useGravity = true;
