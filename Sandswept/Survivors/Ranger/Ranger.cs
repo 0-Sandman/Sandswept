@@ -111,15 +111,18 @@ namespace Sandswept.Survivors.Ranger
 
             var childLocator = _modelTransform.GetComponent<ChildLocator>();
             List<ChildLocator.NameTransformPair> sigma = childLocator.transformPairs.ToList();
-            sigma.Add(new() {
+            sigma.Add(new()
+            {
                 name = "Chest",
                 transform = chest
             });
-            sigma.Add(new() {
+            sigma.Add(new()
+            {
                 name = "Neck",
                 transform = neck
             });
-            sigma.Add(new() {
+            sigma.Add(new()
+            {
                 name = "Head",
                 transform = head
             });
@@ -264,6 +267,7 @@ namespace Sandswept.Survivors.Ranger
             ContentAddition.AddEntityState(typeof(DirectCurrent), out _);
             ContentAddition.AddEntityState(typeof(Enflame), out _);
             ContentAddition.AddEntityState(typeof(Exhaust), out _);
+            ContentAddition.AddEntityState(typeof(Survivors.Ranger.States.Secondary.Char), out _);
             ContentAddition.AddEntityState(typeof(HeatSignature), out _);
             ContentAddition.AddEntityState(typeof(HeatSink), out _);
             ContentAddition.AddEntityState(typeof(OverdriveEnter), out _);

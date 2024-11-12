@@ -8,17 +8,23 @@ namespace Sandswept.Survivors.Ranger.States.Special
 {
     public class OverdriveEnter : BaseState
     {
-        public static SkillDef PrimarySkill => Enflame.instance.skillDef;
+        public static SkillDef PrimarySkill = Enflame.instance.skillDef;
 
-        public static SkillDef SecondarySkill => Exhaust.instance.skillDef;
-        public static SkillDef UtilitySkill => HeatSignature.instance.skillDef;
+        public static SkillDef SecondarySkill = Exhaust.instance.skillDef;
+        public static SkillDef UtilitySkill = HeatSignature.instance.skillDef;
 
-        public static SkillDef SpecialSkill => SkillDefs.Special.HeatSink.instance.skillDef;
+        public static SkillDef SpecialSkill = SkillDefs.Special.HeatSink.instance.skillDef;
+
         public RoR2.UI.CrosshairUtils.OverrideRequest crosshairRequest;
         public RangerHeatController heat;
         public Material heatMat;
         public Transform modelTransform;
         public TemporaryOverlayInstance tempOverlayInstance;
+
+        public Dictionary<SkillDef, SkillDef> originalToOverheatPrimarySkillDefMap = new();
+        public Dictionary<SkillDef, SkillDef> originalToOverheatSecondarySkillDefMap = new();
+        public Dictionary<SkillDef, SkillDef> originalToOverheatUtilitySkillDefMap = new();
+        public Dictionary<SkillDef, SkillDef> originalToOverheatSpecialSkillDefMap = new();
 
         public override void OnEnter()
         {
@@ -27,6 +33,9 @@ namespace Sandswept.Survivors.Ranger.States.Special
             heat = GetComponent<RangerHeatController>();
 
             SkillLocator locator = skillLocator;
+
+            SecondarySkill = locator.secondary.skillDef == Release.instance.skillDef ? Exhaust.instance.skillDef : Survivors.Ranger.SkillDefs.Secondary.Char.instance.skillDef;
+
             locator.primary.SetSkillOverride(gameObject, PrimarySkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.secondary.SetSkillOverride(gameObject, SecondarySkill, GenericSkill.SkillOverridePriority.Contextual);
             locator.utility.SetSkillOverride(gameObject, UtilitySkill, GenericSkill.SkillOverridePriority.Contextual);
