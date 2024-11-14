@@ -190,21 +190,30 @@ namespace Sandswept.Interactables.Regular
             voidEnemiesDccsPool.poolCategories = allCategories;
 
             // On.RoR2.ClassicStageInfo.Start += ClassicStageInfo_Start;
-            On.RoR2.Stage.Start += Stage_Start;
-            On.RoR2.PickupDropTable.GenerateDropFromWeightedSelection += PickupDropTable_GenerateDropFromWeightedSelection;
-            On.RoR2.PickupDropTable.GenerateUniqueDropsFromWeightedSelection += PickupDropTable_GenerateUniqueDropsFromWeightedSelection;
             SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
             On.RoR2.SceneExitController.Begin += OnSceneExit;
             On.RoR2.Run.PickNextStageSceneFromCurrentSceneDestinations += HandleScenes;
             On.RoR2.SceneDirector.Start += Gyatttttt;
+            On.RoR2.BasicPickupDropTable.GenerateDropPreReplacement += OnGenerateDrop;
 
             PostInit();
         }
 
+        private PickupIndex OnGenerateDrop(On.RoR2.BasicPickupDropTable.orig_GenerateDropPreReplacement orig, BasicPickupDropTable self, Xoroshiro128Plus rng)
+        {
+            if (shouldReplaceDrops) {
+                VoidedPickupTable table = new(self, rng);
+                return table.GenerateDrop();
+            }
+
+            return orig(self, rng);
+        }
+
         private void Gyatttttt(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
         {
-            if (shouldReplaceDrops)
+            if (shouldCorruptNextStage && SceneManager.GetActiveScene().name.StartsWith("it"))
             {
+                shouldCorruptNextStage = false;
                 self.teleporterSpawnCard = Paths.InteractableSpawnCard.iscTeleporter;
             }
 
@@ -220,7 +229,7 @@ namespace Sandswept.Interactables.Regular
                 {
                     SceneDef simulacrumScene = SceneCatalog.FindSceneDef("it" + x.cachedName);
 
-                    return x && self.CanPickStage(x);
+                    return simulacrumScene && self.CanPickStage(x);
                 });
 
                 if (ws.choices.Length > 0)
@@ -230,6 +239,18 @@ namespace Sandswept.Interactables.Regular
                 }
             }
 
+            if (shouldReplaceDrops) {
+                SceneDef scene = SceneCatalog.FindSceneDef(SceneCatalog.mostRecentSceneDef.cachedName.Substring(2));
+                WeightedSelection<SceneDef> ws = new WeightedSelection<SceneDef>();
+                scene.AddDestinationsToWeightedSelection(ws, (x) =>
+                {
+                    return self.CanPickStage(x);
+                });
+
+                self.PickNextStageScene(ws);
+                return;
+            }
+
             orig(self);
         }
 
@@ -237,9 +258,12 @@ namespace Sandswept.Interactables.Regular
         {
             if (shouldCorruptNextStage)
             {
+                Run.instance.PickNextStageSceneFromCurrentSceneDestinations();
+
                 SceneDef originalScene = self.useRunNextStageScene ? Run.instance.nextStageScene : self.destinationScene;
 
                 SceneDef simulacrumScene = SceneCatalog.FindSceneDef("it" + originalScene.cachedName);
+
 
                 if (simulacrumScene)
                 {
@@ -251,24 +275,23 @@ namespace Sandswept.Interactables.Regular
             orig(self);
         }
 
-        private System.Collections.IEnumerator Stage_Start(On.RoR2.Stage.orig_Start orig, RoR2.Stage self)
-        {
-            yield return orig(self);
-            shouldReplaceDrops = false;
-
-            var sceneName = SceneManager.GetActiveScene().name;
-            if (sceneName.StartsWith("it") && shouldCorruptNextStage)
-            {
-                shouldReplaceDrops = true;
-                shouldCorruptNextStage = false;
-            }
-        }
-
         private void SceneManager_activeSceneChanged(Scene oldScene, Scene newScene)
         {
             if (shouldCorruptNextStage)
             {
+                new GameObject("hopoo why").AddComponent<DirectorCore>();
                 var sceneInfo = GameObject.Find("SceneInfo");
+                var obj = GameObject.Instantiate(Paths.GameObject.Director);
+                if (obj.GetComponent<SceneDirector>()) {
+                    obj.GetComponent<SceneDirector>().enabled = false;
+                }
+                foreach (var dir in obj.GetComponents<CombatDirector>()) {
+                    dir.creditMultiplier = 3f;
+                }
+                NetworkServer.Spawn(obj);
+
+                shouldReplaceDrops = true;
+
                 if (!sceneInfo)
                 {
                     // Main.ModLogger.LogError("no scene info found");
@@ -281,40 +304,8 @@ namespace Sandswept.Interactables.Regular
                     classicStageInfo.monsterCategories = Utils.Assets.DirectorCardCategorySelection.dccsITVoidMonsters;
                 }
             }
-        }
-
-        private PickupIndex PickupDropTable_GenerateDropFromWeightedSelection(On.RoR2.PickupDropTable.orig_GenerateDropFromWeightedSelection orig, Xoroshiro128Plus rng, WeightedSelection<PickupIndex> weightedSelection)
-        {
-            OverwriteDrop(weightedSelection);
-            return orig(rng, weightedSelection);
-        }
-
-        private PickupIndex[] PickupDropTable_GenerateUniqueDropsFromWeightedSelection(On.RoR2.PickupDropTable.orig_GenerateUniqueDropsFromWeightedSelection orig, int maxDrops, Xoroshiro128Plus rng, WeightedSelection<PickupIndex> weightedSelection)
-        {
-            OverwriteDrop(weightedSelection);
-            return orig(maxDrops, rng, weightedSelection);
-        }
-
-        private void OverwriteDrop(WeightedSelection<PickupIndex> weightedSelection)
-        {
-            if (shouldReplaceDrops && weightedSelection.choices.All(x => PickupCatalog.GetPickupDef(x.value).equipmentIndex == EquipmentIndex.None))
-            {
-                var dropPickup = PickupIndex.none;
-
-                WeightedSelection<List<PickupIndex>> selector = new();
-                selector.AddChoice(Run.instance.availableVoidTier1DropList, 50f);
-                selector.AddChoice(Run.instance.availableVoidTier2DropList, 34f);
-                selector.AddChoice(Run.instance.availableVoidTier3DropList, 8f);
-                selector.AddChoice(Run.instance.availableVoidBossDropList, 8f);
-
-                List<PickupIndex> dropList = selector.Evaluate(Run.instance.treasureRng.nextNormalizedFloat);
-                if (dropList != null && dropList.Count > 0)
-                {
-                    dropPickup = Run.instance.treasureRng.NextElementUniform(dropList);
-                }
-
-                weightedSelection.Clear();
-                weightedSelection.AddChoice(dropPickup, 1f);
+            else {
+                shouldReplaceDrops = false;
             }
         }
 
@@ -327,6 +318,75 @@ namespace Sandswept.Interactables.Regular
             }
 
             orig(self);
+        }
+
+        public class VoidedPickupTable {
+            public WeightedSelection<PickupIndex> TierSelection = new();
+            public Xoroshiro128Plus rng;
+
+            public void PopulateFromDropTable(BasicPickupDropTable table) {
+                TierSelection.Clear();
+                AddToSelection(Run.instance.availableVoidTier1DropList, TierSelection, table, table.tier1Weight);
+                AddToSelection(Run.instance.availableVoidTier2DropList, TierSelection, table, table.tier2Weight);
+                AddToSelection(Run.instance.availableVoidTier3DropList, TierSelection, table, table.tier3Weight);
+                AddToSelection(Run.instance.availableVoidTier1DropList, TierSelection, table, table.voidTier1Weight);
+                AddToSelection(Run.instance.availableVoidTier2DropList, TierSelection, table, table.voidTier2Weight);
+                AddToSelection(Run.instance.availableVoidTier3DropList, TierSelection, table, table.voidTier3Weight);
+                AddToSelection(Run.instance.availableEquipmentDropList, TierSelection, table, table.equipmentWeight);
+                AddToSelection(Run.instance.availableLunarCombinedDropList, TierSelection, table, table.lunarCombinedWeight);
+                AddToSelection(Run.instance.availableVoidBossDropList, TierSelection, table, table.bossWeight);
+            }
+
+            public VoidedPickupTable(BasicPickupDropTable table, Xoroshiro128Plus rng) {
+                PopulateFromDropTable(table);
+                this.rng = rng;
+            }
+
+            public PickupIndex GenerateDrop() {
+                return TierSelection.Evaluate(rng.nextNormalizedFloat);
+            }
+
+            public ItemTierDef GetTierForSelection(List<PickupIndex> selection) {
+                return ItemCatalog.GetItemDef(PickupCatalog.GetPickupDef(selection[0]).itemIndex)._itemTierDef;
+            }
+
+            public void AddToSelection(List<PickupIndex> indices, WeightedSelection<PickupIndex> selection, BasicPickupDropTable table, float weight) {
+                foreach (PickupIndex index in indices) {
+                    if (!IsFilterRequired() || PassesFilter(index)) {
+                        selection.AddChoice(index, weight);
+                    }
+                }
+
+                bool IsFilterRequired() {
+                    if (table.requiredItemTags.Length == 0) {
+                        return table.bannedItemTags.Length == 0;
+                    }
+
+                    return true;
+                }
+
+                bool PassesFilter(PickupIndex index) {
+                    PickupDef def = PickupCatalog.GetPickupDef(index);
+                    if (def.itemIndex != ItemIndex.None) {
+                        ItemDef item = ItemCatalog.GetItemDef(def.itemIndex);
+
+                        foreach (ItemTag value in table.bannedItemTags) {
+                            if (Array.IndexOf(item.tags, value) != -1) {
+                                return false;
+                            }
+                        }
+
+                        foreach (ItemTag value in table.requiredItemTags) {
+                            if (Array.IndexOf(item.tags, value) == -1) {
+                                return false;
+                            }
+                        }
+
+                        return true;
+                    }
+                    return false;
+                }
+            }
         }
     }
 
