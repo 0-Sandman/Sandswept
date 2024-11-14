@@ -22,6 +22,7 @@ namespace Sandswept.Survivors
 
             DirectCurrent.Init();
             TheFuckingBFG.Init();
+            Sandswept.Survivors.Ranger.Projectiles.Char.Init();
             ChargeGain.Init();
             // Based.Init();
 
