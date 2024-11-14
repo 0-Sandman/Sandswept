@@ -1,8 +1,8 @@
 {
     "name": "Sandswept",
-    "version_number": "0.9.3",
+    "version_number": "1.0.0",
     "website_url": "https://github.com/0-Sandman/Sandswept/",
-    "description": "A work in progress mod that aims to add a variety of unique and high quality content to the game.",
+    "description": "[1.0.0 - New survivor and more] A work in progress mod that aims to add a variety of unique and high quality content to the game.",
     "dependencies": [
         "bbepis-BepInExPack-5.4.2117",
         "RiskofThunder-R2API_Skins-1.2.0",
@@ -15,6 +15,7 @@
 		"RiskofThunder-R2API_RecalculateStats-1.4.0",
 		"RiskofThunder-R2API_ContentManagement-1.0.6",
 		"RiskofThunder-R2API_Networking-1.0.2",
-		"RiskofThunder-R2API_Director-2.2.1"
+		"RiskofThunder-R2API_Director-2.2.1",
+		"RiskofThunder-R2API_ProcType-1.0.1"
     ]
 }

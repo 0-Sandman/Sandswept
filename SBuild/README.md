@@ -62,7 +62,7 @@
 |<img src="https://i.postimg.cc/LXcqFPFd/tex-Sun-Fragment.png" width="96"/> | **Sun Fragment** | 9% chance on hit to create a blinding flash in a 12m area, stunning for 1.5s and igniting enemies for 150% (+150% per stack) TOTAL damage. | Green |
 |<img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"/> | **Universal VIP Pass** | Category chests have a 45% chance of dropping 1 (+1 per stack) extra items. | Green |
 | ‎ | ‎ | ‎ |
-|<img src="https://i.postimg.cc/L625CrWK/tex-Millenium.png" width="96"/> | **Festering Hunger** | 7% chance on hit to inflict decay for 300% base damage. Moving near decaying enemies increases attack speed by 33% (+33% per stack) for 2s. Corrupts all Smouldering Documents. | Void Green |
+|<img src="https://i.postimg.cc/L625CrWK/tex-Millenium.png" width="96"/> | **Festering Hunger** | 7% chance on hit to inflict decay for 300% base damage. Moving near decaying enemies increases movement speed by 33% (+33% per stack) for 2s. Corrupts all Smouldering Documents. | Void Green |
 |<img src="https://i.postimg.cc/L625CrWK/tex-Millenium.png" width="96"/> | **Millenium** | 7% chance on hit to create a tidal cataclysm in a 12m (+4m per stack) area, collapsing and grounding enemies for 400% base damage. Corrupts all Sun Fragments. | Void Green |
 | ‎ | ‎ | ‎ |
 |<img src="https://i.postimg.cc/PxjsGfV3/tex-Bleeding-Witness.png" width="96"/> | **Bleeding Witness** | 8% chance on hit to hemorrhage enemies for 500% base damage. Your damage over time effects heal all allies for 0.33% (+0.33% per stack) of their maximum health. | Red |
@@ -74,17 +74,17 @@
 # Equipment
 | Icon | Equipment | Description | Tier |
 |:-|-|------|-|
-| <img src="https://i.postimg.cc/90551q0y/tex-Sandsw-eeper.png" width="64"/> | **Galvanic Cell Shield** | Raise a shield that parries the next attack. Upon sucessfully parrying, shock and damage nearby enemies for 2000% damage. Cooldown: 20s | Orange |
+| <img src="https://i.postimg.cc/SNPjrhH3/tex-Galvanic-Cell-Shield.png" width="64"/> | **Galvanic Cell Shield** | Raise a shield that parries the next attack. Upon sucessfully parrying, shock and damage nearby enemies for 2000% damage. Cooldown: 20s | Orange |
 | <img src="https://i.postimg.cc/90551q0y/tex-Sandsw-eeper.png" width="64"/> | **The Sand Sweeper** | Pushes all enemies within 20m, dealing up to 500% damage and stunning for up to 6 seconds based on the distance. Cooldown: 30s | Orange |
 |  |  |  |
-| <img src="https://i.postimg.cc/90551q0y/tex-Sandsw-eeper.png" width="64"/> | **Corrupted Catalyst** | Crete a 30m aura that gives all allies and enemies a random buff for 15s. Cooldown: 35s | Lunar |
+| <img src="https://i.postimg.cc/jdHk6xWd/tex-Corrupted-Catalyst.png" width="64"/> | **Corrupted Catalyst** | Create a 30m aura that gives all allies and enemies a random buff for 15s. Cooldown: 35s | Lunar |
 
 # Interactables
 | Icon | Name | Description | Details |
 |:-|-|------|-|
 |<img src="https://i.postimg.cc/gkCDYxzs/tex-Shrine-Of-Sacrifice.png" width="64"/> | **Shrine of Sacrifice** | Gain 20% curse to drop 2 copies of a random common item. | Usable only once, can only spawn once per stage, costs 20 credits. |
 | image tbd | **Shrine of Ruin** | Give 10 common items to corrupt the next stage, making it a simulacrum variant that exclusively drops void items and exclusively spawns void enemies. | Usable only once, can only spawn once per stage, can only spawn on stages >= 2, costs 45 credits. Replaces *all* loot tables with a custom void one that has a 50% chance of rolling a void common, 34% chance of rolling a void uncommon, 8% chance of rolling a void legendary and 8% chance of rolling a void boss item. |
-| image tbd | **Shrine of The Future** | Summon a random Tier 2 Elite Miniboss with halved stats that upon being defeated, drops 4 item potentials per player. | Usable only once, can only spawn once per stage, can only spawn on stages >= 3 and <= 5, costs 40 credits. Item potentials have a choice between a random white and a random green. |
+|<img src="https://i.postimg.cc/Bv3RF8Zg/tex-Shrine-Of-The-Future.png" width="64"/> | **Shrine of The Future** | Summon a random Tier 2 Elite Miniboss with halved stats that upon being defeated, drops 4 item potentials per player. | Usable only once, can only spawn once per stage, can only spawn on stages >= 3 and <= 11, costs 40 credits. Item potentials have a choice between a random white and a random green. |
 # Credits
 
 ### Support us on KOFI! https://linktr.ee/SandsweptTeam

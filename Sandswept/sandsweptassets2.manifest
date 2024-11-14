@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2816471947
+CRC: 1453373879
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: a3376e4882390395c2f87c80fe27b0a5
+    Hash: 7e5a278b6f82ab3194a7651db2185312
   TypeTreeHash:
     serializedVersion: 2
-    Hash: ed82303cc212bdae751c38d959450c5f
+    Hash: fbc12f43e35f0c8dfbfd9825445db04c
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -44,6 +44,10 @@ ClassTypes:
 - Class: 108
   Script: {instanceID: 0}
 - Class: 114
+  Script: {fileID: 1788389205, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 511512695, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: 678291247, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1143142494, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
@@ -61,6 +65,10 @@ ClassTypes:
   Script: {fileID: 1013091703, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
   Script: {fileID: 1080798252, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1297580292, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1044368294, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
 - Class: 114
@@ -115,8 +123,6 @@ ClassTypes:
   Script: {fileID: 662316482, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1161602148, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: 1297580292, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1144835783, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -191,8 +197,6 @@ ClassTypes:
   Script: {fileID: -1954827382, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -600610627, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: 1044368294, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1218053310, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -275,6 +279,7 @@ SerializeReferenceClassIdentifiers:
 - AssemblyName: com.unity.multiplayer-hlapi.Runtime
   ClassName: UnityEngine.Networking.NetworkSceneId
 Assets:
+- Assets/Sandswept/Base/Characters/Electrician/effects/ElectricinMuzzleFlash.prefab
 - Assets/Sandswept/Base/Characters/Electrician/ElectricianBody.prefab
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tripwire/TripwireMineProjectile.prefab
 - Assets/Sandswept/Base/Characters/Electrician/effects/matChargeStreak.mat
@@ -310,6 +315,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvOverlay.mat
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElecMastery.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tempest sphere/TempestSphereProjectile.prefab
+- Assets/Sandswept/Base/Characters/Electrician/effects/matMuzzleSpark.mat
 - Assets/Sandswept/Base/Characters/InfernoDrone/InfernoDroneBroken.prefab
 - Assets/Sandswept/Base/Items/TornFeather/DashTrailEffect.prefab
 - Assets/Sandswept/Base/Characters/Ranger/RangerIDRS.asset
@@ -318,6 +324,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matMasteryElecOrbOuter.mat
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianOrbOuter.mat
 - Assets/Sandswept/Base/Characters/InfernoDrone/matSmoke.mat
+- Assets/Sandswept/Base/Characters/Electrician/effects/matMuzzleFlash.mat
 - Assets/Sandswept/Base/Characters/InfernoDrone/matInfernoDrone.mat
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherBlue.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/Dash.png

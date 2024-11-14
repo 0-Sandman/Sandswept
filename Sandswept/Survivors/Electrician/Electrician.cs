@@ -36,6 +36,7 @@ namespace Sandswept.Survivors.Electrician
         public static Material matElecOrbInner;
         public static Material matMasteryElecOrbOuter;
         public static Material matMasteryElecOrbInner;
+        public static GameObject ElecMuzzleFlash;
 
         public override void LoadAssets()
         {
@@ -182,6 +183,9 @@ namespace Sandswept.Survivors.Electrician
             LightningZipEffect.transform.Find("Fire").transform.localScale *= 0.3f;
             LightningZipEffect.transform.Find("Fire").GetComponent<ParticleSystemRenderer>().sharedMaterial = Paths.Material.matLoaderLightningTile;
             LightningZipEffect.transform.Find("Fire").Find("Beams").GetComponent<ParticleSystemRenderer>().sharedMaterial = Paths.Material.matLoaderLightningTile;
+
+            ElecMuzzleFlash = Main.Assets.LoadAsset<GameObject>("ElectricinMuzzleFlash.prefab");
+            ContentAddition.AddEffect(ElecMuzzleFlash);
         }
 
         private void HandleGroundingShock(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
