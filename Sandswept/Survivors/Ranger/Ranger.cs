@@ -9,6 +9,8 @@ using Sandswept.Survivors.Ranger.States.Primary;
 using Sandswept.Survivors.Ranger.States.Secondary;
 using Sandswept.Survivors.Ranger.States.Special;
 using Sandswept.Survivors.Ranger.States.Utility;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine.UI;
 
@@ -111,15 +113,18 @@ namespace Sandswept.Survivors.Ranger
 
             var childLocator = _modelTransform.GetComponent<ChildLocator>();
             List<ChildLocator.NameTransformPair> sigma = childLocator.transformPairs.ToList();
-            sigma.Add(new() {
+            sigma.Add(new()
+            {
                 name = "Chest",
                 transform = chest
             });
-            sigma.Add(new() {
+            sigma.Add(new()
+            {
                 name = "Neck",
                 transform = neck
             });
-            sigma.Add(new() {
+            sigma.Add(new()
+            {
                 name = "Head",
                 transform = head
             });
@@ -255,6 +260,56 @@ namespace Sandswept.Survivors.Ranger
 
             SkinDef mastery = Skins.CreateNewSkinDef(skinInfo);
             Skins.AddSkinToCharacter(Body, mastery);
+
+            On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
+        }
+
+        private void SurvivorIconController_Rebuild(On.RoR2.UI.SurvivorIconController.orig_Rebuild orig, SurvivorIconController self)
+        {
+            orig(self);
+
+            if (self.hgButton && self.survivorDef == Ranger.instance.SurvivorDef)
+            {
+                Main.ModLogger.LogError("found ranger survivor icon and button exists");
+
+                var survivorChoiceGridPanel = self.transform.parent;
+                var survivorGrid = survivorChoiceGridPanel.parent;
+                var leftHandPanel = survivorGrid.parent;
+                var safeArea = leftHandPanel.parent;
+                var anchor = safeArea;
+                if (anchor.GetComponent<Image>() == null)
+                {
+                    Main.ModLogger.LogError("adding gay furries");
+                    var image = anchor.AddComponent<Image>();
+
+                    Main.ModLogger.LogError("image component is " + image);
+                    Main.ModLogger.LogError(Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texGayFurries.png"));
+                    image.sprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texGayFurries.png");
+                    image.enabled = false;
+                    image.color = new Color32(255, 211, 216, 147);
+
+                    self.hgButton.onClick.AddListener(() => OnClick(image));
+                }
+            }
+        }
+
+        private int clickCount = 0;
+
+        private void OnClick(Image image)
+        {
+            clickCount++;
+            if (clickCount >= 20)
+            {
+                image.StartCoroutine(ToggleImage(image));
+                clickCount = 0;
+            }
+        }
+
+        private IEnumerator ToggleImage(Image image)
+        {
+            image.enabled = true;
+            yield return new WaitForSecondsRealtime(0.33f);
+            image.enabled = false;
         }
 
         public void RegisterStuff()
