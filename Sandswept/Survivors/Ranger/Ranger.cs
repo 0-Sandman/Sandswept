@@ -270,7 +270,7 @@ namespace Sandswept.Survivors.Ranger
 
             if (self.hgButton && self.survivorDef == Ranger.instance.SurvivorDef)
             {
-                Main.ModLogger.LogError("found ranger survivor icon and button exists");
+                // Main.ModLogger.LogError("found ranger survivor icon and button exists");
 
                 var survivorChoiceGridPanel = self.transform.parent;
                 var survivorGrid = survivorChoiceGridPanel.parent;
@@ -279,10 +279,10 @@ namespace Sandswept.Survivors.Ranger
                 var anchor = safeArea;
                 if (anchor.GetComponent<Image>() == null)
                 {
-                    Main.ModLogger.LogError("adding gay furries");
+                    // Main.ModLogger.LogError("adding gay furries");
                     var image = anchor.AddComponent<Image>();
 
-                    Main.ModLogger.LogError("image component is " + image);
+                    // Main.ModLogger.LogError("image component is " + image);
                     Main.ModLogger.LogError(Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texGayFurries.png"));
                     image.sprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texGayFurries.png");
                     image.enabled = false;
