@@ -156,6 +156,7 @@ namespace Sandswept.Interactables.Regular
             LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_USE_MESSAGE_2P", "<style=cShrine>Time has shifted.</color>");
             LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_USE_MESSAGE", "<style=cShrine>Time has warped.</color>");
 
+            prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo = Object.Instantiate(prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo);
             prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo.Info = inspectInfo;
 
             On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;

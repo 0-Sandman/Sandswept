@@ -150,6 +150,7 @@ namespace Sandswept.Interactables.Regular
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE_2P", "<style=cShrine>Your time has been sacrificed.</color>");
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE", "<style=cShrine>{0}'s time has been sacrificed.</color>");
 
+            prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo = Object.Instantiate(prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo);
             prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo.Info = inspectInfo;
 
             interactableSpawnCard.prefab = prefab;
