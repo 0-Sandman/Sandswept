@@ -48,6 +48,7 @@ namespace Sandswept.Items.Greens
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
+            if (!NetworkServer.active) return;
             body.AddItemBehavior<CrownsDiamondController>(GetCount(body));
         }
 
