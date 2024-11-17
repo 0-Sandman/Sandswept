@@ -16,6 +16,8 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 
             var modelTransform = GetModelTransform();
 
+            GetComponent<RangerHeatController>().currentHeat -= 20f;
+
             if (modelTransform)
             {
                 var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
@@ -28,7 +30,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                     "SKINDEF_MILEZERO" => Projectiles.DirectCurrent.prefabMileZero,
                     "SKINDEF_SANDSWEPT" => Projectiles.DirectCurrent.prefabSandswept,
                     */
-                    _ => Projectiles.Char.prefabDefault,
+                    _ => Projectiles.TheFuckingBFG.SigmaProjectile
                 };
             }
 
