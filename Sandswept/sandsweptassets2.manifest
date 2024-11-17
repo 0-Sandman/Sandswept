@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1453373879
+CRC: 1395949719
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 7e5a278b6f82ab3194a7651db2185312
+    Hash: f6dc99bea0a958c85e42e1d58694a5a3
   TypeTreeHash:
     serializedVersion: 2
     Hash: fbc12f43e35f0c8dfbfd9825445db04c
@@ -326,6 +326,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/InfernoDrone/matSmoke.mat
 - Assets/Sandswept/Base/Characters/Electrician/effects/matMuzzleFlash.mat
 - Assets/Sandswept/Base/Characters/InfernoDrone/matInfernoDrone.mat
+- Assets/Sandswept/Base/Characters/Ranger/RangerMonsterMaster.prefab
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherBlue.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/Dash.png
 - Assets/Sandswept/Base/Characters/Ranger/Skindefault.asset
@@ -334,11 +335,12 @@ Assets:
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherParticle.mat
 - Assets/Sandswept/Base/Characters/Electrician/skins/sdElecMastery.asset
 - Assets/Sandswept/Base/Characters/Ranger/skills/Overheat.png
-- Assets/Sandswept/Base/Items/NuclearSalvo/Missile.prefab
+- Assets/Sandswept/Base/Characters/Electrician/ElectricianMonsterMaster.prefab
 - Assets/Sandswept/Base/Items/LunarCatalyst/matCatalystFlame.mat
-- Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvSparkFlare.mat
+- Assets/Sandswept/Base/Items/NuclearSalvo/Missile.prefab
 - Assets/Sandswept/Base/Items/CellShield/PickupCellShield.prefab
 - Assets/Sandswept/Base/Items/NuclearSalvo/SalvoBehaviour.prefab
+- Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvSparkFlare.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallProjectile.prefab
 - Assets/Sandswept/Base/Characters/Electrician/skins/sdElecDefault.asset
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tripwire/texElecMine.png

@@ -5,7 +5,7 @@ namespace Sandswept {
     public class SandsweptTemporaryEffects : MonoBehaviour {
         public TemporaryVisualEffect GalvanicShield;
         public void UpdateTemporaryEffects(CharacterBody body) {
-            body.UpdateSingleTemporaryVisualEffect(ref GalvanicShield, GalvanicCellShield.ShieldEffect, body.bestFitActualRadius * 1.5f, body.HasBuff(Buffs.ParryBuff.instance.BuffDef), "Pelvis");
+            // body.UpdateSingleTemporaryVisualEffect(ref GalvanicShield, GalvanicCellShield.ShieldEffect, body.bestFitActualRadius * 1.5f, body.HasBuff(Buffs.ParryBuff.instance.BuffDef), "Pelvis");
         }
 
         internal static void ApplyHooks() {

@@ -125,6 +125,8 @@ namespace Sandswept.Survivors.Electrician
             matMasteryElecOrbOuter = Main.Assets.LoadAsset<Material>("matMasteryElecOrbOuter.mat");
 
             LanguageAPI.Add("SKIN_ELEC_MASTERY", "Covenant");
+
+            ContentAddition.AddMaster(Main.Assets.LoadAsset<GameObject>("ElectricianMonsterMaster.prefab"));
         }
 
         public IEnumerator CreateVFX()

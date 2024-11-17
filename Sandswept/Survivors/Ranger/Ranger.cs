@@ -53,6 +53,8 @@ namespace Sandswept.Survivors.Ranger
 
             Body.GetComponent<CameraTargetParams>().cameraParams = Paths.CharacterCameraParams.ccpStandard;
 
+            ContentAddition.AddMaster(Main.Assets.LoadAsset<GameObject>("RangerMonsterMaster.prefab"));
+
             var crosshair = Main.Assets.LoadAsset<GameObject>("Assets/Sandswept/Base/Characters/Ranger/CrosshairRanger.prefab");
 
             /*var innerSight = crosshair.transform.GetChild(1);

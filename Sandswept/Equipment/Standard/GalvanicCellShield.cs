@@ -114,8 +114,8 @@
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
 
-            ShieldEffect = PrefabAPI.InstantiateClone(Paths.GameObject.EngiShield, "GalvanicShieldEffect");
-            ShieldEffect.GetComponent<ObjectScaleCurve>().timeMax = 0.1f;
+            // EffectManager.SpawnEffect()
+            // ShieldEffect.GetComponent<ObjectScaleCurve>().timeMax = 0.1f;
         }
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
@@ -148,6 +148,11 @@
             {
                 galvanicCellShieldController.activated = true;
             }
+
+            EffectManager.SpawnEffect(Paths.GameObject.LoaderGroundSlam, new EffectData {
+                origin = slot.characterBody.corePosition,
+                scale = slot.characterBody.bestFitRadius * 2f
+            }, true);
 
             return true;
         }
