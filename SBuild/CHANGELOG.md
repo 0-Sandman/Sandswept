@@ -1,30 +1,40 @@
 # 1.0.0 Patch Notes
 * General
   * Added Sandswept Expansion >w<
+  * Added cool stuff >:3c
 * Electrician
   * Added
 * Ranger
-  * Added Emotes support
   * Added Alt Passive - Overcharged Speed
+  * Added Emotes support
+  * Added Footsteps
+  * Added Mastery Skin
+  * Added Ragdoll
+  * Changed Camera Pivot
+  * Changed some skill icons
   * Renamed Base Passive to Overcharged Protection
+  * Fixed not having a master prefab
 * Enemies
   * Added Cannonball Jellyfish
 * Items
   * Added Drifting Perception
-  * Added Festering Hunger (most likely doesn't work correctly)
+  * Added Festering Hunger
   * Added Their Prominence
   * Buffed Bleeding Witness Hemorrhage Chance from 5% to 8%.
   * Buffed Bleeding Witness Hemorrhage Damage from 480% to 500%.
   * Nerfed Bleeding Witness Base DoT Healing from 0.4% to 0.33%.
   * Nerfed Bleeding Witness Stack DoT Healing from 0.4% to 0.33%.
+  * Made Torn Feather not dash while standing still
+  * Made all proc items use ProcTypeAPI
   * Fixed Nuclear Salvo!?!??!
+  * Fixed Crown's Diamond giving barrier twice to clients
   * Fixed Sun Fragment not stunning every enemy
 * Equipment
   * Added Galvanic Cell Shield
   * Added Corrupted Catalyst
   * Fixed The Sand Sweeper throwing an NRE
 * Interactables
-  * ~~Added Fallen Survivor~~
+  * Added Inferno Drone
   * Added Shrine of Ruin
   * Added Shrine of Sacrifice
   * Added Shrine of The Future

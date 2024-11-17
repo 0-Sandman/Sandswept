@@ -27,6 +27,14 @@ namespace Sandswept.Survivors.Electrician
         private CharacterBody body;
         private Vector3 startPosition;
         public GameObject lightningEffect;
+        public Animator pylonAnim;
+        public SkinnedMeshRenderer mesh;
+        public Material mat1;
+        public Material mat2;
+        public SkinDef skin1;
+        public SkinDef skin2;
+        public Mesh mesh1;
+        public Mesh mesh2;
 
         public void OnInteract(Interactor interactor)
         {
@@ -97,6 +105,19 @@ namespace Sandswept.Survivors.Electrician
             lightningEffect = GameObject.Instantiate(Electrician.LightningZipEffect, seat.seatPosition);
             lightningEffect.transform.localPosition = Vector3.zero;
             lightningEffect.SetActive(false);
+
+            ModelSkinController msc = body.modelLocator.modelTransform.GetComponent<ModelSkinController>();
+
+            SkinDef skin = msc.skins[msc.currentSkinIndex];
+
+            if (skin == skin1) {
+                mesh.sharedMesh = mesh1;
+                mesh.sharedMaterial = mat1;
+            }
+            else {
+                mesh.sharedMesh = mesh2;
+                mesh.sharedMaterial = mat2;
+            }
         }
 
         public bool StartZip()
@@ -214,6 +235,8 @@ namespace Sandswept.Survivors.Electrician
                     origin = blast.position,
                     scale = blast.radius * 2
                 }, true);
+
+                pylonAnim.Play("Pulse", pylonAnim.GetLayerIndex("Base"));
             }
         }
 
