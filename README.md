@@ -33,11 +33,11 @@
 |:-|-|------|-|
 | survivor image | **Electrician** | The Electrician is a guy who likes balls a lot, | [CENSORED] |
 |  |  |  |  |
-| passive image | **Volatile Shields** | Discharge yo balls when struck by enemy jaws. | No | 
-| m1 image | **Galvanic Bolt** | Put yo balls in enemy jaws. | No |
-| m2 image | **Tempest Sphere** | Throw out yo ball. | No |
-| util image | **Static Snare** | Toss out a pair of yo balls. | No |
-| special image | **Signal Overload** | Overload yo balls. | No |
+| passive image | **Volatile Shields** | Start with innate shields. When your shield breaks, release a blast for 400% damage and gain +40% movement speed for 5 seconds. | TBD | 
+| m1 image | **Galvanic Bolt** | Blast out a galvanic ball that sticks into terrain, zapping nearby enemies for 200% damage periodically. Explodes for 200% damage on impact. | TBD |
+| m2 image | **Tempest Sphere** | Send forth an orb of energy that damages targets within for 500% damage per second. Release to lock the orb in place. | TBD |
+| util image | **Static Snare** | Lightweight. Deploy a pylon that zaps targets for 300% damage, and damages targets between you and it for 200% damage per second. Re-activate to zip to the pylon, dealing 800% damage. | TBD |
+| special image | **Signal Overload** | Grounding. Charge up and beam energy forward, zapping enemies in a large radius around impact for 1600% damage and pulling them inward over 4 seconds. | TBD |
 
 # Elites
 | Icon | Elite | Description | Tier |
@@ -90,13 +90,13 @@
 ### Support us on KOFI! https://linktr.ee/SandsweptTeam
 
 - Code: HIFU, pseudopulse, Sandman, prod
-- Models: Smxrez, Sandman, GEMO, Bog, pseudopulse, HIFU, prod
+- Models: Smxrez, Sandman, GEMO, Bog, pseudopulse, prod, HIFU
 - Animations: IcieTea, unmatchedpowerofthesun, Bog
 - VFX: HIFU, Sandman, prod
 - Skill Icons: prod, HIFU
-- Additional Help: swuff★
+- Additional Help: swuff★, DuhDoesNothing
 - Concept Art: yorikobear, IcieTea, Sandman, Shepd
-- Playtesters: JimKas, Fyrebw42, James, swuff★, Sage
+- Playtesters: .score, BubbleTanks, Interlink, JimKas, Fyrebw42, James, Jaysian, Phreel, swuff★, Sage, Saucy Wench, Soylar, TheViralMelon, Tizi, Yarrowyeen, Zynthesizer
 - Lore: TheViralMelon
 
 <details><summary></summary>
@@ -120,5 +120,7 @@
 <img src="https://i.postimg.cc/bJfSrKtP/misinformation.png"/>
 <br>
 <img src="https://i.postimg.cc/9Xb0rQKd/sandsw-eptdevelopmentteam.png"/>
+<br>
+<img src="https://i.postimg.cc/FKfyBPPS/megarex.png"/>
 
 </details>
