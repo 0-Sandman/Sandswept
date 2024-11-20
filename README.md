@@ -69,7 +69,7 @@
 |<img src="https://i.postimg.cc/pXf50nwk/tex-Ceremonial-Jar.png" width="96"/> | **Ceremonial Jar** | On hit, link enemies up to 3 times. Linked enemies take 1500% (+1500% per stack) base damage each and cannot be linked for 5s afterwards. | Red |
 |<img src="https://i.postimg.cc/rp3zfsBQ/tex-Torn-Feather.png" width="96"/> | **Torn Feather** | Tap Interact to perform an omni-directional dash. Can dash twice until hitting the ground. Gain 20% (+35% per stack) movement speed. | Red |
 |  |  |  |
-|<img src="https://i.postimg.cc/sfH2YN1y/tex-Fractured-Timepiece.png" width="96"/> | **Their  Prominence** | Using a Shrine has a 35% (+15% per stack, hyperbolic) chance to invite the challenge of the Mountain. | Lunar |
+|<img src="https://i.postimg.cc/ht1YXWmT/tex-Their-Prominence.png" width="96"/> | **Their Prominence** | Using a Shrine has a 35% (+15% per stack, hyperbolic) chance to invite the challenge of the Mountain. | Lunar |
 
 # Equipment
 | Icon | Equipment | Description | Tier |
