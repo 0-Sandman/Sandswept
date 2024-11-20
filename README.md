@@ -6,8 +6,7 @@
 - 2 Survivors
 - 4 Interactables
 - 2 Elites
-- 3 Equipments
-- 17 Items
+- 17 Items + 3 Equipments
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
