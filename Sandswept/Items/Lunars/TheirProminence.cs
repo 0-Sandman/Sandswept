@@ -19,7 +19,7 @@ namespace Sandswept.Items.Whites
 
         public override GameObject ItemModel => Main.Assets.LoadAsset<GameObject>("PickupTheirProminence.prefab");
 
-        public override Sprite ItemIcon => null;
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texTheirProminence.png");
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility };
 
