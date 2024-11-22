@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1943977391
+CRC: 2057498389
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b0a4b71b9bd3f72505fcdf98cb9a47c1
+    Hash: 097ec43ed07d68a1cf5f245d51183d5d
   TypeTreeHash:
     serializedVersion: 2
-    Hash: d9b774e789809b4c34f31f19e6731a1c
+    Hash: f4e19a3c45e102446b29153346320b46
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -78,9 +78,13 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 1024779430, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: 1777312123, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: 1985007777, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1568778350, guid: 050936fea8909af15a3fd3b64da1ff83, type: 3}
+- Class: 114
+  Script: {fileID: 337599609, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
   Script: {fileID: -1655685746, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
@@ -127,6 +131,8 @@ ClassTypes:
   Script: {fileID: -1161602148, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1144835783, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -875252823, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1480773730, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -257,6 +263,8 @@ SerializeReferenceClassIdentifiers:
 - AssemblyName: RoR2
   ClassName: RoR2.CharacterModel/RendererInfo
 - AssemblyName: RoR2
+  ClassName: RoR2.GenericInteraction/InteractorUnityEvent
+- AssemblyName: RoR2
   ClassName: RoR2.PickupIndex
 - AssemblyName: RoR2
   ClassName: RoR2.PurchaseEvent
@@ -266,6 +274,8 @@ SerializeReferenceClassIdentifiers:
   ClassName: RoR2.SkinDef/MeshReplacement
 - AssemblyName: RoR2
   ClassName: RoR2.UI.CrosshairController/SpritePosition
+- AssemblyName: RoR2
+  ClassName: Wave
 - AssemblyName: UnityEngine.CoreModule
   ClassName: UnityEngine.Events.ArgumentCache
 - AssemblyName: UnityEngine.CoreModule
@@ -318,10 +328,12 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvOverlay.mat
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElecMastery.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tempest sphere/TempestSphereProjectile.prefab
+- Assets/Sandswept/Base/Characters/Electrician/mdl/interatable/BrokenElectricianBody.prefab
 - Assets/Sandswept/Base/Characters/Electrician/effects/matMuzzleSpark.mat
 - Assets/Sandswept/Base/Characters/InfernoDrone/InfernoDroneBroken.prefab
 - Assets/Sandswept/Base/Items/TornFeather/DashTrailEffect.prefab
 - Assets/Sandswept/Base/Characters/Ranger/RangerIDRS.asset
+- Assets/Sandswept/Base/Characters/Electrician/mdl/interatable/BrokenDroneVFX.prefab
 - Assets/Sandswept/Base/Characters/InfernoDrone/InfernoDroneBody.prefab
 - Assets/Sandswept/Base/Characters/InfernoDrone/InfernoDroneMaster.prefab
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matMasteryElecOrbOuter.mat
@@ -329,6 +341,7 @@ Assets:
 - Assets/Sandswept/Base/Items/TheirProminence/matTheirProminenceFlare.mat
 - Assets/Sandswept/Base/Characters/InfernoDrone/matSmoke.mat
 - Assets/Sandswept/Base/Characters/Electrician/effects/matMuzzleFlash.mat
+- Assets/Sandswept/Base/Characters/Electrician/texElectricianIcon2.png
 - Assets/Sandswept/Base/Characters/InfernoDrone/matInfernoDrone.mat
 - Assets/Sandswept/Base/Characters/Ranger/RangerMonsterMaster.prefab
 - Assets/Sandswept/Base/Items/TheirProminence/matTheirProminence.mat

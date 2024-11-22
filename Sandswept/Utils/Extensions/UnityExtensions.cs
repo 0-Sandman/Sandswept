@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 using Unity;
 using System.Linq;
+using R2API.Networking.Interfaces;
 
 namespace Sandswept.Utils
 {
@@ -19,6 +20,10 @@ namespace Sandswept.Utils
             {
                 Object.Destroy(coms[i]);
             }
+        }
+
+        public static void CallNetworkedMethod(this GameObject self, string method, R2API.Networking.NetworkDestination dest = R2API.Networking.NetworkDestination.Clients) {
+            new CallNetworkedMethod(self, method).Send(dest);
         }
 
         public static T FindComponent<T>(this GameObject self, string name) where T : Component {

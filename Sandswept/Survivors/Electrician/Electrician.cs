@@ -4,6 +4,7 @@ using System.Linq;
 using EntityStates.Chef;
 using Sandswept.Survivors.Electrician.Achievements;
 using Sandswept.Survivors.Electrician.States;
+using UnityEngine.SceneManagement;
 
 namespace Sandswept.Survivors.Electrician
 {
@@ -37,6 +38,8 @@ namespace Sandswept.Survivors.Electrician
         public static Material matMasteryElecOrbOuter;
         public static Material matMasteryElecOrbInner;
         public static GameObject ElecMuzzleFlash;
+        public static GameObject BrokenElectricianBody;
+        public static DamageAPI.ModdedDamageType LIGHTNING = DamageAPI.ReserveDamageType();
 
         public override void LoadAssets()
         {
@@ -57,7 +60,7 @@ namespace Sandswept.Survivors.Electrician
             cb.preferredPodPrefab = Paths.GameObject.RoboCratePod;
 
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdElectrician.asset");
-            SurvivorDef.cachedName = "Electrician"; // for eclipse fix
+            SurvivorDef.cachedName = "Electrician"; // for eclipse fix;
             var kcm = Body.GetComponent<KinematicCharacterController.KinematicCharacterMotor>();
             kcm.playerCharacter = true;
 
@@ -101,6 +104,8 @@ namespace Sandswept.Survivors.Electrician
 
             UnlockableDefs.Init();
 
+            SurvivorDef.unlockableDef = UnlockableDefs.charUnlock;
+
             sdElecDefault = Main.Assets.LoadAsset<SkinDef>("sdElecDefault.asset");
             sdElecDefault.icon = Skins.CreateSkinIcon(
                 new Color32(93, 79, 107, 255),
@@ -127,6 +132,75 @@ namespace Sandswept.Survivors.Electrician
             LanguageAPI.Add("SKIN_ELEC_MASTERY", "Covenant");
 
             ContentAddition.AddMaster(Main.Assets.LoadAsset<GameObject>("ElectricianMonsterMaster.prefab"));
+
+            BrokenElectricianBody = Main.Assets.LoadAsset<GameObject>("BrokenElectricianBody.prefab");
+            ContentAddition.AddBody(BrokenElectricianBody);
+
+            On.RoR2.Stage.Start += OnStageStart;
+
+            On.RoR2.HealthComponent.TakeDamage += OnTakeDamage;
+            On.RoR2.Orbs.LightningOrb.OnArrival += OnLightningOrbArrival;
+            On.RoR2.Orbs.SimpleLightningStrikeOrb.OnArrival += OnSLSArrival;
+            On.RoR2.Orbs.LightningStrikeOrb.OnArrival += OnLSArrival;
+        }
+
+        private void OnLSArrival(On.RoR2.Orbs.LightningStrikeOrb.orig_OnArrival orig, RoR2.Orbs.LightningStrikeOrb self)
+        {
+            self.AddModdedDamageType(LIGHTNING);
+            orig(self);
+        }
+
+        private void OnSLSArrival(On.RoR2.Orbs.SimpleLightningStrikeOrb.orig_OnArrival orig, RoR2.Orbs.SimpleLightningStrikeOrb self)
+        {
+            self.AddModdedDamageType(LIGHTNING);
+            orig(self);
+        }
+
+        private void OnLightningOrbArrival(On.RoR2.Orbs.LightningOrb.orig_OnArrival orig, RoR2.Orbs.LightningOrb self)
+        {
+            if (self.lightningType == RoR2.Orbs.LightningOrb.LightningType.Ukulele ||
+            self.lightningType == RoR2.Orbs.LightningOrb.LightningType.Loader || self.lightningType == RoR2.Orbs.LightningOrb.LightningType.Tesla 
+            || self.lightningType == RoR2.Orbs.LightningOrb.LightningType.MageLightning ) {
+                self.AddModdedDamageType(LIGHTNING);
+            }
+            orig(self);
+        }
+
+        private void OnTakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
+        {
+            if (damageInfo.damageType.damageType.HasFlag(DamageType.Shock5s)) {
+                damageInfo.AddModdedDamageType(LIGHTNING);
+            }
+
+            orig(self, damageInfo);
+        }
+
+        private IEnumerator OnStageStart(On.RoR2.Stage.orig_Start orig, RoR2.Stage self)
+        {
+            yield return orig(self);
+
+            if (NetworkServer.active && SceneManager.GetActiveScene().name == Scenes.SunderedGrove) {
+                bool isAnyonePlayingElectrician = true;
+
+                foreach (var pcmc in PlayerCharacterMasterController.instances) {
+                    if (pcmc.networkUser && pcmc.networkUser.bodyIndexPreference != ElectricianIndex) {
+                        isAnyonePlayingElectrician = false;
+                    }
+                }
+
+                if (!isAnyonePlayingElectrician) {
+                    bool landmassEnabled = GameObject.Find("HOLDER: Randomization").transform.Find("GROUP: Tunnel Landmass").Find("CHOICE: Tunnel Landmass").gameObject.activeSelf;
+                    Vector3 pos = new Vector3(103.4f, -3.1f, 170f);
+                    Quaternion rot = Quaternion.Euler(0, -120f, 0);
+
+                    if (!landmassEnabled) {
+                        pos = new(-209f, 75f, -185.9f);
+                    }
+
+                    GameObject obj = GameObject.Instantiate(BrokenElectricianBody, pos, rot);
+                    NetworkServer.Spawn(obj);
+                }
+            }
         }
 
         public IEnumerator CreateVFX()
