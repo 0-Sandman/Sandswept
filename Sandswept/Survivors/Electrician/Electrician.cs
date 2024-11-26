@@ -41,6 +41,15 @@ namespace Sandswept.Survivors.Electrician
         public static GameObject BrokenElectricianBody;
         public static DamageAPI.ModdedDamageType LIGHTNING = DamageAPI.ReserveDamageType();
 
+        public override void CreateLang()
+        {
+            base.CreateLang();
+
+            if (Random.Range(0, 1000) <= 1) {
+                LanguageAPI.Add(base.SurvivorDef.displayNameToken, "VOLTOMETER BOT AMP FUCKER 30000");
+            }
+        }
+
         public override void LoadAssets()
         {
             base.LoadAssets();
