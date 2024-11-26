@@ -84,7 +84,7 @@ namespace Sandswept.Interactables.Regular
 
             mdl.transform.Find("Stem/Crystal").AddComponent<BoxCollider>().size = Vector3.zero;
             mdl.transform.Find("Stem/Crystal").GetComponent<MeshRenderer>().material = Main.hifuSandswept.LoadAsset<Material>("assets/sandswept/interactables/shrineofthefuture/matshrineofthefuturediamonddiffuse2.mat");
-            modelBase.Find("mdlShrineCombat").SetParent(null);
+            modelBase.Find("mdlShrineCombat").gameObject.SetActive(false);
             mdl.transform.parent = modelBase;
 
             var symbol = prefab.transform.Find("Symbol");
