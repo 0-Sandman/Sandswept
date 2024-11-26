@@ -55,7 +55,10 @@ namespace Sandswept.Survivors.Electrician
             var cb = Body.GetComponent<CharacterBody>();
             // cb._defaultCrosshairPrefab = Paths.GameObject.StandardCrosshair;
             cb.preferredPodPrefab = Paths.GameObject.RoboCratePod;
-
+            if (UnityEngine.Random.Range(0f, 100f) >= 99f)
+            {
+                cb.baseNameToken.Add("VOLTOMETER BOT AMP FUCKER 30000");
+            }
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdElectrician.asset");
             SurvivorDef.cachedName = "Electrician"; // for eclipse fix
             var kcm = Body.GetComponent<KinematicCharacterController.KinematicCharacterMotor>();
