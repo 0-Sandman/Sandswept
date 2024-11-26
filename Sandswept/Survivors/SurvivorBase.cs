@@ -58,7 +58,7 @@ namespace Sandswept.Survivors
         {
         }
 
-        public void CreateLang()
+        public virtual void CreateLang()
         {
             CharacterBody body = Body.GetComponent<CharacterBody>();
             body.baseNameToken.Add(Name);

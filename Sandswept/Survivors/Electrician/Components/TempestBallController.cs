@@ -87,7 +87,6 @@ namespace Sandswept.Survivors.Electrician
                     teamIndex = TeamIndex.Player,
                     damageType = DamageType.SlowOnHit
                 };
-                orb.AddModdedDamageType(Electrician.Grounding);
 
                 OrbManager.instance.AddOrb(orb);
             }
