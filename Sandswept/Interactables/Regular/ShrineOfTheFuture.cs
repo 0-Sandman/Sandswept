@@ -17,7 +17,7 @@ namespace Sandswept.Interactables.Regular
         public override int MaxSpawnsPerStage => 1;
 
         //public override int CreditCost => 20;
-        public override int CreditCost => 40;
+        public override int CreditCost => 35;
 
         public override HullClassification Size => HullClassification.BeetleQueen;
 
@@ -32,7 +32,7 @@ namespace Sandswept.Interactables.Regular
 
         public GameObject prefab;
 
-        [ConfigField("Item Count Per Player", "", 4)]
+        [ConfigField("Item Count Per Player", "", 3)]
         public static int itemCount;
 
         public override void Init()
