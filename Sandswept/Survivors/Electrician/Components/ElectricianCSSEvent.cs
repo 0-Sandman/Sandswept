@@ -14,6 +14,8 @@ namespace Sandswept.Survivors.Electrician {
                 origin = pivot.transform.position,
                 scale = 0.5f
             }, false);
+
+            AkSoundEngine.PostEvent("Play_elec_spin", base.gameObject);
         }
     }
 }

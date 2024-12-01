@@ -5,7 +5,7 @@ namespace Sandswept.Survivors.Electrician.States
 {
     public class SignalOverloadCharge : BaseSkillState
     {
-        public float baseDuration = 1.2f;
+        public float baseDuration = 0.7f;
 
         public override void OnEnter()
         {
@@ -18,14 +18,16 @@ namespace Sandswept.Survivors.Electrician.States
             PlayAnimation("Gesture, Override", "StartOverload", "Generic.playbackRate", baseDuration * 2f);
 
             // base.characterMotor.walkSpeedPenaltyCoefficient = 0.1f;
-            Util.PlaySound("Play_ui_obj_nullWard_charge_loop", gameObject);
+            // Util.PlaySound("Play_ui_obj_nullWard_charge_loop", gameObject);
+
+            AkSoundEngine.PostEvent("Play_elec_r_wind", base.gameObject);
         }
 
         public override void OnExit()
         {
             base.OnExit();
             // base.characterMotor.walkSpeedPenaltyCoefficient = 1f;
-            Util.PlaySound("Stop_ui_obj_nullWard_charge_loop", gameObject);
+            // Util.PlaySound("Stop_ui_obj_nullWard_charge_loop", gameObject);
 
             FindModelChild("Tethers").gameObject.SetActive(false);
         }
@@ -76,9 +78,11 @@ namespace Sandswept.Survivors.Electrician.States
 
             effect = Paths.GameObject.LoaderGroundSlam;
 
-            Util.PlaySound("Play_roboBall_attack2_mini_active_loop", gameObject);
-            Util.PlaySound("Play_ui_obj_nullWard_charge_loop", gameObject);
-            Util.PlaySound("Play_captain_m1_shotgun_charge_loop", gameObject);
+            // Util.PlaySound("Play_roboBall_attack2_mini_active_loop", gameObject);
+            // Util.PlaySound("Play_ui_obj_nullWard_charge_loop", gameObject);
+            // Util.PlaySound("Play_captain_m1_shotgun_charge_loop", gameObject);
+
+            AkSoundEngine.PostEvent("Play_elec_r_loop", base.gameObject);
 
             head = FindModelChild("Head");
 
@@ -127,7 +131,7 @@ namespace Sandswept.Survivors.Electrician.States
             {
                 stopwatch = delay;
                 Util.PlaySound("Play_item_proc_armorReduction_hit", gameObject);
-                Util.PlaySound("Play_mage_m1_cast_lightning", gameObject);
+                AkSoundEngine.PostEvent(Events.Play_jellyfish_detonate, end.gameObject);
 
                 HandleBlastAuthority(pos);
             }
@@ -143,9 +147,11 @@ namespace Sandswept.Survivors.Electrician.States
             base.OnExit();
 
             animator.SetBool("discharging", false);
-            Util.PlaySound("Stop_roboBall_attack2_mini_active_loop", gameObject);
-            Util.PlaySound("Stop_ui_obj_nullWard_charge_loop", gameObject);
-            Util.PlaySound("Stop_captain_m1_shotgun_charge_loop", gameObject);
+            // Util.PlaySound("Stop_roboBall_attack2_mini_active_loop", gameObject);
+            // Util.PlaySound("Stop_ui_obj_nullWard_charge_loop", gameObject);
+            // Util.PlaySound("Stop_captain_m1_shotgun_charge_loop", gameObject);
+
+            AkSoundEngine.PostEvent("Stop_elec_r_loop", base.gameObject);
 
             if (beamEffect)
             {

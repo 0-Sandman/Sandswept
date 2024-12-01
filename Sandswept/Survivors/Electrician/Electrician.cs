@@ -10,7 +10,7 @@ namespace Sandswept.Survivors.Electrician
 {
     public class Electrician : SurvivorBase<Electrician>
     {
-        public override string Name => "Electrician";
+        public override string Name => "VOL-T";
 
         public override string Description => "TBD";
 
@@ -45,7 +45,7 @@ namespace Sandswept.Survivors.Electrician
         {
             base.CreateLang();
 
-            if (Random.Range(0, 1000) <= 1) {
+            if (Random.Range(0, 100) <= 1) {
                 LanguageAPI.Add(base.SurvivorDef.displayNameToken, "VOLTOMETER BOT AMP FUCKER 30000");
             }
         }
@@ -67,10 +67,6 @@ namespace Sandswept.Survivors.Electrician
             var cb = Body.GetComponent<CharacterBody>();
             // cb._defaultCrosshairPrefab = Paths.GameObject.StandardCrosshair;
             cb.preferredPodPrefab = Paths.GameObject.RoboCratePod;
-            if (UnityEngine.Random.Range(0f, 100f) >= 99f)
-            {
-                cb.baseNameToken.Add("VOLTOMETER BOT AMP FUCKER 30000");
-            }
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdElectrician.asset");
             SurvivorDef.cachedName = "Electrician"; // for eclipse fix;
             var kcm = Body.GetComponent<KinematicCharacterController.KinematicCharacterMotor>();

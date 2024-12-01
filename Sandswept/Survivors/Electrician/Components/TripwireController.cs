@@ -237,6 +237,8 @@ namespace Sandswept.Survivors.Electrician
                 }, true);
 
                 pylonAnim.Play("Pulse", pylonAnim.GetLayerIndex("Base"));
+
+                AkSoundEngine.PostEvent("Play_elec_pylon_blast", base.gameObject);
             }
         }
 

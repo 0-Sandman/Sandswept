@@ -235,6 +235,19 @@ namespace Sandswept
             NetworkingAPI.RegisterMessageType<CallNetworkedMethod>();
 
             // On.RoR2.Networking.NetworkManagerSystemSteam.OnClientConnect += (s, u, t) => { }; // for having multiple instances of the game at once - mp testing, make sure to comment out before release
+
+            On.RoR2.RoR2Content.Init += OnWwiseInit;
+        }
+
+        private void OnWwiseInit(On.RoR2.RoR2Content.orig_Init orig)
+        {
+            orig();
+
+            string path = typeof(Main).Assembly.Location.Replace("Sandswept.dll", "");
+            AkSoundEngine.AddBasePath(path);
+
+            AkSoundEngine.LoadBank("initsoundswept", out _);
+            AkSoundEngine.LoadBank("soundswept", out _);
         }
 
         public void GenerateExpensionDef()
