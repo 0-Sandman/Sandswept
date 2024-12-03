@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2585520785
+CRC: 2159986852
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 500bbd34c3930a5b7898e0f98aec1553
+    Hash: 1986bea522ae9ebd1c40c99c38c9a0a9
   TypeTreeHash:
     serializedVersion: 2
     Hash: 39a230f64297bc1da0e32c4af42e8869
@@ -376,6 +376,7 @@ Assets:
 - Assets/Sandswept/Base/Items/CellShield/PickupCellShield.prefab
 - Assets/Sandswept/Base/Items/NuclearSalvo/SalvoBehaviour.prefab
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvSparkFlare.mat
+- Assets/Sandswept/Base/Characters/ThetaConstruct/texBuffThetaConstruct.png
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallProjectile.prefab
 - Assets/Sandswept/Base/Characters/Electrician/skins/sdElecDefault.asset
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tripwire/texElecMine.png

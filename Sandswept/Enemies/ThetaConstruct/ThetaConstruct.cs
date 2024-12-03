@@ -59,6 +59,8 @@ namespace Sandswept.Enemies.ThetaConstruct {
             {
                 ownerBody = owner.GetComponent<CharacterBody>();
 
+                GetComponent<LineBetweenTransforms>()._transformNodes[1] = ownerBody.transform;
+
                 var loc2 = ownerBody.GetComponent<ModelLocator>().modelTransform.GetComponent<ChildLocator>();
 
                 p1 = loc2.FindChild("PrismL");
@@ -88,10 +90,13 @@ namespace Sandswept.Enemies.ThetaConstruct {
                             }
                         }
                     }
+
+                    targetBody.SetBuffCount(Buffs.ThetaBoost.instance.BuffDef.buffIndex, 1);
                 }
+
             }
 
-            if (!owner || !target)
+            if (!owner || !target || !ownerBody.healthComponent.alive || !targetBody.healthComponent.alive)
             {
                 Destroy(base.gameObject);
             }
@@ -108,7 +113,7 @@ namespace Sandswept.Enemies.ThetaConstruct {
                 void Handle(ref Transform p, ref Transform t, ref Vector3 c, ref Vector3 r) {
                     if (c == Vector3.zero) c = p.position;
                     p.position = c;
-                    p.position = Vector3.MoveTowards(p.position, t.position, 40f * Time.fixedDeltaTime);
+                    p.position = Vector3.MoveTowards(p.position, t.position, 90f * Time.fixedDeltaTime);
                     c = p.position;
                     if (r == Vector3.zero) r = p.up;
                     p.up = r;
@@ -142,6 +147,8 @@ namespace Sandswept.Enemies.ThetaConstruct {
                         targetBody.SetBuffCount(buff, 0);
                     }
                 }
+
+                targetBody.SetBuffCount(Buffs.ThetaBoost.instance.BuffDef.buffIndex, 0);
             }
         }
     }
