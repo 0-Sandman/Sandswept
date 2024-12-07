@@ -202,7 +202,7 @@ namespace Sandswept.Interactables.Regular
 
         private PickupIndex OnGenerateDrop(On.RoR2.BasicPickupDropTable.orig_GenerateDropPreReplacement orig, BasicPickupDropTable self, Xoroshiro128Plus rng)
         {
-            if (shouldReplaceDrops) {
+            if (shouldReplaceDrops && self.bossWeight == 0f && self.equipmentWeight < 1f) {
                 VoidedPickupTable table = new(self, rng);
                 return table.GenerateDrop();
             }

@@ -10,9 +10,9 @@ Game Parameter	ID	Name			Wwise Object Path	Notes
 	3673881719	Volume_SFX			\Default Work Unit\Volume_SFX	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
-	45946089	elec_r_loop	Z:\home\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\elec_r_loop_0E28946C.wem		\Actor-Mixer Hierarchy\Default Work Unit\elec_r_loop		49481
-	321387913	elec_r_wind	Z:\home\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\elec_r_wind_695281D3.wem		\Actor-Mixer Hierarchy\Default Work Unit\elec_r_wind		35271
-	537764756	elec_mechanical_spin	Z:\home\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\elec_mechanical_spin_8E324C96.wem		\Actor-Mixer Hierarchy\Default Work Unit\elec_mechanical_spin		16498
-	782622910	elec_pylon_discharge	Z:\home\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\elec_pylon_discharge_C67BDCBD.wem		\Actor-Mixer Hierarchy\Default Work Unit\elec_pylon_discharge		15498
-	838482249	elec_m1_shoot	Z:\home\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\elec_m1_shoot_BC6BC71D.wem		\Actor-Mixer Hierarchy\Default Work Unit\elec_m1_shoot		8878
+	45946089	elec_r_loop	C:\users\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\elec_r_loop_15EB72DC.wem		\Actor-Mixer Hierarchy\Default Work Unit\elec_r_loop		49481
+	321387913	elec_r_wind	C:\users\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\elec_r_wind_EC99838C.wem		\Actor-Mixer Hierarchy\Default Work Unit\elec_r_wind		35271
+	537764756	elec_mechanical_spin	C:\users\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\elec_mechanical_spin_8E324C96.wem		\Actor-Mixer Hierarchy\Default Work Unit\elec_mechanical_spin		16498
+	782622910	elec_pylon_discharge	C:\users\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\elec_pylon_discharge_3B2A0BBB.wem		\Actor-Mixer Hierarchy\Default Work Unit\elec_pylon_discharge		15498
+	838482249	elec_m1_shoot	C:\users\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\elec_m1_shoot_DD44F307.wem		\Actor-Mixer Hierarchy\Default Work Unit\elec_m1_shoot		8878
 

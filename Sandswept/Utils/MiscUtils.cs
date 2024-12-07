@@ -219,6 +219,38 @@ namespace Sandswept.Utils
 
             return info;
         }
+
+        public static Vector3? GroundPoint(this Vector3 point) {
+            return RaycastToDirection(point, float.PositiveInfinity, Vector3.down, LayerIndex.world.mask);
+        }
+
+        public static Tuple<Vector3?, Vector3?> GroundPointWithNormal(this Vector3 point) {
+            if (Physics.Raycast(point + (Vector3.up * 20f), Vector3.down, out RaycastHit info, 4000f, LayerIndex.world.mask)) {
+                return new(info.point, info.normal);
+            }
+
+            return new(null, null);
+        }
+
+        //<summary>Returns a list of all safe nodes within the specified radius</summary>
+        ///<param name="center">the center position</param>
+        ///<param name="distance">the max distance</param>
+        ///<returns>the list of positions</returns>
+        public static Vector3[] GetSafePositionsWithinDistance(Vector3 center, float distance) {
+            if (SceneInfo.instance && SceneInfo.instance.groundNodes) {
+                NodeGraph graph = SceneInfo.instance.groundNodes;
+                List<Vector3> valid = new();
+                foreach (NodeGraph.Node node in graph.nodes) {
+                    if (Vector3.Distance(node.position, center) <= distance) {
+                        valid.Add(node.position);
+                    }
+                }
+                return valid.ToArray();
+            }
+            else {
+                return new Vector3[] { center };
+            }
+        }
     }
 
     public class LazyAddressable<T> where T : UnityEngine.Object {
@@ -263,6 +295,7 @@ namespace Sandswept.Utils
 
             return _value;
         }
+        
 
         public static implicit operator BodyIndex(LazyIndex index) => index.Value;
     }

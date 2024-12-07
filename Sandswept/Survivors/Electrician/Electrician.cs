@@ -297,6 +297,10 @@ namespace Sandswept.Survivors.Electrician
                     info.massIsOne = true;
                     info.force = Vector3.down * 40f;
 
+                    if (self.body.isChampion) {
+                        info.force *= 0.2f;
+                    }
+
                     if (motor) motor.ApplyForceImpulse(in info);
                     if (motor2) motor2.ApplyForceImpulse(in info);
                 }

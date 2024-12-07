@@ -196,7 +196,7 @@ namespace Sandswept.Survivors.Electrician.States
                 attacker = base.gameObject,
                 teamIndex = base.GetTeam(),
                 falloffModel = BlastAttack.FalloffModel.None,
-                procCoefficient = 0.8f,
+                procCoefficient = 1f,
                 position = position
             };
 
