@@ -70,10 +70,10 @@
 				<b>Osmium</b><br>
 				Passively has a <b>13m-40m</b> aura, scaling with base max health, that makes every ally and itself take <b>85%</b> less damage and reduce procs by <b>50%</b> from outside the aura. From the inside, takes <b>33%</b> more damage instead, but passively pulls down all airborne enemies every second. Immune to knockback.<br>
 			</td>
-		<tr>
 		</tr>
 	</tbody>
 </table>
+
 
 ## New Items!
 
@@ -246,13 +246,45 @@
 	</tbody>
 </table>
 
-# Interactables
-| Icon | Name | Description | Details |
-|:-|-|------|-|
-|<img src="https://i.postimg.cc/gkCDYxzs/tex-Shrine-Of-Sacrifice.png" width="64"/> | **Shrine of Sacrifice** | Gain 20% curse to drop 2 copies of a random common item. | Usable only once, can only spawn once per stage, costs 20 credits. |
-| image tbd | **Shrine of Ruin** | Give 10 common items to corrupt the next stage, making it a simulacrum variant that exclusively drops void items and exclusively spawns void enemies. | Usable only once, can only spawn once per stage, can only spawn on stages >= 2, costs 45 credits. Replaces *all* loot tables with a custom void one that has a 50% chance of rolling a void common, 34% chance of rolling a void uncommon, 8% chance of rolling a void legendary and 8% chance of rolling a void boss item. |
-|<img src="https://i.postimg.cc/Bv3RF8Zg/tex-Shrine-Of-The-Future.png" width="64"/> | **Shrine of The Future** | Summon a random Tier 2 Elite Miniboss with halved stats that upon being defeated, drops 3 item potentials per player. | Usable only once, can only spawn once per stage, can only spawn on stages >= 3 and <= 11, costs 35 credits. Item potentials have a choice between a random white and a random green. |
-# Credits
+## New Interactables!
+
+<table>
+	<thead>
+		<tr>
+			<th>Icon</th>
+			<th>Name / Effect</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td colspan="2" align="center"><h3>Interactables</h3></td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/gkCDYxzs/tex-Shrine-Of-Sacrifice.png" width="64"/></td>
+			<td>
+				<b>Shrine of Sacrifice</b><br>
+				Gain <b>20% curse</b> to drop 2 copies of a random common item.<br>
+				<b>Details:</b> Usable only once, can only spawn once per stage, costs 20 credits.
+			</td>
+		</tr>
+		<tr>
+			<td>Image TBD</td>
+			<td>
+				<b>Shrine of Ruin</b><br>
+				Give 10 common items to corrupt the next stage, making it a simulacrum variant that exclusively drops void items and spawns void enemies.<br>
+				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 2, costs 45 credits. Replaces <i>all</i> loot tables with a custom void one that has a <b>50%</b> chance of rolling a void common, <b>34%</b> chance of rolling a void uncommon, <b>8%</b> chance of rolling a void legendary, and <b>8%</b> chance of rolling a void boss item.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/Bv3RF8Zg/tex-Shrine-Of-The-Future.png" width="64"/></td>
+			<td>
+				<b>Shrine of The Future</b><br>
+				Summon a random Tier 2 Elite Miniboss with halved stats that, upon being defeated, drops 3 item potentials per player.<br>
+				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 3 and &le; 11, costs 35 credits. Item potentials have a choice between a random white and a random green.
+			</td>
+		</tr>
+	</tbody>
+</table>
 
 ### Support us on KOFI! https://linktr.ee/SandsweptTeam
 
