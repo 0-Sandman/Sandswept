@@ -18,11 +18,11 @@
 | <img src="https://i.postimg.cc/fRqDz6fz/image.png" width="64"/> | **Passive:** Charge | Hold up to 10 Charge. Each Charge increases base health regeneration by 0.25 hp/s and armor by 1.5. Charge decays over time. | Charge decays by 1 per 3s. |
 | <img src="https://i.postimg.cc/FzvQCmNZ/image1.png" width="64"/> | **Primary:** Direct Current | Fire an arcing electric current for 250% damage. Hitting enemies generates 1 Charge. | Has no damage falloff, a blast radius of 2.5m and a proc coefficient of 1.0. Hitting multiple enemies with one projectiles gives Charge for each enemy hit. |
 | <img src="https://i.postimg.cc/TwM8hGL6/image2.png" width="64"/> | **Secondary:** Release | Lose all Charge. Fire 3 orbs of electricity, increasing up to 10 at full Charge for 70% damage per second each. |
-| <img src="[https://i.postimg.cc/TwM8hGL6/image2.png](https://i.postimg.cc/NGJBC25d/b1.png)" width="64"/> | **Alt-Secondary:** Galvanize | Lose all Charge. Fire a piercing blast for 400% damage, increasing up to 1600% at full Charge. | Has no damage falloff, a bullet radius of 2m and a proc coefficient of 1.0. Gains 120% base damage per Charge linearly. Has medium knockback and self knockback, which both increase by 10% per Charge linearly. |
+| <img src="https://i.postimg.cc/JhgLFXHk/b1.png" width="64"/> | **Alt-Secondary:** Galvanize | Lose all Charge. Fire a piercing blast for 400% damage, increasing up to 1600% at full Charge. | Has no damage falloff, a bullet radius of 2m and a proc coefficient of 1.0. Gains 120% base damage per Charge linearly. Has medium knockback and self knockback, which both increase by 10% per Charge linearly. |
 | <img src="https://i.postimg.cc/C5GmjyVK/sand4.png" width="64"/> | **Utility:** Sidestep | Agile. Quickly sidestep a short distance. Getting hit during Sidestep generates 5 Charge. | Has 0.15s of i-frames and does a small hop at the end. |
-| <img src="https://i.postimg.cc/gjmfqDHt/image4png.png" width="64"/> | **Special:** Overdrive | Agile. Transform your rifle, replacing all of your skills with scorching forms. Charge amplifies base damage gain while in full heat. | Restocks 50% of your secondary charges (rounded down), and 50% of your utility charges (rounded up), can be used to quickly combo. |
+| <img src="https://i.postimg.cc/Kct29RG1/tex-Ranger-Skill-Icon-spc.png" width="64"/> | **Special:** Overdrive | Agile. Transform your rifle, replacing all of your skills with scorching forms. Charge amplifies base damage gain while in full heat. | Restocks 50% of your secondary charges (rounded down), and 50% of your utility charges (rounded up), can be used to quickly combo. |
 | ‎ | ‎ | ‎ | ‎ |
-| <img src="https://i.postimg.cc/SNb1P012/tex-Overdrive-Fire.png" width="64"/> | **Primary:** Enflame | Agile. Fire a rapid stream of bullets for 90% damage. Heat increases ignite chance and spread. | Fires 6 shots per second, has standard damage falloff a proc coefficient of 0.8. Spread increases by 2.5% per 1% of heat linearly. |
+| <img src="https://i.postimg.cc/XJCb6v9D/tex-Ranger-Skill-Icon-hm1.png" width="64"/> | **Primary:** Enflame | Agile. Fire a rapid stream of bullets for 90% damage. Heat increases ignite chance and spread. | Fires 6 shots per second, has standard damage falloff a proc coefficient of 0.8. Spread increases by 2.5% per 1% of heat linearly. |
 | <img src="https://i.postimg.cc/m2DBKrYy/tex-Exhaust.png" width="64"/> | **Secondary:** Exhaust | Ignite. Fire a short-range heat burst for 8x180% damage. Increase heat by 15%. | Has buckshot damage falloff, and a proc coefficient of 0.5. Has medium spread, and small self knockback. |
 | <img src="https://i.postimg.cc/rpkkRSPw/b2.png" width="64"/> | **Alt-Secondary:** Char | Ignite. Fire off a blazing ball for 600% damage that engulfs the ground on impact for 250% damage per second. |
 | <img src="https://i.postimg.cc/WbV9s4Mq/sand5.png" width="64"/> | **Utility:** Heat Signature | Agile. Stunning. Sidestep a very short distance and deal 250% damage. Hitting enemies generates 3 Charge. | Has 0.2s of i-frames and a proc coefficient of 1.0. |
@@ -40,45 +40,211 @@
 | <img src="https://i.postimg.cc/fyn8tzpF/sand12.png" width="64"/> | **Static Snare** | Lightweight. Deploy a pylon that zaps targets for 300% damage, and damages targets between you and it for 200% damage per second. Re-activate to zip to the pylon, dealing 800% damage. | TBD |
 | <img src="https://i.postimg.cc/KYjqCst9/sand10.png" width="64"/> | **Signal Overload** | Grounding. Charge up and beam energy forward, zapping enemies in a large radius around impact for 1600% damage and pulling them inward over 4 seconds. | TBD |
 
-# Elites
-| Icon | Elite | Description | Tier |
-|:-|-|------|-|
-|<img src="https://i.postimg.cc/Px5Q36cQ/tex-Motivator-Buff2.png" width="64"/> | **Motivator** | Passively carries a warbanner that grants all allies and itself 25% movement speed and 25% attack speed in a 20m radius. On hit, increases all ally attack speed by 25% in a 20m radius for 4s. | Tier 1 |
-| ‎ | ‎ | ‎ |
-|<img src="https://i.postimg.cc/NMWbpbzn/tex-Osmium-Buff.png" width="64"/> | **Osmium** | Passively has a 13m-40m aura, scaling with base max health, that makes every ally and itself take 85% less damage and reduce procs by 50% from outside the aura. From the inside, takes 33% more damage instead, but passively pulls down all airborne enemies every second. Immune to knockback. | Tier 2 |
+## New Elites!
 
-# Items
-| Icon | Item | Description | Tier |
-|:-|-|------|-|
-|<img src="https://i.postimg.cc/ZKTbBHc7/tex-Amber-Knife.png" width="96"/> | **Amber Knife** | Gain a 10% chance on hit to fire a knife for 140% (+140% per stack) base damage that pierces. Gain 3.5% barrier for every pierce with the knife. | White |
-|<img src="https://i.postimg.cc/sfH2YN1y/tex-Fractured-Timepiece.png" width="96"/> | **Fractured Timepiece** | Upon using your utility skill, heal for 5% (+5% per stack) of your maximum health and reduce special skill cooldown by 15%. | White |
-|<img src="https://i.postimg.cc/1RVSGrFJ/tex-Red-Spring-Water.png" width="96"/> | **Red Spring Water** | Increase health regeneration by 0.4 hp/s, plus an additional 0.4 hp/s (+0.4 hp/s per stack) for every buff you have. | White |
-| ‎ | ‎ | ‎ |
-|<img src="https://i.postimg.cc/8C88VqNw/tex-Crowns-Diamond.png" width="96"/> | **Crown's Diamond** | Being out of danger grants 20% of maximum health as barrier. Barrier decays 15% (+15% per stack, hyperbolic) slower while out of combat or danger. | Green |
-|<img src="https://i.postimg.cc/8PzC9yz7/tex-Drifting-Perception.png" width="96"/> | **Drifting Perception** | Upon entering combat, become cloaked for 6s. While cloaked, increase 'Critical Strike' chance by 20% and 'Critical Strike' damage by 60% (+60% per stack). Recharges every 25 seconds. | Green |
-|<img src="https://i.postimg.cc/yd9LgHmF/tex-Nuclear-Salvo.png" width="96"/> | **Nuclear Salvo** | Every 5 seconds, all mechanical allies fire 2 (+2 per stack) nuclear missiles that deal 100% base damage each and ignite on hit. | Green |
-|<img src="https://i.postimg.cc/1XN5VLQJ/tex-Pocket-Plutonium.png" width="96"/> | **Pocket Plutonium** | Gain a shield equal to 10% of your maximum health. Upon losing all shield, create a nuclear pool in a 16m area that deals 750% (+750% per stack) base damage, plus an additional 250% (+250% per stack) of shields. | Green |
-|<img src="https://i.postimg.cc/gcvrKYNH/tex-Sacrificial-Band.png" width="96"/> | **Sacrificial Band** | Hits that deal more than 400% damage also inflict 1 (+1 per stack) bleeds on enemies for each 110% of skill damage. Recharges every 10 seconds. | Green |
-|<img src="https://i.postimg.cc/QtFVs3R3/Document-Icon.png" width="96"/> | **Smouldering Document** | 5% chance to ignite enemies on hit for 250% TOTAL damage. Damage over time effects burden enemies, reducing their damage by 12.5% (+12.5% per stack, hyperbolic) and attack speed by 12.5% (+12.5% per stack, hyperbolic). | Green |
-|<img src="https://i.postimg.cc/LXcqFPFd/tex-Sun-Fragment.png" width="96"/> | **Sun Fragment** | 9% chance on hit to create a blinding flash in a 12m area, stunning for 1.5s and igniting enemies for 150% (+150% per stack) TOTAL damage. | Green |
-|<img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"/> | **Universal VIP Pass** | Category chests have a 45% chance of dropping 1 (+1 per stack) extra items. | Green |
-| ‎ | ‎ | ‎ |
-|<img src="https://i.postimg.cc/L625CrWK/tex-Millenium.png" width="96"/> | **Festering Hunger** | 7% chance on hit to inflict decay for 300% base damage. Moving near decaying enemies increases movement speed by 33% (+33% per stack) for 2s. Corrupts all Smouldering Documents. | Void Green |
-|<img src="https://i.postimg.cc/L625CrWK/tex-Millenium.png" width="96"/> | **Millenium** | 7% chance on hit to create a tidal cataclysm in a 12m (+4m per stack) area, collapsing and grounding enemies for 400% base damage. Corrupts all Sun Fragments. | Void Green |
-| ‎ | ‎ | ‎ |
-|<img src="https://i.postimg.cc/PxjsGfV3/tex-Bleeding-Witness.png" width="96"/> | **Bleeding Witness** | 8% chance on hit to hemorrhage enemies for 500% base damage. Your damage over time effects heal all allies for 0.33% (+0.33% per stack) of their maximum health. | Red |
-|<img src="https://i.postimg.cc/pXf50nwk/tex-Ceremonial-Jar.png" width="96"/> | **Ceremonial Jar** | On hit, link enemies up to 3 times. Linked enemies take 1500% (+1500% per stack) base damage each and cannot be linked for 5s afterwards. | Red |
-|<img src="https://i.postimg.cc/rp3zfsBQ/tex-Torn-Feather.png" width="96"/> | **Torn Feather** | Tap Interact to perform an omni-directional dash. Can dash twice until hitting the ground. Gain 20% (+35% per stack) movement speed. | Red |
-|  |  |  |
-|<img src="https://i.postimg.cc/ht1YXWmT/tex-Their-Prominence.png" width="96"/> | **Their Prominence** | Using a Shrine has a 35% (+15% per stack, hyperbolic) chance to invite the challenge of the Mountain. | Lunar |
+<table>
+	<thead>
+		<tr>
+			<th>Icon</th>
+			<th>Name / Effect</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td colspan="2" align="center"><h3>Tier 1 Elites</h3></td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/Px5Q36cQ/tex-Motivator-Buff2.png" width="64"/></td>
+			<td>
+				<b>Motivator</b><br>
+				Passively carries a warbanner that grants all allies and itself <b>25%</b> movement speed and <b>25%</b> attack speed in a <b>20m</b> radius. On hit, increases all ally attack speed by <b>25%</b> in a <b>20m</b> radius for <b>4s</b>.<br>
+			</td>
+		</tr>
+		<tr>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><h3>Tier 2 Elites</h3></td>
+		</tr>
+			<td><img src="https://i.postimg.cc/NMWbpbzn/tex-Osmium-Buff.png" width="64"/></td>
+			<td>
+				<b>Osmium</b><br>
+				Passively has a <b>13m-40m</b> aura, scaling with base max health, that makes every ally and itself take <b>85%</b> less damage and reduce procs by <b>50%</b> from outside the aura. From the inside, takes <b>33%</b> more damage instead, but passively pulls down all airborne enemies every second. Immune to knockback.<br>
+			</td>
+		<tr>
+		</tr>
+	</tbody>
+</table>
 
-# Equipment
-| Icon | Equipment | Description | Tier |
-|:-|-|------|-|
-| <img src="https://i.postimg.cc/SNPjrhH3/tex-Galvanic-Cell-Shield.png" width="64"/> | **Galvanic Cell Shield** | Raise a shield that parries the next attack. Upon sucessfully parrying, shock and damage nearby enemies for 2000% damage. Cooldown: 20s | Orange |
-| <img src="https://i.postimg.cc/90551q0y/tex-Sandsw-eeper.png" width="64"/> | **The Sand Sweeper** | Pushes all enemies within 20m, dealing up to 500% damage and stunning for up to 6 seconds based on the distance. Cooldown: 30s | Orange |
-|  |  |  |
-| <img src="https://i.postimg.cc/jdHk6xWd/tex-Corrupted-Catalyst.png" width="64"/> | **Corrupted Catalyst** | Create a 30m aura that gives all allies and enemies a random buff for 15s. Cooldown: 35s | Lunar |
+## New Items!
+
+<table>
+	<thead>
+		<tr>
+			<th>Icon</th>
+			<th>Name / Effect</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td colspan="2" align="center"><h3>White Items</h3></td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/ZKTbBHc7/tex-Amber-Knife.png" width="96"></td>
+			<td>
+				<b>Amber Knife</b><br>
+				Gain a 10% chance on hit to fire a knife for <b>140% (+140% per stack)</b> base damage that pierces. Gain <b>3.5%</b> barrier for every pierce with the knife.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/sfH2YN1y/tex-Fractured-Timepiece.png" width="96"></td>
+			<td>
+				<b>Fractured Timepiece</b><br>
+				Upon using your utility skill, heal for <b>5% (+5% per stack)</b> of your maximum health and reduce special skill cooldown by <b>15%</b>.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/1RVSGrFJ/tex-Red-Spring-Water.png" width="96"></td>
+			<td>
+				<b>Red Spring Water</b><br>
+				Increase health regeneration by <b>0.4 hp/s</b>, plus an additional <b>0.4 hp/s (+0.4 hp/s per stack)</b> for every buff you have.
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><h3>Green Items</h3></td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/8C88VqNw/tex-Crowns-Diamond.png" width="96"></td>
+			<td>
+				<b>Crown's Diamond</b><br>
+				Being out of danger grants <b>20%</b> of maximum health as barrier. Barrier decays <b>15% (+15% per stack, hyperbolic)</b> slower while out of combat or danger.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/8PzC9yz7/tex-Drifting-Perception.png" width="96"></td>
+			<td>
+				<b>Drifting Perception</b><br>
+				Upon entering combat, become cloaked for <b>6s</b>. While cloaked, increase 'Critical Strike' chance by <b>20%</b> and 'Critical Strike' damage by <b>60% (+60% per stack)</b>. Recharges every 25 seconds.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/yd9LgHmF/tex-Nuclear-Salvo.png" width="96"></td>
+			<td>
+				<b>Nuclear Salvo</b><br>
+				Every 5 seconds, all mechanical allies fire <b>2 (+2 per stack)</b> nuclear missiles that deal <b>100%</b> base damage each and ignite on hit.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/1XN5VLQJ/tex-Pocket-Plutonium.png" width="96"></td>
+			<td>
+				<b>Pocket Plutonium</b><br>
+				Gain a shield equal to <b>10%</b> of your maximum health. Upon losing all shield, create a nuclear pool in a <b>16m</b> area that deals <b>750% (+750% per stack)</b> base damage, plus an additional <b>250% (+250% per stack)</b> of shields.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/gcvrKYNH/tex-Sacrificial-Band.png" width="96"></td>
+			<td>
+				<b>Sacrificial Band</b><br>
+				Hits that deal more than <b>400%</b> damage also inflict <b>1 (+1 per stack)</b> bleeds on enemies for each <b>110%</b> of skill damage. Recharges every 10 seconds.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/QtFVs3R3/Document-Icon.png" width="96"></td>
+			<td>
+				<b>Smouldering Document</b><br>
+				<b>5%</b> chance to ignite enemies on hit for <b>250%</b> TOTAL damage. Damage over time effects burden enemies, reducing their damage by <b>12.5% (+12.5% per stack, hyperbolic)</b> and attack speed by <b>12.5% (+12.5% per stack, hyperbolic)</b>.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/LXcqFPFd/tex-Sun-Fragment.png" width="96"></td>
+			<td>
+				<b>Sun Fragment</b><br>
+				<b>9%</b> chance on hit to create a blinding flash in a <b>12m</b> area, stunning for <b>1.5s</b> and igniting enemies for <b>150% (+150% per stack)</b> TOTAL damage.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"></td>
+			<td>
+				<b>Universal VIP Pass</b><br>
+				Category chests have a <b>45%</b> chance of dropping <b>1 (+1 per stack)</b> extra items.
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><h3>Void Items</h3></td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/L625CrWK/tex-Millenium.png" width="96"></td>
+			<td>
+				<b>Festering Hunger</b><br>
+				<b>7%</b> chance on hit to inflict decay for <b>300%</b> base damage. Moving near decaying enemies increases movement speed by <b>33% (+33% per stack)</b> for 2s. Corrupts all Smouldering Documents.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/L625CrWK/tex-Millenium.png" width="96"></td>
+			<td>
+				<b>Millenium</b><br>
+				<b>7%</b> chance on hit to create a tidal cataclysm in a <b>12m (+4m per stack)</b> area, collapsing and grounding enemies for <b>400%</b> base damage. Corrupts all Sun Fragments.
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><h3>Red Items</h3></td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/PxjsGfV3/tex-Bleeding-Witness.png" width="96"></td>
+			<td>
+				<b>Bleeding Witness</b><br>
+				<b>8%</b> chance on hit to hemorrhage enemies for <b>500%</b> base damage. Your damage over time effects heal all allies for <b>0.33% (+0.33% per stack)</b> of their maximum health.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/pXf50nwk/tex-Ceremonial-Jar.png" width="96"></td>
+			<td>
+				<b>Ceremonial Jar</b><br>
+				On hit, link enemies up to <b>3</b> times. Linked enemies take <b>1500% (+1500% per stack)</b> base damage each and cannot be linked for 5s afterwards.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/rp3zfsBQ/tex-Torn-Feather.png" width="96"></td>
+			<td>
+				<b>Torn Feather</b><br>
+				Tap Interact to perform an omni-directional dash. Can dash twice until hitting the ground. Gain <b>20% (+35% per stack)</b> movement speed.
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><h3>Lunar Items / Lunar Equipment</h3></td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/ht1YXWmT/tex-Their-Prominence.png" width="96"></td>
+			<td>
+				<b>Their Prominence</b><br>
+				Using a Shrine has a <b>35% (+15% per stack, hyperbolic)</b> chance to invite the challenge of the Mountain.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/jdHk6xWd/tex-Corrupted-Catalyst.png" width="64"/></td>
+			<td>
+				<b>Corrupted Catalyst</b><br>
+				Create a <b>30m</b> aura that gives all allies and enemies a random buff for <b>15s</b>. Cooldown: <b>35s</b>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center"><h3>Equipment</h3></td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/SNPjrhH3/tex-Galvanic-Cell-Shield.png" width="64"/></td>
+			<td>
+				<b>Galvanic Cell Shield</b><br>
+				Raise a shield that parries the next attack. Upon successfully parrying, shock and damage nearby enemies for <b>2000%</b> damage. Cooldown: <b>20s</b>
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/90551q0y/tex-Sandsw-eeper.png" width="64"/></td>
+			<td>
+				<b>The Sand Sweeper</b><br>
+				Pushes all enemies within <b>20m</b>, dealing up to <b>500%</b> damage and stunning for up to <b>6 seconds</b> based on the distance. Cooldown: <b>30s</b>
+			</td>
+		</tr>
+	</tbody>
+</table>
 
 # Interactables
 | Icon | Name | Description | Details |
