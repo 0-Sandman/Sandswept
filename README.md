@@ -1,8 +1,6 @@
 # <img src="https://i.postimg.cc/Qxwf7yLw/booook-1.gif" width="1100"/>
 
-# <img src="https://i.postimg.cc/T3FJSHfy/sandsw-ept-Icon.png" width="48"/> Sandswept is a work in progress content mod that aims to add a variety of content to the game.
-
-# It currently adds...
+### <img src="https://i.postimg.cc/T3FJSHfy/sandsw-ept-Icon.png" width="48"/> Sandswept is a WIP content mod that aims to add a variety of content including:
 - 2 Survivors
 - 4 Interactables
 - 2 Elites
@@ -10,7 +8,7 @@
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
-# Ranger
+# New Survivors!
 | Icon | Name | Description | Details |
 |:-|-|------|-|
 | <img src="https://i.postimg.cc/66fDYrZC/tex-Ranger-Icon.png"  width="196"/> | **Ranger** | The Ranger is a versatile character with two distinct forms. Her base form excels at burst damage from any range using electricity, while the other is much more resource managing focused with high risk, but extremely high damage fire attacks. | She currently has 3 recolor skins, with recolored VFX for every skill and a custom pod, also recolored for every skin. |
@@ -29,7 +27,6 @@
 | <img src="https://i.postimg.cc/DwBpjK4J/sand8.png" width="64"/> | **Special:** Heat Sink | Agile. Ignite. Release a fire nova around you that deals 300% base damage, increasing up to 900% in full heat. Consume all heat, gaining an attack speed boost, and exit overdrive. | Has a radius of 16m, and a proc coefficient of 1.0. Increases attack speed by 50% for up to 5s, duration increases per 1% of heat exponentially (0.05 * ((heat / 1.51991108) ^ 1.1). Restocks 50% of your secondary charges (rounded down), and 50% of your utility charges (rounded up), can be used to quickly combo. |
 | <img src="https://i.postimg.cc/52w9KFnf/heat-Mechanic.png" width="64"/> | **Heat Mechanic** | While in overdrive, you passively build up heat and healing reduction. While in full heat, increase base damage by a lot, which is further amplified by Charge, but take increasingly high self-damage. | While in Overdrive, you passively build up 12% heat per second, and gain a 10% healing reduction debuff per 10% of heat. Additionally, after being in full heat for at least one second your base damage increases by 30% per second, which is amplified by 10% linearly for every Charge (so, up to 60% base damage per second at 10 Charge), however you take 1.3% of your maximum health as self-damage 5 times a second, which bypasses armor and block, and increases by 40% for every second spent in full heat. Base damage gain and self-damage reset once you exit Overdrive. Healing reduction lingers for 2s afterwards. |
 
-# Electrician
 | Icon | Name | Description | Details |
 |:-|-|------|-|
 | <img src="https://i.postimg.cc/c4pTdTv6/tex-Electrician-Icon2.png"  width="196"/> | **Electrician** | The Electrician is a guy who likes balls a lot, | [CENSORED] |
@@ -40,7 +37,7 @@
 | <img src="https://i.postimg.cc/fyn8tzpF/sand12.png" width="64"/> | **Static Snare** | Lightweight. Deploy a pylon that zaps targets for 300% damage, and damages targets between you and it for 200% damage per second. Re-activate to zip to the pylon, dealing 800% damage. | TBD |
 | <img src="https://i.postimg.cc/KYjqCst9/sand10.png" width="64"/> | **Signal Overload** | Grounding. Charge up and beam energy forward, zapping enemies in a large radius around impact for 1600% damage and pulling them inward over 4 seconds. | TBD |
 
-## New Elites!
+# New Elites!
 
 <table>
 	<thead>
@@ -75,7 +72,7 @@
 </table>
 
 
-## New Items!
+# New Items!
 
 <table>
 	<thead>
@@ -246,7 +243,7 @@
 	</tbody>
 </table>
 
-## New Interactables!
+# New Interactables!
 
 <table>
 	<thead>
@@ -285,6 +282,8 @@
 		</tr>
 	</tbody>
 </table>
+
+# Credits
 
 ### Support us on KOFI! https://linktr.ee/SandsweptTeam
 
