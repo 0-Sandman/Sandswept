@@ -1,6 +1,6 @@
 # <img src="https://i.postimg.cc/Qxwf7yLw/booook-1.gif" width="1100"/>
 
-### <img src="https://i.postimg.cc/T3FJSHfy/sandsw-ept-Icon.png" width="32"/> Sandswept is a WIP content mod that aims to add a variety of content including:
+### <img src="https://i.postimg.cc/T3FJSHfy/sandsw-ept-Icon.png" width="32"/> Sandswept is a content expansion mod that aims to add a variety of content including:
 - 2 Survivors
 - 4 Enemies
 - 2 Elites
