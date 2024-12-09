@@ -12,14 +12,14 @@
 | Icon | Name | Description | Details |
 |:-|-|------|-|
 | <img src="https://i.postimg.cc/66fDYrZC/tex-Ranger-Icon.png"  width="196"/> | **Ranger** | The Ranger is a versatile character with two distinct forms. Her base form excels at burst damage from any range using electricity, while the other is much more resource managing focused with high risk, but extremely high damage fire attacks. | She currently has 3 recolor skins, with recolored VFX for every skill and a custom pod, also recolored for every skin. |
-| ‎ | ‎ | ‎ | ‎ |
+| | | | |
 | <img src="https://i.postimg.cc/fRqDz6fz/image.png" width="64"/> | **Passive:** Charge | Hold up to 10 Charge. Each Charge increases base health regeneration by 0.25 hp/s and armor by 1.5. Charge decays over time. | Charge decays by 1 per 3s. |
 | <img src="https://i.postimg.cc/FzvQCmNZ/image1.png" width="64"/> | **Primary:** Direct Current | Fire an arcing electric current for 250% damage. Hitting enemies generates 1 Charge. | Has no damage falloff, a blast radius of 2.5m and a proc coefficient of 1.0. Hitting multiple enemies with one projectiles gives Charge for each enemy hit. |
 | <img src="https://i.postimg.cc/TwM8hGL6/image2.png" width="64"/> | **Secondary:** Release | Lose all Charge. Fire 3 orbs of electricity, increasing up to 10 at full Charge for 70% damage per second each. |
 | <img src="https://i.postimg.cc/JhgLFXHk/b1.png" width="64"/> | **Alt-Secondary:** Galvanize | Lose all Charge. Fire a piercing blast for 400% damage, increasing up to 1600% at full Charge. | Has no damage falloff, a bullet radius of 2m and a proc coefficient of 1.0. Gains 120% base damage per Charge linearly. Has medium knockback and self knockback, which both increase by 10% per Charge linearly. |
 | <img src="https://i.postimg.cc/C5GmjyVK/sand4.png" width="64"/> | **Utility:** Sidestep | Agile. Quickly sidestep a short distance. Getting hit during Sidestep generates 5 Charge. | Has 0.15s of i-frames and does a small hop at the end. |
 | <img src="https://i.postimg.cc/Kct29RG1/tex-Ranger-Skill-Icon-spc.png" width="64"/> | **Special:** Overdrive | Agile. Transform your rifle, replacing all of your skills with scorching forms. Charge amplifies base damage gain while in full heat. | Restocks 50% of your secondary charges (rounded down), and 50% of your utility charges (rounded up), can be used to quickly combo. |
-| ‎ | ‎ | ‎ | ‎ |
+| | | | |
 | <img src="https://i.postimg.cc/XJCb6v9D/tex-Ranger-Skill-Icon-hm1.png" width="64"/> | **Primary:** Enflame | Agile. Fire a rapid stream of bullets for 90% damage. Heat increases ignite chance and spread. | Fires 6 shots per second, has standard damage falloff a proc coefficient of 0.8. Spread increases by 2.5% per 1% of heat linearly. |
 | <img src="https://i.postimg.cc/m2DBKrYy/tex-Exhaust.png" width="64"/> | **Secondary:** Exhaust | Ignite. Fire a short-range heat burst for 8x180% damage. Increase heat by 15%. | Has buckshot damage falloff, and a proc coefficient of 0.5. Has medium spread, and small self knockback. |
 | <img src="https://i.postimg.cc/rpkkRSPw/b2.png" width="64"/> | **Alt-Secondary:** Char | Ignite. Fire off a blazing ball for 600% damage that engulfs the ground on impact for 250% damage per second. |
@@ -37,6 +37,47 @@
 | <img src="https://i.postimg.cc/fyn8tzpF/sand12.png" width="64"/> | **Static Snare** | Lightweight. Deploy a pylon that zaps targets for 300% damage, and damages targets between you and it for 200% damage per second. Re-activate to zip to the pylon, dealing 800% damage. | TBD |
 | <img src="https://i.postimg.cc/KYjqCst9/sand10.png" width="64"/> | **Signal Overload** | Grounding. Charge up and beam energy forward, zapping enemies in a large radius around impact for 1600% damage and pulling them inward over 4 seconds. | TBD |
 
+# New Enemies!
+
+<table>
+	<thead>
+		<tr>
+			<th>Icon</th>
+			<th>Name / Effect</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><img src="" width="64"/></td>
+			<td>
+				<b>Cannonball Jellyfish</b><br>
+				Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt 
+			</td>
+		</tr>
+		<tr>
+			<td><img src="" width="64"/></td>
+			<td>
+				<b>Gamma Construct</b><br>
+				Gyatt
+			</td>
+		</tr>
+		<tr>
+			<td><img src="" width="64"/></td>
+			<td>
+				<b>Delta Construct</b><br>
+				Gyatt
+			</td>
+		</tr>
+		<tr>
+			<td><img src="" width="64"/></td>
+			<td>
+				<b>Theta Construct</b><br>
+				Gyatt
+			</td>
+		</tr>
+	</tbody>
+</table>
+
 # New Elites!
 
 <table>
@@ -48,9 +89,6 @@
 	</thead>
 	<tbody>
 		<tr>
-			<td colspan="2" align="center"><h3>Tier 1 Elites</h3></td>
-		</tr>
-		<tr>
 			<td><img src="https://i.postimg.cc/Px5Q36cQ/tex-Motivator-Buff2.png" width="64"/></td>
 			<td>
 				<b>Motivator</b><br>
@@ -58,9 +96,6 @@
 			</td>
 		</tr>
 		<tr>
-		</tr>
-		<tr>
-			<td colspan="2" align="center"><h3>Tier 2 Elites</h3></td>
 		</tr>
 			<td><img src="https://i.postimg.cc/NMWbpbzn/tex-Osmium-Buff.png" width="64"/></td>
 			<td>
@@ -253,9 +288,6 @@
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td colspan="2" align="center"><h3>Interactables</h3></td>
-		</tr>
 		<tr>
 			<td><img src="https://i.postimg.cc/gkCDYxzs/tex-Shrine-Of-Sacrifice.png" width="64"/></td>
 			<td>
