@@ -29,7 +29,7 @@
 
 | Icon | Name | Description |
 |:-|-|------|
-| <img src="https://i.postimg.cc/c4pTdTv6/tex-Electrician-Icon2.png"  width="196"/> | **Electrician** | The Electrician is a guy who likes balls a lot, | [CENSORED] |
+| <img src="https://i.postimg.cc/c4pTdTv6/tex-Electrician-Icon2.png"  width="196"/> | **VOL-T** | VOL-T is a girl who likes balls a lot | [CENSORED] |
 |  |  |  |  |
 | <img src="https://i.postimg.cc/ZKLwnhc7/sand9.png" width="64"/> | **Volatile Shields** | Start with innate shields. When your shield breaks, release a blast for 400% damage and gain +40% movement speed for 5 seconds. | TBD | 
 | <img src="https://i.postimg.cc/nzQdhjRB/sand13.png" width="64"/> | **Galvanic Bolt** | Blast out a galvanic ball that sticks into terrain, zapping nearby enemies for 200% damage periodically. Explodes for 200% damage on impact. | TBD |
