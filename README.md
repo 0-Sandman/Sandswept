@@ -2,13 +2,14 @@
 
 ### <img src="https://i.postimg.cc/T3FJSHfy/sandsw-ept-Icon.png" width="32"/> Sandswept is a WIP content mod that aims to add a variety of content including:
 - 2 Survivors
-- 4 Interactables
+- 4 Enemies
 - 2 Elites
-- 17 Items + 3 Equipments
+- 4 Interactables
+- 20 Items
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
-## New survivors!
+## New Survivors!
 <details>
 <summary>Click to expand/collapse</summary>
 <table>
@@ -181,7 +182,7 @@
 		<tr>
 			<td><img src="https://i.postimg.cc/Px5Q36cQ/tex-Motivator-Buff2.png" width="64"/></td>
 			<td>
-				<b>Motivator</b><br>
+				<b>Motivator T1</b><br>
 				Passively carries a warbanner that grants all allies and itself <b>25%</b> movement speed and <b>25%</b> attack speed in a <b>20m</b> radius. On hit, increases all ally attack speed by <b>25%</b> in a <b>20m</b> radius for <b>4s</b>.<br>
 			</td>
 		</tr>
@@ -189,8 +190,47 @@
 		</tr>
 			<td><img src="https://i.postimg.cc/NMWbpbzn/tex-Osmium-Buff.png" width="64"/></td>
 			<td>
-				<b>Osmium</b><br>
+				<b>Osmium T2</b><br>
 				Passively has a <b>13m-40m</b> aura, scaling with base max health, that makes every ally and itself take <b>85%</b> less damage and reduce procs by <b>50%</b> from outside the aura. From the inside, takes <b>33%</b> more damage instead, but passively pulls down all airborne enemies every second. Immune to knockback.<br>
+			</td>
+		</tr>
+	</tbody>
+</table>
+</details>
+
+## New Interactables!
+<details>
+<summary>Click to expand/collapse</summary>
+<table>
+	<thead>
+		<tr>
+			<th>Icon</th>
+			<th>Name / Effect</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><img src="https://i.postimg.cc/gkCDYxzs/tex-Shrine-Of-Sacrifice.png" width="64"/></td>
+			<td>
+				<b>Shrine of Sacrifice</b><br>
+				Gain <b>20% curse</b> to drop 2 copies of a random common item.<br>
+				<b>Details:</b> Usable only once, can only spawn once per stage, costs 20 credits.
+			</td>
+		</tr>
+		<tr>
+			<td>Image TBD</td>
+			<td>
+				<b>Shrine of Ruin</b><br>
+				Give 10 common items to corrupt the next stage, making it a simulacrum variant that exclusively drops void items and spawns void enemies.<br>
+				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 2, costs 45 credits. Replaces <i>all</i> loot tables with a custom void one that has a <b>50%</b> chance of rolling a void common, <b>34%</b> chance of rolling a void uncommon, <b>8%</b> chance of rolling a void legendary, and <b>8%</b> chance of rolling a void boss item.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/Bv3RF8Zg/tex-Shrine-Of-The-Future.png" width="64"/></td>
+			<td>
+				<b>Shrine of The Future</b><br>
+				Summon a random Tier 2 Elite Miniboss with halved stats that, upon being defeated, drops 3 item potentials per player.<br>
+				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 3 and &le; 11, costs 35 credits. Item potentials have a choice between a random white and a random green.
 			</td>
 		</tr>
 	</tbody>
@@ -364,45 +404,6 @@
 			<td>
 				<b>The Sand Sweeper</b><br>
 				Pushes all enemies within <b>20m</b>, dealing up to <b>500%</b> damage and stunning for up to <b>6 seconds</b> based on the distance. Cooldown: <b>30s</b>
-			</td>
-		</tr>
-	</tbody>
-</table>
-</details>
-
-## New Interactables!
-<details>
-<summary>Click to expand/collapse</summary>
-<table>
-	<thead>
-		<tr>
-			<th>Icon</th>
-			<th>Name / Effect</th>
-		</tr>
-	</thead>
-	<tbody>
-		<tr>
-			<td><img src="https://i.postimg.cc/gkCDYxzs/tex-Shrine-Of-Sacrifice.png" width="64"/></td>
-			<td>
-				<b>Shrine of Sacrifice</b><br>
-				Gain <b>20% curse</b> to drop 2 copies of a random common item.<br>
-				<b>Details:</b> Usable only once, can only spawn once per stage, costs 20 credits.
-			</td>
-		</tr>
-		<tr>
-			<td>Image TBD</td>
-			<td>
-				<b>Shrine of Ruin</b><br>
-				Give 10 common items to corrupt the next stage, making it a simulacrum variant that exclusively drops void items and spawns void enemies.<br>
-				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 2, costs 45 credits. Replaces <i>all</i> loot tables with a custom void one that has a <b>50%</b> chance of rolling a void common, <b>34%</b> chance of rolling a void uncommon, <b>8%</b> chance of rolling a void legendary, and <b>8%</b> chance of rolling a void boss item.
-			</td>
-		</tr>
-		<tr>
-			<td><img src="https://i.postimg.cc/Bv3RF8Zg/tex-Shrine-Of-The-Future.png" width="64"/></td>
-			<td>
-				<b>Shrine of The Future</b><br>
-				Summon a random Tier 2 Elite Miniboss with halved stats that, upon being defeated, drops 3 item potentials per player.<br>
-				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 3 and &le; 11, costs 35 credits. Item potentials have a choice between a random white and a random green.
 			</td>
 		</tr>
 	</tbody>
