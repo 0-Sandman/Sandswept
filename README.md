@@ -8,34 +8,117 @@
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
-# New Survivors!
-| Icon | Name | Description |
-|:-|-|------|
-| <img src="https://i.postimg.cc/66fDYrZC/tex-Ranger-Icon.png"  width="196"/> | **Ranger** | The Ranger is a versatile character with two distinct forms. Her base form excels at burst damage from any range using electricity, while the other is much more resource managing focused with high risk, but extremely high damage fire attacks. | She currently has 3 recolor skins, with recolored VFX for every skill and a custom pod, also recolored for every skin. |
-| | | | |
-| <img src="https://i.postimg.cc/fRqDz6fz/image.png" width="64"/> | **Passive:** Charge | Hold up to 10 Charge. Each Charge increases base health regeneration by 0.25 hp/s and armor by 1.5. Charge decays over time. | Charge decays by 1 per 3s. |
-| <img src="https://i.postimg.cc/FzvQCmNZ/image1.png" width="64"/> | **Primary:** Direct Current | Fire an arcing electric current for 250% damage. Hitting enemies generates 1 Charge. | Has no damage falloff, a blast radius of 2.5m and a proc coefficient of 1.0. Hitting multiple enemies with one projectiles gives Charge for each enemy hit. |
-| <img src="https://i.postimg.cc/TwM8hGL6/image2.png" width="64"/> | **Secondary:** Release | Lose all Charge. Fire 3 orbs of electricity, increasing up to 10 at full Charge for 70% damage per second each. |
-| <img src="https://i.postimg.cc/JhgLFXHk/b1.png" width="64"/> | **Alt-Secondary:** Galvanize | Lose all Charge. Fire a piercing blast for 400% damage, increasing up to 1600% at full Charge. | Has no damage falloff, a bullet radius of 2m and a proc coefficient of 1.0. Gains 120% base damage per Charge linearly. Has medium knockback and self knockback, which both increase by 10% per Charge linearly. |
-| <img src="https://i.postimg.cc/C5GmjyVK/sand4.png" width="64"/> | **Utility:** Sidestep | Agile. Quickly sidestep a short distance. Getting hit during Sidestep generates 5 Charge. | Has 0.15s of i-frames and does a small hop at the end. |
-| <img src="https://i.postimg.cc/Kct29RG1/tex-Ranger-Skill-Icon-spc.png" width="64"/> | **Special:** Overdrive | Agile. Transform your rifle, replacing all of your skills with scorching forms. Charge amplifies base damage gain while in full heat. | Restocks 50% of your secondary charges (rounded down), and 50% of your utility charges (rounded up), can be used to quickly combo. |
-| | | | |
-| <img src="https://i.postimg.cc/XJCb6v9D/tex-Ranger-Skill-Icon-hm1.png" width="64"/> | **Primary:** Enflame | Agile. Fire a rapid stream of bullets for 90% damage. Heat increases ignite chance and spread. | Fires 6 shots per second, has standard damage falloff a proc coefficient of 0.8. Spread increases by 2.5% per 1% of heat linearly. |
-| <img src="https://i.postimg.cc/m2DBKrYy/tex-Exhaust.png" width="64"/> | **Secondary:** Exhaust | Ignite. Fire a short-range heat burst for 8x180% damage. Increase heat by 15%. | Has buckshot damage falloff, and a proc coefficient of 0.5. Has medium spread, and small self knockback. |
-| <img src="https://i.postimg.cc/rpkkRSPw/b2.png" width="64"/> | **Alt-Secondary:** Char | Ignite. Fire off a blazing ball for 600% damage that engulfs the ground on impact for 250% damage per second. |
-| <img src="https://i.postimg.cc/WbV9s4Mq/sand5.png" width="64"/> | **Utility:** Heat Signature | Agile. Stunning. Sidestep a very short distance and deal 250% damage. Hitting enemies generates 3 Charge. | Has 0.2s of i-frames and a proc coefficient of 1.0. |
-| <img src="https://i.postimg.cc/DwBpjK4J/sand8.png" width="64"/> | **Special:** Heat Sink | Agile. Ignite. Release a fire nova around you that deals 300% base damage, increasing up to 900% in full heat. Consume all heat, gaining an attack speed boost, and exit overdrive. | Has a radius of 16m, and a proc coefficient of 1.0. Increases attack speed by 50% for up to 5s, duration increases per 1% of heat exponentially (0.05 * ((heat / 1.51991108) ^ 1.1). Restocks 50% of your secondary charges (rounded down), and 50% of your utility charges (rounded up), can be used to quickly combo. |
-| <img src="https://i.postimg.cc/52w9KFnf/heat-Mechanic.png" width="64"/> | **Heat Mechanic** | While in overdrive, you passively build up heat and healing reduction. While in full heat, increase base damage by a lot, which is further amplified by Charge, but take increasingly high self-damage. | While in Overdrive, you passively build up 12% heat per second, and gain a 10% healing reduction debuff per 10% of heat. Additionally, after being in full heat for at least one second your base damage increases by 30% per second, which is amplified by 10% linearly for every Charge (so, up to 60% base damage per second at 10 Charge), however you take 1.3% of your maximum health as self-damage 5 times a second, which bypasses armor and block, and increases by 40% for every second spent in full heat. Base damage gain and self-damage reset once you exit Overdrive. Healing reduction lingers for 2s afterwards. |
-
-| Icon | Name | Description |
-|:-|-|------|
-| <img src="https://i.postimg.cc/c4pTdTv6/tex-Electrician-Icon2.png"  width="196"/> | **VOL-T** | VOL-T is a girl who likes balls a lot | [CENSORED] |
-|  |  |  |  |
-| <img src="https://i.postimg.cc/ZKLwnhc7/sand9.png" width="64"/> | **Volatile Shields** | Start with innate shields. When your shield breaks, release a blast for 400% damage and gain +40% movement speed for 5 seconds. | TBD | 
-| <img src="https://i.postimg.cc/nzQdhjRB/sand13.png" width="64"/> | **Galvanic Bolt** | Blast out a galvanic ball that sticks into terrain, zapping nearby enemies for 200% damage periodically. Explodes for 200% damage on impact. | TBD |
-| <img src="https://i.postimg.cc/XvPHWc8n/sand11.png" width="64"/> | **Tempest Sphere** | Send forth an orb of energy that damages targets within for 500% damage per second. Release to lock the orb in place. | TBD |
-| <img src="https://i.postimg.cc/fyn8tzpF/sand12.png" width="64"/> | **Static Snare** | Lightweight. Deploy a pylon that zaps targets for 300% damage, and damages targets between you and it for 200% damage per second. Re-activate to zip to the pylon, dealing 800% damage. | TBD |
-| <img src="https://i.postimg.cc/KYjqCst9/sand10.png" width="64"/> | **Signal Overload** | Grounding. Charge up and beam energy forward, zapping enemies in a large radius around impact for 1600% damage and pulling them inward over 4 seconds. | TBD |
+<table>
+  <thead>
+    <tr>
+      <th>Icon</th>
+      <th>Name / Effect</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td colspan="2" align="center"><h3>Ranger</h3></td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/66fDYrZC/tex-Ranger-Icon.png" width="196"/></td>
+      <td><b>Ranger</b><br>
+          The Ranger is a versatile character with two distinct forms. Her base form excels at burst damage from any range using electricity, while the other is much more resource-managing focused with high risk, but extremely high damage fire attacks.</td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/fRqDz6fz/image.png" width="64"/></td>
+      <td><b>Passive:</b> Charge<br>
+          Hold up to 10 Charge. Each Charge increases base health regeneration by 0.25 hp/s and armor by 1.5. Charge decays over time.</td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/FzvQCmNZ/image1.png" width="64"/></td>
+      <td><b>Primary:</b> Direct Current<br>
+          Fire an arcing electric current for 250% damage. Hitting enemies generates 1 Charge.</td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/TwM8hGL6/image2.png" width="64"/></td>
+      <td><b>Secondary:</b> Release<br>
+          Lose all Charge. Fire 3 orbs of electricity, increasing up to 10 at full Charge for 70% damage per second each.</td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/JhgLFXHk/b1.png" width="64"/></td>
+      <td><b>Alt-Secondary:</b> Galvanize<br>
+          Lose all Charge. Fire a piercing blast for 400% damage, increasing up to 1600% at full Charge.</td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/C5GmjyVK/sand4.png" width="64"/></td>
+      <td><b>Utility:</b> Sidestep<br>
+          Agile. Quickly sidestep a short distance. Getting hit during Sidestep generates 5 Charge.</td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/Kct29RG1/tex-Ranger-Skill-Icon-spc.png" width="64"/></td>
+      <td><b>Special:</b> Overdrive<br>
+          Agile. Transform your rifle, replacing all of your skills with scorching forms. Charge amplifies base damage gain while in full heat.</td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/XJCb6v9D/tex-Ranger-Skill-Icon-hm1.png" width="64"/></td>
+      <td><b>Primary:</b> Enflame<br>
+          Agile. Fire a rapid stream of bullets for 90% damage. Heat increases ignite chance and spread.</td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/m2DBKrYy/tex-Exhaust.png" width="64"/></td>
+      <td><b>Secondary:</b> Exhaust<br>
+          Ignite. Fire a short-range heat burst for 8x180% damage. Increase heat by 15%.</td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/rpkkRSPw/b2.png" width="64"/></td>
+      <td><b>Alt-Secondary:</b> Char<br>
+          Ignite. Fire off a blazing ball for 600% damage that engulfs the ground on impact for 250% damage per second.</td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/WbV9s4Mq/sand5.png" width="64"/></td>
+      <td><b>Utility:</b> Heat Signature<br>
+          Agile. Stunning. Sidestep a very short distance and deal 250% damage. Hitting enemies generates 3 Charge.</td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/DwBpjK4J/sand8.png" width="64"/></td>
+      <td><b>Special:</b> Heat Sink<br>
+          Agile. Ignite. Release a fire nova around you that deals 300% base damage, increasing up to 900% in full heat. Consume all heat, gaining an attack speed boost, and exit overdrive.</td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/52w9KFnf/heat-Mechanic.png" width="64"/></td>
+      <td><b>Heat Mechanic</b><br>
+          While in overdrive, you passively build up heat and healing reduction. While in full heat, increase base damage by a lot, which is further amplified by Charge, but take increasingly high self-damage.</td>
+    </tr>
+    <tr>
+      <td colspan="2" align="center"><h3>VOL-T</h3></td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/c4pTdTv6/tex-Electrician-Icon2.png" width="196"/></td>
+      <td><b>VOL-T</b><br>
+          VOL-T is a girl who likes balls a lot.</td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/ZKLwnhc7/sand9.png" width="64"/></td>
+      <td><b>Volatile Shields</b><br>
+          Start with innate shields. When your shield breaks, release a blast for 400% damage and gain +40% movement speed for 5 seconds.</td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/nzQdhjRB/sand13.png" width="64"/></td>
+      <td><b>Galvanic Bolt</b><br>
+          Blast out a galvanic ball that sticks into terrain, zapping nearby enemies for 200% damage periodically. Explodes for 200% damage on impact.</td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/XvPHWc8n/sand11.png" width="64"/></td>
+      <td><b>Tempest Sphere</b><br>
+          Send forth an orb of energy that damages targets within for 500% damage per second. Release to lock the orb in place.</td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/fyn8tzpF/sand12.png" width="64"/></td>
+      <td><b>Static Snare</b><br>
+          Lightweight. Deploy a pylon that zaps targets for 300% damage, and damages targets between you and it for 200% damage per second. Re-activate to zip to the pylon, dealing 800% damage.</td>
+    </tr>
+    <tr>
+      <td><img src="https://i.postimg.cc/KYjqCst9/sand10.png" width="64"/></td>
+      <td><b>Signal Overload</b><br>
+          Grounding. Charge up and beam energy forward, zapping enemies in a large radius around impact for 1600% damage and pulling them inward over 4 seconds.</td>
+    </tr>
+  </tbody>
+</table>
 
 # New Enemies!
 
