@@ -9,8 +9,8 @@
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
 # New Survivors!
-| Icon | Name | Description | Details |
-|:-|-|------|-|
+| Icon | Name | Description |
+|:-|-|------|
 | <img src="https://i.postimg.cc/66fDYrZC/tex-Ranger-Icon.png"  width="196"/> | **Ranger** | The Ranger is a versatile character with two distinct forms. Her base form excels at burst damage from any range using electricity, while the other is much more resource managing focused with high risk, but extremely high damage fire attacks. | She currently has 3 recolor skins, with recolored VFX for every skill and a custom pod, also recolored for every skin. |
 | | | | |
 | <img src="https://i.postimg.cc/fRqDz6fz/image.png" width="64"/> | **Passive:** Charge | Hold up to 10 Charge. Each Charge increases base health regeneration by 0.25 hp/s and armor by 1.5. Charge decays over time. | Charge decays by 1 per 3s. |
@@ -27,8 +27,8 @@
 | <img src="https://i.postimg.cc/DwBpjK4J/sand8.png" width="64"/> | **Special:** Heat Sink | Agile. Ignite. Release a fire nova around you that deals 300% base damage, increasing up to 900% in full heat. Consume all heat, gaining an attack speed boost, and exit overdrive. | Has a radius of 16m, and a proc coefficient of 1.0. Increases attack speed by 50% for up to 5s, duration increases per 1% of heat exponentially (0.05 * ((heat / 1.51991108) ^ 1.1). Restocks 50% of your secondary charges (rounded down), and 50% of your utility charges (rounded up), can be used to quickly combo. |
 | <img src="https://i.postimg.cc/52w9KFnf/heat-Mechanic.png" width="64"/> | **Heat Mechanic** | While in overdrive, you passively build up heat and healing reduction. While in full heat, increase base damage by a lot, which is further amplified by Charge, but take increasingly high self-damage. | While in Overdrive, you passively build up 12% heat per second, and gain a 10% healing reduction debuff per 10% of heat. Additionally, after being in full heat for at least one second your base damage increases by 30% per second, which is amplified by 10% linearly for every Charge (so, up to 60% base damage per second at 10 Charge), however you take 1.3% of your maximum health as self-damage 5 times a second, which bypasses armor and block, and increases by 40% for every second spent in full heat. Base damage gain and self-damage reset once you exit Overdrive. Healing reduction lingers for 2s afterwards. |
 
-| Icon | Name | Description | Details |
-|:-|-|------|-|
+| Icon | Name | Description |
+|:-|-|------|
 | <img src="https://i.postimg.cc/c4pTdTv6/tex-Electrician-Icon2.png"  width="196"/> | **Electrician** | The Electrician is a guy who likes balls a lot, | [CENSORED] |
 |  |  |  |  |
 | <img src="https://i.postimg.cc/ZKLwnhc7/sand9.png" width="64"/> | **Volatile Shields** | Start with innate shields. When your shield breaks, release a blast for 400% damage and gain +40% movement speed for 5 seconds. | TBD | 
@@ -51,28 +51,28 @@
 			<td><img src="" width="64"/></td>
 			<td>
 				<b>Cannonball Jellyfish</b><br>
-				Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt Gyatt 
+				Launches itself at you rapidly stunning itself if it misses and hits and object before falling back to recover and repeat. 
 			</td>
 		</tr>
 		<tr>
 			<td><img src="" width="64"/></td>
 			<td>
 				<b>Gamma Construct</b><br>
-				Gyatt
+				Alternates between firing a large sweeping beam and 2 smaller side ones
 			</td>
 		</tr>
 		<tr>
 			<td><img src="" width="64"/></td>
 			<td>
 				<b>Delta Construct</b><br>
-				Gyatt
+				Fires 2 projectiles in a line at you and after a few shots it takes to the sky charging up and firing a bunch of small beams that go in random directions leaving a fire trail behind them.
 			</td>
 		</tr>
 		<tr>
 			<td><img src="" width="64"/></td>
 			<td>
 				<b>Theta Construct</b><br>
-				Gyatt
+				Guards an enemy preventing and knocking back all damage from it on top of giving it an attack speed buff and giving an elite aspect effect if it has one.
 			</td>
 		</tr>
 	</tbody>
