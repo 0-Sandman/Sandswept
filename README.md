@@ -8,6 +8,9 @@
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
+## New survivors!
+<details>
+<summary>Click to expand/collapse</summary>
 <table>
   <thead>
     <tr>
@@ -119,9 +122,11 @@
     </tr>
   </tbody>
 </table>
+</details>
 
-# New Enemies!
-
+## New Enemies!
+<details>
+<summary>Click to expand/collapse</summary>
 <table>
 	<thead>
 		<tr>
@@ -160,9 +165,11 @@
 		</tr>
 	</tbody>
 </table>
+</details>
 
-# New Elites!
-
+## New Elites!
+<details>
+<summary>Click to expand/collapse</summary>
 <table>
 	<thead>
 		<tr>
@@ -188,10 +195,11 @@
 		</tr>
 	</tbody>
 </table>
+</details>
 
-
-# New Items!
-
+## New Items!
+<details>
+<summary>Click to expand/collapse</summary>
 <table>
 	<thead>
 		<tr>
@@ -360,9 +368,11 @@
 		</tr>
 	</tbody>
 </table>
+</details>
 
-# New Interactables!
-
+## New Interactables!
+<details>
+<summary>Click to expand/collapse</summary>
 <table>
 	<thead>
 		<tr>
@@ -397,8 +407,9 @@
 		</tr>
 	</tbody>
 </table>
+</details>
 
-# Credits
+## Credits
 
 ### Support us on KOFI! https://linktr.ee/SandsweptTeam
 
