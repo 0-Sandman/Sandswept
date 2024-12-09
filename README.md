@@ -414,7 +414,7 @@
 
 ### Support us on KOFI! https://linktr.ee/SandsweptTeam
 
-- Code: HIFU, pseudopulse, Sandman, prod
+- Code: HIFU, pseudopulse, Sandman, prod, dgosling
 - Models: Smxrez, Sandman, GEMO, Bog, pseudopulse, prod, HIFU
 - Animations: IcieTea, unmatchedpowerofthesun, Bog
 - VFX: HIFU, Sandman, prod
