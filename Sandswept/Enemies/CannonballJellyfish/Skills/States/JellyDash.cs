@@ -11,8 +11,7 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
         [ConfigField("Primary Damage Coefficient", "Decimal.", 4f)]
         public static float DamageCoefficient;
 
-        [ConfigField("Primary Dash Force", "The amount of force to use when dashing", 4000f)]
-        public static float DashForce;
+        public static float DashForce = 50f;
 
         //
         private float maxStallDur = 1f;
@@ -21,6 +20,7 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
         private float duration = 0.5f;
         private bool dashedAlready = false;
         private BaseAI ai;
+        private Vector3 lockVector;
 
         public override void OnEnter()
         {
@@ -37,16 +37,11 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
                 attacker = base.gameObject,
                 damage = base.damageStat * DamageCoefficient,
                 isCrit = base.RollCrit(),
-                hitBoxGroup = base.FindHitBoxGroup("HBCharge"),
+                hitBoxGroup = base.FindHitBoxGroup("Impact"),
                 procCoefficient = 1f,
                 teamIndex = base.GetTeam(),
                 attackerFiltering = AttackerFiltering.NeverHitSelf
             };
-
-            if (NetworkServer.active)
-            {
-                characterBody.AddBuff(RoR2Content.Buffs.Immune);
-            }
 
             FlipComponents();
         }
@@ -66,16 +61,33 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
             {
                 dashedAlready = true;
 
+                BaseAI ai = base.characterBody.master.GetComponent<BaseAI>();
+
+                if (ai && ai.currentEnemy.gameObject) {
+                    float dist = Vector3.Distance(base.transform.position, ai.currentEnemy.gameObject.transform.position);
+                    DashForce = dist * 2f;
+                }
+
                 PhysForceInfo info = new();
                 info.force = base.inputBank.aimDirection * DashForce;
+                info.massIsOne = true;
                 info.disableAirControlUntilCollision = false;
 
                 base.rigidbodyMotor.ApplyForceImpulse(in info);
+
+                base.FindModelChild("Spray").GetComponent<ParticleSystem>().Play();
+
+                lockVector = base.transform.forward;
+                rigidbodyDirection.freezeXRotation = true;
+                rigidbodyDirection.freezeYRotation = true;
+                rigidbodyDirection.freezeZRotation = true;
             }
 
             if (dashedAlready && base.isAuthority)
             {
                 attack.Fire();
+
+                base.transform.forward = lockVector;
             }
 
             if (base.fixedAge >= duration)
@@ -99,11 +111,11 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
         {
             base.OnExit();
             FlipComponents();
+            rigidbodyDirection.freezeXRotation = false;
+            rigidbodyDirection.freezeYRotation = false;
+            rigidbodyDirection.freezeZRotation = false;
             base.rigidbodyMotor.rootMotion = Vector3.zero;
-            if (NetworkServer.active)
-            {
-                characterBody.RemoveBuff(RoR2Content.Buffs.Immune);
-            }
+            base.rigidbody.velocity = Vector3.zero;
         }
     }
 }

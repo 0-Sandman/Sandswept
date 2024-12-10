@@ -1,6 +1,7 @@
 using System;
 using Rewired.Demos;
 using Sandswept.Survivors;
+using Sandswept.Utils.Components;
 
 namespace Sandswept.Enemies.DeltaConstruct {
     public class SkystrikeIntro : BaseSkillState {
@@ -182,7 +183,7 @@ namespace Sandswept.Enemies.DeltaConstruct {
                 info.direction = new(info.direction.x, 0f, info.direction.z);
                 info.effect = GameObject.Instantiate(DeltaConstruct.beam, info.muzzle);
                 info.lineHandle = info.effect.GetComponent<ChildLocator>().FindChild("End");
-                info.rend = info.effect.GetComponent<LineRenderer>();
+                info.rend = info.effect.GetComponent<DetachLineRendererAndFade>().line;
 
                 if (info.endpoint == Vector3.zero) {
                     info.effect.gameObject.SetActive(false);

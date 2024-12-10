@@ -13,7 +13,7 @@ namespace Sandswept.Enemies.CannonballJellyfish.SkillDefs
 
         public override string ActivationMachineName => "Body";
 
-        public override float Cooldown => 3f;
+        public override float Cooldown => 7f;
 
         public override Sprite Icon => null;
     }

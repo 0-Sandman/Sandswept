@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3092517489
+CRC: 4026056216
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8bf1fdff8f7c22d17dcc683c5494397f
+    Hash: 2a4569163a4b902bcc66ee0e74ee5fea
   TypeTreeHash:
     serializedVersion: 2
-    Hash: c041de62ec4f261dbd0a2a8f26f1ffa7
+    Hash: 75a2b640128cbe775b08ee8712abe57a
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -44,6 +44,8 @@ ClassTypes:
 - Class: 108
   Script: {instanceID: 0}
 - Class: 114
+  Script: {fileID: 1952035242, guid: ca6fb10b837101520834a90b90b15080, type: 3}
+- Class: 114
   Script: {fileID: 1788389205, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1297580292, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
@@ -75,8 +77,6 @@ ClassTypes:
   Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
 - Class: 114
   Script: {fileID: 1790887305, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: 1783796254, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
 - Class: 114
@@ -114,6 +114,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -1811796171, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: 760127866, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: 1357070253, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1067940895, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
@@ -134,6 +136,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -578974823, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: 924743675, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: 662316482, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1161602148, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
@@ -153,6 +157,8 @@ ClassTypes:
   Script: {fileID: -365436499, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 871971028, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1783796254, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1294804675, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -201,6 +207,8 @@ ClassTypes:
   Script: {fileID: -1515867781, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1819008361, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1220875036, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1839950351, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -311,20 +319,23 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/ElectricianBody.prefab
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tripwire/TripwireMineProjectile.prefab
 - Assets/Sandswept/Base/Characters/Electrician/effects/matChargeStreak.mat
-- Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianBody.mat
+- Assets/Sandswept/Base/Characters/CannonJelly/JellyCoreProjectile.prefab
 - Assets/Sandswept/Base/Characters/InfernoDrone/matPropellor.mat
 - Assets/Sandswept/Base/Characters/Ranger/texCrosshairCircle.png
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherPulse.mat
+- Assets/Sandswept/Base/Characters/CannonJelly/mdl/matJellyCore.mat
 - Assets/Sandswept/Base/Characters/Ranger/sdRanger.asset
 - Assets/Sandswept/Base/Items/CellShield/matCellShield.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tripwire/matElecMine.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvSpark.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/OverheatPrimary.png
+- Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianBody.mat
 - Assets/Sandswept/Base/Characters/ThetaConstruct/ThetaConstructLog.asset
 - Assets/Sandswept/Base/Characters/Electrician/effects/matChargeFlare.mat
-- Assets/Sandswept/Base/Characters/DeltaConstruct/mdl/matDeltaTrail.mat
+- Assets/Sandswept/Base/Characters/CannonJelly/mdl/mdlCannonJelly.prefab
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvanicBall.mat
 - Assets/Sandswept/Base/Characters/DeltaConstruct/DeltaConstructMaster.prefab
+- Assets/Sandswept/Base/Characters/DeltaConstruct/mdl/matDeltaTrail.mat
 - Assets/Sandswept/Base/Items/CellShield/DisplayCellShieldFollower.prefab
 - Assets/Sandswept/Base/Characters/Ranger/RangerBody.prefab
 - Assets/Sandswept/Base/Items/LunarCatalyst/PickupLunarCatalyst.prefab
@@ -340,9 +351,12 @@ Assets:
 - Assets/Sandswept/Base/Characters/DeltaConstruct/mdl/mdlDeltaConstruct.prefab
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tempest sphere/TempestSphereProjectile.prefab
 - Assets/Sandswept/Base/Characters/ThetaConstruct/ThetaConstructMaster.prefab
+- Assets/Sandswept/Base/Characters/CannonJelly/mdl/matJellyShell.mat
 - Assets/Sandswept/Base/Items/TornFeather/DashTrailEffect.prefab
 - Assets/Sandswept/Base/Characters/Ranger/RangerIDRS.asset
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matMasteryElecOrbOuter.mat
+- Assets/Sandswept/Base/Characters/CannonJelly/DisplayCannonJelly.prefab
+- Assets/Sandswept/Base/Characters/CannonJelly/mdl/matJellySpray.mat
 - Assets/Sandswept/Base/Items/TheirProminence/matTheirProminenceFlare.mat
 - Assets/Sandswept/Base/Characters/ThetaConstruct/mdl/matThetaConstruct.mat
 - Assets/Sandswept/Base/Characters/DeltaConstruct/mdl/DeltaBurnyTrail.prefab
@@ -351,6 +365,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/Ranger/RangerMonsterMaster.prefab
 - Assets/Sandswept/Base/Items/TheirProminence/matTheirProminence.mat
 - Assets/Sandswept/Base/Characters/ThetaConstruct/ThetaConstructBody.prefab
+- Assets/Sandswept/Base/Characters/CannonJelly/CannonJellyBody.prefab
 - Assets/Sandswept/Base/Characters/Ranger/skills/Dash.png
 - Assets/Sandswept/Base/Characters/Ranger/Skindefault.asset
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherBlue.mat
@@ -374,6 +389,8 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/mdl/ElecMastery.fbx
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherPink.mat
 - Assets/Sandswept/Base/Characters/Electrician/effects/ElectricianChargeBeam.prefab
+- Assets/Sandswept/Base/Characters/CannonJelly/CannonJellyLog.asset
+- Assets/Sandswept/Base/Characters/CannonJelly/mdl/matJellyFlesh.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallGhost.prefab
 - Assets/Sandswept/Base/Characters/Ranger/OverlayRanger.prefab
 - Assets/Sandswept/Base/Items/LunarCatalyst/matCatalystCore.mat

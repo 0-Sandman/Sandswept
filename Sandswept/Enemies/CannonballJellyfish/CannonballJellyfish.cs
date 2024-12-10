@@ -6,10 +6,15 @@ namespace Sandswept.Enemies.CannonballJellyfish
 {
     public class CannonballJellyfish : EnemyBase<CannonballJellyfish>
     {
+        public static GameObject JellyCoreProjectile;
         public override void LoadPrefabs()
         {
-            prefab = PrefabAPI.InstantiateClone(Paths.GameObject.JellyfishBody, "CannonJellyfishBody");
+            prefab = Main.Assets.LoadAsset<GameObject>("CannonJellyBody.prefab");
             prefabMaster = PrefabAPI.InstantiateClone(Paths.GameObject.JellyfishMaster, "CannonJellyfishMaster");
+
+            JellyCoreProjectile = Main.Assets.LoadAsset<GameObject>("JellyCoreProjectile.prefab");
+            JellyCoreProjectile.GetComponent<ProjectileImpactExplosion>().explosionEffect = Paths.GameObject.SojournExplosionVFX;
+            ContentAddition.AddProjectile(JellyCoreProjectile);
         }
 
         public override void PostCreation()
@@ -24,36 +29,22 @@ namespace Sandswept.Enemies.CannonballJellyfish
             base.Modify();
 
             master.bodyPrefab = prefab;
-            body.bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
-            body.baseNameToken = "SANDSWEPT_ENEMY_CBJ_NAME";
             body.baseNameToken.Add("Cannonball Jellyfish");
 
-            SwapStats(prefab, 12, 0, 10, 40, 0, 80, 0);
             WipeAllDrivers(master.gameObject);
-            AddNewDriver(master.gameObject, "JellyCharge", AISkillDriver.AimType.AtCurrentEnemy, AISkillDriver.MovementType.ChaseMoveTarget, AISkillDriver.TargetType.CurrentEnemy, 10f, 40f, SkillSlot.Secondary);
-            AddNewDriver(master.gameObject, "Strafe", AISkillDriver.AimType.AtCurrentEnemy, AISkillDriver.MovementType.StrafeMovetarget, AISkillDriver.TargetType.CurrentEnemy, 0f, 90f, SkillSlot.None);
-            SwapMaterials(prefab, Paths.Material.matVoidBarnacleBullet, true);
+            AddNewDriver(master.gameObject, "JellyCharge", AISkillDriver.AimType.AtCurrentEnemy, AISkillDriver.MovementType.ChaseMoveTarget, AISkillDriver.TargetType.CurrentEnemy, 10f, 60f, SkillSlot.Primary);
+            AddNewDriver(master.gameObject, "JellyFlee", AISkillDriver.AimType.AtCurrentEnemy, AISkillDriver.MovementType.FleeMoveTarget, AISkillDriver.TargetType.CurrentEnemy, 0f, 10f, SkillSlot.None);
+            AddNewDriver(master.gameObject, "Strafe", AISkillDriver.AimType.AtCurrentEnemy, AISkillDriver.MovementType.StrafeMovetarget, AISkillDriver.TargetType.CurrentEnemy, 10f, 60f, SkillSlot.None);
+            AddNewDriver(master.gameObject, "Chase", AISkillDriver.AimType.AtCurrentEnemy, AISkillDriver.MovementType.ChaseMoveTarget, AISkillDriver.TargetType.CurrentEnemy, 60f, float.PositiveInfinity, SkillSlot.None);
+            
+            var locator = body.GetComponent<SkillLocator>();
 
-            SkillLocator locator = prefab.GetComponent<SkillLocator>();
-            ModelLocator modelLocator = prefab.GetComponent<ModelLocator>();
-
-            GameObject hitbox = new GameObject("ChargeHitbox");
-            hitbox.AddComponent<HitBox>();
-            hitbox.transform.localScale = new(2f, 2f, 2f);
-
-            Transform model = modelLocator.modelTransform;
-            hitbox.transform.SetParent(model);
-            hitbox.transform.position = Vector3.zero;
-            hitbox.transform.localPosition = Vector3.zero;
-
-            HitBoxGroup group = model.AddComponent<HitBoxGroup>();
-            group.groupName = "HBCharge";
-            group.hitBoxes = new HitBox[] { hitbox.GetComponent<HitBox>() };
-
-            ReplaceSkill(locator.secondary, SkillDefs.JellyDash.instance.skillDef);
+            ReplaceSkill(locator.primary, SkillDefs.JellyDash.instance.skillDef);
 
             master.GetComponent<BaseAI>().aimVectorMaxSpeed = 40000f;
             master.GetComponent<BaseAI>().aimVectorDampTime = 0.1f;
+
+            body.GetComponent<CharacterDeathBehavior>().deathState = new(typeof(JellyDeath));
         }
 
         public override void AddDirectorCard()
@@ -67,7 +58,7 @@ namespace Sandswept.Enemies.CannonballJellyfish
         public override void AddSpawnCard()
         {
             base.AddSpawnCard();
-            isc.directorCreditCost = 40;
+            isc.directorCreditCost = 70;
             isc.forbiddenFlags = NodeFlags.NoCharacterSpawn;
             isc.hullSize = HullClassification.Human;
             isc.nodeGraphType = MapNodeGroup.GraphType.Air;
