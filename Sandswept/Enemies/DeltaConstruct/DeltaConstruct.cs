@@ -1,6 +1,7 @@
 using System;
 
-namespace Sandswept.Enemies.DeltaConstruct {
+namespace Sandswept.Enemies.DeltaConstruct
+{
     public class DeltaConstruct : EnemyBase<DeltaConstruct>
     {
         public static GameObject bolt;
@@ -8,6 +9,7 @@ namespace Sandswept.Enemies.DeltaConstruct {
         public static GameObject beam;
         public static Material matDeltaBeamStrong;
         public static GameObject DeltaBurnyTrail;
+
         public override void LoadPrefabs()
         {
             prefab = Main.Assets.LoadAsset<GameObject>("DeltaConstructBody.prefab");
@@ -39,6 +41,7 @@ namespace Sandswept.Enemies.DeltaConstruct {
             master.bodyPrefab = prefab;
 
             body.baseNameToken.Add("Delta Construct");
+            body.portraitIcon = Main.hifuSandswept.LoadAsset<Texture>("texDeltaConstruct.png");
 
             SkillLocator loc = body.GetComponent<SkillLocator>();
 
@@ -46,14 +49,17 @@ namespace Sandswept.Enemies.DeltaConstruct {
             ReplaceSkill(loc.secondary, SkystrikeSkill.instance.skillDef);
         }
 
-        public class ShittyDebugComp : MonoBehaviour {
+        public class ShittyDebugComp : MonoBehaviour
+        {
             public Animator anim;
 
-            public void Start() {
+            public void Start()
+            {
                 anim = GetComponent<Animator>();
             }
 
-            public void Update() {
+            public void Update()
+            {
                 Debug.Log("yaw: " + anim.GetFloat("aimYawCycle"));
                 Debug.Log("pitch: " + anim.GetFloat("aimPitchCycle"));
             }

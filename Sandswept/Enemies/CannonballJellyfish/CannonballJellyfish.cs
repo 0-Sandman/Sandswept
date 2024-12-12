@@ -7,6 +7,7 @@ namespace Sandswept.Enemies.CannonballJellyfish
     public class CannonballJellyfish : EnemyBase<CannonballJellyfish>
     {
         public static GameObject JellyCoreProjectile;
+
         public override void LoadPrefabs()
         {
             prefab = Main.Assets.LoadAsset<GameObject>("CannonJellyBody.prefab");
@@ -30,13 +31,14 @@ namespace Sandswept.Enemies.CannonballJellyfish
 
             master.bodyPrefab = prefab;
             body.baseNameToken.Add("Cannonball Jellyfish");
+            body.portraitIcon = Main.hifuSandswept.LoadAsset<Texture>("texCannonballJellyfish.png");
 
             WipeAllDrivers(master.gameObject);
             AddNewDriver(master.gameObject, "JellyCharge", AISkillDriver.AimType.AtCurrentEnemy, AISkillDriver.MovementType.ChaseMoveTarget, AISkillDriver.TargetType.CurrentEnemy, 10f, 60f, SkillSlot.Primary);
             AddNewDriver(master.gameObject, "JellyFlee", AISkillDriver.AimType.AtCurrentEnemy, AISkillDriver.MovementType.FleeMoveTarget, AISkillDriver.TargetType.CurrentEnemy, 0f, 10f, SkillSlot.None);
             AddNewDriver(master.gameObject, "Strafe", AISkillDriver.AimType.AtCurrentEnemy, AISkillDriver.MovementType.StrafeMovetarget, AISkillDriver.TargetType.CurrentEnemy, 10f, 60f, SkillSlot.None);
             AddNewDriver(master.gameObject, "Chase", AISkillDriver.AimType.AtCurrentEnemy, AISkillDriver.MovementType.ChaseMoveTarget, AISkillDriver.TargetType.CurrentEnemy, 60f, float.PositiveInfinity, SkillSlot.None);
-            
+
             var locator = body.GetComponent<SkillLocator>();
 
             ReplaceSkill(locator.primary, SkillDefs.JellyDash.instance.skillDef);
