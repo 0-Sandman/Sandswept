@@ -210,12 +210,23 @@ namespace Sandswept.Interactables.Regular
             return orig(self, rng);
         }
 
+        [ConCommand(commandName = "sandswept_add_ruin_stack", helpText = "Forcefully triggers Shrine of Ruin effect.", flags = ConVarFlags.SenderMustBeServer)]
+        public static void CC_AddRuinStack(ConCommandArgs args) {
+            if (!Run.instance) {
+                Debug.Log("sandswept_add_ruin_stack requires an active run!");
+                return;
+            }
+
+            shouldCorruptNextStage = true;
+        }
+
         private void Gyatttttt(On.RoR2.SceneDirector.orig_Start orig, SceneDirector self)
         {
             if (shouldCorruptNextStage && SceneManager.GetActiveScene().name.StartsWith("it"))
             {
                 shouldCorruptNextStage = false;
                 self.teleporterSpawnCard = Paths.InteractableSpawnCard.iscTeleporter;
+                ClassicStageInfo.instance.sceneDirectorInteractibleCredits = (int)(ClassicStageInfo.instance.sceneDirectorInteractibleCredits * 0.45f);
             }
 
             orig(self);
@@ -287,7 +298,7 @@ namespace Sandswept.Interactables.Regular
                     obj.GetComponent<SceneDirector>().enabled = false;
                 }
                 foreach (var dir in obj.GetComponents<CombatDirector>()) {
-                    dir.creditMultiplier = 3f;
+                    dir.creditMultiplier = 2f;
                 }
                 NetworkServer.Spawn(obj);
 
@@ -301,8 +312,8 @@ namespace Sandswept.Interactables.Regular
 
                 if (sceneInfo.TryGetComponent<ClassicStageInfo>(out var classicStageInfo))
                 {
-                    classicStageInfo.monsterDccsPool = voidEnemiesDccsPool;
-                    classicStageInfo.monsterCategories = Utils.Assets.DirectorCardCategorySelection.dccsITVoidMonsters;
+                    // classicStageInfo.monsterDccsPool = voidEnemiesDccsPool;
+                    // classicStageInfo.monsterCategories = Utils.Assets.DirectorCardCategorySelection.dccsITVoidMonsters;
                 }
             }
             else {
