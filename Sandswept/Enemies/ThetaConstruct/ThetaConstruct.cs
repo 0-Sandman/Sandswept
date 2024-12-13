@@ -1,9 +1,11 @@
 using System;
 
-namespace Sandswept.Enemies.ThetaConstruct {
+namespace Sandswept.Enemies.ThetaConstruct
+{
     public class ThetaConstruct : EnemyBase<ThetaConstruct>
     {
         public static GameObject ThetaShieldEffect;
+
         public override void LoadPrefabs()
         {
             prefab = Main.Assets.LoadAsset<GameObject>("ThetaConstructBody.prefab");
@@ -24,9 +26,10 @@ namespace Sandswept.Enemies.ThetaConstruct {
             base.Modify();
 
             body.baseNameToken.Add("Theta Construct");
+            body.portraitIcon = Main.hifuSandswept.LoadAsset<Texture2D>("texThetaConstruct.png");
 
             SkillLocator loc = body.GetComponent<SkillLocator>();
-            
+
             ReplaceSkill(loc.primary, CastShieldSkill.instance.skillDef);
         }
     }
@@ -44,6 +47,7 @@ namespace Sandswept.Enemies.ThetaConstruct {
         private Vector3 p1c, p2c, p3c = Vector3.zero;
         private Vector3 p1r, p2r, p3r = Vector3.zero;
         private List<BuffIndex> activeEliteBuffs = new();
+
         public void Start()
         {
             owner = ownerHolder.ownerObject;
@@ -93,7 +97,6 @@ namespace Sandswept.Enemies.ThetaConstruct {
 
                     targetBody.SetBuffCount(Buffs.ThetaBoost.instance.BuffDef.buffIndex, 1);
                 }
-
             }
 
             if (!owner || !target || !ownerBody.healthComponent.alive || !targetBody.healthComponent.alive)
@@ -110,7 +113,8 @@ namespace Sandswept.Enemies.ThetaConstruct {
                 Handle(ref p2, ref p2t, ref p2c, ref p2r);
                 Handle(ref p3, ref p3t, ref p3c, ref p3r);
 
-                void Handle(ref Transform p, ref Transform t, ref Vector3 c, ref Vector3 r) {
+                void Handle(ref Transform p, ref Transform t, ref Vector3 c, ref Vector3 r)
+                {
                     if (c == Vector3.zero) c = p.position;
                     p.position = c;
                     p.position = Vector3.MoveTowards(p.position, t.position, 90f * Time.fixedDeltaTime);

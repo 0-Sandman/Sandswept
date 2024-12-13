@@ -7,9 +7,9 @@
 
         public override string EquipmentLangTokenName => "GALVANIC_CELL_SHIELD";
 
-        public override string EquipmentPickupDesc => "Raise a shield that parries the next attack. Upon successfully parrying, shock and damage your attacker and nearby enemies.";
+        public override string EquipmentPickupDesc => "Evoke a shield that parries the next attack. Upon successfully parrying, shock and damage your attacker and nearby enemies.";
 
-        public override string EquipmentFullDescription => ("Raise a $shshield$se that $shparries$se the next attack. Upon successfully parrying, $sushock$se and $sddamage$se your attacker and nearby enemies for $sd" + d(baseDamage) + " damage$se.").AutoFormat();
+        public override string EquipmentFullDescription => ("Evoke a $shshield$se that $shparries$se the next attack. Upon successfully parrying, $sushock$se and $sddamage$se your attacker and nearby enemies for $sd" + d(baseDamage) + " damage$se.").AutoFormat();
 
         // this description is fucked, idk how to unfuck it due to how complex the item is
         public override string EquipmentLore => "TBD";
@@ -149,7 +149,8 @@
                 galvanicCellShieldController.activated = true;
             }
 
-            EffectManager.SpawnEffect(Paths.GameObject.LoaderGroundSlam, new EffectData {
+            EffectManager.SpawnEffect(Paths.GameObject.LoaderGroundSlam, new EffectData
+            {
                 origin = slot.characterBody.corePosition,
                 scale = slot.characterBody.bestFitRadius * 2f
             }, true);

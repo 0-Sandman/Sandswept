@@ -285,7 +285,7 @@ namespace Sandswept.Survivors.Ranger
                     var image = anchor.AddComponent<Image>();
 
                     // Main.ModLogger.LogError("image component is " + image);
-                    Main.ModLogger.LogError(Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texGayFurries.png"));
+                    Main.ModLogger.LogWarning(Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texGayFurries.png"));
                     image.sprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texGayFurries.png");
                     image.enabled = false;
                     image.color = new Color32(255, 211, 216, 147);
