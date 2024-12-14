@@ -87,6 +87,7 @@ namespace Sandswept.Utils.Assets {
             File.WriteAllText(outputFilePath, builder.ToString());
         }
    */
+
     public static class AssetCollection {
        public static RoR2.AssetCollection CalmWaterShadersCollection => Addressables.LoadAssetAsync<RoR2.AssetCollection>("Calm Water/CalmWaterShadersCollection.asset").WaitForCompletion();
        public static RoR2.AssetCollection DecaliciousShadersCollection => Addressables.LoadAssetAsync<RoR2.AssetCollection>("Decalicious/DecaliciousShadersCollection.asset").WaitForCompletion();
@@ -1000,6 +1001,7 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Material matLightningFlash => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/Base/Common/VFX/matLightningFlash.mat").WaitForCompletion();
        public static UnityEngine.Material matLightningLongBlue => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/Base/Common/VFX/matLightningLongBlue.mat").WaitForCompletion();
        public static UnityEngine.Material matLightningSphere => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/Base/Common/VFX/matLightningSphere.mat").WaitForCompletion();
+       public static UnityEngine.Material matChanceShrineDollEffect => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/Base/Common/VFX/matChanceShrineDollEffect.mat").WaitForCompletion();
        public static UnityEngine.Material matBright => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/Base/Common/VFX/matBright.mat").WaitForCompletion();
        public static UnityEngine.Material matCryoCanisterSphere => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/Base/Common/VFX/matCryoCanisterSphere.mat").WaitForCompletion();
        public static UnityEngine.Material matCutExplosion => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/Base/Common/VFX/matCutExplosion.mat").WaitForCompletion();
@@ -3162,6 +3164,7 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Material matChefCleaverGhost2 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Chef/matChefCleaverGhost2.mat").WaitForCompletion();
        public static UnityEngine.Material matChefCleaverGhost3 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Chef/matChefCleaverGhost3.mat").WaitForCompletion();
        public static UnityEngine.Material matChefCleaverGhost4 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Chef/matChefCleaverGhost4.mat").WaitForCompletion();
+       public static UnityEngine.Material matChefCleaverGhostSphereGlow => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Chef/matChefCleaverGhostSphereGlow.mat").WaitForCompletion();
        public static UnityEngine.Material matChefDiceEnhancedGhost1 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Chef/matChefDiceEnhancedGhost1.mat").WaitForCompletion();
        public static UnityEngine.Material matChefDiceEnhancedGhost2 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Chef/matChefDiceEnhancedGhost2.mat").WaitForCompletion();
        public static UnityEngine.Material matBoostedFireballCore => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Chef/matBoostedFireballCore.mat").WaitForCompletion();
@@ -3316,10 +3319,28 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Material matEliteAffixAurelionitePickup => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteAurelionite/matEliteAffixAurelionitePickup.mat").WaitForCompletion();
        public static UnityEngine.Material matEliteAurelioniteAffixDisplay => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteAurelionite/matEliteAurelioniteAffixDisplay.mat").WaitForCompletion();
        public static UnityEngine.Material matEliteAurelioniteAffixOverlay => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteAurelionite/matEliteAurelioniteAffixOverlay.mat").WaitForCompletion();
+       public static UnityEngine.Material matGildedFillupGold => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteAurelionite/matGildedFillupGold.mat").WaitForCompletion();
+       public static UnityEngine.Material matGildedPillar => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteAurelionite/matGildedPillar.mat").WaitForCompletion();
+       public static UnityEngine.Material matGiledFillupGoldOutline => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteAurelionite/matGiledFillupGoldOutline.mat").WaitForCompletion();
+       public static UnityEngine.Material matPillarDecalCenter => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteAurelionite/matPillarDecalCenter.mat").WaitForCompletion();
+       public static UnityEngine.Material matPillarVeinDecal => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteAurelionite/matPillarVeinDecal.mat").WaitForCompletion();
+       public static UnityEngine.Material matStrikePillarGold => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteAurelionite/matStrikePillarGold.mat").WaitForCompletion();
        public static UnityEngine.Material matEliteAffixBeadPickup => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteBead/matEliteAffixBeadPickup.mat").WaitForCompletion();
        public static UnityEngine.Material matEliteBeadFire => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteBead/matEliteBeadFire.mat").WaitForCompletion();
        public static UnityEngine.Material matEliteBeadSpike => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteBead/matEliteBeadSpike.mat").WaitForCompletion();
+       public static UnityEngine.Material matEliteBeadSpikeCharge => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteBead/matEliteBeadSpikeCharge.mat").WaitForCompletion();
+       public static UnityEngine.Material matEliteBeadSpikeCore => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteBead/matEliteBeadSpikeCore.mat").WaitForCompletion();
+       public static UnityEngine.Material matEliteBeadSpikeProjectile => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteBead/matEliteBeadSpikeProjectile.mat").WaitForCompletion();
        public static UnityEngine.Material matEliteBeadWard => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteBead/matEliteBeadWard.mat").WaitForCompletion();
+       public static UnityEngine.Material matEliteBeadArmoredOverlay => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteBead/matEliteBeadArmoredOverlay.mat").WaitForCompletion();
+       public static UnityEngine.Material matEliteBeadImpactAbsorbGlow => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteBead/matEliteBeadImpactAbsorbGlow.mat").WaitForCompletion();
+       public static UnityEngine.Material matEliteBeadSpikeDistortion => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteBead/matEliteBeadSpikeDistortion.mat").WaitForCompletion();
+       public static UnityEngine.Material matEliteBeadSpikeGrowthFire => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteBead/matEliteBeadSpikeGrowthFire.mat").WaitForCompletion();
+       public static UnityEngine.Material matEliteBeadSpikeGrowthRing => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteBead/matEliteBeadSpikeGrowthRing.mat").WaitForCompletion();
+       public static UnityEngine.Material matEliteBeadTetherEnd => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteBead/matEliteBeadTetherEnd.mat").WaitForCompletion();
+       public static UnityEngine.Material matEliteBeadTetherLine => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteBead/matEliteBeadTetherLine.mat").WaitForCompletion();
+       public static UnityEngine.Material matEliteBeadTetherLineCharging => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteBead/matEliteBeadTetherLineCharging.mat").WaitForCompletion();
+       public static UnityEngine.Material matLunarRuinCrackle => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Elites/EliteBead/matLunarRuinCrackle.mat").WaitForCompletion();
        public static UnityEngine.Material matSproutOfLifeBurst1 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/HealAndRevive/matSproutOfLifeBurst1.mat").WaitForCompletion();
        public static UnityEngine.Material matSproutOfLifeBurst2 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/HealAndRevive/matSproutOfLifeBurst2.mat").WaitForCompletion();
        public static UnityEngine.Material matSproutOfLifeBurst3 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/HealAndRevive/matSproutOfLifeBurst3.mat").WaitForCompletion();
@@ -3367,27 +3388,46 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Material matRebirthOnRebirthVFX3 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/matRebirthOnRebirthVFX3.mat").WaitForCompletion();
        public static UnityEngine.Material matShrineofRebirth => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/matShrineofRebirth.mat").WaitForCompletion();
        public static UnityEngine.Material matShrineofRebirthPlaceholder2 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/matShrineofRebirthPlaceholder2.mat").WaitForCompletion();
+       public static UnityEngine.Material GrowthNectarFlowerGlow => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/BoostAllStats/GrowthNectarFlowerGlow.mat").WaitForCompletion();
+       public static UnityEngine.Material matGrowthNecarWreath => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/BoostAllStats/matGrowthNecarWreath.mat").WaitForCompletion();
        public static UnityEngine.Material matGrowthNectar => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/BoostAllStats/matGrowthNectar.mat").WaitForCompletion();
        public static UnityEngine.Material matGrowthNectarGlass => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/BoostAllStats/matGrowthNectarGlass.mat").WaitForCompletion();
        public static UnityEngine.Material matGrowthNectarGlow => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/BoostAllStats/matGrowthNectarGlow.mat").WaitForCompletion();
+       public static UnityEngine.Material matGrowthNectarPuffCloud => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/BoostAllStats/matGrowthNectarPuffCloud.mat").WaitForCompletion();
+       public static UnityEngine.Material matGrowthNectarPuffRing => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/BoostAllStats/matGrowthNectarPuffRing.mat").WaitForCompletion();
        public static UnityEngine.Material matDelayedDamageIndicator1 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/DelayedDamage/matDelayedDamageIndicator1.mat").WaitForCompletion();
        public static UnityEngine.Material matDelayedDamageIndicator2 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/DelayedDamage/matDelayedDamageIndicator2.mat").WaitForCompletion();
        public static UnityEngine.Material matDelayedDamageIndicator3 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/DelayedDamage/matDelayedDamageIndicator3.mat").WaitForCompletion();
+       public static UnityEngine.Material matDelayedDamageShield => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/DelayedDamage/matDelayedDamageShield.mat").WaitForCompletion();
+       public static UnityEngine.Material matDelayedDamageShieldShatter => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/DelayedDamage/matDelayedDamageShieldShatter.mat").WaitForCompletion();
        public static UnityEngine.Material matWarpedEchoGreen => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/DelayedDamage/matWarpedEchoGreen.mat").WaitForCompletion();
+       public static UnityEngine.Material matWarpedEchoOverheadShield => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/DelayedDamage/matWarpedEchoOverheadShield.mat").WaitForCompletion();
        public static UnityEngine.Material matChanceDoll => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/ExtraShrineItem/matChanceDoll.mat").WaitForCompletion();
        public static UnityEngine.Material matChanceDollSymbol => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/ExtraShrineItem/matChanceDollSymbol.mat").WaitForCompletion();
        public static UnityEngine.Material matChanceDollSymbolSimple => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/ExtraShrineItem/matChanceDollSymbolSimple.mat").WaitForCompletion();
+       public static UnityEngine.Material matBeadsEmitter => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/ExtraStatsOnLevelUp/matBeadsEmitter.mat").WaitForCompletion();
+       public static UnityEngine.Material matBeadsEnlightenGlow => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/ExtraStatsOnLevelUp/matBeadsEnlightenGlow.mat").WaitForCompletion();
+       public static UnityEngine.Material matBeadsEnlightenGlow2 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/ExtraStatsOnLevelUp/matBeadsEnlightenGlow2.mat").WaitForCompletion();
+       public static UnityEngine.Material matBeadsLevelUp => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/ExtraStatsOnLevelUp/matBeadsLevelUp.mat").WaitForCompletion();
+       public static UnityEngine.Material matEnlightenedBurst => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/ExtraStatsOnLevelUp/matEnlightenedBurst.mat").WaitForCompletion();
+       public static UnityEngine.Material matEnlightenedRing => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/ExtraStatsOnLevelUp/matEnlightenedRing.mat").WaitForCompletion();
        public static UnityEngine.Material matExtraStatsOnLevelUp => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/ExtraStatsOnLevelUp/matExtraStatsOnLevelUp.mat").WaitForCompletion();
+       public static UnityEngine.Material matBossMissileSmokePuff => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/GoldOnStageStart/matBossMissileSmokePuff.mat").WaitForCompletion();
+       public static UnityEngine.Material matBossMissileTrail => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/GoldOnStageStart/matBossMissileTrail.mat").WaitForCompletion();
        public static UnityEngine.Material matGoldOnStageStartCoinGain1 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/GoldOnStageStart/matGoldOnStageStartCoinGain1.mat").WaitForCompletion();
        public static UnityEngine.Material matGoldOnStageStartCoinGain2 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/GoldOnStageStart/matGoldOnStageStartCoinGain2.mat").WaitForCompletion();
+       public static UnityEngine.Material matWarbondMissile => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/GoldOnStageStart/matWarbondMissile.mat").WaitForCompletion();
        public static UnityEngine.Material matGoldOnStageStartMetal => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/GoldOnStageStart/matGoldOnStageStartMetal.mat").WaitForCompletion();
        public static UnityEngine.Material matGoldOnStageStartScreen => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/GoldOnStageStart/matGoldOnStageStartScreen.mat").WaitForCompletion();
+       public static UnityEngine.Material colorRedHolo => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/IncreaseDamageOnMultiKill/colorRedHolo.mat").WaitForCompletion();
+       public static UnityEngine.Material colorRedText => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/IncreaseDamageOnMultiKill/colorRedText.mat").WaitForCompletion();
        public static UnityEngine.Material matIncreaseDamaageOnMultiKill => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/IncreaseDamageOnMultiKill/matIncreaseDamaageOnMultiKill.mat").WaitForCompletion();
        public static UnityEngine.Material matIncreaseDamageOnMultiKill1 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/IncreaseDamageOnMultiKill/matIncreaseDamageOnMultiKill1.mat").WaitForCompletion();
        public static UnityEngine.Material matIncreaseDamageOnMultiKill2 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/IncreaseDamageOnMultiKill/matIncreaseDamageOnMultiKill2.mat").WaitForCompletion();
        public static UnityEngine.Material matIncreaseDamageOnMultiKill3 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/IncreaseDamageOnMultiKill/matIncreaseDamageOnMultiKill3.mat").WaitForCompletion();
        public static UnityEngine.Material matIncreaseDamageOnMultiKill4 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/IncreaseDamageOnMultiKill/matIncreaseDamageOnMultiKill4.mat").WaitForCompletion();
        public static UnityEngine.Material matIncreaseDamageOnMultiKillHolo => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/IncreaseDamageOnMultiKill/matIncreaseDamageOnMultiKillHolo.mat").WaitForCompletion();
+       public static UnityEngine.Material matTeleportOnLowHealthIndicator => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/IncreaseDamageOnMultiKill/matTeleportOnLowHealthIndicator.mat").WaitForCompletion();
        public static UnityEngine.Material matGoldLaser => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/IncreasePrimaryDamage/matGoldLaser.mat").WaitForCompletion();
        public static UnityEngine.Material matLuminousShotRings => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/IncreasePrimaryDamage/matLuminousShotRings.mat").WaitForCompletion();
        public static UnityEngine.Material matLunimousShot => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/IncreasePrimaryDamage/matLunimousShot.mat").WaitForCompletion();
@@ -3396,6 +3436,8 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Material matKnockbackFin => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/KnockBackHitEnemies/matKnockbackFin.mat").WaitForCompletion();
        public static UnityEngine.Material matKnockbackFin1 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/KnockBackHitEnemies/matKnockbackFin1.mat").WaitForCompletion();
        public static UnityEngine.Material matKnockbackFin2 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/KnockBackHitEnemies/matKnockbackFin2.mat").WaitForCompletion();
+       public static UnityEngine.Material matKnockbackFinDebuffTarget => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/KnockBackHitEnemies/matKnockbackFinDebuffTarget.mat").WaitForCompletion();
+       public static UnityEngine.Material matBolsteringLanternRangeIndicator => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/LowerHealthHigherDamage/matBolsteringLanternRangeIndicator.mat").WaitForCompletion();
        public static UnityEngine.Material matRageCrystal => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/LowerHealthHigherDamage/matRageCrystal.mat").WaitForCompletion();
        public static UnityEngine.Material matRageCrystalGlass => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/LowerHealthHigherDamage/matRageCrystalGlass.mat").WaitForCompletion();
        public static UnityEngine.Material matLowerPricedChestsGlow1 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/LowerPricedChests/matLowerPricedChestsGlow1.mat").WaitForCompletion();
@@ -3405,25 +3447,34 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Material matRunicFirePuff => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/MeteorAttackOnHighDamage/matRunicFirePuff.mat").WaitForCompletion();
        public static UnityEngine.Material matRunicLens => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/MeteorAttackOnHighDamage/matRunicLens.mat").WaitForCompletion();
        public static UnityEngine.Material matRunicLensGlow => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/MeteorAttackOnHighDamage/matRunicLensGlow.mat").WaitForCompletion();
+       public static UnityEngine.Material matRunicLensIndicatorIndicatorWall => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/MeteorAttackOnHighDamage/matRunicLensIndicatorIndicatorWall.mat").WaitForCompletion();
        public static UnityEngine.Material matRunicLensMeteor => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/MeteorAttackOnHighDamage/matRunicLensMeteor.mat").WaitForCompletion();
        public static UnityEngine.Material matRunicLensMeteorStrikeImpactIndicator => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/MeteorAttackOnHighDamage/matRunicLensMeteorStrikeImpactIndicator.mat").WaitForCompletion();
-       public static UnityEngine.Material matAntlerShield => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/NegateAttack/matAntlerShield.mat").WaitForCompletion();
-       public static UnityEngine.Material matNegateAttackThorn => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/NegateAttack/matNegateAttackThorn.mat").WaitForCompletion();
-       public static UnityEngine.Material matNegateAttackTrail => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/NegateAttack/matNegateAttackTrail.mat").WaitForCompletion();
        public static UnityEngine.Material matFireLongStanding => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/OnLevelUpFreeUnlock/matFireLongStanding.mat").WaitForCompletion();
        public static UnityEngine.Material matLongstandingSolitude => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/OnLevelUpFreeUnlock/matLongstandingSolitude.mat").WaitForCompletion();
        public static UnityEngine.Material matOnLevelUpFreeUnlockDroneFlash => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/OnLevelUpFreeUnlock/matOnLevelUpFreeUnlockDroneFlash.mat").WaitForCompletion();
        public static UnityEngine.Material matSnorousEcho => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/ResetChests/matSnorousEcho.mat").WaitForCompletion();
+       public static UnityEngine.Material matElusiveAntlers => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/SpeedBoostPickup/matElusiveAntlers.mat").WaitForCompletion();
+       public static UnityEngine.Material matElusiveAntlersBuffActive => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/SpeedBoostPickup/matElusiveAntlersBuffActive.mat").WaitForCompletion();
+       public static UnityEngine.Material matElusiveAntlersBuffBase => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/SpeedBoostPickup/matElusiveAntlersBuffBase.mat").WaitForCompletion();
+       public static UnityEngine.Material matElusiveAntlersBuffGrantedRay => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/SpeedBoostPickup/matElusiveAntlersBuffGrantedRay.mat").WaitForCompletion();
+       public static UnityEngine.Material matElusiveAntlersBuffPickupFlame => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/SpeedBoostPickup/matElusiveAntlersBuffPickupFlame.mat").WaitForCompletion();
+       public static UnityEngine.Material matElusiveAntlersBuffPickupFlameMinor => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/SpeedBoostPickup/matElusiveAntlersBuffPickupFlameMinor.mat").WaitForCompletion();
+       public static UnityEngine.Material matElusiveAntlersPickupSpawn => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/SpeedBoostPickup/matElusiveAntlersPickupSpawn.mat").WaitForCompletion();
+       public static UnityEngine.Material matSpeedBoostPickupThorn => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/SpeedBoostPickup/matSpeedBoostPickupThorn.mat").WaitForCompletion();
+       public static UnityEngine.Material matSpeedBoostPickupTraill => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/SpeedBoostPickup/matSpeedBoostPickupTraill.mat").WaitForCompletion();
        public static UnityEngine.Material matElectricBoomerang => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/StunAndPierce/matElectricBoomerang.mat").WaitForCompletion();
        public static UnityEngine.Material matElectricBoomerangElectricity => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/StunAndPierce/matElectricBoomerang_Electricity.mat").WaitForCompletion();
        public static UnityEngine.Material matStunAndPierceBoomerangGhost => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/StunAndPierce/matStunAndPierceBoomerangGhost.mat").WaitForCompletion();
        public static UnityEngine.Material matStunAndPierceBoomerangImpact => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/StunAndPierce/matStunAndPierceBoomerangImpact.mat").WaitForCompletion();
+       public static UnityEngine.Material matTeleportOnLowHealthOverlay => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/TeleportOnLowHealth/matTeleportOnLowHealthOverlay.mat").WaitForCompletion();
        public static UnityEngine.Material matTeleportOnLowHealthVFX => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/TeleportOnLowHealth/matTeleportOnLowHealthVFX.mat").WaitForCompletion();
        public static UnityEngine.Material matTransmiiterEffect => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/TeleportOnLowHealth/matTransmiiterEffect.mat").WaitForCompletion();
        public static UnityEngine.Material matUnstableTransmitter => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/TeleportOnLowHealth/matUnstableTransmitter.mat").WaitForCompletion();
        public static UnityEngine.Material matNoxiousThornExplosion1 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/TriggerEnemyDebuffs/matNoxiousThornExplosion1.mat").WaitForCompletion();
        public static UnityEngine.Material matNoxiousThornExplosion2 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/TriggerEnemyDebuffs/matNoxiousThornExplosion2.mat").WaitForCompletion();
        public static UnityEngine.Material matNoxiousThornExplosion3 => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/TriggerEnemyDebuffs/matNoxiousThornExplosion3.mat").WaitForCompletion();
+       public static UnityEngine.Material matNoxiousThornVine => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/TriggerEnemyDebuffs/matNoxiousThornVine.mat").WaitForCompletion();
        public static UnityEngine.Material matNoxiousThorn => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Items/TriggerEnemyDebuffs/matNoxiousThorn.mat").WaitForCompletion();
        public static UnityEngine.Material Grey => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Grey.mat").WaitForCompletion();
        public static UnityEngine.Material Orange => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/Orange.mat").WaitForCompletion();
@@ -3681,6 +3732,8 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Material matTLFallingFoamopt => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/lakes/Assets/matTLFallingFoam_opt.mat").WaitForCompletion();
        public static UnityEngine.Material matTLWater => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/lakes/Assets/matTLWater.mat").WaitForCompletion();
        public static UnityEngine.Material matTLWateropt => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/lakes/Assets/matTLWater_opt.mat").WaitForCompletion();
+       public static UnityEngine.Material matTLWaterRed => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/lakes/Assets/matTLWaterRed.mat").WaitForCompletion();
+       public static UnityEngine.Material matTLWaterRedopt => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/lakes/Assets/matTLWaterRed_opt.mat").WaitForCompletion();
        public static UnityEngine.Material matTLJumpPadBubble => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/lakes/Assets/matTLJumpPadBubble.mat").WaitForCompletion();
        public static UnityEngine.Material matTLJumpPadBubbleopt => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/lakes/Assets/matTLJumpPadBubble_opt.mat").WaitForCompletion();
        public static UnityEngine.Material matTLPlantJumpBaseopt => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/lakes/Assets/matTLPlantJumpBase_opt.mat").WaitForCompletion();
@@ -3791,6 +3844,8 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Material matPMGoldenTreeLeafGlowopt => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/meridian/Assets/matPMGoldenTreeLeafGlow_opt.mat").WaitForCompletion();
        public static UnityEngine.Material matPMGoldenTreeRay => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/meridian/Assets/matPMGoldenTreeRay.mat").WaitForCompletion();
        public static UnityEngine.Material matPMGoldenTreeRayopt => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/meridian/Assets/matPMGoldenTreeRay_opt.mat").WaitForCompletion();
+       public static UnityEngine.Material matPMLaunchingPadBeam => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/meridian/Assets/matPMLaunchingPadBeam.mat").WaitForCompletion();
+       public static UnityEngine.Material matPMLaunchPadRing => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/meridian/Assets/matPMLaunchPadRing.mat").WaitForCompletion();
        public static UnityEngine.Material matPMLightBeam => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/meridian/Assets/matPMLightBeam.mat").WaitForCompletion();
        public static UnityEngine.Material matPMLightBeamopt => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/meridian/Assets/matPMLightBeam_opt.mat").WaitForCompletion();
        public static UnityEngine.Material matPMLightBeamActivate => Addressables.LoadAssetAsync<UnityEngine.Material>("RoR2/DLC2/meridian/Assets/matPMLightBeamActivate.mat").WaitForCompletion();
@@ -5171,6 +5226,7 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.GameObject SyringeProjectile => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Treebot/SyringeProjectile.prefab").WaitForCompletion();
        public static UnityEngine.GameObject SyringeProjectileHealing => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Treebot/SyringeProjectileHealing.prefab").WaitForCompletion();
        public static UnityEngine.GameObject TreebotFlowerSeed => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Treebot/TreebotFlowerSeed.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject TreebotFruitDeathEffect => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Treebot/TreebotFruitDeathEffect.prefab").WaitForCompletion();
        public static UnityEngine.GameObject TreebotFruitSeedGhost => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Treebot/TreebotFruitSeedGhost.prefab").WaitForCompletion();
        public static UnityEngine.GameObject TreebotFruitSeedProjectile => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Treebot/TreebotFruitSeedProjectile.prefab").WaitForCompletion();
        public static UnityEngine.GameObject TreebotMortar2 => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Treebot/TreebotMortar2.prefab").WaitForCompletion();
@@ -5377,6 +5433,7 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.GameObject MuzzleflashBarrage => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Common/VFX/MuzzleflashBarrage.prefab").WaitForCompletion();
        public static UnityEngine.GameObject MuzzleflashSmokeRing => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Common/VFX/MuzzleflashSmokeRing.prefab").WaitForCompletion();
        public static UnityEngine.GameObject ShieldBreakEffect => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Common/VFX/ShieldBreakEffect.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject ShrineChanceDollUseEffect => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Common/VFX/ShrineChanceDollUseEffect.prefab").WaitForCompletion();
        public static UnityEngine.GameObject ShrineChanceUseEffect => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Common/VFX/ShrineChanceUseEffect.prefab").WaitForCompletion();
        public static UnityEngine.GameObject ShrineUseEffect => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Common/VFX/ShrineUseEffect.prefab").WaitForCompletion();
        public static UnityEngine.GameObject ShockedEffect => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Common/VFX/ShockedEffect.prefab").WaitForCompletion();
@@ -5550,6 +5607,7 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.GameObject DisplayLightningArmLeft => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Lightning/DisplayLightningArmLeft.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayLightningArmLeftVoidSurvivor => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Lightning/DisplayLightningArmLeftVoidSurvivor.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayLightningArmRightBandit2 => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Lightning/DisplayLightningArmRight,Bandit2.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject DisplayLightningArmRightChef => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Lightning/DisplayLightningArmRight,Chef.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayLightningArmRightCroco => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Lightning/DisplayLightningArmRight,Croco.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayLightningArmRight => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Lightning/DisplayLightningArmRight.prefab").WaitForCompletion();
        public static UnityEngine.GameObject LightningIndicator => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/Lightning/LightningIndicator.prefab").WaitForCompletion();
@@ -7616,6 +7674,8 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.GameObject DefaultMPButton => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/UI/DefaultMPButton.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DefaultPanel => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/UI/DefaultPanel.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DefaultScrollView => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/UI/DefaultScrollView.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject PublicTestBanner => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/UI/PublicTestBanner.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject PublicTestBannerSingleLine => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/UI/PublicTestBanner_SingleLine.prefab").WaitForCompletion();
        public static UnityEngine.GameObject Dropdown => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/UI/Dropdown.prefab").WaitForCompletion();
        public static UnityEngine.GameObject ExtraGameModeMenu => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/UI/ExtraGameModeMenu.prefab").WaitForCompletion();
        public static UnityEngine.GameObject FirstTimeEAWarning => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Base/UI/FirstTimeEAWarning.prefab").WaitForCompletion();
@@ -9700,17 +9760,52 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.GameObject SeekerTrackingIndicator => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Seeker/SeekerTrackingIndicator.prefab").WaitForCompletion();
        public static UnityEngine.GameObject mdlVFXDome => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Common/mdlVFXDome.fbx").WaitForCompletion();
        public static UnityEngine.GameObject mdlVFXTorus => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Common/mdlVFXTorus.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject PowerUpDroplet => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Common/PowerUpDroplet.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject PowerUpGoldOrb => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Common/PowerUpGoldOrb.prefab").WaitForCompletion();
        public static UnityEngine.GameObject AffixAurelioniteArmorBubble => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/AffixAurelioniteArmorBubble.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject AffixAurelioniteCenterProjectile => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/AffixAurelioniteCenterProjectile.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject AffixAurelionitePreFistGhost => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/AffixAurelionitePreFistGhost.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject AffixAurelionitePreStrikeProjectile => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/AffixAurelionitePreStrikeProjectile.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject AffixAurelioniteStrikeEffect => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/AffixAurelioniteStrikeEffect.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject AffixAurelioniteStrikeEffectCenter => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/AffixAurelioniteStrikeEffectCenter.prefab").WaitForCompletion();
        public static UnityEngine.GameObject AurelioniteBlessingVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/AurelioniteBlessingVFX.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayEliteAurelioniteEquipment => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/DisplayEliteAurelioniteEquipment.prefab").WaitForCompletion();
        public static UnityEngine.GameObject mdlEliteAurelioniteCrown => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/mdlEliteAurelioniteCrown.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject mdlEliteAurelionitePillarGhost => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/mdlEliteAurelionitePillarGhost.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject mdlGildedHitboxDonut => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/mdlGildedHitboxDonut.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject mdlGildedPillarCluster => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/mdlGildedPillarCluster.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject mdlGildedPillarClusterTwoRings => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/mdlGildedPillarClusterTwoRings.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject EliteAurelioniteSummonPillarGhost => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/EliteAurelioniteSummonPillarGhost.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject EliteAurelioniteSummonPillarProjectile => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/EliteAurelioniteSummonPillarProjectile.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject EliteAurelioniteSummonPillarVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/EliteAurelioniteSummonPillarVFX.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject GildedMoneyPack => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/GildedMoneyPack.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject GildedPillar => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/GildedPillar.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject GildedPillarSpawnImpact => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/GildedPillarSpawnImpact.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject mdlGildedPillar => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/mdlGildedPillar.fbx").WaitForCompletion();
        public static UnityEngine.GameObject PickupAffixAurelionite => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteAurelionite/PickupAffixAurelionite.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject AffixBeadBodyAttachment => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/AffixBeadBodyAttachment.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject AffixBeadHeadCrystal => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/AffixBeadHeadCrystal.prefab").WaitForCompletion();
        public static UnityEngine.GameObject AffixBeadWard => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/AffixBeadWard.prefab").WaitForCompletion();
        public static UnityEngine.GameObject BeadDamageOrbEffect => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/BeadDamageOrbEffect.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject BeadProjectileTrackingBomb => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/BeadProjectileTrackingBomb.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayEliteBeadEquipment => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/DisplayEliteBeadEquipment.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject DisplayEliteBeadProjectile => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/DisplayEliteBeadProjectile.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayEliteBeadSpike => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/DisplayEliteBeadSpike.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject EliteBeadCrystalExplosionVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/EliteBeadCrystalExplosionVFX.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject EliteBeadCrystalGhost => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/EliteBeadCrystalGhost.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject EliteBeadCrystalImpactAbsorbVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/EliteBeadCrystalImpactAbsorbVFX.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject EliteBeadCrystalLaunchBurstVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/EliteBeadCrystalLaunchBurstVFX.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject EliteBeadCrystalPreLaunchChargeVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/EliteBeadCrystalPreLaunchChargeVFX.prefab").WaitForCompletion();
        public static UnityEngine.GameObject EliteBeadFire => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/EliteBeadFire.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject mdlEliteBeadProjectile => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/mdlEliteBeadProjectile.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject mdlEliteBeadProjectileGrowth => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/mdlEliteBeadProjectileGrowth.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject mdlEliteBeadProjectileTwist => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/mdlEliteBeadProjectileTwist.fbx").WaitForCompletion();
        public static UnityEngine.GameObject mdlEliteBeadSpike => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/mdlEliteBeadSpike.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject EliteBeadProjectile => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/EliteBeadProjectile.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject EliteBeadSpikeGrowthFinalStepVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/EliteBeadSpikeGrowthFinalStepVFX.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject EliteBeadSpikeGrowthVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/EliteBeadSpikeGrowthVFX.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject EliteBeadTether => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/EliteBeadTether.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject LunarRuinCameraCrackle => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/LunarRuinCameraCrackle.prefab").WaitForCompletion();
        public static UnityEngine.GameObject PickupAffixBead => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Elites/EliteBead/PickupAffixBead.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayHealAndRevive => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/HealAndRevive/DisplayHealAndRevive.prefab").WaitForCompletion();
        public static UnityEngine.GameObject fxHealAndReviveGold => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/HealAndRevive/fxHealAndReviveGold.prefab").WaitForCompletion();
@@ -9759,14 +9854,27 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.GameObject ShrineRocks => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/ShrineRocks.prefab").WaitForCompletion();
        public static UnityEngine.GameObject OnCollisionEventPrefab => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/OnCollisionEventPrefab.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayGrowthNectar => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/BoostAllStats/DisplayGrowthNectar.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject GrowthNectarActiveVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/BoostAllStats/GrowthNectarActiveVFX.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject GrowthNectarBuffPlusVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/BoostAllStats/GrowthNectarBuffPlusVFX.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject GrowthNectarGlowVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/BoostAllStats/GrowthNectarGlowVFX.prefab").WaitForCompletion();
        public static UnityEngine.GameObject mdlGrowthNectar => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/BoostAllStats/mdlGrowthNectar.fbx").WaitForCompletion();
        public static UnityEngine.GameObject mdlGrowthNectarDisplay => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/BoostAllStats/mdlGrowthNectarDisplay.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject mdlGrowthNectarFlower => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/BoostAllStats/mdlGrowthNectarFlower.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject mdlGrowthNectarWreath => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/BoostAllStats/mdlGrowthNectarWreath.fbx").WaitForCompletion();
        public static UnityEngine.GameObject PickupGrowthNectar => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/BoostAllStats/PickupGrowthNectar.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject DelayedDamageHitVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/DelayedDamage/DelayedDamageHitVFX.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DelayedDamageIndicator => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/DelayedDamage/DelayedDamageIndicator.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject DelayedDamageOverheadShield => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/DelayedDamage/DelayedDamageOverheadShield.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayDelayedDamage => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/DelayedDamage/DisplayDelayedDamage.prefab").WaitForCompletion();
        public static UnityEngine.GameObject mdlDelayedDamageIndicator => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/DelayedDamage/mdlDelayedDamageIndicator.FBX").WaitForCompletion();
        public static UnityEngine.GameObject PickupDelayedDamage => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/DelayedDamage/PickupDelayedDamage.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject WarpedEchoFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/DelayedDamage/WarpedEchoFX.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject mdlDelayedDamageOverheadShield => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/DelayedDamage/mdlDelayedDamageOverheadShield.fbx").WaitForCompletion();
        public static UnityEngine.GameObject mdlWarpedEcho => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/DelayedDamage/mdlWarpedEcho.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject mdlWarpedEchoShield => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/DelayedDamage/mdlWarpedEchoShield.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject WarpedEchoShieldBaseVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/DelayedDamage/WarpedEchoShieldBaseVFX.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject WarpedEchoShieldCore => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/DelayedDamage/WarpedEchoShieldCore.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject WarpedEchoShieldShatterVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/DelayedDamage/WarpedEchoShieldShatterVFX.prefab").WaitForCompletion();
        public static UnityEngine.GameObject mdlChanceDollDisplay => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/ExtraShrineItem/mdlChanceDollDisplay.fbx").WaitForCompletion();
        public static UnityEngine.GameObject mdlChanceDollPickup => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/ExtraShrineItem/mdlChanceDollPickup.fbx").WaitForCompletion();
        public static UnityEngine.GameObject DisplayChanceDoll => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/ExtraShrineItem/DisplayChanceDoll.prefab").WaitForCompletion();
@@ -9774,12 +9882,20 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.GameObject DisplayPrayerBeads => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/ExtraStatsOnLevelUp/DisplayPrayerBeads.prefab").WaitForCompletion();
        public static UnityEngine.GameObject ExtraStatsOnLevelUpEffect => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/ExtraStatsOnLevelUp/ExtraStatsOnLevelUpEffect.prefab").WaitForCompletion();
        public static UnityEngine.GameObject ExtraStatsOnLevelUpScrapEffect => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/ExtraStatsOnLevelUp/ExtraStatsOnLevelUpScrapEffect.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject mdlBeadFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/ExtraStatsOnLevelUp/mdlBeadFX.fbx").WaitForCompletion();
        public static UnityEngine.GameObject mdlExtraStatsOnLevelUp => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/ExtraStatsOnLevelUp/mdlExtraStatsOnLevelUp.fbx").WaitForCompletion();
        public static UnityEngine.GameObject PickupPrayerBeads => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/ExtraStatsOnLevelUp/PickupPrayerBeads.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject BossMissileGhost => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/GoldOnStageStart/BossMissileGhost.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject BossMissileImpact => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/GoldOnStageStart/BossMissileImpact.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject BossMissileProjectile => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/GoldOnStageStart/BossMissileProjectile.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject BossMissileStart => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/GoldOnStageStart/BossMissileStart.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject BossMissileWarning => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/GoldOnStageStart/BossMissileWarning.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayTreasuryDividends => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/GoldOnStageStart/DisplayTreasuryDividends.prefab").WaitForCompletion();
        public static UnityEngine.GameObject GoldOnStageStartCoinGain => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/GoldOnStageStart/GoldOnStageStartCoinGain.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject mdlWarbondsMissile => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/GoldOnStageStart/mdlWarbondsMissile.fbx").WaitForCompletion();
        public static UnityEngine.GameObject PickupTreasuryDividends => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/GoldOnStageStart/PickupTreasuryDividends.prefab").WaitForCompletion();
        public static UnityEngine.GameObject mdlGoldOnStageStart => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/GoldOnStageStart/mdlGoldOnStageStart.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject WarbondsMissile => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/GoldOnStageStart/WarbondsMissile.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayIncreaseDamageOnMultiKill => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/IncreaseDamageOnMultiKill/DisplayIncreaseDamageOnMultiKill.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayIncreaseDamageOnMultiKillAttachment => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/IncreaseDamageOnMultiKill/DisplayIncreaseDamageOnMultiKillAttachment.prefab").WaitForCompletion();
        public static UnityEngine.GameObject IncreaseDamageOnMultiKillVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/IncreaseDamageOnMultiKill/IncreaseDamageOnMultiKillVFX.prefab").WaitForCompletion();
@@ -9791,10 +9907,14 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.GameObject mdlLuminousShot => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/IncreasePrimaryDamage/mdlLuminousShot.fbx").WaitForCompletion();
        public static UnityEngine.GameObject PickupIncreasePrimaryDamage => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/IncreasePrimaryDamage/PickupIncreasePrimaryDamage.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayKnockbackFin => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/KnockBackHitEnemies/DisplayKnockbackFin.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject KnockbackFinDebuffVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/KnockBackHitEnemies/KnockbackFinDebuffVFX.prefab").WaitForCompletion();
        public static UnityEngine.GameObject KnockBackHitEnemiesImpact => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/KnockBackHitEnemies/KnockBackHitEnemiesImpact.prefab").WaitForCompletion();
        public static UnityEngine.GameObject KnockBackHitEnemiesTrail => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/KnockBackHitEnemies/KnockBackHitEnemiesTrail.prefab").WaitForCompletion();
        public static UnityEngine.GameObject mdlKnockbackFin => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/KnockBackHitEnemies/mdlKnockbackFin.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject mdlKnockbackFinAnim => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/KnockBackHitEnemies/mdlKnockbackFinAnim.fbx").WaitForCompletion();
        public static UnityEngine.GameObject PickupKnockbackFin => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/KnockBackHitEnemies/PickupKnockbackFin.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject BolsteringLanternBonusIndicator => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/LowerHealthHigherDamage/BolsteringLanternBonusIndicator.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject BolsteringLanternCollider => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/LowerHealthHigherDamage/BolsteringLanternCollider.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayRageCrystal => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/LowerHealthHigherDamage/DisplayRageCrystal.prefab").WaitForCompletion();
        public static UnityEngine.GameObject mdlRageCrystal => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/LowerHealthHigherDamage/mdlRageCrystal.fbx").WaitForCompletion();
        public static UnityEngine.GameObject PickupRageCrystal => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/LowerHealthHigherDamage/PickupRageCrystal.prefab").WaitForCompletion();
@@ -9812,11 +9932,6 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.GameObject mdlRunicLens => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/MeteorAttackOnHighDamage/mdlRunicLens.fbx").WaitForCompletion();
        public static UnityEngine.GameObject RunicMeteorStrikeImpact => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/MeteorAttackOnHighDamage/RunicMeteorStrikeImpact.prefab").WaitForCompletion();
        public static UnityEngine.GameObject RunicMeteorStrikePredictionEffect => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/MeteorAttackOnHighDamage/RunicMeteorStrikePredictionEffect.prefab").WaitForCompletion();
-       public static UnityEngine.GameObject DisplayAntlerShieldLeft => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/NegateAttack/DisplayAntlerShieldLeft.prefab").WaitForCompletion();
-       public static UnityEngine.GameObject DisplayAntlerShieldRight => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/NegateAttack/DisplayAntlerShieldRight.prefab").WaitForCompletion();
-       public static UnityEngine.GameObject mdlAntlerShield => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/NegateAttack/mdlAntlerShield.fbx").WaitForCompletion();
-       public static UnityEngine.GameObject NegateAttackEffect => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/NegateAttack/NegateAttackEffect.prefab").WaitForCompletion();
-       public static UnityEngine.GameObject PickupAntlerShield => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/NegateAttack/PickupAntlerShield.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayOnLevelUpFreeUnlock => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/OnLevelUpFreeUnlock/DisplayOnLevelUpFreeUnlock.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayOnLevelUpFreeUnlockTablet => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/OnLevelUpFreeUnlock/DisplayOnLevelUpFreeUnlockTablet.prefab").WaitForCompletion();
        public static UnityEngine.GameObject FollowerOnLevelUpFreeUnlockDrone => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/OnLevelUpFreeUnlock/FollowerOnLevelUpFreeUnlockDrone.prefab").WaitForCompletion();
@@ -9826,6 +9941,17 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.GameObject DisplaySonorousEcho => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/ResetChests/DisplaySonorousEcho.prefab").WaitForCompletion();
        public static UnityEngine.GameObject PickupSonorousEcho => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/ResetChests/PickupSonorousEcho.prefab").WaitForCompletion();
        public static UnityEngine.GameObject mdlSonorousEcho => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/ResetChests/mdlSonorousEcho.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject DisplayElusiveAntlersLeft => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/SpeedBoostPickup/DisplayElusiveAntlersLeft.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject DisplayElusiveAntlersRight => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/SpeedBoostPickup/DisplayElusiveAntlersRight.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject ElusiveAntlersBuffGrantedVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/SpeedBoostPickup/ElusiveAntlersBuffGrantedVFX.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject ElusiveAntlersBuffPickupVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/SpeedBoostPickup/ElusiveAntlersBuffPickupVFX.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject ElusiveAntlersPickup => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/SpeedBoostPickup/ElusiveAntlersPickup.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject ElusiveAntlersPickupSpawnHintVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/SpeedBoostPickup/ElusiveAntlersPickupSpawnHintVFX.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject ElusiveAntlersPickupSpawnVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/SpeedBoostPickup/ElusiveAntlersPickupSpawnVFX.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject mdlElusiveAntlers => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/SpeedBoostPickup/mdlElusiveAntlers.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject mdlElusiveAntlersBuffBase => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/SpeedBoostPickup/mdlElusiveAntlersBuffBase.fbx").WaitForCompletion();
+       public static UnityEngine.GameObject NegateAttackEffect => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/SpeedBoostPickup/NegateAttackEffect.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject PickupElusiveAntlers => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/SpeedBoostPickup/PickupElusiveAntlers.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayElectricBoomerang => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/StunAndPierce/DisplayElectricBoomerang.prefab").WaitForCompletion();
        public static UnityEngine.GameObject mdlElectricBoomerang => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/StunAndPierce/mdlElectricBoomerang.fbx").WaitForCompletion();
        public static UnityEngine.GameObject PickupElectricBoomerang => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/StunAndPierce/PickupElectricBoomerang.prefab").WaitForCompletion();
@@ -9838,6 +9964,8 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.GameObject TeleportOnLowHealthVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/TeleportOnLowHealth/TeleportOnLowHealthVFX.prefab").WaitForCompletion();
        public static UnityEngine.GameObject mdlUnstableTransmitter => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/TeleportOnLowHealth/mdlUnstableTransmitter.fbx").WaitForCompletion();
        public static UnityEngine.GameObject UnstableTransmitter => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/TeleportOnLowHealth/UnstableTransmitter.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject ChainVineImpact => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/TriggerEnemyDebuffs/ChainVineImpact.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject ChainVineOrbEffect => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/TriggerEnemyDebuffs/ChainVineOrbEffect.prefab").WaitForCompletion();
        public static UnityEngine.GameObject DisplayNoxiousThorn => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/TriggerEnemyDebuffs/DisplayNoxiousThorn.prefab").WaitForCompletion();
        public static UnityEngine.GameObject NoxiousThornExplosion => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/TriggerEnemyDebuffs/NoxiousThornExplosion.prefab").WaitForCompletion();
        public static UnityEngine.GameObject mdlNoxiousThorn => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Items/TriggerEnemyDebuffs/mdlNoxiousThorn.fbx").WaitForCompletion();
@@ -10495,6 +10623,7 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.GameObject EventClearedVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/meridian/EventClearedVFX.prefab").WaitForCompletion();
        public static UnityEngine.GameObject mdlPMEventClearedVFX1 => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/meridian/mdlPMEventClearedVFX1.fbx").WaitForCompletion();
        public static UnityEngine.GameObject MeridianArenaFormDestructVFX => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/meridian/MeridianArenaFormDestructVFX.prefab").WaitForCompletion();
+       public static UnityEngine.GameObject PMLaunchPad => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/meridian/PMLaunchPad.prefab").WaitForCompletion();
        public static UnityEngine.GameObject WeatherMeridian => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/meridian/Weather, Meridian.prefab").WaitForCompletion();
        public static UnityEngine.GameObject ScavengerFishingChairGreybox => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Scavenger_FishingChair_Greybox.fbx").WaitForCompletion();
        public static UnityEngine.GameObject Scrapyardgreybox1 => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/DLC2/Scrapyard_greybox_1.fbx").WaitForCompletion();
@@ -10815,7 +10944,6 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.GameObject SeedpodPlantedGhost => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Junk/Treebot/SeedpodPlantedGhost.prefab").WaitForCompletion();
        public static UnityEngine.GameObject SeedpodPlantedProjectile => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Junk/Treebot/SeedpodPlantedProjectile.prefab").WaitForCompletion();
        public static UnityEngine.GameObject SonicBoomEffect => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Junk/Treebot/SonicBoomEffect.prefab").WaitForCompletion();
-       public static UnityEngine.GameObject TreebotFruitDeathEffect => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Junk/Treebot/TreebotFruitDeathEffect.prefab").WaitForCompletion();
        public static UnityEngine.GameObject TreebotMortarRainMuzzleflash => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Junk/Treebot/TreebotMortarRainMuzzleflash.prefab").WaitForCompletion();
        public static UnityEngine.GameObject TreebotPounderProjectile => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Junk/Treebot/TreebotPounderProjectile.prefab").WaitForCompletion();
        public static UnityEngine.GameObject TreebotShockwavePullEffect => Addressables.LoadAssetAsync<UnityEngine.GameObject>("RoR2/Junk/Treebot/TreebotShockwavePullEffect.prefab").WaitForCompletion();
@@ -11948,6 +12076,7 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Texture2D texUIHighlightExecute => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/Base/Common/texUIHighlightExecute.png").WaitForCompletion();
        public static UnityEngine.Texture2D texUIHurtHealthbar => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/Base/Common/texUIHurtHealthbar.png").WaitForCompletion();
        public static UnityEngine.Texture2D texUIHurtTrailHealthbar => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/Base/Common/texUIHurtTrailHealthbar.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texUILunarRuinHPBar => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/Base/Common/texUILunarRuinHPBar.png").WaitForCompletion();
        public static UnityEngine.Texture2D texUIOSPBar => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/Base/Common/texUIOSPBar.png").WaitForCompletion();
        public static UnityEngine.Texture2D texBossBGIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/Base/Common/texBossBGIcon.png").WaitForCompletion();
        public static UnityEngine.Texture2D texEquipmentBGIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/Base/Common/texEquipmentBGIcon.png").WaitForCompletion();
@@ -12385,6 +12514,7 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Texture2D RadioScannerIcon2 => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/Base/RadioScannerIcon_2.png").WaitForCompletion();
        public static UnityEngine.Texture2D ScrapperIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/Base/ScrapperIcon.png").WaitForCompletion();
        public static UnityEngine.Texture2D ShrineIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/Base/ShrineIcon.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texColossusExpansionIcon2White => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/Base/texColossusExpansionIcon2White.png").WaitForCompletion();
        public static UnityEngine.Texture2D VoidIcon2 => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/Base/VoidIcon_2.png").WaitForCompletion();
        public static UnityEngine.Texture2D texLunarChestDiffuse => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/Base/LunarChest/texLunarChestDiffuse.png").WaitForCompletion();
        public static UnityEngine.Texture2D texLunarChestNormals => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/Base/LunarChest/texLunarChestNormals.png").WaitForCompletion();
@@ -14080,7 +14210,9 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Texture2D texArtifactRebirthDisabled => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/texArtifactRebirthDisabled.png").WaitForCompletion();
        public static UnityEngine.Texture2D texArtifactRebirthEnabled => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/texArtifactRebirthEnabled.png").WaitForCompletion();
        public static UnityEngine.Texture2D texObtainArtifactRebirthIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/texObtainArtifactRebirthIcon.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texBuffBeadArmor => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/texBuffBeadArmor.png").WaitForCompletion();
        public static UnityEngine.Texture2D texBuffDisableAllSkillsIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/texBuffDisableAllSkillsIcon.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texBuffsAmputation => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/texBuffsAmputation.png").WaitForCompletion();
        public static UnityEngine.Texture2D texChefAltAccessoriesDiffuse => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Chef/texChefAltAccessoriesDiffuse.png").WaitForCompletion();
        public static UnityEngine.Texture2D texChefAltAccessoriesFresnel => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Chef/texChefAltAccessoriesFresnel.bmp").WaitForCompletion();
        public static UnityEngine.Texture2D texChefAltAccessoriesNormal => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Chef/texChefAltAccessoriesNormal.png").WaitForCompletion();
@@ -14224,10 +14356,14 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Texture2D texBuffAffixAureleonite => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Elites/EliteAurelionite/texBuffAffixAureleonite.png").WaitForCompletion();
        public static UnityEngine.Texture2D texBuffAurelioniteBlessingIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Elites/EliteAurelionite/texBuffAurelioniteBlessingIcon.png").WaitForCompletion();
        public static UnityEngine.Texture2D texBuffEliteAurelioniteIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Elites/EliteAurelionite/texBuffEliteAurelioniteIcon.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texGildedPillar => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Elites/EliteAurelionite/texGildedPillar.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texGildedPillarDiffuse => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Elites/EliteAurelionite/texGildedPillarDiffuse.tga").WaitForCompletion();
+       public static UnityEngine.Texture2D texGildedPillarEmissive => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Elites/EliteAurelionite/texGildedPillarEmissive.tga").WaitForCompletion();
        public static UnityEngine.Texture2D texAffixBeadIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Elites/EliteBead/texAffixBeadIcon.png").WaitForCompletion();
        public static UnityEngine.Texture2D texBuffAffixBead => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Elites/EliteBead/texBuffAffixBead.png").WaitForCompletion();
        public static UnityEngine.Texture2D texBuffEliteBeadCorruptionIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Elites/EliteBead/texBuffEliteBeadCorruptionIcon.png").WaitForCompletion();
        public static UnityEngine.Texture2D texBuffEliteBeadIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Elites/EliteBead/texBuffEliteBeadIcon.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texEliteBeadArmorBuff => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Elites/EliteBead/texEliteBeadArmorBuff.png").WaitForCompletion();
        public static UnityEngine.Texture2D texSeedOfLifeDiffuse => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/HealAndRevive/texSeedOfLifeDiffuse.png").WaitForCompletion();
        public static UnityEngine.Texture2D texSeedOfLifeEmissive => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/HealAndRevive/texSeedOfLifeEmissive.png").WaitForCompletion();
        public static UnityEngine.Texture2D texSeedOfLifeMask => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/HealAndRevive/texSeedOfLifeMask.png").WaitForCompletion();
@@ -14284,17 +14420,21 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Texture2D texGrowthNectarBaseColor => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/BoostAllStats/texGrowthNectar_BaseColor.png").WaitForCompletion();
        public static UnityEngine.Texture2D texGrowthNectarFresnelMap => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/BoostAllStats/texGrowthNectar_FresnelMap.png").WaitForCompletion();
        public static UnityEngine.Texture2D texGrowthNectarNormal => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/BoostAllStats/texGrowthNectar_Normal.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texGrowthNectarWreathDiffuse => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/BoostAllStats/texGrowthNectarWreathDiffuse.png").WaitForCompletion();
        public static UnityEngine.Texture2D texBuffBoostAllStats => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/BoostAllStats/texBuffBoostAllStats.png").WaitForCompletion();
        public static UnityEngine.Texture2D texGrowthNectarIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/BoostAllStats/texGrowthNectarIcon.png").WaitForCompletion();
        public static UnityEngine.Texture2D texBuffDelayedDamageOnIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/DelayedDamage/texBuffDelayedDamageOnIcon.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texBuffDelayedDamageRedIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/DelayedDamage/texBuffDelayedDamageRedIcon.png").WaitForCompletion();
        public static UnityEngine.Texture2D texDelayDamageIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/DelayedDamage/texDelayDamageIcon.png").WaitForCompletion();
        public static UnityEngine.Texture2D texDelayedDamageIndicator1 => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/DelayedDamage/texDelayedDamageIndicator1.png").WaitForCompletion();
        public static UnityEngine.Texture2D texDelayedDamageIndicator2 => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/DelayedDamage/texDelayedDamageIndicator2.png").WaitForCompletion();
        public static UnityEngine.Texture2D texDelayedDamageIndicator3 => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/DelayedDamage/texDelayedDamageIndicator3.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texRampWarpedEcho => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/DelayedDamage/texRampWarpedEcho.png").WaitForCompletion();
        public static UnityEngine.Texture2D texWarpedEchoDiffuse => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/DelayedDamage/texWarpedEchoDiffuse.png").WaitForCompletion();
        public static UnityEngine.Texture2D texWarpedEchoEmissive => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/DelayedDamage/texWarpedEchoEmissive.png").WaitForCompletion();
        public static UnityEngine.Texture2D texWarpedEchoFersnelMask => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/DelayedDamage/texWarpedEchoFersnelMask.png").WaitForCompletion();
        public static UnityEngine.Texture2D texWarpedEchoNormal => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/DelayedDamage/texWarpedEchoNormal.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texWarpedEchoOverheadShield => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/DelayedDamage/texWarpedEchoOverheadShield.png").WaitForCompletion();
        public static UnityEngine.Texture2D texChanceDollBaseColor => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/ExtraShrineItem/texChanceDoll_BaseColor.png").WaitForCompletion();
        public static UnityEngine.Texture2D texChanceDollFresnelMask => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/ExtraShrineItem/texChanceDoll_FresnelMask.png").WaitForCompletion();
        public static UnityEngine.Texture2D texChanceDollNormal => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/ExtraShrineItem/texChanceDoll_Normal.png").WaitForCompletion();
@@ -14304,6 +14444,10 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Texture2D texExtraStatsOnLevelUpColor => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/ExtraStatsOnLevelUp/texExtraStatsOnLevelUpColor.tga").WaitForCompletion();
        public static UnityEngine.Texture2D texExtraStatsOnLevelUpEmissive => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/ExtraStatsOnLevelUp/texExtraStatsOnLevelUpEmissive.png").WaitForCompletion();
        public static UnityEngine.Texture2D texExtraStatsOnLevelUpIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/ExtraStatsOnLevelUp/texExtraStatsOnLevelUpIcon.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texWarbondMissileDiffuse => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/GoldOnStageStart/texWarbondMissileDiffuse.tga").WaitForCompletion();
+       public static UnityEngine.Texture2D texWarBondsBuff => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/GoldOnStageStart/texWarBondsBuff.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texWarbondsMissileEmissive => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/GoldOnStageStart/texWarbondsMissileEmissive.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texWarbondsMissileNormal => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/GoldOnStageStart/texWarbondsMissileNormal.png").WaitForCompletion();
        public static UnityEngine.Texture2D texGoldOnStageStartDiffuse => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/GoldOnStageStart/texGoldOnStageStartDiffuse.png").WaitForCompletion();
        public static UnityEngine.Texture2D texGoldOnStageStartNormal => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/GoldOnStageStart/texGoldOnStageStartNormal.png").WaitForCompletion();
        public static UnityEngine.Texture2D texGoldOnStageStartScreenDiffuse => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/GoldOnStageStart/texGoldOnStageStartScreenDiffuse.png").WaitForCompletion();
@@ -14321,11 +14465,17 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Texture2D texLuminousShotBaseColor => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/IncreasePrimaryDamage/texLuminousShot_BaseColor.png").WaitForCompletion();
        public static UnityEngine.Texture2D texLuminousShotNormal => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/IncreasePrimaryDamage/texLuminousShot_Normal.png").WaitForCompletion();
        public static UnityEngine.Texture2D texBuffIncreasePrimaryDamageIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/IncreasePrimaryDamage/texBuffIncreasePrimaryDamageIcon.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texBuffIncreasePrimaryDamageIcon0 => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/IncreasePrimaryDamage/texBuffIncreasePrimaryDamageIcon_0.png").WaitForCompletion();
        public static UnityEngine.Texture2D texIncreasePrimaryDamageIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/IncreasePrimaryDamage/texIncreasePrimaryDamageIcon.png").WaitForCompletion();
        public static UnityEngine.Texture2D texIncreasePrimaryDamageImpact => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/IncreasePrimaryDamage/texIncreasePrimaryDamageImpact.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texKnockbackFinDebuffTargetBGBar => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/KnockBackHitEnemies/texKnockbackFinDebuffTargetBGBar.png").WaitForCompletion();
        public static UnityEngine.Texture2D texKnockbackFinDiffuse => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/KnockBackHitEnemies/texKnockbackFinDiffuse.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texKnockbackFinGuaranteedCritDebuff => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/KnockBackHitEnemies/texKnockbackFinGuaranteedCritDebuff.png").WaitForCompletion();
        public static UnityEngine.Texture2D texKnockbackFinIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/KnockBackHitEnemies/texKnockbackFinIcon.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texKnockbackFinKnockupBuff => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/KnockBackHitEnemies/texKnockbackFinKnockupBuff.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texKnockbackFinKnockupBuffCooldown => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/KnockBackHitEnemies/texKnockbackFinKnockupBuffCooldown.png").WaitForCompletion();
        public static UnityEngine.Texture2D texKnockbackFinNormal => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/KnockBackHitEnemies/texKnockbackFinNormal.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texRampKnockbackFinOverlay => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/KnockBackHitEnemies/texRampKnockbackFinOverlay.png").WaitForCompletion();
        public static UnityEngine.Texture2D texBuffLowerHealthHigherDamageIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/LowerHealthHigherDamage/texBuffLowerHealthHigherDamageIcon.png").WaitForCompletion();
        public static UnityEngine.Texture2D texRageCrystalDiffuse => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/LowerHealthHigherDamage/texRageCrystalDiffuse.tga").WaitForCompletion();
        public static UnityEngine.Texture2D texRageCrystalIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/LowerHealthHigherDamage/texRageCrystalIcon.png").WaitForCompletion();
@@ -14340,13 +14490,6 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Texture2D texRunicLensMeteorDiffuse => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/MeteorAttackOnHighDamage/texRunicLensMeteorDiffuse.png").WaitForCompletion();
        public static UnityEngine.Texture2D texRunicLensNormal => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/MeteorAttackOnHighDamage/texRunicLensNormal.png").WaitForCompletion();
        public static UnityEngine.Texture2D texRunicLensIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/MeteorAttackOnHighDamage/texRunicLensIcon.png").WaitForCompletion();
-       public static UnityEngine.Texture2D texAntlerShieldDiffuse => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/NegateAttack/texAntlerShieldDiffuse.png").WaitForCompletion();
-       public static UnityEngine.Texture2D texAntlerShieldIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/NegateAttack/texAntlerShieldIcon.png").WaitForCompletion();
-       public static UnityEngine.Texture2D texAntlerShieldMask => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/NegateAttack/texAntlerShieldMask.png").WaitForCompletion();
-       public static UnityEngine.Texture2D texAntlerShieldNormal => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/NegateAttack/texAntlerShieldNormal.png").WaitForCompletion();
-       public static UnityEngine.Texture2D texAntlerShieldRamp => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/NegateAttack/texAntlerShieldRamp.png").WaitForCompletion();
-       public static UnityEngine.Texture2D texNegateAttackThornRamp => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/NegateAttack/texNegateAttackThornRamp.png").WaitForCompletion();
-       public static UnityEngine.Texture2D texNegateAttackTrail => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/NegateAttack/texNegateAttackTrail.png").WaitForCompletion();
        public static UnityEngine.Texture2D texBuffFreeUnlocksIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/OnLevelUpFreeUnlock/texBuffFreeUnlocksIcon.png").WaitForCompletion();
        public static UnityEngine.Texture2D texLongstandingSolitudeColor => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/OnLevelUpFreeUnlock/texLongstandingSolitudeColor.tga").WaitForCompletion();
        public static UnityEngine.Texture2D texLongstandingSolitudeEmmisive => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/OnLevelUpFreeUnlock/texLongstandingSolitudeEmmisive.png").WaitForCompletion();
@@ -14357,6 +14500,16 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Texture2D texSonorousEchoFresnelMask => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/ResetChests/texSonorousEchoFresnelMask.png").WaitForCompletion();
        public static UnityEngine.Texture2D texSonorousEchoNormal => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/ResetChests/texSonorousEchoNormal.png").WaitForCompletion();
        public static UnityEngine.Texture2D texSonorousEchoIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/ResetChests/texSonorousEchoIcon.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texElusiveAntlersBuffPickFlameMask => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/SpeedBoostPickup/texElusiveAntlersBuffPickFlameMask.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texElusiveAntlersDiffuse => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/SpeedBoostPickup/texElusiveAntlersDiffuse.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texElusiveAntlersIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/SpeedBoostPickup/texElusiveAntlersIcon.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texElusiveAntlersMask => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/SpeedBoostPickup/texElusiveAntlersMask.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texElusiveAntlersNormal => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/SpeedBoostPickup/texElusiveAntlersNormal.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texElusiveAntlersRamp => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/SpeedBoostPickup/texElusiveAntlersRamp.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texElusiveAntlersSpeedBuff => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/SpeedBoostPickup/texElusiveAntlersSpeedBuff.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texElusiveAntlersSymbolMask => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/SpeedBoostPickup/texElusiveAntlersSymbolMask.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texNegateAttackTrail => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/SpeedBoostPickup/texNegateAttackTrail.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texSpeedBoostPickupThornRamp => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/SpeedBoostPickup/texSpeedBoostPickupThornRamp.png").WaitForCompletion();
        public static UnityEngine.Texture2D texElectricBoomerangBasecolor => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/StunAndPierce/texElectricBoomerang_Basecolor.png").WaitForCompletion();
        public static UnityEngine.Texture2D texElectricBoomerangElectricityBasecolor => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/StunAndPierce/texElectricBoomerang_Electricity_Basecolor.png").WaitForCompletion();
        public static UnityEngine.Texture2D texElectricBoomerangElectricityEmissive => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/StunAndPierce/texElectricBoomerang_Electricity_Emissive.png").WaitForCompletion();
@@ -14376,6 +14529,7 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.Texture2D texDQNoxiousThornExplosion1 => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/TriggerEnemyDebuffs/tex_DQ_NoxiousThornExplosion1.png").WaitForCompletion();
        public static UnityEngine.Texture2D texDQNoxiousThornExplosion2 => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/TriggerEnemyDebuffs/tex_DQ_NoxiousThornExplosion2.png").WaitForCompletion();
        public static UnityEngine.Texture2D texNoxiousThornIcon => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/TriggerEnemyDebuffs/texNoxiousThornIcon.png").WaitForCompletion();
+       public static UnityEngine.Texture2D texNoxiousThornVineRamp => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/Items/TriggerEnemyDebuffs/texNoxiousThornVineRamp.png").WaitForCompletion();
        public static UnityEngine.Texture2D texAW1Grass => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/artifactworld01/Assets/texAW1Grass.tga").WaitForCompletion();
        public static UnityEngine.Texture2D texAW1GrassYellow => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/artifactworld01/Assets/texAW1GrassYellow.tga").WaitForCompletion();
        public static UnityEngine.Texture2D texAW1GrungeBrown => Addressables.LoadAssetAsync<UnityEngine.Texture2D>("RoR2/DLC2/artifactworld01/Assets/texAW1GrungeBrown.tga").WaitForCompletion();
@@ -15401,8 +15555,8 @@ namespace Sandswept.Utils.Assets {
        public static RoR2.UnlockableDef ItemsLowerHealthHigherDamage => Addressables.LoadAssetAsync<RoR2.UnlockableDef>("RoR2/DLC2/Items/LowerHealthHigherDamage/Items.LowerHealthHigherDamage.asset").WaitForCompletion();
        public static RoR2.UnlockableDef ItemsSaleStar => Addressables.LoadAssetAsync<RoR2.UnlockableDef>("RoR2/DLC2/Items/LowerPricedChests/Items.SaleStar.asset").WaitForCompletion();
        public static RoR2.UnlockableDef itemsMeteorAttackOnHighDamage => Addressables.LoadAssetAsync<RoR2.UnlockableDef>("RoR2/DLC2/Items/MeteorAttackOnHighDamage/items.MeteorAttackOnHighDamage.asset").WaitForCompletion();
-       public static RoR2.UnlockableDef ItemsAntlerShield => Addressables.LoadAssetAsync<RoR2.UnlockableDef>("RoR2/DLC2/Items/NegateAttack/Items.AntlerShield.asset").WaitForCompletion();
        public static RoR2.UnlockableDef itemsOnLevelUpFreeUnlock => Addressables.LoadAssetAsync<RoR2.UnlockableDef>("RoR2/DLC2/Items/OnLevelUpFreeUnlock/items.OnLevelUpFreeUnlock.asset").WaitForCompletion();
+       public static RoR2.UnlockableDef ItemsElusiveAntlers => Addressables.LoadAssetAsync<RoR2.UnlockableDef>("RoR2/DLC2/Items/SpeedBoostPickup/Items.ElusiveAntlers.asset").WaitForCompletion();
        public static RoR2.UnlockableDef itemsTeleportOnLowHealth => Addressables.LoadAssetAsync<RoR2.UnlockableDef>("RoR2/DLC2/Items/TeleportOnLowHealth/items.TeleportOnLowHealth.asset").WaitForCompletion();
        public static RoR2.UnlockableDef LogsStagesartifactworld01 => Addressables.LoadAssetAsync<RoR2.UnlockableDef>("RoR2/DLC2/artifactworld01/Logs.Stages.artifactworld01.asset").WaitForCompletion();
        public static RoR2.UnlockableDef LogsStagesartifactworld02 => Addressables.LoadAssetAsync<RoR2.UnlockableDef>("RoR2/DLC2/artifactworld02/Logs.Stages.artifactworld02.asset").WaitForCompletion();
@@ -15531,6 +15685,7 @@ namespace Sandswept.Utils.Assets {
        public static RoR2.InspectDef LockboxInspectDef => Addressables.LoadAssetAsync<RoR2.InspectDef>("RoR2/Base/TreasureCache/LockboxInspectDef.asset").WaitForCompletion();
        public static RoR2.InspectDef SeerStationInspectDef => Addressables.LoadAssetAsync<RoR2.InspectDef>("RoR2/Base/bazaar/SeerStationInspectDef.asset").WaitForCompletion();
        public static RoR2.InspectDef HumanFanInspectDef => Addressables.LoadAssetAsync<RoR2.InspectDef>("RoR2/Base/frozenwall/HumanFanInspectDef.asset").WaitForCompletion();
+       public static RoR2.InspectDef GoldshoreBeaconInspectDef => Addressables.LoadAssetAsync<RoR2.InspectDef>("RoR2/Base/goldshores/GoldshoreBeaconInspectDef.asset").WaitForCompletion();
        public static RoR2.InspectDef PortalDialerLaptopInspectDef => Addressables.LoadAssetAsync<RoR2.InspectDef>("RoR2/Base/skymeadow/PortalDialerLaptopInspectDef.asset").WaitForCompletion();
        public static RoR2.InspectDef MissingInspectInfoFallbackDef => Addressables.LoadAssetAsync<RoR2.InspectDef>("RoR2/Base/UI/MissingInspectInfoFallbackDef.asset").WaitForCompletion();
        public static RoR2.InspectDef UnknownItemInspectInfo => Addressables.LoadAssetAsync<RoR2.InspectDef>("RoR2/Base/UI/UnknownItemInspectInfo.asset").WaitForCompletion();
@@ -15581,6 +15736,7 @@ namespace Sandswept.Utils.Assets {
        public static RoR2.NetworkSoundEventDef nseTrackingProjectileExplosion => Addressables.LoadAssetAsync<RoR2.NetworkSoundEventDef>("RoR2/DLC2/Child/nseTrackingProjectileExplosion.asset").WaitForCompletion();
        public static RoR2.NetworkSoundEventDef nseFalseSonSkill1Impact => Addressables.LoadAssetAsync<RoR2.NetworkSoundEventDef>("RoR2/DLC2/FalseSon/nseFalseSonSkill1Impact.asset").WaitForCompletion();
        public static RoR2.NetworkSoundEventDef nseFalseSonBossSlamImpact => Addressables.LoadAssetAsync<RoR2.NetworkSoundEventDef>("RoR2/DLC2/FalseSonBoss/nseFalseSonBossSlamImpact.asset").WaitForCompletion();
+       public static RoR2.NetworkSoundEventDef nseStealGold => Addressables.LoadAssetAsync<RoR2.NetworkSoundEventDef>("RoR2/DLC2/Elites/EliteAurelionite/nseStealGold.asset").WaitForCompletion();
        public static RoR2.NetworkSoundEventDef nseLoaderM1Impact => Addressables.LoadAssetAsync<RoR2.NetworkSoundEventDef>("RoR2/Junk/Loader/nseLoaderM1Impact.asset").WaitForCompletion();
        public static RoR2.NetworkSoundEventDef nseProcRegenOnKill => Addressables.LoadAssetAsync<RoR2.NetworkSoundEventDef>("RoR2/Junk/Common/nseProcRegenOnKill.asset").WaitForCompletion();
     }
@@ -16056,6 +16212,9 @@ namespace Sandswept.Utils.Assets {
        public static UnityEngine.RuntimeAnimatorController animSeekerLotus => Addressables.LoadAssetAsync<UnityEngine.RuntimeAnimatorController>("RoR2/DLC2/Seeker/animSeekerLotus.controller").WaitForCompletion();
        public static UnityEngine.RuntimeAnimatorController animSeekerDisplay => Addressables.LoadAssetAsync<UnityEngine.RuntimeAnimatorController>("RoR2/DLC2/Seeker/animSeekerDisplay.controller").WaitForCompletion();
        public static UnityEngine.RuntimeAnimatorController animSeekerLotusDisplay => Addressables.LoadAssetAsync<UnityEngine.RuntimeAnimatorController>("RoR2/DLC2/Seeker/animSeekerLotusDisplay.controller").WaitForCompletion();
+       public static UnityEngine.RuntimeAnimatorController EliteBeadProjectile => Addressables.LoadAssetAsync<UnityEngine.RuntimeAnimatorController>("RoR2/DLC2/Elites/EliteBead/EliteBeadProjectile.controller").WaitForCompletion();
+       public static UnityEngine.RuntimeAnimatorController EliteBeadSpikeGrowthAnimController => Addressables.LoadAssetAsync<UnityEngine.RuntimeAnimatorController>("RoR2/DLC2/Elites/EliteBead/EliteBeadSpikeGrowthAnimController.controller").WaitForCompletion();
+       public static UnityEngine.RuntimeAnimatorController animKnockbackFin => Addressables.LoadAssetAsync<UnityEngine.RuntimeAnimatorController>("RoR2/DLC2/Items/KnockBackHitEnemies/animKnockbackFin.controller").WaitForCompletion();
        public static UnityEngine.RuntimeAnimatorController animBHSeedPod => Addressables.LoadAssetAsync<UnityEngine.RuntimeAnimatorController>("RoR2/DLC2/habitat/Assets/animBHSeedPod.controller").WaitForCompletion();
        public static UnityEngine.RuntimeAnimatorController TLJumpPad => Addressables.LoadAssetAsync<UnityEngine.RuntimeAnimatorController>("RoR2/DLC2/lakes/Assets/TLJumpPad.controller").WaitForCompletion();
        public static UnityEngine.RuntimeAnimatorController animAncientWisp => Addressables.LoadAssetAsync<UnityEngine.RuntimeAnimatorController>("RoR2/Junk/AncientWisp/animAncientWisp.controller").WaitForCompletion();
@@ -16994,6 +17153,9 @@ namespace Sandswept.Utils.Assets {
        public static RoR2.EntityStateConfiguration EntityStatesFaunaHabitatFruitDeathState => Addressables.LoadAssetAsync<RoR2.EntityStateConfiguration>("RoR2/DLC2/habitat/Assets/EntityStates.Fauna.HabitatFruitDeathState.asset").WaitForCompletion();
        public static RoR2.EntityStateConfiguration EntityStatesFaunaHabitatFallFruitDeathState => Addressables.LoadAssetAsync<RoR2.EntityStateConfiguration>("RoR2/DLC2/habitatfall/Assets/EntityStates.Fauna.HabitatFallFruitDeathState.asset").WaitForCompletion();
        public static RoR2.EntityStateConfiguration EntityStatesLightningStormLightningStormState => Addressables.LoadAssetAsync<RoR2.EntityStateConfiguration>("RoR2/DLC2/meridian/DisableSkillsLightning/EntityStates.LightningStorm.LightningStormState.asset").WaitForCompletion();
+       public static RoR2.EntityStateConfiguration RoR2MeridianEventPhase1 => Addressables.LoadAssetAsync<RoR2.EntityStateConfiguration>("RoR2/DLC2/meridian/RoR2.MeridianEventPhase1.asset").WaitForCompletion();
+       public static RoR2.EntityStateConfiguration RoR2MeridianEventPhase2 => Addressables.LoadAssetAsync<RoR2.EntityStateConfiguration>("RoR2/DLC2/meridian/RoR2.MeridianEventPhase2.asset").WaitForCompletion();
+       public static RoR2.EntityStateConfiguration RoR2MeridianEventPhase3 => Addressables.LoadAssetAsync<RoR2.EntityStateConfiguration>("RoR2/DLC2/meridian/RoR2.MeridianEventPhase3.asset").WaitForCompletion();
        public static RoR2.EntityStateConfiguration RoR2MeridianEventTriggerInteractionMeridianEventStart => Addressables.LoadAssetAsync<RoR2.EntityStateConfiguration>("RoR2/DLC2/meridian/RoR2.MeridianEventTriggerInteraction.MeridianEventStart.asset").WaitForCompletion();
        public static RoR2.EntityStateConfiguration RoR2MeridianEventTriggerInteractionMeridianEventBaseState => Addressables.LoadAssetAsync<RoR2.EntityStateConfiguration>("RoR2/DLC2/meridian/RoR2.MeridianEventTriggerInteraction+MeridianEventBaseState.asset").WaitForCompletion();
        public static RoR2.EntityStateConfiguration RoR2MeridianEventTriggerInteractionMeridianEventCleared => Addressables.LoadAssetAsync<RoR2.EntityStateConfiguration>("RoR2/DLC2/meridian/RoR2.MeridianEventTriggerInteraction+MeridianEventCleared.asset").WaitForCompletion();
@@ -17285,6 +17447,7 @@ namespace Sandswept.Utils.Assets {
        public static RoR2.Audio.LoopSoundDef lsdScorchlingBombAOELoop => Addressables.LoadAssetAsync<RoR2.Audio.LoopSoundDef>("RoR2/DLC2/Scorchling/lsdScorchlingBombAOELoop.asset").WaitForCompletion();
        public static RoR2.Audio.LoopSoundDef lsdSoulSpiralProjectile => Addressables.LoadAssetAsync<RoR2.Audio.LoopSoundDef>("RoR2/DLC2/Seeker/lsdSoulSpiralProjectile.asset").WaitForCompletion();
        public static RoR2.Audio.LoopSoundDef lsdUnseenHandLoop => Addressables.LoadAssetAsync<RoR2.Audio.LoopSoundDef>("RoR2/DLC2/Seeker/lsdUnseenHandLoop.asset").WaitForCompletion();
+       public static RoR2.Audio.LoopSoundDef lsdBossMissileMovement => Addressables.LoadAssetAsync<RoR2.Audio.LoopSoundDef>("RoR2/DLC2/Items/GoldOnStageStart/lsdBossMissileMovement.asset").WaitForCompletion();
        public static RoR2.Audio.LoopSoundDef stunAndPierceLoopSoundDef => Addressables.LoadAssetAsync<RoR2.Audio.LoopSoundDef>("RoR2/DLC2/Items/StunAndPierce/stunAndPierceLoopSoundDef.asset").WaitForCompletion();
        public static RoR2.Audio.LoopSoundDef lsdLunarGolemProjectileFlight => Addressables.LoadAssetAsync<RoR2.Audio.LoopSoundDef>("RoR2/Junk/LunarGolem/lsdLunarGolemProjectileFlight.asset").WaitForCompletion();
     }
@@ -17936,8 +18099,13 @@ namespace Sandswept.Utils.Assets {
        public static RoR2.BuffDef bdPermanentDebuff => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC1/PermanentDebuffOnHit/bdPermanentDebuff.asset").WaitForCompletion();
        public static RoR2.BuffDef bdPrimarySkillShurikenBuff => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC1/PrimarySkillShuriken/bdPrimarySkillShurikenBuff.asset").WaitForCompletion();
        public static RoR2.BuffDef bdStrongerBurn => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC1/StrengthenBurn/bdStrongerBurn.asset").WaitForCompletion();
+       public static RoR2.BuffDef bdAmputate => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/bdAmputate.asset").WaitForCompletion();
+       public static RoR2.BuffDef bdBeadArmor => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/bdBeadArmor.asset").WaitForCompletion();
        public static RoR2.BuffDef bdBoostAllStatsBuff => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/bdBoostAllStatsBuff.asset").WaitForCompletion();
        public static RoR2.BuffDef bdDisableAllSkills => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/bdDisableAllSkills.asset").WaitForCompletion();
+       public static RoR2.BuffDef bdElusiveAntlersBuff => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/bdElusiveAntlersBuff.asset").WaitForCompletion();
+       public static RoR2.BuffDef bdExtraBossMissile => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/bdExtraBossMissile.asset").WaitForCompletion();
+       public static RoR2.BuffDef bdHiddenRejectAllDamage => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/bdHiddenRejectAllDamage.asset").WaitForCompletion();
        public static RoR2.BuffDef bdLowerHealthHigherDamageBuff => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/bdLowerHealthHigherDamageBuff.asset").WaitForCompletion();
        public static RoR2.BuffDef bdSojournVehicle => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/bdSojournVehicle.asset").WaitForCompletion();
        public static RoR2.BuffDef bdBoosted => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/Chef/Buffs/bdBoosted.asset").WaitForCompletion();
@@ -17969,19 +18137,24 @@ namespace Sandswept.Utils.Assets {
        public static RoR2.BuffDef bdDelayedDamageDebuff => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/Items/DelayedDamage/bdDelayedDamageDebuff.asset").WaitForCompletion();
        public static RoR2.BuffDef bdExtraStatsOnLevelUpBuff => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/Items/ExtraStatsOnLevelUp/bdExtraStatsOnLevelUpBuff.asset").WaitForCompletion();
        public static RoR2.BuffDef bdIncreaseDamageBuff => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/Items/IncreaseDamageOnMultiKill/bdIncreaseDamageBuff.asset").WaitForCompletion();
-       public static RoR2.BuffDef bdIncreasePrimaryDamageBuff => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/Items/IncreasePrimaryDamage/bdIncreasePrimaryDamageBuff.asset").WaitForCompletion();
-       public static RoR2.BuffDef bdKnockDownHitEnemies => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/Items/KnockBackHitEnemies/bdKnockDownHitEnemies.asset").WaitForCompletion();
+       public static RoR2.BuffDef bdKnockBackActiveWindow => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/Items/KnockBackHitEnemies/bdKnockBackActiveWindow.asset").WaitForCompletion();
+       public static RoR2.BuffDef bdKnockBackAvailable => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/Items/KnockBackHitEnemies/bdKnockBackAvailable.asset").WaitForCompletion();
+       public static RoR2.BuffDef bdKnockBackUnavailable => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/Items/KnockBackHitEnemies/bdKnockBackUnavailable.asset").WaitForCompletion();
        public static RoR2.BuffDef bdKnockUpHitEnemies => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/Items/KnockBackHitEnemies/bdKnockUpHitEnemies.asset").WaitForCompletion();
+       public static RoR2.BuffDef bdKnockUpHitEnemiesJuggleCount => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/Items/KnockBackHitEnemies/bdKnockUpHitEnemiesJuggleCount.asset").WaitForCompletion();
        public static RoR2.BuffDef bdFreeUnlocks => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/Items/OnLevelUpFreeUnlock/bdFreeUnlocks.asset").WaitForCompletion();
        public static RoR2.BuffDef bdStunAndPierceBuff => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/Items/StunAndPierce/bdStunAndPierceBuff.asset").WaitForCompletion();
        public static RoR2.BuffDef bdTeleportOnLowHealth => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/Items/TeleportOnLowHealth/bdTeleportOnLowHealth.asset").WaitForCompletion();
+       public static RoR2.BuffDef bdTeleportOnLowHealthActive => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/Items/TeleportOnLowHealth/bdTeleportOnLowHealthActive.asset").WaitForCompletion();
        public static RoR2.BuffDef bdTeleportOnLowHealthCooldown => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/Items/TeleportOnLowHealth/bdTeleportOnLowHealthCooldown.asset").WaitForCompletion();
+       public static RoR2.BuffDef bdTeleportOnLowHealthVictim => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/DLC2/Items/TeleportOnLowHealth/bdTeleportOnLowHealthVictim.asset").WaitForCompletion();
        public static RoR2.BuffDef bdDeafened => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/InDev/bdDeafened.asset").WaitForCompletion();
        public static RoR2.BuffDef bdEliteEcho => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/InDev/bdEliteEcho.asset").WaitForCompletion();
        public static RoR2.BuffDef bdBodyArmor => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/Junk/Common/bdBodyArmor.asset").WaitForCompletion();
        public static RoR2.BuffDef bdEngiTeamShield => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/Junk/Common/bdEngiTeamShield.asset").WaitForCompletion();
        public static RoR2.BuffDef bdEnrageAncientWisp => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/Junk/Common/bdEnrageAncientWisp.asset").WaitForCompletion();
        public static RoR2.BuffDef bdGoldEmpowered => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/Junk/Common/bdGoldEmpowered.asset").WaitForCompletion();
+       public static RoR2.BuffDef bdIgnoreFallDamage => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/Junk/Common/bdIgnoreFallDamage.asset").WaitForCompletion();
        public static RoR2.BuffDef bdLightningShield => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/Junk/Common/bdLightningShield.asset").WaitForCompletion();
        public static RoR2.BuffDef bdLoaderOvercharged => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/Junk/Common/bdLoaderOvercharged.asset").WaitForCompletion();
        public static RoR2.BuffDef bdLoaderPylonPowered => Addressables.LoadAssetAsync<RoR2.BuffDef>("RoR2/Junk/Common/bdLoaderPylonPowered.asset").WaitForCompletion();
@@ -18816,6 +18989,7 @@ namespace Sandswept.Utils.Assets {
        public static RoR2.EliteDef edSecretSpeed => Addressables.LoadAssetAsync<RoR2.EliteDef>("RoR2/DLC1/edSecretSpeed.asset").WaitForCompletion();
        public static RoR2.EliteDef edVoid => Addressables.LoadAssetAsync<RoR2.EliteDef>("RoR2/DLC1/EliteVoid/edVoid.asset").WaitForCompletion();
        public static RoR2.EliteDef edAurelionite => Addressables.LoadAssetAsync<RoR2.EliteDef>("RoR2/DLC2/Elites/EliteAurelionite/edAurelionite.asset").WaitForCompletion();
+       public static RoR2.EliteDef edAurelioniteHonor => Addressables.LoadAssetAsync<RoR2.EliteDef>("RoR2/DLC2/Elites/EliteAurelionite/edAurelioniteHonor.asset").WaitForCompletion();
        public static RoR2.EliteDef edBead => Addressables.LoadAssetAsync<RoR2.EliteDef>("RoR2/DLC2/Elites/EliteBead/edBead.asset").WaitForCompletion();
        public static RoR2.EliteDef edEcho => Addressables.LoadAssetAsync<RoR2.EliteDef>("RoR2/InDev/edEcho.asset").WaitForCompletion();
        public static RoR2.EliteDef edGold => Addressables.LoadAssetAsync<RoR2.EliteDef>("RoR2/Junk/EliteGold/edGold.asset").WaitForCompletion();
@@ -19077,9 +19251,9 @@ namespace Sandswept.Utils.Assets {
        public static RoR2.ItemDef LowerPricedChests => Addressables.LoadAssetAsync<RoR2.ItemDef>("RoR2/DLC2/Items/LowerPricedChests/LowerPricedChests.asset").WaitForCompletion();
        public static RoR2.ItemDef LowerPricedChestsConsumed => Addressables.LoadAssetAsync<RoR2.ItemDef>("RoR2/DLC2/Items/LowerPricedChests/LowerPricedChestsConsumed.asset").WaitForCompletion();
        public static RoR2.ItemDef MeteorAttackOnHighDamage => Addressables.LoadAssetAsync<RoR2.ItemDef>("RoR2/DLC2/Items/MeteorAttackOnHighDamage/MeteorAttackOnHighDamage.asset").WaitForCompletion();
-       public static RoR2.ItemDef NegateAttack => Addressables.LoadAssetAsync<RoR2.ItemDef>("RoR2/DLC2/Items/NegateAttack/NegateAttack.asset").WaitForCompletion();
        public static RoR2.ItemDef OnLevelUpFreeUnlock => Addressables.LoadAssetAsync<RoR2.ItemDef>("RoR2/DLC2/Items/OnLevelUpFreeUnlock/OnLevelUpFreeUnlock.asset").WaitForCompletion();
        public static RoR2.ItemDef ResetChests => Addressables.LoadAssetAsync<RoR2.ItemDef>("RoR2/DLC2/Items/ResetChests/ResetChests.asset").WaitForCompletion();
+       public static RoR2.ItemDef SpeedBoostPickup => Addressables.LoadAssetAsync<RoR2.ItemDef>("RoR2/DLC2/Items/SpeedBoostPickup/SpeedBoostPickup.asset").WaitForCompletion();
        public static RoR2.ItemDef StunAndPierce => Addressables.LoadAssetAsync<RoR2.ItemDef>("RoR2/DLC2/Items/StunAndPierce/StunAndPierce.asset").WaitForCompletion();
        public static RoR2.ItemDef TeleportOnLowHealth => Addressables.LoadAssetAsync<RoR2.ItemDef>("RoR2/DLC2/Items/TeleportOnLowHealth/TeleportOnLowHealth.asset").WaitForCompletion();
        public static RoR2.ItemDef TeleportOnLowHealthConsumed => Addressables.LoadAssetAsync<RoR2.ItemDef>("RoR2/DLC2/Items/TeleportOnLowHealth/TeleportOnLowHealthConsumed.asset").WaitForCompletion();
@@ -19386,6 +19560,16 @@ namespace Sandswept.Utils.Assets {
        public static RoR2.ArenaMonsterItemDropTable dtArenaMonsterTier2 => Addressables.LoadAssetAsync<RoR2.ArenaMonsterItemDropTable>("RoR2/Base/arena/dtArenaMonsterTier2.asset").WaitForCompletion();
        public static RoR2.ArenaMonsterItemDropTable dtArenaMonsterTier3 => Addressables.LoadAssetAsync<RoR2.ArenaMonsterItemDropTable>("RoR2/Base/arena/dtArenaMonsterTier3.asset").WaitForCompletion();
     }
+    public static class LightingSettings {
+       public static UnityEngine.LightingSettings blackbeach2Settings => Addressables.LoadAssetAsync<UnityEngine.LightingSettings>("RoR2/Base/blackbeach2/blackbeach2Settings.lighting").WaitForCompletion();
+       public static UnityEngine.LightingSettings foggyswampSettings => Addressables.LoadAssetAsync<UnityEngine.LightingSettings>("RoR2/Base/foggyswamp/foggyswampSettings.lighting").WaitForCompletion();
+       public static UnityEngine.LightingSettings itmoonSettings => Addressables.LoadAssetAsync<UnityEngine.LightingSettings>("RoR2/DLC1/itmoon/itmoonSettings.lighting").WaitForCompletion();
+       public static UnityEngine.LightingSettings PromoVoidSurvivorSettings => Addressables.LoadAssetAsync<UnityEngine.LightingSettings>("RoR2/DLC1/PromoVoidSurvivorSettings.lighting").WaitForCompletion();
+       public static UnityEngine.LightingSettings snowyforestSettings => Addressables.LoadAssetAsync<UnityEngine.LightingSettings>("RoR2/DLC1/snowyforest/snowyforestSettings.lighting").WaitForCompletion();
+       public static UnityEngine.LightingSettings voidoutroSettings => Addressables.LoadAssetAsync<UnityEngine.LightingSettings>("RoR2/DLC1/voidoutro/voidoutroSettings.lighting").WaitForCompletion();
+       public static UnityEngine.LightingSettings meridianSettings => Addressables.LoadAssetAsync<UnityEngine.LightingSettings>("RoR2/DLC2/meridian/meridianSettings.lighting").WaitForCompletion();
+       public static UnityEngine.LightingSettings villagenightSettings => Addressables.LoadAssetAsync<UnityEngine.LightingSettings>("RoR2/DLC2/villagenight/villagenightSettings.lighting").WaitForCompletion();
+    }
     public static class SimpleSpriteAnimation {
        public static RoR2.SimpleSpriteAnimation ssaChildWalk => Addressables.LoadAssetAsync<RoR2.SimpleSpriteAnimation>("RoR2/Base/loadingbasic/ssaChildWalk.asset").WaitForCompletion();
        public static RoR2.SimpleSpriteAnimation ssaCommandoWalk => Addressables.LoadAssetAsync<RoR2.SimpleSpriteAnimation>("RoR2/Base/loadingbasic/ssaCommandoWalk.asset").WaitForCompletion();
@@ -19434,8 +19618,6 @@ namespace Sandswept.Utils.Assets {
     }
     public static class Sprite {
        public static UnityEngine.Sprite texBasicArrowRight => Addressables.LoadAssetAsync<UnityEngine.Sprite>("RoR2/Base/UI/texBasicArrowRight.asset").WaitForCompletion();
-        public static UnityEngine.Sprite texUnlockIconSprite => Addressables.LoadAssetAsync<UnityEngine.Sprite>("RoR2/Base/Common/MiscIcons/texUnlockIcon.png").WaitForCompletion();
-        public static UnityEngine.Sprite texEquipmentBGIcon => Addressables.LoadAssetAsync<UnityEngine.Sprite>("RoR2/Base/Common/texEquipmentBGIcon.png").WaitForCompletion();
     }
     public static class UILayer {
        public static RoR2.UILayer uiDevCheatMenu => Addressables.LoadAssetAsync<RoR2.UILayer>("RoR2/Base/UI/uiDevCheatMenu.asset").WaitForCompletion();
@@ -19553,17 +19735,12 @@ namespace Sandswept.Utils.Assets {
     public static class VoidCoinDef {
        public static RoR2.VoidCoinDef VoidCoin => Addressables.LoadAssetAsync<RoR2.VoidCoinDef>("RoR2/DLC1/VoidCoin/VoidCoin.asset").WaitForCompletion();
     }
-    public static class LightingSettings {
-       public static UnityEngine.LightingSettings itmoonSettings => Addressables.LoadAssetAsync<UnityEngine.LightingSettings>("RoR2/DLC1/itmoon/itmoonSettings.lighting").WaitForCompletion();
-       public static UnityEngine.LightingSettings PromoVoidSurvivorSettings => Addressables.LoadAssetAsync<UnityEngine.LightingSettings>("RoR2/DLC1/PromoVoidSurvivorSettings.lighting").WaitForCompletion();
-       public static UnityEngine.LightingSettings snowyforestSettings => Addressables.LoadAssetAsync<UnityEngine.LightingSettings>("RoR2/DLC1/snowyforest/snowyforestSettings.lighting").WaitForCompletion();
-       public static UnityEngine.LightingSettings voidoutroSettings => Addressables.LoadAssetAsync<UnityEngine.LightingSettings>("RoR2/DLC1/voidoutro/voidoutroSettings.lighting").WaitForCompletion();
-       public static UnityEngine.LightingSettings meridianSettings => Addressables.LoadAssetAsync<UnityEngine.LightingSettings>("RoR2/DLC2/meridian/meridianSettings.lighting").WaitForCompletion();
-       public static UnityEngine.LightingSettings villagenightSettings => Addressables.LoadAssetAsync<UnityEngine.LightingSettings>("RoR2/DLC2/villagenight/villagenightSettings.lighting").WaitForCompletion();
-    }
     public static class SeekerWeaponSkillDef {
        public static RoR2.Skills.SeekerWeaponSkillDef SeekerBodySoulSearchCrosshair => Addressables.LoadAssetAsync<RoR2.Skills.SeekerWeaponSkillDef>("RoR2/DLC2/Seeker/SeekerBodySoulSearchCrosshair.asset").WaitForCompletion();
        public static RoR2.Skills.SeekerWeaponSkillDef SeekerBodySpiritPunchCrosshair => Addressables.LoadAssetAsync<RoR2.Skills.SeekerWeaponSkillDef>("RoR2/DLC2/Seeker/SeekerBodySpiritPunchCrosshair.asset").WaitForCompletion();
+    }
+    public static class BuffDefStockThresholdIcon {
+       public static RoR2.BuffDefStockThresholdIcon bdIncreasePrimaryDamageBuff => Addressables.LoadAssetAsync<RoR2.BuffDefStockThresholdIcon>("RoR2/DLC2/Items/IncreasePrimaryDamage/bdIncreasePrimaryDamageBuff.asset").WaitForCompletion();
     }
     public static class LightningStrikePattern {
        public static RoR2.LightningStrikePattern DefaultLightningPattern => Addressables.LoadAssetAsync<RoR2.LightningStrikePattern>("RoR2/DLC2/meridian/DisableSkillsLightning/Default Lightning Pattern.asset").WaitForCompletion();

@@ -26,6 +26,9 @@ using RoR2.ExpansionManagement;
 using Sandswept.Interactables;
 using Sandswept.DoTs;
 using Sandswept.Drones;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.IO;
 
 // using Sandswept.Survivors.Ranger.ItemDisplays;
 
@@ -239,9 +242,91 @@ namespace Sandswept
             On.RoR2.RoR2Content.Init += OnWwiseInit;
         }
 
+        private void GenerateMap() {
+            _ = Addressables.LoadAssetAsync<UnityEngine.Object>("RoR2/Base/Huntress/Skins.Huntress.Alt1.asset").WaitForCompletion();
+            string outputFilePath = Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "Assets.cs");
+            Dictionary<Type, List<string>> map = new();
+            foreach (var item in Addressables.ResourceLocators) {
+                foreach (object key in item.Keys) {
+                    if (key.ToString().Contains("bundle")) continue;
+                    if (!key.ToString().Contains('.')) continue;
+                    if (key.ToString().Contains("Wwise")) continue;
+
+                    var obj = Addressables.LoadAssetAsync<UnityEngine.Object>(key.ToString()).WaitForCompletion();
+
+                    if (obj) {
+                        Type type = obj.GetType();
+                        if (type.IsAbstract) continue;
+
+                        if (!map.ContainsKey(type)) {
+                            ModLogger.LogError(type.ToString());
+                            map.Add(type, new());
+                        }
+
+                        string kstr = key.ToString();
+
+                        map[type].Add(kstr);
+                    }
+                    else {
+                        Logger.LogError("no obj for key: " + key.ToString());
+                    }
+                }
+            }
+
+            StringBuilder builder = new();
+            builder.AppendLine("using UnityEngine;");
+            builder.AppendLine("using RoR2;");
+            builder.AppendLine("using RoR2.Skills;");
+            builder.AppendLine("using UnityEngine.AddressableAssets;");
+            builder.AppendLine("using UnityEngine.Rendering.PostProcessing;");
+            builder.AppendLine("");
+            builder.AppendLine("namespace SecondStrike.Utils {");
+
+            Regex rgx = new Regex("[^a-zA-Z0-9]");
+
+            Dictionary<Type, List<string>> guh = new();
+
+            foreach (KeyValuePair<Type, List<string>> pair in map) {
+                builder.AppendLine("    public static class " + pair.Key.Name +" {");
+
+                if (!guh.ContainsKey(pair.Key)) {
+                    guh.Add(pair.Key, new());
+                }
+
+                foreach (string item in pair.Value) {
+                    string name = item.Split('/').Last();
+                    int indx = name.LastIndexOf('.');
+                    if (indx != -1) {
+                        name = name.Substring(0, indx);
+                    }
+                    name = rgx.Replace(name, "");
+
+                    if (char.IsDigit(name[0])) {
+                        name = "_" + name;
+                    }
+
+                    if (guh[pair.Key].Contains(name)) {
+                        continue;
+                    }
+
+                    guh[pair.Key].Add(name);
+
+                    builder.AppendLine($"       public static {pair.Key.ToString()} {name} => Addressables.LoadAssetAsync<{pair.Key.ToString()}>(\"{item}\").WaitForCompletion();");
+                }
+
+                builder.AppendLine("    }");
+            }
+
+            builder.AppendLine("}");
+
+            File.WriteAllText(outputFilePath, builder.ToString());
+        }
+
         private void OnWwiseInit(On.RoR2.RoR2Content.orig_Init orig)
         {
             orig();
+
+            GenerateMap();
 
             string path = typeof(Main).Assembly.Location.Replace("Sandswept.dll", "");
             AkSoundEngine.AddBasePath(path);
@@ -255,7 +340,7 @@ namespace Sandswept
             SandsweptExpansionDef = dgoslingAssets.LoadAsset<ExpansionDef>("SandSweptExpDef");
             SandsweptExpansionDef.nameToken.Add("Sandswept");
             SandsweptExpansionDef.descriptionToken.Add("Adds content from the 'Sandswept' expansion to the game <3. Have fun <3.");
-            SandsweptExpansionDef.disabledIconSprite = Utils.Assets.Sprite.texUnlockIconSprite;
+            SandsweptExpansionDef.disabledIconSprite = Utils.Assets.Texture2D.texUnlockIcon.MakeSprite();
             ContentAddition.AddExpansionDef(SandsweptExpansionDef);
         }
 
