@@ -59,11 +59,15 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
 
             if (duration >= maxStallDur && !dashedAlready && base.isAuthority)
             {
+                Util.PlaySound("Play_AntlerShield_Pickup", gameObject);
+                Util.PlaySound("Play_AntlerShield_Pickup", gameObject);
+
                 dashedAlready = true;
 
                 BaseAI ai = base.characterBody.master.GetComponent<BaseAI>();
 
-                if (ai && ai.currentEnemy.gameObject) {
+                if (ai && ai.currentEnemy.gameObject)
+                {
                     float dist = Vector3.Distance(base.transform.position, ai.currentEnemy.gameObject.transform.position);
                     DashForce = dist * 2f;
                 }
@@ -85,7 +89,10 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
 
             if (dashedAlready && base.isAuthority)
             {
-                attack.Fire();
+                if (attack.Fire())
+                {
+                    Util.PlaySound("Play_bison_headbutt_attack_hit", gameObject);
+                }
 
                 base.transform.forward = lockVector;
             }

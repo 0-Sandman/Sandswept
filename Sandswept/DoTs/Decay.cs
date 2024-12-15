@@ -40,6 +40,18 @@ namespace Sandswept.DoTs
                 damageCoefficient = 1f
             };
 
+            CustomDotVisual visual = delegate (DotController self)
+            {
+                var victim = self.victimObject;
+                var modelLocator = victim.GetComponent<ModelLocator>();
+                if (modelLocator && modelLocator.modelTransform)
+                {
+                    var decayEffectController = victim.AddComponent<BurnEffectController>();
+                    decayEffectController.effectType = BurnEffectController.blightEffect;
+                    decayEffectController.target = modelLocator.modelTransform.gameObject;
+                }
+            };
+
             CustomDotBehaviour behavior = delegate (DotController self, DotStack dotStack)
             {
                 var victimBody = self.victimBody;
@@ -59,7 +71,11 @@ namespace Sandswept.DoTs
                 }
             };
 
-            decayIndex = RegisterDotDef(decayDef, behavior);
+            decayIndex = RegisterDotDef(decayDef, behavior, visual);
         }
+    }
+
+    public class DecayEffectController : BurnEffectController
+    {
     }
 }

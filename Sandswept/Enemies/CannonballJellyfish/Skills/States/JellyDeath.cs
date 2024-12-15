@@ -1,6 +1,7 @@
 using System;
 
-namespace Sandswept.Enemies.CannonballJellyfish {
+namespace Sandswept.Enemies.CannonballJellyfish
+{
     public class JellyDeath : BaseState
     {
         private static readonly float bodyPreservationDuration = 1f;
@@ -60,20 +61,24 @@ namespace Sandswept.Enemies.CannonballJellyfish {
                     cachedModelTransform = null;
                 }
             }
-
-            else {
+            else
+            {
                 Destroy(this.GetModelTransform().gameObject);
-                EffectManager.SpawnEffect(Paths.GameObject.ExplosivePotExplosion, new EffectData {
-                    origin = base.characterBody.corePosition,
-                    scale = base.characterBody.bestFitRadius * 2f,
-                }, false);
+                for (int i = 0; i < 2; i++)
+                {
+                    EffectManager.SpawnEffect(Paths.GameObject.ExplosivePotExplosion, new EffectData
+                    {
+                        origin = base.characterBody.corePosition,
+                        scale = base.characterBody.bestFitRadius * 2f,
+                    }, false);
+                }
 
-                if (base.isAuthority) {
+                if (base.isAuthority)
+                {
                     var proj = MiscUtils.GetProjectile(CannonballJellyfish.JellyCoreProjectile, 4f, base.characterBody);
                     ProjectileManager.instance.FireProjectile(proj);
                 }
             }
-        
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

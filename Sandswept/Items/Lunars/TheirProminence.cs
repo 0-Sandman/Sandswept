@@ -77,13 +77,23 @@ namespace Sandswept.Items.Whites
                         subjectAsCharacterBody = interactorBody,
                         baseToken = "SHRINE_BOSS_USE_MESSAGE"
                     });
-                    EffectManager.SpawnEffect(LegacyResourcesAPI.Load<GameObject>("Prefabs/Effects/ShrineUseEffect"), new EffectData
+
+                    EffectManager.SpawnEffect(Paths.GameObject.ShrineChanceDollUseEffect, new EffectData
                     {
-                        origin = interactorBody.transform.position,
+                        origin = interactableObject.transform.position,
                         rotation = Quaternion.identity,
                         scale = 1f,
                         color = new Color(0.7372549f, 0.90588236f, 0.94509804f)
                     }, true);
+                    /*
+                    EffectManager.SpawnEffect(ShrineChanceBehavior.effectPrefabShrineRewardJackpotVFX, new EffectData
+                    {
+                        origin = base.transform.position,
+                        rotation = Quaternion.identity,
+                        scale = 1f,
+                        color = new Color(0.7372549f, 0.90588236f, 0.94509804f)
+                    }, true);
+                    */
                 }
             }
         }
