@@ -137,7 +137,7 @@
 	</thead>
 	<tbody>
 		<tr>
-			<td><img src="" width="64"/></td>
+			<td><img src="https://i.postimg.cc/TYHQJ5RD/tex-Cannonball-Jellyfish.png" width="64"/></td>
 			<td>
 				<b>Cannonball Jellyfish</b><br>
 				Launches itself at you rapidly stunning itself if it misses and hits and object before falling back to recover and repeat. 
@@ -151,14 +151,14 @@
 			</td>
 		</tr>
 		<tr>
-			<td><img src="" width="64"/></td>
+			<td><img src="https://i.postimg.cc/CLKm8sV0/tex-Delta-Construct.png" width="64"/></td>
 			<td>
 				<b>Delta Construct</b><br>
 				Fires 2 projectiles in a line at you and after a few shots it takes to the sky charging up and firing a bunch of small beams that go in random directions leaving a fire trail behind them.
 			</td>
 		</tr>
 		<tr>
-			<td><img src="" width="64"/></td>
+			<td><img src="https://i.postimg.cc/Y2RdjyZ8/tex-Theta-Construct.png" width="64"/></td>
 			<td>
 				<b>Theta Construct</b><br>
 				Guards an enemy preventing and knocking back all damage from it on top of giving it an attack speed buff and giving an elite aspect effect if it has one.

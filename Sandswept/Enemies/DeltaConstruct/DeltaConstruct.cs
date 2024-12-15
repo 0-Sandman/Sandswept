@@ -1,4 +1,5 @@
 using System;
+using RoR2.Navigation;
 
 namespace Sandswept.Enemies.DeltaConstruct
 {
@@ -29,9 +30,40 @@ namespace Sandswept.Enemies.DeltaConstruct
         {
             base.PostCreation();
 
-            RegisterEnemy(prefab, prefabMaster);
+            List<Stage> stages = new List<DirectorAPI.Stage> {
+                Stage.SkyMeadow,
+                Stage.SkyMeadowSimulacrum,
+                DirectorAPI.Stage.SulfurPools,
+                DirectorAPI.Stage.TreebornColony,
+                DirectorAPI.Stage.GoldenDieback,
+                DirectorAPI.Stage.ArtifactReliquary_AphelianSanctuary_Theme,
+                DirectorAPI.Stage.RallypointDelta,
+                DirectorAPI.Stage.HelminthHatchery,
+                DirectorAPI.Stage.DisturbedImpact
+            };
+
+            RegisterEnemy(prefab, prefabMaster, stages, MonsterCategory.Minibosses);
 
             // prefab.GetComponent<ModelLocator>()._modelTransform.AddComponent<ShittyDebugComp>();
+        }
+
+        public override void AddDirectorCard()
+        {
+            base.AddDirectorCard();
+            card.selectionWeight = 1;
+            card.spawnCard = isc;
+            card.spawnDistance = DirectorCore.MonsterSpawnDistance.Standard;
+        }
+
+        public override void AddSpawnCard()
+        {
+            base.AddSpawnCard();
+            isc.directorCreditCost = 150;
+            isc.forbiddenFlags = NodeFlags.NoCharacterSpawn;
+            isc.hullSize = HullClassification.Human;
+            isc.nodeGraphType = MapNodeGroup.GraphType.Ground;
+            isc.sendOverNetwork = true;
+            isc.prefab = prefabMaster;
         }
 
         public override void Modify()
