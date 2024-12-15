@@ -19,8 +19,20 @@ namespace Sandswept.DoTs
 
         public static DamageColorIndex decayColor = DamageColourHelper.RegisterDamageColor(new Color32(96, 56, 177, 255));
 
+        public static Material decayMat;
+
+        public static BurnEffectController.EffectParams decayEffect;
+
         public static void Init()
         {
+            decayMat = new Material(Paths.Material.matBlighted);
+            decayMat.SetColor("_TintColor", new Color(0.49888185f, 0.20220098f, 1.0991436f, 1f)); // hdr color (with intensity), hence why a value is above 1
+            decayMat.SetTexture("_RemapTex", Paths.Texture2D.texRampVoidSurvivorBase1);
+            decayEffect = new BurnEffectController.EffectParams()
+            {
+                overlayMaterial = decayMat,
+                startSound = "Play_voidBarnacle_death"
+            };
             decayBuff = ScriptableObject.CreateInstance<BuffDef>();
             decayBuff.canStack = true;
             decayBuff.isCooldown = false;
@@ -47,7 +59,7 @@ namespace Sandswept.DoTs
                 if (modelLocator && modelLocator.modelTransform)
                 {
                     var decayEffectController = victim.AddComponent<BurnEffectController>();
-                    decayEffectController.effectType = BurnEffectController.blightEffect;
+                    decayEffectController.effectType = decayEffect;
                     decayEffectController.target = modelLocator.modelTransform.gameObject;
                 }
             };
@@ -73,9 +85,5 @@ namespace Sandswept.DoTs
 
             decayIndex = RegisterDotDef(decayDef, behavior, visual);
         }
-    }
-
-    public class DecayEffectController : BurnEffectController
-    {
     }
 }
