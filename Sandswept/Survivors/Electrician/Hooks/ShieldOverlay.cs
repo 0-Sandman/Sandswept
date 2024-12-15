@@ -37,7 +37,7 @@ namespace Sandswept.Survivors.Electrician.Hooks
                 c.EmitDelegate<Func<float, CharacterModel, float>>((orig, characterModel) =>
                 {
                     var characterBody = characterModel.body;
-                    if (characterBody.bodyIndex == Electrician.ElectricianIndex)
+                    if (characterBody.bodyIndex == VOLT.ElectricianIndex)
                     {
                         // Main.ModLogger.LogError("playing electrician, updating shield overlay - hook #1");
                         return characterBody.baseMaxShield + characterBody.levelMaxShield * (characterBody.level - 1);

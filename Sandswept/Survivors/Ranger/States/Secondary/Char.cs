@@ -90,7 +90,8 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                     position = transform.position,
                     force = 500f,
                     procChainMask = default,
-                    projectilePrefab = charProjectile
+                    projectilePrefab = charProjectile,
+                    damageTypeOverride = new DamageTypeCombo?(DamageTypeCombo.GenericSecondary)
                 };
 
                 ProjectileManager.instance.FireProjectile(fpi);

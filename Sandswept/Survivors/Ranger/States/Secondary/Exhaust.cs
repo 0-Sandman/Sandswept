@@ -99,6 +99,8 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                 damageColorIndex = DamageColorIndex.Fragile
             };
 
+            attack.damageType.damageSource = DamageSource.Secondary;
+
             Util.PlaySound("Play_wisp_attack_fire", gameObject);
             Util.PlaySound("Play_lemurian_fireball_shoot", gameObject);
             Util.PlaySound("Play_lunar_wisp_attack2_launch", gameObject);

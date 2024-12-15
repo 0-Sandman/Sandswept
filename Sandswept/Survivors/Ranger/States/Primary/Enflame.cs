@@ -127,8 +127,10 @@ namespace Sandswept.Survivors.Ranger.States.Primary
                 maxSpread = 1f + heat.currentHeat * 0.015f,
                 damageColorIndex = isHeatedShot ? DamageColorIndex.Fragile : DamageColorIndex.Default,
                 radius = 0.4f,
-                smartCollision = true
+                smartCollision = true,
             };
+
+            attack.damageType.damageSource = DamageSource.Primary;
 
             AddRecoil(0.3f + heat.currentHeat * 0.006f, -0.3f - heat.currentHeat * 0.006f, 0.1f + heat.currentHeat * 0.006f, -0.1f - heat.currentHeat * 0.006f);
 

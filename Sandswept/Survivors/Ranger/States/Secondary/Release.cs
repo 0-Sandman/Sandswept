@@ -129,7 +129,10 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                     smartCollision = true,
                     stopperMask = LayerIndex.world.mask,
                     force = 2500f + 250f * buffCount,
+                    damageType = DamageType.Generic,
                 };
+
+                attack.damageType.damageSource = DamageSource.Secondary;
 
                 AddRecoil(3f + 0.3f * buffCount, 3f + 0.3f * buffCount, 0f, 0f);
 

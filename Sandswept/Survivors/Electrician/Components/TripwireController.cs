@@ -41,6 +41,7 @@ namespace Sandswept.Survivors.Electrician
             blast.position = explo.position;
             blast.radius *= 2f;
             blast.baseDamage *= 2f;
+            blast.damageType.damageSource = DamageSource.Utility;
             blast.Fire();
 
             EffectManager.SpawnEffect(effect, new EffectData
@@ -78,8 +79,11 @@ namespace Sandswept.Survivors.Electrician
                 owner = controller.owner,
                 procCoefficient = 0.4f,
                 stopperMask = LayerIndex.noCollision.mask,
-                falloffModel = BulletAttack.FalloffModel.None
+                falloffModel = BulletAttack.FalloffModel.None,
+                damageType = DamageType.Generic,
             };
+
+            attack.damageType.damageSource = DamageSource.Utility;
 
             blast = new()
             {
@@ -93,6 +97,8 @@ namespace Sandswept.Survivors.Electrician
                 procCoefficient = 1f,
                 baseDamage = pDamage.damage * 3f
             };
+
+            blast.damageType.damageSource = DamageSource.Utility;
 
             ModelLocator loc = attack.owner.GetComponent<ModelLocator>();
             head = loc.modelTransform.GetComponent<ChildLocator>().FindChild("Head");
@@ -110,17 +116,20 @@ namespace Sandswept.Survivors.Electrician
 
             SkinDef skin = msc.skins[msc.currentSkinIndex];
 
-            if (skin == skin1) {
+            if (skin == skin1)
+            {
                 mesh.sharedMesh = mesh1;
                 mesh.sharedMaterial = mat1;
             }
-            else {
+            else
+            {
                 mesh.sharedMesh = mesh2;
                 mesh.sharedMaterial = mat2;
             }
         }
 
-        public void KABOOM() {
+        public void KABOOM()
+        {
             attack.origin = explo.position;
             attack.aimVector = (head.position - explo.position).normalized;
             attack.maxDistance = Vector3.Distance(explo.position, head.position);

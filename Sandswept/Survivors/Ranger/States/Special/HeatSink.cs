@@ -125,7 +125,8 @@ namespace Sandswept.Survivors.Ranger.States.Special
             PlayAnimation("FullBody, Override", "Twirl");
 
             if (isAuthority)
-                new BlastAttack()
+            {
+                var attack = new BlastAttack()
                 {
                     attacker = gameObject,
                     attackerFiltering = AttackerFiltering.NeverHitSelf,
@@ -144,7 +145,12 @@ namespace Sandswept.Survivors.Ranger.States.Special
                     teamIndex = characterBody.teamComponent.teamIndex,
                     losType = BlastAttack.LoSType.None,
                     falloffModel = BlastAttack.FalloffModel.None,
-                }.Fire();
+                };
+
+                attack.damageType.damageSource = DamageSource.Special;
+
+                attack.Fire();
+            }
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

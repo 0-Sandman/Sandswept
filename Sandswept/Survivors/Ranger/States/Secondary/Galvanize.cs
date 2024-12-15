@@ -144,7 +144,8 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                         position = transform.position,
                         force = 500f,
                         procChainMask = default,
-                        projectilePrefab = TheFuckingBFG.prefabDefault
+                        projectilePrefab = TheFuckingBFG.prefabDefault,
+                        damageTypeOverride = new DamageTypeCombo?(DamageTypeCombo.GenericPrimary)
                     };
 
                     ProjectileManager.instance.FireProjectile(fpi);

@@ -1,6 +1,6 @@
 using System;
 
-namespace Sandswept.Survivors.Electrician.States
+namespace Sandswept.Survivors.Electrician.States.Secondary
 {
     public class TempestSphereCharge : BaseSkillState
     {
@@ -10,7 +10,7 @@ namespace Sandswept.Survivors.Electrician.States
         {
             base.OnEnter();
 
-            chargeDuration /= base.attackSpeedStat;
+            chargeDuration /= attackSpeedStat;
 
             PlayAnimation("Gesture, Override", "ChargeOrb", "Generic.playbackRate", chargeDuration);
             GetModelAnimator().SetBool("chargingOrb", true);
@@ -22,7 +22,7 @@ namespace Sandswept.Survivors.Electrician.States
         {
             base.FixedUpdate();
 
-            if (base.fixedAge >= chargeDuration)
+            if (fixedAge >= chargeDuration)
             {
                 outer.SetNextState(new TempestSphereFire());
             }
@@ -44,11 +44,11 @@ namespace Sandswept.Survivors.Electrician.States
         {
             base.OnEnter();
 
-            recoilTime /= base.attackSpeedStat;
+            recoilTime /= attackSpeedStat;
 
-            if (base.isAuthority)
+            if (isAuthority)
             {
-                FireProjectileInfo info = MiscUtils.GetProjectile(Electrician.TempestSphere, damageCoeff, base.characterBody);
+                FireProjectileInfo info = MiscUtils.GetProjectile(Electrician.TempestSphere, damageCoeff, characterBody, DamageTypeCombo.GenericSecondary);
                 ProjectileManager.instance.FireProjectile(info);
                 Util.PlaySound("Play_vagrant_attack2_charge", gameObject);
             }
@@ -58,7 +58,7 @@ namespace Sandswept.Survivors.Electrician.States
         {
             base.FixedUpdate();
 
-            if (base.fixedAge >= recoilTime && !base.inputBank.skill2.down)
+            if (fixedAge >= recoilTime && !inputBank.skill2.down)
             {
                 outer.SetNextStateToMain();
             }
@@ -73,7 +73,7 @@ namespace Sandswept.Survivors.Electrician.States
             if (!locked)
             {
                 Util.PlaySound("Stop_loader_shift_charge_loop", gameObject);
-                TempestBallController.LockAllOrbs(base.characterBody);
+                TempestBallController.LockAllOrbs(characterBody);
             }
         }
 

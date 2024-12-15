@@ -1,6 +1,6 @@
 using System;
 
-namespace Sandswept.Survivors.Electrician.States
+namespace Sandswept.Survivors.Electrician.States.Utility
 {
     public class StaticSnare : BaseSkillState
     {
@@ -12,45 +12,46 @@ namespace Sandswept.Survivors.Electrician.States
         {
             base.OnEnter();
 
-            duration /= base.attackSpeedStat;
+            duration /= attackSpeedStat;
 
             PlayAnimation("Gesture, Override", "Throw", "Generic.playbackRate", duration);
 
             characterBody.SetSpreadBloom(12f, true);
 
-            if (base.isAuthority && !TripwireController.ControllerMap.ContainsKey(base.gameObject))
+            if (isAuthority && !TripwireController.ControllerMap.ContainsKey(gameObject))
             {
                 tossedOut = true;
-                FireProjectileInfo info = MiscUtils.GetProjectile(Electrician.StaticSnare, 1f, base.characterBody);
+                FireProjectileInfo info = MiscUtils.GetProjectile(Electrician.StaticSnare, 1f, characterBody, DamageTypeCombo.GenericUtility);
                 ProjectileManager.instance.FireProjectile(info);
 
-                Util.PlaySound("Play_MULT_m2_throw", base.gameObject);
+                Util.PlaySound("Play_MULT_m2_throw", gameObject);
 
                 FUCKINGEXPLODE = false;
             }
 
             Util.PlaySound("Play_mage_m1_impact_lightning", gameObject);
 
-            base.skillLocator.utility.DeductStock(1);
+            skillLocator.utility.DeductStock(1);
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
 
-            if (!base.inputBank.skill3.down) {
+            if (!inputBank.skill3.down)
+            {
                 if (!tossedOut)
                 {
-                    if (TripwireController.ControllerMap.ContainsKey(base.gameObject))
+                    if (TripwireController.ControllerMap.ContainsKey(gameObject))
                     {
-                        TripwireController controller = TripwireController.ControllerMap[base.gameObject];
+                        TripwireController controller = TripwireController.ControllerMap[gameObject];
                         tossedOut = !controller.StartZip();
                         FUCKINGEXPLODE = false;
                     }
                 }
             }
 
-            if (base.fixedAge >= duration)
+            if (fixedAge >= duration)
             {
                 outer.SetNextStateToMain();
             }
@@ -62,14 +63,15 @@ namespace Sandswept.Survivors.Electrician.States
 
             if (tossedOut)
             {
-                float cd = base.skillLocator.utility.baseRechargeInterval * 0.75f;
-                base.skillLocator.utility.RunRecharge(cd);
+                float cd = skillLocator.utility.baseRechargeInterval * 0.75f;
+                skillLocator.utility.RunRecharge(cd);
             }
-            
-            if (FUCKINGEXPLODE) {
-                if (TripwireController.ControllerMap.ContainsKey(base.gameObject))
+
+            if (FUCKINGEXPLODE)
+            {
+                if (TripwireController.ControllerMap.ContainsKey(gameObject))
                 {
-                    TripwireController controller = TripwireController.ControllerMap[base.gameObject];
+                    TripwireController controller = TripwireController.ControllerMap[gameObject];
                     controller.KABOOM();
                 }
             }

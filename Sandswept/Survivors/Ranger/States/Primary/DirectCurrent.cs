@@ -86,7 +86,8 @@ namespace Sandswept.Survivors.Ranger.States.Primary
                     position = transform.position,
                     force = 500f,
                     procChainMask = default,
-                    projectilePrefab = directCurrentProjectile
+                    projectilePrefab = directCurrentProjectile,
+                    damageTypeOverride = new DamageTypeCombo?(DamageTypeCombo.GenericPrimary)
                 };
 
                 ProjectileManager.instance.FireProjectile(fpi);
