@@ -17,7 +17,6 @@ namespace Sandswept.Utils.Components {
         public void Update() {
             if (areWeDecaying) {
                 line.widthMultiplier = Mathf.Max(0f, line.widthMultiplier - (widthPerSec * Time.deltaTime));
-                Debug.Log(line.widthMultiplier);
                 decayTime -= Time.deltaTime;
 
                 if (decayTime <= 0f) {

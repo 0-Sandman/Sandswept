@@ -6,12 +6,18 @@ namespace Sandswept.Survivors.Electrician.States
     public class SignalOverloadCharge : BaseSkillState
     {
         public float baseDuration = 0.7f;
+        public float shieldDrained = 0f;
+        public float stopwatch = 0f;
+        public float delay = 0.7f / 10;
+        public float drainAmount;
 
         public override void OnEnter()
         {
             base.OnEnter();
 
             baseDuration /= base.attackSpeedStat;
+
+            delay = baseDuration / 10f;
 
             FindModelChild("Tethers").gameObject.SetActive(true);
 
@@ -21,6 +27,8 @@ namespace Sandswept.Survivors.Electrician.States
             // Util.PlaySound("Play_ui_obj_nullWard_charge_loop", gameObject);
 
             AkSoundEngine.PostEvent("Play_elec_r_wind", base.gameObject);
+
+            drainAmount = healthComponent.fullShield * delay;
         }
 
         public override void OnExit()
@@ -37,8 +45,36 @@ namespace Sandswept.Survivors.Electrician.States
             base.FixedUpdate();
 
             if (base.fixedAge >= baseDuration)
-            {
-                outer.SetNextState(new SignalOverloadDischarge());
+            {   
+                outer.SetNextState(new SignalOverloadDischarge(Util.Remap(shieldDrained, 0f, healthComponent.fullShield, 0.4f, 1f)));
+            }
+
+            stopwatch += Time.fixedDeltaTime;
+
+            if (stopwatch >= delay) {
+                stopwatch = 0f;
+                float shieldToDrain = base.healthComponent.fullShield * drainAmount;
+
+                if (shieldToDrain > base.healthComponent.shield) {
+                    shieldToDrain = base.healthComponent.shield;
+                }
+
+                if (shieldToDrain > 0f) {
+                    shieldDrained += shieldToDrain;
+
+                    if (NetworkServer.active) {
+                        base.healthComponent.TakeDamage(
+                            new DamageInfo {
+                                position = base.transform.position,
+                                damage = shieldToDrain,
+                                procCoefficient = 0f,
+                                damageType = DamageType.NonLethal,
+                                damageColorIndex = DamageColorIndex.Luminous,
+                                attacker = null
+                            }
+                        );
+                    }
+                }
             }
         }
 
@@ -57,6 +93,7 @@ namespace Sandswept.Survivors.Electrician.States
         public float coeff => totalDamageCoef / totalHits;
         public float radius = 30f;
         public float stopwatch = 0f;
+        public float multiplier = 1f;
         public Animator animator;
         public GameObject effect;
         public LineRenderer lr;
@@ -68,9 +105,16 @@ namespace Sandswept.Survivors.Electrician.States
         public CameraTargetParams.CameraParamsOverrideHandle handle;
         public GameObject signalIndicator;
 
+        public SignalOverloadDischarge(float mult) {
+            multiplier = mult;
+        }
+
         public override void OnEnter()
         {
             base.OnEnter();
+
+            totalDamageCoef *= multiplier;
+            radius *= multiplier;
 
             PlayAnimation("Gesture, Override", "OverloadLoop", "Generic.playbackRate", 0.5f);
             animator = GetModelAnimator();
@@ -200,7 +244,11 @@ namespace Sandswept.Survivors.Electrician.States
                 position = position
             };
 
-            attack.Fire();
+            var res = attack.Fire();
+            List<HurtBox> boxesHit = new();
+            foreach (var point in res.hitPoints) {
+                if (point.hurtBox) boxesHit.Add(point.hurtBox);
+            }
 
             EffectManager.SpawnEffect(effect, new EffectData
             {
@@ -210,8 +258,7 @@ namespace Sandswept.Survivors.Electrician.States
 
             foreach (HurtBox box in search.GetHurtBoxes())
             {
-                if (Vector3.Distance(box.transform.position, attack.position) < attack.radius * 1.5f)
-                {
+                if (boxesHit.Contains(box)) {
                     continue;
                 }
 

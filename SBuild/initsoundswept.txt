@@ -1,4 +1,5 @@
 Audio Bus	ID	Name			Wwise Object Path	Notes
+	1498261085	Positioned Bus			\Default Work Unit\Master Audio Bus\Positioned Bus	
 	3803692087	Master Audio Bus			\Default Work Unit\Master Audio Bus	
 
 Audio Devices	ID	Name	Type				Notes

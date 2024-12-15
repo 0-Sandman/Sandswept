@@ -59,7 +59,7 @@ namespace Sandswept.Survivors.Electrician
             {
                 Rigidbody rb = GetComponent<Rigidbody>();
                 base.GetComponent<ProjectileSimple>().updateAfterFiring = false;
-                rb.velocity = col.contacts[0].normal * 130f;
+                rb.velocity = (base.transform.position - body.transform.position).normalized * 150f;
             }
         }
 
@@ -118,6 +118,27 @@ namespace Sandswept.Survivors.Electrician
                 mesh.sharedMesh = mesh2;
                 mesh.sharedMaterial = mat2;
             }
+        }
+
+        public void KABOOM() {
+            attack.origin = explo.position;
+            attack.aimVector = (head.position - explo.position).normalized;
+            attack.maxDistance = Vector3.Distance(explo.position, head.position);
+            attack.radius *= 5f;
+            attack.damage = pDamage.damage * 10f;
+            attack.damageType |= DamageType.Shock5s;
+
+            attack.Fire();
+
+            EffectManager.SpawnEffect(effect, new EffectData
+            {
+                origin = blast.position,
+                scale = blast.radius * 2
+            }, true);
+
+            AkSoundEngine.PostEvent("Play_elec_pylon_blast", base.gameObject);
+
+            GameObject.Destroy(base.gameObject);
         }
 
         public bool StartZip()

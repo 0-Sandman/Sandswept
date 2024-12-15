@@ -1,4 +1,5 @@
 using System;
+using RoR2.Navigation;
 
 namespace Sandswept.Enemies.ThetaConstruct
 {
@@ -18,7 +19,38 @@ namespace Sandswept.Enemies.ThetaConstruct
         public override void PostCreation()
         {
             base.PostCreation();
-            RegisterEnemy(prefab, prefabMaster, null);
+            List<Stage> stages = new List<DirectorAPI.Stage> {
+                Stage.SkyMeadow,
+                Stage.SkyMeadowSimulacrum,
+                DirectorAPI.Stage.SulfurPools,
+                DirectorAPI.Stage.TreebornColony,
+                DirectorAPI.Stage.GoldenDieback,
+                DirectorAPI.Stage.ArtifactReliquary_AphelianSanctuary_Theme,
+                DirectorAPI.Stage.AbandonedAqueduct,
+                DirectorAPI.Stage.SirensCall,
+                DirectorAPI.Stage.ShatteredAbodes
+            };
+
+            RegisterEnemy(prefab, prefabMaster, stages, MonsterCategory.BasicMonsters);
+        }
+
+        public override void AddDirectorCard()
+        {
+            base.AddDirectorCard();
+            card.selectionWeight = 1;
+            card.spawnCard = isc;
+            card.spawnDistance = DirectorCore.MonsterSpawnDistance.Standard;
+        }
+
+        public override void AddSpawnCard()
+        {
+            base.AddSpawnCard();
+            isc.directorCreditCost = 70;
+            isc.forbiddenFlags = NodeFlags.NoCharacterSpawn;
+            isc.hullSize = HullClassification.Human;
+            isc.nodeGraphType = MapNodeGroup.GraphType.Air;
+            isc.sendOverNetwork = true;
+            isc.prefab = prefabMaster;
         }
 
         public override void Modify()
