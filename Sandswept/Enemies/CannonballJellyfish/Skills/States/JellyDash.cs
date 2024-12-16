@@ -56,7 +56,10 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
             base.FixedUpdate();
 
             SetDir();
-
+            if (duration >= (maxStallDur * 0.65f) && !dashedAlready)
+            {
+                Util.PlaySound("Play_lunar_wisp_attack2_windUp", gameObject);
+            }
             if (duration >= maxStallDur && !dashedAlready && base.isAuthority)
             {
                 Util.PlaySound("Play_AntlerShield_Pickup", gameObject);
@@ -123,6 +126,7 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
             rigidbodyDirection.freezeZRotation = false;
             base.rigidbodyMotor.rootMotion = Vector3.zero;
             base.rigidbody.velocity = Vector3.zero;
+            Util.PlaySound("Play_lunar_wisp_attack1_windDown", gameObject);
         }
     }
 }
