@@ -242,23 +242,28 @@ namespace Sandswept
             On.RoR2.RoR2Content.Init += OnWwiseInit;
         }
 
-        private void GenerateMap() {
+        private void GenerateMap()
+        {
             _ = Addressables.LoadAssetAsync<UnityEngine.Object>("RoR2/Base/Huntress/Skins.Huntress.Alt1.asset").WaitForCompletion();
             string outputFilePath = Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "Assets.cs");
             Dictionary<Type, List<string>> map = new();
-            foreach (var item in Addressables.ResourceLocators) {
-                foreach (object key in item.Keys) {
+            foreach (var item in Addressables.ResourceLocators)
+            {
+                foreach (object key in item.Keys)
+                {
                     if (key.ToString().Contains("bundle")) continue;
                     if (!key.ToString().Contains('.')) continue;
                     if (key.ToString().Contains("Wwise")) continue;
 
                     var obj = Addressables.LoadAssetAsync<UnityEngine.Object>(key.ToString()).WaitForCompletion();
 
-                    if (obj) {
+                    if (obj)
+                    {
                         Type type = obj.GetType();
                         if (type.IsAbstract) continue;
 
-                        if (!map.ContainsKey(type)) {
+                        if (!map.ContainsKey(type))
+                        {
                             ModLogger.LogError(type.ToString());
                             map.Add(type, new());
                         }
@@ -267,7 +272,8 @@ namespace Sandswept
 
                         map[type].Add(kstr);
                     }
-                    else {
+                    else
+                    {
                         Logger.LogError("no obj for key: " + key.ToString());
                     }
                 }
@@ -286,26 +292,32 @@ namespace Sandswept
 
             Dictionary<Type, List<string>> guh = new();
 
-            foreach (KeyValuePair<Type, List<string>> pair in map) {
-                builder.AppendLine("    public static class " + pair.Key.Name +" {");
+            foreach (KeyValuePair<Type, List<string>> pair in map)
+            {
+                builder.AppendLine("    public static class " + pair.Key.Name + " {");
 
-                if (!guh.ContainsKey(pair.Key)) {
+                if (!guh.ContainsKey(pair.Key))
+                {
                     guh.Add(pair.Key, new());
                 }
 
-                foreach (string item in pair.Value) {
+                foreach (string item in pair.Value)
+                {
                     string name = item.Split('/').Last();
                     int indx = name.LastIndexOf('.');
-                    if (indx != -1) {
+                    if (indx != -1)
+                    {
                         name = name.Substring(0, indx);
                     }
                     name = rgx.Replace(name, "");
 
-                    if (char.IsDigit(name[0])) {
+                    if (char.IsDigit(name[0]))
+                    {
                         name = "_" + name;
                     }
 
-                    if (guh[pair.Key].Contains(name)) {
+                    if (guh[pair.Key].Contains(name))
+                    {
                         continue;
                     }
 

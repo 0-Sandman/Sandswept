@@ -119,9 +119,7 @@ namespace Sandswept.Items.VoidGreens
                     };
 
                     // Util.PlaySound("", attackerBody.gameObject);
-                    // Util.PlaySound("", victim.gameObject);
-
-                    // TODO
+                    Util.PlaySound("Play_voidBarnacle_death", victim.gameObject);
 
                     DotController.InflictDot(ref inflictDotInfo);
                 }

@@ -19,7 +19,7 @@ namespace Sandswept.Survivors.Electrician
 
             bool didAnyoneUnlock = false;
 
-            if (damageReport.damageInfo.HasModdedDamageType(VOLT.LIGHTNING))
+            if (damageReport.damageInfo.HasModdedDamageType(Electrician.LIGHTNING))
             {
                 foreach (PlayerCharacterMasterController pcmc in PlayerCharacterMasterController.instances)
                 {

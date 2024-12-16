@@ -4,7 +4,7 @@ namespace Sandswept.Survivors.Electrician
 {
     public class GalvanicBallController : MonoBehaviour
     {
-        public float radius = 14f;
+        public float radius = 13f;
         public float damage = 1f;
         private bool hasBouncedEnemy = false;
         private ProjectileDamage pDamage;

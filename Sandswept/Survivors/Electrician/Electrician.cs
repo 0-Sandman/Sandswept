@@ -3,7 +3,11 @@ using System.Collections;
 using System.Linq;
 using EntityStates.Chef;
 using Sandswept.Survivors.Electrician.Achievements;
-using Sandswept.Survivors.Electrician.States;
+using Sandswept.Survivors.Electrician.SkillsDefs.Special;
+using Sandswept.Survivors.Electrician.States.Primary;
+using Sandswept.Survivors.Electrician.States.Secondary;
+using Sandswept.Survivors.Electrician.States.Special;
+using Sandswept.Survivors.Electrician.States.Utility;
 using UnityEngine.SceneManagement;
 
 namespace Sandswept.Survivors.Electrician
@@ -45,7 +49,8 @@ namespace Sandswept.Survivors.Electrician
         {
             base.CreateLang();
 
-            if (Random.Range(0, 100) <= 1) {
+            if (Random.Range(0, 100) <= 1)
+            {
                 LanguageAPI.Add(base.SurvivorDef.displayNameToken, "VOLTOMETER BOT AMP FUCKER 30000");
             }
         }
@@ -76,10 +81,10 @@ namespace Sandswept.Survivors.Electrician
             Master = PrefabAPI.InstantiateClone(Paths.GameObject.EngiMonsterMaster, "ElectricianMaster");
 
             SkillLocator locator = Body.GetComponent<SkillLocator>();
-            ReplaceSkills(locator.primary, new SkillDef[] { Skills.GalvanicBolt.instance });
-            ReplaceSkills(locator.secondary, new SkillDef[] { Skills.TempestSphere.instance });
-            ReplaceSkills(locator.utility, new SkillDef[] { Skills.StaticSnare.instance });
-            ReplaceSkills(locator.special, new SkillDef[] { Skills.SignalOverload.instance });
+            ReplaceSkills(locator.primary, new SkillDef[] { SkillsDefs.Primary.GalvanicBolt.instance });
+            ReplaceSkills(locator.secondary, new SkillDef[] { SkillsDefs.Secondary.TempestSphere.instance });
+            ReplaceSkills(locator.utility, new SkillDef[] { SkillsDefs.Utility.StaticSnare.instance });
+            ReplaceSkills(locator.special, new SkillDef[] { SignalOverload.instance });
             locator.passiveSkill.icon = Main.prodAssets.LoadAsset<Sprite>("Assets/Sandswept/texElectricianSkillIcon_p.png");
             "SANDSWEPT_ELECTR_PASSIVE_NAME".Add("Volatile Shields");
             "SANDSWEPT_ELECTR_PASSIVE_DESC".Add("<style=cIsUtility>Start with innate shields</style>. When your shield <style=cDeath>breaks</style>, release a blast for <style=cIsDamage>400% damage</style> and gain <style=cIsUtility>+40% movement speed</style> for <style=cIsDamage>5 seconds</style>.");
@@ -89,6 +94,13 @@ namespace Sandswept.Survivors.Electrician
             "KEYWORD_LIGHTWEIGHT".Add("<style=cKeywordName>Lightweight</style>Can be knocked around by heavy projectiles.");
 
             GalvanicBolt = Main.Assets.LoadAsset<GameObject>("GalvanicBallProjectile.prefab");
+            // meow meow meow meow meow meow meow
+            var projectileProximityBeamController = GalvanicBolt.GetComponent<ProjectileProximityBeamController>();
+            projectileProximityBeamController.attackRange = 13f;
+            projectileProximityBeamController.procCoefficient = 0.8f;
+            projectileProximityBeamController.damageCoefficient = 0.75f;
+            // weh
+            // mrraow
             ContentAddition.AddProjectile(GalvanicBolt);
 
             // this gets instantiatecloned to break its prefab status so i can parent stuff to it over in CreateVFX
@@ -100,13 +112,16 @@ namespace Sandswept.Survivors.Electrician
 
             Main.Instance.StartCoroutine(CreateVFX());
 
-            ContentAddition.AddEntityState(typeof(States.GalvanicBolt), out _);
-            ContentAddition.AddEntityState(typeof(States.SignalOverloadCharge), out _);
-            ContentAddition.AddEntityState(typeof(States.SignalOverloadFire), out _);
-            ContentAddition.AddEntityState(typeof(States.SignalOverloadDischarge), out _);
-            ContentAddition.AddEntityState(typeof(States.StaticSnare), out _);
-            ContentAddition.AddEntityState(typeof(States.TempestSphereCharge), out _);
-            ContentAddition.AddEntityState(typeof(States.TempestSphereFire), out _);
+            ContentAddition.AddEntityState(typeof(GalvanicBolt), out _);
+
+            ContentAddition.AddEntityState(typeof(TempestSphereCharge), out _);
+            ContentAddition.AddEntityState(typeof(TempestSphereFire), out _);
+
+            ContentAddition.AddEntityState(typeof(StaticSnare), out _);
+
+            ContentAddition.AddEntityState(typeof(SignalOverloadCharge), out _);
+            ContentAddition.AddEntityState(typeof(SignalOverloadFire), out _);
+            ContentAddition.AddEntityState(typeof(SignalOverloadDischarge), out _);
 
             On.RoR2.HealthComponent.TakeDamage += HandleGroundingShock;
 
@@ -167,8 +182,9 @@ namespace Sandswept.Survivors.Electrician
         private void OnLightningOrbArrival(On.RoR2.Orbs.LightningOrb.orig_OnArrival orig, RoR2.Orbs.LightningOrb self)
         {
             if (self.lightningType == RoR2.Orbs.LightningOrb.LightningType.Ukulele ||
-            self.lightningType == RoR2.Orbs.LightningOrb.LightningType.Loader || self.lightningType == RoR2.Orbs.LightningOrb.LightningType.Tesla 
-            || self.lightningType == RoR2.Orbs.LightningOrb.LightningType.MageLightning ) {
+            self.lightningType == RoR2.Orbs.LightningOrb.LightningType.Loader || self.lightningType == RoR2.Orbs.LightningOrb.LightningType.Tesla
+            || self.lightningType == RoR2.Orbs.LightningOrb.LightningType.MageLightning)
+            {
                 self.AddModdedDamageType(LIGHTNING);
             }
             orig(self);
@@ -176,7 +192,8 @@ namespace Sandswept.Survivors.Electrician
 
         private void OnTakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
         {
-            if (damageInfo.damageType.damageType.HasFlag(DamageType.Shock5s)) {
+            if (damageInfo.damageType.damageType.HasFlag(DamageType.Shock5s))
+            {
                 damageInfo.AddModdedDamageType(LIGHTNING);
             }
 
@@ -187,21 +204,26 @@ namespace Sandswept.Survivors.Electrician
         {
             yield return orig(self);
 
-            if (NetworkServer.active && SceneManager.GetActiveScene().name == Scenes.SunderedGrove) {
+            if (NetworkServer.active && SceneManager.GetActiveScene().name == Scenes.SunderedGrove)
+            {
                 bool isAnyonePlayingElectrician = true;
 
-                foreach (var pcmc in PlayerCharacterMasterController.instances) {
-                    if (pcmc.networkUser && pcmc.networkUser.bodyIndexPreference != ElectricianIndex) {
+                foreach (var pcmc in PlayerCharacterMasterController.instances)
+                {
+                    if (pcmc.networkUser && pcmc.networkUser.bodyIndexPreference != ElectricianIndex)
+                    {
                         isAnyonePlayingElectrician = false;
                     }
                 }
 
-                if (!isAnyonePlayingElectrician) {
+                if (!isAnyonePlayingElectrician)
+                {
                     bool landmassEnabled = GameObject.Find("HOLDER: Randomization").transform.Find("GROUP: Tunnel Landmass").Find("CHOICE: Tunnel Landmass").gameObject.activeSelf;
                     Vector3 pos = new Vector3(103.4f, -3.1f, 170f);
                     Quaternion rot = Quaternion.Euler(0, -120f, 0);
 
-                    if (!landmassEnabled) {
+                    if (!landmassEnabled)
+                    {
                         pos = new(-209f, 75f, -185.9f);
                     }
 
@@ -297,7 +319,8 @@ namespace Sandswept.Survivors.Electrician
                     info.massIsOne = true;
                     info.force = Vector3.down * 40f;
 
-                    if (self.body.isChampion) {
+                    if (self.body.isChampion)
+                    {
                         info.force *= 0.2f;
                     }
 

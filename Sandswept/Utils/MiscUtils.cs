@@ -207,25 +207,35 @@ namespace Sandswept.Utils
             return SurfaceAlignmentInfo;
         }
 
-        public static FireProjectileInfo GetProjectile(GameObject prefab, float coeff, CharacterBody owner)
+        public static FireProjectileInfo GetProjectile(GameObject prefab, float coeff, CharacterBody owner, DamageTypeCombo? damageTypeCombo = null)
         {
-            FireProjectileInfo info = new();
-            info.damage = owner.damage * coeff;
-            info.crit = owner.RollCrit();
-            info.projectilePrefab = prefab;
-            info.owner = owner.gameObject;
-            info.position = owner.corePosition;
-            info.rotation = Util.QuaternionSafeLookRotation(owner.inputBank.aimDirection);
+            FireProjectileInfo info = new()
+            {
+                damage = owner.damage * coeff,
+                crit = owner.RollCrit(),
+                projectilePrefab = prefab,
+                owner = owner.gameObject,
+                position = owner.corePosition,
+                rotation = Util.QuaternionSafeLookRotation(owner.inputBank.aimDirection),
+            };
+
+            if (damageTypeCombo != null)
+            {
+                info.damageTypeOverride = damageTypeCombo;
+            }
 
             return info;
         }
 
-        public static Vector3? GroundPoint(this Vector3 point) {
+        public static Vector3? GroundPoint(this Vector3 point)
+        {
             return RaycastToDirection(point, float.PositiveInfinity, Vector3.down, LayerIndex.world.mask);
         }
 
-        public static Tuple<Vector3?, Vector3?> GroundPointWithNormal(this Vector3 point) {
-            if (Physics.Raycast(point + (Vector3.up * 20f), Vector3.down, out RaycastHit info, 4000f, LayerIndex.world.mask)) {
+        public static Tuple<Vector3?, Vector3?> GroundPointWithNormal(this Vector3 point)
+        {
+            if (Physics.Raycast(point + (Vector3.up * 20f), Vector3.down, out RaycastHit info, 4000f, LayerIndex.world.mask))
+            {
                 return new(info.point, info.normal);
             }
 
@@ -236,29 +246,39 @@ namespace Sandswept.Utils
         ///<param name="center">the center position</param>
         ///<param name="distance">the max distance</param>
         ///<returns>the list of positions</returns>
-        public static Vector3[] GetSafePositionsWithinDistance(Vector3 center, float distance) {
-            if (SceneInfo.instance && SceneInfo.instance.groundNodes) {
+        public static Vector3[] GetSafePositionsWithinDistance(Vector3 center, float distance)
+        {
+            if (SceneInfo.instance && SceneInfo.instance.groundNodes)
+            {
                 NodeGraph graph = SceneInfo.instance.groundNodes;
                 List<Vector3> valid = new();
-                foreach (NodeGraph.Node node in graph.nodes) {
-                    if (Vector3.Distance(node.position, center) <= distance) {
+                foreach (NodeGraph.Node node in graph.nodes)
+                {
+                    if (Vector3.Distance(node.position, center) <= distance)
+                    {
                         valid.Add(node.position);
                     }
                 }
                 return valid.ToArray();
             }
-            else {
+            else
+            {
                 return new Vector3[] { center };
             }
         }
     }
 
-    public class LazyAddressable<T> where T : UnityEngine.Object {
+    public class LazyAddressable<T> where T : UnityEngine.Object
+    {
         private Func<T> func;
         private T asset = null;
-        public T Asset {
-            get {
-                if (!asset) {
+
+        public T Asset
+        {
+            get
+            {
+                if (!asset)
+                {
                     asset = func();
                 }
 
@@ -266,11 +286,13 @@ namespace Sandswept.Utils
             }
         }
 
-        public LazyAddressable(Func<T> func) {
+        public LazyAddressable(Func<T> func)
+        {
             this.func = func;
         }
 
-        public static implicit operator T(LazyAddressable<T> addressable) {
+        public static implicit operator T(LazyAddressable<T> addressable)
+        {
             return addressable.Asset;
         }
     }
@@ -295,7 +317,6 @@ namespace Sandswept.Utils
 
             return _value;
         }
-        
 
         public static implicit operator BodyIndex(LazyIndex index) => index.Value;
     }

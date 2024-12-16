@@ -1,14 +1,13 @@
 using System;
-using Sandswept.Survivors;
-using Sandswept.Survivors.Electrician;
+using Sandswept.Survivors.Electrician.States.Special;
 
-namespace Sandswept.Survivors.Electrician.Skills
+namespace Sandswept.Survivors.Electrician.SkillsDefs.Special
 {
     public class SignalOverload : SkillBase<SignalOverload>
     {
-        public override string Name => (UnityEngine.Random.Range(0f, 100f) >= 99f) ? "Sigma Overload" : "Signal Overload";
-        public override string Description => "<style=cIsDamage>Grounding.</style> Charge up and beam energy forward, zapping enemies in a large radius around impact for <style=cIsDamage>1600% damage</style> and <style=cIsUtility>pulling them inward</style> over <style=cIsDamage>4 seconds</style>. Charging drains <style=cDeath>shield</style>, and skill effect ramps from <style=cDeath>0.4x</style> to <style=cIsDamage>1.5x</style> based on shield drained.";
-        public override Type ActivationStateType => typeof(States.SignalOverloadCharge);
+        public override string Name => Random.Range(0f, 100f) >= 99f ? "Sigma Overload" : "Signal Overload";
+        public override string Description => "<style=cIsDamage>Grounding.</style> Charge up and beam energy forward, <style=cIsDamage>zapping</style> enemies in a large radius for <style=cIsDamage>1600% damage</style> and <style=cIsUtility>pulling them inward</style> over <style=cIsDamage>4 seconds</style>. Charging drains <style=cDeath>shield</style>, and skill effect ramps from <style=cDeath>0.4x</style> to <style=cIsDamage>1.5x</style> based on shield drained.";
+        public override Type ActivationStateType => typeof(SignalOverloadCharge);
         public override string ActivationMachineName => "Weapon";
         public override float Cooldown => 12f;
         public override Sprite Icon => Main.prodAssets.LoadAsset<Sprite>("Assets/Sandswept/texElectricianSkillIcon_spc.png");

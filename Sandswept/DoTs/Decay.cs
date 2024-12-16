@@ -19,19 +19,37 @@ namespace Sandswept.DoTs
 
         public static DamageColorIndex decayColor = DamageColourHelper.RegisterDamageColor(new Color32(96, 56, 177, 255));
 
-        public static Material decayMat;
-
-        public static BurnEffectController.EffectParams decayEffect;
-
         public static void Init()
         {
-            decayMat = new Material(Paths.Material.matBlighted);
+            var decayMat = new Material(Paths.Material.matBlighted);
             decayMat.SetColor("_TintColor", new Color(0.49888185f, 0.20220098f, 1.0991436f, 1f)); // hdr color (with intensity), hence why a value is above 1
             decayMat.SetTexture("_RemapTex", Paths.Texture2D.texRampVoidSurvivorBase1);
-            decayEffect = new BurnEffectController.EffectParams()
+
+            var decayVFX = PrefabAPI.InstantiateClone(Paths.GameObject.BlightEffect, "DecayEffect, false");
+            var particleSystemRenderer = decayVFX.GetComponent<ParticleSystemRenderer>();
+            var decayVFXMat = new Material(Paths.Material.matCrocoBlightBillboard);
+            decayVFXMat.SetTexture("_RemapTex", Paths.Texture2D.texRampVoidSurvivorBase1);
+            decayVFXMat.SetTexture("_MainTex", Paths.Texture2D.texBandit2BackstabMask);
+
+            particleSystemRenderer.material = decayVFXMat;
+
+            var decayVFXBurst = decayVFX.transform.Find("Burst");
+            var decayVFXBurstMain = decayVFXBurst.GetComponent<ParticleSystem>().main;
+            var decayVFXBurstStartColor = decayVFXBurstMain.startColor;
+            decayVFXBurstStartColor.color = new Color32(96, 56, 177, 255);
+
+            var decayVFXBurstPSR = decayVFXBurst.GetComponent<ParticleSystemRenderer>();
+            var decayVFXBurstMat = new Material(Paths.Material.matCrocoGooLarge);
+            decayVFXBurstMat.SetColor("_TintColor", new Color32(78, 21, 176, 255));
+            decayVFXBurstMat.SetColor("_EmColor", new Color32(50, 10, 120, 255));
+            decayVFXBurstMat.SetTexture("_RemapTex", Paths.Texture2D.texRampVoidSurvivorBase1);
+
+            decayVFXBurstPSR.material = decayVFXBurstMat;
+
+            var decayEffect = new BurnEffectController.EffectParams()
             {
                 overlayMaterial = decayMat,
-                startSound = "Play_voidBarnacle_death"
+                fireEffectPrefab = decayVFX,
             };
             decayBuff = ScriptableObject.CreateInstance<BuffDef>();
             decayBuff.canStack = true;
