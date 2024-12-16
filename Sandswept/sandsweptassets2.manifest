@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1478253818
+CRC: 1185764411
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e9cc8b4ef60addc7deeb51ebff562a62
+    Hash: 48ebe2bd1a14942dda168212968a8ce1
   TypeTreeHash:
     serializedVersion: 2
-    Hash: d861b5005e8da4496532ad1bd625af13
+    Hash: 00851b5679c611be9bb0a07565ef97ab
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -216,8 +216,6 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 1839950351, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 664490745, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
   Script: {fileID: 717380117, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 370243918, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
@@ -251,6 +249,8 @@ ClassTypes:
   Script: {fileID: 52559370, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 105922711, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: -130519023, guid: b2ac317a67c468eb8fd6ed06da7572d4, type: 3}
 - Class: 114
   Script: {fileID: 372142912, guid: d382a022563c7517aadbc92ca1060016, type: 3}
 - Class: 115
@@ -314,6 +314,10 @@ SerializeReferenceClassIdentifiers:
   ClassName: UnityEngine.Events.UnityEvent
 - AssemblyName: UnityEngine.UI
   ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
+- AssemblyName: Wwise
+  ClassName: AkGameObjListenerList
+- AssemblyName: Wwise
+  ClassName: AkGameObjPositionOffsetData
 - AssemblyName: com.unity.multiplayer-hlapi.Runtime
   ClassName: UnityEngine.Networking.NetworkHash128
 - AssemblyName: com.unity.multiplayer-hlapi.Runtime

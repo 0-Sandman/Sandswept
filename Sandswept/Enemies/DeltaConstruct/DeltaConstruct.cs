@@ -79,6 +79,9 @@ namespace Sandswept.Enemies.DeltaConstruct
 
             ReplaceSkill(loc.primary, FireBoltsSkill.instance.skillDef);
             ReplaceSkill(loc.secondary, SkystrikeSkill.instance.skillDef);
+
+            prefab.GetComponent<CharacterDeathBehavior>().deathState = new(typeof(BaseConstructDeath));
+            EntityStateMachine.FindByCustomName(prefab, "Body").initialStateType = new(typeof(BaseConstructSpawn));
         }
 
         public class ShittyDebugComp : MonoBehaviour

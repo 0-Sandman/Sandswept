@@ -1,6 +1,6 @@
 using System;
 
-namespace Sandswept.Survivors.Electrician.States.Primary
+namespace Sandswept.Survivors.Electrician.States
 {
     public class GalvanicBolt : BaseSkillState
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Sandswept.Survivors.Electrician.States.Secondary
+namespace Sandswept.Survivors.Electrician.States
 {
     public class TempestSphereCharge : BaseSkillState
     {

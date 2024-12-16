@@ -31,6 +31,10 @@ namespace Sandswept.Utils {
             lr = effectInstance.GetComponent<DetachLineRendererAndFade>().line;
             origWidth = lr.widthMultiplier;
             Owner = owner;
+
+            targetEndpoint = GetEndpoint();
+            end.transform.position = targetEndpoint;
+            origin.transform.position = TargetMuzzle.transform.position;
         }
 
         public void Fire() {

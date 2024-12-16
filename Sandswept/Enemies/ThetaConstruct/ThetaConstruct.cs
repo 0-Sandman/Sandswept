@@ -63,6 +63,9 @@ namespace Sandswept.Enemies.ThetaConstruct
             SkillLocator loc = body.GetComponent<SkillLocator>();
 
             ReplaceSkill(loc.primary, CastShieldSkill.instance.skillDef);
+
+            prefab.GetComponent<CharacterDeathBehavior>().deathState = new(typeof(BaseConstructDeath));
+            EntityStateMachine.FindByCustomName(prefab, "Body").initialStateType = new(typeof(BaseConstructSpawn));
         }
     }
 

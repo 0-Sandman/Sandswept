@@ -73,6 +73,9 @@ namespace Sandswept.Enemies.GammaConstruct
 
             ReplaceSkill(loc.primary, FireBeamSkill.instance.skillDef);
             ReplaceSkill(loc.secondary, FireTwinBeamSkill.instance.skillDef);
+
+            prefab.GetComponent<CharacterDeathBehavior>().deathState = new(typeof(BaseConstructDeath));
+            EntityStateMachine.FindByCustomName(prefab, "Body").initialStateType = new(typeof(BaseConstructSpawn));
         }
     }
 }

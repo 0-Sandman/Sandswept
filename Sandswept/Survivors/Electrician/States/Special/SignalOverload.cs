@@ -1,7 +1,7 @@
 using System;
 using RoR2.Orbs;
 
-namespace Sandswept.Survivors.Electrician.States.Special
+namespace Sandswept.Survivors.Electrician.States
 {
     public class SignalOverloadCharge : BaseSkillState
     {
