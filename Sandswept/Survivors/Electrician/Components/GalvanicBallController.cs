@@ -43,16 +43,16 @@ namespace Sandswept.Survivors.Electrician
                         baseDamage = pDamage.damage * damage
                     };
 
-                    if (!hasBouncedEnemy) attack.Fire();
-
-                    hasBouncedEnemy = true;
-
-                    Util.PlaySound("Play_loader_R_shock", base.gameObject);
-                    EffectManager.SpawnEffect(Electrician.staticSnareImpactVFX, new EffectData
-                    {
-                        origin = attack.position,
-                        scale = attack.radius * 2f
-                    }, true);
+                    if (!hasBouncedEnemy) {
+                        attack.Fire();
+                        Util.PlaySound("Play_loader_R_shock", base.gameObject);
+                        EffectManager.SpawnEffect(Electrician.staticSnareImpactVFX, new EffectData
+                        {
+                            origin = attack.position,
+                            scale = attack.radius * 2f
+                        }, true);
+                        hasBouncedEnemy = true;
+                    }
 
                     var rb = GetComponent<Rigidbody>();
                     
@@ -62,6 +62,8 @@ namespace Sandswept.Survivors.Electrician
                         base.transform.up = collision.contacts[0].normal;
                         base.GetComponentInChildren<ParticleSystem>().Play();
                         hasStuck = true;
+
+                        base.gameObject.FindComponent<MeshRenderer>("Radius").enabled = true;
                     }
                     else {
                         rb.useGravity = true;

@@ -5,6 +5,7 @@ using EntityStates.Chef;
 using Sandswept.Survivors.Electrician.Achievements;
 using Sandswept.Survivors.Electrician.Skills;
 using Sandswept.Survivors.Electrician.States;
+using Sandswept.Utils.Components;
 using UnityEngine.SceneManagement;
 
 namespace Sandswept.Survivors.Electrician
@@ -71,6 +72,8 @@ namespace Sandswept.Survivors.Electrician
             cb.preferredPodPrefab = Paths.GameObject.RoboCratePod;
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdElectrician.asset");
             SurvivorDef.cachedName = "Electrician"; // for eclipse fix;
+            SurvivorDef.outroFlavorToken.Add("And so she left, having repaid her moral debt.");
+            SurvivorDef.mainEndingEscapeFailureFlavorToken.Add("And so she vanished, her final sparks waning.");
             var kcm = Body.GetComponent<KinematicCharacterController.KinematicCharacterMotor>();
             kcm.playerCharacter = true;
 
@@ -95,10 +98,10 @@ namespace Sandswept.Survivors.Electrician
 
             GalvanicBolt = Main.Assets.LoadAsset<GameObject>("GalvanicBallProjectile.prefab");
             // meow meow meow meow meow meow meow
-            var projectileProximityBeamController = GalvanicBolt.GetComponent<ProjectileProximityBeamController>();
-            projectileProximityBeamController.attackRange = 13f;
-            projectileProximityBeamController.procCoefficient = 0.8f;
-            projectileProximityBeamController.damageCoefficient = 0.75f;
+            // var projectileProximityBeamController = GalvanicBolt.GetComponent<ProjectileProximityBeamController>();
+            // projectileProximityBeamController.attackRange = 13f; // already reduced it to 8f in unity
+            // projectileProximityBeamController.procCoefficient = 0.8f;  // no no no no no no no no no no no no non ono no no no no no we are not gutting every single proc item on elec for no reason
+            // projectileProximityBeamController.damageCoefficient = 0.75f; // no, set to 1f in unity and attack speed reduced to 1.2s
             // weh
             // mrraow
             ContentAddition.AddProjectile(GalvanicBolt);
@@ -244,6 +247,8 @@ namespace Sandswept.Survivors.Electrician
                 Paths.Material.matLightningSphere
             };
 
+            GalvanicBolt.FindComponent<MeshRenderer>("Radius").sharedMaterial = Paths.Material.matTeamAreaIndicatorIntersectionPlayer;
+
             GameObject tempestOrb = PrefabAPI.InstantiateClone(Paths.GameObject.VoidSurvivorChargeMegaBlaster, "TempestOrb", false);
             tempestOrb.transform.Find("Base").gameObject.SetActive(false);
             tempestOrb.transform.Find("Base (1)").gameObject.SetActive(false);
@@ -262,6 +267,10 @@ namespace Sandswept.Survivors.Electrician
             tempestOrb.transform.position = Vector3.zero;
             tempestOrb.transform.localPosition = Vector3.zero;
             TempestSphere.GetComponentInChildren<LineRenderer>().sharedMaterial = Paths.Material.matLightningLongYellow;
+            
+            var dac = TempestSphere.AddComponent<DetachAndCollapse>();
+            dac.target = sphereVFX.transform;
+            dac.collapseTime = 0.4f;
 
             staticSnareImpactVFX = PrefabAPI.InstantiateClone(Paths.GameObject.LoaderGroundSlam, "Sigma Gyatt Rizz Ohio Fa-", false);
             foreach (ShakeEmitter ughShakesButt in staticSnareImpactVFX.GetComponents<ShakeEmitter>())

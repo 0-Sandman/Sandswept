@@ -6,6 +6,7 @@ namespace Sandswept.Enemies.ThetaConstruct {
     public class CastShield : BaseSkillState {
         public GameObject shieldInstance;
         public float duration = 15f;
+        public GameObject effect;
         public override void OnEnter()
         {
             base.OnEnter();
