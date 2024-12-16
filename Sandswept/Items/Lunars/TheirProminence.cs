@@ -13,7 +13,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemFullDescription => ("Using a shrine has a $su" + d(baseChance) + "$se $ss(+" + d(stackChance) + " per stack)$se chance to invite the $suchallenge of the Mountain$se.").AutoFormat();
 
-        public override string ItemLore => "";
+        public override string ItemLore => "\"Two brothers, standing at a well. Both young, both innocent\"\r\n\"A worm falls in. A new world is found. One betrayed. One regretful.\"\r\n\"Two brothers, toiling in the ambry. Both reverent, both powerful\"\r\n\"The [compounds] are discovered. Guardians created. Both amazed, both proud\"\r\n\"Two brothers, looking for a way out. Both hopeful. Both curious\"\r\n\"A society is found. One sympathetic. One annoyed.\"\r\n\"Two brothers, torn on ethics. One tyrannical. One puritanical.\" \r\n\"A teleporter is created. A choice is made. One regretful. One betrayed.\"\r\n\"Two brothers, separated by space. One enslaves. One broods.\"\r\n\"A shine appears in the sky. One enraged. One hopeful.\"\r\n\"Two brothers. Their times approach. One king. One outcast.\"\r\n\"A god is felled. Anarchy takes hold. One missing. One forgotten.\"\r\n\"Two brothers. Never… to meet again.\"\r\n\r\nTranslated from a Lemurian Scribe found in the Temple of the Elders by UES personnel. Burn at leisure.\r\n";
 
         public override ItemTier Tier => ItemTier.Lunar;
 

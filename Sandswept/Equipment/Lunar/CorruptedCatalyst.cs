@@ -21,7 +21,7 @@ namespace Sandswept.Equipment.Lunar
 
         public override string EquipmentFullDescription => ("Create a $su" + buffRadius + "m$se aura that gives all allies and enemies a $surandom buff$se for $su" + buffDuration + " seconds$se.").AutoFormat();
 
-        public override string EquipmentLore => "TBD";
+        public override string EquipmentLore => "This is a curious construction. It is simple, with simple ratios, but elegant. It requires a strong design to create something like this with such basic compounds. Well done.\r\n\r\nIt is chaotic, however. Too chaotic. Without my expertise, this is inevitable, given the constraints of your materials. No matter. It will be improved, under my watch, into a perfected form. It should be valuable to my arsenal.\r\n\r\nPerhaps you should oversee the project. It would be fitting, for it to be your first. Increase the intensity, and focus its effects — it needn’t have more than a single purpose. You may use any of the compounds and materials stored here. As always, do not settle for less than perfection.\r\n";
 
         public override GameObject EquipmentModel => Main.Assets.LoadAsset<GameObject>("PickupLunarCatalyst.prefab");
         public override bool IsLunar => true;

@@ -2,6 +2,7 @@ using System;
 using R2API.Utils;
 using RoR2.CharacterAI;
 using System.Linq;
+using Sandswept.Survivors.Ranger.VFX;
 
 namespace Sandswept.Enemies.CannonballJellyfish.States
 {
@@ -14,18 +15,24 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
         public static float DashForce = 50f;
 
         //
-        private float maxStallDur = 1f;
+        private float durationToAttack;
+
+        private float durationToTelegraph;
 
         private OverlapAttack attack;
-        private float duration = 0.5f;
+        private float duration;
+        private float baseDurationToAttack = 1.5f;
         private bool dashedAlready = false;
+        private bool showedTelegraph = false;
         private BaseAI ai;
         private Vector3 lockVector;
+        private Transform modelTransform;
 
         public override void OnEnter()
         {
             base.OnEnter();
-            duration += maxStallDur;
+            durationToAttack = baseDurationToAttack / attackSpeedStat;
+            durationToTelegraph = 0.75f * durationToAttack;
 
             if (base.characterBody.master)
             {
@@ -55,13 +62,30 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
         {
             base.FixedUpdate();
 
-            SetDir();
-            if (duration >= (maxStallDur * 0.65f) && !dashedAlready)
+            if (fixedAge >= durationToTelegraph && !showedTelegraph)
             {
-                Util.PlaySound("Play_lunar_wisp_attack2_windUp", gameObject);
+                Util.PlayAttackSpeedSound("Play_lunar_wisp_attack1_windUp", gameObject, 1.5f);
+
+                modelTransform = GetModelTransform();
+
+                if (modelTransform)
+                {
+                    var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
+                    temporaryOverlay.duration = 1f;
+                    temporaryOverlay.animateShaderAlpha = true;
+                    temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                    temporaryOverlay.destroyComponentOnEnd = true;
+                    temporaryOverlay.originalMaterial = Survivors.Ranger.VFX.HeatSignatureVFX.heatDashMat2Default;
+                    temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
+
+                    showedTelegraph = true;
+                }
             }
-            if (duration >= maxStallDur && !dashedAlready && base.isAuthority)
+
+            if (fixedAge >= durationToAttack && !dashedAlready && base.isAuthority)
             {
+                SetDir();
+
                 Util.PlaySound("Play_AntlerShield_Pickup", gameObject);
                 Util.PlaySound("Play_AntlerShield_Pickup", gameObject);
 
@@ -100,7 +124,7 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
                 base.transform.forward = lockVector;
             }
 
-            if (base.fixedAge >= duration)
+            if (base.fixedAge >= durationToAttack + durationToTelegraph)
             {
                 outer.SetNextStateToMain();
             }
@@ -126,7 +150,7 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
             rigidbodyDirection.freezeZRotation = false;
             base.rigidbodyMotor.rootMotion = Vector3.zero;
             base.rigidbody.velocity = Vector3.zero;
-            Util.PlaySound("Play_lunar_wisp_attack1_windDown", gameObject);
+            Util.PlayAttackSpeedSound("Play_lunar_wisp_attack1_windDown", gameObject, 2f);
         }
     }
 }

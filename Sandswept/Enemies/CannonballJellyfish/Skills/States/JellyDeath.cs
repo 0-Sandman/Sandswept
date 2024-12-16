@@ -2,8 +2,12 @@ using System;
 
 namespace Sandswept.Enemies.CannonballJellyfish
 {
+    [ConfigSection("Enemies :: Cannonball Jellyfish")]
     public class JellyDeath : BaseState
     {
+        [ConfigField("Death Projectile Damage Coefficient", "Decimal.", 3f)]
+        public static float DamageCoefficient;
+
         private static readonly float bodyPreservationDuration = 1f;
 
         private static readonly float hardCutoffDuration = 10f;
@@ -75,7 +79,7 @@ namespace Sandswept.Enemies.CannonballJellyfish
 
                 if (base.isAuthority)
                 {
-                    var proj = MiscUtils.GetProjectile(CannonballJellyfish.JellyCoreProjectile, 4f, base.characterBody);
+                    var proj = MiscUtils.GetProjectile(CannonballJellyfish.JellyCoreProjectile, DamageCoefficient, base.characterBody);
                     ProjectileManager.instance.FireProjectile(proj);
                 }
             }
