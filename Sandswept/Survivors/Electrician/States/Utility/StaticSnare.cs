@@ -1,6 +1,6 @@
 using System;
 
-namespace Sandswept.Survivors.Electrician.States.Utility
+namespace Sandswept.Survivors.Electrician.States
 {
     public class StaticSnare : BaseSkillState
     {

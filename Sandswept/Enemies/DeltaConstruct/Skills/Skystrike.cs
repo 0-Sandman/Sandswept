@@ -166,6 +166,7 @@ namespace Sandswept.Enemies.DeltaConstruct {
         public float duration = 3f;
         public SkystrikeLaserInfo[] skystrikeBeams;
         public Vector3 guh;
+        public bool wasKnockedOutOfState = true;
         public override void OnEnter()
         {
             base.OnEnter();
@@ -219,6 +220,7 @@ namespace Sandswept.Enemies.DeltaConstruct {
             // characterDirection.forward = guh;
 
             if (base.fixedAge >= duration) {
+                wasKnockedOutOfState = false;
                 outer.SetNextState(new SkystrikeFire(skystrikeBeams, guh));
             }
 
@@ -251,6 +253,19 @@ namespace Sandswept.Enemies.DeltaConstruct {
             }
 
             return points;
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+
+            if (!wasKnockedOutOfState) return;
+
+            for (int i = 0; i < skystrikeBeams.Length; i++) {
+                AkSoundEngine.PostEvent(Events.Stop_majorConstruct_m1_laser_loop, skystrikeBeams[i].lineHandle.gameObject);
+                AkSoundEngine.PostEvent(Events.Play_majorConstruct_m1_laser_end, skystrikeBeams[i].lineHandle.gameObject);
+                GameObject.Destroy(skystrikeBeams[i].effect);
+            }
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

@@ -214,6 +214,8 @@ namespace Sandswept.Survivors.Electrician
                     blast.baseDamage *= 2f;
                     blast.Fire();
 
+                    isInVehicleMode = false;
+
                     EffectManager.SpawnEffect(effect, new EffectData
                     {
                         origin = blast.position,

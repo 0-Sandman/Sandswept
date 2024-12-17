@@ -18,6 +18,7 @@ namespace Sandswept.Survivors.Electrician
         private bool locked = false;
         private CharacterBody body;
         private float damagePerTick;
+        private Transform lineOrigin;
 
         public void Start()
         {
@@ -36,6 +37,8 @@ namespace Sandswept.Survivors.Electrician
                 {
                     if (!orbs.ContainsKey(body)) orbs.Add(body, new());
                     orbs[body].Add(this);
+
+                    lineOrigin = body.GetComponent<ModelLocator>().modelTransform.GetComponent<ChildLocator>().FindChild("MuzzleOrb");
                 }
             }
 
@@ -56,8 +59,10 @@ namespace Sandswept.Survivors.Electrician
                 }
             }
 
+            if (!body) return;
+
             lr.SetPosition(0, base.transform.position);
-            lr.SetPosition(1, body.corePosition);
+            lr.SetPosition(1, lineOrigin.position);
         }
 
         public void HandleBlastAuthority(Vector3 pos)

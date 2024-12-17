@@ -31,6 +31,10 @@ namespace Sandswept.Utils {
             lr = effectInstance.GetComponent<DetachLineRendererAndFade>().line;
             origWidth = lr.widthMultiplier;
             Owner = owner;
+
+            targetEndpoint = GetEndpoint(out _);
+            end.transform.position = targetEndpoint;
+            origin.transform.position = TargetMuzzle.transform.position;
         }
 
         public void Fire() {
@@ -52,7 +56,7 @@ namespace Sandswept.Utils {
             stopwatch += deltaTime;
 
             if (stopwatch >= delay) {
-                targetEndpoint = GetEndpoint();
+                targetEndpoint = GetEndpoint(out Vector3 impact);
                 stopwatch = 0f;
 
                 if (firing && Owner.hasAuthority) {
@@ -60,7 +64,7 @@ namespace Sandswept.Utils {
 
                     if (info.ImpactEffect) {
                         EffectManager.SpawnEffect(info.ImpactEffect, new EffectData {
-                            origin = targetEndpoint,
+                            origin = impact,
                             scale = 1f
                         }, false);
                     }
@@ -73,7 +77,7 @@ namespace Sandswept.Utils {
             }
         }
 
-        public Vector3 GetEndpoint() {
+        public Vector3 GetEndpoint(out Vector3 unmodified) {
             Vector3 dir = (info.FiringMode == LaserFiringMode.TrackAim) ? Owner.inputBank.aimDirection : TargetMuzzle.forward;
             Vector3 pos = (info.FiringMode == LaserFiringMode.TrackAim) ? Owner.inputBank.aimOrigin : TargetMuzzle.position;
             Vector3 endpoint = new Ray(pos, dir).GetPoint(info.MaxRange);
@@ -81,6 +85,9 @@ namespace Sandswept.Utils {
             if (Physics.Raycast(pos, dir, out RaycastHit hit, info.MaxRange, LayerIndex.world.mask)) {
                 endpoint = hit.point;
             }
+
+            unmodified = endpoint;
+            endpoint += dir * 5f;
 
             return endpoint;
         }

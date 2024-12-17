@@ -1,15 +1,16 @@
 using System;
 using RoR2.Orbs;
 
-namespace Sandswept.Survivors.Electrician.States.Special
+namespace Sandswept.Survivors.Electrician.States
 {
     public class SignalOverloadCharge : BaseSkillState
     {
-        public float baseDuration = 0.7f;
+        public float baseDuration = 1.8f;
         public float shieldDrained = 0f;
         public float stopwatch = 0f;
         public float delay = 0.7f / 10;
         public float drainAmount;
+        public float baseMax = 0.3f;
 
         public override void OnEnter()
         {
@@ -46,7 +47,7 @@ namespace Sandswept.Survivors.Electrician.States.Special
 
             if (fixedAge >= baseDuration)
             {
-                outer.SetNextState(new SignalOverloadDischarge(Util.Remap(shieldDrained, 0f, healthComponent.fullShield, 0.4f, 1f)));
+                outer.SetNextState(new SignalOverloadDischarge(Util.Remap(shieldDrained, 0f, healthComponent.fullCombinedHealth * baseMax, 0.4f, 1f)));
             }
 
             stopwatch += Time.fixedDeltaTime;
@@ -280,7 +281,7 @@ namespace Sandswept.Survivors.Electrician.States.Special
                     isCrit = RollCrit(),
                     lightningType = LightningOrb.LightningType.Loader,
                     origin = position,
-                    procCoefficient = 1f,
+                    procCoefficient = 1f - Util.Remap(Vector3.Distance(base.transform.position, box.transform.position), 0f, 60f, 0f, 0.8f),
                     target = box,
                     teamIndex = GetTeam()
                 };
@@ -379,6 +380,8 @@ namespace Sandswept.Survivors.Electrician.States.Special
             search.FilterCandidatesByDistinctHurtBoxEntities();
             search.FilterCandidatesByHurtBoxTeam(TeamMask.GetUnprotectedTeams(GetTeam()));
 
+            AkSoundEngine.PostEvent(Events.Play_loader_R_variant_slam, base.gameObject);
+
             foreach (HurtBox box in search.GetHurtBoxes())
             {
                 LightningOrb orb = new()
@@ -395,11 +398,24 @@ namespace Sandswept.Survivors.Electrician.States.Special
                     damageType = DamageType.Shock5s
                 };
 
-                orb.damageType.damageSource = DamageSource.Special;
+                SimpleLightningStrikeOrb orb2 = new()
+                {
+                    attacker = gameObject,
+                    damageValue = damageStat * damageCoeff,
+                    isCrit = orb.isCrit,
+                    origin = orb.origin,
+                    procCoefficient = 0f,
+                    target = box,
+                    teamIndex = GetTeam(),
+                    damageType = DamageType.Shock5s
+                };
+
+                orb.damageType.damageSource = DamageSource.NoneSpecified;
 
                 orb.AddModdedDamageType(Electrician.Grounding);
 
                 OrbManager.instance.AddOrb(orb);
+                OrbManager.instance.AddOrb(orb2);
             }
         }
 

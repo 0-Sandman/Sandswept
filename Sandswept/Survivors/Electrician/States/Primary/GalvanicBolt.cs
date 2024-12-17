@@ -1,6 +1,6 @@
 using System;
 
-namespace Sandswept.Survivors.Electrician.States.Primary
+namespace Sandswept.Survivors.Electrician.States
 {
     public class GalvanicBolt : BaseSkillState
     {
@@ -15,7 +15,7 @@ namespace Sandswept.Survivors.Electrician.States.Primary
 
             if (isAuthority)
             {
-                FireProjectileInfo info = MiscUtils.GetProjectile(Electrician.GalvanicBolt, 2f, characterBody, DamageTypeCombo.GenericPrimary);
+                FireProjectileInfo info = MiscUtils.GetProjectile(Electrician.GalvanicBolt, 1f, characterBody, DamageTypeCombo.GenericPrimary);
                 ProjectileManager.instance.FireProjectile(info);
             }
 

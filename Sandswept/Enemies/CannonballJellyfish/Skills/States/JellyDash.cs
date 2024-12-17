@@ -55,7 +55,8 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
 
         public void SetDir()
         {
-            base.characterBody.SetAimTimer(0.02f);
+            // base.characterBody.SetAimTimer(0.02f);
+            base.transform.forward = base.GetAimRay().direction;
         }
 
         public override void FixedUpdate()
@@ -80,6 +81,10 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
 
                     showedTelegraph = true;
                 }
+            }
+
+            if (!dashedAlready) {
+                StartAimMode(0.2f);
             }
 
             if (fixedAge >= durationToAttack && !dashedAlready && base.isAuthority)
