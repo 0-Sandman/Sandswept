@@ -131,6 +131,8 @@ namespace Sandswept
             hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
             dgoslingAssets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "dgoslingstuff"));
 
+            Sandswept.Utils.Keywords.SetupKeywords();
+
             Decay.Init();
 
             GenerateExpensionDef();
