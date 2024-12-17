@@ -20,7 +20,7 @@ namespace Sandswept.Drones.Inferno {
 
         public override int Weight => 40;
 
-        public override int Credits => 20;
+        public override int Credits => 35;
 
         public override DirectorAPI.Stage[] Stages => new DirectorAPI.Stage[] {
             DirectorAPI.Stage.TitanicPlains,
