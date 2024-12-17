@@ -28,6 +28,13 @@ namespace Sandswept.Items.Whites
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility, ItemTag.Healing };
 
+        public override bool nonstandardScaleModel => false;
+        // wharever im pupy
+        // I tried most of the combinations of blender export scale, unity scale
+        // convert units and prefab child transform scale
+        // and it all looked like farlands with nonstandardscalemodel as false,
+        // and really far away with the standard scale
+
         public static ModdedProcType amberKnife = ProcTypeAPI.ReserveProcType();
 
         public static GameObject amberKnifeProjectile;

@@ -39,11 +39,11 @@
             tracerPrefabRacecar = CreateTracerRecolor("Racecar", new Color32(127, 0, 0, 255), new Color32(0, 0, 0, 255), new Color32(255, 0, 0, 255), false, 2.207824f, 1.515893f, 0.397718f);
             impactPrefabRacecar = CreateImpactRecolor("Racecar", new Color32(0, 0, 0, 255), new Color32(127, 0, 0, 94), new Color32(4, 0, 0, 255));
 
-            tracerPrefabSandswept = CreateTracerRecolor("Sandswept", new Color32(249, 197, 143, 255), new Color32(150, 150, 150, 255), new Color32(214, 159, 79, 255), false, 2.207824f, 1.515893f, 0.397718f);
-            impactPrefabSandswept = CreateImpactRecolor("Sandswept", new Color32(150, 150, 150, 255), new Color32(249, 197, 143, 94), new Color32(87, 87, 87, 255));
+            tracerPrefabSandswept = CreateTracerRecolor("Sandswept", new Color32(255, 255, 255, 255), new Color32(150, 150, 150, 255), new Color32(255, 255, 255, 255), false, 2.207824f, 1.515893f, 0.397718f, true);
+            impactPrefabSandswept = CreateImpactRecolor("Sandswept", new Color32(230, 230, 230, 255), new Color32(249, 197, 143, 94), new Color32(87, 87, 87, 255));
         }
 
-        public static GameObject CreateTracerRecolor(string name, Color32 aquaEquivalent, Color32 orangeEquivalent, Color32 darkRedEquivalent, bool altRamp = false, float brightnessBoost = 1.277907f, float alphaBoost = 0f, float alphaBias = 0.2317166f)
+        public static GameObject CreateTracerRecolor(string name, Color32 aquaEquivalent, Color32 orangeEquivalent, Color32 darkRedEquivalent, bool altRamp = false, float brightnessBoost = 1.277907f, float alphaBoost = 0f, float alphaBias = 0.2317166f, bool sandsweptRamp = false)
         {
             // aquaEquivalent = new Color32(95, 209, 177, 255);
             // orangeEquivalent = new Color32(234, 122, 51, 255);
@@ -139,8 +139,15 @@
             var p2_2 = altRamp ? "2.png" : ".png";
 
             var inConcretion = p2 + p2_2;
+            if (sandsweptRamp)
+            {
+                newMat3.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone);
+            }
+            else
+            {
+                newMat3.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>(inConcretion));
+            }
 
-            newMat3.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>(inConcretion));
             newMat3.SetColor("_TintColor", darkRedEquivalent);
             newMat3.SetFloat("_SoftFactor", 1f);
             newMat3.SetFloat("_Boost", brightnessBoost);
@@ -164,22 +171,39 @@
             return tracer;
         }
 
-        public static GameObject CreateImpactRecolor(string name, Color32 hotPinkEquivalent, Color32 redEquivalent, Color32 spikeColor, float brighnessBoost = 11.08f, float alphaBoost = 4.3f)
+        public static GameObject CreateImpactRecolor(string name, Color32 hotPinkEquivalent, Color32 redEquivalent, Color32 spikeColor, float brightnessBoost = 11.08f, float alphaBoost = 4.3f)
         {
             // hotPinkEquivalent = new Color32(226, 27, 128, 255);
             // redEquivalent = new Color32(209, 21, 15, 96);
             // spikeColor = new Color32(255,255,255,255);
-            var impact = Paths.GameObject.ImpactRailgunLight.InstantiateClone("Exhaust Impact" + name, false);
+            var impact = Paths.GameObject.ImpactRailgunLight.InstantiateClone("Exhaust Impact " + name, false);
 
             var trans = impact.transform;
 
             var beamParticles = trans.GetChild(0);
             beamParticles.gameObject.SetActive(false);
 
-            var shockWave = trans.GetChild(1).GetComponent<ParticleSystem>().main.startColor;
-            shockWave.color = hotPinkEquivalent;
+            var shockwave = trans.GetChild(1);
+            var shockwavePS = shockwave.GetComponent<ParticleSystem>();
+            var shockwaveMain = shockwavePS.main;
+            var shockwaveColor = shockwaveMain.startColor;
+            shockwaveColor.color = hotPinkEquivalent;
+            var shockwavePSR = shockwave.GetComponent<ParticleSystemRenderer>();
+
+            var newShockwaveMaterial = new Material(Paths.Material.matRailgunRings);
+            newShockwaveMaterial.SetColor("_TintColor", redEquivalent);
+
+            shockwavePSR.material = newShockwaveMaterial;
 
             var flashWhite = trans.GetChild(2);
+            var flashWhitePSR = flashWhite.GetComponent<ParticleSystemRenderer>();
+
+            var newFlashWhiteMat = new Material(Paths.Material.matRailgunTracerHeadLight);
+            newFlashWhiteMat.SetTexture("_RemapTex", Paths.Texture2D.texRampTritoneSmoothed);
+            newFlashWhiteMat.SetColor("_TintColor", new Color32(hotPinkEquivalent.r, hotPinkEquivalent.g, hotPinkEquivalent.b, 143));
+            newFlashWhiteMat.SetFloat("_Boost", 1f);
+            newFlashWhiteMat.SetFloat("_AlphaBias", 0.8453865f);
+            flashWhitePSR.material = newFlashWhiteMat;
             // flashWhite.gameObject.SetActive(false);
 
             var daggers = trans.GetChild(3).GetComponent<ParticleSystemRenderer>();
@@ -188,10 +212,11 @@
             daggersPS.constantMin = 1f;
             daggersPS.constantMax = 1f;
 
-            var newMat = Object.Instantiate(Paths.Material.matRailgunImpactSpikesLight);
+            var newMat = new Material(Paths.Material.matRailgunImpactSpikesLight);
             newMat.SetColor("_TintColor", spikeColor);
-            newMat.SetFloat("_Boost", brighnessBoost);
+            newMat.SetFloat("_Boost", brightnessBoost);
             newMat.SetFloat("_AlphaBoost", alphaBoost);
+            newMat.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone);
 
             daggers.material = newMat;
 

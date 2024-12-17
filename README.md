@@ -140,28 +140,28 @@
 			<td><img src="https://i.postimg.cc/TYHQJ5RD/tex-Cannonball-Jellyfish.png" width="64"/></td>
 			<td>
 				<b>Cannonball Jellyfish</b><br>
-				Launches itself at you rapidly stunning itself if it misses and hits and object before falling back to recover and repeat. 
+				Launches itself at you. Stuns itself it it misses.
 			</td>
 		</tr>
 		<tr>
-			<td><img src="" width="64"/></td>
+			<td><img src="https://i.postimg.cc/PJvp7Q70/tex-Gamma-Construct.png" width="64"/></td>
 			<td>
 				<b>Gamma Construct</b><br>
-				Alternates between firing a large sweeping beam and 2 smaller side ones
+				Alternates between firing a large sweeping laser and two smaller, stationary ones.
 			</td>
 		</tr>
 		<tr>
 			<td><img src="https://i.postimg.cc/CLKm8sV0/tex-Delta-Construct.png" width="64"/></td>
 			<td>
 				<b>Delta Construct</b><br>
-				Fires 2 projectiles in a line at you and after a few shots it takes to the sky charging up and firing a bunch of small beams that go in random directions leaving a fire trail behind them.
+				Fires two projectiles at you. Soars to the sky, charging up a configuration of small lasers that go in random directions, leaving a fire trail behind them.
 			</td>
 		</tr>
 		<tr>
 			<td><img src="https://i.postimg.cc/Y2RdjyZ8/tex-Theta-Construct.png" width="64"/></td>
 			<td>
 				<b>Theta Construct</b><br>
-				Guards an enemy preventing and knocking back all damage from it on top of giving it an attack speed buff and giving an elite aspect effect if it has one.
+				Guards an enemy, preventing all ranged damage. Gives it an attack speed buff and shares its elite aspect effect.
 			</td>
 		</tr>
 	</tbody>
@@ -218,11 +218,11 @@
 			</td>
 		</tr>
 		<tr>
-			<td>Image TBD</td>
+			<td><img src="https://i.postimg.cc/yY6kR6Qb/tex-Shrine-Of-Ruin2.png" width="64"/></td>
 			<td>
 				<b>Shrine of Ruin</b><br>
 				Give 10 common items to corrupt the next stage, making it a simulacrum variant that exclusively drops void items and spawns void enemies.<br>
-				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 2, costs 45 credits. Replaces <i>all</i> loot tables with a custom void one that has a <b>50%</b> chance of rolling a void common, <b>34%</b> chance of rolling a void uncommon, <b>8%</b> chance of rolling a void legendary, and <b>8%</b> chance of rolling a void boss item.
+				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 2, costs 45 credits. The combat director gets <b>100%</b> more credits and interactable credits are reduced by <b>55%</b>.
 			</td>
 		</tr>
 		<tr>
@@ -231,6 +231,13 @@
 				<b>Shrine of The Future</b><br>
 				Summon a random Tier 2 Elite Miniboss with halved stats that, upon being defeated, drops 3 item potentials per player.<br>
 				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 3 and &le; 11, costs 35 credits. Item potentials have a choice between a random white and a random green.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/tJ8JGV5r/tex-Inferno-Drone.png" width="64"/></td>
+			<td>
+				<b>Inferno Drone</b><br>
+				Launches a missile which explodes and spews pools of lava.
 			</td>
 		</tr>
 	</tbody>
@@ -396,7 +403,7 @@
 			<td><img src="https://i.postimg.cc/SNPjrhH3/tex-Galvanic-Cell-Shield.png" width="64"/></td>
 			<td>
 				<b>Galvanic Cell Shield</b><br>
-				Raise a shield that parries the next attack. Upon successfully parrying, shock and damage nearby enemies for <b>2000%</b> damage. Cooldown: <b>20s</b>
+				Evoke a shield that parries the next attack. Upon successfully parrying, shock and damage nearby enemies for <b>2000%</b> damage. Cooldown: <b>20s</b>
 			</td>
 		</tr>
 		<tr>

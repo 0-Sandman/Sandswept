@@ -67,7 +67,7 @@ namespace Sandswept.Enemies.GammaConstruct
             master.bodyPrefab = prefab;
 
             body.baseNameToken.Add("Gamma Construct");
-            body.portraitIcon = null;
+            body.portraitIcon = Main.hifuSandswept.LoadAsset<Texture2D>("texGammaConstruct.png");
 
             SkillLocator loc = body.GetComponent<SkillLocator>();
 

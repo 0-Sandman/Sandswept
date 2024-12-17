@@ -30,7 +30,7 @@ namespace Sandswept.Survivors.Ranger.Hooks
 
             if (damageInfo.HasModdedDamageType(Projectiles.DirectCurrent.chargeOnHitDash))
             {
-                attackerBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Min(Projectiles.DirectCurrent.maxCharge, buffCount + 3));
+                attackerBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Min(Projectiles.DirectCurrent.maxCharge, buffCount + 5));
             }
         }
     }

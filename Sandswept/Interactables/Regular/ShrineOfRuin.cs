@@ -6,6 +6,7 @@ using RoR2;
 using RoR2.EntitlementManagement;
 using RoR2.ExpansionManagement;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -53,6 +54,12 @@ namespace Sandswept.Interactables.Regular
 
         [ConfigField("White Item Cost", "", 10)]
         public static int whiteItemCost;
+
+        [ConfigField("Combat Director Credit Multiplier", "", 2f)]
+        public static float combatDirectorCreditMultiplier;
+
+        [ConfigField("Scene Director Interactable Credit Multiplier", "", 0.45f)]
+        public static float sceneDirectorInteractableCreditMultiplier;
 
         public static GameObject shrineVFX;
 
@@ -108,18 +115,31 @@ namespace Sandswept.Interactables.Regular
             };
 
             prefab = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineBlood, "Shrine of Ruin", true);
-            var mdl = prefab.transform.Find("Base/mdlShrineHealing").gameObject;
-            mdl.name = "mdlShrineRuin";
-            mdl.GetComponent<MeshFilter>().sharedMesh = Main.prodAssets.LoadAsset<Mesh>("assets/sandswept/shrinesacrifice.fbx");
-            mdl.GetComponent<MeshRenderer>().sharedMaterial = Main.prodAssets.LoadAsset<Material>("assets/sandswept/shrinesacrifice.fbx");
+            var modelBase = prefab.transform.Find("Base");
+            modelBase.transform.localPosition = Vector3.zero;
+            var mdl = Main.prodAssets.LoadAsset<GameObject>("assets/sandswept/shrineruin.fbx");
+            prefab.GetComponent<ModelLocator>().modelTransform = mdl.transform;
+            mdl.name = "mdlShrineOfRuin";
+            mdl.transform.localScale = Vector3.one * 70;
+            mdl.AddComponent<EntityLocator>().entity = prefab;
+            mdl.AddComponent<ChildLocator>().transformPairs = new ChildLocator.NameTransformPair[] { new() { name = "FireworkOrigin", transform = prefab.transform.Find("Symbol") } };
+            var areYouFuckingKiddingMe = mdl.GetComponent<MeshRenderer>();
+            areYouFuckingKiddingMe.material.shader = Paths.Shader.HGStandard;
+
+            var to = mdl.AddComponent<BoxCollider>();
+            to.center = Vector3.zero; to.size = Vector3.one * 0.04f;
+            prefab.GetComponent<DitherModel>().bounds = to;
+            prefab.GetComponent<DitherModel>().renderers[0] = mdl.GetComponent<MeshRenderer>();
+            prefab.GetComponent<Highlight>().targetRenderer = mdl.GetComponent<MeshRenderer>();
+
             var symbol = prefab.transform.Find("Symbol");
-            symbol.localPosition = new(0, 4, 0);
+            symbol.localPosition = new(-4, 8, -2);
             var meshRenderer = symbol.GetComponent<MeshRenderer>();
-            meshRenderer.material.mainTexture = Main.prodAssets.LoadAsset<Texture2D>("assets/sandswept/shrinesacrificeicon.png");
+            meshRenderer.material.mainTexture = Main.prodAssets.LoadAsset<Texture2D>("assets/sandswept/shrineruinicon.png");
             meshRenderer.material.SetColor("_TintColor", new Color32(255, 255, 255, 255));
 
             shrineVFX = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.ShrineUseEffect, "Shrine of Ruin VFX", false);
-            shrineVFX.GetComponent<EffectComponent>().soundName = "Play_affix_void_bug_spawn";
+            shrineVFX.GetComponent<EffectComponent>().soundName = string.Empty;
             ContentAddition.AddEffect(shrineVFX);
 
             var purchaseInteraction = prefab.GetComponent<PurchaseInteraction>();
@@ -137,6 +157,9 @@ namespace Sandswept.Interactables.Regular
             prefab.AddComponent<ShrineOfRuinController>();
 
             prefab.AddComponent<UnityIsAFuckingPieceOfShit2>();
+
+            modelBase.Find("mdlShrineHealing").gameObject.SetActive(false);
+            mdl.transform.parent = modelBase;
 
             var expansionRequirementComponent = prefab.AddComponent<ExpansionRequirementComponent>();
             expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
@@ -202,7 +225,8 @@ namespace Sandswept.Interactables.Regular
 
         private PickupIndex OnGenerateDrop(On.RoR2.BasicPickupDropTable.orig_GenerateDropPreReplacement orig, BasicPickupDropTable self, Xoroshiro128Plus rng)
         {
-            if (shouldReplaceDrops && self.bossWeight == 0f && self.equipmentWeight < 1f) {
+            if (shouldReplaceDrops && self.bossWeight == 0f && self.equipmentWeight < 1f)
+            {
                 VoidedPickupTable table = new(self, rng);
                 return table.GenerateDrop();
             }
@@ -211,8 +235,10 @@ namespace Sandswept.Interactables.Regular
         }
 
         [ConCommand(commandName = "sandswept_add_ruin_stack", helpText = "Forcefully triggers Shrine of Ruin effect.", flags = ConVarFlags.SenderMustBeServer)]
-        public static void CC_AddRuinStack(ConCommandArgs args) {
-            if (!Run.instance) {
+        public static void CC_AddRuinStack(ConCommandArgs args)
+        {
+            if (!Run.instance)
+            {
                 Debug.Log("sandswept_add_ruin_stack requires an active run!");
                 return;
             }
@@ -226,7 +252,7 @@ namespace Sandswept.Interactables.Regular
             {
                 shouldCorruptNextStage = false;
                 self.teleporterSpawnCard = Paths.InteractableSpawnCard.iscTeleporter;
-                ClassicStageInfo.instance.sceneDirectorInteractibleCredits = (int)(ClassicStageInfo.instance.sceneDirectorInteractibleCredits * 0.45f);
+                ClassicStageInfo.instance.sceneDirectorInteractibleCredits = (int)(ClassicStageInfo.instance.sceneDirectorInteractibleCredits * sceneDirectorInteractableCreditMultiplier);
             }
 
             orig(self);
@@ -251,7 +277,8 @@ namespace Sandswept.Interactables.Regular
                 }
             }
 
-            if (shouldReplaceDrops) {
+            if (shouldReplaceDrops)
+            {
                 SceneDef scene = SceneCatalog.FindSceneDef(SceneCatalog.mostRecentSceneDef.cachedName.Substring(2));
                 WeightedSelection<SceneDef> ws = new WeightedSelection<SceneDef>();
                 scene.AddDestinationsToWeightedSelection(ws, (x) =>
@@ -276,7 +303,6 @@ namespace Sandswept.Interactables.Regular
 
                 SceneDef simulacrumScene = SceneCatalog.FindSceneDef("it" + originalScene.cachedName);
 
-
                 if (simulacrumScene)
                 {
                     self.destinationScene = simulacrumScene;
@@ -294,11 +320,13 @@ namespace Sandswept.Interactables.Regular
                 new GameObject("hopoo why").AddComponent<DirectorCore>();
                 var sceneInfo = GameObject.Find("SceneInfo");
                 var obj = GameObject.Instantiate(Paths.GameObject.Director);
-                if (obj.GetComponent<SceneDirector>()) {
+                if (obj.GetComponent<SceneDirector>())
+                {
                     obj.GetComponent<SceneDirector>().enabled = false;
                 }
-                foreach (var dir in obj.GetComponents<CombatDirector>()) {
-                    dir.creditMultiplier = 2f;
+                foreach (var dir in obj.GetComponents<CombatDirector>())
+                {
+                    dir.creditMultiplier = combatDirectorCreditMultiplier;
                 }
                 NetworkServer.Spawn(obj);
 
@@ -316,7 +344,8 @@ namespace Sandswept.Interactables.Regular
                     // classicStageInfo.monsterCategories = Utils.Assets.DirectorCardCategorySelection.dccsITVoidMonsters;
                 }
             }
-            else {
+            else
+            {
                 shouldReplaceDrops = false;
             }
         }
@@ -332,11 +361,13 @@ namespace Sandswept.Interactables.Regular
             orig(self);
         }
 
-        public class VoidedPickupTable {
+        public class VoidedPickupTable
+        {
             public WeightedSelection<PickupIndex> TierSelection = new();
             public Xoroshiro128Plus rng;
 
-            public void PopulateFromDropTable(BasicPickupDropTable table) {
+            public void PopulateFromDropTable(BasicPickupDropTable table)
+            {
                 TierSelection.Clear();
                 AddToSelection(Run.instance.availableVoidTier1DropList, TierSelection, table, table.tier1Weight);
                 AddToSelection(Run.instance.availableVoidTier2DropList, TierSelection, table, table.tier2Weight);
@@ -349,47 +380,61 @@ namespace Sandswept.Interactables.Regular
                 AddToSelection(Run.instance.availableVoidBossDropList, TierSelection, table, table.bossWeight);
             }
 
-            public VoidedPickupTable(BasicPickupDropTable table, Xoroshiro128Plus rng) {
+            public VoidedPickupTable(BasicPickupDropTable table, Xoroshiro128Plus rng)
+            {
                 PopulateFromDropTable(table);
                 this.rng = rng;
             }
 
-            public PickupIndex GenerateDrop() {
+            public PickupIndex GenerateDrop()
+            {
                 return TierSelection.Evaluate(rng.nextNormalizedFloat);
             }
 
-            public ItemTierDef GetTierForSelection(List<PickupIndex> selection) {
+            public ItemTierDef GetTierForSelection(List<PickupIndex> selection)
+            {
                 return ItemCatalog.GetItemDef(PickupCatalog.GetPickupDef(selection[0]).itemIndex)._itemTierDef;
             }
 
-            public void AddToSelection(List<PickupIndex> indices, WeightedSelection<PickupIndex> selection, BasicPickupDropTable table, float weight) {
-                foreach (PickupIndex index in indices) {
-                    if (!IsFilterRequired() || PassesFilter(index)) {
+            public void AddToSelection(List<PickupIndex> indices, WeightedSelection<PickupIndex> selection, BasicPickupDropTable table, float weight)
+            {
+                foreach (PickupIndex index in indices)
+                {
+                    if (!IsFilterRequired() || PassesFilter(index))
+                    {
                         selection.AddChoice(index, weight);
                     }
                 }
 
-                bool IsFilterRequired() {
-                    if (table.requiredItemTags.Length == 0) {
+                bool IsFilterRequired()
+                {
+                    if (table.requiredItemTags.Length == 0)
+                    {
                         return table.bannedItemTags.Length == 0;
                     }
 
                     return true;
                 }
 
-                bool PassesFilter(PickupIndex index) {
+                bool PassesFilter(PickupIndex index)
+                {
                     PickupDef def = PickupCatalog.GetPickupDef(index);
-                    if (def.itemIndex != ItemIndex.None) {
+                    if (def.itemIndex != ItemIndex.None)
+                    {
                         ItemDef item = ItemCatalog.GetItemDef(def.itemIndex);
 
-                        foreach (ItemTag value in table.bannedItemTags) {
-                            if (Array.IndexOf(item.tags, value) != -1) {
+                        foreach (ItemTag value in table.bannedItemTags)
+                        {
+                            if (Array.IndexOf(item.tags, value) != -1)
+                            {
                                 return false;
                             }
                         }
 
-                        foreach (ItemTag value in table.requiredItemTags) {
-                            if (Array.IndexOf(item.tags, value) == -1) {
+                        foreach (ItemTag value in table.requiredItemTags)
+                        {
+                            if (Array.IndexOf(item.tags, value) == -1)
+                            {
                                 return false;
                             }
                         }
@@ -537,6 +582,7 @@ namespace Sandswept.Interactables.Regular
 
             Util.PlaySound("Play_deathProjectile_pulse", gameObject);
             Util.PlaySound("Play_deathProjectile_pulse", gameObject);
+            StartCoroutine(TheVoices());
 
             purchaseCount++;
             refreshTimer = 2f;
@@ -546,6 +592,15 @@ namespace Sandswept.Interactables.Regular
                 CallRpcSetPingable(false);
                 gameObject.SetActive(false);
             }
+        }
+
+        public IEnumerator TheVoices()
+        {
+            Util.PlaySound("Play_voidRaid_fog_affectPlayer", gameObject);
+
+            yield return new WaitForSeconds(1f);
+
+            Util.PlaySound("Stop_voidRaid_fog_affectPlayer", gameObject);
         }
 
         public static bool HasMetRequirement(CharacterBody interactorBody)

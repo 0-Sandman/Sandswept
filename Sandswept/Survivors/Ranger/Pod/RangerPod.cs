@@ -8,6 +8,7 @@ namespace Sandswept.Survivors.Ranger.Pod
         public static GameObject prefabMajor;
         public static GameObject prefabRenegade;
         public static GameObject prefabMileZero;
+        public static GameObject prefabSandswept;
         public static Material rangerPodMat;
 
         public static void Init()
@@ -16,6 +17,7 @@ namespace Sandswept.Survivors.Ranger.Pod
             prefabMajor = CreateRecolor("Major");
             prefabRenegade = CreateRecolor("Renegade");
             prefabMileZero = CreateRecolor("MileZero");
+            prefabSandswept = CreateRecolor("Sandswept");
 
             On.RoR2.InstantiatePrefabBehavior.Start += InstantiatePrefabBehavior_Start;
             On.RoR2.Run.HandlePlayerFirstEntryAnimation += Run_HandlePlayerFirstEntryAnimation;
@@ -53,6 +55,7 @@ namespace Sandswept.Survivors.Ranger.Pod
                             1 => prefabMajor,
                             2 => prefabRenegade,
                             3 => prefabMileZero,
+                            4 => prefabSandswept,
                             _ => prefabDefault
                         };
 

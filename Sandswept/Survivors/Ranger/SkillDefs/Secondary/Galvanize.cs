@@ -20,7 +20,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Secondary
 
         public override bool FullRestockOnAssign => true;
 
-        public override string[] Keywords => new string[] { Utils.Keywords.OverdriveFormSecondary };
+        public override string[] Keywords => new string[] { Utils.Keywords.OverdriveFormAltSecondary };
 
         public override void CreateSkillDef()
         {

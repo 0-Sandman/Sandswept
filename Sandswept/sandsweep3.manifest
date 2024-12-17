@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3182078484
+CRC: 4203059376
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 9eb01ab22dbc019d0cfe6a475950a927
+    Hash: b804520354c3de2275ef86eab8796b3a
   TypeTreeHash:
     serializedVersion: 2
     Hash: 52e2e4dc385644b1ca0d4b5f03696411
@@ -54,8 +54,11 @@ Assets:
 - Assets/Sandswept/tex5.png
 - Assets/Sandswept/tex4.png
 - Assets/JarRamp.png
+- Assets/Sandswept/shrineRuin.fbx
 - Assets/Sandswept/texElectricianSkillIcon_m2.png
 - Assets/JarDonuts.obj
+- Assets/Sandswept/shrineRuinIcon.png
+- Assets/Sandswept/tex6.png
 - Assets/Sandswept/texRangerSkillIcon_hm1.png
 - Assets/Sandswept/texElectricianSkillIcon_p.png
 - Assets/Sandswept/sandsweeper.fbx

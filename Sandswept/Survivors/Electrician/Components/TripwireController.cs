@@ -145,7 +145,7 @@ namespace Sandswept.Survivors.Electrician
                 scale = blast.radius * 2
             }, true);
 
-            AkSoundEngine.PostEvent("Play_elec_pylon_blast", base.gameObject);
+            Util.PlaySound("Play_elec_pylon_blast", base.gameObject);
 
             GameObject.Destroy(base.gameObject);
         }
@@ -270,7 +270,7 @@ namespace Sandswept.Survivors.Electrician
 
                 pylonAnim.Play("Pulse", pylonAnim.GetLayerIndex("Base"));
 
-                AkSoundEngine.PostEvent("Play_elec_pylon_blast", base.gameObject);
+                Util.PlaySound("Play_elec_pylon_blast", base.gameObject);
             }
         }
 

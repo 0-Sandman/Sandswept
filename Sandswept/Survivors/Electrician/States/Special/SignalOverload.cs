@@ -27,7 +27,7 @@ namespace Sandswept.Survivors.Electrician.States
             // base.characterMotor.walkSpeedPenaltyCoefficient = 0.1f;
             // Util.PlaySound("Play_ui_obj_nullWard_charge_loop", gameObject);
 
-            AkSoundEngine.PostEvent("Play_elec_r_wind", gameObject);
+            Util.PlaySound("Play_elec_r_wind", gameObject);
 
             drainAmount = healthComponent.fullShield * delay;
         }
@@ -133,7 +133,7 @@ namespace Sandswept.Survivors.Electrician.States
             // Util.PlaySound("Play_ui_obj_nullWard_charge_loop", gameObject);
             // Util.PlaySound("Play_captain_m1_shotgun_charge_loop", gameObject);
 
-            AkSoundEngine.PostEvent("Play_elec_r_loop", gameObject);
+            Util.PlaySound("Play_elec_r_loop", gameObject);
 
             head = FindModelChild("Head");
 
@@ -182,7 +182,7 @@ namespace Sandswept.Survivors.Electrician.States
             {
                 stopwatch = delay;
                 Util.PlaySound("Play_item_proc_armorReduction_hit", gameObject);
-                AkSoundEngine.PostEvent(Events.Play_jellyfish_detonate, end.gameObject);
+                Util.PlaySound("Play_jellyfish_detonate", end.gameObject);
 
                 HandleBlastAuthority(pos);
             }
@@ -202,7 +202,7 @@ namespace Sandswept.Survivors.Electrician.States
             // Util.PlaySound("Stop_ui_obj_nullWard_charge_loop", gameObject);
             // Util.PlaySound("Stop_captain_m1_shotgun_charge_loop", gameObject);
 
-            AkSoundEngine.PostEvent("Stop_elec_r_loop", gameObject);
+            Util.PlaySound("Stop_elec_r_loop", gameObject);
 
             if (beamEffect)
             {
@@ -380,7 +380,7 @@ namespace Sandswept.Survivors.Electrician.States
             search.FilterCandidatesByDistinctHurtBoxEntities();
             search.FilterCandidatesByHurtBoxTeam(TeamMask.GetUnprotectedTeams(GetTeam()));
 
-            AkSoundEngine.PostEvent(Events.Play_loader_R_variant_slam, base.gameObject);
+            Util.PlaySound("Play_loader_R_variant_slam", base.gameObject);
 
             foreach (HurtBox box in search.GetHurtBoxes())
             {

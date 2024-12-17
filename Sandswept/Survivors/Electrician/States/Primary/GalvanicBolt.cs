@@ -28,7 +28,7 @@ namespace Sandswept.Survivors.Electrician.States
             // Util.PlaySound("Play_loader_R_shock", base.gameObject);
             // Util.PlayAttackSpeedSound("Play_voidman_m1_shoot", base.gameObject, 0.7f);
 
-            AkSoundEngine.PostEvent("Play_elec_m1_shoot", gameObject);
+            Util.PlaySound("Play_elec_m1_shoot", gameObject);
 
             EffectManager.SimpleMuzzleFlash(Electrician.ElecMuzzleFlash, gameObject, "MuzzleCannon", false);
         }

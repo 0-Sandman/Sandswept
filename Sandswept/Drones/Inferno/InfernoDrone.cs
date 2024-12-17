@@ -1,13 +1,15 @@
 using System;
 
-namespace Sandswept.Drones.Inferno {
+namespace Sandswept.Drones.Inferno
+{
+    [ConfigSection("Interactables :: Inferno Drone")]
     public class InfernoDrone : DroneBase
     {
         public override GameObject DroneBody => Main.Assets.LoadAsset<GameObject>("InfernoDroneBody.prefab");
 
         public override GameObject DroneMaster => Main.Assets.LoadAsset<GameObject>("InfernoDroneMaster.prefab");
 
-        public override Dictionary<string, string> Tokens => 
+        public override Dictionary<string, string> Tokens =>
         new() {
             {"SANDSWEPT_INFERNO_DRONE_BODY", "Inferno Drone"},
             {"SANDSWEPT_INFERNO_DRONE_BROKEN_NAME", "Broken Inferno Drone"},
@@ -61,11 +63,19 @@ namespace Sandswept.Drones.Inferno {
             MortarProjectile.transform.localScale *= 1.5f;
 
             SkillLocator loc = DroneBody.GetComponent<SkillLocator>();
-            AssignIfExists(loc.primary, new SkillInfo() {
+            AssignIfExists(loc.primary, new SkillInfo()
+            {
                 type = new(typeof(InfernoPrimary)),
                 cooldown = 6f,
                 stockToConsume = 1
             });
+
+            var trans = DroneBody.GetComponent<ModelLocator>()._modelTransform;
+            var meshSMR = trans.Find("InfernoDroneMesh").GetComponent<SkinnedMeshRenderer>();
+            meshSMR.material.SetColor("_EmColor", new Color32(255, 88, 0, 255));
+            meshSMR.material.SetFloat("_EmPower", 5f);
+
+            DroneBody.GetComponent<CharacterBody>().portraitIcon = Main.hifuSandswept.LoadAsset<Texture2D>("texInfernoDrone.png");
 
             ContentAddition.AddProjectile(MortarProjectile);
             ContentAddition.AddProjectile(SigmaProjectile);

@@ -23,9 +23,9 @@ namespace Sandswept.Drones.Inferno
 
             PlayAnimation("Gesture, Override", "ShootLeft", "Generic.playbackRate", duration / 3f);
 
-            AkSoundEngine.PostEvent(Events.Play_MULT_m1_grenade_launcher_shoot, base.gameObject);
-            AkSoundEngine.PostEvent(Events.Play_MULT_m1_grenade_launcher_explo, base.gameObject);
-            AkSoundEngine.PostEvent(Events.Play_MULT_m1_grenade_launcher_beep, base.gameObject);
+            Util.PlaySound("Play_MULT_m1_grenade_launcher_shoot", base.gameObject);
+            Util.PlaySound("Play_MULT_m1_grenade_launcher_explo", base.gameObject);
+            Util.PlaySound("Play_MULT_m1_grenade_launcher_beep", base.gameObject);
 
             EffectManager.SimpleMuzzleFlash(Paths.GameObject.MagmaOrbExplosion, base.gameObject, "Muzzle", false);
         }

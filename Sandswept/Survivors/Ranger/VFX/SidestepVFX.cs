@@ -47,9 +47,9 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             //
 
-            dashMat1Sandswept = CreateMat1Recolor(new Color32(249, 197, 143, 255));
+            dashMat1Sandswept = CreateMat1Recolor(new Color32(214, 159, 79, 255));
 
-            dashMat2Sandswept = CreateMat2Recolor(new Color32(87, 87, 87, 255));
+            dashMat2Sandswept = CreateMat2Recolor(new Color32(148, 112, 59, 255));
         }
 
         public static Material CreateMat1Recolor(Color32 blueEquivalent)

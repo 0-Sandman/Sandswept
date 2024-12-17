@@ -2,8 +2,10 @@ using System;
 using System.Reflection;
 using Sandswept.Utils;
 
-namespace Sandswept.Drones {
-    public abstract class DroneBase {
+namespace Sandswept.Drones
+{
+    public abstract class DroneBase
+    {
         public abstract GameObject DroneBody { get; }
         public abstract GameObject DroneMaster { get; }
         public abstract Dictionary<string, string> Tokens { get; }
@@ -15,8 +17,10 @@ namespace Sandswept.Drones {
         public abstract DirectorAPI.Stage[] Stages { get; }
         public abstract string iscName { get; }
 
-        public void Initialize() {
-            if (!DefaultEnabledCallback(this)) {
+        public void Initialize()
+        {
+            if (!DefaultEnabledCallback(this))
+            {
                 return;
             }
 
@@ -24,8 +28,9 @@ namespace Sandswept.Drones {
 
             ContentAddition.AddBody(DroneBody);
             ContentAddition.AddMaster(DroneMaster);
-            
-            foreach (KeyValuePair<string, string> kvp in Tokens) {
+
+            foreach (KeyValuePair<string, string> kvp in Tokens)
+            {
                 LanguageAPI.Add(kvp.Key, kvp.Value);
             }
 
@@ -52,11 +57,12 @@ namespace Sandswept.Drones {
             }
         }
 
-        public virtual void Setup() {
-
+        public virtual void Setup()
+        {
         }
 
-        public void SetupInteractables() {
+        public void SetupInteractables()
+        {
             DirectorCard card = new();
 
             InteractableSpawnCard isc = ScriptableObject.CreateInstance<InteractableSpawnCard>();
@@ -69,15 +75,17 @@ namespace Sandswept.Drones {
 
             card.selectionWeight = Weight;
             card.spawnCard = isc;
-            
-            #pragma warning disable
-            for (int i = 0; i < Stages.Length; i++) {
+
+#pragma warning disable
+            for (int i = 0; i < Stages.Length; i++)
+            {
                 DirectorAPI.Helpers.AddNewInteractableToStage(card, DirectorAPI.InteractableCategory.Drones, Stages[i]);
             }
-            #pragma warning restore
+#pragma warning restore
         }
 
-        public void AssignIfExists(GenericSkill slot, SkillInfo info) {
+        public void AssignIfExists(GenericSkill slot, SkillInfo info)
+        {
             if (!slot || info == null) return;
 
             SkillFamily family = ScriptableObject.CreateInstance<SkillFamily>();
@@ -90,14 +98,16 @@ namespace Sandswept.Drones {
             slot._skillFamily = family;
         }
 
-        public class SkillInfo {
+        public class SkillInfo
+        {
             public float cooldown;
             public int stockToConsume = 1;
             public SerializableEntityStateType type;
             public string activationMachine = "Weapon";
             public InterruptPriority priority = InterruptPriority.Skill;
 
-            public SkillDef ToSkillDef() {
+            public SkillDef ToSkillDef()
+            {
                 SkillDef skillDef = ScriptableObject.CreateInstance<SkillDef>();
                 skillDef.activationState = type;
                 skillDef.baseMaxStock = 1;
