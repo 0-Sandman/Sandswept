@@ -70,6 +70,13 @@ namespace Sandswept.Drones.Inferno
                 stockToConsume = 1
             });
 
+            var trans = DroneBody.GetComponent<ModelLocator>()._modelTransform;
+            var meshSMR = trans.Find("InfernoDroneMesh").GetComponent<SkinnedMeshRenderer>();
+            meshSMR.material.SetColor("_EmColor", new Color32(255, 88, 0, 255));
+            meshSMR.material.SetFloat("_EmPower", 5f);
+
+            DroneBody.GetComponent<CharacterBody>().portraitIcon = Main.hifuSandswept.LoadAsset<Texture2D>("texInfernoDrone.png");
+
             ContentAddition.AddProjectile(MortarProjectile);
             ContentAddition.AddProjectile(SigmaProjectile);
             ContentAddition.AddProjectile(SigmaProjectile2);
