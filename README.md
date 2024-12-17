@@ -144,7 +144,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td><img src="" width="64"/></td>
+			<td><img src="https://i.postimg.cc/PJvp7Q70/tex-Gamma-Construct.png" width="64"/></td>
 			<td>
 				<b>Gamma Construct</b><br>
 				Alternates between firing a large sweeping beam and 2 smaller side ones
