@@ -233,6 +233,13 @@
 				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 3 and &le; 11, costs 35 credits. Item potentials have a choice between a random white and a random green.
 			</td>
 		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/tJ8JGV5r/tex-Inferno-Drone.png" width="64"/></td>
+			<td>
+				<b>Inferno Drone</b><br>
+				Summon a drone that launches a missle that explodes into pools of lava
+			</td>
+		</tr>
 	</tbody>
 </table>
 </details>
