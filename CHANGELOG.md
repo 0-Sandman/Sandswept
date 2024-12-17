@@ -3,7 +3,7 @@
   - Added Sandswept Expansion
   - Overhauled README
 - Survivors
-  - Added Electrician 
+  - Added VOL-T
   - Ranger
     - Added Alt Passive - Overcharged Speed
     - Completely remade Alt M2 - Galvanize (It snuck in the last update when it was still in the testing phase)
@@ -15,10 +15,11 @@
     - Changed some skill icons
     - Renamed Base Passive to Overcharged Protection
     - Fixed not having a master prefab
+  - Made all use the new skill damage sources
 - Enemies
   - Added Cannonball Jellyfish
-  - Added Gamma Construct
   - Added Delta Construct
+  - Added Gamma Construct
   - Added Theta Construct
 - Interactables
   - Added Inferno Drone
@@ -29,14 +30,12 @@
   - Added Drifting Perception
   - Added Festering Hunger
   - Added Their Prominence
-  - Added Cell Shield
-  - Added Catalyst
   - Added Galvanic Cell Shield
   - Added Corrupted Catalyst
-  - Buffed Bleeding Witness Hemorrhage Chance from 5% to 8%.
-  - Buffed Bleeding Witness Hemorrhage Damage from 480% to 500%.
-  - Nerfed Bleeding Witness Base DoT Healing from 0.4% to 0.33%.
-  - Nerfed Bleeding Witness Stack DoT Healing from 0.4% to 0.33%.
+  - Buffed Bleeding Witness Hemorrhage Chance from 5% to 8%
+  - Buffed Bleeding Witness Hemorrhage Damage from 480% to 500%
+  - Nerfed Bleeding Witness Base DoT Healing from 0.4% to 0.33%
+  - Nerfed Bleeding Witness Stack DoT Healing from 0.4% to 0.33%
   - Made Torn Feather not dash while standing still
   - Made all proc items use ProcTypeAPI
   - Fixed Nuclear Salvo!?!??!
