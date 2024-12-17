@@ -1,7 +1,9 @@
 using System;
 
-namespace Sandswept.Enemies {
-    public class BaseConstructSpawn : BaseState {
+namespace Sandswept.Enemies
+{
+    public class BaseConstructSpawn : BaseState
+    {
         public static LazyAddressable<GameObject> SpawnEffect = new(() => Paths.GameObject.ExplosionMinorConstruct);
         public float baseDuration = 0.1f;
 
@@ -12,12 +14,13 @@ namespace Sandswept.Enemies {
             base.GetModelTransform().GetComponent<CharacterModel>().invisibilityCount++;
             base.characterBody.mainHurtBox.hurtBoxGroup.hurtBoxesDeactivatorCounter++;
 
-            EffectManager.SpawnEffect(SpawnEffect, new EffectData {
+            EffectManager.SpawnEffect(SpawnEffect, new EffectData
+            {
                 origin = base.transform.position,
                 scale = characterBody.bestFitActualRadius * 3f
             }, false);
 
-            AkSoundEngine.PostEvent(Events.Play_minorConstruct_spawn, base.gameObject);
+            Util.PlaySound("Play_minorConstruct_spawn", base.gameObject);
         }
 
         public override void FixedUpdate()
@@ -26,7 +29,8 @@ namespace Sandswept.Enemies {
 
             base.rigidbody.velocity = Vector3.zero;
 
-            if (base.fixedAge >= baseDuration) {
+            if (base.fixedAge >= baseDuration)
+            {
                 outer.SetNextStateToMain();
             }
         }

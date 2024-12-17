@@ -83,7 +83,8 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
                 }
             }
 
-            if (!dashedAlready) {
+            if (!dashedAlready)
+            {
                 StartAimMode(0.2f);
             }
 

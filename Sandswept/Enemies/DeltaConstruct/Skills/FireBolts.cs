@@ -2,14 +2,17 @@ using System;
 using System.Collections;
 using Sandswept.Survivors;
 
-namespace Sandswept.Enemies.DeltaConstruct {
-    public class FireBolts : BaseSkillState {
+namespace Sandswept.Enemies.DeltaConstruct
+{
+    public class FireBolts : BaseSkillState
+    {
         public float damageCoeff = 2f;
         public float duration = 1.6f;
         public float initDelay;
         public float secondDelay;
         public Transform[] front;
         public Transform[] back;
+        private Transform modelTransform;
 
         public override void OnEnter()
         {
@@ -19,13 +22,15 @@ namespace Sandswept.Enemies.DeltaConstruct {
 
             // base.characterMotor.walkSpeedPenaltyCoefficient = 0f;
 
+            modelTransform = GetModelTransform();
+
             initDelay = duration * 0.3f;
             secondDelay = (duration - initDelay) * 0.3f;
 
-            AkSoundEngine.PostEvent(Events.Play_minorConstruct_attack_chargeUp, base.gameObject);
+            Util.PlaySound("Play_minorConstruct_attack_chargeUp", base.gameObject);
 
-            back = new Transform[] { FindModelChild("Muzzle1"), FindModelChild("Muzzle2")};
-            front = new Transform[] { FindModelChild("Muzzle3"), FindModelChild("Muzzle4")};
+            back = new Transform[] { FindModelChild("Muzzle1"), FindModelChild("Muzzle2") };
+            front = new Transform[] { FindModelChild("Muzzle3"), FindModelChild("Muzzle4") };
 
             base.characterBody.StartCoroutine(HandleBolts());
 
@@ -45,17 +50,22 @@ namespace Sandswept.Enemies.DeltaConstruct {
 
             base.StartAimMode(initDelay);
 
-            if (base.fixedAge >= duration) {
+            if (base.fixedAge >= duration)
+            {
                 outer.SetNextStateToMain();
             }
         }
 
-        public IEnumerator HandleBolts() {
+        public IEnumerator HandleBolts()
+        {
+            ShowTelegraph(initDelay);
+
             yield return new WaitForSeconds(initDelay);
 
             PlayAnimation("Gesture, Override", "Fire Cannons", "Generic.playbackRate", secondDelay);
 
-            for (int i = 0; i < front.Length; i++) {
+            for (int i = 0; i < front.Length; i++)
+            {
                 FireBolt(front[i]);
             }
 
@@ -63,15 +73,32 @@ namespace Sandswept.Enemies.DeltaConstruct {
 
             PlayAnimation("Gesture, Override", "Fire Cannons", "Generic.playbackRate", secondDelay);
 
-            for (int i = 0; i < back.Length; i++) {
+            for (int i = 0; i < back.Length; i++)
+            {
                 FireBolt(back[i]);
             }
         }
 
-        public void FireBolt(Transform t) {
+        public void ShowTelegraph(float duration)
+        {
+            if (modelTransform)
+            {
+                var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
+                temporaryOverlay.duration = duration;
+                temporaryOverlay.animateShaderAlpha = true;
+                temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                temporaryOverlay.destroyComponentOnEnd = true;
+                temporaryOverlay.originalMaterial = Survivors.Ranger.VFX.SidestepVFX.dashMat2Sandswept;
+                temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
+            }
+        }
+
+        public void FireBolt(Transform t)
+        {
             Quaternion rot = Quaternion.LookRotation(t.up);
-            
-            if (Util.CharacterRaycast(base.gameObject, base.GetAimRay(), out RaycastHit hinfo, 400f, LayerIndex.CommonMasks.bullet, QueryTriggerInteraction.Ignore)) {
+
+            if (Util.CharacterRaycast(base.gameObject, base.GetAimRay(), out RaycastHit hinfo, 400f, LayerIndex.CommonMasks.bullet, QueryTriggerInteraction.Ignore))
+            {
                 rot = Util.QuaternionSafeLookRotation((hinfo.point - t.position).normalized);
             }
 
@@ -83,16 +110,18 @@ namespace Sandswept.Enemies.DeltaConstruct {
             info.owner = base.gameObject;
             info.projectilePrefab = DeltaConstruct.bolt;
 
-            if (NetworkServer.active) {
+            if (NetworkServer.active)
+            {
                 ProjectileManager.instance.FireProjectile(info);
             }
 
-            EffectManager.SpawnEffect(DeltaConstruct.muzzleFlash, new EffectData {
+            EffectManager.SpawnEffect(DeltaConstruct.muzzleFlash, new EffectData
+            {
                 rotation = Util.QuaternionSafeLookRotation(t.up),
                 origin = t.position
             }, false);
 
-            AkSoundEngine.PostEvent(Events.Play_minorConstruct_attack_shoot, base.gameObject);
+            Util.PlaySound("Play_minorConstruct_attack_shoot", base.gameObject);
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

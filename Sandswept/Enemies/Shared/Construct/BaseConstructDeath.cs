@@ -75,7 +75,7 @@ namespace Sandswept.Enemies
                     scale = base.characterBody.bestFitRadius * 2f,
                 }, false);
 
-                AkSoundEngine.PostEvent(Events.Play_minorConstruct_attack_explode, base.gameObject);
+                Util.PlaySound("Play_minorConstruct_attack_explode", base.gameObject);
             }
         }
 
