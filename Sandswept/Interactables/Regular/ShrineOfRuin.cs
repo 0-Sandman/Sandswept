@@ -108,14 +108,27 @@ namespace Sandswept.Interactables.Regular
             };
 
             prefab = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineBlood, "Shrine of Ruin", true);
-            var mdl = prefab.transform.Find("Base/mdlShrineHealing").gameObject;
-            mdl.name = "mdlShrineRuin";
-            mdl.GetComponent<MeshFilter>().sharedMesh = Main.prodAssets.LoadAsset<Mesh>("assets/sandswept/shrinesacrifice.fbx");
-            mdl.GetComponent<MeshRenderer>().sharedMaterial = Main.prodAssets.LoadAsset<Material>("assets/sandswept/shrinesacrifice.fbx");
+            var modelBase = prefab.transform.Find("Base");
+            modelBase.transform.localPosition = Vector3.zero;
+            var mdl = Main.prodAssets.LoadAsset<GameObject>("assets/sandswept/shrineruin.fbx");
+            prefab.GetComponent<ModelLocator>().modelTransform = mdl.transform;
+            mdl.name = "mdlShrineOfRuin";
+            mdl.transform.localScale = Vector3.one * 70;
+            mdl.AddComponent<EntityLocator>().entity = prefab;
+            mdl.AddComponent<ChildLocator>().transformPairs = new ChildLocator.NameTransformPair[] { new() { name = "FireworkOrigin", transform = prefab.transform.Find("Symbol") } };
+            var areYouFuckingKiddingMe = mdl.GetComponent<MeshRenderer>();
+            areYouFuckingKiddingMe.material.shader = Paths.Shader.HGStandard;
+
+            var to = mdl.AddComponent<BoxCollider>();
+            to.center = Vector3.zero; to.size = Vector3.one * 0.04f;
+            prefab.GetComponent<DitherModel>().bounds = to;
+            prefab.GetComponent<DitherModel>().renderers[0] = mdl.GetComponent<MeshRenderer>();
+            prefab.GetComponent<Highlight>().targetRenderer = mdl.GetComponent<MeshRenderer>();
+
             var symbol = prefab.transform.Find("Symbol");
-            symbol.localPosition = new(0, 4, 0);
+            symbol.localPosition = new(-4, 8, -2);
             var meshRenderer = symbol.GetComponent<MeshRenderer>();
-            meshRenderer.material.mainTexture = Main.prodAssets.LoadAsset<Texture2D>("assets/sandswept/shrinesacrificeicon.png");
+            meshRenderer.material.mainTexture = Main.prodAssets.LoadAsset<Texture2D>("assets/sandswept/shrineruinicon.png");
             meshRenderer.material.SetColor("_TintColor", new Color32(255, 255, 255, 255));
 
             shrineVFX = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.ShrineUseEffect, "Shrine of Ruin VFX", false);
@@ -137,6 +150,9 @@ namespace Sandswept.Interactables.Regular
             prefab.AddComponent<ShrineOfRuinController>();
 
             prefab.AddComponent<UnityIsAFuckingPieceOfShit2>();
+
+            modelBase.Find("mdlShrineHealing").gameObject.SetActive(false);
+            mdl.transform.parent = modelBase;
 
             var expansionRequirementComponent = prefab.AddComponent<ExpansionRequirementComponent>();
             expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
