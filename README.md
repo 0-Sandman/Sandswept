@@ -140,28 +140,28 @@
 			<td><img src="https://i.postimg.cc/TYHQJ5RD/tex-Cannonball-Jellyfish.png" width="64"/></td>
 			<td>
 				<b>Cannonball Jellyfish</b><br>
-				Launches itself at you rapidly stunning itself if it misses and hits and object before falling back to recover and repeat. 
+				Launches itself at you. Stuns itself it it misses.
 			</td>
 		</tr>
 		<tr>
 			<td><img src="https://i.postimg.cc/PJvp7Q70/tex-Gamma-Construct.png" width="64"/></td>
 			<td>
 				<b>Gamma Construct</b><br>
-				Alternates between firing a large sweeping beam and 2 smaller side ones
+				Alternates between firing a large sweeping laser and two smaller, stationary ones.
 			</td>
 		</tr>
 		<tr>
 			<td><img src="https://i.postimg.cc/CLKm8sV0/tex-Delta-Construct.png" width="64"/></td>
 			<td>
 				<b>Delta Construct</b><br>
-				Fires 2 projectiles in a line at you and after a few shots it takes to the sky charging up and firing a bunch of small beams that go in random directions leaving a fire trail behind them.
+				Fires two projectiles at you. Soars to the sky, charging up a configuration of small lasers that go in random directions, leaving a fire trail behind them.
 			</td>
 		</tr>
 		<tr>
 			<td><img src="https://i.postimg.cc/Y2RdjyZ8/tex-Theta-Construct.png" width="64"/></td>
 			<td>
 				<b>Theta Construct</b><br>
-				Guards an enemy preventing and knocking back all damage from it on top of giving it an attack speed buff and giving an elite aspect effect if it has one.
+				Guards an enemy, preventing all ranged damage. Gives it an attack speed buff and shares its elite aspect effect.
 			</td>
 		</tr>
 	</tbody>
@@ -237,7 +237,7 @@
 			<td><img src="https://i.postimg.cc/tJ8JGV5r/tex-Inferno-Drone.png" width="64"/></td>
 			<td>
 				<b>Inferno Drone</b><br>
-				Summon a drone that launches a missle that explodes into pools of lava
+				Launches a missile which explodes and spews pools of lava.
 			</td>
 		</tr>
 	</tbody>
@@ -403,7 +403,7 @@
 			<td><img src="https://i.postimg.cc/SNPjrhH3/tex-Galvanic-Cell-Shield.png" width="64"/></td>
 			<td>
 				<b>Galvanic Cell Shield</b><br>
-				Raise a shield that parries the next attack. Upon successfully parrying, shock and damage nearby enemies for <b>2000%</b> damage. Cooldown: <b>20s</b>
+				Evoke a shield that parries the next attack. Upon successfully parrying, shock and damage nearby enemies for <b>2000%</b> damage. Cooldown: <b>20s</b>
 			</td>
 		</tr>
 		<tr>
