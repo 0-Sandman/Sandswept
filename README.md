@@ -86,7 +86,7 @@
     <tr>
       <td><img src="https://i.postimg.cc/52w9KFnf/heat-Mechanic.png" width="64"/></td>
       <td><b>Heat Mechanic</b><br>
-          While in overdrive, you passively build up heat and healing reduction. While in full heat, base damage increases by a lot, which is further amplified by Charge, but takes increasingly high self-damage.</td>
+          While in overdrive, you passively build up heat and healing reduction. While in full heat, base damage increases by a lot, which is further amplified by Charge, but take increasingly high self-damage.</td>
     </tr>
     <tr>
       <td colspan="2" align="center"><h3>VOL-T</h3></td>
@@ -140,7 +140,7 @@
 			<td><img src="https://i.postimg.cc/TYHQJ5RD/tex-Cannonball-Jellyfish.png" width="64"/></td>
 			<td>
 				<b>Cannonball Jellyfish</b><br>
-				Launches itself at you and stuns itself if it misses. On death sends a slightly homing fireball after you
+				Launches itself at you and stuns itself if it misses. On death sends a slightly homing fireball after you.
 			</td>
 		</tr>
 		<tr>
@@ -362,7 +362,7 @@
 			<td><img src="https://i.postimg.cc/PxjsGfV3/tex-Bleeding-Witness.png" width="96"></td>
 			<td>
 				<b>Bleeding Witness</b><br>
-				<b>8%</b> chance on hit to hemorrhage enemies for <b>500%</b> base damage. Your damage over time effects heals all allies for <b>0.33% (+0.33% per stack)</b> of their maximum health.
+				<b>8%</b> chance on hit to hemorrhage enemies for <b>500%</b> base damage. Your damage over time effects heal all allies for <b>0.33% (+0.33% per stack)</b> of their maximum health.
 			</td>
 		</tr>
 		<tr>
