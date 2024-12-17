@@ -10,11 +10,13 @@ namespace Sandswept.Buffs
         public override Color Color => new Color32(45, 188, 148, 255);
         public override Sprite BuffIcon => Main.hifuSandswept.LoadAsset<Sprite>("texBuffCharged.png");
         public override bool CanStack => true;
+
         public override void Init()
         {
             base.Init();
             On.RoR2.CharacterBody.AddBuff_BuffDef += CharacterBody_AddBuff_BuffDef;
         }
+
         private static Transform GetModelTransform(CharacterBody body)
         {
             if (!body.modelLocator)
@@ -23,6 +25,7 @@ namespace Sandswept.Buffs
             }
             return body.modelLocator.modelTransform;
         }
+
         private static void CharacterBody_AddBuff_BuffDef(On.RoR2.CharacterBody.orig_AddBuff_BuffDef orig, CharacterBody self, BuffDef buffDef)
         {
             orig(self, buffDef);
@@ -53,6 +56,7 @@ namespace Sandswept.Buffs
                         "SKINDEF_MAJOR" => SidestepVFX.dashMat1Major,
                         "SKINDEF_RENEGADE" => SidestepVFX.dashMat1Renegade,
                         "SKINDEF_MILEZERO" => SidestepVFX.dashMat1MileZero,
+                        "SKINDEF_SANDSWEPT" => SidestepVFX.dashMat1Sandswept,
                         _ => SidestepVFX.dashMat1Default
                     };
 
@@ -61,6 +65,7 @@ namespace Sandswept.Buffs
                         "SKINDEF_MAJOR" => SidestepVFX.dashMat2Major,
                         "SKINDEF_RENEGADE" => SidestepVFX.dashMat2Renegade,
                         "SKINDEF_MILEZERO" => SidestepVFX.dashMat2MileZero,
+                        "SKINDEF_SANDSWEPT" => SidestepVFX.dashMat2Sandswept,
                         _ => SidestepVFX.dashMat2Default
                     };
 

@@ -27,28 +27,28 @@ namespace Sandswept.Survivors.Ranger.VFX
         public static void Init()
         {
             tracerPrefabDefault = CreateTracerRecolor("Default", new Color32(255, 27, 0, 255));
-            tracerHeatedPrefabDefault = CreateTracerRecolor("Default", new Color32(255, 7, 0, 255), 9f, 4f);
+            tracerHeatedPrefabDefault = CreateTracerRecolor("Default", new Color32(255, 7, 0, 255), 9f, 4f, 10f, 1.2f, 0.65f, true);
 
             tracerPrefabMajor = CreateTracerRecolor("Major", new Color32(22, 28, 56, 255));
-            tracerHeatedPrefabMajor = CreateTracerRecolor("Major", new Color32(18, 39, 113, 255), 9f, 4f);
+            tracerHeatedPrefabMajor = CreateTracerRecolor("Major", new Color32(18, 39, 113, 255), 9f, 4f, 10f, 1.2f, 0.65f, true);
 
             tracerPrefabRenegade = CreateTracerRecolor("Renegade", new Color32(144, 25, 68, 255));
-            tracerHeatedPrefabRenegade = CreateTracerRecolor("Renegade", new Color32(152, 30, 141, 255), 9f, 4f);
+            tracerHeatedPrefabRenegade = CreateTracerRecolor("Renegade", new Color32(152, 30, 141, 255), 9f, 4f, 10f, 1.2f, 0.65f, true);
 
             tracerPrefabMileZero = CreateTracerRecolor("Mile Zero", new Color32(64, 0, 0, 255));
-            tracerHeatedPrefabMileZero = CreateTracerRecolor("Mile Zero", new Color32(19, 0, 0, 255), 9f, 4f);
+            tracerHeatedPrefabMileZero = CreateTracerRecolor("Mile Zero", new Color32(19, 0, 0, 255), 9f, 4f, 10f, 1.2f, 0.65f, true);
 
             tracerPrefabRacecar = CreateTracerRecolor("Racecar", new Color32(25, 144, 129, 255));
-            tracerHeatedPrefabRacecar = CreateTracerRecolor("Racecar", new Color32(118, 202, 205, 255), 9f, 4f);
+            tracerHeatedPrefabRacecar = CreateTracerRecolor("Racecar", new Color32(118, 202, 205, 255), 9f, 4f, 10f, 1.2f, 0.65f, true);
 
-            tracerPrefabSandswept = CreateTracerRecolor("Sandswept", new Color32(150, 150, 150, 255));
-            tracerHeatedPrefabSandswept = CreateTracerRecolor("Sandswept", new Color32(249, 197, 143, 255), 9f, 4f);
+            tracerPrefabSandswept = CreateTracerRecolor("Sandswept", new Color32(255, 132, 0, 255));
+            tracerHeatedPrefabSandswept = CreateTracerRecolor("Sandswept", new Color32(255, 172, 87, 255), 9f, 4f, 10f, 1.2f, 0.65f, true);
         }
 
-        public static GameObject CreateTracerRecolor(string name, Color32 whiteEquivalent, float length = 6f, float widthMultiplier = 3f, float brightnessBoost = 10f, float alphaBoost = 1.2f, float alphaBias = 0.65f)
+        public static GameObject CreateTracerRecolor(string name, Color32 whiteEquivalent, float length = 6f, float widthMultiplier = 3f, float brightnessBoost = 10f, float alphaBoost = 1.2f, float alphaBias = 0.65f, bool heated = false)
         {
             // whiteEquivalent = new Color32(255,255,255,255);
-            var tracer = Paths.GameObject.TracerCommandoShotgun.InstantiateClone("Enflame Tracer " + name, false);
+            var tracer = Paths.GameObject.TracerCommandoShotgun.InstantiateClone((heated ? "Heated " : "") + "Enflame Tracer " + name, false);
 
             var tracerComponent = tracer.GetComponent<Tracer>();
             tracerComponent.length = length;
@@ -101,7 +101,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             lineRenderer.colorGradient = gradient;
 
-            var newMat = Object.Instantiate(Paths.Material.matBandit2TracerTrail);
+            var newMat = new Material(Paths.Material.matBandit2TracerTrail);
             newMat.SetColor("_TintColor", whiteEquivalent);
             newMat.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("texRampEnflame.png"));
             newMat.SetFloat("_Boost", brightnessBoost);

@@ -221,7 +221,7 @@ namespace Sandswept.Survivors.Ranger
                     "SKINDEF_MAJOR" => new Color32(0, 130, 224, 140),
                     "SKINDEF_RENEGADE" => new Color32(244, 95, 197, 140),
                     "SKINDEF_MILEZERO" => new Color32(153, 0, 23, 140),
-                    "SKINDEF_SANDSWEPT" => new Color32(150, 150, 150, 140),
+                    "SKINDEF_SANDSWEPT" => new Color32(214, 159, 79, 140),
                     _ => new Color32(255, 200, 0, 140),
                 };
                 inHeatColor = skinNameToken switch
@@ -229,7 +229,7 @@ namespace Sandswept.Survivors.Ranger
                     "SKINDEF_MAJOR" => new Color32(60, 0, 244, 180),
                     "SKINDEF_RENEGADE" => new Color32(114, 39, 244, 180),
                     "SKINDEF_MILEZERO" => new Color32(226, 0, 33, 180),
-                    "SKINDEF_SANDSWEPT" => new Color32(249, 197, 143, 140),
+                    "SKINDEF_SANDSWEPT" => new Color32(220, 220, 220, 180),
                     _ => new Color32(255, 70, 0, 180),
                 };
             }
