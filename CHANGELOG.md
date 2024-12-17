@@ -20,6 +20,9 @@
   - Added Gamma Construct
   - Added Delta Construct
   - Added Theta Construct
+- Elites
+  - Added item displays to Motivating
+  - Added item displays to Osmium
 - Interactables
   - Added Inferno Drone
   - Added Shrine of Ruin
@@ -43,9 +46,6 @@
   - Fixed Crown's Diamond giving barrier twice to clients
   - Fixed Sun Fragment not stunning every enemy
   - Fixed The Sand Sweeper throwing an NRE
-- Elites
-  - Added item displays to Motivating
-  - Added item displays to Osmium
 
 ## 0.9.4 Patch Notes
 - General
