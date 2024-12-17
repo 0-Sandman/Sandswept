@@ -582,6 +582,7 @@ namespace Sandswept.Interactables.Regular
 
             Util.PlaySound("Play_deathProjectile_pulse", gameObject);
             Util.PlaySound("Play_deathProjectile_pulse", gameObject);
+            StartCoroutine(TheVoices());
 
             purchaseCount++;
             refreshTimer = 2f;
