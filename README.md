@@ -218,7 +218,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td>Image TBD</td>
+			<td><img src="https://i.postimg.cc/yY6kR6Qb/tex-Shrine-Of-Ruin2.png" width="64"/></td>
 			<td>
 				<b>Shrine of Ruin</b><br>
 				Give 10 common items to corrupt the next stage, making it a simulacrum variant that exclusively drops void items and spawns void enemies.<br>

@@ -1,13 +1,15 @@
 using System;
 
-namespace Sandswept.Drones.Inferno {
+namespace Sandswept.Drones.Inferno
+{
+    [ConfigSection("Interactables :: Inferno Drone")]
     public class InfernoDrone : DroneBase
     {
         public override GameObject DroneBody => Main.Assets.LoadAsset<GameObject>("InfernoDroneBody.prefab");
 
         public override GameObject DroneMaster => Main.Assets.LoadAsset<GameObject>("InfernoDroneMaster.prefab");
 
-        public override Dictionary<string, string> Tokens => 
+        public override Dictionary<string, string> Tokens =>
         new() {
             {"SANDSWEPT_INFERNO_DRONE_BODY", "Inferno Drone"},
             {"SANDSWEPT_INFERNO_DRONE_BROKEN_NAME", "Broken Inferno Drone"},
@@ -61,7 +63,8 @@ namespace Sandswept.Drones.Inferno {
             MortarProjectile.transform.localScale *= 1.5f;
 
             SkillLocator loc = DroneBody.GetComponent<SkillLocator>();
-            AssignIfExists(loc.primary, new SkillInfo() {
+            AssignIfExists(loc.primary, new SkillInfo()
+            {
                 type = new(typeof(InfernoPrimary)),
                 cooldown = 6f,
                 stockToConsume = 1
