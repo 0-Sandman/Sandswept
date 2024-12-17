@@ -164,7 +164,7 @@ namespace Sandswept.Interactables.Regular
             shrineVFX = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.ShrineUseEffect, "Shrine of The Future VFX", false);
             shrineVFX.GetComponent<EffectComponent>().soundName = "Play_ui_obj_nullWard_complete";
             ContentAddition.AddEffect(shrineVFX);
-
+            /*
             Main.ModLogger.LogError("index 0 is " + EliteAPI.VanillaEliteTiers[0].eliteTypes[0]);
             Main.ModLogger.LogError("index 1 is " + EliteAPI.VanillaEliteTiers[1].eliteTypes[0]);
             Main.ModLogger.LogError("index 2 is " + EliteAPI.VanillaEliteTiers[2].eliteTypes[0]);
@@ -174,7 +174,7 @@ namespace Sandswept.Interactables.Regular
             Main.ModLogger.LogError("index 6 is " + EliteAPI.VanillaEliteTiers[6].eliteTypes[0]);
             Main.ModLogger.LogError("index 7 is " + EliteAPI.VanillaEliteTiers[7].eliteTypes[0]);
             Main.ModLogger.LogError("index 8 is " + EliteAPI.VanillaEliteTiers[8].eliteTypes[0]);
-
+            */
             On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
 
             PostInit();
@@ -260,7 +260,7 @@ namespace Sandswept.Interactables.Regular
 
         public Dictionary<EliteDef, EquipmentIndex> GetRandomT2EliteDefToEquipmentIndexPair()
         {
-            var tier2EliteTypes = EliteAPI.VanillaEliteTiers[4].eliteTypes;
+            var tier2EliteTypes = EliteAPI.VanillaEliteTiers[5].eliteTypes;
 
             var tier2ElitesExceptFuckOffTwisted = tier2EliteTypes.Where(x => x.eliteEquipmentDef != Paths.EquipmentDef.EliteBeadEquipment).ToList();
 
