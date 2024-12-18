@@ -26,7 +26,7 @@
     <tr>
       <td><img src="https://i.postimg.cc/66fDYrZC/tex-Ranger-Icon.png" width="196"/></td>
       <td><b>Ranger</b><br>
-          The Ranger is a versatile character with two distinct forms. Her base form excels at burst damage from any range using electricity, while the other is much more resource-managing focused with high risk, but extremely high damage fire attacks.</td>
+          The Ranger is a versatile character with two distinct forms. Her base form excels at burst damage from any range using electricity, while the other is much more resource-managing focusing on high-risk, but extremely high damage fire attacks.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/fRqDz6fz/image.png" width="64"/></td>
@@ -86,7 +86,7 @@
     <tr>
       <td><img src="https://i.postimg.cc/52w9KFnf/heat-Mechanic.png" width="64"/></td>
       <td><b>Heat Mechanic</b><br>
-          While in overdrive, you passively build up heat and healing reduction. While in full heat, increase base damage by a lot, which is further amplified by Charge, but take increasingly high self-damage.</td>
+          While in overdrive, you passively build up heat and healing reduction. While in full heat, base damage increases by a lot, which is further amplified by Charge, but take increasingly high self-damage.</td>
     </tr>
     <tr>
       <td colspan="2" align="center"><h3>VOL-T</h3></td>
@@ -140,21 +140,21 @@
 			<td><img src="https://i.postimg.cc/TYHQJ5RD/tex-Cannonball-Jellyfish.png" width="64"/></td>
 			<td>
 				<b>Cannonball Jellyfish</b><br>
-				Launches itself at you. Stuns itself it it misses.
+				Launches itself at you and stuns itself if it misses. On death sends a slightly homing fireball after you.
 			</td>
 		</tr>
 		<tr>
 			<td><img src="https://i.postimg.cc/PJvp7Q70/tex-Gamma-Construct.png" width="64"/></td>
 			<td>
 				<b>Gamma Construct</b><br>
-				Alternates between firing a large sweeping laser and two smaller, stationary ones.
+				Alternates between firing a large deathray and two smaller, ones that follow a set sweeping path.
 			</td>
 		</tr>
 		<tr>
 			<td><img src="https://i.postimg.cc/CLKm8sV0/tex-Delta-Construct.png" width="64"/></td>
 			<td>
 				<b>Delta Construct</b><br>
-				Fires two projectiles at you. Soars to the sky, charging up a configuration of small lasers that go in random directions, leaving a fire trail behind them.
+				Fires two projectiles horizontally at you. Soars to the sky, charging up a configuration of small lasers that go in random directions, leaving a fire trail behind them.
 			</td>
 		</tr>
 		<tr>
@@ -237,7 +237,7 @@
 			<td><img src="https://i.postimg.cc/tJ8JGV5r/tex-Inferno-Drone.png" width="64"/></td>
 			<td>
 				<b>Inferno Drone</b><br>
-				Launches a missile which explodes and spews pools of lava.
+				Periodically launches a missile that explodes into pools of lava.
 			</td>
 		</tr>
 	</tbody>
@@ -369,14 +369,14 @@
 			<td><img src="https://i.postimg.cc/pXf50nwk/tex-Ceremonial-Jar.png" width="96"></td>
 			<td>
 				<b>Ceremonial Jar</b><br>
-				On hit, link enemies up to <b>3</b> times. Linked enemies take <b>1500% (+1500% per stack)</b> base damage each and cannot be linked for 5s afterwards.
+				On hit, link enemies up to <b>3</b> times. Linked enemies take <b>1500% (+1500% per stack)</b> base damage each and cannot be linked for 5s afterward.
 			</td>
 		</tr>
 		<tr>
 			<td><img src="https://i.postimg.cc/rp3zfsBQ/tex-Torn-Feather.png" width="96"></td>
 			<td>
 				<b>Torn Feather</b><br>
-				Tap Interact to perform an omni-directional dash. Can dash twice until hitting the ground. Gain <b>20% (+35% per stack)</b> movement speed.
+				Tap Interact to perform an omnidirectional dash. Can dash twice until hitting the ground. Gain <b>20% (+35% per stack)</b> movement speed.
 			</td>
 		</tr>
 		<tr>
