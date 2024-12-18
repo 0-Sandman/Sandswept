@@ -1,7 +1,9 @@
 ﻿using MonoMod.Cil;
 using System.Linq;
+using Mono.Cecil.Cil;
 using UnityEngine;
 using static Rewired.Utils.Classes.Utility.ObjectInstanceTracker;
+using RoR2.Orbs;
 
 namespace Sandswept.Items.Whites
 {
@@ -96,8 +98,23 @@ namespace Sandswept.Items.Whites
         {
             ILCursor c = new(il);
 
-            if (c.TryGotoNext(MoveType.Before,
-                x => x.Match))
+            ILLabel sigma = null;
+
+            c.TryGotoNext(MoveType.After,
+                x => x.MatchBneUn(out _)
+            );
+
+
+            c.TryGotoNext(MoveType.Before, x => x.MatchLdloc(6));
+            int index = c.Index;
+            c.TryGotoNext(MoveType.After, 
+            x => x.MatchLdarg(0), x => x.MatchLdloc(7));
+            c.Index++;
+            sigma = c.MarkLabel();
+            c.Index = index;
+            c.Emit(OpCodes.Ldloc, 8);
+            c.EmitDelegate<Func<ItemDef, bool>>((x) => { return x == ItemDef; });
+            c.Emit(OpCodes.Brtrue, sigma);
         }
 
         private void ShrineRestackBehavior_AddShrineStack(On.RoR2.ShrineRestackBehavior.orig_AddShrineStack orig, ShrineRestackBehavior self, Interactor interactor)
@@ -112,9 +129,47 @@ namespace Sandswept.Items.Whites
                 if (inventory)
                 {
                     var itemCount = baseExtraItemsCount + stackExtraItemsCount * (stack - 1);
-                    inventory.GiveRandomItems(itemCount, true, true);
+                    
+                    Dictionary<ItemIndex, int> dict = GenerateRandomItems(itemCount);
+                    
+                    foreach (var kvp in dict) {
+                        ItemTransferOrb.DispatchItemTransferOrb(self.transform.position, inventory, kvp.Key, kvp.Value);
+
+                        AkSoundEngine.PostEvent(Events.Play_UI_3D_printer_selectItem, self.gameObject);
+                    }
                 }
             }
+        }
+
+        private static Dictionary<ItemIndex, int> GenerateRandomItems(int count) {
+            Dictionary<ItemIndex, int> dict = new();
+
+            WeightedSelection<List<PickupIndex>> weightedSelection = new WeightedSelection<List<PickupIndex>>();
+			weightedSelection.AddChoice(Run.instance.availableTier1DropList, 100f);
+			weightedSelection.AddChoice(Run.instance.availableTier2DropList, 60f);
+			weightedSelection.AddChoice(Run.instance.availableTier3DropList, 4f);
+			weightedSelection.AddChoice(Run.instance.availableLunarItemDropList, 4f);
+			weightedSelection.AddChoice(Run.instance.availableVoidTier1DropList, 4f);
+			weightedSelection.AddChoice(Run.instance.availableVoidTier1DropList, 2.3999999f);
+			weightedSelection.AddChoice(Run.instance.availableVoidTier1DropList, 0.16f);
+			
+            for (int i = 0; i < count; i++) {
+                List<PickupIndex> tier = weightedSelection.Evaluate(Random.value);
+                PickupIndex pickup = tier[Random.Range(0, tier.Count)];
+
+                ItemDef def = ItemCatalog.GetItemDef(PickupCatalog.GetPickupDef(pickup)?.itemIndex ?? ItemIndex.None);
+
+                if (def) {
+                    if (dict.ContainsKey(def.itemIndex)) {
+                        dict[def.itemIndex]++;
+                    }
+                    else {
+                        dict.Add(def.itemIndex, 1);
+                    }
+                }
+            }
+
+            return dict;
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
