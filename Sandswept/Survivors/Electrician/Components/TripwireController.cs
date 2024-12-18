@@ -35,6 +35,7 @@ namespace Sandswept.Survivors.Electrician
         public SkinDef skin2;
         public Mesh mesh1;
         public Mesh mesh2;
+        public bool hasDetonated = false;
 
         public void OnInteract(Interactor interactor)
         {
@@ -207,12 +208,14 @@ namespace Sandswept.Survivors.Electrician
                 seat.seatPosition.position = startPosition;
                 seat.UpdatePassengerPosition();
 
-                if (Vector3.Distance(startPosition, base.transform.position) < 0.5f)
+                if (Vector3.Distance(startPosition, base.transform.position) < 0.5f && !hasDetonated)
                 {
                     blast.position = explo.position;
                     blast.radius *= 2f;
                     blast.baseDamage *= 2f;
                     blast.Fire();
+
+                    hasDetonated = true;
 
                     isInVehicleMode = false;
 

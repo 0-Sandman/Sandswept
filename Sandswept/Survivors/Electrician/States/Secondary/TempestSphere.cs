@@ -58,7 +58,7 @@ namespace Sandswept.Survivors.Electrician.States
         {
             base.FixedUpdate();
 
-            if (fixedAge >= recoilTime && !inputBank.skill2.down)
+            if (fixedAge >= recoilTime && (!inputBank.skill2.down || base.fixedAge >= 3f))
             {
                 outer.SetNextStateToMain();
             }

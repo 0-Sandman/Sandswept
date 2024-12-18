@@ -19,6 +19,7 @@ namespace Sandswept.Survivors.Electrician
         private CharacterBody body;
         private float damagePerTick;
         private Transform lineOrigin;
+        private float sigma;
 
         public void Start()
         {
@@ -42,6 +43,8 @@ namespace Sandswept.Survivors.Electrician
                 }
             }
 
+            simple.updateAfterFiring = true;
+
             damagePerTick = damage.damage / ticksPerSecond;
         }
 
@@ -58,6 +61,8 @@ namespace Sandswept.Survivors.Electrician
                     HandleBlastAuthority(base.transform.position);
                 }
             }
+
+            simple.desiredForwardSpeed += simple.desiredForwardSpeed * 0.5f * Time.fixedDeltaTime;
 
             if (!body) return;
 
