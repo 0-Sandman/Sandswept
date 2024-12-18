@@ -21,7 +21,7 @@ namespace Sandswept.Items.Whites
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texTheirProminence.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility };
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist };
 
         public override void Init(ConfigFile config)
         {
