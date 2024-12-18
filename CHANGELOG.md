@@ -1,6 +1,7 @@
 # 1.0.0 Patch Notes
 - General
   - Added Sandswept Expansion
+  - Updated mod icon
   - Overhauled README
 - Survivors
   - Added VOL-T
