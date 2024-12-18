@@ -1,4 +1,5 @@
 using System;
+using R2API.Networking.Interfaces;
 using RoR2.Orbs;
 
 namespace Sandswept.Survivors.Electrician
@@ -108,13 +109,22 @@ namespace Sandswept.Survivors.Electrician
             {
                 foreach (TempestBallController orb in orbs[body])
                 {
-                    orb.simple.desiredForwardSpeed = 0;
-                    orb.simple.updateAfterFiring = true;
-                    orb.locked = true;
-                    orb.lr.enabled = false;
-                    Util.PlaySound("Play_gravekeeper_attack2_shoot_singleChain", orb.gameObject);
+                    orb.Lock();
                 }
             }
+        }
+
+        public void Lock() {
+            LockNetworked();
+            new CallNetworkedMethod(base.gameObject, "LockNetworked").Send(R2API.Networking.NetworkDestination.Clients);
+        }
+
+        public void LockNetworked() {
+            simple.desiredForwardSpeed = 0;
+            simple.updateAfterFiring = true;
+            locked = true;
+            lr.enabled = false;
+            Util.PlaySound("Play_gravekeeper_attack2_shoot_singleChain", base.gameObject);
         }
 
         public void OnDestroy()
