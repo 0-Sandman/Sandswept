@@ -221,7 +221,7 @@
 			<td>
 				<b>Shrine of Death</b><br>
 				Sacrifice 20% health and disable healing for 3 seconds, but activate on-kill effects at the shrine's location.<br>
-				<b>Details:</b> Usable infinitely, with a cooldown of 4 seconds. Spawns <b>only on Commencement</b>, on Mithrix' arena, in one of three random spots.</b>.
+				<b>Details:</b> Usable <b>infinitely</b>, with a cooldown of 4 seconds. <b>Only spawns on on Mithrix' arena</b>, in one of three random spots.
 			</td>
 		</tr>
 		<tr>
