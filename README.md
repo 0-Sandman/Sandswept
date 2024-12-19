@@ -217,7 +217,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td><img src="https://i.postimg.cc/yY6kR6Qb/tex-Shrine-Of-Ruin2.png" width="64"/></td>
+			<td><img src="https://i.postimg.cc/sg19PPnb/tex-Shrine-Of-Death2.png" width="64"/></td>
 			<td>
 				<b>Shrine of Death</b><br>
 				Sacrifice 20% health and disable healing for 3 seconds, but activate on-kill effects at the shrine's location.<br>
