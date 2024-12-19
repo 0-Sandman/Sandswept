@@ -27,6 +27,7 @@
   - Added item displays to Osmium
 - Interactables
   - Added Inferno Drone
+  - Added Shrine of Death
   - Added Shrine of Ruin
   - Added Shrine of Sacrifice
   - Added Shrine of The Future

@@ -210,11 +210,18 @@
 	</thead>
 	<tbody>
 		<tr>
-			<td><img src="https://i.postimg.cc/gkCDYxzs/tex-Shrine-Of-Sacrifice.png" width="64"/></td>
+			<td><img src="https://i.postimg.cc/tJ8JGV5r/tex-Inferno-Drone.png" width="64"/></td>
 			<td>
-				<b>Shrine of Sacrifice</b><br>
-				Gain <b>20% curse</b> to drop 2 copies of a random common item.<br>
-				<b>Details:</b> Usable only once, can only spawn once per stage, costs 20 credits.
+				<b>Inferno Drone</b><br>
+				Periodically launches a missile that explodes into pools of lava.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/yY6kR6Qb/tex-Shrine-Of-Ruin2.png" width="64"/></td>
+			<td>
+				<b>Shrine of Death</b><br>
+				Sacrifice 20% health and disable healing for 3 seconds, but activate on-kill effects at the shrine's location.<br>
+				<b>Details:</b> Usable infinitely, with a cooldown of 4 seconds. Spawns <b>only on Commencement</b>, on Mithrix' arena, in one of three random spots.</b>.
 			</td>
 		</tr>
 		<tr>
@@ -226,18 +233,19 @@
 			</td>
 		</tr>
 		<tr>
+			<td><img src="https://i.postimg.cc/gkCDYxzs/tex-Shrine-Of-Sacrifice.png" width="64"/></td>
+			<td>
+				<b>Shrine of Sacrifice</b><br>
+				Gain <b>20% curse</b> to drop 2 copies of a random common item.<br>
+				<b>Details:</b> Usable only once, can only spawn once per stage, costs 20 credits.
+			</td>
+		</tr>
+		<tr>
 			<td><img src="https://i.postimg.cc/Bv3RF8Zg/tex-Shrine-Of-The-Future.png" width="64"/></td>
 			<td>
 				<b>Shrine of The Future</b><br>
 				Summon a random Tier 2 Elite Miniboss with halved stats that, upon being defeated, drops 3 item potentials per player.<br>
 				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 3 and &le; 11, costs 35 credits. Item potentials have a choice between a random white and a random green.
-			</td>
-		</tr>
-		<tr>
-			<td><img src="https://i.postimg.cc/tJ8JGV5r/tex-Inferno-Drone.png" width="64"/></td>
-			<td>
-				<b>Inferno Drone</b><br>
-				Periodically launches a missile that explodes into pools of lava.
 			</td>
 		</tr>
 	</tbody>

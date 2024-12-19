@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json.Utilities;
 using RoR2.ExpansionManagement;
+using RoR2.Hologram;
 using System;
 using System.Collections;
 using System.Linq;
@@ -42,10 +43,10 @@ namespace Sandswept.Interactables.Regular
         [ConfigField("Percent Health Cost", "", 20)]
         public static int percentHealthCost;
 
-        [ConfigField("Healing Disable Duration", "", 2f)]
+        [ConfigField("Healing Disable Duration", "", 3f)]
         public static float healingDisableDuration;
 
-        [ConfigField("Cooldown", "", 3f)]
+        [ConfigField("Cooldown", "", 4f)]
         public static float cooldown;
 
         [ConfigField("Max Use Count", "", 2147483647)]
@@ -61,7 +62,39 @@ namespace Sandswept.Interactables.Regular
             fmpPrefab = Paths.GameObject.DeathProjectile;
 
             prefab = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineCombat, "Shrine of Death", true);
-            Main.ModLogger.LogError("prefab right after instantiating is " + prefab);
+
+            var interactionProcFilter = prefab.AddComponent<InteractionProcFilter>();
+            interactionProcFilter.shouldAllowOnInteractionBeginProc = false;
+
+            var symbol = prefab.transform.Find("Symbol").GetComponent<MeshRenderer>();
+            symbol.transform.localPosition = new Vector3(0f, 5f, 0f);
+
+            var newSymbolMaterial = new Material(Paths.Material.matShrineCombatSymbol);
+            newSymbolMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone);
+            newSymbolMaterial.SetColor("_TintColor", new Color32(64, 77, 255, 255));
+            newSymbolMaterial.SetTexture("_MainTex", Paths.Texture2D.texBanditSkullMask);
+
+            symbol.material = newSymbolMaterial;
+
+            var modelLocator = prefab.GetComponent<ModelLocator>();
+
+            var trans = modelLocator._modelTransform;
+            trans.transform.localScale = Vector3.one * 3f;
+            trans.transform.Find("Collision").gameObject.SetActive(false);
+            var mf = trans.GetComponent<MeshFilter>();
+            mf.mesh = Addressables.LoadAssetAsync<Mesh>("RoR2/Base/artifactworld/mdlArtifactSpiral.fbx").WaitForCompletion();
+            var mr = trans.GetComponent<MeshRenderer>();
+
+            var newArtifactMaterial = new Material(Paths.Material.matArtifactRed);
+            newArtifactMaterial.SetColor("_Color", Color.white);
+            newArtifactMaterial.SetColor("_EmColor", new Color32(0, 20, 255, 255));
+            newArtifactMaterial.SetFloat("_EmPower", 0.03f);
+            newArtifactMaterial.SetFloat("_Smoothness", 0.85f);
+            newArtifactMaterial.SetFloat("_FresnelBoost", 0.5f);
+            newArtifactMaterial.shaderKeywords = new string[] { "FORCE_SPEC", "FRESNEL_EMISSION", "TRIPLANAR" };
+            newArtifactMaterial.SetTexture("_FresnelRamp", Paths.Texture2D.texRampIridescent);
+
+            mr.material = newArtifactMaterial;
 
             var purchaseInteraction = prefab.GetComponent<PurchaseInteraction>();
             purchaseInteraction.displayNameToken = "SANDSWEPT_SHRINE_DEATH_NAME";
@@ -82,7 +115,6 @@ namespace Sandswept.Interactables.Regular
             expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
 
             PrefabAPI.RegisterNetworkPrefab(prefab);
-            Main.ModLogger.LogError("prefab right after registering is " + prefab);
 
             LanguageAPI.Add("SANDSWEPT_SHRINE_DEATH_NAME", "Shrine of Death");
             LanguageAPI.Add("SANDSWEPT_SHRINE_DEATH_CONTEXT", "Offer to Shrine of Death");
@@ -98,18 +130,18 @@ namespace Sandswept.Interactables.Regular
                 TitleColor = Color.white
             };
             // add this to base later tbh?
-            LanguageAPI.Add("SANDSWEPT_SHRINE_DEATH_DESCRIPTION", "When activated by a survivor, the Shrine of Death aaaaa");
+            LanguageAPI.Add("SANDSWEPT_SHRINE_DEATH_DESCRIPTION", "When activated by a survivor, the Shrine of Death takes " + percentHealthCost + "% of the survivors health and disables all healing for " + healingDisableDuration + " seconds, but activates on-kill effects.");
 
             prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo = Object.Instantiate(prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo);
             prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo.Info = inspectInfo;
 
             shrineVFX = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.ShrineUseEffect, "Shrine of The Death VFX", false);
-            shrineVFX.GetComponent<EffectComponent>().soundName = "Play_ui_obj_eradicator_open";
+            shrineVFX.GetComponent<EffectComponent>().soundName = "Play_char_glass_death";
             ContentAddition.AddEffect(shrineVFX);
 
-            possibleCommencementSpots.Add(new Vector3(-116.9045f, 491.6998f, -29.86444f)); // close range
-            possibleCommencementSpots.Add(new Vector3(-37.01875f, 491.6998f, 0.1641912f)); // medium range
-            possibleCommencementSpots.Add(new Vector3(-116.7904f, 491.6998f, 69.67595f)); // medium-far range
+            possibleCommencementSpots.Add(new Vector3(-116.9045f, 493.05f, -29.86444f)); // close range
+            possibleCommencementSpots.Add(new Vector3(-37.01875f, 493.05f, 0.1641912f)); // medium range
+            possibleCommencementSpots.Add(new Vector3(-116.7904f, 493.05f, 69.67595f)); // medium-far range
 
             interactableSpawnCard.prefab = prefab;
 
@@ -234,6 +266,7 @@ namespace Sandswept.Interactables.Regular
             }, true);
 
             Util.PlaySound("Play_deathProjectile_pulse", gameObject);
+            Util.PlaySound("Play_char_glass_death", gameObject);
 
             purchaseCount++;
             refreshTimer = ShrineOfDeath.cooldown;
