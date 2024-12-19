@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Utilities;
+using RoR2.ExpansionManagement;
 using System;
 using System.Collections;
 using System.Linq;
@@ -13,24 +14,26 @@ namespace Sandswept.Interactables.Regular
     {
         public override string Name => "Shrine of Death";
 
-        public override DirectorAPI.InteractableCategory Category => InteractableCategory.Shrines;
+        public override DirectorAPI.InteractableCategory Category => InteractableCategory.Misc;
 
         //public override int MaxSpawnsPerStage => 1;
         public override int MaxSpawnsPerStage => 0;
 
         //public override int CreditCost => 20;
-        public override int CreditCost => 0;
+        public override int CreditCost => int.MaxValue;
 
-        public override HullClassification Size => HullClassification.BeetleQueen;
+        public override HullClassification Size => HullClassification.Golem;
 
         //public override int MinimumStageToAppearOn => 3;
-        public override int MinimumStageToAppearOn => 0;
+        public override int MinimumStageToAppearOn => 1;
 
         //public override int SpawnWeight => 1;
         public override int SpawnWeight => 0;
 
         public override bool SlightlyRandomizeOrientation => false;
         public override bool OrientToFloor => false;
+
+        public override List<Stage> Stages => null;
 
         public GameObject prefab;
 
@@ -39,20 +42,26 @@ namespace Sandswept.Interactables.Regular
         [ConfigField("Percent Health Cost", "", 20)]
         public static int percentHealthCost;
 
+        [ConfigField("Healing Disable Duration", "", 2f)]
+        public static float healingDisableDuration;
+
         [ConfigField("Cooldown", "", 3f)]
         public static float cooldown;
 
         [ConfigField("Max Use Count", "", 2147483647)]
         public static int maxUseCount;
 
-        public static GameObject fmpPrefab = Paths.GameObject.DeathProjectile;
+        public static GameObject fmpPrefab;
 
         public List<Vector3> possibleCommencementSpots = new();
 
         public override void Init()
         {
             base.Init();
+            fmpPrefab = Paths.GameObject.DeathProjectile;
+
             prefab = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineCombat, "Shrine of Death", true);
+            Main.ModLogger.LogError("prefab right after instantiating is " + prefab);
 
             var purchaseInteraction = prefab.GetComponent<PurchaseInteraction>();
             purchaseInteraction.displayNameToken = "SANDSWEPT_SHRINE_DEATH_NAME";
@@ -69,7 +78,11 @@ namespace Sandswept.Interactables.Regular
             prefab.AddComponent<ShrineOfDeathController>();
             prefab.AddComponent<UnityIsAFuckingPieceOfShit4>();
 
+            var expansionRequirementComponent = prefab.AddComponent<ExpansionRequirementComponent>();
+            expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
+
             PrefabAPI.RegisterNetworkPrefab(prefab);
+            Main.ModLogger.LogError("prefab right after registering is " + prefab);
 
             LanguageAPI.Add("SANDSWEPT_SHRINE_DEATH_NAME", "Shrine of Death");
             LanguageAPI.Add("SANDSWEPT_SHRINE_DEATH_CONTEXT", "Offer to Shrine of Death");
@@ -87,9 +100,6 @@ namespace Sandswept.Interactables.Regular
             // add this to base later tbh?
             LanguageAPI.Add("SANDSWEPT_SHRINE_DEATH_DESCRIPTION", "When activated by a survivor, the Shrine of Death aaaaa");
 
-            LanguageAPI.Add("SANDSWEPT_SHRINE_DEATH_USE_MESSAGE_2P", "<style=cShrine>placeholder</color>");
-            LanguageAPI.Add("SANDSWEPT_SHRINE_DEATH_USE_MESSAGE", "<style=cShrine>placeholder</color>");
-
             prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo = Object.Instantiate(prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo);
             prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo.Info = inspectInfo;
 
@@ -100,6 +110,8 @@ namespace Sandswept.Interactables.Regular
             possibleCommencementSpots.Add(new Vector3(-116.9045f, 491.6998f, -29.86444f)); // close range
             possibleCommencementSpots.Add(new Vector3(-37.01875f, 491.6998f, 0.1641912f)); // medium range
             possibleCommencementSpots.Add(new Vector3(-116.7904f, 491.6998f, 69.67595f)); // medium-far range
+
+            interactableSpawnCard.prefab = prefab;
 
             On.RoR2.Stage.Start += Stage_Start;
 
@@ -235,6 +247,9 @@ namespace Sandswept.Interactables.Regular
         public IEnumerator ProcOnKills(CharacterBody interactorBody)
         {
             yield return new WaitForSeconds(0.1f);
+
+            interactorBody.AddTimedBuff(RoR2Content.Buffs.HealingDisabled, ShrineOfDeath.healingDisableDuration);
+
             var ghostFMP = Object.Instantiate<GameObject>(ShrineOfDeath.fmpPrefab, /*new Vector3(0f, -200f, 0f)*/interactorBody.footPosition, Quaternion.identity);
             ghostFMP.transform.localScale = new Vector3(0f, 0f, 0f);
             ghostFMP.GetComponent<DeathProjectile>().baseDuration = 1.1f;

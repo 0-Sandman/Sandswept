@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1726277916
+CRC: 2773447918
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 4e2082619fb7ec73aa8820bdf98d8bf2
+    Hash: f0dcab5bbdaa52e89b896d7a52711254
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 259d851e29e3ac3da841441d1f5c096d
+    Hash: e8675ea0665b648bc9ade2da06613088
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -95,6 +95,8 @@ ClassTypes:
   Script: {fileID: 337599609, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
   Script: {fileID: 1340332627, guid: ca6fb10b837101520834a90b90b15080, type: 3}
+- Class: 114
+  Script: {fileID: -1115966766, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
   Script: {fileID: -1655685746, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
@@ -250,11 +252,7 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 105922711, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: -130519023, guid: b2ac317a67c468eb8fd6ed06da7572d4, type: 3}
-- Class: 114
   Script: {fileID: 372142912, guid: d382a022563c7517aadbc92ca1060016, type: 3}
-- Class: 114
-  Script: {fileID: -1115966766, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 120
@@ -316,10 +314,6 @@ SerializeReferenceClassIdentifiers:
   ClassName: UnityEngine.Events.UnityEvent
 - AssemblyName: UnityEngine.UI
   ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
-- AssemblyName: Wwise
-  ClassName: AkGameObjListenerList
-- AssemblyName: Wwise
-  ClassName: AkGameObjPositionOffsetData
 - AssemblyName: com.unity.multiplayer-hlapi.Runtime
   ClassName: UnityEngine.Networking.NetworkHash128
 - AssemblyName: com.unity.multiplayer-hlapi.Runtime
@@ -353,6 +347,7 @@ Assets:
 - Assets/Sandswept/Base/Items/TornFeather/ActiveIndicatorParticles.prefab
 - Assets/Sandswept/Base/Items/CellShield/DisplayCellShield.prefab
 - Assets/Sandswept/Base/Characters/Ranger/mdl/matRanger.mat
+- Assets/Sandswept/Base/Characters/CannonJelly/CannonJellyMaster.prefab
 - Assets/Sandswept/Base/Characters/Ranger/CrosshairRanger.prefab
 - Assets/Sandswept/Base/Items/CellShield/matSparkFlare.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvOverlay.mat

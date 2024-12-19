@@ -44,7 +44,8 @@ namespace Sandswept.Enemies.GammaConstruct
                     ChargeDelay = duration * 0.25f,
                     EffectPrefab = GammaConstruct.beam,
                     FiringMode = LaserFiringMode.TrackAim,
-                    ImpactEffect = Paths.GameObject.ExplosionMinorConstruct
+                    ImpactEffect = GammaConstruct.sigmaBlast,
+                    TickRate = 5f
                 }
             );
 

@@ -1,4 +1,5 @@
 using System;
+using R2API.Networking.Interfaces;
 
 namespace Sandswept.Survivors.Electrician
 {
@@ -35,6 +36,7 @@ namespace Sandswept.Survivors.Electrician
         public SkinDef skin2;
         public Mesh mesh1;
         public Mesh mesh2;
+        public bool hasDetonated = false;
 
         public void OnInteract(Interactor interactor)
         {
@@ -174,7 +176,24 @@ namespace Sandswept.Survivors.Electrician
 
             lightningEffect.SetActive(true);
 
+            new CallNetworkedMethod(base.gameObject, "StartZipClient").Send(R2API.Networking.NetworkDestination.Clients);
+
             return true;
+        }
+
+        public void StartZipClient() {
+            head.gameObject.SetActive(false);
+
+            lightningEffect.SetActive(true);
+
+            isInVehicleMode = true;
+        }
+
+        public void RestoreHeadClient() {
+            if (head)
+            {
+                head.gameObject.SetActive(true);
+            }
         }
 
         public void FixedUpdate()
@@ -198,7 +217,7 @@ namespace Sandswept.Survivors.Electrician
 
             if (isInVehicleMode)
             {
-                if (!body || !body.hasAuthority)
+                if (!body)
                 {
                     return;
                 }
@@ -207,12 +226,14 @@ namespace Sandswept.Survivors.Electrician
                 seat.seatPosition.position = startPosition;
                 seat.UpdatePassengerPosition();
 
-                if (Vector3.Distance(startPosition, base.transform.position) < 0.5f)
+                if (Vector3.Distance(startPosition, base.transform.position) < 0.5f && !hasDetonated && NetworkServer.active)
                 {
                     blast.position = explo.position;
                     blast.radius *= 2f;
                     blast.baseDamage *= 2f;
                     blast.Fire();
+
+                    hasDetonated = true;
 
                     isInVehicleMode = false;
 
@@ -224,6 +245,7 @@ namespace Sandswept.Survivors.Electrician
 
                     if (head)
                     {
+                        new CallNetworkedMethod(base.gameObject, "RestoreHeadClient").Send(R2API.Networking.NetworkDestination.Clients);
                         head.gameObject.SetActive(true);
                     }
 

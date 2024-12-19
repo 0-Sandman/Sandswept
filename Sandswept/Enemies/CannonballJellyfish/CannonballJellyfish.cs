@@ -1,3 +1,4 @@
+/*
 using System;
 using RoR2.CharacterAI;
 using RoR2.Navigation;
@@ -11,7 +12,7 @@ namespace Sandswept.Enemies.CannonballJellyfish
         public override void LoadPrefabs()
         {
             prefab = Main.Assets.LoadAsset<GameObject>("CannonJellyBody.prefab");
-            prefabMaster = PrefabAPI.InstantiateClone(Paths.GameObject.JellyfishMaster, "CannonJellyfishMaster");
+            prefabMaster = Main.Assets.LoadAsset<GameObject>("CannonJellyMaster.prefab");
 
             JellyCoreProjectile = Main.Assets.LoadAsset<GameObject>("JellyCoreProjectile.prefab");
             JellyCoreProjectile.GetComponent<ProjectileImpactExplosion>().explosionEffect = Paths.GameObject.SojournExplosionVFX;
@@ -34,12 +35,6 @@ namespace Sandswept.Enemies.CannonballJellyfish
             var loreToken = body.baseNameToken.Replace("_NAME", "_LORE");
             loreToken.Add("<style=cMono>Welcome to DataScraper (v3.1.53 - beta branch)\r\n$ Scraping memory� done.\r\n$ Resolving� done.\r\n$ Combing for relevant data� done.\r\nComplete!\r\n\r\n</style>UES incident report: Incident 193442\r\nTwo personnel reported seeing a Petrichorpus Scyphozoa inside the ship of the Safe Travels rescue ship. After �terminating� it, the Petrichorpus Scyphozoa was identified as a new species, unrelated to Petrichorpus Scyphozoa entirely. \r\nBegin Transcript�\r\n\r\n�W-why is there a [redacted] jellyfish, in the [redacted] CABIN?!�\r\n\r\n�I-I don't know!! H-How am I supposed to know?!�\r\n\r\n�You�re the [redacted] Xenobiologist! I thought you had a book about this stuff?!�\r\n\r\n�L-look! It�s back in my quarters� Also� aren't those Petrichorian jellyfish usually like� cyan? This one is jet black. And I can't really see inside of it��\r\n\r\n[Sounds of electricity, and the xenobiologist yelping in pain]\r\n\r\n�Shoot the damn thing you oaf! You�re supposed to be the bodyguard, if we want to get picky about jobs!!�\r\n\r\n[Sound of an m335 laser rifle being shot, and rock hitting the ground]\r\n\r\n�What the hell even� is that? I- I can't even tell what kingdom this thing should be in, certainly not an animal, or macrobacteria� \r\n�I dunno, you�re the [redacted] Xenobiologist�");
             body.portraitIcon = Main.hifuSandswept.LoadAsset<Texture>("texCannonballJellyfish.png");
-
-            WipeAllDrivers(master.gameObject);
-            AddNewDriver(master.gameObject, "JellyCharge", AISkillDriver.AimType.AtCurrentEnemy, AISkillDriver.MovementType.ChaseMoveTarget, AISkillDriver.TargetType.CurrentEnemy, 10f, 60f, SkillSlot.Primary);
-            AddNewDriver(master.gameObject, "JellyFlee", AISkillDriver.AimType.AtCurrentEnemy, AISkillDriver.MovementType.FleeMoveTarget, AISkillDriver.TargetType.CurrentEnemy, 0f, 10f, SkillSlot.None);
-            AddNewDriver(master.gameObject, "Strafe", AISkillDriver.AimType.AtCurrentEnemy, AISkillDriver.MovementType.StrafeMovetarget, AISkillDriver.TargetType.CurrentEnemy, 10f, 60f, SkillSlot.None);
-            AddNewDriver(master.gameObject, "Chase", AISkillDriver.AimType.AtCurrentEnemy, AISkillDriver.MovementType.ChaseMoveTarget, AISkillDriver.TargetType.CurrentEnemy, 60f, float.PositiveInfinity, SkillSlot.None);
 
             var locator = body.GetComponent<SkillLocator>();
 
@@ -71,3 +66,4 @@ namespace Sandswept.Enemies.CannonballJellyfish
         }
     }
 }
+*/

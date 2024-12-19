@@ -1,4 +1,5 @@
 using System;
+using R2API.Networking.Interfaces;
 
 namespace Sandswept.Survivors.Electrician.States
 {
@@ -38,14 +39,14 @@ namespace Sandswept.Survivors.Electrician.States
         {
             base.FixedUpdate();
 
-            if (!inputBank.skill3.down)
+            if (!inputBank.skill3.down && isAuthority)
             {
                 if (!tossedOut)
                 {
                     if (TripwireController.ControllerMap.ContainsKey(gameObject))
                     {
                         TripwireController controller = TripwireController.ControllerMap[gameObject];
-                        tossedOut = !controller.StartZip();
+                        new CallNetworkedMethod(controller.gameObject, "StartZip").Send(R2API.Networking.NetworkDestination.Server);
                         FUCKINGEXPLODE = false;
                     }
                 }
@@ -67,12 +68,12 @@ namespace Sandswept.Survivors.Electrician.States
                 skillLocator.utility.RunRecharge(cd);
             }
 
-            if (FUCKINGEXPLODE)
+            if (FUCKINGEXPLODE && base.isAuthority)
             {
                 if (TripwireController.ControllerMap.ContainsKey(gameObject))
                 {
                     TripwireController controller = TripwireController.ControllerMap[gameObject];
-                    controller.KABOOM();
+                    new CallNetworkedMethod(controller.gameObject, "KABOOM").Send(R2API.Networking.NetworkDestination.Server);
                 }
             }
         }

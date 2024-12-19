@@ -104,6 +104,8 @@ namespace Sandswept.Survivors.Electrician
             // projectileProximityBeamController.damageCoefficient = 0.75f; // no, set to 1f in unity and attack speed reduced to 1.2s
             // weh
             // mrraow
+            ContentAddition.AddNetworkedObject(GalvanicBolt);
+            PrefabAPI.RegisterNetworkPrefab(GalvanicBolt);
             ContentAddition.AddProjectile(GalvanicBolt);
 
             // this gets instantiatecloned to break its prefab status so i can parent stuff to it over in CreateVFX
@@ -111,6 +113,8 @@ namespace Sandswept.Survivors.Electrician
             ContentAddition.AddProjectile(TempestSphere);
 
             StaticSnare = Main.Assets.LoadAsset<GameObject>("TripwireMineProjectile.prefab");
+            ContentAddition.AddNetworkedObject(StaticSnare);
+            PrefabAPI.RegisterNetworkPrefab(StaticSnare);
             ContentAddition.AddProjectile(StaticSnare);
 
             Main.Instance.StartCoroutine(CreateVFX());

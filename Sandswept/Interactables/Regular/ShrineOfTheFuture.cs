@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json.Utilities;
+using RoR2.ExpansionManagement;
 using System;
 using System.Collections;
 using System.Linq;
@@ -19,7 +20,7 @@ namespace Sandswept.Interactables.Regular
         //public override int CreditCost => 20;
         public override int CreditCost => 35;
 
-        public override HullClassification Size => HullClassification.BeetleQueen;
+        public override HullClassification Size => HullClassification.Golem;
 
         //public override int MinimumStageToAppearOn => 3;
         public override int MinimumStageToAppearOn => 3;
@@ -113,6 +114,9 @@ namespace Sandswept.Interactables.Regular
             prefab.AddComponent<ShrineOfTheFutureController>();
             prefab.AddComponent<UnityIsAFuckingPieceOfShit3>();
 
+            var expansionRequirementComponent = prefab.AddComponent<ExpansionRequirementComponent>();
+            expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
+
             interactableSpawnCard.prefab = prefab;
 
             var combatSquad = prefab.GetComponent<CombatSquad>();
@@ -164,17 +168,7 @@ namespace Sandswept.Interactables.Regular
             shrineVFX = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.ShrineUseEffect, "Shrine of The Future VFX", false);
             shrineVFX.GetComponent<EffectComponent>().soundName = "Play_ui_obj_nullWard_complete";
             ContentAddition.AddEffect(shrineVFX);
-            /*
-            Main.ModLogger.LogError("index 0 is " + EliteAPI.VanillaEliteTiers[0].eliteTypes[0]);
-            Main.ModLogger.LogError("index 1 is " + EliteAPI.VanillaEliteTiers[1].eliteTypes[0]);
-            Main.ModLogger.LogError("index 2 is " + EliteAPI.VanillaEliteTiers[2].eliteTypes[0]);
-            Main.ModLogger.LogError("index 3 is " + EliteAPI.VanillaEliteTiers[3].eliteTypes[0]);
-            Main.ModLogger.LogError("index 4 is " + EliteAPI.VanillaEliteTiers[4].eliteTypes[0]);
-            Main.ModLogger.LogError("index 5 is " + EliteAPI.VanillaEliteTiers[5].eliteTypes[0]);
-            Main.ModLogger.LogError("index 6 is " + EliteAPI.VanillaEliteTiers[6].eliteTypes[0]);
-            Main.ModLogger.LogError("index 7 is " + EliteAPI.VanillaEliteTiers[7].eliteTypes[0]);
-            Main.ModLogger.LogError("index 8 is " + EliteAPI.VanillaEliteTiers[8].eliteTypes[0]);
-            */
+
             On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
 
             PostInit();

@@ -58,7 +58,7 @@ namespace Sandswept.Survivors.Electrician.States
         {
             base.FixedUpdate();
 
-            if (fixedAge >= recoilTime && !inputBank.skill2.down)
+            if (fixedAge >= recoilTime && (!inputBank.skill2.down || base.fixedAge >= 3f))
             {
                 outer.SetNextStateToMain();
             }
@@ -70,7 +70,7 @@ namespace Sandswept.Survivors.Electrician.States
 
             GetModelAnimator().SetBool("chargingOrb", false);
 
-            if (!locked)
+            if (!locked && base.isAuthority)
             {
                 Util.PlaySound("Stop_loader_shift_charge_loop", gameObject);
                 TempestBallController.LockAllOrbs(characterBody);

@@ -77,10 +77,13 @@ namespace Sandswept.Interactables
 
             directorCardHolder = new() { Card = directorCard, InteractableCategory = Category };
 
-            for (int i = 0; i < Stages.Count; i++)
+            if (Stages != null)
             {
-                var stage = Stages[i];
-                Helpers.AddNewInteractableToStage(directorCardHolder, stage);
+                for (int i = 0; i < Stages.Count; i++)
+                {
+                    var stage = Stages[i];
+                    Helpers.AddNewInteractableToStage(directorCardHolder, stage);
+                }
             }
         }
 

@@ -1,3 +1,4 @@
+/*
 using System;
 
 namespace Sandswept.Enemies.CannonballJellyfish
@@ -91,3 +92,4 @@ namespace Sandswept.Enemies.CannonballJellyfish
         }
     }
 }
+*/

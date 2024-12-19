@@ -22,14 +22,15 @@ namespace Sandswept.Enemies.GammaConstruct
                 {
                     OriginIsBase = true,
                     EndpointName = "End",
-                    DamageCoefficient = 4f,
-                    FiringWidthMultiplier = 3.5f,
+                    DamageCoefficient = 20f,
+                    FiringWidthMultiplier = 4.5f,
                     MaxRange = 190f,
                     FiringMaterial = GammaConstruct.matDeltaBeamStrong,
                     ChargeDelay = duration * 0.3f,
                     EffectPrefab = GammaConstruct.beam,
                     FiringMode = LaserFiringMode.Straight,
-                    ImpactEffect = Paths.GameObject.ExplosionMinorConstruct
+                    ImpactEffect = GammaConstruct.sigmaBlast,
+                    TickRate = 20f
                 }
             );
 
@@ -38,14 +39,15 @@ namespace Sandswept.Enemies.GammaConstruct
                 {
                     OriginIsBase = true,
                     EndpointName = "End",
-                    DamageCoefficient = 4f,
-                    FiringWidthMultiplier = 3.5f,
+                    DamageCoefficient = 20f,
+                    FiringWidthMultiplier = 4.5f,
                     MaxRange = 190f,
                     FiringMaterial = GammaConstruct.matDeltaBeamStrong,
                     ChargeDelay = duration * 0.3f,
                     EffectPrefab = GammaConstruct.beam,
                     FiringMode = LaserFiringMode.Straight,
-                    ImpactEffect = Paths.GameObject.ExplosionMinorConstruct
+                    ImpactEffect = GammaConstruct.sigmaBlast,
+                    TickRate = 20f
                 }
             );
 

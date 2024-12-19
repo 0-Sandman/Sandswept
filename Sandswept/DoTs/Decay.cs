@@ -1,4 +1,5 @@
 ﻿using Sandswept.Items.VoidGreens;
+using System.Linq;
 using static R2API.DotAPI;
 using static RoR2.DotController;
 
@@ -70,16 +71,24 @@ namespace Sandswept.DoTs
                 damageCoefficient = 1f
             };
 
-            CustomDotVisual visual = delegate (DotController self)
+            On.RoR2.DotController.UpdateDotVisuals += (orig, self) =>
             {
-                var victim = self.victimObject;
+                orig(self);
+                var victim = self.victimBody;
+                if (!victim) return;
                 var modelLocator = victim.GetComponent<ModelLocator>();
-                if (modelLocator && modelLocator.modelTransform)
+                var hasDecay = victim.HasBuff(decayBuff);
+                var decayController = victim.GetComponents<BurnEffectController>().FirstOrDefault(x => x.effectType == decayEffect);
+                if (hasDecay)
                 {
-                    var decayEffectController = victim.AddComponent<BurnEffectController>();
-                    decayEffectController.effectType = decayEffect;
-                    decayEffectController.target = modelLocator.modelTransform.gameObject;
+                    if (decayController == default)
+                    {
+                        var decayEffectController = victim.AddComponent<BurnEffectController>();
+                        decayEffectController.effectType = decayEffect;
+                        decayEffectController.target = modelLocator.modelTransform.gameObject;
+                    }
                 }
+                else if (decayController != default) Object.Destroy(decayController);
             };
 
             CustomDotBehaviour behavior = delegate (DotController self, DotStack dotStack)
@@ -101,7 +110,7 @@ namespace Sandswept.DoTs
                 }
             };
 
-            decayIndex = RegisterDotDef(decayDef, behavior, visual);
+            decayIndex = RegisterDotDef(decayDef, behavior);
         }
     }
 }
