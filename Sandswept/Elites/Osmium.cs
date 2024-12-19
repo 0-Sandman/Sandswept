@@ -132,7 +132,6 @@ namespace Sandswept.Elites
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = crownModel,
 
-            
             childName = "Head",
 localPos = new Vector3(0F, 0.43946F, 0.19302F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -1006,7 +1005,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
             On.RoR2.HealthComponent.TakeDamageForce_Vector3_bool_bool += HealthComponent_TakeDamageForce_Vector3_bool_bool;
             On.RoR2.HealthComponent.TakeDamageForce_DamageInfo_bool_bool += HealthComponent_TakeDamageForce_DamageInfo_bool_bool;
             On.RoR2.CharacterBody.OnBuffFirstStackGained += CharacterBody_OnBuffFirstStackGained;
-            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
+            // CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
             On.RoR2.CharacterBody.OnBuffFinalStackLost += CharacterBody_OnBuffFinalStackLost;
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             // IL.EntityStates.GenericCharacterMain.ProcessJump += GenericCharacterMain_ProcessJump;
@@ -1107,6 +1106,10 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
             {
                 self.AddBuff(outsideAura);
             }
+            if (buffDef == Instance.EliteBuffDef)
+            {
+                self.RemoveComponent<OsmiumController>();
+            }
         }
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody characterBody)
@@ -1137,6 +1140,10 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
             if (buffDef == insideAura)
             {
                 self.RemoveBuff(outsideAura);
+            }
+            if (buffDef == Instance.EliteBuffDef)
+            {
+                self.gameObject.AddComponent<OsmiumController>();
             }
         }
 
@@ -1180,11 +1187,15 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
         {
             healthComponent = GetComponent<HealthComponent>();
             body = healthComponent.body;
-            radius = Util.Remap(body.baseMaxHealth, 0f, 1125, Osmium.minimumAuraRadius, Osmium.maximumAuraRadius);
+            radius = Util.Remap(body.baseMaxHealth, 0f, 1125f, Osmium.minimumAuraRadius, Osmium.maximumAuraRadius);
             wardInstance = Instantiate(Osmium.aura, body.transform);
             wardInstance.GetComponent<BuffWard>().Networkradius = radius;
             wardInstance.GetComponent<TeamFilter>().teamIndex = TeamIndex.None;
             wardInstance.transform.Find("AreaIndicator/Sphere").localScale = Vector3.one * 2f;
+            if (body.isPlayerControlled)
+            {
+                wardInstance.transform.Find("AreaIndicator/Point Light").GetComponent<Light>().intensity = 15f; // down from 60f
+            }
             /*
             var sphere = wardInstance.transform.Find("AreaIndicator/Sphere");
             var modelScale = model.localScale;

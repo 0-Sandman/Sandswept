@@ -56,7 +56,7 @@ namespace Sandswept.Items.Whites
         public override void Hooks()
         {
             On.RoR2.ShrineRestackBehavior.AddShrineStack += ShrineRestackBehavior_AddShrineStack;
-            IL.RoR2.Inventory.ShrineRestackInventory += Inventory_ShrineRestackInventory;
+            // IL.RoR2.Inventory.ShrineRestackInventory += Inventory_ShrineRestackInventory;
             On.RoR2.ClassicStageInfo.Start += ClassicStageInfo_Start;
         }
 
@@ -96,8 +96,8 @@ namespace Sandswept.Items.Whites
         {
             ILCursor c = new(il);
 
-            if (c.TryGotoNext(MoveType.Before,
-                x => x.Match))
+            // if (c.TryGotoNext(MoveType.Before,
+            // x => x.Match))
         }
 
         private void ShrineRestackBehavior_AddShrineStack(On.RoR2.ShrineRestackBehavior.orig_AddShrineStack orig, ShrineRestackBehavior self, Interactor interactor)

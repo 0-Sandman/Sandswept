@@ -57,7 +57,7 @@ namespace Sandswept.Interactables.Regular
             {
                 buildCostString = delegate (CostTypeDef def, CostTypeDef.BuildCostStringContext c)
                 {
-                    c.stringBuilder.Append("<style=cDeath>" + curseCost + "% Curse</style>");
+                    c.stringBuilder.Append("" + curseCost + "% Curse");
                 },
 
                 isAffordable = delegate (CostTypeDef def, CostTypeDef.IsAffordableContext c)
@@ -288,7 +288,8 @@ namespace Sandswept.Interactables.Regular
             }
         }
 
-        private void UNetVersion() {}
+        private void UNetVersion()
+        { }
 
         public override bool OnSerialize(NetworkWriter writer, bool forceAll)
         {
