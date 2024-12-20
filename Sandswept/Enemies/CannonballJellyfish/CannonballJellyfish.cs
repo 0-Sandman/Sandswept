@@ -1,7 +1,7 @@
-/*
 using System;
 using RoR2.CharacterAI;
 using RoR2.Navigation;
+using Sandswept.Enemies.CannonballJellyfish.States;
 
 namespace Sandswept.Enemies.CannonballJellyfish
 {
@@ -23,7 +23,7 @@ namespace Sandswept.Enemies.CannonballJellyfish
         {
             base.PostCreation();
             var stages = new List<Stage>() { Stage.AbandonedAqueduct, DirectorAPI.Stage.AbandonedAqueductSimulacrum, DirectorAPI.Stage.AphelianSanctuary, DirectorAPI.Stage.ArtifactReliquary, DirectorAPI.Stage.ArtifactReliquary_AbandonedAqueduct_Theme, DirectorAPI.Stage.ArtifactReliquary_ScorchedAcres_Theme, DirectorAPI.Stage.ScorchedAcres, DirectorAPI.Stage.DisturbedImpact, DirectorAPI.Stage.GoldenDieback, DirectorAPI.Stage.HelminthHatchery, DirectorAPI.Stage.TitanicPlains, DirectorAPI.Stage.TitanicPlainsSimulacrum, DirectorAPI.Stage.SkyMeadow, DirectorAPI.Stage.SkyMeadowSimulacrum, DirectorAPI.Stage.TreebornColony, DirectorAPI.Stage.SunderedGrove, DirectorAPI.Stage.ViscousFalls };
-            RegisterEnemy(prefab, prefabMaster, stages);
+            RegisterEnemy(prefab, prefabMaster, stages, MonsterCategory.BasicMonsters);
         }
 
         public override void Modify()
@@ -66,4 +66,3 @@ namespace Sandswept.Enemies.CannonballJellyfish
         }
     }
 }
-*/
