@@ -256,9 +256,10 @@ namespace Sandswept.Interactables.Regular
         {
             var tier2EliteTypes = EliteAPI.VanillaEliteTiers[5].eliteTypes;
 
-            var tier2ElitesExceptFuckOffTwisted = tier2EliteTypes.Where(x => x.eliteEquipmentDef != Paths.EquipmentDef.EliteBeadEquipment).ToList();
+            // var tier2ElitesExceptFuckOffTwisted = tier2EliteTypes.Where(x => x.eliteEquipmentDef != Paths.EquipmentDef.EliteBeadEquipment).ToList();
+            // twisted got fixed
 
-            var randomElite = tier2ElitesExceptFuckOffTwisted[Run.instance.runRNG.RangeInt(0, tier2ElitesExceptFuckOffTwisted.Count)];
+            var randomElite = tier2EliteTypes[Run.instance.runRNG.RangeInt(0, tier2EliteTypes.Length)];
             return new Dictionary<EliteDef, EquipmentIndex>()
             {
                 { randomElite, randomElite.eliteEquipmentDef.equipmentIndex }
