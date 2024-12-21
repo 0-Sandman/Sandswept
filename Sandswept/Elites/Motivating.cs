@@ -963,33 +963,28 @@ localScale = new Vector3(3.25F, 3.25F, 3.25F)
 
             PrefabAPI.RegisterNetworkPrefab(warbanner);
 
-            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
             GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
 
-            // On.RoR2.BodyCatalog.Init += BodyCatalog_Init;
+            On.RoR2.CharacterBody.OnBuffFinalStackLost += CharacterBody_OnBuffFinalStackLost;
+            On.RoR2.CharacterBody.OnBuffFirstStackGained += CharacterBody_OnBuffFirstStackGained;
         }
 
-        private System.Collections.IEnumerator BodyCatalog_Init(On.RoR2.BodyCatalog.orig_Init orig)
+        private void CharacterBody_OnBuffFinalStackLost(On.RoR2.CharacterBody.orig_OnBuffFinalStackLost orig, CharacterBody self, BuffDef buffDef)
         {
-            yield return orig();
-            foreach (CharacterBody allBodyPrefabBodyBodyComponent in BodyCatalog.allBodyPrefabBodyBodyComponents)
+            orig(self, buffDef);
+            if (buffDef == Instance.EliteBuffDef)
             {
-                CharacterModel componentInChildren = allBodyPrefabBodyBodyComponent.GetComponentInChildren<CharacterModel>();
-                if ((bool)componentInChildren && componentInChildren.itemDisplayRuleSet != null)
-                {
-                    DisplayRuleGroup equipmentDisplayRuleGroup = componentInChildren.itemDisplayRuleSet.GetEquipmentDisplayRuleGroup(RoR2Content.Equipment.AffixRed.equipmentIndex);
-                    if (!equipmentDisplayRuleGroup.Equals(DisplayRuleGroup.empty))
-                    {
-                        string bodyName = BodyCatalog.GetBodyName(allBodyPrefabBodyBodyComponent.bodyIndex);
-                        ItemDisplayRule[] rules = equipmentDisplayRuleGroup.rules;
-                        for (int i = 0; i < rules.Length; i++)
-                        {
-                            ItemDisplayRule itemDisplayRule = rules[i];
-                            AddDisplayRule(bodyName, itemDisplayRule.childName, itemDisplayRule.localPos, itemDisplayRule.localAngles, itemDisplayRule.localScale);
-                        }
-                    }
-                }
+                self.RemoveComponent<MotivatorController>();
+            }
+        }
+
+        private void CharacterBody_OnBuffFirstStackGained(On.RoR2.CharacterBody.orig_OnBuffFirstStackGained orig, CharacterBody self, BuffDef buffDef)
+        {
+            orig(self, buffDef);
+            if (buffDef == Instance.EliteBuffDef)
+            {
+                self.gameObject.AddComponent<MotivatorController>();
             }
         }
 
@@ -1030,22 +1025,6 @@ localScale = new Vector3(3.25F, 3.25F, 3.25F)
                 {
                     motivatorController.Proc();
                 }
-            }
-        }
-
-        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
-        {
-            var sfp = body.GetComponent<MotivatorController>();
-            if (body.HasBuff(Instance.EliteBuffDef))
-            {
-                if (sfp == null)
-                {
-                    body.gameObject.AddComponent<MotivatorController>();
-                }
-            }
-            else if (sfp != null)
-            {
-                body.gameObject.RemoveComponent<MotivatorController>();
             }
         }
 

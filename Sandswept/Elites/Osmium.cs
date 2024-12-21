@@ -1112,28 +1112,6 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
             }
         }
 
-        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody characterBody)
-        {
-            var sfp = characterBody.GetComponent<OsmiumController>();
-            if (sfp == null && !characterBody.HasBuff(insideAura) && !characterBody.HasBuff(outsideAura))
-            {
-                characterBody.AddBuff(outsideAura);
-            }
-            if (characterBody.HasBuff(Instance.EliteBuffDef))
-            {
-                if (sfp == null)
-                {
-                    characterBody.gameObject.AddComponent<OsmiumController>();
-                    // AkSoundEngine.PostEvent(Events.Play_artifactBoss_idle_VO, characterBody.gameObject);
-                    AkSoundEngine.PostEvent(Events.Play_artifactBoss_takehit, characterBody.gameObject);
-                }
-            }
-            else if (sfp != null)
-            {
-                characterBody.gameObject.RemoveComponent<OsmiumController>();
-            }
-        }
-
         private void CharacterBody_OnBuffFirstStackGained(On.RoR2.CharacterBody.orig_OnBuffFirstStackGained orig, CharacterBody self, BuffDef buffDef)
         {
             orig(self, buffDef);
@@ -1194,7 +1172,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
             wardInstance.transform.Find("AreaIndicator/Sphere").localScale = Vector3.one * 2f;
             if (body.isPlayerControlled)
             {
-                wardInstance.transform.Find("AreaIndicator/Point Light").GetComponent<Light>().intensity = 15f; // down from 60f
+                wardInstance.transform.Find("AreaIndicator/Point Light").GetComponent<Light>().intensity = 10f; // down from 60f
             }
             /*
             var sphere = wardInstance.transform.Find("AreaIndicator/Sphere");
