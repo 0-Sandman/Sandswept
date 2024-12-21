@@ -247,7 +247,7 @@ namespace Sandswept.Survivors.Electrician
             tempestSphereIndicator.transform.localScale = new(14f, 14f, 14f);
             tempestSphereIndicator.RemoveComponent<AnimateShaderAlpha>();
 
-            SignalOverloadIndicator = PrefabAPI.InstantiateClone(tempestSphereIndicator, "SignalIndicator");
+            SignalOverloadIndicator = PrefabAPI.InstantiateClone(tempestSphereIndicator, "SignalIndicator", false);
             SignalOverloadIndicator.GetComponent<MeshRenderer>().sharedMaterials = new Material[] {
                 Paths.Material.matLightningSphere
             };
@@ -272,7 +272,7 @@ namespace Sandswept.Survivors.Electrician
             tempestOrb.transform.position = Vector3.zero;
             tempestOrb.transform.localPosition = Vector3.zero;
             TempestSphere.GetComponentInChildren<LineRenderer>().sharedMaterial = Paths.Material.matLightningLongYellow;
-            
+
             var dac = TempestSphere.AddComponent<DetachAndCollapse>();
             dac.target = sphereVFX.transform;
             dac.collapseTime = 0.4f;
@@ -286,7 +286,7 @@ namespace Sandswept.Survivors.Electrician
             effectComponent.soundName = "Play_loader_m1_impact";
             ContentAddition.AddEffect(staticSnareImpactVFX);
 
-            LightningZipEffect = PrefabAPI.InstantiateClone(Paths.GameObject.BeamSphereGhost, "LightningZipOrb");
+            LightningZipEffect = PrefabAPI.InstantiateClone(Paths.GameObject.BeamSphereGhost, "LightningZipOrb", false);
             LightningZipEffect.RemoveComponent<ProjectileGhostController>();
             LightningZipEffect.transform.Find("Lightning").gameObject.SetActive(false);
             LightningZipEffect.transform.Find("Fire").transform.localScale *= 0.3f;

@@ -26,7 +26,7 @@ namespace Sandswept.DoTs
             decayMat.SetColor("_TintColor", new Color(0.49888185f, 0.20220098f, 1.0991436f, 1f)); // hdr color (with intensity), hence why a value is above 1
             decayMat.SetTexture("_RemapTex", Paths.Texture2D.texRampVoidSurvivorBase1);
 
-            var decayVFX = PrefabAPI.InstantiateClone(Paths.GameObject.BlightEffect, "DecayEffect, false");
+            var decayVFX = PrefabAPI.InstantiateClone(Paths.GameObject.BlightEffect, "DecayEffect", false);
             var particleSystemRenderer = decayVFX.GetComponent<ParticleSystemRenderer>();
             var decayVFXMat = new Material(Paths.Material.matCrocoBlightBillboard);
             decayVFXMat.SetTexture("_RemapTex", Paths.Texture2D.texRampVoidSurvivorBase1);

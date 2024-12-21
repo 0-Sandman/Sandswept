@@ -85,7 +85,8 @@ namespace Sandswept.Enemies.GammaConstruct
 
         public override void SetupIDRS()
         {
-            AddDisplayRule(Paths.EquipmentDef.EliteFireEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteFireEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, -0.03616F, -0.40235F),
@@ -95,7 +96,8 @@ namespace Sandswept.Enemies.GammaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteIceEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteIceEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0.33496F, -0.92779F, 0F),
@@ -105,7 +107,8 @@ namespace Sandswept.Enemies.GammaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteAurelioniteEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteAurelioniteEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(1.07206F, 0.66943F, 0F),
@@ -115,7 +118,8 @@ namespace Sandswept.Enemies.GammaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.ElitePoisonEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.ElitePoisonEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0.6929F, -0.0446F, -0.04675F),
@@ -125,7 +129,8 @@ namespace Sandswept.Enemies.GammaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteHauntedEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteHauntedEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0.538F, -0.01053F, 0F),
@@ -135,7 +140,8 @@ namespace Sandswept.Enemies.GammaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteLunarEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteLunarEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, 0.74635F, -0.07608F),
@@ -145,7 +151,8 @@ namespace Sandswept.Enemies.GammaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteLightningEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteLightningEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(-0.82796F, -0.27011F, 0F),
@@ -155,7 +162,8 @@ namespace Sandswept.Enemies.GammaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteVoidEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteVoidEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(-0.65868F, 3.12402F, 0.06114F),
@@ -164,7 +172,8 @@ namespace Sandswept.Enemies.GammaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteBeadEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteBeadEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0.73504F, 0.08889F, -0.43811F),
@@ -174,7 +183,8 @@ namespace Sandswept.Enemies.GammaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteEarthEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteEarthEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0.54282F, 0.43117F, 0.12895F),
@@ -184,7 +194,8 @@ namespace Sandswept.Enemies.GammaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Elites.Osmium.Instance.EliteEquipmentDef, new() {
+            AddDisplayRule(Elites.Osmium.Instance.EliteEquipmentDef, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0.52083F, 1.48547F, 0.02518F),
@@ -194,7 +205,8 @@ namespace Sandswept.Enemies.GammaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Elites.Motivating.Instance.EliteEquipmentDef, new() {
+            AddDisplayRule(Elites.Motivating.Instance.EliteEquipmentDef, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(-0.10456F, -0.24988F, 0.00999F),
