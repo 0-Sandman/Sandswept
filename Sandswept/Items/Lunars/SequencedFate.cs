@@ -1,4 +1,5 @@
-﻿using MonoMod.Cil;
+﻿/*
+using MonoMod.Cil;
 using System.Linq;
 using Mono.Cecil.Cil;
 using UnityEngine;
@@ -58,7 +59,7 @@ namespace Sandswept.Items.Whites
         public override void Hooks()
         {
             On.RoR2.ShrineRestackBehavior.AddShrineStack += ShrineRestackBehavior_AddShrineStack;
-            // IL.RoR2.Inventory.ShrineRestackInventory += Inventory_ShrineRestackInventory;
+            IL.RoR2.Inventory.ShrineRestackInventory += Inventory_ShrineRestackInventory;
             On.RoR2.ClassicStageInfo.Start += ClassicStageInfo_Start;
         }
 
@@ -192,3 +193,4 @@ namespace Sandswept.Items.Whites
         }
     }
 }
+*/
