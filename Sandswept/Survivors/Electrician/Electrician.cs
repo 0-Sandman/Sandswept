@@ -87,7 +87,7 @@ namespace Sandswept.Survivors.Electrician
             ReplaceSkills(locator.special, new SkillDef[] { Skills.SignalOverload.instance });
             locator.passiveSkill.icon = Main.prodAssets.LoadAsset<Sprite>("Assets/Sandswept/texElectricianSkillIcon_p.png");
             "SANDSWEPT_ELECTR_PASSIVE_NAME".Add("Volatile Shields");
-            "SANDSWEPT_ELECTR_PASSIVE_DESC".Add("<style=cIsUtility>Start with innate shields</style>. When your shield <style=cDeath>breaks</style>, release a blast for <style=cIsDamage>400% damage</style> and gain <style=cIsUtility>+40% movement speed</style> for <style=cIsDamage>5 seconds</style>.");
+            "SANDSWEPT_ELECTR_PASSIVE_DESC".Add("<style=cIsUtility>Start with innate shields</style>. When your shield <style=cDeath>breaks</style>, shock nearby targets for <style=cIsDamage>2x600% damage</style> and gain <style=cIsUtility>+40% movement speed</style> for <style=cIsDamage>7 seconds</style>.");
 
             "KEYWORD_GROUNDING".Add("<style=cKeywordName>Grounding</style>Deals <style=cIsDamage>1.5x</style> damage to flying targets, and <style=cDeath>knocks them down</style>.");
 
@@ -104,6 +104,7 @@ namespace Sandswept.Survivors.Electrician
             // projectileProximityBeamController.damageCoefficient = 0.75f; // no, set to 1f in unity and attack speed reduced to 1.2s
             // weh
             // mrraow
+            GalvanicBolt.GetComponent<GalvanicBallController>().damage = 2f; // im not launching unity lmao
             ContentAddition.AddNetworkedObject(GalvanicBolt);
             PrefabAPI.RegisterNetworkPrefab(GalvanicBolt);
             ContentAddition.AddProjectile(GalvanicBolt);

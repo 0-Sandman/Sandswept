@@ -65,7 +65,11 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
 
             if (fixedAge >= durationToTelegraph && !showedTelegraph)
             {
-                Util.PlayAttackSpeedSound("Play_lunar_wisp_attack1_windUp", gameObject, 1.5f);
+                // Util.PlayAttackSpeedSound("Play_lunar_wisp_attack1_windUp", gameObject, 1.5f);
+                AkSoundEngine.PostEvent(Events.Play_jellyfish_detonate_pre, base.gameObject);
+                AkSoundEngine.PostEvent(Events.Play_jellyfish_detonate_pre, base.gameObject);
+                AkSoundEngine.PostEvent(Events.Play_vagrant_attack2_charge, base.gameObject);
+                AkSoundEngine.PostEvent(Events.Play_vagrant_attack2_explode, base.gameObject);
 
                 modelTransform = GetModelTransform();
 
@@ -92,8 +96,7 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
             {
                 SetDir();
 
-                Util.PlaySound("Play_AntlerShield_Pickup", gameObject);
-                Util.PlaySound("Play_AntlerShield_Pickup", gameObject);
+                AkSoundEngine.PostEvent(Events.Play_item_use_fireballDash_explode, base.gameObject);
 
                 dashedAlready = true;
 
@@ -156,7 +159,7 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
             rigidbodyDirection.freezeZRotation = false;
             base.rigidbodyMotor.rootMotion = Vector3.zero;
             base.rigidbody.velocity = Vector3.zero;
-            Util.PlayAttackSpeedSound("Play_lunar_wisp_attack1_windDown", gameObject, 2f);
+            // Util.PlayAttackSpeedSound("Play_lunar_wisp_attack1_windDown", gameObject, 2f);
         }
     }
 }

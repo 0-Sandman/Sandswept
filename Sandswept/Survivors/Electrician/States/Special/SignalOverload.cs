@@ -55,7 +55,7 @@ namespace Sandswept.Survivors.Electrician.States
             if (stopwatch >= delay)
             {
                 stopwatch = 0f;
-                float shieldToDrain = healthComponent.fullShield * drainAmount;
+                float shieldToDrain = drainAmount;
 
                 if (shieldToDrain > healthComponent.shield)
                 {
@@ -113,7 +113,7 @@ namespace Sandswept.Survivors.Electrician.States
 
         public SignalOverloadDischarge(float mult)
         {
-            multiplier = mult;
+            multiplier = Mathf.Min(mult, 1.5f);
         }
 
         public override void OnEnter()
@@ -316,7 +316,7 @@ namespace Sandswept.Survivors.Electrician.States
     {
         public float recoilDuration = 0.8f;
         public float effectMultiplier = 1f;
-        private float damageCoeff = 8f;
+        private float damageCoeff = 6f;
         private float radius = 50f;
 
         public SignalOverloadFire(float modifier)
@@ -336,7 +336,7 @@ namespace Sandswept.Survivors.Electrician.States
 
             if (NetworkServer.active)
             {
-                characterBody.AddTimedBuff(Buffs.ShieldSpeed.instance.BuffDef, 5f);
+                characterBody.AddTimedBuff(Buffs.ShieldSpeed.instance.BuffDef, 7f);
             }
 
             if (isAuthority)

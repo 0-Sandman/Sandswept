@@ -4,7 +4,7 @@
 - 2 Survivors
 - 4 Enemies
 - 2 Elites
-- 4 Interactables
+- 5 Interactables
 - 20 Items
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
@@ -99,12 +99,12 @@
     <tr>
       <td><img src="https://i.postimg.cc/ZKLwnhc7/sand9.png" width="64"/></td>
       <td><b>Volatile Shields</b><br>
-          Start with innate shields. When your shield breaks, release a blast for 400% damage and gain +40% movement speed for 5 seconds.</td>
+          Start with innate shields. When your shield breaks, shock nearby targets for 2x600% damage and gain +40% movement speed for 7 seconds.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/nzQdhjRB/sand13.png" width="64"/></td>
       <td><b>Galvanic Bolt</b><br>
-          Blast out a galvanic ball that sticks into terrain, zapping nearby enemies for 200% damage periodically. Explodes for 200% damage on impact.</td>
+          Blast out a galvanic ball that sticks into terrain, zapping nearby enemies for 150% damage periodically. Explodes for 300% damage on impact.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/XvPHWc8n/sand11.png" width="64"/></td>
@@ -119,7 +119,7 @@
     <tr>
       <td><img src="https://i.postimg.cc/KYjqCst9/sand10.png" width="64"/></td>
       <td><b>Signal Overload</b><br>
-          Grounding. Charge up and beam energy forward, zapping enemies in a large radius around impact for 1600% damage and pulling them inward over 4 seconds.</td>
+          Grounding. Charge up and beam energy forward, zapping enemies in a large radius around impact for 1600% damage and pulling them inward over 4 seconds. Charging drains shield, and effect scales from 0.4x to 1.5x based on shield consumed.</td>
     </tr>
   </tbody>
 </table>
@@ -210,11 +210,18 @@
 	</thead>
 	<tbody>
 		<tr>
-			<td><img src="https://i.postimg.cc/gkCDYxzs/tex-Shrine-Of-Sacrifice.png" width="64"/></td>
+			<td><img src="https://i.postimg.cc/tJ8JGV5r/tex-Inferno-Drone.png" width="64"/></td>
 			<td>
-				<b>Shrine of Sacrifice</b><br>
-				Gain <b>20% curse</b> to drop 2 copies of a random common item.<br>
-				<b>Details:</b> Usable only once, can only spawn once per stage, costs 20 credits.
+				<b>Inferno Drone</b><br>
+				Periodically launches a missile that explodes into pools of lava.
+			</td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/sg19PPnb/tex-Shrine-Of-Death2.png" width="64"/></td>
+			<td>
+				<b>Shrine of Death</b><br>
+				Sacrifice 20% health and disable healing for 3 seconds, but activate on-kill effects at the shrine's location.<br>
+				<b>Details:</b> Usable <b>infinitely</b>, with a cooldown of 4 seconds. <b>Only spawns on on Mithrix' arena</b>, in one of three random spots.
 			</td>
 		</tr>
 		<tr>
@@ -226,18 +233,19 @@
 			</td>
 		</tr>
 		<tr>
+			<td><img src="https://i.postimg.cc/gkCDYxzs/tex-Shrine-Of-Sacrifice.png" width="64"/></td>
+			<td>
+				<b>Shrine of Sacrifice</b><br>
+				Gain <b>20% curse</b> to drop 2 copies of a random common item.<br>
+				<b>Details:</b> Usable only once, can only spawn once per stage, costs 20 credits.
+			</td>
+		</tr>
+		<tr>
 			<td><img src="https://i.postimg.cc/Bv3RF8Zg/tex-Shrine-Of-The-Future.png" width="64"/></td>
 			<td>
 				<b>Shrine of The Future</b><br>
 				Summon a random Tier 2 Elite Miniboss with halved stats that, upon being defeated, drops 3 item potentials per player.<br>
 				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 3 and &le; 11, costs 35 credits. Item potentials have a choice between a random white and a random green.
-			</td>
-		</tr>
-		<tr>
-			<td><img src="https://i.postimg.cc/tJ8JGV5r/tex-Inferno-Drone.png" width="64"/></td>
-			<td>
-				<b>Inferno Drone</b><br>
-				Periodically launches a missile that explodes into pools of lava.
 			</td>
 		</tr>
 	</tbody>

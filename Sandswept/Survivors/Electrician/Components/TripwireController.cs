@@ -163,15 +163,6 @@ namespace Sandswept.Survivors.Electrician
             startPosition = body.transform.position;
             isInVehicleMode = true;
 
-            attack.origin = explo.position;
-            attack.aimVector = (head.position - explo.position).normalized;
-            attack.maxDistance = Vector3.Distance(explo.position, head.position);
-            attack.radius *= 3f;
-            attack.damage = pDamage.damage * 8f;
-            attack.damageType |= DamageType.Shock5s;
-
-            attack.Fire();
-
             head.gameObject.SetActive(false);
 
             lightningEffect.SetActive(true);
@@ -224,13 +215,13 @@ namespace Sandswept.Survivors.Electrician
 
                 startPosition = Vector3.MoveTowards(startPosition, base.transform.position, speed * Time.fixedDeltaTime);
                 seat.seatPosition.position = startPosition;
-                seat.UpdatePassengerPosition();
+                // seat.UpdatePassengerPosition();
 
                 if (Vector3.Distance(startPosition, base.transform.position) < 0.5f && !hasDetonated && NetworkServer.active)
                 {
                     blast.position = explo.position;
                     blast.radius *= 2f;
-                    blast.baseDamage *= 2f;
+                    blast.baseDamage = pDamage.damage * 8f;
                     blast.Fire();
 
                     hasDetonated = true;
