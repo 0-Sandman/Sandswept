@@ -31,6 +31,8 @@ namespace Sandswept.Enemies
         public GameObject prefabMaster;
         public CharacterBody body;
         public CharacterMaster master;
+        private static ItemDisplayRuleSet idrs;
+        private static List<ItemDisplayRuleSet.KeyAssetRuleGroup> rules = new();
 
         public virtual void Create()
         {
@@ -42,6 +44,14 @@ namespace Sandswept.Enemies
             body = prefab.GetComponent<CharacterBody>();
             master = prefabMaster.GetComponent<CharacterMaster>();
             Modify();
+            
+            var h = body.GetComponentInChildren<CharacterModel>();
+            if (h) {
+                idrs = ScriptableObject.CreateInstance<ItemDisplayRuleSet>();
+                h.itemDisplayRuleSet = idrs;
+                SetupIDRS();
+            }
+
             AddSpawnCard();
             AddDirectorCard();
             PostCreation();
@@ -66,6 +76,25 @@ namespace Sandswept.Enemies
         {
             card = new DirectorCard();
             card.spawnCard = isc;
+        }
+
+        public virtual void SetupIDRS() {
+            
+        }
+
+        public void AddDisplayRule(UnityEngine.Object asset, ItemDisplayRule rule) {
+            rules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup() {
+                keyAsset = asset,
+                displayRuleGroup = new() {
+                    rules = new ItemDisplayRule[] {
+                        rule
+                    }
+                }
+            });
+        }
+
+        public void CollapseIDRS() {
+            idrs.keyAssetRuleGroups = rules.ToArray();
         }
 
         public void RegisterEnemy(GameObject bodyPrefab, GameObject masterPrefab, List<DirectorAPI.Stage> stages = null, DirectorAPI.MonsterCategory category = DirectorAPI.MonsterCategory.BasicMonsters, bool all = false)
