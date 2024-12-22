@@ -12,13 +12,15 @@ namespace Sandswept.DoTs
         public static DotDef decayDef;
         public static DotIndex decayIndex;
 
-        [ConfigField("Base Damage", "Decimal.", 3f)]
+        [ConfigField("Base Damage", "Decimal.", 2.5f)]
         public static float baseDamage;
 
-        [ConfigField("Scale Damage with Enemy Missing Health?", "Scales decay's base damage up to 200% of its damage value linearly with the enemy's missing health.", true)]
+        [ConfigField("Scale Damage with Player Missing Health and Enemy Missing Health?", "Scales decay's base damage up to 300% of its damage value linearly with the player's and enemy's missing health.", true)]
         public static bool scaleDamage;
 
         public static DamageColorIndex decayColor = DamageColourHelper.RegisterDamageColor(new Color32(96, 56, 177, 255));
+
+        public static BurnEffectController.EffectParams decayEffect;
 
         public static void Init()
         {
@@ -47,7 +49,7 @@ namespace Sandswept.DoTs
 
             decayVFXBurstPSR.material = decayVFXBurstMat;
 
-            var decayEffect = new BurnEffectController.EffectParams()
+            decayEffect = new BurnEffectController.EffectParams()
             {
                 overlayMaterial = decayMat,
                 fireEffectPrefab = decayVFX,
@@ -59,7 +61,7 @@ namespace Sandswept.DoTs
             decayBuff.isHidden = false;
             decayBuff.buffColor = new Color32(96, 56, 177, 255);
             decayBuff.name = "Decay";
-            decayBuff.iconSprite = Utils.Assets.BuffDef.bdBlight.iconSprite;
+            decayBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffDecay.png");
             ContentAddition.AddBuffDef(decayBuff);
 
             decayDef = new()
@@ -68,43 +70,76 @@ namespace Sandswept.DoTs
                 resetTimerOnAdd = false,
                 interval = 0.2f,
                 damageColorIndex = decayColor,
-                damageCoefficient = 1f
+                damageCoefficient = 1f / baseDamage
             };
 
-            On.RoR2.DotController.UpdateDotVisuals += (orig, self) =>
-            {
-                orig(self);
-                var victim = self.victimBody;
-                if (!victim) return;
-                var modelLocator = victim.GetComponent<ModelLocator>();
-                var hasDecay = victim.HasBuff(decayBuff);
-                var decayController = victim.GetComponents<BurnEffectController>().FirstOrDefault(x => x.effectType == decayEffect);
-                if (hasDecay)
-                {
-                    if (decayController == default)
-                    {
-                        var decayEffectController = victim.AddComponent<BurnEffectController>();
-                        decayEffectController.effectType = decayEffect;
-                        decayEffectController.target = modelLocator.modelTransform.gameObject;
-                    }
-                }
-                else if (decayController != default) Object.Destroy(decayController);
-            };
+            // On.RoR2.DotController.UpdateDotVisuals += DotController_UpdateDotVisuals;
 
             CustomDotBehaviour behavior = delegate (DotController self, DotStack dotStack)
             {
                 var victimBody = self.victimBody;
                 var attackerBody = dotStack.attackerObject?.GetComponent<CharacterBody>();
-                if (victimBody && attackerBody)
+                if (victimBody)
                 {
-                    dotStack.damage = attackerBody.damage * baseDamage * 0.2f;
-                    if (scaleDamage)
+                    if (attackerBody)
                     {
-                        var victimHc = victimBody.healthComponent;
-                        if (victimHc)
+                        dotStack.damage = attackerBody.damage * 0.2f;
+                        if (scaleDamage)
                         {
-                            var scalar = 1f + (1f - victimHc.combinedHealthFraction);
-                            dotStack.damage = attackerBody.damage * baseDamage * 0.2f * scalar;
+                            var victimHc = victimBody.healthComponent;
+                            var attackerBodyHc = attackerBody.healthComponent;
+                            if (victimHc && attackerBodyHc)
+                            {
+                                var scalar = 1f + (1f - victimHc.combinedHealthFraction) + (1f - attackerBodyHc.combinedHealthFraction);
+                                dotStack.damage = attackerBody.damage * 0.2f * scalar;
+                            }
+                        }
+                    }
+
+                    // this throws at BurnEffectController.OnDestroy IL_0065 (it's `i` I think)
+                    var modelLocator = victimBody.modelLocator;
+                    if (modelLocator)
+                    {
+                        if (!victimBody.GetComponent<WhatTheFuck>())
+                        {
+                            var decayEffectController = victimBody.AddComponent<BurnEffectController>();
+                            decayEffectController.effectType = decayEffect;
+                            decayEffectController.target = modelLocator.modelTransform.gameObject;
+                            decayEffectController.fireParticleSize = 5f + (victimBody.radius * 2f);
+
+                            for (int i = 0; i < 2; i++)
+                            {
+                                Util.PlaySound("Play_voidDevastator_impact", victimBody.gameObject);
+                                Util.PlaySound("Play_voidRaid_step", victimBody.gameObject);
+                                Util.PlaySound("Play_voidRaid_step", victimBody.gameObject);
+                                Util.PlaySound("Play_item_proc_scrapGoop_consume", victimBody.gameObject);
+                            }
+
+                            victimBody.AddComponent<WhatTheFuck>();
+                        }
+
+                        // NEVER RUNS!?!?!?
+                        // victim loses the buff in game
+                        // tried getbuffcount <= 0
+                        if (!victimBody.HasBuff(decayBuff))
+                        {
+                            Main.ModLogger.LogError("doesnt have decay buff anymore");
+                            foreach (BurnEffectController controller in victimBody.GetComponents<BurnEffectController>())
+                            {
+                                Main.ModLogger.LogError("iterating through every burneffectcontroller");
+                                if (controller.effectType == decayEffect)
+                                {
+                                    Main.ModLogger.LogError("found burneffectcontroller with an effecttype of decayeffect");
+                                    GameObject.Destroy(controller);
+                                    break;
+                                }
+                            }
+
+                            if (victimBody.GetComponent<WhatTheFuck>())
+                            {
+                                Main.ModLogger.LogError("found lock, removing");
+                                victimBody.RemoveComponent<WhatTheFuck>();
+                            }
                         }
                     }
                 }
@@ -112,5 +147,38 @@ namespace Sandswept.DoTs
 
             decayIndex = RegisterDotDef(decayDef, behavior);
         }
+
+        private static void DotController_UpdateDotVisuals(On.RoR2.DotController.orig_UpdateDotVisuals orig, DotController self)
+        {
+            orig(self);
+            var victim = self.victimBody;
+            if (!victim) return;
+            var modelLocator = victim.GetComponent<ModelLocator>();
+            var hasDecay = victim.HasBuff(decayBuff);
+            var decayController = victim.GetComponents<BurnEffectController>().FirstOrDefault(x => x.effectType == decayEffect);
+            if (hasDecay)
+            {
+                if (decayController == default) // what the fuck is default :sob:
+                {
+                    var decayEffectController = victim.AddComponent<BurnEffectController>();
+                    decayEffectController.effectType = decayEffect;
+                    decayEffectController.target = modelLocator.modelTransform.gameObject;
+                    Util.PlaySound("Play_voidDevastator_impact", victim.gameObject);
+                    Util.PlaySound("Play_voidRaid_step", victim.gameObject);
+                    Util.PlaySound("Play_voidRaid_step", victim.gameObject);
+                    Util.PlaySound("Play_item_proc_scrapGoop_consume", victim.gameObject);
+
+                    decayEffectController.fireParticleSize = 5f + (victim.radius * 2f);
+                }
+            }
+            else if (decayController != default)
+            {
+                Object.Destroy(decayController);
+            }
+        }
+    }
+
+    public class WhatTheFuck : MonoBehaviour
+    {
     }
 }

@@ -2,6 +2,7 @@
 using MonoMod.Cil;
 using R2API.Utils;
 using Rewired.Demos;
+using Rewired.Utils.Classes.Data;
 using RoR2;
 using RoR2.EntitlementManagement;
 using RoR2.ExpansionManagement;

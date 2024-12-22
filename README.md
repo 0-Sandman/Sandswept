@@ -1,4 +1,4 @@
-# <img src="https://i.postimg.cc/Qxwf7yLw/booook-1.gif" width="1100"/>
+# <a href="https://discord.gg/zcQnUUPdpW"><img src="https://i.postimg.cc/Qxwf7yLw/booook-1.gif" width="1100"/></a>
 
 ### <img src="https://i.postimg.cc/T3FJSHfy/sandsw-ept-Icon.png" width="32"/> Sandswept is a content expansion mod that aims to add a variety of content including:
 - 2 Survivors
@@ -263,6 +263,16 @@
 		</tr>
 	</thead>
 	<tbody>
+		<tr>
+			<td colspan="2" align="center"><h3>Damage Over Time Effects</h3></td>
+		</tr>
+		<tr>
+			<td><img src="https://i.postimg.cc/Ls0F1wsn/tex-Buff-Decay4.png" width="96"></td>
+			<td>
+				<b>Decay</b><br>
+				Per stack, deal 250% base damage over 3s. Base damage scales up to 750% based on the player's and enemy's missing health. Duration does not scale with proc coefficient.
+			</td>
+		</tr>
 		<tr>
 			<td colspan="2" align="center"><h3>White Items</h3></td>
 		</tr>

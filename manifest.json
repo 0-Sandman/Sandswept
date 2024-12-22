@@ -2,7 +2,7 @@
     "name": "Sandswept",
     "version_number": "1.0.0",
     "website_url": "https://github.com/0-Sandman/Sandswept/",
-    "description": "[1.0.0 - Survivor VOL-T & More] A content expansion that adds a variety of unique and high quality content including enemies, survivors and more.",
+    "description": "[1.0.0 - Massive Update] A content expansion that adds a variety of unique and high quality content including enemies, interactables, survivors and more.",
     "dependencies": [
         "bbepis-BepInExPack-5.4.2117",
         "RiskofThunder-R2API_Skins-1.2.0",

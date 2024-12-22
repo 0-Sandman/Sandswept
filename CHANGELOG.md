@@ -7,13 +7,14 @@
   - Added VOL-T
   - Ranger
     - Added Alt Passive - Overcharged Speed
+	- Added Alt Overdriven M2 - Char
     - Completely remade Alt M2 - Galvanize (It snuck in the last update when it was still in the testing phase)
     - Added Mastery Skin
-    - Added Emotes support
+    - Added Emotes Support
     - Added Footsteps
     - Added Ragdoll
     - Changed Camera Pivot
-    - Changed some skill icons
+    - Changed most skill icons
     - Renamed Base Passive to Overcharged Protection
     - Fixed not having a master prefab
   - Made all use the new skill damage sources
@@ -25,6 +26,7 @@
 - Elites
   - Added item displays to Motivating
   - Added item displays to Osmium
+  - Fixed bugs with Wake of Vultures
 - Interactables
   - Added Inferno Drone
   - Added Shrine of Death
@@ -42,7 +44,7 @@
   - Nerfed Bleeding Witness Base DoT Healing from 0.4% to 0.33%
   - Nerfed Bleeding Witness Stack DoT Healing from 0.4% to 0.33%
   - Made Torn Feather not dash while standing still
-  - Made all proc items use ProcTypeAPI
+  - Made all use the new ProcTypeAPI
   - Fixed Nuclear Salvo!?!??!
   - Fixed Crown's Diamond giving barrier twice to clients
   - Fixed Sun Fragment not stunning every enemy
