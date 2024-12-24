@@ -192,6 +192,7 @@ namespace Sandswept.Survivors.Ranger
         public void AddSkins()
         {
             defaultDef = Main.Assets.LoadAsset<SkinDef>("Skindefault.asset");
+            masteryDef = Main.Assets.LoadAsset<SkinDef>("sdRangerMastery.asset");
 
             var scarfAndPantsColor = new Color32(88, 161, 142, 255);
             var helmetColor = new Color32(0, 255, 169, 255);
@@ -199,68 +200,29 @@ namespace Sandswept.Survivors.Ranger
             var suitColor = new Color32(49, 62, 67, 255);
 
             defaultDef.icon = Skins.CreateSkinIcon(scarfAndPantsColor, helmetColor, armorColor, suitColor);
+            masteryDef.icon = Skins.CreateSkinIcon(
+                new Color32(228, 146, 55, 255),
+                new Color32(201, 178, 143, 255),
+                new Color32(74, 79, 77, 255),
+                new Color32(108, 68, 45, 255)
+            );
+            masteryDef.unlockableDef = Achievements.UnlockableDefs.masteryUnlock;
 
             "SKIN_DEFAULT".Add("Default");
 
             modelSkinController = mdl.GetComponent<ModelSkinController>();
 
+            modelSkinController.skins = new SkinDef[] {
+                defaultDef,
+                masteryDef
+            };
+
             majorDef = CreateRecolor("Major", 4.2f);
             renegadeDef = CreateRecolor("Renegade", 2.5f);
             mileZeroDef = CreateRecolor("Mile Zero", 4.2f);
 
-            Material masteryMat = Main.dgoslingAssets.LoadAsset<Material>("matRangerMastery");
-            GameObject masterObject = Main.dgoslingAssets.LoadAsset<GameObject>("RangerMastery-fixArm");
+            "SKIN_RANGER_MASTERY".Add("Sandswept");
 
-            SkinDefInfo skinInfo = new()
-            {
-                NameToken = "SKINDEF_SANDSWEPT",
-                Icon = Main.dgoslingAssets.LoadAsset<Sprite>("BeeNormalIcon"),
-                RootObject = mdl.gameObject,
-                UnlockableDef = UnlockableDefs.masteryUnlock,
-                Name = "RangerMastery"
-            };
-
-            "SKINDEF_SANDSWEPT".Add("Sandswept");
-
-            skinInfo.RendererInfos = new CharacterModel.RendererInfo[]
-            {
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = masteryMat,
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false,
-                    renderer = mdl.transform.Find("Legs").GetComponent<SkinnedMeshRenderer>(),
-                    hideOnDeath = false
-                },
-                new CharacterModel.RendererInfo
-                {
-                    defaultMaterial = masteryMat,
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false,
-                    renderer = mdl.transform.Find("Scarf").GetComponent<SkinnedMeshRenderer>(),
-                }
-            };
-
-            skinInfo.BaseSkins = new SkinDef[]
-            {
-                defaultDef
-            };
-
-            skinInfo.MeshReplacements = new SkinDef.MeshReplacement[]{
-                new SkinDef.MeshReplacement
-                {
-                    renderer = mdl.transform.Find("Legs").GetComponent<SkinnedMeshRenderer>(),
-                    mesh = masterObject.transform.Find("Legs").GetComponent<SkinnedMeshRenderer>().sharedMesh
-                },
-                new SkinDef.MeshReplacement
-                {
-                     renderer = mdl.transform.Find("Scarf").GetComponent<SkinnedMeshRenderer>(),
-                     mesh = masterObject.transform.Find("Scarf").GetComponent<SkinnedMeshRenderer>().sharedMesh
-                }
-            };
-
-            SkinDef mastery = Skins.CreateNewSkinDef(skinInfo);
-            Skins.AddSkinToCharacter(Body, mastery);
 
             On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
         }

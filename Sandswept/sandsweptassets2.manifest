@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3949908899
+CRC: 2072095972
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 3fab5f6921c43ca10c4d3a8d717f8fac
+    Hash: 47b35fe20892d5c6931c4e5b947f02eb
   TypeTreeHash:
     serializedVersion: 2
     Hash: e8675ea0665b648bc9ade2da06613088
@@ -319,8 +319,9 @@ SerializeReferenceClassIdentifiers:
 - AssemblyName: com.unity.multiplayer-hlapi.Runtime
   ClassName: UnityEngine.Networking.NetworkSceneId
 Assets:
-- Assets/Sandswept/Base/Characters/Electrician/effects/ElectricinMuzzleFlash.prefab
+- Assets/Sandswept/Base/Items/TheirProminence/PickupTheirProminence.prefab
 - Assets/Sandswept/Base/Characters/Electrician/ElectricianBody.prefab
+- Assets/Sandswept/Base/Characters/Electrician/effects/ElectricinMuzzleFlash.prefab
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tripwire/TripwireMineProjectile.prefab
 - Assets/Sandswept/Base/Characters/Electrician/effects/matChargeStreak.mat
 - Assets/Sandswept/Base/Characters/CannonJelly/JellyCoreProjectile.prefab
@@ -360,6 +361,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/Ranger/RangerIDRS.asset
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matMasteryElecOrbOuter.mat
 - Assets/Sandswept/Base/Characters/CannonJelly/DisplayCannonJelly.prefab
+- Assets/Sandswept/Base/Characters/Ranger/sdRangerMastery.asset
 - Assets/Sandswept/Base/Characters/CannonJelly/mdl/matJellySpray.mat
 - Assets/Sandswept/Base/Items/TheirProminence/matTheirProminenceFlare.mat
 - Assets/Sandswept/Base/Characters/ThetaConstruct/mdl/matThetaConstruct.mat
@@ -398,6 +400,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/CannonJelly/CannonJellyLog.asset
 - Assets/Sandswept/Base/Characters/CannonJelly/mdl/matJellyFlesh.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallGhost.prefab
+- Assets/Sandswept/Base/Characters/Ranger/mdl/mastery/matRangerMastery.mat
 - Assets/Sandswept/Base/Characters/Ranger/OverlayRanger.prefab
 - Assets/Sandswept/Base/Items/LunarCatalyst/matCatalystCore.mat
 - Assets/Sandswept/Base/Characters/GammaConstruct/mdl/GammaLog.asset
@@ -422,5 +425,5 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallProjectile.prefab
 - Assets/Sandswept/Base/Characters/GammaConstruct/mdl/mdlGammaConstruct.prefab
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tripwire/texElecMine.png
-- Assets/Sandswept/Base/Items/TheirProminence/PickupTheirProminence.prefab
+- Assets/Sandswept/Base/Characters/Ranger/mdl/mastery/RangerMastery.fbx
 Dependencies: []
