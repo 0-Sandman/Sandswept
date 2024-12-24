@@ -73,7 +73,7 @@ namespace Sandswept.DoTs
                 damageCoefficient = 1f / baseDamage
             };
 
-            // On.RoR2.DotController.UpdateDotVisuals += DotController_UpdateDotVisuals;
+            On.RoR2.DotController.UpdateDotVisuals += DotController_UpdateDotVisuals;
 
             CustomDotBehaviour behavior = delegate (DotController self, DotStack dotStack)
             {
@@ -97,6 +97,7 @@ namespace Sandswept.DoTs
                     }
 
                     // this throws at BurnEffectController.OnDestroy IL_0065 (it's `i` I think)
+                    /*
                     var modelLocator = victimBody.modelLocator;
                     if (modelLocator)
                     {
@@ -142,6 +143,7 @@ namespace Sandswept.DoTs
                             }
                         }
                     }
+                    */
                 }
             };
 
