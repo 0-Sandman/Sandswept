@@ -4,7 +4,7 @@
 - 2 Survivors
 - 4 Enemies
 - 2 Elites
-- 5 Interactables
+- 4 Interactables
 - 20 Items
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
@@ -214,14 +214,6 @@
 			<td>
 				<b>Inferno Drone</b><br>
 				Periodically launches a missile that explodes into pools of lava.
-			</td>
-		</tr>
-		<tr>
-			<td><img src="https://i.postimg.cc/sg19PPnb/tex-Shrine-Of-Death2.png" width="64"/></td>
-			<td>
-				<b>Shrine of Death</b><br>
-				Sacrifice 20% health and disable healing for 3 seconds, but activate on-kill effects at the shrine's location.<br>
-				<b>Details:</b> Usable <b>infinitely</b>, with a cooldown of 4 seconds. <b>Only spawns on on Mithrix' arena</b>, in one of three random spots.
 			</td>
 		</tr>
 		<tr>

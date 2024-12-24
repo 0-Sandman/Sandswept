@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Utilities;
+﻿/*
+using Newtonsoft.Json.Utilities;
 using RoR2.ExpansionManagement;
 using RoR2.Hologram;
 using System;
@@ -255,7 +256,7 @@ namespace Sandswept.Interactables.Regular
                     baseToken = "SANDSWEPT_SHRINE_DEATH_USE_MESSAGE",
                 });
             }
-            */
+            *
 
             EffectManager.SpawnEffect(ShrineOfDeath.shrineVFX, new EffectData
             {
@@ -283,7 +284,7 @@ namespace Sandswept.Interactables.Regular
 
             interactorBody.AddTimedBuff(RoR2Content.Buffs.HealingDisabled, ShrineOfDeath.healingDisableDuration);
 
-            var ghostFMP = Object.Instantiate<GameObject>(ShrineOfDeath.fmpPrefab, /*new Vector3(0f, -200f, 0f)*/interactorBody.footPosition, Quaternion.identity);
+            var ghostFMP = Object.Instantiate<GameObject>(ShrineOfDeath.fmpPrefab, /*new Vector3(0f, -200f, 0f)*interactorBody.footPosition, Quaternion.identity);
             ghostFMP.transform.localScale = new Vector3(0f, 0f, 0f);
             ghostFMP.GetComponent<DeathProjectile>().baseDuration = 1.1f;
             Object.Destroy(ghostFMP.GetComponent<DestroyOnTimer>());
@@ -334,3 +335,4 @@ namespace Sandswept.Interactables.Regular
         }
     }
 }
+*/
