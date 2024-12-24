@@ -31,11 +31,11 @@
             tracerPrefabMileZero = CreateTracerRecolor("Mile Zero", new Color32(209, 95, 95, 255), new Color32(234, 51, 84, 255), new Color32(224, 95, 157, 255), new Color32(255, 0, 2, 255), false, 20f, 4.072613f, 0.1128651f);
             impactPrefabMileZero = CreateImpactRecolor("Mile Zero", new Color32(234, 23, 68, 255), new Color32(211, 23, 33, 255), new Color32(255, 27, 0, 255));
 
-            tracerPrefabSandswept = CreateTracerRecolor("Sandswept", new Color32(214, 159, 79, 255), new Color32(150, 150, 150, 255), new Color32(87, 87, 87, 255), new Color32(249, 197, 143, 255), true, 10.65977f, 0.5846819f, 2.903516f);
+            tracerPrefabSandswept = CreateTracerRecolor("Sandswept", new Color32(214, 159, 79, 255), new Color32(150, 150, 150, 255), new Color32(87, 87, 87, 255), new Color32(11, 4, 2, 255), true, 10.65977f, 0.5846819f, 2.903516f, true);
             impactPrefabSandswept = CreateImpactRecolor("Sandswept", new Color32(214, 159, 79, 255), new Color32(150, 150, 150, 255), new Color32(255, 162, 72, 255));
         }
 
-        public static GameObject CreateTracerRecolor(string name, Color32 lightBlueEquivalent, Color32 lightAquaEquivalent, Color32 lightGreenEquivalent, Color32 tintColor, bool altRamp = false, float brightnessBoost = 20f, float alphaBias = 0.2612987f, float alphaBoost = 0.5506042f)
+        public static GameObject CreateTracerRecolor(string name, Color32 lightBlueEquivalent, Color32 lightAquaEquivalent, Color32 lightGreenEquivalent, Color32 tintColor, bool altRamp = false, float brightnessBoost = 20f, float alphaBias = 0.2612987f, float alphaBoost = 0.5506042f, bool sandsweptRamp = false)
         {
             // 0 255 141 255
             // lightBlueEquivalent = new Color32(95, 209, 177, 255);
@@ -124,8 +124,18 @@
 
             // particleSystemRenderer.material = newMat2;
 
+            Texture2D rampToLoad = Main.hifuSandswept.LoadAsset<Texture2D>("texRampGay.png");
+            if (altRamp)
+            {
+                rampToLoad = Paths.Texture2D.texRampBandit;
+            }
+            if (sandsweptRamp)
+            {
+                rampToLoad = Paths.Texture2D.texRampTritone;
+            }
+
             var newMat3 = Object.Instantiate(Paths.Material.matHuntressSwingTrail);
-            newMat3.SetTexture("_RemapTex", altRamp ? Paths.Texture2D.texRampBandit : Main.hifuSandswept.LoadAsset<Texture2D>("texRampGay.png"));
+            newMat3.SetTexture("_RemapTex", rampToLoad);
             newMat3.SetColor("_TintColor", tintColor);
             newMat3.SetFloat("_SoftFactor", 0.8866442f);
             newMat3.SetFloat("_Boost", brightnessBoost);
