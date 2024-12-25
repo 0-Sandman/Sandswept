@@ -222,7 +222,8 @@ namespace Sandswept.Survivors.Ranger
             renegadeDef = CreateRecolor("Renegade", 2.5f);
             mileZeroDef = CreateRecolor("Mile Zero", 4.2f);
 
-            "SKIN_RANGER_MASTERY".Add("Sandswept");
+            masteryDef.nameToken = "SKINDEF_SANDSWEPT";
+            "SKINDEF_SANDSWEPT".Add("Sandswept");
 
 
             On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;

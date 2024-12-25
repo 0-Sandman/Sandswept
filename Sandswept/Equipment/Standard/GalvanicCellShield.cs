@@ -176,12 +176,12 @@
 
     public class GalvanicCellShieldController : CharacterBody.ItemBehavior
     {
-        private GameObject effectPrefab;
         private float timer = 0;
         public DamageInfo damageInfo;
         public bool activated = false;
         private bool hasFired = false;
         private float projectileDeletionRadius;
+        private bool someThingThatIsSupposedToRunOnce = false;
 
         public void Start()
         {
@@ -217,21 +217,14 @@
         {
             if (activated)
             {
-                if (!effectPrefab)
+                if (!someThingThatIsSupposedToRunOnce)
                 {
-                    effectPrefab = GalvanicCellShield.vfx;
-                    var component = effectPrefab.AddComponent<ObjectScaleCurve>();
-                    component.baseScale = Vector3.one * GalvanicCellShield.radius;
-                    component.overallCurve = Main.dgoslingAssets.LoadAsset<AnimationCurveAsset>("ACAparryVFXScale").value;
-                    component.useOverallCurveOnly = true;
-                    component.timeMax = 1f;
-                    component.resetOnAwake = true;
-                    component.enabled = true;
                     CleanBuffsServer();
                     if (!body.HasBuff(Buffs.ParryBuff.instance.BuffDef))
                     {
                         body.AddBuff(Buffs.ParryBuff.instance.BuffDef);
                     }
+                    someThingThatIsSupposedToRunOnce = true;
                 }
                 if (body.HasBuff(Buffs.ParryBuff.instance.BuffDef) || body.HasBuff(Buffs.ParryActivatedBuff.instance.BuffDef))
                 {
@@ -255,7 +248,7 @@
             activated = false;
             hasFired = false;
             timer = 0f;
-            effectPrefab = null;
+            someThingThatIsSupposedToRunOnce = false;
             CleanBuffsServer();
         }
 
@@ -288,7 +281,7 @@
                     scale = radius,
                     rootObject = body.gameObject
                 };
-                EffectManager.SpawnEffect(effectPrefab, effectData, true);
+                // EffectManager.SpawnEffect(effectPrefab, effectData, true);
                 // effectPrefab.GetComponent<ObjectScaleCurve>().enabled = true;
                 BlastAttack.Result result;
                 result = new BlastAttack

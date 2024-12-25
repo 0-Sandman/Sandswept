@@ -74,6 +74,19 @@ namespace Sandswept.Survivors.Electrician
             SurvivorDef.cachedName = "Electrician"; // for eclipse fix;
             SurvivorDef.outroFlavorToken.Add("And so she left, having repaid her moral debt.");
             SurvivorDef.mainEndingEscapeFailureFlavorToken.Add("And so she vanished, her final sparks waning.");
+            SurvivorDef.descriptionToken.Add(
+                """
+                VOL-T is a positional survivor who relies on locking down the area to offset her frailty.
+
+                < ! > Galvanic Bolt can lodge into any terrain, but will explode and bounce off enemies. Landing a direct hit will deal additional damage, at the expense of having less control over where the ball lands.
+
+                < ! > Tempest Sphere will slow down anything it makes contact with. Good positioning of the orb can keep targets within range of your Galvanic Bolts.
+
+                < ! > Static Snare doubles as mobility and burst damage. Blasting it away with projectile impacts can allow you to close large distances quickly!
+
+                < ! > At the expense of all of your shield, Signal Overload can deal large group damage and drag airborne enemies down. The more shield you dump into it, the stronger it becomes.
+                """
+            );
             var kcm = Body.GetComponent<KinematicCharacterController.KinematicCharacterMotor>();
             kcm.playerCharacter = true;
 
