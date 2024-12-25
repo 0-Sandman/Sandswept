@@ -40,7 +40,7 @@ namespace Sandswept.Items.VoidGreens
 
         public override GameObject ItemModel => Main.Assets.LoadAsset<GameObject>("DisplayFesteringHunger.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texMillenium.png");
+        public override Sprite ItemIcon => Main.Assets.LoadAsset<Sprite>("texFesteringHunger.png");
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage };
 
