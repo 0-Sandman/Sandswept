@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 2072095972
+CRC: 17742526
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 47b35fe20892d5c6931c4e5b947f02eb
+    Hash: 8c25f5d759ae38d1c84f2c4945a3e6c8
   TypeTreeHash:
     serializedVersion: 2
     Hash: e8675ea0665b648bc9ade2da06613088
@@ -346,6 +346,7 @@ Assets:
 - Assets/Sandswept/Base/Items/LunarCatalyst/PickupLunarCatalyst.prefab
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianOrbCenter.mat
 - Assets/Sandswept/Base/Items/TornFeather/ActiveIndicatorParticles.prefab
+- Assets/Sandswept/Base/Items/FesteringHunger/matGutBacteria.mat
 - Assets/Sandswept/Base/Items/CellShield/DisplayCellShield.prefab
 - Assets/Sandswept/Base/Characters/Ranger/mdl/matRanger.mat
 - Assets/Sandswept/Base/Characters/CannonJelly/CannonJellyMaster.prefab
@@ -399,6 +400,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/effects/ElectricianChargeBeam.prefab
 - Assets/Sandswept/Base/Characters/CannonJelly/CannonJellyLog.asset
 - Assets/Sandswept/Base/Characters/CannonJelly/mdl/matJellyFlesh.mat
+- Assets/Sandswept/Base/Items/FesteringHunger/DisplayFesteringHunger.prefab
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallGhost.prefab
 - Assets/Sandswept/Base/Characters/Ranger/mdl/mastery/matRangerMastery.mat
 - Assets/Sandswept/Base/Characters/Ranger/OverlayRanger.prefab

@@ -38,7 +38,7 @@ namespace Sandswept.Items.VoidGreens
 
         public override ItemTier Tier => ItemTier.VoidTier2;
 
-        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("MilleniumHolder.prefab");
+        public override GameObject ItemModel => Main.Assets.LoadAsset<GameObject>("DisplayFesteringHunger.prefab");
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texMillenium.png");
 
