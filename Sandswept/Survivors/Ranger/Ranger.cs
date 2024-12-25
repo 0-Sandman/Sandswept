@@ -83,6 +83,10 @@ namespace Sandswept.Survivors.Ranger
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdRanger.asset");
             SurvivorDef.cachedName = "Ranger"; // for eclipse fix
 
+            if (Electrician.Electrician.instance != null) {
+                SurvivorDef.desiredSortPosition = Electrician.Electrician.instance.SurvivorDef.desiredSortPosition - 1;
+            }
+
             _modelTransform = Body.GetComponent<ModelLocator>()._modelTransform;
 
             /*var modelBase = Body.transform.GetChild(0);

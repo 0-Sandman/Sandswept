@@ -90,6 +90,10 @@ namespace Sandswept.Survivors.Electrician
             var kcm = Body.GetComponent<KinematicCharacterController.KinematicCharacterMotor>();
             kcm.playerCharacter = true;
 
+            if (Ranger.Ranger.instance != null) {
+                SurvivorDef.desiredSortPosition = Ranger.Ranger.instance.SurvivorDef.desiredSortPosition + 1;
+            }
+
             PrefabAPI.RegisterNetworkPrefab(Body);
             Master = PrefabAPI.InstantiateClone(Paths.GameObject.EngiMonsterMaster, "ElectricianMaster");
 
