@@ -220,7 +220,7 @@
 			<td><img src="https://i.postimg.cc/yY6kR6Qb/tex-Shrine-Of-Ruin2.png" width="64"/></td>
 			<td>
 				<b>Shrine of Ruin</b><br>
-				Give 10 common items to corrupt the next stage, making it a simulacrum variant that exclusively drops void items and spawns void enemies.<br>
+				Sacrifice <b>10</b> random common items to corrupt the next stage, making it a simulacrum variant that exclusively drops void items and spawns void enemies.<br>
 				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 2, costs 45 credits. The combat director gets <b>100%</b> more credits and interactable credits are reduced by <b>55%</b>.
 			</td>
 		</tr>
@@ -228,7 +228,7 @@
 			<td><img src="https://i.postimg.cc/gkCDYxzs/tex-Shrine-Of-Sacrifice.png" width="64"/></td>
 			<td>
 				<b>Shrine of Sacrifice</b><br>
-				Gain <b>20% curse</b> to drop 2 copies of a random common item.<br>
+				Gain <b>20% curse</b> to drop <b>2</b> copies of a random common item.<br>
 				<b>Details:</b> Usable only once, can only spawn once per stage, costs 20 credits.
 			</td>
 		</tr>
@@ -236,7 +236,7 @@
 			<td><img src="https://i.postimg.cc/Bv3RF8Zg/tex-Shrine-Of-The-Future.png" width="64"/></td>
 			<td>
 				<b>Shrine of The Future</b><br>
-				Summon a random Tier 2 Elite Miniboss with halved stats that, upon being defeated, drops 3 item potentials per player.<br>
+				Summon a random <b>Tier 2 Elite Miniboss</b> with halved stats that, upon being defeated, drops <b>3</b> item potentials per player.<br>
 				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 3 and &le; 11, costs 35 credits. Item potentials have a choice between a random white and a random green.
 			</td>
 		</tr>
@@ -262,7 +262,7 @@
 			<td><img src="https://i.postimg.cc/Ls0F1wsn/tex-Buff-Decay4.png" width="96"></td>
 			<td>
 				<b>Decay</b><br>
-				Per stack, deal 250% base damage over 3s. Base damage scales up to 750% based on the player's and enemy's missing health. Duration does not scale with proc coefficient.
+				Per stack, deal <b>250%</b> base damage over 3s. Base damage scales up to <b>750%</b> based on the player's and enemy's missing health. Duration does not scale with proc coefficient.
 			</td>
 		</tr>
 		<tr>
@@ -352,7 +352,7 @@
 			<td colspan="2" align="center"><h3>Void Items</h3></td>
 		</tr>
 		<tr>
-			<td><img src="https://i.postimg.cc/L625CrWK/tex-Millenium.png" width="96"></td>
+			<td><img src="https://i.postimg.cc/Ls6739KX/tex-Festering-Hunger.png" width="96"></td>
 			<td>
 				<b>Festering Hunger</b><br>
 				<b>7%</b> chance on hit to inflict decay for <b>300%</b> base damage. Moving near decaying enemies increases movement speed by <b>33% (+33% per stack)</b> for 2s. Corrupts all Smouldering Documents.
@@ -439,7 +439,7 @@
 - Additional Help: swuff★, DuhDoesNothing
 - Concept Art: yorikobear, IcieTea, Sandman, Shepd
 - Playtesters: .score, BubbleTanks, Interlink, JimKas, Fyrebw42, James, Jaysian, Phreel, swuff★, Sage, Saucy Wench, Soylar, TheViralMelon, Tizi, Yarrowyeen, Zynthesizer
-- Lore: TheViralMelon
+- Lore: TheViralMelon, Zynthesizer
 
 <details><summary></summary>
 
