@@ -256,7 +256,7 @@
 	</thead>
 	<tbody>
 		<tr>
-			<td colspan="2" align="center"><h3>Damage Over Time Effects</h3></td>
+			<td colspan="2" align="center"><h3>Status Effects</h3></td>
 		</tr>
 		<tr>
 			<td><img src="https://i.postimg.cc/Ls0F1wsn/tex-Buff-Decay4.png" width="96"></td>
