@@ -3,7 +3,8 @@
   - Added Sandswept Expansion
   - Updated mod icon
   - Overhauled README
-  - Added LobbySkinsFix dependancy 
+  - Added LobbySkinsFix soft dependancy
+  - Added ScrollableLobbyUI soft dependancy 
 - Survivors
   - Added VOL-T
   - Ranger
