@@ -94,7 +94,7 @@
     <tr>
       <td><img src="https://i.postimg.cc/c4pTdTv6/tex-Electrician-Icon2.png" width="196"/></td>
       <td><b>VOL-T</b><br>
-          VOL-T is a girl who likes balls a lot.</td>
+          VOL-T is a positional survivor who relies on locking down the area to offset her frailty.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/ZKLwnhc7/sand9.png" width="64"/></td>
