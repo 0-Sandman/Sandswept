@@ -464,5 +464,7 @@
 <img src="https://i.postimg.cc/9Xb0rQKd/sandsw-eptdevelopmentteam.png"/>
 <br>
 <img src="https://i.postimg.cc/FKfyBPPS/megarex.png"/>
+<br>
+Do not click on her icon too many times.
 
 </details>
