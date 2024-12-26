@@ -1,9 +1,13 @@
 ## 1.0.1 Patch Notes
-- Readme fixes
-NOTE: The 3 fixes below are NOT implimented but are known bugs so im putting them here in the changelog as we (presumably) will fix them so remove this line of text after implimenting them or remove any of them that turn out to be unrelated to our mod in someway
-- Fixed Constructs not being configurable
-- Fixed Constructs having boss markers even after death
-- Fixed bleeding witness healing forever
+- General
+  - Fixed README
+- Enemies
+  - Added configs
+- Items
+  - Made Bleeding Witness a lot more optimized
+  - Fixed null Void Pairs preventing the game from loading
+- Interactables
+  - Changed Shrine of Ruin's sound (the voices fix)
 
 # 1.0.0 Patch Notes
 - General
