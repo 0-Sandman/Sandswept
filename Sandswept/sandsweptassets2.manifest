@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1524916744
+CRC: 3478095751
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 87e03f1a1fe7e9083988dc045f9732bc
+    Hash: 246e412899079690ebc7dcd363a028c6
   TypeTreeHash:
     serializedVersion: 2
     Hash: e8675ea0665b648bc9ade2da06613088
@@ -348,7 +348,7 @@ Assets:
 - Assets/Sandswept/Base/Items/TornFeather/ActiveIndicatorParticles.prefab
 - Assets/Sandswept/Base/Items/FesteringHunger/matGutBacteria.mat
 - Assets/Sandswept/Base/Items/CellShield/DisplayCellShield.prefab
-- Assets/Sandswept/Base/Characters/Ranger/mdl/matRanger.mat
+- Assets/Sandswept/Base/Characters/Ranger/skills/b2.png
 - Assets/Sandswept/Base/Characters/CannonJelly/CannonJellyMaster.prefab
 - Assets/Sandswept/Base/Characters/Ranger/CrosshairRanger.prefab
 - Assets/Sandswept/Base/Items/CellShield/matSparkFlare.mat
@@ -358,6 +358,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tempest sphere/TempestSphereProjectile.prefab
 - Assets/Sandswept/Base/Characters/ThetaConstruct/ThetaConstructMaster.prefab
 - Assets/Sandswept/Base/Characters/CannonJelly/mdl/matJellyShell.mat
+- Assets/Sandswept/Base/Characters/Ranger/mdl/matRanger.mat
 - Assets/Sandswept/Base/Items/TornFeather/DashTrailEffect.prefab
 - Assets/Sandswept/Base/Characters/Ranger/RangerIDRS.asset
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matMasteryElecOrbOuter.mat

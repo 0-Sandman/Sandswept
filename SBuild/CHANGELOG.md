@@ -21,6 +21,8 @@
   - Improved wording on VOL-T skills
   - Galvanic Bolt now applies a weak knockdown effect to aerial enemies
   - Fixed Galvanic Bolt failing to target enemies who have bullseye hitboxes taller than its range
+  - Fixed Char dealing way too much damage
+  - Fixed Char not using its skill icon
 
 # 1.0.0 Patch Notes
 - General
