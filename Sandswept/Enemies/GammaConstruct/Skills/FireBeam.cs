@@ -3,6 +3,7 @@ using Sandswept.Survivors;
 
 namespace Sandswept.Enemies.GammaConstruct
 {
+    [ConfigSection("Enemies :: Gamma Construct")]
     public class FireBeam : BaseSkillState
     {
         public Animator anim;

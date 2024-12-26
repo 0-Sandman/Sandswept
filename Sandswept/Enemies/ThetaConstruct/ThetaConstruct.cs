@@ -3,9 +3,14 @@ using RoR2.Navigation;
 
 namespace Sandswept.Enemies.ThetaConstruct
 {
+    [ConfigSection("Enemies :: Theta Construct")]
     public class ThetaConstruct : EnemyBase<ThetaConstruct>
     {
         public static GameObject ThetaShieldEffect;
+
+        [ConfigField("Director Credit Cost", "", 70)]
+        public static int directorCreditCost;
+
         public override void LoadPrefabs()
         {
             prefab = Main.Assets.LoadAsset<GameObject>("ThetaConstructBody.prefab");
@@ -44,7 +49,7 @@ namespace Sandswept.Enemies.ThetaConstruct
         public override void AddSpawnCard()
         {
             base.AddSpawnCard();
-            isc.directorCreditCost = 70;
+            isc.directorCreditCost = directorCreditCost;
             isc.forbiddenFlags = NodeFlags.NoCharacterSpawn;
             isc.hullSize = HullClassification.Human;
             isc.nodeGraphType = MapNodeGroup.GraphType.Air;
@@ -69,111 +74,122 @@ namespace Sandswept.Enemies.ThetaConstruct
 
         public override void SetupIDRS()
         {
-            AddDisplayRule(Paths.EquipmentDef.EliteFireEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteFireEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
-localPos = new Vector3(-0.36739F, -0.03842F, 0.04068F),
-localAngles = new Vector3(15.63205F, 249.5763F, 226.0409F),
-localScale = new Vector3(0.75968F, 0.75968F, 0.75968F),
+                localPos = new Vector3(-0.36739F, -0.03842F, 0.04068F),
+                localAngles = new Vector3(15.63205F, 249.5763F, 226.0409F),
+                localScale = new Vector3(0.75968F, 0.75968F, 0.75968F),
                 followerPrefab = Paths.GameObject.DisplayEliteHorn,
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteIceEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteIceEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
-localPos = new Vector3(0.35483F, 0.00219F, 0F),
-localAngles = new Vector3(10.07104F, 110.0094F, 184.1571F),
-localScale = new Vector3(0.16054F, 0.16054F, 0.16054F),
+                localPos = new Vector3(0.35483F, 0.00219F, 0F),
+                localAngles = new Vector3(10.07104F, 110.0094F, 184.1571F),
+                localScale = new Vector3(0.16054F, 0.16054F, 0.16054F),
                 followerPrefab = Paths.GameObject.DisplayEliteIceCrown,
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteAurelioniteEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteAurelioniteEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
-localPos = new Vector3(0.68181F, 1.12509F, -0.00002F),
-localAngles = new Vector3(280.623F, 90.99331F, 181.8165F),
-localScale = new Vector3(1.84967F, 1.84967F, 1.84967F),
+                localPos = new Vector3(0.68181F, 1.12509F, -0.00002F),
+                localAngles = new Vector3(280.623F, 90.99331F, 181.8165F),
+                localScale = new Vector3(1.84967F, 1.84967F, 1.84967F),
                 followerPrefab = Paths.GameObject.DisplayEliteAurelioniteEquipment,
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.ElitePoisonEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.ElitePoisonEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
-localPos = new Vector3(-0.00157F, 0.22454F, -0.19173F),
-localAngles = new Vector3(274.1475F, 184.8704F, 355.4697F),
-localScale = new Vector3(0.30225F, 0.30225F, 0.30225F),
+                localPos = new Vector3(-0.00157F, 0.22454F, -0.19173F),
+                localAngles = new Vector3(274.1475F, 184.8704F, 355.4697F),
+                localScale = new Vector3(0.30225F, 0.30225F, 0.30225F),
                 followerPrefab = Paths.GameObject.DisplayEliteUrchinCrown,
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteHauntedEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteHauntedEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
-localPos = new Vector3(0.15667F, -0.03144F, -0.00803F),
-localAngles = new Vector3(0.34901F, 279.1591F, 179.7042F),
-localScale = new Vector3(0.38139F, 0.38139F, 0.38139F),
+                localPos = new Vector3(0.15667F, -0.03144F, -0.00803F),
+                localAngles = new Vector3(0.34901F, 279.1591F, 179.7042F),
+                localScale = new Vector3(0.38139F, 0.38139F, 0.38139F),
                 followerPrefab = Paths.GameObject.DisplayEliteStealthCrown,
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteLunarEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteLunarEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
-localPos = new Vector3(-0.00821F, 1.33318F, -0.00002F),
-localAngles = new Vector3(90F, 0F, 0F),
-localScale = new Vector3(1.55002F, 1.54702F, 1.55002F),
+                localPos = new Vector3(-0.00821F, 1.33318F, -0.00002F),
+                localAngles = new Vector3(90F, 0F, 0F),
+                localScale = new Vector3(1.55002F, 1.54702F, 1.55002F),
                 followerPrefab = Paths.GameObject.DisplayEliteLunarEye,
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteLightningEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteLightningEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
-localPos = new Vector3(-0.64928F, -0.21754F, 0.09451F),
-localAngles = new Vector3(7.34771F, 278.5818F, 11.69831F),
-localScale = new Vector3(2.13336F, 2.13336F, 2.13336F),
+                localPos = new Vector3(-0.64928F, -0.21754F, 0.09451F),
+                localAngles = new Vector3(7.34771F, 278.5818F, 11.69831F),
+                localScale = new Vector3(2.13336F, 2.13336F, 2.13336F),
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteBeadEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteBeadEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
-localPos = new Vector3(0.97177F, 0.35453F, -0.33704F),
-localAngles = new Vector3(36.10262F, 176.0289F, 49.29921F),
-localScale = new Vector3(0.07252F, 0.07252F, 0.07252F),
+                localPos = new Vector3(0.97177F, 0.35453F, -0.33704F),
+                localAngles = new Vector3(36.10262F, 176.0289F, 49.29921F),
+                localScale = new Vector3(0.07252F, 0.07252F, 0.07252F),
                 followerPrefab = Paths.GameObject.DisplayEliteBeadSpike,
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteEarthEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteEarthEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
-localPos = new Vector3(-0.00169F, 0.49371F, 0.12895F),
-localAngles = new Vector3(63.14748F, 275.4161F, 187.0335F),
-localScale = new Vector3(3.80658F, 3.80658F, 3.80658F),
+                localPos = new Vector3(-0.00169F, 0.49371F, 0.12895F),
+                localAngles = new Vector3(63.14748F, 275.4161F, 187.0335F),
+                localScale = new Vector3(3.80658F, 3.80658F, 3.80658F),
                 followerPrefab = Paths.GameObject.DisplayEliteMendingAntlers,
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Elites.Osmium.Instance.EliteEquipmentDef, new() {
+            AddDisplayRule(Elites.Osmium.Instance.EliteEquipmentDef, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
-localPos = new Vector3(-0.00276F, 1.10564F, 0.02518F),
-localAngles = new Vector3(359.7713F, 40.45325F, 269.915F),
-localScale = new Vector3(1.03379F, 1.03379F, 1.03379F),
+                localPos = new Vector3(-0.00276F, 1.10564F, 0.02518F),
+                localAngles = new Vector3(359.7713F, 40.45325F, 269.915F),
+                localScale = new Vector3(1.03379F, 1.03379F, 1.03379F),
                 followerPrefab = Elites.Osmium.crownModel,
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Elites.Motivating.Instance.EliteEquipmentDef, new() {
+            AddDisplayRule(Elites.Motivating.Instance.EliteEquipmentDef, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
-localPos = new Vector3(0.11136F, 0.17698F, -0.00342F),
-localAngles = new Vector3(0.64661F, 258.1166F, 4.47902F),
-localScale = new Vector3(4.29187F, 4.29187F, 4.29187F),
+                localPos = new Vector3(0.11136F, 0.17698F, -0.00342F),
+                localAngles = new Vector3(0.64661F, 258.1166F, 4.47902F),
+                localScale = new Vector3(4.29187F, 4.29187F, 4.29187F),
                 followerPrefab = Elites.Motivating.Crown,
                 limbMask = LimbFlags.None
             });

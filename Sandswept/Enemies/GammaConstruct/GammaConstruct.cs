@@ -3,6 +3,7 @@ using RoR2.Navigation;
 
 namespace Sandswept.Enemies.GammaConstruct
 {
+    [ConfigSection("Enemies :: Gamma Construct")]
     public class GammaConstruct : EnemyBase<GammaConstruct>
     {
         public static GameObject bolt;
@@ -10,6 +11,9 @@ namespace Sandswept.Enemies.GammaConstruct
         public static GameObject beam;
         public static Material matDeltaBeamStrong;
         public static GameObject sigmaBlast;
+
+        [ConfigField("Director Credit Cost", "", 185)]
+        public static int directorCreditCost;
 
         public override void LoadPrefabs()
         {
@@ -58,7 +62,7 @@ namespace Sandswept.Enemies.GammaConstruct
         public override void AddSpawnCard()
         {
             base.AddSpawnCard();
-            isc.directorCreditCost = 185;
+            isc.directorCreditCost = directorCreditCost;
             isc.forbiddenFlags = NodeFlags.NoCharacterSpawn;
             isc.hullSize = HullClassification.Human;
             isc.nodeGraphType = MapNodeGroup.GraphType.Air;

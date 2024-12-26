@@ -2,23 +2,28 @@ using System;
 using RoR2.CharacterAI;
 using Sandswept.Survivors;
 
-namespace Sandswept.Enemies.ThetaConstruct {
-    public class CastShield : BaseSkillState {
+namespace Sandswept.Enemies.ThetaConstruct
+{
+    public class CastShield : BaseSkillState
+    {
         public GameObject shieldInstance;
         public float duration = 15f;
         public GameObject effect;
+
         public override void OnEnter()
         {
             base.OnEnter();
 
             GameObject buddy = base.characterBody.master.GetComponent<BaseAI>().buddy._gameObject;
 
-            if (!buddy) {
+            if (!buddy)
+            {
                 outer.SetNextStateToMain();
                 return;
             }
 
-            if (base.isAuthority) {
+            if (base.isAuthority)
+            {
                 shieldInstance = GameObject.Instantiate(ThetaConstruct.ThetaShieldEffect, buddy.transform.position, Quaternion.identity);
                 ThetaShieldController shieldController = shieldInstance.GetComponent<ThetaShieldController>();
                 shieldController.targetHolder.ownerObject = buddy;
@@ -36,7 +41,8 @@ namespace Sandswept.Enemies.ThetaConstruct {
 
             if (!base.isAuthority) return;
 
-            if (base.fixedAge >= duration || !shieldInstance) {
+            if (base.fixedAge >= duration || !shieldInstance)
+            {
                 outer.SetNextStateToMain();
             }
         }
@@ -50,7 +56,8 @@ namespace Sandswept.Enemies.ThetaConstruct {
         {
             base.OnExit();
 
-            if (base.isAuthority && shieldInstance) {
+            if (base.isAuthority && shieldInstance)
+            {
                 NetworkServer.DestroyObject(shieldInstance);
             }
         }

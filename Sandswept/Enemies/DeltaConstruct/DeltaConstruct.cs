@@ -3,6 +3,7 @@ using RoR2.Navigation;
 
 namespace Sandswept.Enemies.DeltaConstruct
 {
+    [ConfigSection("Enemies :: Delta Construct")]
     public class DeltaConstruct : EnemyBase<DeltaConstruct>
     {
         public static GameObject bolt;
@@ -11,11 +12,14 @@ namespace Sandswept.Enemies.DeltaConstruct
         public static Material matDeltaBeamStrong;
         public static GameObject DeltaBurnyTrail;
 
+        [ConfigField("Director Credit Cost", "", 150)]
+        public static int directorCreditCost;
+
         public override void LoadPrefabs()
         {
             prefab = Main.Assets.LoadAsset<GameObject>("DeltaConstructBody.prefab");
             prefabMaster = Main.Assets.LoadAsset<GameObject>("DeltaConstructMaster.prefab");
-            LanguageAPI.Add(prefab.GetComponent<CharacterBody>().baseNameToken.Replace("_NAME", "_LORE"), "Brother, watch as I create my own guardian.\r\n\r\nFirst, I will take mass, shape it into pyramids, as you taught me with the Alpha Constructs. Eight pyramids, to be exact.\r\n\r\nNext, I will imbue these with blood and soul. Blood, for heat, and soul, for compassion and empathy.\r\n\r\nNo. These ratios are improper. They are supposed to be loyal, not emotional. There is too much soul in these creations.\r\n\r\nBrother? Why is soul unnecessary?\r\n\r\nWatch as I fill this knurl with excess soul. Its form becomes gold, a poor material for endurance.\r\n\r\nIs that it?\r\n\r\nNo, brother, that is not all. If I were to hit it, it would want to retaliate. Soul brings life to our constructs. It is unstable, unreliable, and it dampens the other compounds, offsetting the ratios.\r\n\r\nIf we were to treat our constructs properly, wouldn't giving them life be a good thing?\r\n\r\nGiving something soul gives it free will; the free will to decide we are not the construct��s supreme creators. Our constructs do not need to make that decision, only us.");
+            LanguageAPI.Add(prefab.GetComponent<CharacterBody>().baseNameToken.Replace("_NAME", "_LORE"), "\"Brother, watch as I create my own guardian.\"\r\n\"First, I will take mass, shape it into pyramids, as you taught me with the Alpha Constructs. Eight pyramids, to be exact.\"\r\n\"Next, I will imbue these with blood and soul. Blood, for heat, and soul, for compassion and empathy.\"\r\n \"No. These ratios are improper. They are supposed to be loyal, not emotional. There is too much soul in these creations.\"\r\n\"Brother? Why is soul unnecessary?\"\r\n \"Watch as I fill this knurl with excess soul. Its form becomes gold, a poor material for endurance.\"\r\n\"Is that it?\"\r\n \"No, brother, that is not all. If I were to hit it, it would want to retaliate. Soul brings life to our constructs. It is unstable, unreliable, and it dampens the other compounds, offsetting the ratios.\" \r\n\"If we were to treat our constructs properly, wouldn't giving them life be a good thing?\"\r\n \"Giving something soul gives it free will; the free will to decide we are not the construct’s supreme creators. Our constructs do not need to make that decision, only us.\"\r\n");
 
             bolt = Paths.GameObject.MinorConstructProjectile;
             muzzleFlash = Paths.GameObject.MuzzleflashMinorConstruct;
@@ -59,7 +63,7 @@ namespace Sandswept.Enemies.DeltaConstruct
         public override void AddSpawnCard()
         {
             base.AddSpawnCard();
-            isc.directorCreditCost = 150;
+            isc.directorCreditCost = directorCreditCost;
             isc.forbiddenFlags = NodeFlags.NoCharacterSpawn;
             isc.hullSize = HullClassification.Human;
             isc.nodeGraphType = MapNodeGroup.GraphType.Ground;
@@ -87,7 +91,8 @@ namespace Sandswept.Enemies.DeltaConstruct
 
         public override void SetupIDRS()
         {
-            AddDisplayRule(Paths.EquipmentDef.EliteFireEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteFireEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, -0.03616F, -0.40235F),
@@ -97,7 +102,8 @@ namespace Sandswept.Enemies.DeltaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteIceEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteIceEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, -0.03569F, -0.37111F),
@@ -107,7 +113,8 @@ namespace Sandswept.Enemies.DeltaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteEarthEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteEarthEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, 1.06064F, 0.06114F),
@@ -117,7 +124,8 @@ namespace Sandswept.Enemies.DeltaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteAurelioniteEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteAurelioniteEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, 0.40959F, -0.26543F),
@@ -127,7 +135,8 @@ namespace Sandswept.Enemies.DeltaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.ElitePoisonEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.ElitePoisonEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, -0.03104F, -0.36065F),
@@ -137,7 +146,8 @@ namespace Sandswept.Enemies.DeltaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteHauntedEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteHauntedEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, -0.03241F, -0.26001F),
@@ -147,7 +157,8 @@ namespace Sandswept.Enemies.DeltaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteLunarEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteLunarEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, 0.74635F, -0.07608F),
@@ -157,7 +168,8 @@ namespace Sandswept.Enemies.DeltaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteLightningEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteLightningEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, 0.4868F, -0.35906F),
@@ -167,7 +179,8 @@ namespace Sandswept.Enemies.DeltaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteVoidEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteVoidEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(-0.65868F, 3.12402F, 0.06114F),
@@ -176,7 +189,8 @@ namespace Sandswept.Enemies.DeltaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteBeadEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteBeadEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(-0.16075F, 0.10642F, -0.43811F),
@@ -186,7 +200,8 @@ namespace Sandswept.Enemies.DeltaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteEarthEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteEarthEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, 0.21976F, 0.12895F),
@@ -196,7 +211,8 @@ namespace Sandswept.Enemies.DeltaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Elites.Osmium.Instance.EliteEquipmentDef, new() {
+            AddDisplayRule(Elites.Osmium.Instance.EliteEquipmentDef, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, 0.65735F, 0.02518F),
@@ -206,7 +222,8 @@ namespace Sandswept.Enemies.DeltaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Elites.Motivating.Instance.EliteEquipmentDef, new() {
+            AddDisplayRule(Elites.Motivating.Instance.EliteEquipmentDef, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0.00427F, -0.25201F, 0.05359F),

@@ -231,7 +231,8 @@ namespace Sandswept
             ScanTypes<EnemyBase>((x) => x.Create());
             ScanTypes<InteractableBase>((x) => x.Init());
             ScanTypes<DroneBase>((x) => x.Initialize());
-            ScanTypesNoInstance<EntityState>((x) => {
+            ScanTypesNoInstance<EntityState>((x) =>
+            {
                 ContentAddition.AddEntityState(x, out _);
             });
             new ContentPacks().Initialize();
@@ -277,7 +278,8 @@ namespace Sandswept
             }
         }
 
-        internal static void ScanTypesNoInstance<T>(Action<Type> action) {
+        internal static void ScanTypesNoInstance<T>(Action<Type> action)
+        {
             IEnumerable<Type> types = Assembly.GetExecutingAssembly().GetTypes().Where(x => !x.IsAbstract && x.IsSubclassOf(typeof(T)));
 
             foreach (Type type in types)

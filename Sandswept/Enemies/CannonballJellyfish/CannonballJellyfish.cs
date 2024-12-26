@@ -33,7 +33,7 @@ namespace Sandswept.Enemies.CannonballJellyfish
             master.bodyPrefab = prefab;
             body.baseNameToken.Add("Cannonball Jellyfish");
             var loreToken = body.baseNameToken.Replace("_NAME", "_LORE");
-            loreToken.Add("<style=cMono>Welcome to DataScraper (v3.1.53 - beta branch)\r\n$ Scraping memory� done.\r\n$ Resolving� done.\r\n$ Combing for relevant data� done.\r\nComplete!\r\n\r\n</style>UES incident report: Incident 193442\r\nTwo personnel reported seeing a Petrichorpus Scyphozoa inside the ship of the Safe Travels rescue ship. After �terminating� it, the Petrichorpus Scyphozoa was identified as a new species, unrelated to Petrichorpus Scyphozoa entirely. \r\nBegin Transcript�\r\n\r\n�W-why is there a [redacted] jellyfish, in the [redacted] CABIN?!�\r\n\r\n�I-I don't know!! H-How am I supposed to know?!�\r\n\r\n�You�re the [redacted] Xenobiologist! I thought you had a book about this stuff?!�\r\n\r\n�L-look! It�s back in my quarters� Also� aren't those Petrichorian jellyfish usually like� cyan? This one is jet black. And I can't really see inside of it��\r\n\r\n[Sounds of electricity, and the xenobiologist yelping in pain]\r\n\r\n�Shoot the damn thing you oaf! You�re supposed to be the bodyguard, if we want to get picky about jobs!!�\r\n\r\n[Sound of an m335 laser rifle being shot, and rock hitting the ground]\r\n\r\n�What the hell even� is that? I- I can't even tell what kingdom this thing should be in, certainly not an animal, or macrobacteria� \r\n�I dunno, you�re the [redacted] Xenobiologist�");
+            loreToken.Add("<style=cMono>Welcome to DataScraper (v3.1.53 - beta branch)\r\n$ Scraping memory… done.\r\n$ Resolving… done.\r\n$ Combing for relevant data… done.\r\nComplete!\r\n\r\n</style>UES incident report: Incident 193442\r\nTwo personnel reported seeing a Petrichorpus Scyphozoa inside a cabin of the Safe Travels rescue ship. After ‘terminating’ it, it was identified as a new species, unrelated to Petrichorpus Scyphozoa entirely. \r\nBegin Transcript…\r\n\r\n\"W-why is there a [redacted] jellyfish, in the [redacted] CABIN?!\"\r\n\r\n\"I-I don't know! H-How am I supposed to know?!\"\r\n\r\n\"You’re the [redacted] xenobiologist! I thought you had a book about this stuff?!\"\r\n\r\n\"L-look! It’s back in my quarters… Also… aren't those Petrichorian jellyfish usually like… cyan? This one is jet black. And I can't really see inside of it…\"\r\n\r\n[Sounds of electricity, and the xenobiologist yelping in pain]\r\n\r\n\"Shoot the damn thing you oaf! You’re supposed to be the bodyguard, if we want to get picky about jobs!\"\r\n\r\n[Sound of an m335 laser rifle being shot, and rock hitting the ground]\r\n\r\n\"What the hell even… is it? I- I can't even tell what kingdom this thing should be in, certainly not an animal, or macrobacteria…\" \r\n\r\n\"I dunno, you’re the [redacted] xenobiologist.\"\r\n");
             body.portraitIcon = Main.hifuSandswept.LoadAsset<Texture>("texCannonballJellyfish.png");
             LanguageAPI.Add(prefab.GetComponent<CharacterBody>().baseNameToken.Replace("_NAME", "_LORE"), "<style=cMono>\r\n\r\nWelcome to DataScraper (v3.1.53 - beta branch)\r\n\r\n$ Scraping memory... done.\r\n\r\n$ Resolving... done.\r\n\r\n$ Combing for relevant data... done.\r\n\r\nComplete!\r\n\r\n</style>\r\n\r\n\r\nUES incident report: Incident 193442\r\nTwo personnel reported seeing a Petrichorpus Scyphozoa inside a cabin of the Safe Travels rescue ship. After ’terminating’ it, it was identified as a new species, unrelated to Petrichorpus Scyphozoa entirely. \r\nBegin Transcript...\r\n\r\n\"W-why is there a [redacted] jellyfish, in the [redacted] CABIN?!\"\r\n\r\n\"I-I don’t know! H-How am I supposed to know?!\"\r\n\r\n\"You’re the [redacted] xenobiologist! I thought you had a book about this stuff?!\"\r\n\r\n\"L-look! It’s back in my quarters... Also... aren’t those Petrichorian jellyfish usually like... cyan? This one is jet black. And I can’t really see inside of it...\"\r\n\r\n[Sounds of electricity, and the xenobiologist yelping in pain]\r\n\r\n\"Shoot the damn thing you oaf! You’re supposed to be the bodyguard, if we want to get picky about jobs!\"\r\n\r\n[Sound of an m335 laser rifle being shot, and rock hitting the ground]\r\n\r\n\"What the hell even... is it? I- I can’t even tell what kingdom this thing should be in, certainly not an animal, or macrobacteria...\" \r\n\r\n\"I dunno, you’re the [redacted] xenobiologist.\"\r\n");
 
@@ -68,7 +68,8 @@ namespace Sandswept.Enemies.CannonballJellyfish
 
         public override void SetupIDRS()
         {
-            AddDisplayRule(Paths.EquipmentDef.EliteFireEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteFireEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, 1.5233F, 0.31216F),
@@ -78,7 +79,8 @@ namespace Sandswept.Enemies.CannonballJellyfish
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteIceEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteIceEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(-0.40056F, 2.67128F, 0.06114F),
@@ -88,7 +90,8 @@ namespace Sandswept.Enemies.CannonballJellyfish
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteEarthEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteEarthEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, 1.06064F, 0.06114F),
@@ -98,7 +101,8 @@ namespace Sandswept.Enemies.CannonballJellyfish
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteAurelioniteEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteAurelioniteEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0.9253F, 1.84508F, 2.70886F),
@@ -108,7 +112,8 @@ namespace Sandswept.Enemies.CannonballJellyfish
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.ElitePoisonEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.ElitePoisonEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, 1.17403F, 0.06114F),
@@ -118,7 +123,8 @@ namespace Sandswept.Enemies.CannonballJellyfish
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteHauntedEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteHauntedEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, 2.03823F, 0.53629F),
@@ -128,7 +134,8 @@ namespace Sandswept.Enemies.CannonballJellyfish
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteLunarEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteLunarEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, 0.96012F, 0.06114F),
@@ -138,7 +145,8 @@ namespace Sandswept.Enemies.CannonballJellyfish
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteLightningEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteLightningEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(-0.15791F, 4.15213F, 0.06114F),
@@ -148,7 +156,8 @@ namespace Sandswept.Enemies.CannonballJellyfish
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteVoidEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteVoidEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(-0.65868F, 3.12402F, 0.06114F),
@@ -157,7 +166,8 @@ namespace Sandswept.Enemies.CannonballJellyfish
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteBeadEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteBeadEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0.18878F, 1.77869F, 0.24974F),
@@ -167,7 +177,8 @@ namespace Sandswept.Enemies.CannonballJellyfish
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteEarthEquipment, new() {
+            AddDisplayRule(Paths.EquipmentDef.EliteEarthEquipment, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, 1.49283F, 0.06114F),
@@ -177,7 +188,8 @@ namespace Sandswept.Enemies.CannonballJellyfish
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Elites.Osmium.Instance.EliteEquipmentDef, new() {
+            AddDisplayRule(Elites.Osmium.Instance.EliteEquipmentDef, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0F, 4.05332F, 0.06114F),
@@ -187,7 +199,8 @@ namespace Sandswept.Enemies.CannonballJellyfish
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Elites.Motivating.Instance.EliteEquipmentDef, new() {
+            AddDisplayRule(Elites.Motivating.Instance.EliteEquipmentDef, new()
+            {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
                 localPos = new Vector3(0.31351F, 1.67552F, 0.01473F),

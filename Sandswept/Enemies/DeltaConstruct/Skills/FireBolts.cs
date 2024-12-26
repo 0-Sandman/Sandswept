@@ -4,6 +4,7 @@ using Sandswept.Survivors;
 
 namespace Sandswept.Enemies.DeltaConstruct
 {
+    [ConfigSection("Enemies :: Delta Construct")]
     public class FireBolts : BaseSkillState
     {
         public float damageCoeff = 2f;
@@ -14,9 +15,14 @@ namespace Sandswept.Enemies.DeltaConstruct
         public Transform[] back;
         private Transform modelTransform;
 
+        [ConfigField("Bolt Projectile Damage", "Decimal.", 2f)]
+        public static float projectileDamage;
+
         public override void OnEnter()
         {
             base.OnEnter();
+
+            damageCoeff = projectileDamage;
 
             duration /= base.attackSpeedStat;
 

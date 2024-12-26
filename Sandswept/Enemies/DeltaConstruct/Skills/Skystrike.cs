@@ -49,6 +49,7 @@ namespace Sandswept.Enemies.DeltaConstruct
         }
     }
 
+    [ConfigSection("Enemies :: Delta Construct")]
     public class SkystrikeFire : BaseSkillState
     {
         public float duration = 1.5f;
@@ -59,9 +60,21 @@ namespace Sandswept.Enemies.DeltaConstruct
         public float speed = 40f;
         public Vector3 guh;
 
+        [ConfigField("Laser Configuration Speed", "In m/s", 40f)]
+        public static float laserSpeed;
+
+        [ConfigField("Laser Configuration Damage", "Decimal.", 1.2f)]
+        public static float laserDamage;
+
+        [ConfigField("Fire Trail Damage Per Second", "Decimal.", 4f)]
+        public static float fireTrailDPS;
+
         public override void OnEnter()
         {
             base.OnEnter();
+
+            speed = laserSpeed;
+            damageCoeff = laserDamage;
 
             for (int i = 0; i < beams.Length; i++)
             {
@@ -118,7 +131,7 @@ namespace Sandswept.Enemies.DeltaConstruct
                     {
                         GameObject trail = GameObject.Instantiate(DeltaConstruct.DeltaBurnyTrail, beam.endpoint, Quaternion.identity);
                         // trail.transform.up = grounded.Item2.Value;
-                        trail.GetComponent<DeltaBurnyTrail>().damagePerSecond = base.damageStat * 4f;
+                        trail.GetComponent<DeltaBurnyTrail>().damagePerSecond = base.damageStat * fireTrailDPS;
                         trail.GetComponent<DeltaBurnyTrail>().owner = base.characterBody;
                     }
                 }
