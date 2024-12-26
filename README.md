@@ -98,27 +98,27 @@
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/ZKLwnhc7/sand9.png" width="64"/></td>
-      <td><b>Volatile Shields</b><br>
+      <td><b>Passive:</b> Volatile Shields<br>
           Start with innate shields. When your shield breaks, shock nearby targets for 2x600% damage and gain +40% movement speed for 7 seconds.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/nzQdhjRB/sand13.png" width="64"/></td>
-      <td><b>Galvanic Bolt</b><br>
+      <td><b>Primary:</b> Galvanic Bolt<br>
           Blast out a galvanic ball that sticks into terrain, zapping nearby enemies for 150% damage periodically. Explodes for 300% damage on impact.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/XvPHWc8n/sand11.png" width="64"/></td>
-      <td><b>Tempest Sphere</b><br>
+      <td><b>Secondary:</b> Tempest Sphere<br>
           Send forth an orb of energy that damages targets within for 500% damage per second. Release to lock the orb in place.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/fyn8tzpF/sand12.png" width="64"/></td>
-      <td><b>Static Snare</b><br>
+      <td><b>Utility:</b> Static Snare<br>
           Lightweight. Deploy a pylon that zaps targets for 300% damage, and damages targets between you and it for 200% damage per second. Re-activate to zip to the pylon, dealing 800% damage.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/KYjqCst9/sand10.png" width="64"/></td>
-      <td><b>Signal Overload</b><br>
+      <td><b>Special:</b> Signal Overload<br>
           Grounding. Charge up and beam energy forward, zapping enemies in a large radius around impact for 1600% damage and pulling them inward over 4 seconds. Charging drains shield, and effect scales from 0.4x to 1.5x based on shield consumed.</td>
     </tr>
   </tbody>
@@ -390,7 +390,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2" align="center"><h3>Lunar Items / Lunar Equipment</h3></td>
+			<td colspan="2" align="center"><h3>Lunar Items / Equipment</h3></td>
 		</tr>
 		<tr>
 			<td><img src="https://i.postimg.cc/ht1YXWmT/tex-Their-Prominence.png" width="96"></td>
