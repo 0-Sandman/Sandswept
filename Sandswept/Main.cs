@@ -185,7 +185,11 @@ namespace Sandswept
             foreach (var itemType in ItemTypes)
             {
                 ItemBase item = (ItemBase)Activator.CreateInstance(itemType);
-                if (ValidateItem(item, Items))
+                Items.Add(item);
+            }
+
+            foreach (ItemBase item in Items) {
+                if (ValidateItem(item, new()))
                 {
                     item.Init(Config);
                 }

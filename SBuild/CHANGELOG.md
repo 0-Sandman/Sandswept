@@ -9,7 +9,7 @@
   - fixed Theta Construct sometimes turning invisible when shielding an enemy
 - Items
   - Made Bleeding Witness a lot more optimized
-  - Fixed null Void Pairs preventing the game from loading
+  - Disabling an item now also disables the void of that item instead of preventing game loading
   - Fixed Galvanic Cell Shield failing to activate when it's item display isnt present
 - Interactables
   - Changed Shrine of Ruin's sound (the voices fix)
