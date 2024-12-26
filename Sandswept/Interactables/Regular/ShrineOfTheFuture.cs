@@ -18,7 +18,7 @@ namespace Sandswept.Interactables.Regular
         public override int MaxSpawnsPerStage => 1;
 
         //public override int CreditCost => 20;
-        public override int CreditCost => 35;
+        public override int CreditCost => directorCreditCost;
 
         public override HullClassification Size => HullClassification.Golem;
 
@@ -34,6 +34,9 @@ namespace Sandswept.Interactables.Regular
         public GameObject prefab;
 
         public static GameObject shrineVFX;
+
+        [ConfigField("Director Credit Cost", "", 35)]
+        public static int directorCreditCost;
 
         [ConfigField("Item Count Per Player", "", 3)]
         public static int itemCount;

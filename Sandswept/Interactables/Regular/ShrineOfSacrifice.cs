@@ -19,7 +19,7 @@ namespace Sandswept.Interactables.Regular
 
         public override int MaxSpawnsPerStage => 1;
 
-        public override int CreditCost => 20;
+        public override int CreditCost => directorCreditCost;
 
         public override HullClassification Size => HullClassification.Golem;
 
@@ -37,6 +37,9 @@ namespace Sandswept.Interactables.Regular
         public override bool SpawnInSimulacrum => true;
 
         public override bool SlightlyRandomizeOrientation => false;
+
+        [ConfigField("Director Credit Cost", "", 20)]
+        public static int directorCreditCost;
 
         [ConfigField("Curse Cost", "", 20)]
         public static int curseCost;
