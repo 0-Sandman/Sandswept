@@ -1,3 +1,10 @@
+## 1.0.1 Patch Notes
+- Readme fixes
+NOTE: The 3 fixes below are NOT implimented but are known bugs so im putting them here in the changelog as we (presumably) will fix them so remove this line of text after implimenting them or remove any of them that turn out to be unrelated to our mod in someway
+- Fixed Constructs not being configurable
+- Fixed Constructs having boss markers even after death
+- Fixed bleeding witness healing forever
+
 # 1.0.0 Patch Notes
 - General
   - Added Sandswept Expansion
