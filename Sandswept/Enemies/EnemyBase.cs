@@ -9,6 +9,7 @@ using RoR2.ExpansionManagement;
 using Unity;
 using HarmonyLib;
 using RoR2.CharacterAI;
+using System.Reflection;
 
 namespace Sandswept.Enemies
 {
@@ -34,8 +35,30 @@ namespace Sandswept.Enemies
         private static ItemDisplayRuleSet idrs;
         private static List<ItemDisplayRuleSet.KeyAssetRuleGroup> rules = new();
 
+        public static bool DefaultEnabledCallback(EnemyBase self)
+        {
+            ConfigSectionAttribute attribute = self.GetType().GetCustomAttribute<ConfigSectionAttribute>();
+            if (attribute != null)
+            {
+                bool isValid = Main.config.Bind<bool>(attribute.name, "Enabled", true, "Allow this enemy to appear in runs?").Value;
+                if (isValid)
+                {
+                    return true;
+                }
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         public virtual void Create()
         {
+            if (!DefaultEnabledCallback(this)) {
+                return;
+            }
+
             LoadPrefabs();
 
             var expansionRequirementComponent = prefab.AddComponent<ExpansionRequirementComponent>();

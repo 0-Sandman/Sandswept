@@ -229,7 +229,11 @@ namespace Sandswept
             ScanTypes<SkillBase>((x) => x.Init());
             ScanTypes<SurvivorBase>((x) => x.Init());
             ScanTypes<EnemyBase>((x) => x.Create());
-            ScanTypes<InteractableBase>((x) => x.Init());
+            ScanTypes<InteractableBase>((x) => {
+                if (ValidateInteractable(x, new())) {
+                    x.Init();
+                }
+            });
             ScanTypes<DroneBase>((x) => x.Initialize());
             ScanTypesNoInstance<EntityState>((x) => {
                 ContentAddition.AddEntityState(x, out _);

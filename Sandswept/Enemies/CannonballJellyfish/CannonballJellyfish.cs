@@ -5,6 +5,7 @@ using Sandswept.Enemies.CannonballJellyfish.States;
 
 namespace Sandswept.Enemies.CannonballJellyfish
 {
+    [ConfigSection("Enemies :: Cannonball Jellyfish")]
     public class CannonballJellyfish : EnemyBase<CannonballJellyfish>
     {
         public static GameObject JellyCoreProjectile;

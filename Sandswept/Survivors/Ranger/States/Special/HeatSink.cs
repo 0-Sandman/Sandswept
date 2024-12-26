@@ -17,14 +17,26 @@ namespace Sandswept.Survivors.Ranger.States.Special
 
         private TemporaryOverlayInstance tempOverlayInstance1;
         private TemporaryOverlayInstance tempOverlayInstance2;
+        private float secondaryBlastMultiplier = 0.75f;
+        private float secondaryBlastRadiusMult = 0.75f;
+        private float intervalBetweenBlasts;
+        private int totalBlasts;
+        private float multiAttackStopwatch = 0f;
 
         public override void OnEnter()
         {
             base.OnEnter();
 
+            int stock = base.skillLocator.special.maxStock;
+            base.skillLocator.special.DeductStock(base.skillLocator.special.maxStock);
+
             heat = GetComponent<RangerHeatController>();
 
             duration = BaseDuration / attackSpeedStat;
+
+            totalBlasts = stock - 1;
+
+            intervalBetweenBlasts = duration / totalBlasts;
 
             modelTransform = GetModelTransform();
 
@@ -87,7 +99,7 @@ namespace Sandswept.Survivors.Ranger.States.Special
                 tempOverlayInstance2.inspectorCharacterModel = characterModel;
             }
 
-            FireNova();
+            FireNova(false);
 
             if (characterBody)
             {
@@ -97,21 +109,24 @@ namespace Sandswept.Survivors.Ranger.States.Special
             heat.currentHeat = 0f;
         }
 
-        public void FireNova()
+        public void FireNova(bool secondary = false)
         {
             // FEAR
+
+            float radius = 16f;
+            if (secondary) radius *= secondaryBlastRadiusMult;
 
             EffectManager.SpawnEffect(explosion2, new EffectData
             {
                 origin = transform.position,
-                scale = 16f,
+                scale = radius,
                 rotation = Quaternion.identity
             }, true);
 
             EffectManager.SpawnEffect(explosion1, new EffectData
             {
                 origin = transform.position,
-                scale = 16f,
+                scale = radius,
                 rotation = Quaternion.identity
             }, true);
 
@@ -122,7 +137,7 @@ namespace Sandswept.Survivors.Ranger.States.Special
             Util.PlaySound("Play_voidRaid_m1_explode", gameObject);
             Util.PlaySound("Play_captain_shift_impact", gameObject);
 
-            PlayAnimation("FullBody, Override", "Twirl");
+            if (!secondary) PlayAnimation("FullBody, Override", "Twirl");
 
             if (isAuthority)
             {
@@ -138,7 +153,7 @@ namespace Sandswept.Survivors.Ranger.States.Special
                     damageColorIndex = DamageColorIndex.Fragile,
                     damageType = DamageType.IgniteOnHit,
                     inflictor = gameObject,
-                    radius = 16f,
+                    radius = radius,
                     position = transform.position,
                     procChainMask = default,
                     procCoefficient = 1f,
@@ -146,6 +161,10 @@ namespace Sandswept.Survivors.Ranger.States.Special
                     losType = BlastAttack.LoSType.None,
                     falloffModel = BlastAttack.FalloffModel.None,
                 };
+
+                if (secondary) {
+                    attack.baseDamage *= secondaryBlastMultiplier;
+                }
 
                 attack.damageType.damageSource = DamageSource.Special;
 
@@ -161,6 +180,15 @@ namespace Sandswept.Survivors.Ranger.States.Special
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+
+            if (totalBlasts > 0) {
+                multiAttackStopwatch += Time.fixedDeltaTime;
+                
+                if (multiAttackStopwatch >= intervalBetweenBlasts) {
+                    multiAttackStopwatch = 0f;
+                    FireNova(true);
+                }
+            }
 
             if (fixedAge >= duration)
             {

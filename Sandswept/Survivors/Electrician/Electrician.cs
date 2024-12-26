@@ -42,6 +42,7 @@ namespace Sandswept.Survivors.Electrician
         public static GameObject ElecMuzzleFlash;
         public static GameObject BrokenElectricianBody;
         public static DamageAPI.ModdedDamageType LIGHTNING = DamageAPI.ReserveDamageType();
+        public static DamageAPI.ModdedDamageType ReallyShittyGrounding = DamageAPI.ReserveDamageType();
 
         public override void CreateLang()
         {
@@ -123,6 +124,7 @@ namespace Sandswept.Survivors.Electrician
             // weh
             // mrraow
             GalvanicBolt.GetComponent<GalvanicBallController>().damage = 2f; // im not launching unity lmao
+            GalvanicBolt.GetComponent<ProjectileDamage>().damageType.AddModdedDamageType(ReallyShittyGrounding);
             ContentAddition.AddNetworkedObject(GalvanicBolt);
             PrefabAPI.RegisterNetworkPrefab(GalvanicBolt);
             ContentAddition.AddProjectile(GalvanicBolt);
@@ -343,6 +345,26 @@ namespace Sandswept.Survivors.Electrician
                     if (self.body.isChampion)
                     {
                         info.force *= 0.2f;
+                    }
+
+                    if (motor) motor.ApplyForceImpulse(in info);
+                    if (motor2) motor2.ApplyForceImpulse(in info);
+                }
+            }
+
+            if (damageInfo.HasModdedDamageType(ReallyShittyGrounding) && NetworkServer.active) {
+                CharacterMotor motor = self.GetComponent<CharacterMotor>();
+                RigidbodyMotor motor2 = self.GetComponent<RigidbodyMotor>();
+
+                if ((motor2))
+                {
+                    PhysForceInfo info = default;
+                    info.massIsOne = true;
+                    info.force = Vector3.down * 5f;
+
+                    if (self.body.isChampion)
+                    {
+                        info.force *= 0f;
                     }
 
                     if (motor) motor.ApplyForceImpulse(in info);

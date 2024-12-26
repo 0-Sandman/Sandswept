@@ -43,6 +43,7 @@ namespace Sandswept.Interactables.Regular
         public override int SpawnWeight => 1;
 
         public GameObject prefab;
+        public override List<Stage> Stages { get; } = new() { Stage.DistantRoost, Stage.TitanicPlains, Stage.SiphonedForest, Stage.VerdantFalls, Stage.ViscousFalls, Stage.ShatteredAbodes, Stage.DisturbedImpact, Stage.AbandonedAqueduct, Stage.WetlandAspect, Stage.AphelianSanctuary, Stage.ReformedAltar, Stage.RallypointDelta, Stage.ScorchedAcres, Stage.SulfurPools, Stage.TreebornColony, Stage.GoldenDieback, Stage.AbyssalDepths, Stage.SirensCall, Stage.SunderedGrove };
 
         public override bool OrientToFloor => true;
         public override bool SkipOnSacrifice => true;
@@ -318,6 +319,10 @@ namespace Sandswept.Interactables.Regular
         {
             if (shouldCorruptNextStage)
             {
+                if (!newScene.name.StartsWith("it")) {
+                    return;
+                }
+
                 new GameObject("hopoo why").AddComponent<DirectorCore>();
                 var sceneInfo = GameObject.Find("SceneInfo");
                 var obj = GameObject.Instantiate(Paths.GameObject.Director);
@@ -330,8 +335,6 @@ namespace Sandswept.Interactables.Regular
                     dir.creditMultiplier = combatDirectorCreditMultiplier;
                 }
                 NetworkServer.Spawn(obj);
-
-                shouldReplaceDrops = true;
 
                 if (!sceneInfo)
                 {

@@ -3,6 +3,7 @@ using RoR2.Navigation;
 
 namespace Sandswept.Enemies.DeltaConstruct
 {
+    [ConfigSection("Enemies :: Delta Construct")]
     public class DeltaConstruct : EnemyBase<DeltaConstruct>
     {
         public static GameObject bolt;

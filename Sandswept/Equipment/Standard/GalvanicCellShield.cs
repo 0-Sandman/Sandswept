@@ -61,7 +61,7 @@
         {
             if (!body.equipmentSlot) return;
             Transform display = body.equipmentSlot.FindActiveEquipmentDisplay();
-            if (!display.GetComponent<ItemFollower>())
+            if (!display || !display.GetComponent<ItemFollower>())
             {
                 return;
             }

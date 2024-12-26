@@ -1,9 +1,16 @@
 ## 1.0.1 Patch Notes
-- Readme fixes
-NOTE: The 3 fixes below are NOT implimented but are known bugs so im putting them here in the changelog as we (presumably) will fix them so remove this line of text after implimenting them or remove any of them that turn out to be unrelated to our mod in someway
+- WOOHOOO README UPDATE FUCK YEAH!
 - Fixed Constructs not being configurable
 - Fixed Constructs having boss markers even after death
-- Fixed bleeding witness healing forever
+- Fixed Galvanic Bolt failing to target enemies who have bullseye hitboxes taller than its range
+- Fixed Interactables not generating enable/disable configs
+- Fixed Galvanic Cell Shield failing to activate when it's item display isnt present
+- Heat Sink now releases additional explosions for every additional special stock you have
+- Improved wording on VOL-T skills
+- Galvanic Bolt now applies a weak knockdown effect to aerial enemies
+- Theta Constructs now become hydrogen bombs if they attempt to shield another Theta Construct
+- Theta Construct no longer spawns on stage one
+- fixed Theta Construct sometimes turning invisible when shielding an enemy
 
 # 1.0.0 Patch Notes
 - General

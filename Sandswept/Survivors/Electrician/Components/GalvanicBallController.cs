@@ -1,4 +1,7 @@
 using System;
+using System.Linq;
+using IL.RoR2.Items;
+using RoR2.Orbs;
 
 namespace Sandswept.Survivors.Electrician
 {
@@ -12,6 +15,11 @@ namespace Sandswept.Survivors.Electrician
         private bool hasStuck = false;
         private CharacterBody owner;
         private Rigidbody body;
+        private float stopwatch = 0f;
+        private float damageCoeff;
+        private float interval;
+        private float range;
+        private float maxTargets;
 
         public void Start()
         {
@@ -21,6 +29,55 @@ namespace Sandswept.Survivors.Electrician
             body = GetComponent<Rigidbody>();
 
             GetComponent<ProjectileProximityBeamController>().attackInterval /= owner.attackSpeed;
+
+            var p = GetComponent<ProjectileProximityBeamController>();
+            damageCoeff = p.damageCoefficient;
+            interval = p.attackInterval;
+            range = p.attackRange;
+            maxTargets = p.attackFireCount;
+            p.enabled = false;
+        }
+
+        public void FixedUpdate() {
+            stopwatch += Time.fixedDeltaTime;
+
+            if (stopwatch >= interval && NetworkServer.active) {
+                stopwatch = 0f;
+                ShockNearby();
+            }
+        }
+
+        public void ShockNearby() {
+            Collider[] collidersTmp = Physics.OverlapSphere(base.transform.position, radius, LayerIndex.entityPrecise.mask, QueryTriggerInteraction.Ignore);
+            List<HealthComponent> alreadyStruck = new();
+            IEnumerable<Collider> colliders = collidersTmp.Shuffle(Run.instance.stageRng);
+
+            TeamIndex team = GetComponent<TeamFilter>().teamIndex;
+
+            for (int i = 0; i < colliders.Count(); i++) {
+                HurtBox box = colliders.ElementAt(i).GetComponent<HurtBox>();
+
+                if (box && !alreadyStruck.Contains(box.healthComponent)) {
+                    LightningOrb orb = new();
+                    orb.procCoefficient = 1;
+                    orb.damageValue = pDamage.damage * damageCoeff;
+                    orb.bouncesRemaining = 0;
+                    orb.lightningType = LightningOrb.LightningType.Loader;
+                    orb.attacker = controller.owner;
+                    orb.origin = base.transform.position;
+                    orb.target = box;
+                    orb.isCrit = pDamage.crit;
+                    orb.teamIndex = team;
+                    
+                    OrbManager.instance.AddOrb(orb);
+
+                    alreadyStruck.Add(box.healthComponent);
+
+                    if (alreadyStruck.Count() >= maxTargets) {
+                        return;
+                    }
+                }
+            }
         }
 
         public void OnCollisionEnter(Collision collision)
