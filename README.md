@@ -1,5 +1,5 @@
 # <a href="https://discord.gg/zcQnUUPdpW"><img src="https://i.postimg.cc/Qxwf7yLw/booook-1.gif" width="1100"/></a>
-
+<a href="https://www.youtube.com/watch?v=XnAgXBzBKyI"><img src="https://i.imgur.com/8MppkJY.png" width="400"><br>Check out our update trailer!</a>
 ### <img src="https://i.postimg.cc/T3FJSHfy/sandsw-ept-Icon.png" width="32"/> Sandswept is a content expansion mod that aims to add a variety of content including:
 - 2 Survivors
 - 4 Enemies
