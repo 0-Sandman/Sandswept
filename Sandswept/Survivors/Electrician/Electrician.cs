@@ -360,7 +360,7 @@ namespace Sandswept.Survivors.Electrician
                 {
                     PhysForceInfo info = default;
                     info.massIsOne = true;
-                    info.force = Vector3.down * 5f;
+                    info.force = Vector3.down * 12.5f;
 
                     if (self.body.isChampion)
                     {
