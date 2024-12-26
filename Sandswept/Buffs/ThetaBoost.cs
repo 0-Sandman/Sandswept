@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Sandswept.Buffs
 {
+    [ConfigSection("Enemies :: Theta Construct")]
     public class ThetaBoost : BuffBase<ThetaBoost>
     {
         public override string BuffName => "Theta Shielding";
@@ -14,8 +15,12 @@ namespace Sandswept.Buffs
 
         public override bool CanStack => false;
         public override bool IsDebuff => false;
-        public static float AtkSpeedMult = 0.35f;
-        public static float CdMult = 0.25f;
+
+        [ConfigField("Shield Buff Attack Speed Gain", "", 0.35f)]
+        public static float shieldBuffAttackSpeedGain;
+
+        [ConfigField("Shield Buff Cooldown Reduction", "Decimal.", 0.25f)]
+        public static float shieldBuffCooldownReduction;
 
         public override void Init()
         {
@@ -26,9 +31,10 @@ namespace Sandswept.Buffs
 
         private void HandleSpeedBuff(CharacterBody sender, StatHookEventArgs args)
         {
-            if (sender.HasBuff(BuffDef)) {
-                args.attackSpeedMultAdd += AtkSpeedMult;
-                args.cooldownMultAdd -= CdMult;
+            if (sender.HasBuff(BuffDef))
+            {
+                args.attackSpeedMultAdd += shieldBuffAttackSpeedGain;
+                args.cooldownMultAdd -= shieldBuffCooldownReduction;
             }
         }
     }

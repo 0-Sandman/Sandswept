@@ -911,7 +911,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
             outsideAura.isHidden = true;
             outsideAura.buffColor = Color.blue;
             outsideAura.iconSprite = Paths.BuffDef.bdArmorBoost.iconSprite;
-            outsideAura.name = "Outside Osmium Aura";
+            outsideAura.name = "Outside Osmium Aura (Lesbian Sex)";
 
             insideAura = ScriptableObject.CreateInstance<BuffDef>();
             insideAura.isDebuff = false;
@@ -920,7 +920,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
             insideAura.isHidden = true;
             insideAura.buffColor = Color.red;
             insideAura.iconSprite = Paths.BuffDef.bdAttackSpeedOnCrit.iconSprite;
-            insideAura.name = "Inside Osmium Aura";
+            insideAura.name = "Inside Osmium Aura (Gay Sex)";
 
             ContentAddition.AddBuffDef(noJump);
             ContentAddition.AddBuffDef(outsideAura);

@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Sandswept.Items.Greens;
 using System.Collections;
 
 namespace Sandswept.Items.VoidGreens
@@ -121,6 +122,18 @@ namespace Sandswept.Items.VoidGreens
             On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
         }
 
+        private static void ContagiousItemManager_Init(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
+        {
+            ItemDef.Pair transformation = new()
+            {
+                itemDef2 = Millenium.instance.ItemDef,
+                itemDef1 = SunFragment.instance.ItemDef
+            };
+            ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].AddToArray(transformation);
+
+            orig();
+        }
+
         private void GlobalEventManager_onServerDamageDealt(DamageReport report)
         {
             var damageInfo = report.damageInfo;
@@ -217,17 +230,6 @@ namespace Sandswept.Items.VoidGreens
             Util.PlaySound("Play_voidDevastator_death_VO", victimBody.gameObject);
             Util.PlaySound("Play_clayboss_m2_explo", victimBody.gameObject);
             Util.PlaySound("Play_engi_M2_explo", victimBody.gameObject);
-        }
-
-        private void ContagiousItemManager_Init(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
-        {
-            ItemDef.Pair transformation = new()
-            {
-                itemDef2 = instance.ItemDef,
-                itemDef1 = Greens.SunFragment.instance.ItemDef
-            };
-            ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].AddToArray(transformation);
-            orig();
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()

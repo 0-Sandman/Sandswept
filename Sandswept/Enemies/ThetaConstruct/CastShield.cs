@@ -2,8 +2,10 @@ using System;
 using RoR2.CharacterAI;
 using Sandswept.Survivors;
 
-namespace Sandswept.Enemies.ThetaConstruct {
-    public class CastShield : BaseSkillState {
+namespace Sandswept.Enemies.ThetaConstruct
+{
+    public class CastShield : BaseSkillState
+    {
         public GameObject shieldInstance;
         public float duration = 15f;
         public GameObject effect;
@@ -15,7 +17,8 @@ namespace Sandswept.Enemies.ThetaConstruct {
 
             GameObject buddy = base.characterBody.master.GetComponent<BaseAI>().buddy._gameObject;
 
-            if (!buddy) {
+            if (!buddy)
+            {
                 outer.SetNextStateToMain();
                 return;
             }
@@ -98,7 +101,8 @@ namespace Sandswept.Enemies.ThetaConstruct {
         {
             base.OnExit();
 
-            if (base.isAuthority && shieldInstance) {
+            if (base.isAuthority && shieldInstance)
+            {
                 NetworkServer.DestroyObject(shieldInstance);
             }
         }

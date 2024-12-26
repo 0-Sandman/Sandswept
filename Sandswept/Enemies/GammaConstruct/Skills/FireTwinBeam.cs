@@ -3,6 +3,7 @@ using Sandswept.Survivors;
 
 namespace Sandswept.Enemies.GammaConstruct
 {
+    [ConfigSection("Enemies :: Gamma Construct")]
     public class FireTwinBeam : BaseSkillState
     {
         public Animator anim;
@@ -10,6 +11,9 @@ namespace Sandswept.Enemies.GammaConstruct
         public bool firing = false;
         public BasicLaserBeam laser;
         public BasicLaserBeam laser2;
+
+        [ConfigField("Twin Laser Damage", "Decimal.", 20f)]
+        public static float twinLaserDamage;
 
         public override void OnEnter()
         {
@@ -22,7 +26,7 @@ namespace Sandswept.Enemies.GammaConstruct
                 {
                     OriginIsBase = true,
                     EndpointName = "End",
-                    DamageCoefficient = 20f,
+                    DamageCoefficient = twinLaserDamage,
                     FiringWidthMultiplier = 4.5f,
                     MaxRange = 190f,
                     FiringMaterial = GammaConstruct.matDeltaBeamStrong,
@@ -39,7 +43,7 @@ namespace Sandswept.Enemies.GammaConstruct
                 {
                     OriginIsBase = true,
                     EndpointName = "End",
-                    DamageCoefficient = 20f,
+                    DamageCoefficient = twinLaserDamage,
                     FiringWidthMultiplier = 4.5f,
                     MaxRange = 190f,
                     FiringMaterial = GammaConstruct.matDeltaBeamStrong,

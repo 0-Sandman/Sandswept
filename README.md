@@ -229,7 +229,7 @@
 			<td>
 				<b>Shrine of Sacrifice</b><br>
 				Gain <b>20% curse</b> to drop <b>2</b> copies of a random common item.<br>
-				<b>Details:</b> Usable only once, can only spawn once per stage, costs 20 credits.
+				<b>Details:</b> Usable only once, can only spawn once per stage, costs 20 credits. Disabled after the Teleporter Event is completed.
 			</td>
 		</tr>
 		<tr>
@@ -464,5 +464,7 @@
 <img src="https://i.postimg.cc/9Xb0rQKd/sandsw-eptdevelopmentteam.png"/>
 <br>
 <img src="https://i.postimg.cc/FKfyBPPS/megarex.png"/>
+<br>
+Do not click on her icon too many times.
 
 </details>

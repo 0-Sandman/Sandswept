@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using Sandswept.Items.Greens;
 using System.Collections;
 using UnityEngine.UIElements;
 using static R2API.DotAPI;
@@ -66,10 +67,22 @@ namespace Sandswept.Items.VoidGreens
 
         public override void Hooks()
         {
-            On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
+            On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
+        }
+
+        private static void ContagiousItemManager_Init(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
+        {
+            ItemDef.Pair transformation = new()
+            {
+                itemDef2 = FesteringHunger.instance.ItemDef,
+                itemDef1 = Greens.SmoulderingDocument.instance.ItemDef
+            };
+            ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].AddToArray(transformation);
+
+            orig();
         }
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
@@ -123,17 +136,6 @@ namespace Sandswept.Items.VoidGreens
                     DotController.InflictDot(ref inflictDotInfo);
                 }
             }
-        }
-
-        private void ContagiousItemManager_Init(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
-        {
-            ItemDef.Pair transformation = new()
-            {
-                itemDef2 = instance.ItemDef,
-                itemDef1 = Greens.SmoulderingDocument.instance.ItemDef
-            };
-            ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].AddToArray(transformation);
-            orig();
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()

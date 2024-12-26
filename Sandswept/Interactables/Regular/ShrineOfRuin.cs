@@ -34,7 +34,7 @@ namespace Sandswept.Interactables.Regular
 
         public override int MaxSpawnsPerStage => 1;
 
-        public override int CreditCost => 45;
+        public override int CreditCost => directorCreditCost;
 
         public override HullClassification Size => HullClassification.Golem;
 
@@ -53,6 +53,9 @@ namespace Sandswept.Interactables.Regular
         public override bool SpawnInSimulacrum => false;
 
         public override bool SlightlyRandomizeOrientation => false;
+
+        [ConfigField("Director Credit Cost", "", 45)]
+        public static int directorCreditCost;
 
         [ConfigField("White Item Cost", "", 10)]
         public static int whiteItemCost;
@@ -76,6 +79,7 @@ namespace Sandswept.Interactables.Regular
         public override void Init()
         {
             base.Init();
+
 
             def = new()
             {
@@ -600,11 +604,13 @@ namespace Sandswept.Interactables.Regular
 
         public IEnumerator TheVoices()
         {
-            Util.PlaySound("Play_voidRaid_fog_affectPlayer", gameObject);
+            Util.PlaySound("Play_voidRaid_fog_explode", gameObject);
 
-            yield return new WaitForSeconds(1f);
+            yield return null;
 
-            Util.PlaySound("Stop_voidRaid_fog_affectPlayer", gameObject);
+            // yield return new WaitForSeconds(1f);
+
+            // Util.PlaySound("Stop_voidRaid_fog_affectPlayer", gameObject);
         }
 
         public static bool HasMetRequirement(CharacterBody interactorBody)
