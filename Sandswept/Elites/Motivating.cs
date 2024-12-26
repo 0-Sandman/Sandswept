@@ -873,6 +873,7 @@ localScale = new Vector3(3.25F, 3.25F, 3.25F)
             wrbnnerBuff.isDebuff = false;
             wrbnnerBuff.iconSprite = Paths.BuffDef.bdWarbanner.iconSprite;
             wrbnnerBuff.buffColor = new Color32(240, 35, 89, 255);
+            wrbnnerBuff.name = "Motivating Aura";
 
             warcryBuff = ScriptableObject.CreateInstance<BuffDef>();
             warcryBuff.isHidden = false;
@@ -880,7 +881,8 @@ localScale = new Vector3(3.25F, 3.25F, 3.25F)
             warcryBuff.isCooldown = false;
             warcryBuff.isDebuff = false;
             warcryBuff.iconSprite = Paths.BuffDef.bdTeamWarCry.iconSprite;
-            warcryBuff.buffColor = Paths.BuffDef.bdTeamWarCry.buffColor;
+            warcryBuff.buffColor = new Color32(240, 35, 89, 255);
+            warcryBuff.name = "Motivating On Hit Buff";
 
             ContentAddition.AddBuffDef(wrbnnerBuff);
             ContentAddition.AddBuffDef(warcryBuff);

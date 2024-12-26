@@ -172,6 +172,7 @@ namespace Sandswept.Items.Greens
             pocketPlutoniumRecharge.buffColor = new Color32(115, 204, 71, 255);
             pocketPlutoniumRecharge.isHidden = true;
             pocketPlutoniumRecharge.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texProtogen3.png");
+            pocketPlutoniumRecharge.name = "Pocket Plutonium Cooldown";
 
             ContentAddition.AddBuffDef(pocketPlutoniumRecharge);
 
