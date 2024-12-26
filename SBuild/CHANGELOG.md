@@ -1,26 +1,34 @@
 ## 1.0.1 Patch Notes
-- WOOHOOO README UPDATE FUCK YEAH!
-- Fixed Constructs not being configurable
-- Fixed Constructs having boss markers even after death
-- Fixed Galvanic Bolt failing to target enemies who have bullseye hitboxes taller than its range
-- Fixed Interactables not generating enable/disable configs
-- Fixed Galvanic Cell Shield failing to activate when it's item display isnt present
-- Heat Sink now releases additional explosions for every additional special stock you have
-- Improved wording on VOL-T skills
-- Galvanic Bolt now applies a weak knockdown effect to aerial enemies
-- Theta Constructs now become hydrogen bombs if they attempt to shield another Theta Construct
-- Theta Construct no longer spawns on stage one
-- fixed Theta Construct sometimes turning invisible when shielding an enemy
-- Shrine of Ruin no longer voids the bazaar items
-- Shrine of Ruin can no longer spawn on stage 5
+- General
+  - WOOHOOO README UPDATE FUCK YEAH!
+- Enemies
+  - Fixed Constructs not being configurable
+  - Fixed Constructs having boss markers even after death
+  - Theta Constructs now become hydrogen bombs if they attempt to shield another Theta Construct
+  - Theta Construct no longer spawns on stage one
+  - fixed Theta Construct sometimes turning invisible when shielding an enemy
+- Items
+  - Made Bleeding Witness a lot more optimized
+  - Fixed null Void Pairs preventing the game from loading
+  - Fixed Galvanic Cell Shield failing to activate when it's item display isnt present
+- Interactables
+  - Changed Shrine of Ruin's sound (the voices fix)
+  - Fixed Interactables not generating enable/disable configs
+  - Shrine of Ruin no longer voids the bazaar items
+  - Shrine of Ruin no longer appears on stage 5
+- Survivors
+  - Heat Sink now releases additional explosions for every additional special stock you have
+  - Improved wording on VOL-T skills
+  - Galvanic Bolt now applies a weak knockdown effect to aerial enemies
+  - Fixed Galvanic Bolt failing to target enemies who have bullseye hitboxes taller than its range
 
 # 1.0.0 Patch Notes
 - General
   - Added Sandswept Expansion
   - Updated mod icon
   - Overhauled README
-  - Added LobbySkinsFix soft dependancy
-  - Added ScrollableLobbyUI soft dependancy 
+  - Added LobbySkinsFix soft dependency
+  - Added ScrollableLobbyUI soft dependency 
 - Survivors
   - Added VOL-T
   - Ranger
