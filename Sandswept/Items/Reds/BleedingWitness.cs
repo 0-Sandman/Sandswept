@@ -49,8 +49,8 @@ namespace Sandswept.Items.Reds
         {
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
             // RoR2.DotController.onDotInflictedServerGlobal += DotController_onDotInflictedServerGlobal;
-            On.RoR2.DotController.FixedUpdate += DotController_FixedUpdate;
-            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
+            // On.RoR2.DotController.FixedUpdate += DotController_FixedUpdate;
+            // CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
         }
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
@@ -126,6 +126,21 @@ namespace Sandswept.Items.Reds
                     };
 
                     InflictDot(ref baseDamage);
+                }
+
+                var healAmount = baseDoTHealing + stackDoTHealing * (stacks - 1);
+                if ((report.damageInfo.damageType & DamageType.DoT) > 0)
+                {
+                    Main.ModLogger.LogError("dealt damage from dot, tryna heal");
+
+                    for (int i = 0; i < CharacterBody.instancesList.Count; i++)
+                    {
+                        var body = CharacterBody.instancesList[i];
+                        if (body.teamComponent.teamIndex == TeamIndex.Player)
+                        {
+                            body.healthComponent?.HealFraction(healAmount, default);
+                        }
+                    }
                 }
             }
         }

@@ -17,10 +17,10 @@ namespace Sandswept.Buffs
         public override bool IsDebuff => false;
 
         [ConfigField("Shield Buff Attack Speed Gain", "", 0.35f)]
-        public static int shieldBuffAttackSpeedGain;
+        public static float shieldBuffAttackSpeedGain;
 
         [ConfigField("Shield Buff Cooldown Reduction", "Decimal.", 0.25f)]
-        public static int shieldBuffCooldownReduction;
+        public static float shieldBuffCooldownReduction;
 
         public override void Init()
         {

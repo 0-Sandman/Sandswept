@@ -13,7 +13,7 @@ namespace Sandswept.Enemies.GammaConstruct
         public BasicLaserBeam laser2;
 
         [ConfigField("Twin Laser Damage", "Decimal.", 20f)]
-        public static int twinLaserDamage;
+        public static float twinLaserDamage;
 
         public override void OnEnter()
         {

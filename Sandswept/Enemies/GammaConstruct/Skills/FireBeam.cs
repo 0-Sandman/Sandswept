@@ -12,6 +12,9 @@ namespace Sandswept.Enemies.GammaConstruct
         public BasicLaserBeam laser;
         private Transform modelTransform;
 
+        [ConfigField("Single Laser Damage", "Decimal.", 6f)]
+        public static float singleLaserDamage;
+
         public override void OnEnter()
         {
             base.OnEnter();
@@ -38,7 +41,7 @@ namespace Sandswept.Enemies.GammaConstruct
                 {
                     OriginIsBase = true,
                     EndpointName = "End",
-                    DamageCoefficient = 6f,
+                    DamageCoefficient = singleLaserDamage,
                     FiringWidthMultiplier = 5f,
                     MaxRange = 190f,
                     FiringMaterial = GammaConstruct.matDeltaBeamStrong,

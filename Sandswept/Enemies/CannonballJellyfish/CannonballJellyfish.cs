@@ -5,9 +5,13 @@ using Sandswept.Enemies.CannonballJellyfish.States;
 
 namespace Sandswept.Enemies.CannonballJellyfish
 {
+    [ConfigSection("Enemies :: Cannonball Jellyfish")]
     public class CannonballJellyfish : EnemyBase<CannonballJellyfish>
     {
         public static GameObject JellyCoreProjectile;
+
+        [ConfigField("Director Credit Cost", "", 70)]
+        public static int directorCreditCost;
 
         public override void LoadPrefabs()
         {
@@ -58,7 +62,7 @@ namespace Sandswept.Enemies.CannonballJellyfish
         public override void AddSpawnCard()
         {
             base.AddSpawnCard();
-            isc.directorCreditCost = 70;
+            isc.directorCreditCost = directorCreditCost;
             isc.forbiddenFlags = NodeFlags.NoCharacterSpawn;
             isc.hullSize = HullClassification.Human;
             isc.nodeGraphType = MapNodeGroup.GraphType.Air;

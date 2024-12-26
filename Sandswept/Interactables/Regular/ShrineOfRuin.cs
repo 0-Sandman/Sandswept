@@ -597,11 +597,13 @@ namespace Sandswept.Interactables.Regular
 
         public IEnumerator TheVoices()
         {
-            Util.PlaySound("Play_voidRaid_fog_affectPlayer", gameObject);
+            Util.PlaySound("Play_voidRaid_fog_explode", gameObject);
 
-            yield return new WaitForSeconds(1f);
+            yield return null;
 
-            Util.PlaySound("Stop_voidRaid_fog_affectPlayer", gameObject);
+            // yield return new WaitForSeconds(1f);
+
+            // Util.PlaySound("Stop_voidRaid_fog_affectPlayer", gameObject);
         }
 
         public static bool HasMetRequirement(CharacterBody interactorBody)
