@@ -35,6 +35,7 @@ namespace Sandswept.Enemies
         private static ItemDisplayRuleSet idrs;
         private static List<ItemDisplayRuleSet.KeyAssetRuleGroup> rules = new();
         public virtual DirectorCardCategorySelection family { get; } = null;
+        public virtual DirectorAPI.MonsterCategory cat { get ; } = DirectorAPI.MonsterCategory.BasicMonsters;
 
         public static bool DefaultEnabledCallback(EnemyBase self)
         {
@@ -83,6 +84,8 @@ namespace Sandswept.Enemies
             if (family) {
                 DirectorAPI.AddCard(family, new DirectorCardHolder() {
                     Card = card,
+                    MonsterCategory = cat,
+                    MonsterCategorySelectionWeight = 1
                 });
             }
         }

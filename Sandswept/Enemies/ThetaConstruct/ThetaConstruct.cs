@@ -12,6 +12,7 @@ namespace Sandswept.Enemies.ThetaConstruct
         [ConfigField("Director Credit Cost", "", 70)]
         public static int directorCreditCost;
         public override DirectorCardCategorySelection family => Paths.FamilyDirectorCardCategorySelection.dccsConstructFamily;
+        public override MonsterCategory cat => MonsterCategory.BasicMonsters;
 
         public override void LoadPrefabs()
         {

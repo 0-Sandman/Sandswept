@@ -1,3 +1,12 @@
+## 1.0.4 Patch Notes
+- Survivors
+  - Signal Overload now drains shield across 25 ticks instead of 10 so that it doesnt deal curse damage without additional items on Eclipse
+  - Replaced the placeholder VFX that Static Snare was using by mistake
+  - Some improvement's to VOL-T's animations
+- Enemies
+  - Fixed family event bug that fucked up their spawning on other stages
+  - Delta Construct now has a weakspot for Railgunner
+  - Cannonball Jellyfish got the solid rebar removed from its core to cure its lobotomization
 ## 1.0.3 Patch Notes
 - Survivors
   - Fixed Char not using its skill icon (for real this time)

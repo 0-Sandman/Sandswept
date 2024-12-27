@@ -16,6 +16,7 @@ namespace Sandswept.Enemies.DeltaConstruct
         public static int directorCreditCost;
 
         public override DirectorCardCategorySelection family => Paths.FamilyDirectorCardCategorySelection.dccsConstructFamily;
+        public override MonsterCategory cat => MonsterCategory.Minibosses;
 
         public override void LoadPrefabs()
         {

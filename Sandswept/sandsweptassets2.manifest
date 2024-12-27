@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1210251151
+CRC: 3598876739
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 4cd466f91e0c6ba794d163b6a206c10f
+    Hash: 6eab2a1da1616d24fac74e4ea2e45484
   TypeTreeHash:
     serializedVersion: 2
-    Hash: e8675ea0665b648bc9ade2da06613088
+    Hash: 45abb660d63813eca0bb98d77d63c7aa
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -253,6 +253,8 @@ ClassTypes:
   Script: {fileID: 105922711, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 372142912, guid: d382a022563c7517aadbc92ca1060016, type: 3}
+- Class: 114
+  Script: {fileID: -1184577237, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 120
@@ -369,6 +371,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/ThetaConstruct/mdl/matThetaConstruct.mat
 - Assets/Sandswept/Base/Characters/DeltaConstruct/mdl/DeltaBurnyTrail.prefab
 - Assets/Sandswept/Base/Characters/Electrician/texElectricianIcon2.png
+- Assets/Sandswept/Base/Characters/Electrician/projectiles/tripwire/matElecTether.mat
 - Assets/Sandswept/Base/Characters/InfernoDrone/matInfernoDrone.mat
 - Assets/Sandswept/Base/Characters/Ranger/RangerMonsterMaster.prefab
 - Assets/Sandswept/Base/Characters/ThetaConstruct/matThetaConstruct_OUTRUN.mat

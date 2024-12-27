@@ -203,8 +203,8 @@ namespace Sandswept.Survivors.Electrician
 
             lineRenderer.enabled = init && head;
 
-            lineRenderer.SetPosition(0, explo.position);
-            lineRenderer.SetPosition(1, isInVehicleMode ? seat.seatPosition.position : head.transform.position);
+            lineRenderer.SetPosition(1, explo.position);
+            lineRenderer.SetPosition(0, isInVehicleMode ? seat.seatPosition.position : head.transform.position);
 
             if (isInVehicleMode)
             {
