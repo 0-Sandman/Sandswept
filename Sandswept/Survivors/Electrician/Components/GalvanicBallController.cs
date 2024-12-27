@@ -57,7 +57,7 @@ namespace Sandswept.Survivors.Electrician
             for (int i = 0; i < colliders.Count(); i++) {
                 HurtBox box = colliders.ElementAt(i).GetComponent<HurtBox>();
 
-                if (box && !alreadyStruck.Contains(box.healthComponent)) {
+                if (box && !alreadyStruck.Contains(box.healthComponent) && box.healthComponent.body.teamComponent.teamIndex != team) {
                     LightningOrb orb = new();
                     orb.procCoefficient = 1;
                     orb.damageValue = pDamage.damage * damageCoeff;

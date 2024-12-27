@@ -1,3 +1,11 @@
+## 1.0.3 Patch Notes
+- Survivors
+  - Fixed Char not using its skill icon (for real this time)
+  - Fixed VOL-T's unlock condition not actually counting Royal Capacitor and Charged Perforator like it was supposed to
+  - Fixed VOL-T electrocuting herself with Galvanic Bolt (caused by 1.0.1, oops)
+- Enemies
+  - Now appear in family events
+
 ## 1.0.2 Patch Notes
 - General
   - we heard you like README updates so we put a README update in your README update

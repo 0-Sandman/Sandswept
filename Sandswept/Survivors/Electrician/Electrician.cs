@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Linq;
 using EntityStates.Chef;
+using MonoMod.Cil;
+using Mono.Cecil.Cil;
 using Sandswept.Survivors.Electrician.Achievements;
 using Sandswept.Survivors.Electrician.Skills;
 using Sandswept.Survivors.Electrician.States;
@@ -180,20 +182,30 @@ namespace Sandswept.Survivors.Electrician
 
             On.RoR2.HealthComponent.TakeDamage += OnTakeDamage;
             On.RoR2.Orbs.LightningOrb.OnArrival += OnLightningOrbArrival;
-            On.RoR2.Orbs.SimpleLightningStrikeOrb.OnArrival += OnSLSArrival;
-            On.RoR2.Orbs.LightningStrikeOrb.OnArrival += OnLSArrival;
+            IL.RoR2.Orbs.SimpleLightningStrikeOrb.OnArrival += OnSLSArrival;
+            IL.RoR2.Orbs.LightningStrikeOrb.OnArrival += OnLSArrival;
         }
 
-        private void OnLSArrival(On.RoR2.Orbs.LightningStrikeOrb.orig_OnArrival orig, RoR2.Orbs.LightningStrikeOrb self)
+        private void OnLSArrival(ILContext il)
         {
-            self.AddModdedDamageType(LIGHTNING);
-            orig(self);
+            ILCursor c = new(il);
+            c.TryGotoNext(MoveType.After, x => x.MatchPop());
+            c.Index -= 2;
+            c.Emit(OpCodes.Dup);
+            c.EmitDelegate<Action<BlastAttack>>((x) => {
+                x.damageType.AddModdedDamageType(LIGHTNING);
+            });
         }
 
-        private void OnSLSArrival(On.RoR2.Orbs.SimpleLightningStrikeOrb.orig_OnArrival orig, RoR2.Orbs.SimpleLightningStrikeOrb self)
+        private void OnSLSArrival(ILContext il)
         {
-            self.AddModdedDamageType(LIGHTNING);
-            orig(self);
+            ILCursor c = new(il);
+            c.TryGotoNext(MoveType.After, x => x.MatchPop());
+            c.Index -= 2;
+            c.Emit(OpCodes.Dup);
+            c.EmitDelegate<Action<BlastAttack>>((x) => {
+                x.damageType.AddModdedDamageType(LIGHTNING);
+            });
         }
 
         private void OnLightningOrbArrival(On.RoR2.Orbs.LightningOrb.orig_OnArrival orig, RoR2.Orbs.LightningOrb self)

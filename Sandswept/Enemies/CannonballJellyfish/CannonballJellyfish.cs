@@ -13,6 +13,8 @@ namespace Sandswept.Enemies.CannonballJellyfish
         [ConfigField("Director Credit Cost", "", 70)]
         public static int directorCreditCost;
 
+        public override DirectorCardCategorySelection family => Paths.FamilyDirectorCardCategorySelection.dccsJellyfishFamily;
+
         public override void LoadPrefabs()
         {
             prefab = Main.Assets.LoadAsset<GameObject>("CannonJellyBody.prefab");

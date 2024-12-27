@@ -34,6 +34,7 @@ namespace Sandswept.Enemies
         public CharacterMaster master;
         private static ItemDisplayRuleSet idrs;
         private static List<ItemDisplayRuleSet.KeyAssetRuleGroup> rules = new();
+        public virtual DirectorCardCategorySelection family { get; } = null;
 
         public static bool DefaultEnabledCallback(EnemyBase self)
         {
@@ -78,6 +79,12 @@ namespace Sandswept.Enemies
             AddSpawnCard();
             AddDirectorCard();
             PostCreation();
+
+            if (family) {
+                DirectorAPI.AddCard(family, new DirectorCardHolder() {
+                    Card = card,
+                });
+            }
         }
 
         public abstract void LoadPrefabs();

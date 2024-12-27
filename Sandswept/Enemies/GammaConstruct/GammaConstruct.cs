@@ -15,6 +15,8 @@ namespace Sandswept.Enemies.GammaConstruct
         [ConfigField("Director Credit Cost", "", 185)]
         public static int directorCreditCost;
 
+        public override DirectorCardCategorySelection family => Paths.FamilyDirectorCardCategorySelection.dccsConstructFamily;
+
         public override void LoadPrefabs()
         {
             prefab = Main.Assets.LoadAsset<GameObject>("GammaConstructBody.prefab");

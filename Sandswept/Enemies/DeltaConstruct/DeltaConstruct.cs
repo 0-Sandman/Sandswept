@@ -15,6 +15,8 @@ namespace Sandswept.Enemies.DeltaConstruct
         [ConfigField("Director Credit Cost", "", 150)]
         public static int directorCreditCost;
 
+        public override DirectorCardCategorySelection family => Paths.FamilyDirectorCardCategorySelection.dccsConstructFamily;
+
         public override void LoadPrefabs()
         {
             prefab = Main.Assets.LoadAsset<GameObject>("DeltaConstructBody.prefab");
