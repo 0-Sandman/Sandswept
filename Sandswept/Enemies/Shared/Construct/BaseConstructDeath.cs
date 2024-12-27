@@ -1,4 +1,5 @@
 using System;
+using R2API.Utils;
 
 namespace Sandswept.Enemies
 {
@@ -41,7 +42,7 @@ namespace Sandswept.Enemies
         public override void OnEnter()
         {
             base.OnEnter();
-            bodyMarkedForDestructionServer = false;
+            bodyMarkedForDestructionServer = true;
             cachedModelTransform = (base.modelLocator ? base.modelLocator.modelTransform : null);
             isBrittle = (bool)base.characterBody && base.characterBody.isGlass;
             isVoidDeath = (bool)base.healthComponent && (base.healthComponent.killingDamageType & DamageType.VoidDeath) != 0;
@@ -66,6 +67,11 @@ namespace Sandswept.Enemies
             {
                 base.GetModelTransform().parent = null;
                 base.GetModelTransform().AddComponent<DestroyOnTimer>().duration = 15f;
+                var boxes = base.GetModelTransform().GetComponentsInChildren<HurtBox>(true);
+                for (int i = 0; i < boxes.Length; i++) {
+                    boxes[i].enabled = false;
+                    boxes[i].gameObject.SetActive(false);
+                }
                 base.GetModelTransform().GetComponent<RagdollController>().BeginRagdoll(Vector3.zero);
                 cachedModelTransform = null;
 
@@ -76,6 +82,15 @@ namespace Sandswept.Enemies
                 }, false);
 
                 Util.PlaySound("Play_minorConstruct_attack_explode", base.gameObject);
+            }
+        }
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+            
+            if (base.fixedAge >= 1f && NetworkServer.active) {
+                Destroy(base.gameObject);
             }
         }
 

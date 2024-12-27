@@ -185,7 +185,11 @@ namespace Sandswept
             foreach (var itemType in ItemTypes)
             {
                 ItemBase item = (ItemBase)Activator.CreateInstance(itemType);
-                if (ValidateItem(item, Items))
+                Items.Add(item);
+            }
+
+            foreach (ItemBase item in Items) {
+                if (ValidateItem(item, new()))
                 {
                     item.Init(Config);
                 }
@@ -229,7 +233,11 @@ namespace Sandswept
             ScanTypes<SkillBase>((x) => x.Init());
             ScanTypes<SurvivorBase>((x) => x.Init());
             ScanTypes<EnemyBase>((x) => x.Create());
-            ScanTypes<InteractableBase>((x) => x.Init());
+            ScanTypes<InteractableBase>((x) => {
+                if (ValidateInteractable(x, new())) {
+                    x.Init();
+                }
+            });
             ScanTypes<DroneBase>((x) => x.Initialize());
             ScanTypesNoInstance<EntityState>((x) =>
             {

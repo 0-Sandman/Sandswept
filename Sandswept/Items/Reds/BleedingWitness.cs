@@ -131,7 +131,7 @@ namespace Sandswept.Items.Reds
                 var healAmount = baseDoTHealing + stackDoTHealing * (stacks - 1);
                 if ((report.damageInfo.damageType & DamageType.DoT) > 0)
                 {
-                    Main.ModLogger.LogError("dealt damage from dot, tryna heal");
+                    // Main.ModLogger.LogError("dealt damage from dot, tryna heal");
 
                     for (int i = 0; i < CharacterBody.instancesList.Count; i++)
                     {

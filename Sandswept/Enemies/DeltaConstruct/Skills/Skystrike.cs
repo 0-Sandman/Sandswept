@@ -15,6 +15,9 @@ namespace Sandswept.Enemies.DeltaConstruct
 
             base.characterMotor.walkSpeedPenaltyCoefficient = 0f;
 
+            base.gameObject.layer = LayerIndex.noCollision.intVal;
+            base.characterMotor.Motor.RebuildCollidableLayers();
+
             GetModelAnimator().SetBool("isAerial", true);
 
             PlayAnimation("Body", "Leap", "Generic.playbackRate", duration);
@@ -40,6 +43,9 @@ namespace Sandswept.Enemies.DeltaConstruct
 
         public override void OnExit()
         {
+            base.gameObject.layer = LayerIndex.defaultLayer.intVal;
+            base.characterMotor.Motor.RebuildCollidableLayers();
+
             base.OnExit();
         }
 

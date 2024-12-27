@@ -1,13 +1,44 @@
+## 1.0.3 Patch Notes
+- Survivors
+  - Fixed Char not using its skill icon (for real this time)
+  - Fixed VOL-T's unlock condition not actually counting Royal Capacitor and Charged Perforator like it was supposed to
+  - Fixed VOL-T electrocuting herself with Galvanic Bolt (caused by 1.0.1, oops)
+- Enemies
+  - Now appear in family events
+
+## 1.0.2 Patch Notes
+- General
+  - we heard you like README updates so we put a README update in your README update
+- Survivors
+  - Ranger description rewritten
+- Enemies
+  - Delta Construct can now clip through ceilings when it leaps into the air to perform its laser barrage (no longer gets shut down by the platforms on rallypoint)
+
 ## 1.0.1 Patch Notes
 - General
-  - Fixed README
+  - WOOHOOO README UPDATE FUCK YEAH!
 - Enemies
-  - Added configs
+  - Fixed Constructs not being configurable
+  - Fixed Constructs having boss markers even after death
+  - Theta Constructs now become hydrogen bombs if they attempt to shield another Theta Construct
+  - Theta Construct no longer spawns on stage one
+  - fixed Theta Construct sometimes turning invisible when shielding an enemy
 - Items
   - Made Bleeding Witness a lot more optimized
-  - Fixed null Void Pairs preventing the game from loading
+  - Disabling an item now also disables the void of that item instead of preventing game loading
+  - Fixed Galvanic Cell Shield failing to activate when it's item display isnt present
 - Interactables
   - Changed Shrine of Ruin's sound (the voices fix)
+  - Fixed Interactables not generating enable/disable configs
+  - Shrine of Ruin no longer voids the bazaar items
+  - Shrine of Ruin no longer appears on stage 5
+- Survivors
+  - Heat Sink now releases additional explosions for every additional special stock you have
+  - Improved wording on VOL-T skills
+  - Galvanic Bolt now applies a weak knockdown effect to aerial enemies
+  - Fixed Galvanic Bolt failing to target enemies who have bullseye hitboxes taller than its range
+  - Fixed Char dealing way too much damage
+  - Fixed Char not using its skill icon
 
 # 1.0.0 Patch Notes
 - General

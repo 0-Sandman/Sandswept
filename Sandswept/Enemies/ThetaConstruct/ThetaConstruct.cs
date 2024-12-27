@@ -6,10 +6,12 @@ namespace Sandswept.Enemies.ThetaConstruct
     [ConfigSection("Enemies :: Theta Construct")]
     public class ThetaConstruct : EnemyBase<ThetaConstruct>
     {
+        public static LazyIndex ThetaIndex = new("ThetaConstructBody");
         public static GameObject ThetaShieldEffect;
 
         [ConfigField("Director Credit Cost", "", 70)]
         public static int directorCreditCost;
+        public override DirectorCardCategorySelection family => Paths.FamilyDirectorCardCategorySelection.dccsConstructFamily;
 
         public override void LoadPrefabs()
         {
@@ -32,7 +34,6 @@ namespace Sandswept.Enemies.ThetaConstruct
                 DirectorAPI.Stage.ArtifactReliquary_AphelianSanctuary_Theme,
                 DirectorAPI.Stage.AbandonedAqueduct,
                 DirectorAPI.Stage.SirensCall,
-                DirectorAPI.Stage.ShatteredAbodes
             };
 
             RegisterEnemy(prefab, prefabMaster, stages, MonsterCategory.BasicMonsters);

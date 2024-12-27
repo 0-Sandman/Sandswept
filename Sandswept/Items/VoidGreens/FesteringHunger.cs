@@ -51,6 +51,10 @@ namespace Sandswept.Items.VoidGreens
 
         public override void Init(ConfigFile config)
         {
+            if (!ItemBase.DefaultEnabledCallback(SmoulderingDocument.instance)) {
+                return;
+            }
+
             attackSpeedBuff = ScriptableObject.CreateInstance<BuffDef>();
             attackSpeedBuff.canStack = false;
             attackSpeedBuff.isCooldown = false;

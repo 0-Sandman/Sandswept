@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Linq;
 using EntityStates.Chef;
+using MonoMod.Cil;
+using Mono.Cecil.Cil;
 using Sandswept.Survivors.Electrician.Achievements;
 using Sandswept.Survivors.Electrician.Skills;
 using Sandswept.Survivors.Electrician.States;
@@ -42,6 +44,7 @@ namespace Sandswept.Survivors.Electrician
         public static GameObject ElecMuzzleFlash;
         public static GameObject BrokenElectricianBody;
         public static DamageAPI.ModdedDamageType LIGHTNING = DamageAPI.ReserveDamageType();
+        public static DamageAPI.ModdedDamageType ReallyShittyGrounding = DamageAPI.ReserveDamageType();
 
         public override void CreateLang()
         {
@@ -123,6 +126,7 @@ namespace Sandswept.Survivors.Electrician
             // weh
             // mrraow
             GalvanicBolt.GetComponent<GalvanicBallController>().damage = 2f; // im not launching unity lmao
+            GalvanicBolt.GetComponent<ProjectileDamage>().damageType.AddModdedDamageType(ReallyShittyGrounding);
             ContentAddition.AddNetworkedObject(GalvanicBolt);
             PrefabAPI.RegisterNetworkPrefab(GalvanicBolt);
             ContentAddition.AddProjectile(GalvanicBolt);
@@ -178,20 +182,30 @@ namespace Sandswept.Survivors.Electrician
 
             On.RoR2.HealthComponent.TakeDamage += OnTakeDamage;
             On.RoR2.Orbs.LightningOrb.OnArrival += OnLightningOrbArrival;
-            On.RoR2.Orbs.SimpleLightningStrikeOrb.OnArrival += OnSLSArrival;
-            On.RoR2.Orbs.LightningStrikeOrb.OnArrival += OnLSArrival;
+            IL.RoR2.Orbs.SimpleLightningStrikeOrb.OnArrival += OnSLSArrival;
+            IL.RoR2.Orbs.LightningStrikeOrb.OnArrival += OnLSArrival;
         }
 
-        private void OnLSArrival(On.RoR2.Orbs.LightningStrikeOrb.orig_OnArrival orig, RoR2.Orbs.LightningStrikeOrb self)
+        private void OnLSArrival(ILContext il)
         {
-            self.AddModdedDamageType(LIGHTNING);
-            orig(self);
+            ILCursor c = new(il);
+            c.TryGotoNext(MoveType.After, x => x.MatchPop());
+            c.Index -= 2;
+            c.Emit(OpCodes.Dup);
+            c.EmitDelegate<Action<BlastAttack>>((x) => {
+                x.damageType.AddModdedDamageType(LIGHTNING);
+            });
         }
 
-        private void OnSLSArrival(On.RoR2.Orbs.SimpleLightningStrikeOrb.orig_OnArrival orig, RoR2.Orbs.SimpleLightningStrikeOrb self)
+        private void OnSLSArrival(ILContext il)
         {
-            self.AddModdedDamageType(LIGHTNING);
-            orig(self);
+            ILCursor c = new(il);
+            c.TryGotoNext(MoveType.After, x => x.MatchPop());
+            c.Index -= 2;
+            c.Emit(OpCodes.Dup);
+            c.EmitDelegate<Action<BlastAttack>>((x) => {
+                x.damageType.AddModdedDamageType(LIGHTNING);
+            });
         }
 
         private void OnLightningOrbArrival(On.RoR2.Orbs.LightningOrb.orig_OnArrival orig, RoR2.Orbs.LightningOrb self)
@@ -343,6 +357,26 @@ namespace Sandswept.Survivors.Electrician
                     if (self.body.isChampion)
                     {
                         info.force *= 0.2f;
+                    }
+
+                    if (motor) motor.ApplyForceImpulse(in info);
+                    if (motor2) motor2.ApplyForceImpulse(in info);
+                }
+            }
+
+            if (damageInfo.HasModdedDamageType(ReallyShittyGrounding) && NetworkServer.active) {
+                CharacterMotor motor = self.GetComponent<CharacterMotor>();
+                RigidbodyMotor motor2 = self.GetComponent<RigidbodyMotor>();
+
+                if ((motor2))
+                {
+                    PhysForceInfo info = default;
+                    info.massIsOne = true;
+                    info.force = Vector3.down * 12.5f;
+
+                    if (self.body.isChampion)
+                    {
+                        info.force *= 0f;
                     }
 
                     if (motor) motor.ApplyForceImpulse(in info);

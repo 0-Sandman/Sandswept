@@ -43,6 +43,10 @@ namespace Sandswept.Items.VoidGreens
 
         public override void Init(ConfigFile config)
         {
+            if (!ItemBase.DefaultEnabledCallback(SunFragment.instance)) {
+                return;
+            }
+
             var powerElixirGlassMat = new Material(Utils.Assets.Material.matHealingPotionGlass);
             powerElixirGlassMat.SetFloat("_Boost", 0.3f);
             powerElixirGlassMat.SetFloat("_RimPower", 1.567551f);

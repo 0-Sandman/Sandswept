@@ -51,6 +51,8 @@ namespace Sandswept.Survivors.Ranger.Projectiles
             explo.childrenCount = 1;
             explo.childrenProjectilePrefab = SigmaProjectile2;
 
+            SigmaProjectile2.GetComponent<ProjectileImpactExplosion>().childrenDamageCoefficient = 1f;
+
             SigmaProjectile.GetComponent<ProjectileImpactExplosion>().blastDamageCoefficient = 1f;
             SigmaProjectile.GetComponent<ProjectileImpactExplosion>().blastRadius = 13f;
 
