@@ -14,6 +14,7 @@ namespace Sandswept.Enemies.CannonballJellyfish
         public static int directorCreditCost;
 
         public override DirectorCardCategorySelection family => Paths.FamilyDirectorCardCategorySelection.dccsJellyfishFamily;
+        public override MonsterCategory cat => MonsterCategory.BasicMonsters;
 
         public override void LoadPrefabs()
         {
