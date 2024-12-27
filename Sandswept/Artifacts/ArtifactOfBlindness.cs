@@ -1,4 +1,5 @@
-﻿using BepInEx.Configuration;
+﻿/*
+using BepInEx.Configuration;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine;
@@ -392,3 +393,4 @@ namespace ArtifactOfBlindness.Artifact
         }
     }
 }
+*/
