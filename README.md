@@ -26,7 +26,7 @@
     <tr>
       <td><img src="https://i.postimg.cc/66fDYrZC/tex-Ranger-Icon.png" width="196"/></td>
       <td><b>Ranger</b><br>
-          The Ranger is a versatile character with two distinct forms. Her base form excels at burst damage from any range using electricity, while the other is much more resource-managing focusing on high-risk, but extremely high damage fire attacks.</td>
+          The Ranger is a versatile combatant, who alternates between long-range electric barrages and close quarters incendiary fire to efficiently take down targets.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/fRqDz6fz/image.png" width="64"/></td>

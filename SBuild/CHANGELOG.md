@@ -1,3 +1,11 @@
+## 1.0.2 Patch Notes
+- General
+  - we heard you like README updates so we put a README update in your README update
+- Survivors
+  - Ranger description rewritten
+- Enemies
+  - Delta Construct can now clip through ceilings when it leaps into the air to perform its laser barrage (no longer gets shut down by the platforms on rallypoint)
+
 ## 1.0.1 Patch Notes
 - General
   - WOOHOOO README UPDATE FUCK YEAH!
