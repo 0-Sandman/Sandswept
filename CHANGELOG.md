@@ -4,9 +4,9 @@
 
 ## 1.0.4 Patch Notes
 - Survivors
-  - Signal Overload now drains shield across 25 ticks instead of 10 so that it doesnt deal curse damage without additional items on Eclipse
+  - Made Signal Overload drain shield across 25 ticks instead of 10 so that it doesn't deal curse damage without additional items on Eclipse
   - Replaced the placeholder VFX that Static Snare was using by mistake
-  - Some improvement's to VOL-T's animations
+  - Improved VOL-T's animations
 - Enemies
   - Fixed family event bug that fucked up their spawning on other stages
   - Delta Construct now has a weakspot for Railgunner
@@ -18,13 +18,13 @@
   - Fixed VOL-T's unlock condition not actually counting Royal Capacitor and Charged Perforator like it was supposed to
   - Fixed VOL-T electrocuting herself with Galvanic Bolt (caused by 1.0.1, oops)
 - Enemies
-  - Now appear in family events
+  - Fixed all not appearing in family events
 
 ## 1.0.2 Patch Notes
 - General
-  - we heard you like README updates so we put a README update in your README update
+  - We heard you like README updates so we put a README update in your README update
 - Survivors
-  - Ranger description rewritten
+  - Rewrote Ranger's description
 - Enemies
   - Delta Construct can now clip through ceilings when it leaps into the air to perform its laser barrage (no longer gets shut down by the platforms on rallypoint)
 
@@ -32,24 +32,24 @@
 - General
   - WOOHOOO README UPDATE FUCK YEAH!
 - Enemies
+  - Made Theta Construct no longer spawns on stage one
   - Fixed Constructs not being configurable
   - Fixed Constructs having boss markers even after death
-  - Theta Constructs now become hydrogen bombs if they attempt to shield another Theta Construct
-  - Theta Construct no longer spawns on stage one
-  - fixed Theta Construct sometimes turning invisible when shielding an enemy
+  - Fixed Theta Constructs not performing gay sex when tethering one another
+  - Fixed Theta Construct turning invisible when shielding an enemy
 - Items
   - Made Bleeding Witness a lot more optimized
-  - Disabling an item now also disables the void of that item instead of preventing game loading
+  - Fixed disabling uncorrupted item counterparts preventing the game from loading
   - Fixed Galvanic Cell Shield failing to activate when it's item display isnt present
 - Interactables
+  - Made Shrine of Ruin no longer appear on stage 5
   - Changed Shrine of Ruin's sound (the voices fix)
   - Fixed Interactables not generating enable/disable configs
-  - Shrine of Ruin no longer voids the bazaar items
-  - Shrine of Ruin no longer appears on stage 5
+  - Fixed Shrine of Ruin voiding the bazaar items
 - Survivors
-  - Heat Sink now releases additional explosions for every additional special stock you have
+  - Made Galvanic Bolt apply a weak knockdown effect to airborne enemies
+  - Made Heat Sink release additional explosions for every additional special stock you have
   - Improved wording on VOL-T skills
-  - Galvanic Bolt now applies a weak knockdown effect to aerial enemies
   - Fixed Galvanic Bolt failing to target enemies who have bullseye hitboxes taller than its range
   - Fixed Char dealing way too much damage
   - Fixed Char not using its skill icon
