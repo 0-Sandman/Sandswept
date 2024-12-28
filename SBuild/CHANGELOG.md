@@ -1,3 +1,7 @@
+## 1.0.05 Patch Notes
+- General
+  - Fixed elites being fucked by the patch that changed the SOTS elites
+
 ## 1.0.4 Patch Notes
 - Survivors
   - Signal Overload now drains shield across 25 ticks instead of 10 so that it doesnt deal curse damage without additional items on Eclipse
@@ -7,6 +11,7 @@
   - Fixed family event bug that fucked up their spawning on other stages
   - Delta Construct now has a weakspot for Railgunner
   - Cannonball Jellyfish got the solid rebar removed from its core to cure its lobotomization
+  
 ## 1.0.3 Patch Notes
 - Survivors
   - Fixed Char not using its skill icon (for real this time)

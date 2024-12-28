@@ -34,7 +34,7 @@ namespace Sandswept.Elites
 
         public static GameObject warbanner;
         public static GameObject crownModel;
-        public override CombatDirector.EliteTierDef[] CanAppearInEliteTiers => EliteAPI.GetCombatDirectorEliteTiers().Where(x => x.eliteTypes.Contains(Addressables.LoadAssetAsync<EliteDef>("RoR2/Base/ElitePoison/edPoison.asset").WaitForCompletion())).ToArray();
+        public override EliteTier Tier => EliteTier.Tier2;
 
         public override Color EliteBuffColor => Color.white;
 

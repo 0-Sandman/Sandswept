@@ -57,7 +57,12 @@ namespace Sandswept.Elites
         /// <summary>
         /// If not overriden, the elite can spawn in all tiers defined.
         /// </summary>
-        public virtual EliteTierDef[] CanAppearInEliteTiers { get; set; } = EliteAPI.GetCombatDirectorEliteTiers();
+        public virtual EliteTier Tier { get; } = EliteTier.Tier1;
+
+        public enum EliteTier {
+            Tier1,
+            Tier2
+        }
 
         /// <summary>
         /// If you want the elite to have an overlay with your custom material.
@@ -230,31 +235,37 @@ namespace Sandswept.Elites
             EliteDef.damageBoostCoefficient = DamageMultiplier;
             EliteDef.shaderEliteRampIndex = 0;
 
-            var baseEliteTierDefs = EliteAPI.GetCombatDirectorEliteTiers();
-            if (!CanAppearInEliteTiers.All(x => baseEliteTierDefs.Contains(x)))
-            {
-                var distinctEliteTierDefs = CanAppearInEliteTiers.Except(baseEliteTierDefs);
+            List<EliteTierDef> tiers = new();
 
-                foreach (EliteTierDef eliteTierDef in distinctEliteTierDefs)
-                {
-                    var indexToInsertAt = Array.FindIndex(baseEliteTierDefs, x => x.costMultiplier >= eliteTierDef.costMultiplier);
-                    if (indexToInsertAt >= 0)
-                    {
-                        EliteAPI.AddCustomEliteTier(eliteTierDef, indexToInsertAt);
-                    }
-                    else
-                    {
-                        EliteAPI.AddCustomEliteTier(eliteTierDef);
-                    }
-                    baseEliteTierDefs = EliteAPI.GetCombatDirectorEliteTiers();
-                }
+            EliteDef knownT1 = Paths.EliteDef.edFire;
+            EliteDef knownT1H = Paths.EliteDef.edFireHonor;
+            EliteDef knownT2 = Paths.EliteDef.edHaunted;
+
+            switch (Tier) {
+                case EliteTier.Tier1:
+                    AddAllTiersThatContain(knownT1);
+                    AddAllTiersThatContain(knownT1H);
+                    break;
+                case EliteTier.Tier2:
+                    AddAllTiersThatContain(knownT2);
+                    break;
             }
 
-            EliteAPI.Add(new CustomElite(EliteDef, CanAppearInEliteTiers, EliteRampTexture));
+            EliteAPI.Add(new CustomElite(EliteDef, tiers.ToArray(), EliteRampTexture));
 
             EliteBuffDef.eliteDef = EliteDef;
             ContentAddition.AddBuffDef(EliteBuffDef);
             PostGameLoad();
+
+            void AddAllTiersThatContain(EliteDef def) {
+                var ctiers = EliteAPI.GetCombatDirectorEliteTiers();
+
+                foreach (var tier in ctiers) {
+                    if (tier.eliteTypes.Contains(def)) {
+                        tiers.Add(tier);
+                    }
+                }
+            }
         }
 
         protected bool PerformEquipmentAction(On.RoR2.EquipmentSlot.orig_PerformEquipmentAction orig, EquipmentSlot self, EquipmentDef equipmentDef)
