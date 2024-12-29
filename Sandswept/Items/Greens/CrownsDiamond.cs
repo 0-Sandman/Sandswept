@@ -70,7 +70,8 @@ namespace Sandswept.Items.Greens
                     {
                         var reduction = MathHelpers.InverseHyperbolicScaling(1f - baseBarrierDecayReduction, stackBarrierDecayReduction, 0f, stack);
                         // Main.ModLogger.LogError("reduction multiplier is " + reduction);
-                        var final = Util.ConvertAmplificationPercentageIntoReductionPercentage(orig * reduction);
+                        // var final = Util.ConvertAmplificationPercentageIntoReductionPercentage(orig * reduction);
+                        var final = orig * reduction;
                         // Main.ModLogger.LogError("barrier decay BEFORE changes is " + orig);
                         //Main.ModLogger.LogError("final barrier DECAY is " + final);
                         // all works fine

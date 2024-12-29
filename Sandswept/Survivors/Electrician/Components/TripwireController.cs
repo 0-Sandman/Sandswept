@@ -49,7 +49,7 @@ namespace Sandswept.Survivors.Electrician
             EffectManager.SpawnEffect(effect, new EffectData
             {
                 origin = blast.position,
-                scale = blast.radius * 2
+                scale = blast.radius * 2f
             }, true);
 
             seat.EjectPassenger();
@@ -172,7 +172,8 @@ namespace Sandswept.Survivors.Electrician
             return true;
         }
 
-        public void StartZipClient() {
+        public void StartZipClient()
+        {
             head.gameObject.SetActive(false);
 
             lightningEffect.SetActive(true);
@@ -180,7 +181,8 @@ namespace Sandswept.Survivors.Electrician
             isInVehicleMode = true;
         }
 
-        public void RestoreHeadClient() {
+        public void RestoreHeadClient()
+        {
             if (head)
             {
                 head.gameObject.SetActive(true);

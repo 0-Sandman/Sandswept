@@ -1,22 +1,33 @@
 ## 1.0.5 Patch Notes
-- General
-  - Fixed elites being fucked by the patch that changed the SOTS elites
+- Ranger
+  - Fixed Char description
+- VOL-T
+  - Buffed Signal Overload Minimum Damage Per Second from 160% to 240%
+  - Reduced Static Snare endlag
+  - Changed Signal Overload description
+  - Fixed Unlock missing token string
+- Elites
+  - Fixed getting fucked by the patch that changed the SOTS elites
+- Items/Equipment
+  - Fixed Crown's Diamond reducing barrier decay wrongly
+  - Fixed Smouldering Document applying burn for too long
 
 ## 1.0.4 Patch Notes
-- Survivors
+- VOL-T
   - Made Signal Overload drain shield across 25 ticks instead of 10 so that it doesn't deal curse damage without additional items on Eclipse
   - Replaced the placeholder VFX that Static Snare was using by mistake
-  - Improved VOL-T's animations
+  - Improved animations
 - Enemies
   - Fixed family event bug that fucked up their spawning on other stages
   - Delta Construct now has a weakspot for Railgunner
   - Cannonball Jellyfish got the solid rebar removed from its core to cure its lobotomization
   
 ## 1.0.3 Patch Notes
-- Survivors
+- Ranger
   - Fixed Char not using its skill icon (for real this time)
-  - Fixed VOL-T's unlock condition not actually counting Royal Capacitor and Charged Perforator like it was supposed to
-  - Fixed VOL-T electrocuting herself with Galvanic Bolt (caused by 1.0.1, oops)
+- VOL-T
+  - Fixed unlock condition not actually counting Royal Capacitor and Charged Perforator like it was supposed to
+  - Fixed electrocuting herself with Galvanic Bolt (caused by 1.0.1, oops)
 - Enemies
   - Fixed all not appearing in family events
 
@@ -46,13 +57,14 @@
   - Changed Shrine of Ruin's sound (the voices fix)
   - Fixed Interactables not generating enable/disable configs
   - Fixed Shrine of Ruin voiding the bazaar items
-- Survivors
-  - Made Galvanic Bolt apply a weak knockdown effect to airborne enemies
+- Ranger
   - Made Heat Sink release additional explosions for every additional special stock you have
-  - Improved wording on VOL-T skills
-  - Fixed Galvanic Bolt failing to target enemies who have bullseye hitboxes taller than its range
   - Fixed Char dealing way too much damage
   - Fixed Char not using its skill icon
+- VOL-T
+  - Made Galvanic Bolt apply a weak knockdown effect to airborne enemies
+  - Improved wording on skills
+  - Fixed Galvanic Bolt failing to target enemies who have bullseye hitboxes taller than its range
 
 # 1.0.0 Patch Notes
 - General

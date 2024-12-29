@@ -43,6 +43,9 @@
 	  <Reference Include="Decalicious">
 	    <HintPath>P:\Steam\steamapps\common\Risk of Rain 2\Risk of Rain 2_Data\Managed\Decalicious.dll</HintPath>
 	  </Reference>
+	  <Reference Include="LookingGlass">
+	    <HintPath>..\..\..\..\..\LookingGlass-nstrip.dll</HintPath>
+	  </Reference>
 	  <Reference Include="PassiveAgression">
 	    <HintPath>..\..\..\..\..\PassiveAgression.dll</HintPath>
 	  </Reference>

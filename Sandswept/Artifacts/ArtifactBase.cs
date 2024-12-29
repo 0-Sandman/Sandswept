@@ -5,7 +5,7 @@ using System;
 using System.Reflection;
 using UnityEngine;
 
-namespace Sandswept.Artifact
+namespace Sandswept.Artifacts
 {
     public abstract class ArtifactBase<T> : ArtifactBase where T : ArtifactBase<T>
     {

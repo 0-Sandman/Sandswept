@@ -18,7 +18,8 @@
             LanguageAPI.Add("ACHIEVEMENT_ELECTRICIANCLEARGAMEMONSOON_NAME", "Electrician: Mastery");
             LanguageAPI.Add("ACHIEVEMENT_ELECTRICIANCLEARGAMEMONSOON_DESCRIPTION", "As Electrician, beat the game or obliterate on Monsoon.");
 
-            charUnlock = new UnlockableDef() {
+            charUnlock = new UnlockableDef()
+            {
                 achievementIcon = null,
                 nameToken = "ACHIEVEMENT_ELECTRICIANREPAIR_NAME",
                 cachedName = "Unlocks.Electrician.Sandswept"
@@ -26,6 +27,8 @@
 
             LanguageAPI.Add("ACHIEVEMENT_ELECTRICIANREPAIR_NAME", "Technician");
             LanguageAPI.Add("ACHIEVEMENT_ELECTRICIANREPAIR_DESCRIPTION", "Restart the damaged robot on Sundered Grove.");
+
+            LanguageAPI.Add("SANDSWEPT_BROKENELEC_NAME", "Damaged Robot");
 
             Sprite elecSprite = Main.Assets.LoadAsset<Sprite>("texElectricianIcon2.png");
             charUnlock.achievementIcon = TotallyNotStolenUtils.AddItemIconBackgroundToSprite(elecSprite, TotallyNotStolenUtils.ItemIconBackgroundType.Survivor);

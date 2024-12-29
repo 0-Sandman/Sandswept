@@ -73,13 +73,25 @@ namespace Sandswept.Items.Greens
 
         private void DotController_onDotInflictedServerGlobal(DotController dotController, ref InflictDotInfo inflictDotInfo)
         {
-            var attackerBody = inflictDotInfo.attackerObject.GetComponent<CharacterBody>();
+            var attackerObject = inflictDotInfo.attackerObject;
+            if (!attackerObject)
+            {
+                return;
+            }
+
+            var attackerBody = attackerObject.GetComponent<CharacterBody>();
             if (!attackerBody)
             {
                 return;
             }
 
-            var victimBody = inflictDotInfo.victimObject.GetComponent<CharacterBody>();
+            var victimObject = inflictDotInfo.victimObject;
+            if (!victimObject)
+            {
+                return;
+            }
+
+            var victimBody = victimObject.GetComponent<CharacterBody>();
             if (!victimBody)
             {
                 return;
@@ -96,11 +108,14 @@ namespace Sandswept.Items.Greens
 
                 if (inflictDotInfo.dotIndex == DotController.DotIndex.Burn && inflictDotInfo.totalDamage != null)
                 {
-                    victimBody.AddTimedBuff(SmoulderingDocumentDebuff, (float)inflictDotInfo.totalDamage / attackerBody.damage);
+                    victimBody.AddTimedBuff(SmoulderingDocumentDebuff, 3f);
                     return;
                 }
 
-                victimBody.AddTimedBuff(SmoulderingDocumentDebuff, inflictDotInfo.duration);
+                if (!victimBody.HasBuff(SmoulderingDocumentDebuff))
+                {
+                    victimBody.AddTimedBuff(SmoulderingDocumentDebuff, inflictDotInfo.duration);
+                }
             }
         }
 
@@ -131,13 +146,14 @@ namespace Sandswept.Items.Greens
                     {
                         attackerObject = attackerBody.gameObject,
                         victimObject = victim.gameObject,
-                        totalDamage = attackerBody.damage * totlaMad,
-                        damageMultiplier = 4f,
+                        // totalDamage = attackerBody.damage * totlaMad,
+                        totalDamage = totlaMad,
+                        damageMultiplier = totlaMad / 25f,
                         dotIndex = DotController.DotIndex.Burn,
                         maxStacksFromAttacker = uint.MaxValue
                     };
 
-                    if (attackerBody?.inventory)
+                    if (attackerBody.inventory)
                     {
                         StrengthenBurnUtils.CheckDotForUpgrade(attackerBody.inventory, ref inflictDotInfo);
                     }

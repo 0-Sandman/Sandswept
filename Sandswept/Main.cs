@@ -1,7 +1,7 @@
 ﻿using BepInEx;
 using R2API.Utils;
 using Sandswept.Items;
-using Sandswept.Artifact;
+using Sandswept.Artifacts;
 using Sandswept.Equipment;
 using System.Linq;
 using System.Reflection;
@@ -50,6 +50,7 @@ namespace Sandswept
     [BepInDependency(DirectorAPI.PluginGUID, DirectorAPI.PluginVersion)]
     [BepInDependency(ProcTypeAPI.PluginGUID, ProcTypeAPI.PluginVersion)]
     [BepInDependency("com.weliveinasociety.CustomEmotesAPI", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("DropPod-LookingGlass", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
     {
@@ -102,11 +103,15 @@ namespace Sandswept
 
         public static Main Instance;
 
+        public static bool LookingGlassLoaded = false;
+
         private void Awake()
         {
             Instance = this;
 
             var stopwatch = Stopwatch.StartNew();
+
+            LookingGlassLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("DropPod-LookingGlass");
 
             SOTV = Utils.Assets.ExpansionDef.DLC1;
 
@@ -188,7 +193,8 @@ namespace Sandswept
                 Items.Add(item);
             }
 
-            foreach (ItemBase item in Items) {
+            foreach (ItemBase item in Items)
+            {
                 if (ValidateItem(item, new()))
                 {
                     item.Init(Config);
@@ -233,8 +239,10 @@ namespace Sandswept
             ScanTypes<SkillBase>((x) => x.Init());
             ScanTypes<SurvivorBase>((x) => x.Init());
             ScanTypes<EnemyBase>((x) => x.Create());
-            ScanTypes<InteractableBase>((x) => {
-                if (ValidateInteractable(x, new())) {
+            ScanTypes<InteractableBase>((x) =>
+            {
+                if (ValidateInteractable(x, new()))
+                {
                     x.Init();
                 }
             });

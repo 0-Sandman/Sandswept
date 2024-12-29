@@ -5,7 +5,7 @@ namespace Sandswept.Survivors.Electrician.States
 {
     public class StaticSnare : BaseSkillState
     {
-        public float duration = 0.5f;
+        public float duration = 0.3f;
         public bool tossedOut = false;
         public bool FUCKINGEXPLODE = true;
 

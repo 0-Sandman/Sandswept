@@ -47,7 +47,7 @@ namespace Sandswept.Survivors.Electrician.States
 
             if (fixedAge >= baseDuration)
             {
-                outer.SetNextState(new SignalOverloadDischarge(Util.Remap(shieldDrained, 0f, healthComponent.fullCombinedHealth * baseMax, 0.4f, 1f)));
+                outer.SetNextState(new SignalOverloadDischarge(Util.Remap(shieldDrained, 0f, healthComponent.fullCombinedHealth * baseMax, 0.6f, 1f)));
             }
 
             stopwatch += Time.fixedDeltaTime;

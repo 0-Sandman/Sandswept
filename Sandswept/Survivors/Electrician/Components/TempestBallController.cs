@@ -114,12 +114,14 @@ namespace Sandswept.Survivors.Electrician
             }
         }
 
-        public void Lock() {
+        public void Lock()
+        {
             LockNetworked();
             new CallNetworkedMethod(base.gameObject, "LockNetworked").Send(R2API.Networking.NetworkDestination.Clients);
         }
 
-        public void LockNetworked() {
+        public void LockNetworked()
+        {
             simple.desiredForwardSpeed = 0;
             simple.updateAfterFiring = true;
             locked = true;
