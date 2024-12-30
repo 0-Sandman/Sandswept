@@ -13,7 +13,7 @@ namespace Sandswept.Buffs
 
         public override Sprite BuffIcon => Main.Assets.LoadAsset<Sprite>("texBuffThetaConstruct.png");
 
-        public override bool CanStack => false;
+        public override bool CanStack => true;
         public override bool IsDebuff => false;
 
         [ConfigField("Shield Buff Attack Speed Gain", "", 0.35f)]
@@ -33,8 +33,9 @@ namespace Sandswept.Buffs
         {
             if (sender.HasBuff(BuffDef))
             {
-                args.attackSpeedMultAdd += shieldBuffAttackSpeedGain;
-                args.cooldownMultAdd -= shieldBuffCooldownReduction;
+                int c = sender.GetBuffCount(BuffDef);
+                args.attackSpeedMultAdd += shieldBuffAttackSpeedGain * c;
+                args.cooldownMultAdd -= shieldBuffCooldownReduction * c;
             }
         }
     }

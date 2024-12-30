@@ -1,13 +1,23 @@
+## 1.0.6 Patch Notes
+- VOL-T
+  - Fixed Signal Overload not always draining 100% of your shield
+- Enemies
+  - Fixed not having csc names
+  - Theta Construct now stacks its stat boost if multiple constructs are shielding the same enemy :)
+- Interactables
+  - Changed Shrine of Ruin Director Credit Cost from 45 to 10
+
 ## 1.0.5 Patch Notes
 - Ranger
   - Fixed Char description
 - VOL-T
-  - Buffed Signal Overload Minimum Damage Per Second from 160% to 240%
+  - Buffed Galvanic Bolt Impact Damage from 300% to 400%
+  - Buffed Galvanic Bolt Tick Damage from 150% to 200%
+  - Buffed Signal Overload Minimum Damage Per Second from 213.33% to 320%
+  - Nerfed Volatile Shields Damage from 2x600% to 2x450%
   - Reduced Static Snare endlag
   - Changed Signal Overload description
   - Fixed Unlock missing token string
-  - Volatile Shields damage reduced to 2x450%
-  - Galvanic Bolt damage raised by 1.25x
 - Elites
   - Fixed getting fucked by the patch that changed the SOTS elites
 - Enemies
@@ -55,7 +65,7 @@
   - Fixed Constructs having boss markers even after death
   - Fixed Theta Constructs not performing gay sex when tethering one another
   - Fixed Theta Construct turning invisible when shielding an enemy
-- Items
+- Items/Equipment
   - Made Bleeding Witness a lot more optimized
   - Fixed disabling uncorrupted item counterparts preventing the game from loading
   - Fixed Galvanic Cell Shield failing to activate when it's item display isnt present

@@ -58,19 +58,20 @@ namespace Sandswept.Enemies.CannonballJellyfish
         {
             base.AddDirectorCard();
             card.selectionWeight = 1;
-            card.spawnCard = isc;
+            card.spawnCard = csc;
             card.spawnDistance = DirectorCore.MonsterSpawnDistance.Standard;
         }
 
         public override void AddSpawnCard()
         {
             base.AddSpawnCard();
-            isc.directorCreditCost = directorCreditCost;
-            isc.forbiddenFlags = NodeFlags.NoCharacterSpawn;
-            isc.hullSize = HullClassification.Human;
-            isc.nodeGraphType = MapNodeGroup.GraphType.Air;
-            isc.sendOverNetwork = true;
-            isc.prefab = prefabMaster;
+            csc.directorCreditCost = directorCreditCost;
+            csc.forbiddenFlags = NodeFlags.NoCharacterSpawn;
+            csc.hullSize = HullClassification.Human;
+            csc.nodeGraphType = MapNodeGroup.GraphType.Air;
+            csc.sendOverNetwork = true;
+            csc.prefab = prefabMaster;
+            csc.name = "cscCannonballJellyfish";
         }
 
         public override void SetupIDRS()

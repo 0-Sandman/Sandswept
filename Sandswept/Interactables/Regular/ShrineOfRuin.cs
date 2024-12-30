@@ -54,7 +54,7 @@ namespace Sandswept.Interactables.Regular
 
         public override bool SlightlyRandomizeOrientation => false;
 
-        [ConfigField("Director Credit Cost", "", 45)]
+        [ConfigField("Director Credit Cost", "", 10)]
         public static int directorCreditCost;
 
         [ConfigField("White Item Cost", "", 10)]
@@ -79,7 +79,6 @@ namespace Sandswept.Interactables.Regular
         public override void Init()
         {
             base.Init();
-
 
             def = new()
             {
@@ -323,7 +322,8 @@ namespace Sandswept.Interactables.Regular
         {
             if (shouldCorruptNextStage)
             {
-                if (!newScene.name.StartsWith("it")) {
+                if (!newScene.name.StartsWith("it"))
+                {
                     return;
                 }
 
