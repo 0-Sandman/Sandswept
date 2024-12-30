@@ -14,6 +14,7 @@
   - Theta Construct credit cost increased
   - Cannonball Jellyfish credit cost increased
   - Theta Construct now provides the Immune status effect to targets protected by its shield (previously it just relied on the proximity shield so explosives or lightning would bypass it)
+  - Fixed bug where voidtouched versions of certain enemies would bug out and spawn tons of copies.
 - Items/Equipment
   - Fixed Crown's Diamond reducing barrier decay wrongly
   - Fixed Smouldering Document applying burn for too long

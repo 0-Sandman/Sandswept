@@ -6,8 +6,15 @@
   - Reduced Static Snare endlag
   - Changed Signal Overload description
   - Fixed Unlock missing token string
+  - Volatile Shields damage reduced to 2x450%
+  - Galvanic Bolt damage raised by 1.25x
 - Elites
   - Fixed getting fucked by the patch that changed the SOTS elites
+- Enemies
+  - Theta Construct credit cost increased
+  - Cannonball Jellyfish credit cost increased
+  - Theta Construct now provides the Immune status effect to targets protected by its shield (previously it just relied on the proximity shield so explosives or lightning would bypass it)
+  - Fixed bug where voidtouched versions of certain enemies would bug out and spawn tons of copies.
 - Items/Equipment
   - Fixed Crown's Diamond reducing barrier decay wrongly
   - Fixed Smouldering Document applying burn for too long

@@ -182,16 +182,6 @@ namespace Sandswept.Enemies.DeltaConstruct
                 limbMask = LimbFlags.None
             });
 
-            AddDisplayRule(Paths.EquipmentDef.EliteVoidEquipment, new()
-            {
-                ruleType = ItemDisplayRuleType.ParentedPrefab,
-                childName = "Core",
-                localPos = new Vector3(-0.65868F, 3.12402F, 0.06114F),
-                localAngles = new Vector3(359.9704F, 287.4572F, 359.9907F),
-                localScale = new Vector3(1.85743F, 1.85743F, 1.85743F),
-                limbMask = LimbFlags.None
-            });
-
             AddDisplayRule(Paths.EquipmentDef.EliteBeadEquipment, new()
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
