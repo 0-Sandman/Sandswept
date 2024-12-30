@@ -71,6 +71,7 @@ namespace Sandswept.Enemies.CannonballJellyfish
             csc.nodeGraphType = MapNodeGroup.GraphType.Air;
             csc.sendOverNetwork = true;
             csc.prefab = prefabMaster;
+            csc.name = "cscCannonballJellyfish";
         }
 
         public override void SetupIDRS()

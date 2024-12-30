@@ -93,7 +93,8 @@ namespace Sandswept.Survivors.Electrician
             var kcm = Body.GetComponent<KinematicCharacterController.KinematicCharacterMotor>();
             kcm.playerCharacter = true;
 
-            if (Ranger.Ranger.instance != null) {
+            if (Ranger.Ranger.instance != null)
+            {
                 SurvivorDef.desiredSortPosition = Ranger.Ranger.instance.SurvivorDef.desiredSortPosition + 1;
             }
 
@@ -192,7 +193,8 @@ namespace Sandswept.Survivors.Electrician
             c.TryGotoNext(MoveType.After, x => x.MatchPop());
             c.Index -= 2;
             c.Emit(OpCodes.Dup);
-            c.EmitDelegate<Action<BlastAttack>>((x) => {
+            c.EmitDelegate<Action<BlastAttack>>((x) =>
+            {
                 x.damageType.AddModdedDamageType(LIGHTNING);
             });
         }
@@ -203,7 +205,8 @@ namespace Sandswept.Survivors.Electrician
             c.TryGotoNext(MoveType.After, x => x.MatchPop());
             c.Index -= 2;
             c.Emit(OpCodes.Dup);
-            c.EmitDelegate<Action<BlastAttack>>((x) => {
+            c.EmitDelegate<Action<BlastAttack>>((x) =>
+            {
                 x.damageType.AddModdedDamageType(LIGHTNING);
             });
         }
@@ -364,7 +367,8 @@ namespace Sandswept.Survivors.Electrician
                 }
             }
 
-            if (damageInfo.HasModdedDamageType(ReallyShittyGrounding) && NetworkServer.active) {
+            if (damageInfo.HasModdedDamageType(ReallyShittyGrounding) && NetworkServer.active)
+            {
                 CharacterMotor motor = self.GetComponent<CharacterMotor>();
                 RigidbodyMotor motor2 = self.GetComponent<RigidbodyMotor>();
 
