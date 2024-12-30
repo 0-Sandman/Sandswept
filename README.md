@@ -221,7 +221,7 @@
 			<td>
 				<b>Shrine of Ruin</b><br>
 				Sacrifice <b>10</b> random common items to corrupt the next stage, making it a simulacrum variant that exclusively drops void items and spawns void enemies.<br>
-				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 2, costs 45 credits. The combat director gets <b>100%</b> more credits and interactable credits are reduced by <b>55%</b>.
+				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 2, costs 10 credits. The combat director gets <b>100%</b> more credits and interactable credits are reduced by <b>55%</b>.
 			</td>
 		</tr>
 		<tr>

@@ -16,6 +16,8 @@
   - Increased Cannonball Jellyfish Director Credit Cost from 
   - Made Theta Construct give immunity to targets protected by its shield (previously it just relied on the proximity shield so a lot of attacks could bypass it)
   - Fixed not having csc names
+- Interactables
+  - Changed Shrine of Ruin Director Credit Cost from 45 to 10
 - Items/Equipment
   - Fixed Crown's Diamond reducing barrier decay wrongly
   - Fixed Smouldering Document applying burn for too long
@@ -56,7 +58,7 @@
   - Fixed Constructs having boss markers even after death
   - Fixed Theta Constructs not performing gay sex when tethering one another
   - Fixed Theta Construct turning invisible when shielding an enemy
-- Items
+- Items/Equipment
   - Made Bleeding Witness a lot more optimized
   - Fixed disabling uncorrupted item counterparts preventing the game from loading
   - Fixed Galvanic Cell Shield failing to activate when it's item display isnt present
