@@ -2,18 +2,20 @@
 - Ranger
   - Fixed Char description
 - VOL-T
-  - Buffed Signal Overload Minimum Damage Per Second from 160% to 240%
+  - Buffed Galvanic Bolt Impact Damage from 300% to 400%
+  - Buffed Galvanic Bolt Tick Damage from 150% to 200%
+  - Buffed Signal Overload Minimum Damage Per Second from 213.33% to 320%
+  - Nerfed Volatile Shields Damage from 2x600% to 2x450%
   - Reduced Static Snare endlag
   - Changed Signal Overload description
   - Fixed Unlock missing token string
-  - Volatile Shields damage reduced to 2x450%
-  - Galvanic Bolt damage raised by 1.25x
 - Elites
   - Fixed getting fucked by the patch that changed the SOTS elites
 - Enemies
-  - Theta Construct credit cost increased
-  - Cannonball Jellyfish credit cost increased
-  - Theta Construct now provides the Immune status effect to targets protected by its shield (previously it just relied on the proximity shield so explosives or lightning would bypass it)
+  - Increased Theta Construct Director Credit Cost from 70 to 140
+  - Increased Cannonball Jellyfish Director Credit Cost from 
+  - Made Theta Construct give immunity to targets protected by its shield (previously it just relied on the proximity shield so a lot of attacks could bypass it)
+  - Fixed not having csc names
 - Items/Equipment
   - Fixed Crown's Diamond reducing barrier decay wrongly
   - Fixed Smouldering Document applying burn for too long

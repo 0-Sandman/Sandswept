@@ -99,12 +99,12 @@
     <tr>
       <td><img src="https://i.postimg.cc/ZKLwnhc7/sand9.png" width="64"/></td>
       <td><b>Passive:</b> Volatile Shields<br>
-          Start with innate shields. When your shield breaks, shock nearby targets for 2x600% damage and gain +40% movement speed for 7 seconds.</td>
+          Start with innate shields. When your shield breaks, shock nearby targets for 2x450% damage and gain +40% movement speed for 7 seconds.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/nzQdhjRB/sand13.png" width="64"/></td>
       <td><b>Primary:</b> Galvanic Bolt<br>
-          Blast out a galvanic ball that sticks into terrain, zapping nearby enemies for 150% damage periodically. Explodes for 300% damage on impact.</td>
+          Blast out a galvanic ball that sticks into terrain, zapping nearby enemies for 200% damage periodically. Explodes for 400% damage on impact.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/XvPHWc8n/sand11.png" width="64"/></td>
@@ -119,7 +119,7 @@
     <tr>
       <td><img src="https://i.postimg.cc/KYjqCst9/sand10.png" width="64"/></td>
       <td><b>Special:</b> Signal Overload<br>
-          Grounding. Charge up and beam energy forward, zapping enemies in a large radius around impact for 1600% damage and pulling them inward over 4 seconds. Charging drains shield, and effect scales from 0.4x to 1.5x based on shield consumed.</td>
+          Grounding. Briefly wind up and drain your shield, unleashing a beam of energy for 3 seconds that pulls enemies inward and zaps them in a large radius for 320%-800% damage per second, scaling with shield drained.</td>
     </tr>
   </tbody>
 </table>
@@ -386,7 +386,7 @@
 			<td><img src="https://i.postimg.cc/rp3zfsBQ/tex-Torn-Feather.png" width="96"></td>
 			<td>
 				<b>Torn Feather</b><br>
-				Tap Interact to perform an omnidirectional dash. Can dash twice until hitting the ground. Gain <b>20% (+35% per stack)</b> movement speed.
+				Tap Interact to perform an omni-directional dash. Can dash twice until hitting the ground. Gain <b>20% (+35% per stack)</b> movement speed.
 			</td>
 		</tr>
 		<tr>
