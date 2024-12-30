@@ -27,7 +27,7 @@ namespace Sandswept.Enemies
     public abstract class EnemyBase
     {
         public DirectorCard card;
-        public CharacterSpawnCard isc;
+        public CharacterSpawnCard csc;
         public GameObject prefab;
         public GameObject prefabMaster;
         public CharacterBody body;
@@ -35,7 +35,7 @@ namespace Sandswept.Enemies
         private static ItemDisplayRuleSet idrs;
         private static List<ItemDisplayRuleSet.KeyAssetRuleGroup> rules = new();
         public virtual DirectorCardCategorySelection family { get; } = null;
-        public virtual DirectorAPI.MonsterCategory cat { get ; } = DirectorAPI.MonsterCategory.BasicMonsters;
+        public virtual DirectorAPI.MonsterCategory cat { get; } = DirectorAPI.MonsterCategory.BasicMonsters;
 
         public static bool DefaultEnabledCallback(EnemyBase self)
         {
@@ -57,7 +57,8 @@ namespace Sandswept.Enemies
 
         public virtual void Create()
         {
-            if (!DefaultEnabledCallback(this)) {
+            if (!DefaultEnabledCallback(this))
+            {
                 return;
             }
 
@@ -69,9 +70,10 @@ namespace Sandswept.Enemies
             body = prefab.GetComponent<CharacterBody>();
             master = prefabMaster.GetComponent<CharacterMaster>();
             Modify();
-            
+
             var h = body.GetComponentInChildren<CharacterModel>();
-            if (h) {
+            if (h)
+            {
                 idrs = ScriptableObject.CreateInstance<ItemDisplayRuleSet>();
                 h.itemDisplayRuleSet = idrs;
                 SetupIDRS();
@@ -81,8 +83,10 @@ namespace Sandswept.Enemies
             AddDirectorCard();
             PostCreation();
 
-            if (family) {
-                DirectorAPI.AddCard(family, new DirectorCardHolder() {
+            if (family)
+            {
+                DirectorAPI.AddCard(family, new DirectorCardHolder()
+                {
                     Card = card,
                     MonsterCategory = cat,
                     MonsterCategorySelectionWeight = 1
@@ -102,23 +106,26 @@ namespace Sandswept.Enemies
 
         public virtual void AddSpawnCard()
         {
-            isc = ScriptableObject.CreateInstance<CharacterSpawnCard>();
+            csc = ScriptableObject.CreateInstance<CharacterSpawnCard>();
         }
 
         public virtual void AddDirectorCard()
         {
             card = new DirectorCard();
-            card.spawnCard = isc;
+            card.spawnCard = csc;
         }
 
-        public virtual void SetupIDRS() {
-            
+        public virtual void SetupIDRS()
+        {
         }
 
-        public void AddDisplayRule(UnityEngine.Object asset, ItemDisplayRule rule) {
-            rules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup() {
+        public void AddDisplayRule(UnityEngine.Object asset, ItemDisplayRule rule)
+        {
+            rules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup()
+            {
                 keyAsset = asset,
-                displayRuleGroup = new() {
+                displayRuleGroup = new()
+                {
                     rules = new ItemDisplayRule[] {
                         rule
                     }
@@ -126,7 +133,8 @@ namespace Sandswept.Enemies
             });
         }
 
-        public void CollapseIDRS() {
+        public void CollapseIDRS()
+        {
             idrs.keyAssetRuleGroups = rules.ToArray();
         }
 

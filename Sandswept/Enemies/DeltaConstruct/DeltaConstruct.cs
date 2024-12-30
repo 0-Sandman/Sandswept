@@ -59,19 +59,20 @@ namespace Sandswept.Enemies.DeltaConstruct
         {
             base.AddDirectorCard();
             card.selectionWeight = 1;
-            card.spawnCard = isc;
+            card.spawnCard = csc;
             card.spawnDistance = DirectorCore.MonsterSpawnDistance.Standard;
         }
 
         public override void AddSpawnCard()
         {
             base.AddSpawnCard();
-            isc.directorCreditCost = directorCreditCost;
-            isc.forbiddenFlags = NodeFlags.NoCharacterSpawn;
-            isc.hullSize = HullClassification.Human;
-            isc.nodeGraphType = MapNodeGroup.GraphType.Ground;
-            isc.sendOverNetwork = true;
-            isc.prefab = prefabMaster;
+            csc.directorCreditCost = directorCreditCost;
+            csc.forbiddenFlags = NodeFlags.NoCharacterSpawn;
+            csc.hullSize = HullClassification.Human;
+            csc.nodeGraphType = MapNodeGroup.GraphType.Ground;
+            csc.sendOverNetwork = true;
+            csc.prefab = prefabMaster;
+            csc.name = "cscDeltaConstruct";
         }
 
         public override void Modify()

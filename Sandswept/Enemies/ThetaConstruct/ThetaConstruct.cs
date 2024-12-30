@@ -11,6 +11,7 @@ namespace Sandswept.Enemies.ThetaConstruct
 
         [ConfigField("Director Credit Cost", "", 70)]
         public static int directorCreditCost;
+
         public override DirectorCardCategorySelection family => Paths.FamilyDirectorCardCategorySelection.dccsConstructFamily;
         public override MonsterCategory cat => MonsterCategory.BasicMonsters;
 
@@ -44,19 +45,20 @@ namespace Sandswept.Enemies.ThetaConstruct
         {
             base.AddDirectorCard();
             card.selectionWeight = 1;
-            card.spawnCard = isc;
+            card.spawnCard = csc;
             card.spawnDistance = DirectorCore.MonsterSpawnDistance.Standard;
         }
 
         public override void AddSpawnCard()
         {
             base.AddSpawnCard();
-            isc.directorCreditCost = directorCreditCost;
-            isc.forbiddenFlags = NodeFlags.NoCharacterSpawn;
-            isc.hullSize = HullClassification.Human;
-            isc.nodeGraphType = MapNodeGroup.GraphType.Air;
-            isc.sendOverNetwork = true;
-            isc.prefab = prefabMaster;
+            csc.directorCreditCost = directorCreditCost;
+            csc.forbiddenFlags = NodeFlags.NoCharacterSpawn;
+            csc.hullSize = HullClassification.Human;
+            csc.nodeGraphType = MapNodeGroup.GraphType.Air;
+            csc.sendOverNetwork = true;
+            csc.prefab = prefabMaster;
+            csc.name = "cscThetaConstruct";
         }
 
         public override void Modify()
