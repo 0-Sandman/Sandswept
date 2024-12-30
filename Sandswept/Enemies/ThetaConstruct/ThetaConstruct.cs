@@ -9,7 +9,7 @@ namespace Sandswept.Enemies.ThetaConstruct
         public static LazyIndex ThetaIndex = new("ThetaConstructBody");
         public static GameObject ThetaShieldEffect;
 
-        [ConfigField("Director Credit Cost", "", 70)]
+        [ConfigField("Director Credit Cost", "", 140)]
         public static int directorCreditCost;
         public override DirectorCardCategorySelection family => Paths.FamilyDirectorCardCategorySelection.dccsConstructFamily;
         public override MonsterCategory cat => MonsterCategory.BasicMonsters;

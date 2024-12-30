@@ -316,7 +316,7 @@ namespace Sandswept.Survivors.Electrician.States
     {
         public float recoilDuration = 0.8f;
         public float effectMultiplier = 1f;
-        private float damageCoeff = 6f;
+        private float damageCoeff = 4.5f;
         private float radius = 50f;
 
         public SignalOverloadFire(float modifier)

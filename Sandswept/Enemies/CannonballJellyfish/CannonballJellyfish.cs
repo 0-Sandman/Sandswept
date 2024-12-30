@@ -10,7 +10,7 @@ namespace Sandswept.Enemies.CannonballJellyfish
     {
         public static GameObject JellyCoreProjectile;
 
-        [ConfigField("Director Credit Cost", "", 70)]
+        [ConfigField("Director Credit Cost", "", 115)]
         public static int directorCreditCost;
 
         public override DirectorCardCategorySelection family => Paths.FamilyDirectorCardCategorySelection.dccsJellyfishFamily;
