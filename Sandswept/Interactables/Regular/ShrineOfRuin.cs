@@ -327,7 +327,8 @@ namespace Sandswept.Interactables.Regular
                     return;
                 }
 
-                new GameObject("hopoo why").AddComponent<DirectorCore>();
+                shouldReplaceDrops = true;
+
                 var sceneInfo = GameObject.Find("SceneInfo");
                 var obj = GameObject.Instantiate(Paths.GameObject.Director);
                 if (obj.GetComponent<SceneDirector>())

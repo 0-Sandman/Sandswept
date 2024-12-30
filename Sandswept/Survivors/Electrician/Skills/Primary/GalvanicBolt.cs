@@ -5,7 +5,7 @@ namespace Sandswept.Survivors.Electrician.Skills
     public class GalvanicBolt : SkillBase<GalvanicBolt>
     {
         public override string Name => "Galvanic Bolt";
-        public override string Description => "Blast out a galvanic ball that <style=cIsUtility>sticks</style> into terrain, zapping nearby enemies for <style=cIsDamage>150% damage</style> periodically. <style=cIsDamage>Explodes</style> for <style=cIsDamage>300% damage</style> on impact.";
+        public override string Description => "Blast out a galvanic ball that <style=cIsUtility>sticks</style> into terrain, zapping nearby enemies for <style=cIsDamage>200% damage</style> periodically. <style=cIsDamage>Explodes</style> for <style=cIsDamage>400% damage</style> on impact.";
         public override Type ActivationStateType => typeof(States.GalvanicBolt);
         public override string ActivationMachineName => "Weapon";
         public override float Cooldown => 1.55f;

@@ -11,11 +11,12 @@ namespace Sandswept.Enemies.ThetaConstruct
         public GameObject effect;
         public bool doYuriBlast = false;
         private Vector3 yuriDir;
+        private GameObject buddy;
         public override void OnEnter()
         {
             base.OnEnter();
 
-            GameObject buddy = base.characterBody.master.GetComponent<BaseAI>().buddy._gameObject;
+            buddy = base.characterBody.master.GetComponent<BaseAI>().buddy._gameObject;
 
             if (!buddy)
             {
@@ -41,6 +42,8 @@ namespace Sandswept.Enemies.ThetaConstruct
                 ThetaShieldController shieldController = shieldInstance.GetComponent<ThetaShieldController>();
                 shieldController.targetHolder.ownerObject = buddy;
                 shieldController.ownerHolder.ownerObject = base.gameObject;
+
+                buddy.gameObject.GetComponent<CharacterBody>().AddTimedBuff(RoR2Content.Buffs.Immune, 15f);
 
                 base.characterBody.master.GetComponent<BaseAI>().leader.gameObject = buddy;
 
@@ -104,6 +107,10 @@ namespace Sandswept.Enemies.ThetaConstruct
             if (base.isAuthority && shieldInstance)
             {
                 NetworkServer.DestroyObject(shieldInstance);
+            }
+
+            if (base.isAuthority && buddy) {
+                buddy.gameObject.GetComponent<CharacterBody>().RemoveBuff(RoR2Content.Buffs.Immune);
             }
         }
     }
