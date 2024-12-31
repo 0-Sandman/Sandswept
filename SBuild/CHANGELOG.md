@@ -1,7 +1,11 @@
 ## 1.0.7 Patch Notes
 - VOL-T
   - Tempest Sphere damage per second reduced from 500% to 385%
-
+- Interactables
+  - Fixed Shrine of Ruin activation being carried over to the next run if you bought it and then quit to menu or died.
+  - Inferno Drone now properly drops itself upon death
+- Enemies
+  - Fixed Gamma Construct log appearing as SANDSWEPT_GAMMA_BODY in the chatbox when picked up.
 ## 1.0.6 Patch Notes
 - VOL-T
   - Fixed Signal Overload not always draining 100% of your shield

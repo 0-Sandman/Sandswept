@@ -16,6 +16,7 @@ namespace Sandswept.Drones
         public abstract int Credits { get; }
         public abstract DirectorAPI.Stage[] Stages { get; }
         public abstract string iscName { get; }
+        private InteractableSpawnCard iscBroken;
 
         public void Initialize()
         {
@@ -37,6 +38,10 @@ namespace Sandswept.Drones
             SetupInteractables();
 
             DroneBroken.FindComponent<ParticleSystemRenderer>("Smoke, Point").sharedMaterial = Paths.Material.matOpaqueDustLargeDirectional;
+
+            DeathState.droneCards.Add(DroneBody.name, iscBroken);
+
+            DroneBody.GetComponent<CharacterDeathBehavior>().deathState = new(typeof(DeathState));
         }
 
         public static bool DefaultEnabledCallback(DroneBase self)
@@ -82,6 +87,8 @@ namespace Sandswept.Drones
                 DirectorAPI.Helpers.AddNewInteractableToStage(card, DirectorAPI.InteractableCategory.Drones, Stages[i]);
             }
 #pragma warning restore
+
+            iscBroken = isc;
         }
 
         public void AssignIfExists(GenericSkill slot, SkillInfo info)

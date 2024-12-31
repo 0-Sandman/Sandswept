@@ -224,8 +224,16 @@ namespace Sandswept.Interactables.Regular
             On.RoR2.Run.PickNextStageSceneFromCurrentSceneDestinations += HandleScenes;
             On.RoR2.SceneDirector.Start += Gyatttttt;
             On.RoR2.BasicPickupDropTable.GenerateDropPreReplacement += OnGenerateDrop;
+            On.RoR2.Run.Start += ResetShrineOfRuin;
 
             PostInit();
+        }
+
+        private void ResetShrineOfRuin(On.RoR2.Run.orig_Start orig, Run self)
+        {
+            orig(self);
+            shouldReplaceDrops = false;
+            shouldCorruptNextStage = false;
         }
 
         private PickupIndex OnGenerateDrop(On.RoR2.BasicPickupDropTable.orig_GenerateDropPreReplacement orig, BasicPickupDropTable self, Xoroshiro128Plus rng)
