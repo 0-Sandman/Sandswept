@@ -1,3 +1,7 @@
+## 1.0.7 Patch Notes
+- VOL-T
+  - Tempest Sphere damage per second reduced from 500% to 385%
+
 ## 1.0.6 Patch Notes
 - VOL-T
   - Fixed Signal Overload not always draining 100% of your shield
