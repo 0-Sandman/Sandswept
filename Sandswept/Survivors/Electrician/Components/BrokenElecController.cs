@@ -12,6 +12,8 @@ namespace Sandswept.Survivors.Electrician
         public GameObject poweredOnOrb;
         public GameObject[] particlesToDisable;
         public Light targetLight;
+        public bool hasAttemptedBattery = false;
+        public GameObject warningVFX;
 
         public void OnTakeDamageServer(DamageReport damageReport)
         {
@@ -37,6 +39,52 @@ namespace Sandswept.Survivors.Electrician
 
                     base.gameObject.CallNetworkedMethod("HandleActivationEffects");
                     HandleActivationEffects();
+                }
+            }
+        }
+
+        public void HandleBatteryInsertion(Interactor sigma) {
+            if (!hasAttemptedBattery) {
+                hasAttemptedBattery = true;
+                base.GetComponent<PurchaseInteraction>().SetAvailable(true);
+                AkSoundEngine.PostEvent(Events.Play_drone_deathpt1, base.gameObject);
+                warningVFX.SetActive(true);
+                
+                PickupDropletController.CreatePickupDroplet(PickupCatalog.FindPickupIndex(RoR2Content.Equipment.QuestVolatileBattery.equipmentIndex), base.transform.position, -base.transform.right * 5f + Vector3.up);
+
+                Chat.SendBroadcastChat(new Chat.SimpleChatMessage() { baseToken = "SANDSWEPT_VOLATILEINSERT"});
+            }
+            else {
+                BlastAttack attack = new();
+                attack.teamIndex = TeamIndex.Void;
+                attack.baseDamage = 999999f;
+                attack.damageType = DamageType.BypassArmor | DamageType.BypassBlock | DamageType.BypassOneShotProtection;
+                attack.baseForce = 900f;
+                attack.radius = 45f;
+                attack.position = base.transform.position;
+                attack.crit = true;
+                attack.canRejectForce = false;
+                attack.Fire();
+
+                AkSoundEngine.PostEvent(Events.Play_drone_deathpt2, base.gameObject);
+                AkSoundEngine.PostEvent(Events.Play_vagrant_R_explode, base.gameObject);
+
+                EffectManager.SpawnEffect(Paths.GameObject.ExplosionMinorConstruct, new EffectData {
+                    scale = attack.radius * 2f,
+                    origin = attack.position
+                }, true);
+
+                activatable = false;
+                base.GetComponent<CharacterBody>().AddBuff(RoR2Content.Buffs.Intangible);
+                base.gameObject.CallNetworkedMethod("HandleActivationEffects");
+                HandleActivationEffects();
+
+                foreach (PlayerCharacterMasterController pcmc in PlayerCharacterMasterController.instances)
+                {
+                    if (pcmc.body && ((Vector3.Distance(pcmc.body.corePosition, base.transform.position) < 40f)))
+                    {
+                        OnUserUnlock?.Invoke(pcmc.body);
+                    }
                 }
             }
         }

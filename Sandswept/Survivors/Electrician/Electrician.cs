@@ -185,6 +185,9 @@ namespace Sandswept.Survivors.Electrician
             On.RoR2.Orbs.LightningOrb.OnArrival += OnLightningOrbArrival;
             IL.RoR2.Orbs.SimpleLightningStrikeOrb.OnArrival += OnSLSArrival;
             IL.RoR2.Orbs.LightningStrikeOrb.OnArrival += OnLSArrival;
+
+            LanguageAPI.Add("SANDSWEPT_VOLATILECONTEXT", "Forcefully Insert Battery");
+            LanguageAPI.Add("SANDSWEPT_VOLATILEINSERT", "<style=cDeath>[Voltage regulation offline. Rejecting unknown power source.]</style>");
         }
 
         private void OnLSArrival(ILContext il)
