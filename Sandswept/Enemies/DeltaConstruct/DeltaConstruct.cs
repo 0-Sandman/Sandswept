@@ -12,7 +12,7 @@ namespace Sandswept.Enemies.DeltaConstruct
         public static Material matDeltaBeamStrong;
         public static GameObject DeltaBurnyTrail;
 
-        [ConfigField("Director Credit Cost", "", 150)]
+        [ConfigField("Director Credit Cost", "", 135)]
         public static int directorCreditCost;
 
         public override DirectorCardCategorySelection family => Paths.FamilyDirectorCardCategorySelection.dccsConstructFamily;

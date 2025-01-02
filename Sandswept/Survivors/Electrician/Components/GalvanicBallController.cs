@@ -38,42 +38,50 @@ namespace Sandswept.Survivors.Electrician
             p.enabled = false;
         }
 
-        public void FixedUpdate() {
+        public void FixedUpdate()
+        {
             stopwatch += Time.fixedDeltaTime;
 
-            if (stopwatch >= interval && NetworkServer.active) {
+            if (stopwatch >= interval && NetworkServer.active)
+            {
                 stopwatch = 0f;
                 ShockNearby();
             }
         }
 
-        public void ShockNearby() {
+        public void ShockNearby()
+        {
             Collider[] collidersTmp = Physics.OverlapSphere(base.transform.position, radius, LayerIndex.entityPrecise.mask, QueryTriggerInteraction.Ignore);
             List<HealthComponent> alreadyStruck = new();
             IEnumerable<Collider> colliders = collidersTmp.Shuffle(Run.instance.stageRng);
 
             TeamIndex team = GetComponent<TeamFilter>().teamIndex;
 
-            for (int i = 0; i < colliders.Count(); i++) {
+            for (int i = 0; i < colliders.Count(); i++)
+            {
                 HurtBox box = colliders.ElementAt(i).GetComponent<HurtBox>();
 
-                if (box && !alreadyStruck.Contains(box.healthComponent) && box.healthComponent.body.teamComponent.teamIndex != team) {
-                    LightningOrb orb = new();
-                    orb.procCoefficient = 1;
-                    orb.damageValue = pDamage.damage * damageCoeff;
-                    orb.bouncesRemaining = 0;
-                    orb.lightningType = LightningOrb.LightningType.Loader;
-                    orb.attacker = controller.owner;
-                    orb.origin = base.transform.position;
-                    orb.target = box;
-                    orb.isCrit = pDamage.crit;
-                    orb.teamIndex = team;
-                    
+                if (box && !alreadyStruck.Contains(box.healthComponent) && box.healthComponent.body.teamComponent.teamIndex != team)
+                {
+                    LightningOrb orb = new()
+                    {
+                        procCoefficient = 1,
+                        damageValue = pDamage.damage * damageCoeff,
+                        bouncesRemaining = 0,
+                        lightningType = LightningOrb.LightningType.Loader,
+                        attacker = controller.owner,
+                        origin = base.transform.position,
+                        target = box,
+                        isCrit = pDamage.crit,
+                        teamIndex = team
+                    };
+
                     OrbManager.instance.AddOrb(orb);
 
                     alreadyStruck.Add(box.healthComponent);
 
-                    if (alreadyStruck.Count() >= maxTargets) {
+                    if (alreadyStruck.Count() >= maxTargets)
+                    {
                         return;
                     }
                 }
@@ -100,7 +108,8 @@ namespace Sandswept.Survivors.Electrician
                         baseDamage = pDamage.damage * damage
                     };
 
-                    if (!hasBouncedEnemy) {
+                    if (!hasBouncedEnemy)
+                    {
                         attack.Fire();
                         Util.PlaySound("Play_loader_R_shock", base.gameObject);
                         EffectManager.SpawnEffect(Electrician.staticSnareImpactVFX, new EffectData
@@ -112,8 +121,9 @@ namespace Sandswept.Survivors.Electrician
                     }
 
                     var rb = GetComponent<Rigidbody>();
-                    
-                    if (collision.collider.gameObject.layer == LayerIndex.world.intVal) {
+
+                    if (collision.collider.gameObject.layer == LayerIndex.world.intVal)
+                    {
                         rb.isKinematic = true;
                         rb.velocity = Vector3.zero;
                         base.transform.up = collision.contacts[0].normal;
@@ -122,7 +132,8 @@ namespace Sandswept.Survivors.Electrician
 
                         base.gameObject.FindComponent<MeshRenderer>("Radius").enabled = true;
                     }
-                    else {
+                    else
+                    {
                         rb.useGravity = true;
                         rb.velocity = Vector3.zero;
                         // rb.velocity += Physics.gravity;

@@ -50,7 +50,7 @@ namespace Sandswept
     [BepInDependency(DirectorAPI.PluginGUID, DirectorAPI.PluginVersion)]
     [BepInDependency(ProcTypeAPI.PluginGUID, ProcTypeAPI.PluginVersion)]
     [BepInDependency("com.weliveinasociety.CustomEmotesAPI", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency("DropPod-LookingGlass", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("droppod.lookingglass", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
     {
@@ -111,7 +111,7 @@ namespace Sandswept
 
             var stopwatch = Stopwatch.StartNew();
 
-            LookingGlassLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("DropPod-LookingGlass");
+            LookingGlassLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("droppod.lookingglass");
 
             SOTV = Utils.Assets.ExpansionDef.DLC1;
 
