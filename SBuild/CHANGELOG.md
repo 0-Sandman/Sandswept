@@ -1,13 +1,40 @@
+## 1.0.7 Patch Notes
+- VOL-T
+  - Tempest Sphere damage per second reduced from 500% to 385%
+- Interactables
+  - Fixed Shrine of Ruin activation being carried over to the next run if you bought it and then quit to menu or died.
+  - Inferno Drone now properly drops itself upon death
+  - Inferno Drone now has an AIOwnership component to not shit the bed with propersave anymore
+- Enemies
+  - Fixed Gamma Construct log appearing as SANDSWEPT_GAMMA_BODY in the chatbox when picked up.
+
+## 1.0.6 Patch Notes
+- VOL-T
+  - Fixed Signal Overload not always draining 100% of your shield
+- Enemies
+  - Fixed not having csc names
+  - Theta Construct now stacks its stat boost if multiple constructs are shielding the same enemy :)
+- Interactables
+  - Changed Shrine of Ruin Director Credit Cost from 45 to 10
+
 ## 1.0.5 Patch Notes
 - Ranger
   - Fixed Char description
 - VOL-T
-  - Buffed Signal Overload Minimum Damage Per Second from 160% to 240%
+  - Buffed Galvanic Bolt Impact Damage from 300% to 400%
+  - Buffed Galvanic Bolt Tick Damage from 150% to 200%
+  - Buffed Signal Overload Minimum Damage Per Second from 213.33% to 320%
+  - Nerfed Volatile Shields Damage from 2x600% to 2x450%
   - Reduced Static Snare endlag
   - Changed Signal Overload description
   - Fixed Unlock missing token string
 - Elites
   - Fixed getting fucked by the patch that changed the SOTS elites
+- Enemies
+  - Theta Construct credit cost increased
+  - Cannonball Jellyfish credit cost increased
+  - Theta Construct now provides the Immune status effect to targets protected by its shield (previously it just relied on the proximity shield so explosives or lightning would bypass it)
+  - Fixed bug where voidtouched versions of certain enemies would bug out and spawn tons of copies.
 - Items/Equipment
   - Fixed Crown's Diamond reducing barrier decay wrongly
   - Fixed Smouldering Document applying burn for too long
@@ -48,7 +75,7 @@
   - Fixed Constructs having boss markers even after death
   - Fixed Theta Constructs not performing gay sex when tethering one another
   - Fixed Theta Construct turning invisible when shielding an enemy
-- Items
+- Items/Equipment
   - Made Bleeding Witness a lot more optimized
   - Fixed disabling uncorrupted item counterparts preventing the game from loading
   - Fixed Galvanic Cell Shield failing to activate when it's item display isnt present

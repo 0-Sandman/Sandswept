@@ -47,7 +47,36 @@ namespace Sandswept.Survivors.Electrician.States
 
             if (fixedAge >= baseDuration)
             {
-                outer.SetNextState(new SignalOverloadDischarge(Util.Remap(shieldDrained, 0f, healthComponent.fullCombinedHealth * baseMax, 0.6f, 1f)));
+                if (base.healthComponent.shield > 0) {
+                    float shieldToDrain = base.healthComponent.shield;
+
+                    if (shieldToDrain > healthComponent.shield)
+                    {
+                        shieldToDrain = healthComponent.shield;
+                    }
+
+                    if (shieldToDrain > 0f)
+                    {
+                        shieldDrained += shieldToDrain;
+
+                        if (NetworkServer.active)
+                        {
+                            healthComponent.TakeDamage(
+                                new DamageInfo
+                                {
+                                    position = transform.position,
+                                    damage = shieldToDrain,
+                                    procCoefficient = 0f,
+                                    damageType = DamageType.NonLethal | DamageType.BypassArmor | DamageType.BypassBlock,
+                                    damageColorIndex = DamageColorIndex.Luminous,
+                                    attacker = null
+                                }
+                            );
+                        }
+                    }
+                }
+                
+                outer.SetNextState(new SignalOverloadDischarge(Util.Remap(shieldDrained, 0f, healthComponent.fullHealth * baseMax, 0.6f, 1f)));
             }
 
             stopwatch += Time.fixedDeltaTime;
@@ -74,7 +103,7 @@ namespace Sandswept.Survivors.Electrician.States
                                 position = transform.position,
                                 damage = shieldToDrain,
                                 procCoefficient = 0f,
-                                damageType = DamageType.NonLethal,
+                                damageType = DamageType.NonLethal | DamageType.BypassArmor | DamageType.BypassBlock,
                                 damageColorIndex = DamageColorIndex.Luminous,
                                 attacker = null
                             }

@@ -36,7 +36,7 @@ namespace Sandswept.Survivors.Electrician.States
 
     public class TempestSphereFire : BaseSkillState
     {
-        public float damageCoeff = 5f;
+        public float damageCoeff = 3.85f;
         public float recoilTime = 0.3f;
         public bool locked = false;
 

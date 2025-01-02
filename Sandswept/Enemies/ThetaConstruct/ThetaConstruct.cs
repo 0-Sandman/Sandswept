@@ -263,7 +263,7 @@ namespace Sandswept.Enemies.ThetaConstruct
                         }
                     }
 
-                    targetBody.SetBuffCount(Buffs.ThetaBoost.instance.BuffDef.buffIndex, 1);
+                    targetBody.SetBuffCount(Buffs.ThetaBoost.instance.BuffDef.buffIndex, targetBody.GetBuffCount(Buffs.ThetaBoost.instance.BuffDef) + 1);
                 }
             }
 
@@ -320,7 +320,7 @@ namespace Sandswept.Enemies.ThetaConstruct
                     }
                 }
 
-                targetBody.SetBuffCount(Buffs.ThetaBoost.instance.BuffDef.buffIndex, 0);
+                targetBody.SetBuffCount(Buffs.ThetaBoost.instance.BuffDef.buffIndex, targetBody.GetBuffCount(Buffs.ThetaBoost.instance.BuffDef) - 1);
             }
         }
     }

@@ -1,3 +1,23 @@
+## 1.0.7 Patch Notes
+- VOL-T
+  - Tempest Sphere damage per second reduced from 500% to 385%
+  - You can now forcefully insert a fuel array into the broken robot, though you might not survive the aftermath.
+- Interactables
+  - Fixed Shrine of Ruin activation being carried over to the next run if you bought it and then quit to menu or died.
+  - Inferno Drone now properly drops itself upon death
+  - Inferno Drone now has an AIOwnership component to not shit the bed with propersave anymore
+- Enemies
+  - Fixed Gamma Construct log appearing as SANDSWEPT_GAMMA_BODY in the chatbox when picked up.
+
+## 1.0.6 Patch Notes
+- VOL-T
+  - Fixed Signal Overload not always draining 100% of your shield
+- Enemies
+  - Fixed not having csc names
+  - Theta Construct now stacks its stat boost if multiple constructs are shielding the same enemy :)
+- Interactables
+  - Changed Shrine of Ruin Director Credit Cost from 45 to 10
+
 ## 1.0.5 Patch Notes
 - Ranger
   - Fixed Char description
@@ -12,12 +32,10 @@
 - Elites
   - Fixed getting fucked by the patch that changed the SOTS elites
 - Enemies
-  - Increased Theta Construct Director Credit Cost from 70 to 140
-  - Increased Cannonball Jellyfish Director Credit Cost from 
-  - Made Theta Construct give immunity to targets protected by its shield (previously it just relied on the proximity shield so a lot of attacks could bypass it)
-  - Fixed not having csc names
-- Interactables
-  - Changed Shrine of Ruin Director Credit Cost from 45 to 10
+  - Theta Construct credit cost increased
+  - Cannonball Jellyfish credit cost increased
+  - Theta Construct now provides the Immune status effect to targets protected by its shield (previously it just relied on the proximity shield so explosives or lightning would bypass it)
+  - Fixed bug where voidtouched versions of certain enemies would bug out and spawn tons of copies.
 - Items/Equipment
   - Fixed Crown's Diamond reducing barrier decay wrongly
   - Fixed Smouldering Document applying burn for too long

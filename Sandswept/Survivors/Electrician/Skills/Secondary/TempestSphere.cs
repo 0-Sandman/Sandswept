@@ -6,7 +6,7 @@ namespace Sandswept.Survivors.Electrician.Skills
     public class TempestSphere : SkillBase<TempestSphere>
     {
         public override string Name => "Tempest Sphere";
-        public override string Description => "Send forth an orb of energy that <style=cIsDamage>damages</style> targets within for <style=cIsDamage>500% damage per second</style>. <style=cIsUtility>Release to lock the orb in place</style>.";
+        public override string Description => "Send forth an orb of energy that <style=cIsDamage>damages</style> targets within for <style=cIsDamage>385% damage per second</style>. <style=cIsUtility>Release to lock the orb in place</style>.";
         public override Type ActivationStateType => typeof(TempestSphereCharge);
         public override string ActivationMachineName => "Weapon";
         public override float Cooldown => 7f;
