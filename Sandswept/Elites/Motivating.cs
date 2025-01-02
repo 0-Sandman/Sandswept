@@ -1060,7 +1060,7 @@ localScale = new Vector3(3.25F, 3.25F, 3.25F)
         public static readonly SphereSearch sphereSearch = new();
         public static readonly List<HurtBox> hurtBoxBuffer = new();
         public static List<MotivatorController> motivatorControllers = new();
-        public GameObject warbannerOffset = new("Motivator Warbanner Offset");
+        public GameObject warbannerParent = new("Motivator Warbanner Parent");
         public Transform mdlWarbanner;
 
         public void Start()
@@ -1075,12 +1075,12 @@ localScale = new Vector3(3.25F, 3.25F, 3.25F)
             }
             if (modelTransform)
             {
-                warbannerOffset.transform.parent = modelTransform;
-                warbannerOffset.transform.localPosition = new Vector3(0f, Motivating.GetOffset(body.gameObject), 0f);
-                warbannerOffset.transform.eulerAngles = Vector3.zero;
+                warbannerParent.transform.parent = modelTransform;
+                warbannerParent.transform.localPosition = Vector3.zero;
+                warbannerParent.transform.eulerAngles = Vector3.zero;
 
                 warbannerInstance = Instantiate(warbannerPrefab, modelTransform.position, Quaternion.identity);
-                warbannerInstance.transform.parent = warbannerOffset.transform;
+                warbannerInstance.transform.parent = warbannerParent.transform;
 
                 warbannerInstance.GetComponent<TeamFilter>().teamIndex = body.teamComponent.teamIndex;
                 warbannerInstance.GetComponent<BuffWard>().Networkradius = warbannerRadius;
@@ -1090,7 +1090,7 @@ localScale = new Vector3(3.25F, 3.25F, 3.25F)
                 mdlWarbanner = warbannerInstance.transform.GetChild(1);
                 if (body)
                 {
-                    mdlWarbanner.localScale = Vector3.one * body.radius * 0.3f;
+                    // mdlWarbanner.localScale = Vector3.one * body.radius * 0.3f;
                     // if (body.isPlayerControlled)
                     mdlWarbanner.gameObject.SetActive(false);
                 }
@@ -1115,9 +1115,9 @@ localScale = new Vector3(3.25F, 3.25F, 3.25F)
 
         public void FixedUpdate()
         {
-            if (warbannerOffset && modelTransform)
+            if (warbannerParent && modelTransform)
             {
-                warbannerOffset.transform.eulerAngles = modelTransform.eulerAngles;
+                warbannerParent.transform.eulerAngles = modelTransform.eulerAngles;
             }
 
             if (warbannerInstance)

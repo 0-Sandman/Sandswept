@@ -45,14 +45,17 @@ namespace Sandswept.Items.Whites
         [ConfigField("Chance", "", 10f)]
         public static float chance;
 
-        [ConfigField("Base Damage", "Decimal.", 1.4f)]
+        [ConfigField("Base Damage", "Decimal.", 1.5f)]
         public static float baseDamage;
 
-        [ConfigField("Stack Damage", "Decimal.", 1.4f)]
+        [ConfigField("Stack Damage", "Decimal.", 1.5f)]
         public static float stackDamage;
 
         [ConfigField("Proc Coefficient", "", 1f)]
         public static float procCoefficient;
+
+        [ConfigField("Flat Barrier Gain", "Decimal.", 3f)]
+        public static float flatBarrierGain;
 
         [ConfigField("Percent Barrier Gain", "Decimal.", 0.035f)]
         public static float percentBarrierGain;
