@@ -272,7 +272,7 @@
 			<td><img src="https://i.postimg.cc/ZKTbBHc7/tex-Amber-Knife.png" width="96"></td>
 			<td>
 				<b>Amber Knife</b><br>
-				Gain a <b>10%</b> chance on hit to fire a knife for <b>150% (+150% per stack)</b> base damage that pierces and gives <b>3</b>, plus an additional <b>3.5%</b> barrier for each pierce.
+				Gain a <b>10%</b> chance on hit to fire a piercing knife for <b>150% (+150% per stack)</b> base damage that gives <b>3</b> plus an additional <b>3.5%</b> barrier for each pierce.
 			</td>
 		</tr>
 		<tr>
@@ -286,7 +286,7 @@
 			<td><img src="https://i.postimg.cc/1RVSGrFJ/tex-Red-Spring-Water.png" width="96"></td>
 			<td>
 				<b>Red Spring Water</b><br>
-				Increase health regeneration by <b>0.4 hp/s</b>, plus an additional <b>0.4 hp/s (+0.4 hp/s per stack)</b> for every buff you have.
+				Increase health regeneration by <b>0.4 hp/s</b>, plus an additional <b>0.6 hp/s (+0.6 hp/s per stack)</b> for every buff you have (diminishing returns scaling with buff count).
 			</td>
 		</tr>
 		<tr>
@@ -345,7 +345,7 @@
 			<td><img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"></td>
 			<td>
 				<b>Universal VIP Pass</b><br>
-				Category chests have a <b>45%</b> chance of dropping <b>1 (+1 per stack)</b> extra items.
+				Category chests have a <b>55%</b> chance of dropping <b>1 (+1 per stack)</b> extra items.
 			</td>
 		</tr>
 		<tr>

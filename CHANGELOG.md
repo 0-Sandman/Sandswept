@@ -11,6 +11,11 @@
   - Buffed Amber Knife Base Damage 140% => 150%
   - Buffed Amber Knife Stack Damage 140% => 150%
   - Buffed Amber Knife to also give 3 Flat Barrier
+  - Buffed Red Spring Water Base Regen from 0.4 to 0.6
+  - Buffed Red Spring Water Base Regen Per Buff from 0.4 to 0.6
+  - Buffed Red Spring Water Stack Regen Per Buff from 0.4 to 0.6
+  - Buffed Universal VIP Pass Chance from 45% to 55%
+  - Nerfed Red Spring Water to have diminishing returns scaling with buff count
   - Improved Amber Knife VFX and SFX
 
 ## 1.0.7 Patch Notes
