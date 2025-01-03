@@ -1,20 +1,40 @@
+## 1.0.8 Patch Notes
+- VOL-T
+  - Reduced crosshair scale to from 100% to 85%
+- Enemies
+  - Reduced Delta Construct Director Credit Cost from 150 to 135
+  - Reduced Gamma Construct Director Credit Cost from 185 to 150
+  - Reduced Theta Construct Director Credit Cost from 140 to 115
+- Elites
+  - Fixed Motivating bosses having weird aura offsets
+- Items/Equipment
+  - Buffed Amber Knife Base Damage 140% => 150%
+  - Buffed Amber Knife Stack Damage 140% => 150%
+  - Buffed Amber Knife to also give 3 Flat Barrier
+  - Buffed Red Spring Water Base Regen from 0.4 to 0.6
+  - Buffed Red Spring Water Base Regen Per Buff from 0.4 to 0.6
+  - Buffed Red Spring Water Stack Regen Per Buff from 0.4 to 0.6
+  - Buffed Universal VIP Pass Chance from 45% to 55%
+  - Nerfed Red Spring Water to have diminishing returns scaling with buff count
+  - Improved Amber Knife VFX and SFX
+
 ## 1.0.7 Patch Notes
 - VOL-T
-  - Tempest Sphere damage per second reduced from 500% to 385%
-  - You can now forcefully insert a fuel array into the broken robot, though you might not survive the aftermath.
+  - Nerfed Tempest Sphere Damage Per Second from 500% to 385%
+  - Made it possible to insert a fuel array into the broken robot... though you might not survive the aftermath
 - Interactables
   - Fixed Shrine of Ruin activation being carried over to the next run if you bought it and then quit to menu or died.
-  - Inferno Drone now properly drops itself upon death
-  - Inferno Drone now has an AIOwnership component to not shit the bed with propersave anymore
+  - Fixed Inferno Drone not becoming an interactable again after death
+  - Fixed Inferno Drone not having an AIOwnership component
 - Enemies
-  - Fixed Gamma Construct log appearing as SANDSWEPT_GAMMA_BODY in the chatbox when picked up.
+  - Fixed Gamma Construct log appearing as SANDSWEPT_GAMMA_BODY in the chatbox when picked up
 
 ## 1.0.6 Patch Notes
 - VOL-T
   - Fixed Signal Overload not always draining 100% of your shield
 - Enemies
   - Fixed not having csc names
-  - Theta Construct now stacks its stat boost if multiple constructs are shielding the same enemy :)
+  - Made Theta Construct stack its stat boost if multiple Constructs are shielding the same enemy :)
 - Interactables
   - Changed Shrine of Ruin Director Credit Cost from 45 to 10
 
@@ -32,9 +52,9 @@
 - Elites
   - Fixed getting fucked by the patch that changed the SOTS elites
 - Enemies
-  - Theta Construct credit cost increased
-  - Cannonball Jellyfish credit cost increased
-  - Theta Construct now provides the Immune status effect to targets protected by its shield (previously it just relied on the proximity shield so explosives or lightning would bypass it)
+  - Increased Theta Construct Director Credit Cost from 70 to 140
+  - Increased Cannonball Jellyfish Director Credit Cost from 70 to 115
+  - Made Theta Construct give immunity to targets protected by its shield (previously it just relied on the proximity shield so a lot of attacks could bypass it)
   - Fixed bug where voidtouched versions of certain enemies would bug out and spawn tons of copies.
 - Items/Equipment
   - Fixed Crown's Diamond reducing barrier decay wrongly

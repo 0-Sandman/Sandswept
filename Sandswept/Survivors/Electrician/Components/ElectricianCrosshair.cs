@@ -21,6 +21,12 @@ namespace Sandswept.Survivors.Electrician
             CrosshairController cm = GetComponent<CrosshairController>();
             cm.maxSpreadAngle = 2f;
 
+            outer.localScale = Vector3.one * 0.85f;
+            inner.localScale = Vector3.one * 0.85f;
+
+            var dot = outer.parent.Find("texCrosshairDot").GetComponent<RectTransform>();
+            dot.localScale *= 0.85f;
+
             /*for (int i = 0; i < cm.spriteSpreadPositions.Length; i++) {
                 var sprite = cm.spriteSpreadPositions[i];
                 float mult = 3f;

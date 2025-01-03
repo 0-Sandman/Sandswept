@@ -1,4 +1,7 @@
-﻿/*
+﻿// TODO: Change all item outlines to white, change all equip outlines to orange (idk where that is)
+// TODO: Change chat pickup colors to white and orange
+
+/*
 using BepInEx.Configuration;
 using System.Linq;
 using UnityEngine.SceneManagement;
@@ -12,6 +15,8 @@ using Sandswept.Artifacts;
 using Sandswept;
 using RoR2.ContentManagement;
 using System.Runtime.CompilerServices;
+using MonoMod.Cil;
+using Mono.Cecil.Cil;
 
 namespace Sandswept.Artifacts.ArtifactOfAbysm
 {
@@ -28,11 +33,21 @@ namespace Sandswept.Artifacts.ArtifactOfAbysm
 
         public override Sprite ArtifactDisabledIcon => Main.hifuSandswept.LoadAsset<Sprite>("texArtifactOfBlindnessDisabled.png");
 
-        public static List<LanguageAPI.LanguageOverlay> overlays = new();
+        public static List<LanguageAPI.LanguageOverlay> languageOverlays = new();
 
-        public static Dictionary<ItemDef, Sprite> cachedIcons = new();
+        public static Dictionary<EquipmentDef, Sprite> cachedEquipmentDefIcons = new();
+        public static Dictionary<EquipmentDef, GameObject> cachedEquipmentDefModels = new();
+        public static Dictionary<EquipmentDef, ColorCatalog.ColorIndex> cachedEquipmentDefColorIndices = new();
 
-        public static Dictionary<ItemDef, GameObject> cachedModels = new();
+        public static Dictionary<ItemDef, Sprite> cachedItemDefIcons = new();
+
+        public static Dictionary<ItemDef, GameObject> cachedItemDefModels = new();
+
+        public static Dictionary<PickupDef, GameObject> cachedPickupModels = new();
+
+        public static Dictionary<ItemTierDef, ItemTierDef.PickupRules> cachedItemTierDefPickupRules = new();
+        public static Dictionary<ItemTierDef, ColorCatalog.ColorIndex> cachedItemTierDefColorIndices = new();
+        public static Dictionary<ItemTierDef, ColorCatalog.ColorIndex> cachedItemTierDefDarkColorIndices = new();
 
         public static Sprite unknownIcon = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/MiscIcons/texMysteryIcon.png").WaitForCompletion();
 
@@ -49,16 +64,60 @@ namespace Sandswept.Artifacts.ArtifactOfAbysm
         {
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
-            CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
+            On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
+            IL.RoR2.PickupDisplay.RebuildModel += PickupDisplay_RebuildModel;
         }
 
-        private void CharacterBody_onBodyStartGlobal(CharacterBody body)
+        private void PickupDisplay_RebuildModel(ILContext il)
         {
-            if (ArtifactEnabled && body.isPlayerControlled && body.inventory)
-            {
-                body.inventory.GiveItem(DLC1Content.Items.RandomlyLunar);
+            ILCursor c = new(il);
 
-                FuckingStupidThing2(body);
+            ILLabel label = null;
+
+            if (c.TryGotoNext(MoveType.Before,
+                x => x.MatchStloc(out _),
+                x => x.MatchLdloc(out _),
+                x => x.MatchLdcI4(out _),
+                x => x.MatchBeq(out _)))
+            {
+                c.Index++;
+
+                var goMyBeetle = c.Clone();
+
+                if (goMyBeetle.TryGotoNext(MoveType.Before,
+                    x => x.MatchLdfld(typeof(PickupDisplay), nameof(PickupDisplay.lunarParticleEffect)),
+                    x => x.MatchCallOrCallvirt(out _),
+                    x => x.MatchBrfalse(out label)))
+                {
+                    c.Emit(OpCodes.Br, label);
+                }
+                else
+                {
+                    Main.ModLogger.LogError("Failed to apply Pickup Display Rebuild Model #2 hook");
+                }
+            }
+            else
+            {
+                Main.ModLogger.LogError("Failed to apply Pickup Display Rebuild Model #1 hook");
+            }
+        }
+
+        private void ClassicStageInfo_RebuildCards(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self, DirectorCardCategorySelection forcedMonsterCategory, DirectorCardCategorySelection forcedInteractableCategory)
+        {
+            orig(self, forcedMonsterCategory, forcedInteractableCategory);
+            if (ArtifactEnabled)
+            {
+                self.interactableCategories.RemoveCardsThatFailFilter(FuckOff);
+
+                static bool FuckOff(DirectorCard card)
+                {
+                    var prefab = card.spawnCard.prefab;
+                    if (prefab.GetComponent<ScrapperController>() || prefab.GetComponent<ShrineCleanseBehavior>())
+                    {
+                        return false;
+                    }
+                    return true;
+                }
             }
         }
 
@@ -77,114 +136,190 @@ namespace Sandswept.Artifacts.ArtifactOfAbysm
 
         private void ApplyArtifactChanges(bool remove = false)
         {
-            DLC1Content.Items.RandomlyLunar.hidden = true;
+            FuckingStupidThing(true);
+
+            if (Run.instance)
+            {
+                // Main.ModLogger.LogError("run instance exists");
+
+                Run.instance.availableTier1DropList = Run.instance.availableTier1DropList.Concat(Run.instance.availableLunarItemDropList).ToList();
+                Run.instance.availableTier2DropList = Run.instance.availableTier2DropList.Concat(Run.instance.availableLunarItemDropList).ToList();
+                Run.instance.availableEquipmentDropList = Run.instance.availableEquipmentDropList.Concat(Run.instance.availableLunarEquipmentDropList).ToList();
+            }
+
+            for (int i = 0; i < ContentManager._itemTierDefs.Length; i++)
+            {
+                var itemTierDef = ContentManager._itemTierDefs[i];
+                if (!cachedItemTierDefPickupRules.ContainsKey(itemTierDef))
+                {
+                    cachedItemTierDefPickupRules.Add(itemTierDef, itemTierDef.pickupRules);
+                }
+
+                if (!cachedItemTierDefColorIndices.ContainsKey(itemTierDef))
+                {
+                    cachedItemTierDefColorIndices.Add(itemTierDef, itemTierDef.colorIndex);
+                }
+
+                if (!cachedItemTierDefDarkColorIndices.ContainsKey(itemTierDef))
+                {
+                    cachedItemTierDefDarkColorIndices.Add(itemTierDef, itemTierDef.darkColorIndex);
+                }
+
+                itemTierDef.pickupRules = ItemTierDef.PickupRules.Default;
+                itemTierDef.colorIndex = ColorCatalog.ColorIndex.Tier1Item;
+                itemTierDef.darkColorIndex = ColorCatalog.ColorIndex.Tier1ItemDark;
+            }
+
+            for (int i = 0; i < ContentManager._equipmentDefs.Length; i++)
+            {
+                var equipmentDef = ContentManager._equipmentDefs[i];
+
+                var nameTokenOverlay = LanguageAPI.AddOverlay(equipmentDef.nameToken, "???");
+                var descriptionTokenOverlay = LanguageAPI.AddOverlay(equipmentDef.descriptionToken, "???");
+                var pickupTokenOverlay = LanguageAPI.AddOverlay(equipmentDef.pickupToken, "???");
+                var loreTokenOverlay = LanguageAPI.AddOverlay(equipmentDef.loreToken, "???");
+
+                languageOverlays.Add(nameTokenOverlay);
+                languageOverlays.Add(descriptionTokenOverlay);
+                languageOverlays.Add(pickupTokenOverlay);
+                languageOverlays.Add(loreTokenOverlay);
+
+                if (!cachedEquipmentDefIcons.ContainsKey(equipmentDef))
+                {
+                    cachedEquipmentDefIcons.Add(equipmentDef, equipmentDef.pickupIconSprite);
+                }
+
+                if (!cachedEquipmentDefModels.ContainsKey(equipmentDef))
+                {
+                    cachedEquipmentDefModels.Add(equipmentDef, equipmentDef.pickupModelPrefab);
+                }
+
+                if (!cachedEquipmentDefColorIndices.ContainsKey(equipmentDef))
+                {
+                    cachedEquipmentDefColorIndices.Add(equipmentDef, equipmentDef.colorIndex);
+                }
+
+                equipmentDef.pickupIconSprite = unknownIcon;
+                equipmentDef.pickupModelPrefab = unknownModel;
+                equipmentDef.colorIndex = ColorCatalog.ColorIndex.Equipment;
+            }
 
             for (int i = 0; i < ContentManager._itemDefs.Length; i++)
             {
-                if (overlays.Count <= ContentManager._itemDefs.Length)
+                var itemDef = ContentManager._itemDefs[i];
+                var nameTokenOverlay = LanguageAPI.AddOverlay(itemDef.nameToken, "???");
+                var descriptionTokenOverlay = LanguageAPI.AddOverlay(itemDef.descriptionToken, "???");
+                var pickupTokenOverlay = LanguageAPI.AddOverlay(itemDef.pickupToken, "???");
+                var loreTokenOverlay = LanguageAPI.AddOverlay(itemDef.loreToken, "???");
+
+                languageOverlays.Add(nameTokenOverlay);
+                languageOverlays.Add(descriptionTokenOverlay);
+                languageOverlays.Add(pickupTokenOverlay);
+                languageOverlays.Add(loreTokenOverlay);
+
+                if (!cachedItemDefIcons.ContainsKey(itemDef))
                 {
-                    var itemDef = ContentManager._itemDefs[i];
-                    var nameTokenOverlay = LanguageAPI.AddOverlay(itemDef.nameToken, "?");
-                    var descriptionTokenOverlay = LanguageAPI.AddOverlay(itemDef.descriptionToken, "?");
-                    var pickupTokenOverlay = LanguageAPI.AddOverlay(itemDef.pickupToken, "?");
-                    var loreTokenOverlay = LanguageAPI.AddOverlay(itemDef.loreToken, "?");
-
-                    overlays.Add(nameTokenOverlay);
-                    overlays.Add(descriptionTokenOverlay);
-                    overlays.Add(pickupTokenOverlay);
-                    overlays.Add(loreTokenOverlay);
-
-                    Language.SetCurrentLanguage(Language.currentLanguageName);
-
-                    if (!cachedIcons.ContainsKey(itemDef))
-                    {
-                        cachedIcons.Add(itemDef, itemDef.pickupIconSprite);
-                    }
-
-                    if (!cachedModels.ContainsKey(itemDef))
-                    {
-                        cachedModels.Add(itemDef, itemDef.pickupModelPrefab);
-                    }
-
-                    itemDef.pickupIconSprite = unknownIcon;
-                    itemDef.pickupModelPrefab = unknownModel;
+                    cachedItemDefIcons.Add(itemDef, itemDef.pickupIconSprite);
                 }
-            }
 
-            // TODO: do pickups, set all itemtierdef.pickupRules to Default, disable logbook button OR don't if changing pickups works (doubt), try to disable tier colors in strings?
+                if (!cachedItemDefModels.ContainsKey(itemDef))
+                {
+                    cachedItemDefModels.Add(itemDef, itemDef.pickupModelPrefab);
+                }
+
+                itemDef.pickupIconSprite = unknownIcon;
+                itemDef.pickupModelPrefab = unknownModel;
+            }
 
             for (int i = 0; i < PickupCatalog.entries.Length; i++)
             {
                 var entry = PickupCatalog.entries[i];
-                entry.
+
+                var nameTokenOverlay = LanguageAPI.AddOverlay(entry.nameToken, "???");
+                languageOverlays.Add(nameTokenOverlay);
+
+                if (!cachedPickupModels.ContainsKey(entry))
+                {
+                    cachedPickupModels.Add(entry, entry.displayPrefab);
+                }
+
+                entry.displayPrefab = unknownModel;
             }
 
             if (remove)
             {
-                DLC1Content.Items.RandomlyLunar.hidden = false;
-
-                for (int i = 0; i < overlays.Count; i++)
+                for (int i = 0; i < languageOverlays.Count; i++)
                 {
-                    var overlay = overlays[i];
+                    var overlay = languageOverlays[i];
                     overlay?.Remove();
                 }
 
-                for (int i = overlays.Count - 1; i >= 0; i--)
+                for (int i = languageOverlays.Count - 1; i >= 0; i--)
                 {
-                    overlays.RemoveAt(i);
+                    languageOverlays.RemoveAt(i);
                 }
 
-                Language.SetCurrentLanguage(Language.currentLanguageName);
-
-                foreach (var sprite in cachedIcons)
+                foreach (var itemIcon in cachedItemDefIcons)
                 {
                     // sprite.Key is itemDef
-                    sprite.Key.pickupIconSprite = sprite.Value;
+                    itemIcon.Key.pickupIconSprite = itemIcon.Value;
                 }
 
-                cachedIcons.Clear();
+                cachedItemDefIcons.Clear();
 
-                foreach (var model in cachedModels)
+                foreach (var itemModel in cachedItemDefModels)
                 {
                     // model.Key is itemDef
-                    model.Key.pickupModelPrefab = model.Value;
+                    itemModel.Key.pickupModelPrefab = itemModel.Value;
                 }
 
-                FuckingStupidThing();
+                foreach (var itemTierDefPickupRule in cachedItemTierDefPickupRules)
+                {
+                    itemTierDefPickupRule.Key.pickupRules = itemTierDefPickupRule.Value;
+                }
+
+                foreach (var itemTierDefColor in cachedItemTierDefColorIndices)
+                {
+                    itemTierDefColor.Key.colorIndex = itemTierDefColor.Value;
+                }
+
+                foreach (var itemTierDefDarkColor in cachedItemTierDefDarkColorIndices)
+                {
+                    itemTierDefDarkColor.Key.darkColorIndex = itemTierDefDarkColor.Value;
+                }
+
+                foreach (var equipmentIcon in cachedEquipmentDefIcons)
+                {
+                    equipmentIcon.Key.pickupIconSprite = equipmentIcon.Value;
+                }
+
+                foreach (var equipmentModel in cachedEquipmentDefModels)
+                {
+                    equipmentModel.Key.pickupModelPrefab = equipmentModel.Value;
+                }
+
+                foreach (var equipmentColor in cachedEquipmentDefColorIndices)
+                {
+                    equipmentColor.Key.colorIndex = ColorCatalog.ColorIndex.Equipment;
+                }
+
+                FuckingStupidThing(false);
             }
+
+            Language.SetCurrentLanguage(Language.currentLanguageName);
         }
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public void FuckingStupidThing()
+        public void FuckingStupidThing(bool enable)
         {
             if (Main.LookingGlassLoaded)
             {
-                for (int i = 0; i < CharacterBody.instancesList.Count; i++)
+                // Main.ModLogger.LogError("looking glass loaded");
+                for (int i = 0; i < PlayerCharacterMasterController.instances.Count; i++)
                 {
-                    var characterBody = CharacterBody.instancesList[i];
-                    if (characterBody.isPlayerControlled)
-                    {
-                        var master = characterBody.master;
-                        if (master && master.GetComponent<LookingGlassDisabler>() != null)
-                        {
-                            var lookingGlassDisabler = master.GetComponent<LookingGlassDisabler>();
-                            lookingGlassDisabler.shouldRun = false;
-                        }
-                    }
-                }
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public void FuckingStupidThing2(CharacterBody body)
-        {
-            if (Main.LookingGlassLoaded)
-            {
-                var master = body.master;
-                if (master && master.GetComponent<LookingGlassDisabler>() == null)
-                {
-                    var lookingGlassDisabler = master.AddComponent<LookingGlassDisabler>();
-                    lookingGlassDisabler.shouldRun = true;
+                    var pcmc = PlayerCharacterMasterController.instances[i];
+                    var lookingGlassDisabler = pcmc.GetComponent<LookingGlassDisabler>() ? pcmc.GetComponent<LookingGlassDisabler>() : pcmc.AddComponent<LookingGlassDisabler>();
+                    lookingGlassDisabler.shouldRun = enable;
                 }
             }
         }
@@ -195,7 +330,7 @@ namespace Sandswept.Artifacts.ArtifactOfAbysm
         public bool shouldRun = true;
         public bool cachedItemStatsCalculationsValue;
         public float timer;
-        public float interval = 0.15f;
+        public float interval = 0.05f;
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         public void Start()

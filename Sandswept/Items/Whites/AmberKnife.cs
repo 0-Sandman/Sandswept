@@ -1,4 +1,5 @@
-﻿using RoR2.EntityLogic;
+﻿using Rewired.ComponentControls.Effects;
+using RoR2.EntityLogic;
 using UnityEngine.Events;
 using UnityEngine.Networking.NetworkSystem;
 using static Sandswept.Utils.Components.MaterialControllerComponents;
@@ -16,7 +17,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "Chance to fire a piercing knife that grants barrier on hit.";
 
-        public override string ItemFullDescription => ("Gain a $sd" + chance + "%$se chance on hit to fire a $sdknife$se for $sd" + d(baseDamage) + "$se $ss(+" + d(stackDamage) + " per stack)$se base damage that $sdpierces$s. Gain $sh" + d(percentBarrierGain) + " barrier$se for every pierce with the knife.").AutoFormat();
+        public override string ItemFullDescription => ("Gain a $sd" + chance + "%$se chance on hit to fire a $sdpiercing knife$se for $sd" + d(baseDamage) + "$se $ss(+" + d(stackDamage) + " per stack)$se base damage that gives $sh" + flatBarrierGain + "$se plus an additional $sh" + d(percentBarrierGain) + " barrier$se.").AutoFormat();
 
         public override string ItemLore => "<style=cMono>Order: Amber Knife\r\nTracking Number: 534*****\r\nEstimated Delivery: 06/15/2056\r\nShipping Method: High Priority\r\nShipping Address: Outer Ring Lab, Venus\r\nShipping Details:\r\n\r\n</style>This is an ancient ritual artifact, once used by Neptunian priests in sacrifices, said to protect them from attack and assassination. This was not without credence, it seems, as the knife operates similarly to the ultra-phasic shield technology used in the assassination of Mars's ambassador two months back.\r\n\r\nOf course, we can't use such an old and fragile weapon in our own operations, but its effect seems more potent than what the assassin used. Along with serving your planet, you'll receive generous funding to discover how it works and incorporate it into something more usable.\r\n";
 
@@ -42,17 +43,22 @@ namespace Sandswept.Items.Whites
 
         public static ProjectileOverlapAttack projectileOverlapAttack;
 
+        public static GameObject impactVFX;
+
         [ConfigField("Chance", "", 10f)]
         public static float chance;
 
-        [ConfigField("Base Damage", "Decimal.", 1.4f)]
+        [ConfigField("Base Damage", "Decimal.", 1.5f)]
         public static float baseDamage;
 
-        [ConfigField("Stack Damage", "Decimal.", 1.4f)]
+        [ConfigField("Stack Damage", "Decimal.", 1.5f)]
         public static float stackDamage;
 
         [ConfigField("Proc Coefficient", "", 1f)]
         public static float procCoefficient;
+
+        [ConfigField("Flat Barrier Gain", "Decimal.", 3f)]
+        public static float flatBarrierGain;
 
         [ConfigField("Percent Barrier Gain", "Decimal.", 0.035f)]
         public static float percentBarrierGain;
@@ -65,14 +71,66 @@ namespace Sandswept.Items.Whites
         // also the unity event doesnt work bruhhhh
         public override void Init(ConfigFile config)
         {
+            impactVFX = PrefabAPI.InstantiateClone(Paths.GameObject.MercSwordFinisherSlash, "Amber Knife Impact VFX", false);
+
+            var effectComponent = impactVFX.AddComponent<EffectComponent>();
+            effectComponent.soundName = "Play_bandit2_m2_impact";
+
+            var scaleParticleSystemDuration = impactVFX.GetComponent<ScaleParticleSystemDuration>();
+            scaleParticleSystemDuration.newDuration = 0.2f;
+            scaleParticleSystemDuration.initialDuration = 0.2f;
+
+            impactVFX.GetComponent<DestroyOnTimer>().duration = 0.1f;
+
+            impactVFX.transform.Find("Sparks").gameObject.SetActive(false);
+
+            var swingTrail = impactVFX.transform.Find("SwingTrail").GetComponent<ParticleSystemRenderer>();
+            swingTrail.transform.localScale = Vector3.one * 0.5f;
+
+            var newSwingTrailMaterial = new Material(Paths.Material.matMercSwipe2);
+            newSwingTrailMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampRailgun);
+            newSwingTrailMaterial.SetColor("_TintColor", new Color32(211, 124, 0, 255));
+            newSwingTrailMaterial.SetFloat("_Boost", 7f);
+
+            swingTrail.material = newSwingTrailMaterial;
+
+            impactVFX.transform.Find("SwingDistortion?").localScale = Vector3.one * 0.5f;
+
+            ContentAddition.AddEffect(impactVFX);
+
             amberKnifeGhost = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Bandit2/Bandit2ShivGhostAlt.prefab").WaitForCompletion(), "Amber Knife Ghost", false);
 
             amberKnifeGhost.transform.localScale = new Vector3(2f, 2f, 2f);
 
             var mesh = amberKnifeGhost.transform.GetChild(0);
+            mesh.localEulerAngles = Vector3.zero;
+            mesh.localScale *= 0.33f;
+
+            var rot = mesh.AddComponent<RotateAroundAxis>();
+            rot.enabled = true;
+            rot.speed = RotateAroundAxis.Speed.Fast;
+            rot.fastRotationSpeed = 800f;
+            rot.rotateAroundAxis = RotateAroundAxis.RotationAxis.Y;
+
+            var rot2 = mesh.AddComponent<RotateAroundAxis>();
+            rot2.enabled = true;
+            rot2.speed = RotateAroundAxis.Speed.Fast;
+            rot2.fastRotationSpeed = 1200f;
+            rot2.rotateAroundAxis = RotateAroundAxis.RotationAxis.X;
+
+            var rot3 = mesh.AddComponent<RotateAroundAxis>();
+            rot3.enabled = true;
+            rot3.speed = RotateAroundAxis.Speed.Fast;
+            rot3.fastRotationSpeed = 1200f;
+            rot3.rotateAroundAxis = RotateAroundAxis.RotationAxis.Z;
+
+            var randomRot2 = mesh.AddComponent<SetRandomRotation>();
+            randomRot2.setRandomXRotation = true;
+            randomRot2.setRandomYRotation = true;
+            randomRot2.setRandomZRotation = true;
 
             var mf = mesh.GetComponent<MeshFilter>(); // couldnt resist naming it mf
-            mf.mesh = Main.hifuSandswept.LoadAsset<Mesh>("AmberKnifeMesh.fbx");
+            mf.mesh = Main.hifuSandswept.LoadAsset<Mesh>("AmberKnife.fbx");
 
             var meshRenderer = mesh.GetComponent<MeshRenderer>();
             meshRenderer.material = Main.hifuSandswept.LoadAsset<Material>("matAmberKnife.mat");
@@ -101,6 +159,11 @@ namespace Sandswept.Items.Whites
             projectileController.procCoefficient = procCoefficient;
             projectileController.ghostPrefab = amberKnifeGhost;
 
+            var projectileSimple = amberKnifeProjectile.GetComponent<ProjectileSimple>();
+            projectileSimple.enableVelocityOverLifetime = true;
+            projectileSimple.desiredForwardSpeed = 130f;
+            projectileSimple.velocityOverLifetime = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.005f, 1f), new Keyframe(1f, 1.5f));
+
             var hitBox = amberKnifeProjectile.AddComponent<HitBox>();
 
             var hitBoxGroup = amberKnifeProjectile.AddComponent<HitBoxGroup>();
@@ -119,14 +182,14 @@ namespace Sandswept.Items.Whites
 
             // amberKnifeProjectile.transform.localScale = new Vector3(2f, 2f, 2f);
 
-            var swingTrail = amberKnifeProjectile.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystemRenderer>();
+            var swingTrailProjectile = amberKnifeProjectile.transform.GetChild(0).GetChild(1).GetComponent<ParticleSystemRenderer>();
 
-            var newMat = Object.Instantiate(Paths.Material.matBandit2SlashBlade);
+            var newMat = new Material(Paths.Material.matBandit2SlashBlade);
             newMat.SetColor("_TintColor", new Color32(255, 180, 40, 255));
             newMat.SetFloat("_Boost", 6.25f);
             newMat.SetFloat("_AlphaBoost", 3.766f);
 
-            swingTrail.material = newMat;
+            swingTrailProjectile.material = newMat;
 
             // amberKnifeProjectile.AddComponent<AmberKnifeProjectile>();
 
@@ -179,7 +242,7 @@ namespace Sandswept.Items.Whites
                         projectilePrefab = amberKnifeProjectile,
                     };
 
-                    Util.PlaySound("Play_bandit2_m2_slash", attackerBody.gameObject);
+                    Util.PlayAttackSpeedSound("Play_bandit2_m2_slash", attackerBody.gameObject, 1.5f);
 
                     fpi.procChainMask.AddModdedProc(amberKnife);
 
@@ -220,10 +283,11 @@ namespace Sandswept.Items.Whites
 
             public void AddBarrier()
             {
-                EffectManager.SimpleImpactEffect(Paths.GameObject.MagmaWormImpactExplosion, base.transform.position, -transform.forward, transmit: true);
+                var randomRotation = new Vector3(Run.instance.stageRng.RangeFloat(0f, 360f), Run.instance.stageRng.RangeFloat(0f, 360f), Run.instance.stageRng.RangeFloat(0f, 360f));
+                EffectManager.SimpleEffect(impactVFX, transform.position, Util.QuaternionSafeLookRotation(randomRotation), true);
                 if (owner != null)
                 {
-                    owner.healthComponent.AddBarrier(owner.healthComponent.fullHealth * percentBarrierGain);
+                    owner.healthComponent.AddBarrier(flatBarrierGain + (owner.healthComponent.fullHealth * percentBarrierGain));
                 }
             }
 

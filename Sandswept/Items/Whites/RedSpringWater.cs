@@ -21,13 +21,13 @@
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Healing };
 
-        [ConfigField("Base Regen", "Only for the first stack", 0.4f)]
+        [ConfigField("Base Regen", "Only for the first stack", 0.6f)]
         public static float baseRegen;
 
-        [ConfigField("Base Regen Per Buff", "", 0.4f)]
+        [ConfigField("Base Regen Per Buff", "", 0.6f)]
         public static float baseRegenPerBuff;
 
-        [ConfigField("Stack Regen Per Buff", "", 0.4f)]
+        [ConfigField("Stack Regen Per Buff", "", 0.6f)]
         public static float stackRegenPerBuff;
 
         public override void Init(ConfigFile config)
@@ -59,23 +59,24 @@
             var stack = GetCount(sender);
             if (stack > 0)
             {
-                var regen = baseRegen + (baseRegenPerBuff + stackRegenPerBuff * (stack - 1));
-                var fromBase = baseRegen + 0.2f * baseRegen * (sender.level - 1);
-
-                float totalRegen = 0;
+                float gainPerBuff = 0f;
+                float counter = 0.5f;
+                var gainFromBase = baseRegen + 0.2f * baseRegen * (sender.level - 1);
+                float totalRegenGain = gainFromBase;
 
                 for (BuffIndex index = (BuffIndex)0; (int)index < BuffCatalog.buffCount; index++)
                 {
                     BuffDef buff = BuffCatalog.GetBuffDef(index);
                     if (buff && !buff.isDebuff && sender.HasBuff(buff))
                     {
-                        totalRegen += regen + 0.2f * regen * (sender.level - 1);
+                        counter += 0.5f;
+                        gainPerBuff += (baseRegenPerBuff + stackRegenPerBuff * (stack - 1)) / counter;
                     }
                 }
 
-                totalRegen += fromBase;
+                totalRegenGain += gainPerBuff + 0.2f * gainPerBuff * (sender.level - 1);
 
-                args.baseRegenAdd += totalRegen;
+                args.baseRegenAdd += totalRegenGain;
             }
         }
 
