@@ -286,7 +286,7 @@
 			<td><img src="https://i.postimg.cc/1RVSGrFJ/tex-Red-Spring-Water.png" width="96"></td>
 			<td>
 				<b>Red Spring Water</b><br>
-				Increase health regeneration by <b>0.4 hp/s</b>, plus an additional <b>0.6 hp/s (+0.6 hp/s per stack)</b> for every buff you have (diminishing returns scaling with buff count).
+				Increase health regeneration by <b>0.6 hp/s</b>, plus an additional <b>0.6 hp/s (+0.6 hp/s per stack)</b> for every buff you have (diminishing returns scaling with buff count).
 			</td>
 		</tr>
 		<tr>
