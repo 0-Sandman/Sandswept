@@ -272,7 +272,7 @@
 			<td><img src="https://i.postimg.cc/ZKTbBHc7/tex-Amber-Knife.png" width="96"></td>
 			<td>
 				<b>Amber Knife</b><br>
-				Gain a 10% chance on hit to fire a knife for <b>140% (+140% per stack)</b> base damage that pierces. Gain <b>3.5%</b> barrier for every pierce with the knife.
+				Gain a <b>10%</b> chance on hit to fire a piercing knife for <b>150% (+150% per stack)</b> base damage that gives <b>3</b> plus an additional <b>3.5%</b> barrier for each pierce.
 			</td>
 		</tr>
 		<tr>
@@ -286,7 +286,7 @@
 			<td><img src="https://i.postimg.cc/1RVSGrFJ/tex-Red-Spring-Water.png" width="96"></td>
 			<td>
 				<b>Red Spring Water</b><br>
-				Increase health regeneration by <b>0.4 hp/s</b>, plus an additional <b>0.4 hp/s (+0.4 hp/s per stack)</b> for every buff you have.
+				Increase health regeneration by <b>0.6 hp/s</b>, plus an additional <b>0.6 hp/s (+0.6 hp/s per stack)</b> for every buff you have (diminishing returns scaling with buff count).
 			</td>
 		</tr>
 		<tr>
@@ -303,7 +303,7 @@
 			<td><img src="https://i.postimg.cc/8PzC9yz7/tex-Drifting-Perception.png" width="96"></td>
 			<td>
 				<b>Drifting Perception</b><br>
-				Upon entering combat, become cloaked for <b>6s</b>. While cloaked, increase 'Critical Strike' chance by <b>20%</b> and 'Critical Strike' damage by <b>60% (+60% per stack)</b>. Recharges every 25 seconds.
+				Upon entering combat, become cloaked for <b>6s</b>. While cloaked, increase 'Critical Strike' chance by <b>20%</b> and 'Critical Strike' damage by <b>60% (+60% per stack)</b>. Recharges every <b>25</b> seconds.
 			</td>
 		</tr>
 		<tr>
@@ -324,7 +324,7 @@
 			<td><img src="https://i.postimg.cc/gcvrKYNH/tex-Sacrificial-Band.png" width="96"></td>
 			<td>
 				<b>Sacrificial Band</b><br>
-				Hits that deal more than <b>400%</b> damage also inflict <b>1 (+1 per stack)</b> bleeds on enemies for each <b>110%</b> of skill damage. Recharges every 10 seconds.
+				Hits that deal more than <b>400%</b> damage also inflict <b>1 (+1 per stack)</b> bleeds on enemies for each <b>110%</b> of skill damage. Recharges every <b>10</b> seconds.
 			</td>
 		</tr>
 		<tr>
@@ -345,7 +345,7 @@
 			<td><img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"></td>
 			<td>
 				<b>Universal VIP Pass</b><br>
-				Category chests have a <b>45%</b> chance of dropping <b>1 (+1 per stack)</b> extra items.
+				Category chests have a <b>55%</b> chance of dropping <b>1 (+1 per stack)</b> extra items.
 			</td>
 		</tr>
 		<tr>
@@ -355,7 +355,7 @@
 			<td><img src="https://i.postimg.cc/Ls6739KX/tex-Festering-Hunger.png" width="96"></td>
 			<td>
 				<b>Festering Hunger</b><br>
-				<b>7%</b> chance on hit to inflict decay for <b>300%</b> base damage. Moving near decaying enemies increases movement speed by <b>33% (+33% per stack)</b> for 2s. Corrupts all Smouldering Documents.
+				<b>7%</b> chance on hit to inflict decay for <b>300%</b> base damage. Moving near decaying enemies increases movement speed by <b>33% (+33% per stack)</b> for <b>2</b> seconds. Corrupts all Smouldering Documents.
 			</td>
 		</tr>
 		<tr>
@@ -379,7 +379,7 @@
 			<td><img src="https://i.postimg.cc/pXf50nwk/tex-Ceremonial-Jar.png" width="96"></td>
 			<td>
 				<b>Ceremonial Jar</b><br>
-				On hit, link enemies up to <b>3</b> times. Linked enemies take <b>1500% (+1500% per stack)</b> base damage each and cannot be linked for 5s afterward.
+				On hit, link enemies up to <b>3</b> times. Linked enemies take <b>1500% (+1500% per stack)</b> base damage each and cannot be linked for <b>5</b> seconds afterward.
 			</td>
 		</tr>
 		<tr>
@@ -403,7 +403,7 @@
 			<td><img src="https://i.postimg.cc/jdHk6xWd/tex-Corrupted-Catalyst.png" width="64"/></td>
 			<td>
 				<b>Corrupted Catalyst</b><br>
-				Create a <b>30m</b> aura that gives all allies and enemies a random buff for <b>15s</b>. Cooldown: <b>35s</b>
+				Create a <b>30m</b> aura that gives all allies and enemies a random buff for <b>15s</b>. Cooldown: <b>35</b> seconds
 			</td>
 		</tr>
 		<tr>
@@ -413,14 +413,14 @@
 			<td><img src="https://i.postimg.cc/SNPjrhH3/tex-Galvanic-Cell-Shield.png" width="64"/></td>
 			<td>
 				<b>Galvanic Cell Shield</b><br>
-				Evoke a shield that parries the next attack. Upon successfully parrying, shock and damage nearby enemies for <b>2000%</b> damage. Cooldown: <b>20s</b>
+				Evoke a shield that parries the next attack. Upon successfully parrying, shock and damage nearby enemies for <b>2000%</b> damage. Cooldown: <b>20</b> seconds
 			</td>
 		</tr>
 		<tr>
 			<td><img src="https://i.postimg.cc/90551q0y/tex-Sandsw-eeper.png" width="64"/></td>
 			<td>
 				<b>The Sand Sweeper</b><br>
-				Pushes all enemies within <b>20m</b>, dealing up to <b>500%</b> damage and stunning for up to <b>6 seconds</b> based on the distance. Cooldown: <b>30s</b>
+				Pushes all enemies within <b>20m</b>, dealing up to <b>500%</b> damage and stunning for up to <b>6</b> seconds based on the distance. Cooldown: <b>30</b> seconds
 			</td>
 		</tr>
 	</tbody>

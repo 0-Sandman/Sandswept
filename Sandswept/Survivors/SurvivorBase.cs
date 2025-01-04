@@ -101,7 +101,7 @@ namespace Sandswept.Survivors
             }
         }
 
-        public void ReplaceSkills(GenericSkill slot, SkillDef[] skills)
+        public void ReplaceSkills(GenericSkill slot, params SkillDef[] skills)
         {
             SkillFamily family = ScriptableObject.CreateInstance<SkillFamily>();
             (family as ScriptableObject).name = slot.skillName ?? "default";
