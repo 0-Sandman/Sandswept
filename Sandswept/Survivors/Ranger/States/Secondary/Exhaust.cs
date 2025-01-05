@@ -110,7 +110,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 
             attack.Fire();
 
-            heat.currentHeat += 15f;
+            heat.currentHeat -= 30f;
 
             AddRecoil(6f, 6f, 0f, 0f);
             characterMotor?.ApplyForce(-2000f * aimDirection, false, false);

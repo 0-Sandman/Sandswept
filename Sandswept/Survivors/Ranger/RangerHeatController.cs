@@ -25,6 +25,7 @@ namespace Sandswept.Survivors.Ranger
         public float currentHeat = 0f;
 
         public float fullHeatTimer = 0f;
+        public float heatTimer = 0f;
         public bool isInFullHeat = false;
 
         public float selfDamage = 0.006f;
@@ -75,7 +76,7 @@ namespace Sandswept.Survivors.Ranger
             {
                 currentHeat += heatGainRate * Time.fixedDeltaTime;
                 currentHeat = Mathf.Clamp(currentHeat, 0, maxHeat);
-
+                heatTimer += Time.fixedDeltaTime;
                 if (currentHeat >= maxHeat)
                 {
                     fullHeatTimer += Time.fixedDeltaTime;
@@ -111,6 +112,7 @@ namespace Sandswept.Survivors.Ranger
             isInOverdrive = false;
             fullHeatTimer = 0f;
             chargeLossTimer = 0f;
+            heatTimer = 0f;
             cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, 0);
             cb.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, 0);
 
