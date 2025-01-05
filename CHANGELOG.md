@@ -17,6 +17,9 @@
   - Buffed Universal VIP Pass Chance from 45% to 55%
   - Nerfed Red Spring Water to have diminishing returns scaling with buff count
   - Improved Amber Knife VFX and SFX
+- Interactables
+  - Buffed Shrine of The Future enemy stats from 50% to 60% 
+  - Fixed Shrine of Ruin spawning a standard teleporter on stage 5
 
 ## 1.0.7 Patch Notes
 - VOL-T

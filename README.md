@@ -236,7 +236,7 @@
 			<td><img src="https://i.postimg.cc/Bv3RF8Zg/tex-Shrine-Of-The-Future.png" width="64"/></td>
 			<td>
 				<b>Shrine of The Future</b><br>
-				Summon a random <b>Tier 2 Elite Miniboss</b> with halved stats that, upon being defeated, drops <b>3</b> item potentials per player.<br>
+				Summon a random <b>Tier 2 Elite Miniboss</b> with reduced stats that, upon being defeated, drops <b>3</b> item potentials per player.<br>
 				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 3 and &le; 11, costs 35 credits. Item potentials have a choice between a random white and a random green.
 			</td>
 		</tr>

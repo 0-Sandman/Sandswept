@@ -80,6 +80,9 @@ namespace Sandswept.Equipment.Lunar
         {
             moddedBuffWhitelist = new List<BuffDef>
             {
+                Buffs.HeatAttackSpeedBoost.instance.BuffDef,
+                Buffs.ShieldSpeed.instance.BuffDef,
+                Buffs.ThetaBoost.instance.BuffDef
             };
 
             buffBlacklist = new List<BuffDef>

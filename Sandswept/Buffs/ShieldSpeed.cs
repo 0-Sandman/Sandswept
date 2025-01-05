@@ -25,7 +25,8 @@ namespace Sandswept.Buffs
 
         private void HandleSpeedBuff(CharacterBody sender, StatHookEventArgs args)
         {
-            if (sender.HasBuff(BuffDef)) {
+            if (sender.HasBuff(BuffDef))
+            {
                 args.moveSpeedMultAdd += ShieldSpeedMult;
             }
         }

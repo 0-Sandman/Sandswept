@@ -6,7 +6,7 @@ namespace Sandswept.Buffs
 {
     public class ParryBuff : BuffBase<ParryBuff>
     {
-        public override string BuffName => "Parry";
+        public override string BuffName => "Galvanic Cell Shield - Parry";
 
         public override Color Color => Color.magenta;
 
@@ -15,13 +15,9 @@ namespace Sandswept.Buffs
         public override bool CanStack => false;
         public override bool IsDebuff => false;
 
-
-        
         public override void Init()
         {
             base.Init();
-
-
         }
     }
 }
