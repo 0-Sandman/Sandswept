@@ -96,7 +96,7 @@ namespace Sandswept.Survivors.Ranger
 
             if (Electrician.Electrician.instance != null)
             {
-                SurvivorDef.desiredSortPosition = Electrician.Electrician.instance.SurvivorDef.desiredSortPosition - 1;
+                SurvivorDef.desiredSortPosition = Electrician.Electrician.instance.SurvivorDef.desiredSortPosition - Mathf.Epsilon;
             }
 
             _modelTransform = Body.GetComponent<ModelLocator>()._modelTransform;
