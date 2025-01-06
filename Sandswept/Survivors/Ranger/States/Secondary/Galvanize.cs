@@ -7,7 +7,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 {
     public class Galvanize : BaseState
     {
-        public static float DamageCoefficient = 0.7f;
+        public static float DamageCoefficient = 0.8f;
         public static int Projectiles = 3;
         public static int MaxProjectiles = 10;
         public static float baseDuration = 0.25f;
@@ -118,7 +118,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 
             AddRecoil(3f + 0.3f * buffCount, 3f + 0.3f * buffCount, 0f, 0f);
 
-            characterMotor?.ApplyForce((-2500f - 250f * buffCount) * aimDirection, false, false);
+            characterMotor?.ApplyForce((-2900f - 290f * buffCount) * aimDirection, false, false);
 
             outer.StartCoroutine(FireProjectiles());
         }

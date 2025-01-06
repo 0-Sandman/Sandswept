@@ -7,7 +7,7 @@ namespace Sandswept.Buffs
     [ConfigSection("Enemies :: Theta Construct")]
     public class ThetaBoost : BuffBase<ThetaBoost>
     {
-        public override string BuffName => "Theta Shielding";
+        public override string BuffName => "Theta Construct Shielding";
 
         public override Color Color => Color.yellow;
 

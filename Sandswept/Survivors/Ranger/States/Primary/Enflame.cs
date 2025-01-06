@@ -6,11 +6,11 @@ namespace Sandswept.Survivors.Ranger.States.Primary
     public class Enflame : BaseState
     {
         public static float procCoefficient = 1f;
-        public static float damageCoefficient = 0.9f;
+        public static float damageCoefficient = 0.8f;
 
         public static float baseShotDistance = 200f;
-        public static float shotDistanceScaling = -17f;
-        public static float minimumShotDistance = 20f;
+        public static float shotDistanceScaling = -15f;
+        public static float minimumShotDistance = 35f;
         public float finalShotDistance;
 
         public static float baseShotSoundPitch = 1f;
@@ -38,7 +38,7 @@ namespace Sandswept.Survivors.Ranger.States.Primary
 
             rangerHeatController = GetComponent<RangerHeatController>();
 
-            finalExtraShots = Mathf.Max(extraShotsCap, extraShotsScaling * (1f / extraShotsTimer) * rangerHeatController.heatTimer);
+            finalExtraShots = Mathf.Min(extraShotsCap, extraShotsScaling * (1f / extraShotsTimer) * rangerHeatController.currentHeat / 5);
             finalShotsPerSecond = (baseShotsPerSecond + finalExtraShots) * attackSpeedStat;
             finalDurationPerShot = 1f / finalShotsPerSecond;
 

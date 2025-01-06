@@ -30,8 +30,13 @@
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/fRqDz6fz/image.png" width="64"/></td>
-      <td><b>Passive:</b> Charge<br>
+      <td><b>Passive:</b> Overcharged Protection<br>
           Hold up to 10 Charge. Each Charge increases base health regeneration by 0.25 hp/s and armor by 1.5. Charge decays over time.</td>
+    </tr>
+	<tr>
+      <td><img src="https://i.postimg.cc/qR8P3YyC/image3.png" width="64"/></td>
+      <td><b>Passive:</b> Overcharged Speed<br>
+          Hold up to 10 Charge. Each Charge increases movement speed by 2.5%. Consume 3 Charge to double jump. Charge decays over time.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/FzvQCmNZ/image1.png" width="64"/></td>
@@ -41,12 +46,12 @@
     <tr>
       <td><img src="https://i.postimg.cc/TwM8hGL6/image2.png" width="64"/></td>
       <td><b>Secondary:</b> Release<br>
-          Lose all Charge. Fire 3 orbs of electricity, increasing up to 10 at full Charge for 70% damage per second each.</td>
+          Lose all Charge. Fire a piercing blast for 600% damage, increasing up to 1600% at full Charge.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/JhgLFXHk/b1.png" width="64"/></td>
       <td><b>Alt-Secondary:</b> Galvanize<br>
-          Lose all Charge. Fire a piercing blast for 400% damage, increasing up to 1600% at full Charge.</td>
+		  Lose all Charge. Fire 3 orbs of electricity, increasing up to 10 at full Charge for 80% damage per second each.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/C5GmjyVK/sand4.png" width="64"/></td>
@@ -61,22 +66,22 @@
     <tr>
       <td><img src="https://i.postimg.cc/XJCb6v9D/tex-Ranger-Skill-Icon-hm1.png" width="64"/></td>
       <td><b>Primary:</b> Enflame<br>
-          Agile. Fire a rapid stream of bullets for 90% damage. Heat increases ignite chance and spread.</td>
+          Agile. Fire a rapid stream of bullets for 80% damage. Heat increases fire rate and ignite chance but reduces range.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/m2DBKrYy/tex-Exhaust.png" width="64"/></td>
       <td><b>Secondary:</b> Exhaust<br>
-          Ignite. Fire a short-range heat burst for 8x180% damage. Increase heat by 15%.</td>
+          Ignite. Fire a short-range heat burst for 8x180% damage. Reduce heat by 30%.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/rpkkRSPw/b2.png" width="64"/></td>
       <td><b>Alt-Secondary:</b> Char<br>
-          Ignite. Fire off a blazing ball for 600% damage that engulfs the ground on impact for 250% damage per second.</td>
+          Ignite. Fire off a blazing ball for 600% damage that engulfs the ground on impact for 250% damage per second. Reduce heat by 50%.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/WbV9s4Mq/sand5.png" width="64"/></td>
       <td><b>Utility:</b> Heat Signature<br>
-          Agile. Stunning. Sidestep a very short distance and deal 250% damage. Hitting enemies generates 3 Charge.</td>
+          Agile. Stunning. Sidestep a very short distance and deal 250% damage. Hitting enemies generates 3 Charge and extends the dash.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/DwBpjK4J/sand8.png" width="64"/></td>
@@ -86,7 +91,7 @@
     <tr>
       <td><img src="https://i.postimg.cc/52w9KFnf/heat-Mechanic.png" width="64"/></td>
       <td><b>Heat Mechanic</b><br>
-          While in overdrive, you passively build up heat and healing reduction. While in full heat, base damage increases by a lot, which is further amplified by Charge, but take increasingly high self-damage.</td>
+          While in overdrive, you passively build up heat and healing reduction. While in full heat, your base damage constantly increases, further amplified by Charge, but you take increasingly high self-damage.</td>
     </tr>
     <tr>
       <td colspan="2" align="center"><h3>VOL-T</h3></td>

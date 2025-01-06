@@ -145,7 +145,8 @@ namespace Sandswept.Survivors.Ranger
                 crit = false,
                 position = transform.position,
                 damageColorIndex = DamageColorIndex.Fragile,
-                damageType = DamageType.BypassArmor | DamageType.BypassBlock
+                damageType = DamageType.BypassArmor | DamageType.BypassBlock,
+                force = Vector3.zero
             };
 
             info.AddModdedDamageType(Main.HeatSelfDamage);

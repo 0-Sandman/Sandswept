@@ -18,7 +18,9 @@ namespace Sandswept.Survivors.Ranger.States.Utility
             {
                 characterBody.isSprinting = true;
                 if (NetworkServer.active)
+                {
                     characterBody.AddBuff(Buffs.SidestepCharge.instance.BuffDef);
+                }
             }
 
             modelTransform = GetModelTransform();
@@ -80,7 +82,7 @@ namespace Sandswept.Survivors.Ranger.States.Utility
 
             if (characterMotor && characterDirection)
             {
-                characterMotor.velocity = Vector3.zero;
+                // characterMotor.velocity = Vector3.zero;
                 characterMotor.rootMotion += stepVector * (moveSpeedStat * SpeedCoefficient * Time.fixedDeltaTime);
             }
 
@@ -103,7 +105,9 @@ namespace Sandswept.Survivors.Ranger.States.Utility
             {
                 characterBody.isSprinting = true;
                 if (NetworkServer.active)
+                {
                     characterBody.RemoveBuff(Buffs.SidestepCharge.instance.BuffDef);
+                }
             }
 
             if (characterMotor)

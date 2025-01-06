@@ -51,6 +51,7 @@ namespace Sandswept.Items.Greens
             cooldown.isCooldown = false;
             cooldown.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1f);
             cooldown.iconSprite = Paths.BuffDef.bdCloak.iconSprite;
+            cooldown.name = "Drifting Perception - Cooldown";
             ContentAddition.AddBuffDef(cooldown);
 
             ready = ScriptableObject.CreateInstance<BuffDef>();
@@ -60,6 +61,7 @@ namespace Sandswept.Items.Greens
             ready.isCooldown = false;
             ready.buffColor = Color.white;
             ready.iconSprite = Paths.BuffDef.bdCloak.iconSprite;
+            ready.name = "Drifting Perception - Ready";
             ContentAddition.AddBuffDef(ready);
 
             CreateLang();

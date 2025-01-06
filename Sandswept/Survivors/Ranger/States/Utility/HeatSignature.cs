@@ -5,7 +5,7 @@ namespace Sandswept.Survivors.Ranger.States.Utility
 {
     public class HeatSignature : BaseState
     {
-        public static float Duration = 0.2f;
+        public float duration = 0.2f;
         public static float BuffDuration = 1f;
         public static float SpeedCoefficient = 6f;
         private Vector3 stepVector;
@@ -22,7 +22,9 @@ namespace Sandswept.Survivors.Ranger.States.Utility
             {
                 characterBody.isSprinting = true;
                 if (NetworkServer.active)
+                {
                     characterBody.AddBuff(RoR2Content.Buffs.HiddenInvincibility);
+                }
             }
 
             modelTransform = GetModelTransform();
@@ -121,9 +123,14 @@ namespace Sandswept.Survivors.Ranger.States.Utility
             }
 
             if (isAuthority)
-                attack.Fire(null);
+            {
+                if (attack.Fire(null))
+                {
+                    duration += 0.1f;
+                }
+            }
 
-            if (fixedAge >= Duration)
+            if (fixedAge >= duration)
             {
                 outer.SetNextStateToMain();
             }
@@ -137,7 +144,9 @@ namespace Sandswept.Survivors.Ranger.States.Utility
             {
                 characterBody.isSprinting = true;
                 if (NetworkServer.active)
+                {
                     characterBody.RemoveBuff(RoR2Content.Buffs.HiddenInvincibility);
+                }
             }
 
             Util.PlaySound("Play_fireballsOnHit_impact", gameObject);

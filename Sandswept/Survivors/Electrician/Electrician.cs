@@ -95,7 +95,7 @@ namespace Sandswept.Survivors.Electrician
 
             if (Ranger.Ranger.instance != null)
             {
-                SurvivorDef.desiredSortPosition = Ranger.Ranger.instance.SurvivorDef.desiredSortPosition + 1;
+                SurvivorDef.desiredSortPosition = Ranger.Ranger.instance.SurvivorDef.desiredSortPosition + Mathf.Epsilon;
             }
 
             PrefabAPI.RegisterNetworkPrefab(Body);
@@ -286,7 +286,8 @@ namespace Sandswept.Survivors.Electrician
             tempestSphereIndicator.RemoveComponent<AnimateShaderAlpha>();
 
             SignalOverloadIndicator = PrefabAPI.InstantiateClone(tempestSphereIndicator, "SignalIndicator", false);
-            SignalOverloadIndicator.GetComponent<MeshRenderer>().sharedMaterials = new Material[] {
+            SignalOverloadIndicator.GetComponent<MeshRenderer>().sharedMaterials = new Material[]
+            {
                 Paths.Material.matLightningSphere
             };
 

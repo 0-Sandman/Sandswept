@@ -20,7 +20,7 @@ namespace Sandswept.Survivors.Ranger
     {
         public override string Name => "Ranger";
 
-        public override string Description => 
+        public override string Description =>
         """
         The Ranger is a versatile combatant, who alternates between long-range electric barrages and close quarters incendiary fire to efficiently take down targets.
 
@@ -94,7 +94,8 @@ namespace Sandswept.Survivors.Ranger
             SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdRanger.asset");
             SurvivorDef.cachedName = "Ranger"; // for eclipse fix
 
-            if (Electrician.Electrician.instance != null) {
+            if (Electrician.Electrician.instance != null)
+            {
                 SurvivorDef.desiredSortPosition = Electrician.Electrician.instance.SurvivorDef.desiredSortPosition - 1;
             }
 
@@ -239,7 +240,6 @@ namespace Sandswept.Survivors.Ranger
 
             masteryDef.nameToken = "SKINDEF_SANDSWEPT";
             "SKINDEF_SANDSWEPT".Add("Sandswept");
-
 
             On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
         }
