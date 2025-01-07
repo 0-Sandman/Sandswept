@@ -129,7 +129,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                 Util.PlaySound("Play_bleedOnCritAndExplode_impact", gameObject);
                 Util.PlaySound("Play_greater_wisp_impact", gameObject);
                 Util.PlaySound("Play_item_use_molotov_impact_big", gameObject);
-                Util.PlayAttackSpeedSound("Play_captain_m1_hit", gameObject, 0.66f);
+                Util.PlayAttackSpeedSound("Play_captain_m1_hit", gameObject, 0.75f);
 
                 attack.Fire();
 

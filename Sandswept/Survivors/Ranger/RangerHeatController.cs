@@ -8,7 +8,6 @@ namespace Sandswept.Survivors.Ranger
 {
     public class RangerHeatController : MonoBehaviour
     {
-        public bool isFiring = false;
         public Animator anim;
         public CharacterBody cb;
         private HealthComponent hc;
@@ -20,7 +19,7 @@ namespace Sandswept.Survivors.Ranger
 
         public static float maxHeat = 100f;
 
-        public float heatGainRate = 13f;
+        public float heatGainRate = 15f;
 
         public float currentHeat = 0f;
 
