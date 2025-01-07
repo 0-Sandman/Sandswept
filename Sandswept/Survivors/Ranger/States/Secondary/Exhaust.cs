@@ -5,7 +5,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 {
     public class Exhaust : BaseState
     {
-        public static float DamageCoefficient = 1.5f;
+        public static float DamageCoefficient = 2f;
         public static float ProcCoefficient = 1f;
         public static float baseDurationPerVolley = 0.15f;
         public static int baseVolleyCount = 2;
@@ -106,10 +106,10 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                 {
                     damage = DamageCoefficient * damageStat,
                     procCoefficient = ProcCoefficient,
-                    minSpread = -1.5f,
-                    maxSpread = 1.5f,
+                    minSpread = -1f * i,
+                    maxSpread = 1f * i,
                     damageType = DamageType.IgniteOnHit,
-                    bulletCount = 6,
+                    bulletCount = 4,
                     tracerEffectPrefab = TracerEffect,
                     muzzleName = "Muzzle",
                     hitEffectPrefab = ImpactEffect,
@@ -129,12 +129,12 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                 Util.PlaySound("Play_bleedOnCritAndExplode_impact", gameObject);
                 Util.PlaySound("Play_greater_wisp_impact", gameObject);
                 Util.PlaySound("Play_item_use_molotov_impact_big", gameObject);
-                Util.PlaySound("Play_captain_m1_hit", gameObject);
+                Util.PlayAttackSpeedSound("Play_captain_m1_hit", gameObject, 0.66f);
 
                 attack.Fire();
 
                 AddRecoil(4.5f, 4.5f, 0f, 0f);
-                characterMotor?.ApplyForce(-1600f * aimDirection, false, false);
+                characterMotor?.ApplyForce(-2000f * aimDirection, false, false);
             }
         }
     }

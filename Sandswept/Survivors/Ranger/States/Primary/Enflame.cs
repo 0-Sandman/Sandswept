@@ -44,7 +44,7 @@ namespace Sandswept.Survivors.Ranger.States.Primary
 
             finalShotSoundPitch = baseShotSoundPitch + (shotSoundPitchScaling * finalShotsPerSecond);
 
-            finalShotDistance = Mathf.Max(minimumShotDistance, baseShotDistance + shotDistanceScaling * rangerHeatController.heatTimer);
+            finalShotDistance = Mathf.Max(minimumShotDistance, baseShotDistance + shotDistanceScaling * rangerHeatController.currentHeat / 5);
 
             modelTransform = GetModelTransform();
 
