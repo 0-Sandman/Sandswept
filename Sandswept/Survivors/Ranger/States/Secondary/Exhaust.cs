@@ -68,7 +68,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
             }
 
             outer.StartCoroutine(FireShot());
-            rangerHeatController.currentHeat -= 35f;
+            rangerHeatController.currentHeat -= 25f;
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
