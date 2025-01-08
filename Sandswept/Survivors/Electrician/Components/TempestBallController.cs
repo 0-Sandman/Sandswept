@@ -93,7 +93,7 @@ namespace Sandswept.Survivors.Electrician
                     isCrit = damage.crit,
                     lightningType = LightningOrb.LightningType.Loader,
                     origin = base.transform.position,
-                    procCoefficient = 1f,
+                    procCoefficient = Mathf.Clamp(1f - Util.Remap(Vector3.Distance(box.transform.position, base.transform.position), 3f, 15f, 0, 0.45f), 0.55f, 1f),
                     target = box,
                     teamIndex = TeamIndex.Player,
                     damageType = DamageType.SlowOnHit
