@@ -127,7 +127,7 @@ namespace Sandswept.Items
             ItemDef.pickupToken = "ITEM_SANDSWEPT_" + ItemLangTokenName + "_PICKUP";
             ItemDef.descriptionToken = "ITEM_SANDSWEPT_" + ItemLangTokenName + "_DESCRIPTION";
             ItemDef.loreToken = "ITEM_SANDSWEPT_" + ItemLangTokenName + "_LORE";
-            ItemDef.pickupModelPrefab = ItemModel;
+            ItemDef.pickupModelPrefab = ItemModel ?? sigma;
             ItemDef.pickupIconSprite = ItemIcon ?? gyatt;
             ItemDef.hidden = false;
             ItemDef.canRemove = CanRemove;
