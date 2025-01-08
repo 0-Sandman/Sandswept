@@ -78,7 +78,7 @@ namespace Sandswept.Items.Greens
         private void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender, StatHookEventArgs args)
         {
             var stack = GetCount(sender);
-            if (stack > 0 && sender.HasBuff(RoR2Content.Buffs.Cloak))
+            if (stack > 0 && sender.hasCloakBuff)
             {
                 args.critAdd += baseCritChanceGain;
                 args.critDamageMultAdd += baseCritDamageGain + stackCritDamageGain * (stack - 1);
@@ -117,7 +117,7 @@ namespace Sandswept.Items.Greens
 
                 if (body.HasBuff(DriftingPerception.ready) && !body.outOfCombat)
                 {
-                    if (!body.HasBuff(RoR2Content.Buffs.Cloak) || !body.HasBuff(RoR2Content.Buffs.CloakSpeed))
+                    if (!body.hasCloakBuff || !body.HasBuff(RoR2Content.Buffs.CloakSpeed))
                     {
                         body.AddTimedBuffAuthority(RoR2Content.Buffs.Cloak.buffIndex, DriftingPerception.cloakBuffDuration);
                         body.AddTimedBuffAuthority(RoR2Content.Buffs.CloakSpeed.buffIndex, DriftingPerception.cloakBuffDuration);

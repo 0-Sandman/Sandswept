@@ -118,12 +118,8 @@ namespace Sandswept.Items
 
         protected void CreateItem()
         {
-            var modelPanelParameters = ItemModel.AddComponent<ModelPanelParameters>();
-            var firstMesh = ItemModel.transform.GetChild(0);
-            modelPanelParameters.focusPointTransform = firstMesh;
-            modelPanelParameters.cameraPositionTransform = firstMesh;
-            modelPanelParameters.minDistance = nonstandardScaleModel ? 2f : 0.02f;
-            modelPanelParameters.maxDistance = nonstandardScaleModel ? 10f : 0.1f;
+            var gyatt = Main.hifuSandswept.LoadAsset<Sprite>("texItemTemp.png");
+            var sigma = Main.hifuSandswept.LoadAsset<GameObject>("TempHolder.prefab");
 
             ItemDef = ScriptableObject.CreateInstance<ItemDef>();
             ItemDef.name = "ITEM_SANDSWEPT_" + ItemLangTokenName;
@@ -132,7 +128,7 @@ namespace Sandswept.Items
             ItemDef.descriptionToken = "ITEM_SANDSWEPT_" + ItemLangTokenName + "_DESCRIPTION";
             ItemDef.loreToken = "ITEM_SANDSWEPT_" + ItemLangTokenName + "_LORE";
             ItemDef.pickupModelPrefab = ItemModel;
-            ItemDef.pickupIconSprite = ItemIcon;
+            ItemDef.pickupIconSprite = ItemIcon ?? gyatt;
             ItemDef.hidden = false;
             ItemDef.canRemove = CanRemove;
 #pragma warning disable
@@ -147,7 +143,31 @@ namespace Sandswept.Items
 
             if (ItemTags.Length > 0) { ItemDef.tags = ItemTags; }
 
+            if (ItemModel != null)
+            {
+                CreateModelPanelParameters(ItemModel);
+            }
+            else
+            {
+                CreateModelPanelParameters(sigma);
+            }
+
             ItemAPI.Add(new CustomItem(ItemDef, CreateItemDisplayRules()));
+        }
+
+        private void CreateModelPanelParameters(GameObject itemModel)
+        {
+            if (itemModel.GetComponent<ModelPanelParameters>() != null)
+            {
+                return;
+            }
+
+            var modelPanelParameters = itemModel.AddComponent<ModelPanelParameters>();
+            var firstMesh = itemModel.transform.GetChild(0);
+            modelPanelParameters.focusPointTransform = firstMesh;
+            modelPanelParameters.cameraPositionTransform = firstMesh;
+            modelPanelParameters.minDistance = nonstandardScaleModel ? 2f : 0.02f;
+            modelPanelParameters.maxDistance = nonstandardScaleModel ? 10f : 0.1f;
         }
 
         protected UnlockableDef CreateUnlock()

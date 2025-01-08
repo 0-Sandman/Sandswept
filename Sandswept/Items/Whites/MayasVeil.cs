@@ -1,5 +1,6 @@
-﻿/* 
- * the bruh
+﻿using IL.RoR2.EntitlementManagement;
+using RoR2.Items;
+
 namespace Sandswept.Items.Whites
 {
     [ConfigSection("Items :: Mayas Veil")]
@@ -17,19 +18,19 @@ namespace Sandswept.Items.Whites
 
         public override ItemTier Tier => ItemTier.Tier1;
 
-        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("RedSpringWaterHolder.prefab");
+        public override GameObject ItemModel => null;
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texRedSpringWater.png");
+        public override Sprite ItemIcon => null;
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility };
 
         [ConfigField("Cloak Buff Duration", "", 5f)]
         public static float cloakBuffDuration;
 
-        [ConfigField("Base Recharge Time", "Formula for Recharge Time: Base Recharge Time / (1 + Stack Recharge Time * (Stack - 1))", 30f)]
+        [ConfigField("Base Recharge Time", "Formula for Recharge Time: Base Recharge Time / (1 + Stack Recharge Time * (Stack - 1))", 45f)]
         public static float baseRechargeTime;
 
-        [ConfigField("Stack Recharge Time", "Formula for Recharge Time: Base Recharge Time / (1 + Stack Recharge Time * (Stack - 1))", 0.2f)]
+        [ConfigField("Stack Recharge Time", "Formula for Recharge Time: Base Recharge Time / (1 + Stack Recharge Time * (Stack - 1))", 0.25f)]
         public static float stackRechargeTime;
 
         [ConfigField("Works with Gesture?", "", false)]
@@ -55,6 +56,33 @@ namespace Sandswept.Items.Whites
         public override void Hooks()
         {
             EquipmentSlot.onServerEquipmentActivated += EquipmentSlot_onServerEquipmentActivated;
+            On.RoR2.CharacterBody.OnBuffFirstStackGained += CharacterBody_OnBuffFirstStackGained;
+        }
+
+        private void CharacterBody_OnBuffFirstStackGained(On.RoR2.CharacterBody.orig_OnBuffFirstStackGained orig, CharacterBody self, BuffDef buffDef)
+        {
+            orig(self, buffDef);
+            var stack = GetCount(self);
+            if (stack > 0 && self.hasCloakBuff && !self.HasBuff(cooldown))
+            {
+                var cooldownBuffDuration = baseRechargeTime / (1f + stackRechargeTime * (stack - 1));
+
+                self.outOfCombatStopwatch = 9999f;
+                self.outOfDangerStopwatch = 9999f;
+
+                if (NetworkServer.active)
+                {
+                    self.outOfCombat = true;
+                    self.outOfDanger = true;
+                }
+
+                if (self.healthComponent)
+                {
+                    self.healthComponent.ForceShieldRegen();
+                }
+
+                self.AddTimedBuff(cooldown, cooldownBuffDuration);
+            }
         }
 
         private void EquipmentSlot_onServerEquipmentActivated(EquipmentSlot equipmentSlot, EquipmentIndex equipmentIndex)
@@ -83,16 +111,13 @@ namespace Sandswept.Items.Whites
                 return;
             }
 
-            var cooldownBuffDuration = baseRechargeTime / (1f + stackRechargeTime * (stack - 1));
-
-            if (body.HasBuff(cooldown) || body.HasBuff(RoR2Content.Buffs.Cloak) || body.HasBuff(RoR2Content.Buffs.CloakSpeed))
+            if (body.HasBuff(cooldown) || body.hasCloakBuff || body.HasBuff(RoR2Content.Buffs.CloakSpeed))
             {
                 return;
             }
 
             body.AddTimedBuff(RoR2Content.Buffs.Cloak, cloakBuffDuration);
             body.AddTimedBuff(RoR2Content.Buffs.CloakSpeed, cloakBuffDuration);
-            body.AddTimedBuff(cooldown, cooldownBuffDuration);
 
             Util.PlaySound("Play_merc_m2_uppercut", equipmentSlot.gameObject);
             EffectManager.SimpleEffect(Paths.GameObject.SniperTargetHitEffect, body.corePosition, Quaternion.identity, true);
@@ -104,4 +129,3 @@ namespace Sandswept.Items.Whites
         }
     }
 }
-*/
