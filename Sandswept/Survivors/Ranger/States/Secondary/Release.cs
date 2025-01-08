@@ -5,7 +5,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 {
     public class Release : BaseState
     {
-        public static float DamageCoefficient = 4f;
+        public static float DamageCoefficient = 6f;
         public static float MaxDamageCoefficient = 16f;
         public static float ProcCoefficient = 1f;
         public static float baseDuration = 0.25f;
@@ -136,7 +136,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 
                 AddRecoil(3f + 0.3f * buffCount, 3f + 0.3f * buffCount, 0f, 0f);
 
-                characterMotor?.ApplyForce((-3500f - 350f * buffCount) * aimDirection, false, false);
+                characterMotor?.ApplyForce((-4500f - 350f * buffCount) * aimDirection, false, false);
 
                 attack.Fire();
             }

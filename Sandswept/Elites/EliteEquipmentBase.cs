@@ -59,7 +59,8 @@ namespace Sandswept.Elites
         /// </summary>
         public virtual EliteTier Tier { get; } = EliteTier.Tier1;
 
-        public enum EliteTier {
+        public enum EliteTier
+        {
             Tier1,
             Tier2
         }
@@ -241,11 +242,13 @@ namespace Sandswept.Elites
             EliteDef knownT1H = Paths.EliteDef.edFireHonor;
             EliteDef knownT2 = Paths.EliteDef.edHaunted;
 
-            switch (Tier) {
+            switch (Tier)
+            {
                 case EliteTier.Tier1:
                     AddAllTiersThatContain(knownT1);
                     AddAllTiersThatContain(knownT1H);
                     break;
+
                 case EliteTier.Tier2:
                     AddAllTiersThatContain(knownT2);
                     break;
@@ -257,11 +260,14 @@ namespace Sandswept.Elites
             ContentAddition.AddBuffDef(EliteBuffDef);
             PostGameLoad();
 
-            void AddAllTiersThatContain(EliteDef def) {
+            void AddAllTiersThatContain(EliteDef def)
+            {
                 var ctiers = EliteAPI.GetCombatDirectorEliteTiers();
 
-                foreach (var tier in ctiers) {
-                    if (tier.eliteTypes.Contains(def)) {
+                foreach (var tier in ctiers)
+                {
+                    if (tier.eliteTypes.Contains(def))
+                    {
                         tiers.Add(tier);
                     }
                 }

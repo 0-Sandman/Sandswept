@@ -5,24 +5,46 @@ namespace Sandswept.Survivors.Ranger.States.Primary
 {
     public class Enflame : BaseState
     {
-        public static int ShotsPerSecond = 6;
-        public static float ProcCoeff = 0.8f;
-        public static float DamageCoeff = 0.9f;
-        private GameObject TracerEffect;
-        private GameObject TracerEffectHeated;
-        private float shots;
-        private float shotDelay => 1f / shots;
-        private float stopwatch = 0f;
-        private RangerHeatController heat;
-        private Transform modelTransform;
+        public static float procCoefficient = 1f;
+        public static float damageCoefficient = 0.8f;
+
+        public static float baseShotDistance = 200f;
+        public static float shotDistanceScaling = -15f;
+        public static float minimumShotDistance = 35f;
+        public float finalShotDistance;
+
+        public static float baseShotSoundPitch = 1f;
+        public static float shotSoundPitchScaling = 0.014f;
+        public float finalShotSoundPitch;
+
+        public static int baseShotsPerSecond = 4;
+        public static int extraShotsScaling = 1;
+        public static int extraShotsCap = 8;
+        public static float extraShotsTimer = 4f;
+        public float finalExtraShots;
+        public float finalShotsPerSecond;
+        public float finalDurationPerShot;
+        public float shotTimer = 0f;
+
+        public GameObject tracerEffect;
+        public GameObject tracerEffectHeated;
+
+        public RangerHeatController rangerHeatController;
+        public Transform modelTransform;
 
         public override void OnEnter()
         {
             base.OnEnter();
 
-            heat = GetComponent<RangerHeatController>();
-            heat.isFiring = false;
-            shots = ShotsPerSecond * attackSpeedStat;
+            rangerHeatController = GetComponent<RangerHeatController>();
+
+            finalExtraShots = Mathf.Min(extraShotsCap, extraShotsScaling * (1f / extraShotsTimer) * rangerHeatController.currentHeat / 5);
+            finalShotsPerSecond = (baseShotsPerSecond + finalExtraShots) * attackSpeedStat;
+            finalDurationPerShot = 1f / finalShotsPerSecond;
+
+            finalShotSoundPitch = baseShotSoundPitch + (shotSoundPitchScaling * finalShotsPerSecond);
+
+            finalShotDistance = Mathf.Max(minimumShotDistance, baseShotDistance + shotDistanceScaling * rangerHeatController.currentHeat / 5);
 
             modelTransform = GetModelTransform();
 
@@ -30,7 +52,7 @@ namespace Sandswept.Survivors.Ranger.States.Primary
             {
                 var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
 
-                TracerEffect = skinNameToken switch
+                tracerEffect = skinNameToken switch
                 {
                     "SKINDEF_MAJOR" => EnflameVFX.tracerPrefabMajor,
                     "SKINDEF_RENEGADE" => EnflameVFX.tracerPrefabRenegade,
@@ -39,7 +61,7 @@ namespace Sandswept.Survivors.Ranger.States.Primary
                     _ => EnflameVFX.tracerPrefabDefault
                 };
 
-                TracerEffectHeated = skinNameToken switch
+                tracerEffectHeated = skinNameToken switch
                 {
                     "SKINDEF_MAJOR" => EnflameVFX.tracerHeatedPrefabMajor,
                     "SKINDEF_RENEGADE" => EnflameVFX.tracerHeatedPrefabRenegade,
@@ -52,15 +74,8 @@ namespace Sandswept.Survivors.Ranger.States.Primary
             if (characterBody)
             {
                 characterBody.isSprinting = true;
-            }
-            if (characterBody)
                 characterBody.SetAimTimer(1f);
-        }
-
-        public void Exit()
-        {
-            heat.isFiring = false;
-            outer.SetNextStateToMain();
+            }
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -72,19 +87,13 @@ namespace Sandswept.Survivors.Ranger.States.Primary
         {
             base.FixedUpdate();
 
-            characterBody.SetAimTimer(0.4f);
+            shotTimer += Time.fixedDeltaTime;
 
-            stopwatch += Time.fixedDeltaTime;
-
-            if (inputBank.skill1.down && stopwatch >= shotDelay)
+            if (shotTimer >= finalDurationPerShot)
             {
-                stopwatch = 0f;
+                shotTimer = 0f;
                 FireShot();
-            }
-
-            if (!inputBank.skill1.down)
-            {
-                Exit();
+                outer.SetNextStateToMain();
             }
         }
 
@@ -95,48 +104,49 @@ namespace Sandswept.Survivors.Ranger.States.Primary
             Util.PlayAttackSpeedSound("Play_lunar_wisp_attack1_shoot_bullet", gameObject, attackSpeedStat);
             Util.PlayAttackSpeedSound("Play_lunar_wisp_attack1_shoot_bullet", gameObject, attackSpeedStat);
 
+            Util.PlayAttackSpeedSound("Play_commando_M2", gameObject, finalShotSoundPitch);
+
             PlayAnimation("Gesture, Override", "OverdriveFire");
+
+            var aimDirection = GetAimRay().direction;
+
+            var isHeatedShot = Util.CheckRoll(rangerHeatController.currentHeat);
+
+            if (isHeatedShot)
+            {
+                Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
+                Util.PlayAttackSpeedSound("Play_lunar_wisp_attack1_shoot_bullet", gameObject, attackSpeedStat);
+            }
+
+            BulletAttack attack = new()
+            {
+                aimVector = aimDirection,
+                falloffModel = BulletAttack.FalloffModel.DefaultBullet,
+                damage = damageStat * damageCoefficient,
+                isCrit = RollCrit(),
+                owner = gameObject,
+                muzzleName = "Muzzle",
+                origin = GetAimRay().origin,
+                tracerEffectPrefab = isHeatedShot ? tracerEffectHeated : tracerEffect,
+                procCoefficient = procCoefficient,
+                damageType = isHeatedShot ? DamageType.IgniteOnHit : DamageType.Generic,
+                minSpread = -1.5f,
+                maxSpread = 1.5f,
+                damageColorIndex = isHeatedShot ? DamageColorIndex.Fragile : DamageColorIndex.Default,
+                radius = 0.3f,
+                smartCollision = true,
+                maxDistance = finalShotDistance
+            };
+
+            attack.damageType.damageSource = DamageSource.Primary;
+
+            AddRecoil(0.3f + rangerHeatController.currentHeat * 0.006f, -0.3f - rangerHeatController.currentHeat * 0.006f, 0.1f + rangerHeatController.currentHeat * 0.006f, -0.1f - rangerHeatController.currentHeat * 0.006f);
 
             if (!isAuthority)
             {
                 return;
             }
-
-            var aimDiretion = GetAimRay().direction;
-
-            var isHeatedShot = Util.CheckRoll(heat.currentHeat);
-
-            if (isHeatedShot)
-                Util.PlayAttackSpeedSound("Play_commando_M2", gameObject, 1f);
-            else
-                Util.PlayAttackSpeedSound("Play_commando_M2", gameObject, 1.1f);
-
-            BulletAttack attack = new()
-            {
-                aimVector = aimDiretion,
-                falloffModel = BulletAttack.FalloffModel.DefaultBullet,
-                damage = damageStat * DamageCoeff,
-                isCrit = RollCrit(),
-                owner = gameObject,
-                muzzleName = "Muzzle",
-                origin = GetAimRay().origin,
-                tracerEffectPrefab = isHeatedShot ? TracerEffectHeated : TracerEffect,
-                procCoefficient = ProcCoeff,
-                damageType = isHeatedShot ? DamageType.IgniteOnHit : DamageType.Generic,
-                minSpread = -1f - heat.currentHeat * 0.015f,
-                maxSpread = 1f + heat.currentHeat * 0.015f,
-                damageColorIndex = isHeatedShot ? DamageColorIndex.Fragile : DamageColorIndex.Default,
-                radius = 0.4f,
-                smartCollision = true,
-            };
-
-            attack.damageType.damageSource = DamageSource.Primary;
-
-            AddRecoil(0.3f + heat.currentHeat * 0.006f, -0.3f - heat.currentHeat * 0.006f, 0.1f + heat.currentHeat * 0.006f, -0.1f - heat.currentHeat * 0.006f);
-
             attack.Fire();
-
-            heat.isFiring = true;
         }
     }
 }

@@ -1,8 +1,4 @@
-﻿// TODO: Change all item outlines to white, change all equip outlines to orange (idk where that is)
-// TODO: Change chat pickup colors to white and orange
-
-/*
-using BepInEx.Configuration;
+﻿using BepInEx.Configuration;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine;
@@ -27,7 +23,7 @@ namespace Sandswept.Artifacts.ArtifactOfAbysm
 
         public override string ArtifactLangTokenName => "ABYSM";
 
-        public override string ArtifactDescription => "All items become unknown. Lunar items appear regularly.";
+        public override string ArtifactDescription => "All pickups are unknown. Lunar items appear regularly.";
 
         public override Sprite ArtifactEnabledIcon => Main.hifuSandswept.LoadAsset<Sprite>("texArtifactOfBlindnessEnabled.png");
 
@@ -39,11 +35,11 @@ namespace Sandswept.Artifacts.ArtifactOfAbysm
         public static Dictionary<EquipmentDef, GameObject> cachedEquipmentDefModels = new();
         public static Dictionary<EquipmentDef, ColorCatalog.ColorIndex> cachedEquipmentDefColorIndices = new();
 
-        public static Dictionary<ItemDef, Sprite> cachedItemDefIcons = new();
+        // public static Dictionary<ItemDef, Sprite> cachedItemDefIcons = new();
 
         public static Dictionary<ItemDef, GameObject> cachedItemDefModels = new();
 
-        public static Dictionary<PickupDef, GameObject> cachedPickupModels = new();
+        // public static Dictionary<PickupDef, GameObject> cachedPickupModels = new();
 
         public static Dictionary<ItemTierDef, ItemTierDef.PickupRules> cachedItemTierDefPickupRules = new();
         public static Dictionary<ItemTierDef, ColorCatalog.ColorIndex> cachedItemTierDefColorIndices = new();
@@ -217,33 +213,41 @@ namespace Sandswept.Artifacts.ArtifactOfAbysm
                 languageOverlays.Add(pickupTokenOverlay);
                 languageOverlays.Add(loreTokenOverlay);
 
+                /*
                 if (!cachedItemDefIcons.ContainsKey(itemDef))
                 {
                     cachedItemDefIcons.Add(itemDef, itemDef.pickupIconSprite);
                 }
+                */
 
                 if (!cachedItemDefModels.ContainsKey(itemDef))
                 {
                     cachedItemDefModels.Add(itemDef, itemDef.pickupModelPrefab);
                 }
 
-                itemDef.pickupIconSprite = unknownIcon;
+                // itemDef.pickupIconSprite = unknownIcon;
                 itemDef.pickupModelPrefab = unknownModel;
             }
 
+            var droplet = Paths.GameObject.Tier1Orb;
+
             for (int i = 0; i < PickupCatalog.entries.Length; i++)
             {
-                var entry = PickupCatalog.entries[i];
+                var pickupDef = PickupCatalog.entries[i];
 
-                var nameTokenOverlay = LanguageAPI.AddOverlay(entry.nameToken, "???");
+                var nameTokenOverlay = LanguageAPI.AddOverlay(pickupDef.nameToken, "???");
                 languageOverlays.Add(nameTokenOverlay);
 
+                /*
                 if (!cachedPickupModels.ContainsKey(entry))
                 {
                     cachedPickupModels.Add(entry, entry.displayPrefab);
                 }
+                */
 
-                entry.displayPrefab = unknownModel;
+                pickupDef.displayPrefab = unknownModel;
+                pickupDef.baseColor = ColorCatalog.GetColor(ColorCatalog.ColorIndex.Tier1Item);
+                pickupDef.dropletDisplayPrefab = droplet;
             }
 
             if (remove)
@@ -259,13 +263,15 @@ namespace Sandswept.Artifacts.ArtifactOfAbysm
                     languageOverlays.RemoveAt(i);
                 }
 
+                /*
                 foreach (var itemIcon in cachedItemDefIcons)
                 {
                     // sprite.Key is itemDef
                     itemIcon.Key.pickupIconSprite = itemIcon.Value;
                 }
+                */
 
-                cachedItemDefIcons.Clear();
+                // cachedItemDefIcons.Clear();
 
                 foreach (var itemModel in cachedItemDefModels)
                 {
@@ -273,35 +279,49 @@ namespace Sandswept.Artifacts.ArtifactOfAbysm
                     itemModel.Key.pickupModelPrefab = itemModel.Value;
                 }
 
+                cachedItemDefModels.Clear();
+
                 foreach (var itemTierDefPickupRule in cachedItemTierDefPickupRules)
                 {
                     itemTierDefPickupRule.Key.pickupRules = itemTierDefPickupRule.Value;
                 }
+
+                cachedItemTierDefPickupRules.Clear();
 
                 foreach (var itemTierDefColor in cachedItemTierDefColorIndices)
                 {
                     itemTierDefColor.Key.colorIndex = itemTierDefColor.Value;
                 }
 
+                cachedItemTierDefColorIndices.Clear();
+
                 foreach (var itemTierDefDarkColor in cachedItemTierDefDarkColorIndices)
                 {
                     itemTierDefDarkColor.Key.darkColorIndex = itemTierDefDarkColor.Value;
                 }
+
+                cachedItemTierDefDarkColorIndices.Clear();
 
                 foreach (var equipmentIcon in cachedEquipmentDefIcons)
                 {
                     equipmentIcon.Key.pickupIconSprite = equipmentIcon.Value;
                 }
 
+                cachedEquipmentDefIcons.Clear();
+
                 foreach (var equipmentModel in cachedEquipmentDefModels)
                 {
                     equipmentModel.Key.pickupModelPrefab = equipmentModel.Value;
                 }
 
+                cachedEquipmentDefModels.Clear();
+
                 foreach (var equipmentColor in cachedEquipmentDefColorIndices)
                 {
                     equipmentColor.Key.colorIndex = ColorCatalog.ColorIndex.Equipment;
                 }
+
+                cachedEquipmentDefColorIndices.Clear();
 
                 FuckingStupidThing(false);
             }
@@ -357,4 +377,3 @@ namespace Sandswept.Artifacts.ArtifactOfAbysm
         }
     }
 }
-*/

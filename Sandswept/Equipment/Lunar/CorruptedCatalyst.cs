@@ -1,5 +1,6 @@
 ﻿using IL.RoR2.Items;
 using RoR2.ContentManagement;
+using Sandswept.Items.VoidGreens;
 using Sandswept.Utils.Components;
 using System;
 using System.Collections.Generic;
@@ -80,6 +81,14 @@ namespace Sandswept.Equipment.Lunar
         {
             moddedBuffWhitelist = new List<BuffDef>
             {
+                Buffs.HeatAttackSpeedBoost.instance.BuffDef,
+                Buffs.ShieldSpeed.instance.BuffDef,
+                Elites.Motivating.warcryBuff,
+                Elites.Motivating.wrbnnerBuff,
+                Elites.Osmium.outsideAuraBuff,
+                Elites.Osmium.insideAuraBuff,
+                Elites.Osmium.jumpDisabledBuff, // get fucked
+                FesteringHunger.movementSpeedBuff,
             };
 
             buffBlacklist = new List<BuffDef>

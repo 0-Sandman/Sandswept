@@ -35,7 +35,7 @@ namespace Sandswept.Items.VoidGreens
         [ConfigField("Movement Speed Buff Range", "", 13f)]
         public static float movementSpeedBuffRange;
 
-        public static BuffDef attackSpeedBuff;
+        public static BuffDef movementSpeedBuff;
 
         public override ItemTier Tier => ItemTier.VoidTier2;
 
@@ -51,18 +51,20 @@ namespace Sandswept.Items.VoidGreens
 
         public override void Init(ConfigFile config)
         {
-            if (!ItemBase.DefaultEnabledCallback(SmoulderingDocument.instance)) {
+            if (!ItemBase.DefaultEnabledCallback(SmoulderingDocument.instance))
+            {
                 return;
             }
 
-            attackSpeedBuff = ScriptableObject.CreateInstance<BuffDef>();
-            attackSpeedBuff.canStack = false;
-            attackSpeedBuff.isCooldown = false;
-            attackSpeedBuff.buffColor = new Color32(96, 56, 177, 255);
-            attackSpeedBuff.iconSprite = Utils.Assets.BuffDef.bdAttackSpeedOnCrit.iconSprite;
-            attackSpeedBuff.isHidden = false;
-            attackSpeedBuff.isDebuff = false;
-            ContentAddition.AddBuffDef(attackSpeedBuff);
+            movementSpeedBuff = ScriptableObject.CreateInstance<BuffDef>();
+            movementSpeedBuff.canStack = false;
+            movementSpeedBuff.isCooldown = false;
+            movementSpeedBuff.buffColor = new Color32(96, 56, 177, 255);
+            movementSpeedBuff.iconSprite = Utils.Assets.BuffDef.bdAttackSpeedOnCrit.iconSprite;
+            movementSpeedBuff.isHidden = false;
+            movementSpeedBuff.isDebuff = false;
+            movementSpeedBuff.name = "Festering Hunger - Movement Speed";
+            ContentAddition.AddBuffDef(movementSpeedBuff);
 
             CreateLang();
             CreateItem();
@@ -96,7 +98,7 @@ namespace Sandswept.Items.VoidGreens
 
         private void RecalculateStatsAPI_GetStatCoefficients(CharacterBody sender, StatHookEventArgs args)
         {
-            if (sender.HasBuff(attackSpeedBuff))
+            if (sender.HasBuff(movementSpeedBuff))
             {
                 var stack = GetCount(sender);
                 args.moveSpeedMultAdd += baseMovementSpeedGain + stackMovementSpeedGain * (stack - 1);
@@ -212,12 +214,12 @@ namespace Sandswept.Items.VoidGreens
                 return;
             }
 
-            if (body.HasBuff(FesteringHunger.attackSpeedBuff))
+            if (body.HasBuff(FesteringHunger.movementSpeedBuff))
             {
                 return;
             }
 
-            body.AddTimedBuffAuthority(FesteringHunger.attackSpeedBuff.buffIndex, FesteringHunger.movementSpeedBuffDuration);
+            body.AddTimedBuffAuthority(FesteringHunger.movementSpeedBuff.buffIndex, FesteringHunger.movementSpeedBuffDuration);
         }
 
         /*

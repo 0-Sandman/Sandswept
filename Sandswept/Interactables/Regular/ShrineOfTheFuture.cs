@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json.Utilities;
 using RoR2.ExpansionManagement;
+using Sandswept.Enemies.DeltaConstruct;
+using Sandswept.Enemies.GammaConstruct;
 using System;
 using System.Collections;
 using System.Linq;
@@ -40,6 +42,9 @@ namespace Sandswept.Interactables.Regular
 
         [ConfigField("Item Count Per Player", "", 3)]
         public static int itemCount;
+
+        [ConfigField("Enemy Stats Multiplier", "", 0.6f)]
+        public static float enemyStatsMultiplier;
 
         public override void Init()
         {
@@ -125,7 +130,7 @@ namespace Sandswept.Interactables.Regular
             var combatSquad = prefab.GetComponent<CombatSquad>();
             combatSquad.grantBonusHealthInMultiplayer = true;
 
-            var spawnInfos = new ScriptedCombatEncounter.SpawnInfo[8];
+            var spawnInfos = new ScriptedCombatEncounter.SpawnInfo[10];
             spawnInfos[0] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscBeetleGuard };
             spawnInfos[1] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscBell };
             spawnInfos[2] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscClayGrenadier };
@@ -134,6 +139,8 @@ namespace Sandswept.Interactables.Regular
             spawnInfos[5] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscGreaterWisp };
             spawnInfos[6] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscParent };
             spawnInfos[7] = new() { cullChance = 0f, spawnCard = Utils.Assets.CharacterSpawnCard.cscGolem };
+            spawnInfos[8] = new() { cullChance = 0f, spawnCard = DeltaConstruct.Instance.csc };
+            spawnInfos[9] = new() { cullChance = 0f, spawnCard = GammaConstruct.Instance.csc };
 
             // sorry for hardcoding :<
 
@@ -282,8 +289,8 @@ namespace Sandswept.Interactables.Regular
             var eliteDef = randomPair.Keys.First();
 
             inventory.SetEquipmentIndex(equipmentIndex);
-            inventory.GiveItem(RoR2Content.Items.BoostHp, Mathf.Max(0, Mathf.RoundToInt(((eliteDef.healthBoostCoefficient * 0.5f) - 1f) * 10f)));
-            inventory.GiveItem(RoR2Content.Items.BoostDamage, Mathf.Max(0, Mathf.RoundToInt(((eliteDef.damageBoostCoefficient * 0.5f) - 1f) * 10f)));
+            inventory.GiveItem(RoR2Content.Items.BoostHp, Mathf.Max(0, Mathf.RoundToInt(((eliteDef.healthBoostCoefficient * ShrineOfTheFuture.enemyStatsMultiplier) - 1f) * 10f)));
+            inventory.GiveItem(RoR2Content.Items.BoostDamage, Mathf.Max(0, Mathf.RoundToInt(((eliteDef.damageBoostCoefficient * ShrineOfTheFuture.enemyStatsMultiplier) - 1f) * 10f)));
         }
 
         private void CombatSquad_onDefeatedServer()

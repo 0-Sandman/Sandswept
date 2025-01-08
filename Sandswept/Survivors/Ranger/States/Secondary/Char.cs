@@ -16,7 +16,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 
             var modelTransform = GetModelTransform();
 
-            GetComponent<RangerHeatController>().currentHeat -= 20f;
+            GetComponent<RangerHeatController>().currentHeat -= 30f;
 
             if (modelTransform)
             {

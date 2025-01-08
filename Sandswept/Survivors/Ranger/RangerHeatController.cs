@@ -8,7 +8,6 @@ namespace Sandswept.Survivors.Ranger
 {
     public class RangerHeatController : MonoBehaviour
     {
-        public bool isFiring = false;
         public Animator anim;
         public CharacterBody cb;
         private HealthComponent hc;
@@ -20,7 +19,7 @@ namespace Sandswept.Survivors.Ranger
 
         public static float maxHeat = 100f;
 
-        public float heatGainRate = 13f;
+        public float heatGainRate = 15f;
 
         public float currentHeat = 0f;
 
@@ -75,23 +74,38 @@ namespace Sandswept.Survivors.Ranger
             {
                 currentHeat += heatGainRate * Time.fixedDeltaTime;
                 currentHeat = Mathf.Clamp(currentHeat, 0, maxHeat);
-
                 if (currentHeat >= maxHeat)
                 {
                     fullHeatTimer += Time.fixedDeltaTime;
                     selfDamageTimer += Time.fixedDeltaTime;
 
-                    if (selfDamageTimer >= selfDamageInterval && fullHeatTimer > 1f)
+                    if (fullHeatTimer >= 1f)
                     {
-                        TakeDamage(fullHeatTimer * 0.4f);
-                        selfDamageTimer = 0f;
+                        cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, (10 + cb.GetBuffCount(Charge.instance.BuffDef)) * (int)fullHeatTimer);
+
+                        if (selfDamageTimer >= selfDamageInterval)
+                        {
+                            TakeDamage(fullHeatTimer * 0.4f);
+                            selfDamageTimer = 0f;
+                        }
                     }
+                    else
+                    {
+                        cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, 0);
+                    }
+                }
+                else
+                {
+                    fullHeatTimer = 0f;
                 }
 
                 var reductionCount = cb.GetBuffCount(HeatHealingReduction.instance.BuffDef.buffIndex);
 
                 if (lastHealingReductionCount > reductionCount)
+                {
                     lastHealingReductionCount = reductionCount;
+                }
+
                 cb.SetBuffCount(HeatHealingReduction.instance.BuffDef.buffIndex, Mathf.RoundToInt((currentHeat + 0.001f) / 10));
             }
 
@@ -143,22 +157,14 @@ namespace Sandswept.Survivors.Ranger
                 crit = false,
                 position = transform.position,
                 damageColorIndex = DamageColorIndex.Fragile,
-                damageType = DamageType.BypassArmor | DamageType.BypassBlock
+                damageType = DamageType.BypassArmor | DamageType.BypassBlock,
+                force = Vector3.zero
             };
 
             info.AddModdedDamageType(Main.HeatSelfDamage);
 
-            var guh = 1f + (2f / 3f);
-
-            var toAddFromCharge = Convert.ToInt32(cb.GetBuffCount(Charge.instance.BuffDef) / guh); // 6 at max charge
-
-            var toAdd = 6 + toAddFromCharge;
-
             if (NetworkServer.active)
             {
-                for (int i = 0; i < toAdd; i++)
-                    cb.AddBuff(OverheatDamageBoost.instance.BuffDef);
-
                 cb.healthComponent.TakeDamage(info);
             }
 

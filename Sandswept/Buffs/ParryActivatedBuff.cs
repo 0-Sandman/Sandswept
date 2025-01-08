@@ -6,7 +6,7 @@ namespace Sandswept.Buffs
 {
     public class ParryActivatedBuff : BuffBase<ParryActivatedBuff>
     {
-        public override string BuffName => "Parry Activated";
+        public override string BuffName => "Galvanic Cell Shield - Parry Activated";
 
         public override Color Color => Color.magenta;
 

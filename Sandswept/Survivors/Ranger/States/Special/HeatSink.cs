@@ -6,7 +6,7 @@ namespace Sandswept.Survivors.Ranger.States.Special
     public class HeatSink : BaseState
     {
         public static float damageCoefficient = 5f;
-        public static float BaseDuration = 0.5f;
+        public static float baseDuration = 0.5f;
         private float duration;
         private RangerHeatController heat;
         private Transform modelTransform;
@@ -27,12 +27,17 @@ namespace Sandswept.Survivors.Ranger.States.Special
         {
             base.OnEnter();
 
+            if (characterMotor)
+            {
+                SmallHop(characterMotor, 30f);
+            }
+
             int stock = base.skillLocator.special.maxStock;
             base.skillLocator.special.DeductStock(base.skillLocator.special.maxStock);
 
             heat = GetComponent<RangerHeatController>();
 
-            duration = BaseDuration / attackSpeedStat;
+            duration = baseDuration / attackSpeedStat;
 
             totalBlasts = stock - 1;
 
@@ -162,7 +167,8 @@ namespace Sandswept.Survivors.Ranger.States.Special
                     falloffModel = BlastAttack.FalloffModel.None,
                 };
 
-                if (secondary) {
+                if (secondary)
+                {
                     attack.baseDamage *= secondaryBlastMultiplier;
                 }
 
@@ -181,10 +187,12 @@ namespace Sandswept.Survivors.Ranger.States.Special
         {
             base.FixedUpdate();
 
-            if (totalBlasts > 0) {
+            if (totalBlasts > 0)
+            {
                 multiAttackStopwatch += Time.fixedDeltaTime;
-                
-                if (multiAttackStopwatch >= intervalBetweenBlasts) {
+
+                if (multiAttackStopwatch >= intervalBetweenBlasts)
+                {
                     multiAttackStopwatch = 0f;
                     FireNova(true);
                 }
@@ -205,6 +213,12 @@ namespace Sandswept.Survivors.Ranger.States.Special
                 TemporaryOverlayManager.RemoveOverlay(tempOverlayInstance1.managerIndex);
                 TemporaryOverlayManager.RemoveOverlay(tempOverlayInstance2.managerIndex);
             }
+            /*
+            if (characterMotor)
+            {
+                SmallHop(characterMotor, -10f);
+            }
+            */
         }
     }
 }

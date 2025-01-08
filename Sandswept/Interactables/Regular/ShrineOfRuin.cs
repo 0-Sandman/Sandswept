@@ -265,6 +265,11 @@ namespace Sandswept.Interactables.Regular
             {
                 shouldCorruptNextStage = false;
                 self.teleporterSpawnCard = Paths.InteractableSpawnCard.iscTeleporter;
+                if ((Run.instance.stageClearCount + 1) % 5 == 0)
+                {
+                    self.teleporterSpawnCard = Paths.InteractableSpawnCard.iscLunarTeleporter;
+                }
+
                 ClassicStageInfo.instance.sceneDirectorInteractibleCredits = (int)(ClassicStageInfo.instance.sceneDirectorInteractibleCredits * sceneDirectorInteractableCreditMultiplier);
             }
 

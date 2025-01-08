@@ -39,9 +39,9 @@ namespace Sandswept.Elites
         public override Color EliteBuffColor => Color.white;
 
         public static GameObject aura;
-        public static BuffDef outsideAura;
-        public static BuffDef insideAura;
-        public static BuffDef noJump;
+        public static BuffDef outsideAuraBuff;
+        public static BuffDef insideAuraBuff;
+        public static BuffDef jumpDisabledBuff;
         public static GameObject groundVFX;
         public static GameObject distortionVFX;
 
@@ -895,36 +895,36 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
 
             ContentAddition.AddEffect(groundVFX);
 
-            noJump = ScriptableObject.CreateInstance<BuffDef>();
-            noJump.isDebuff = false;
-            noJump.isCooldown = false;
-            noJump.canStack = false;
-            noJump.isHidden = false;
-            noJump.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffOsmiumGravity.png");
-            noJump.buffColor = new Color32(110, 64, 255, 255);
-            noJump.name = "Osmium - Jump Disabled";
+            jumpDisabledBuff = ScriptableObject.CreateInstance<BuffDef>();
+            jumpDisabledBuff.isDebuff = false;
+            jumpDisabledBuff.isCooldown = false;
+            jumpDisabledBuff.canStack = false;
+            jumpDisabledBuff.isHidden = false;
+            jumpDisabledBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffOsmiumGravity.png");
+            jumpDisabledBuff.buffColor = new Color32(110, 64, 255, 255);
+            jumpDisabledBuff.name = "Osmium - Jump Disabled";
 
-            outsideAura = ScriptableObject.CreateInstance<BuffDef>();
-            outsideAura.isDebuff = false;
-            outsideAura.isCooldown = false;
-            outsideAura.canStack = false;
-            outsideAura.isHidden = true;
-            outsideAura.buffColor = Color.blue;
-            outsideAura.iconSprite = Paths.BuffDef.bdArmorBoost.iconSprite;
-            outsideAura.name = "Outside Osmium Aura (Lesbian Sex)";
+            outsideAuraBuff = ScriptableObject.CreateInstance<BuffDef>();
+            outsideAuraBuff.isDebuff = false;
+            outsideAuraBuff.isCooldown = false;
+            outsideAuraBuff.canStack = false;
+            outsideAuraBuff.isHidden = true;
+            outsideAuraBuff.buffColor = Color.blue;
+            outsideAuraBuff.iconSprite = Paths.BuffDef.bdArmorBoost.iconSprite;
+            outsideAuraBuff.name = "Outside Osmium Aura (Lesbian Sex)";
 
-            insideAura = ScriptableObject.CreateInstance<BuffDef>();
-            insideAura.isDebuff = false;
-            insideAura.isCooldown = false;
-            insideAura.canStack = false;
-            insideAura.isHidden = true;
-            insideAura.buffColor = Color.red;
-            insideAura.iconSprite = Paths.BuffDef.bdAttackSpeedOnCrit.iconSprite;
-            insideAura.name = "Inside Osmium Aura (Gay Sex)";
+            insideAuraBuff = ScriptableObject.CreateInstance<BuffDef>();
+            insideAuraBuff.isDebuff = false;
+            insideAuraBuff.isCooldown = false;
+            insideAuraBuff.canStack = false;
+            insideAuraBuff.isHidden = true;
+            insideAuraBuff.buffColor = Color.red;
+            insideAuraBuff.iconSprite = Paths.BuffDef.bdAttackSpeedOnCrit.iconSprite;
+            insideAuraBuff.name = "Inside Osmium Aura (Gay Sex)";
 
-            ContentAddition.AddBuffDef(noJump);
-            ContentAddition.AddBuffDef(outsideAura);
-            ContentAddition.AddBuffDef(insideAura);
+            ContentAddition.AddBuffDef(jumpDisabledBuff);
+            ContentAddition.AddBuffDef(outsideAuraBuff);
+            ContentAddition.AddBuffDef(insideAuraBuff);
 
             aura = PrefabAPI.InstantiateClone(Paths.GameObject.RailgunnerMineAltDetonated, "Osmium Aura");
             aura.RemoveComponent<SlowDownProjectiles>();
@@ -989,7 +989,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
             meshRenderer.SetSharedMaterials(sharedMaterials, 2);
 
             var buffWard = aura.GetComponent<BuffWard>();
-            buffWard.buffDef = insideAura;
+            buffWard.buffDef = insideAuraBuff;
             buffWard.expires = false;
             buffWard.invertTeamFilter = true;
             buffWard.buffDuration = 0.2f;
@@ -1024,7 +1024,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
                 c.EmitDelegate<Func<bool, GenericCharacterMain, bool>>((orig, self) =>
                 {
                     var body = self.characterBody;
-                    if (body && body.HasBuff(noJump))
+                    if (body && body.HasBuff(jumpDisabledBuff))
                     {
                         return false;
                     }
@@ -1048,7 +1048,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
                 c.EmitDelegate<Func<float, GenericCharacterMain, float>>((orig, self) =>
                 {
                     var body = self.characterBody;
-                    if (body && body.HasBuff(noJump))
+                    if (body && body.HasBuff(jumpDisabledBuff))
                     {
                         return 0f;
                     }
@@ -1072,9 +1072,9 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
                     var victimBody = self.body;
                     if (victimBody)
                     {
-                        if (victimBody.HasBuff(insideAura) || victimBody.HasBuff(Instance.EliteBuffDef))
+                        if (victimBody.HasBuff(insideAuraBuff) || victimBody.HasBuff(Instance.EliteBuffDef))
                         {
-                            if (attackerBody.HasBuff(outsideAura))
+                            if (attackerBody.HasBuff(outsideAuraBuff))
                             {
                                 if (victimBody.isPlayerControlled)
                                 {
@@ -1087,7 +1087,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
 
                                 damageInfo.procCoefficient *= outsideProcCoefficientMultiplier;
                             }
-                            else if (attackerBody.HasBuff(insideAura))
+                            else if (attackerBody.HasBuff(insideAuraBuff))
                             {
                                 damageInfo.damage *= insideDamageTakenMultiplier;
                             }
@@ -1102,9 +1102,9 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
         private void CharacterBody_OnBuffFinalStackLost(On.RoR2.CharacterBody.orig_OnBuffFinalStackLost orig, CharacterBody self, BuffDef buffDef)
         {
             orig(self, buffDef);
-            if (buffDef == insideAura)
+            if (buffDef == insideAuraBuff)
             {
-                self.AddBuff(outsideAura);
+                self.AddBuff(outsideAuraBuff);
             }
             if (buffDef == Instance.EliteBuffDef)
             {
@@ -1115,9 +1115,9 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
         private void CharacterBody_OnBuffFirstStackGained(On.RoR2.CharacterBody.orig_OnBuffFirstStackGained orig, CharacterBody self, BuffDef buffDef)
         {
             orig(self, buffDef);
-            if (buffDef == insideAura)
+            if (buffDef == insideAuraBuff)
             {
-                self.RemoveBuff(outsideAura);
+                self.RemoveBuff(outsideAuraBuff);
             }
             if (buffDef == Instance.EliteBuffDef)
             {
@@ -1273,7 +1273,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
                 return;
             }
 
-            characterBody.AddTimedBuff(Osmium.noJump, 0.5f);
+            characterBody.AddTimedBuff(Osmium.jumpDisabledBuff, 0.5f);
 
             var damageInfo = new DamageInfo()
             {
