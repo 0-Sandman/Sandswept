@@ -132,7 +132,7 @@ namespace Sandswept.Artifacts
 
         private void ApplyArtifactChanges(bool remove = false)
         {
-            FuckingStupidThing(true);
+            // FuckingStupidThing(true);
 
             if (Run.instance)
             {
@@ -323,13 +323,13 @@ namespace Sandswept.Artifacts
 
                 cachedEquipmentDefColorIndices.Clear();
 
-                FuckingStupidThing(false);
+                // FuckingStupidThing(false);
             }
 
             Language.SetCurrentLanguage(Language.currentLanguageName);
         }
 
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        /*[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         public void FuckingStupidThing(bool enable)
         {
             if (Main.LookingGlassLoaded)
@@ -342,10 +342,10 @@ namespace Sandswept.Artifacts
                     lookingGlassDisabler.shouldRun = enable;
                 }
             }
-        }
+        }*/
     }
 
-    public class LookingGlassDisabler : MonoBehaviour
+    /*public class LookingGlassDisabler : MonoBehaviour
     {
         public bool shouldRun = true;
         public bool cachedItemStatsCalculationsValue;
@@ -375,5 +375,5 @@ namespace Sandswept.Artifacts
                 timer = 0f;
             }
         }
-    }
+    }*/
 }

@@ -151,7 +151,8 @@ namespace Sandswept.Enemies.ThetaConstruct
                 localPos = new Vector3(-0.64928F, -0.21754F, 0.09451F),
                 localAngles = new Vector3(7.34771F, 278.5818F, 11.69831F),
                 localScale = new Vector3(2.13336F, 2.13336F, 2.13336F),
-                limbMask = LimbFlags.None
+                limbMask = LimbFlags.None,
+                followerPrefab = Paths.GameObject.DisplayEliteHorn
             });
 
             AddDisplayRule(Paths.EquipmentDef.EliteBeadEquipment, new()
