@@ -1,5 +1,4 @@
-﻿/*
-using BepInEx.Configuration;
+﻿using BepInEx.Configuration;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine;
@@ -8,10 +7,10 @@ using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.AddressableAssets;
 using R2API;
 using System.Collections.Generic;
-using Sandswept.Artifact;
+using Sandswept.Artifacts;
 using Sandswept;
 
-namespace ArtifactOfBlindness.Artifact
+namespace Sandswept.Artifacts
 {
     [ConfigSection("Artifacts :: Blindness")]
     internal class ArtifactOfBlindness : ArtifactBase<ArtifactOfBlindness>
@@ -393,4 +392,3 @@ namespace ArtifactOfBlindness.Artifact
         }
     }
 }
-*/

@@ -14,7 +14,7 @@ using System.Runtime.CompilerServices;
 using MonoMod.Cil;
 using Mono.Cecil.Cil;
 
-namespace Sandswept.Artifacts.ArtifactOfAbysm
+namespace Sandswept.Artifacts
 {
     [ConfigSection("Artifacts :: Abysm")]
     internal class ArtifactOfAbysm : ArtifactBase<ArtifactOfAbysm>
@@ -23,7 +23,7 @@ namespace Sandswept.Artifacts.ArtifactOfAbysm
 
         public override string ArtifactLangTokenName => "ABYSM";
 
-        public override string ArtifactDescription => "All pickups are unknown. Lunar items appear regularly.";
+        public override string ArtifactDescription => "All pickups are obscured. Lunar items appear regularly.";
 
         public override Sprite ArtifactEnabledIcon => Main.hifuSandswept.LoadAsset<Sprite>("texArtifactOfBlindnessEnabled.png");
 
