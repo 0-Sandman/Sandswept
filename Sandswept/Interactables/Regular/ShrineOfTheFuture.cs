@@ -187,7 +187,7 @@ namespace Sandswept.Interactables.Regular
         private void ClassicStageInfo_RebuildCards(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self, DirectorCardCategorySelection forcedMonsterCategory, DirectorCardCategorySelection forcedInteractableCategory)
         {
             orig(self, forcedMonsterCategory, forcedInteractableCategory);
-            if (Run.instance.stageClearCount >= 11)
+            if (Run.instance && Run.instance.stageClearCount >= 11)
             {
                 self.interactableCategories.RemoveCardsThatFailFilter(x => x.spawnCard != interactableSpawnCard);
             }

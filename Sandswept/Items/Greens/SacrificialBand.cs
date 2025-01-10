@@ -37,6 +37,41 @@
 
         public override void Init(ConfigFile config)
         {
+            vfx = PrefabAPI.InstantiateClone(Paths.GameObject.ElementalRingVoidImplodeEffect, "Sacrificial Band VFX", false);
+            var effectComponent = vfx.GetComponent<EffectComponent>();
+            effectComponent.soundName = "Play_gravekeeper_attack2_impact";
+            effectComponent.applyScale = true;
+            var trans = vfx.transform;
+            /*
+            var particleSystemColorFromEffectData = vfx.AddComponent<ParticleSystemColorFromEffectData>();
+            particleSystemColorFromEffectData.effectComponent = vfx.GetComponent<EffectComponent>();
+
+            var scaledHitspark = trans.Find("Scaled Hitspark").GetComponent<ParticleSystem>();
+            var chunksDark = trans.Find("Chunks, Dark").GetComponent<ParticleSystem>();
+            var flashHard = trans.Find("Flash, Hard");
+            flashHard.gameObject.SetActive(false);
+            var flashHard1 = trans.Find("Flash, Hard (1)").GetComponent<ParticleSystem>();
+            var fans = trans.Find("Fans").GetComponent<ParticleSystem>();
+            var sphereColor = trans.Find("Sphere, Color").GetComponent<ParticleSystem>();
+            var sparksOut = trans.Find("SparksOut").GetComponent<ParticleSystem>();
+
+            particleSystemColorFromEffectData.particleSystems = new ParticleSystem[6] { scaledHitspark, chunksDark, flashHard1, fans, sphereColor, sparksOut };
+            */
+
+            var reb = new Color32(205, 0, 10, 255);
+
+            MiscUtils.RecolorMaterialsAndLights(vfx, reb, reb, true);
+            MiscUtils.RescaleGameObject(vfx, 2.5f);
+
+            var pointLight = trans.Find("Point Light");
+            var light = pointLight.GetComponent<Light>();
+            light.intensity = 150f;
+            light.range = 50f;
+            var lightIntensityCurve = pointLight.GetComponent<LightIntensityCurve>();
+            lightIntensityCurve.timeMax = 0.5f;
+
+            ContentAddition.AddEffect(vfx);
+
             ready = ScriptableObject.CreateInstance<BuffDef>();
             ready.isDebuff = false;
             ready.canStack = false;
@@ -88,7 +123,8 @@
             if (attacker && victim)
             {
                 attackerBody = damageInfo.attacker.GetComponent<CharacterBody>();
-                if (attackerBody)
+                var victimBody = victim.GetComponent<CharacterBody>();
+                if (attackerBody && victimBody)
                 {
                     var stack = GetCount(attackerBody);
                     if (stack > 0)
@@ -108,11 +144,19 @@
                                 DotController.InflictDot(victim, attacker, DotController.DotIndex.Bleed, 4f * damageInfo.procCoefficient, 1f, uint.MaxValue);
                             }
 
-                            Util.PlaySound("Play_bleedOnCritAndExplode_explode", victim);
-                            Util.PlaySound("Play_bleedOnCritAndExplode_explode", victim);
-                            Object.Instantiate(GlobalEventManager.CommonAssets.bleedOnHitAndExplodeBlastEffect, victim.transform.position, Quaternion.identity);
+                            for (int i = 0; i < 2; i++)
+                            {
+                                Util.PlaySound("Play_vulture_attack1_impact", victim);
+                                Util.PlaySound("Play_imp_impact", victim);
+                                Util.PlaySound("Play_gravekeeper_attack2_impact", victim);
+                                Util.PlaySound("Play_lunar_wisp_impact", victim);
+                            }
 
-                            // damageInfo.procChainMask.AddProc(ProcType.PlasmaCore);
+                            Util.PlaySound("Play_item_proc_dagger_impact", attacker);
+                            Util.PlaySound("Play_vulture_attack1_impact", attacker);
+                            Util.PlaySound("Play_vulture_attack1_impact", attacker);
+
+                            EffectManager.SpawnEffect(vfx, new EffectData() { origin = victimBody.corePosition, rotation = Quaternion.identity }, true);
                         }
                     }
                 }

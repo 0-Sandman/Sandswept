@@ -61,7 +61,6 @@ namespace Sandswept.Artifacts
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
             On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
-            IL.RoR2.PickupDisplay.RebuildModel += PickupDisplay_RebuildModel;
         }
 
         private void PickupDisplay_RebuildModel(ILContext il)
@@ -122,132 +121,137 @@ namespace Sandswept.Artifacts
             if (ArtifactEnabled)
             {
                 ApplyArtifactChanges();
+                IL.RoR2.PickupDisplay.RebuildModel += PickupDisplay_RebuildModel;
+                // this is dumb but I don't wanna deal with EmitDelegate'ing allat
             }
         }
 
         private void Run_onRunDestroyGlobal(Run run)
         {
             ApplyArtifactChanges(true);
+            IL.RoR2.PickupDisplay.RebuildModel -= PickupDisplay_RebuildModel;
         }
 
         private void ApplyArtifactChanges(bool remove = false)
         {
             // FuckingStupidThing(true);
-
-            if (Run.instance)
+            if (!remove)
             {
-                // Main.ModLogger.LogError("run instance exists");
-
-                Run.instance.availableTier1DropList = Run.instance.availableTier1DropList.Concat(Run.instance.availableLunarItemDropList).ToList();
-                Run.instance.availableTier2DropList = Run.instance.availableTier2DropList.Concat(Run.instance.availableLunarItemDropList).ToList();
-                Run.instance.availableEquipmentDropList = Run.instance.availableEquipmentDropList.Concat(Run.instance.availableLunarEquipmentDropList).ToList();
-            }
-
-            for (int i = 0; i < ContentManager._itemTierDefs.Length; i++)
-            {
-                var itemTierDef = ContentManager._itemTierDefs[i];
-                if (!cachedItemTierDefPickupRules.ContainsKey(itemTierDef))
+                if (Run.instance)
                 {
-                    cachedItemTierDefPickupRules.Add(itemTierDef, itemTierDef.pickupRules);
+                    // Main.ModLogger.LogError("run instance exists");
+
+                    Run.instance.availableTier1DropList = Run.instance.availableTier1DropList.Concat(Run.instance.availableLunarItemDropList).ToList();
+                    Run.instance.availableTier2DropList = Run.instance.availableTier2DropList.Concat(Run.instance.availableLunarItemDropList).ToList();
+                    Run.instance.availableEquipmentDropList = Run.instance.availableEquipmentDropList.Concat(Run.instance.availableLunarEquipmentDropList).ToList();
                 }
 
-                if (!cachedItemTierDefColorIndices.ContainsKey(itemTierDef))
+                for (int i = 0; i < ContentManager._itemTierDefs.Length; i++)
                 {
-                    cachedItemTierDefColorIndices.Add(itemTierDef, itemTierDef.colorIndex);
+                    var itemTierDef = ContentManager._itemTierDefs[i];
+                    if (!cachedItemTierDefPickupRules.ContainsKey(itemTierDef))
+                    {
+                        cachedItemTierDefPickupRules.Add(itemTierDef, itemTierDef.pickupRules);
+                    }
+
+                    if (!cachedItemTierDefColorIndices.ContainsKey(itemTierDef))
+                    {
+                        cachedItemTierDefColorIndices.Add(itemTierDef, itemTierDef.colorIndex);
+                    }
+
+                    if (!cachedItemTierDefDarkColorIndices.ContainsKey(itemTierDef))
+                    {
+                        cachedItemTierDefDarkColorIndices.Add(itemTierDef, itemTierDef.darkColorIndex);
+                    }
+
+                    itemTierDef.pickupRules = ItemTierDef.PickupRules.Default;
+                    itemTierDef.colorIndex = ColorCatalog.ColorIndex.Tier1Item;
+                    itemTierDef.darkColorIndex = ColorCatalog.ColorIndex.Tier1ItemDark;
                 }
 
-                if (!cachedItemTierDefDarkColorIndices.ContainsKey(itemTierDef))
+                for (int i = 0; i < ContentManager._equipmentDefs.Length; i++)
                 {
-                    cachedItemTierDefDarkColorIndices.Add(itemTierDef, itemTierDef.darkColorIndex);
+                    var equipmentDef = ContentManager._equipmentDefs[i];
+
+                    var nameTokenOverlay = LanguageAPI.AddOverlay(equipmentDef.nameToken, "???");
+                    var descriptionTokenOverlay = LanguageAPI.AddOverlay(equipmentDef.descriptionToken, "???");
+                    var pickupTokenOverlay = LanguageAPI.AddOverlay(equipmentDef.pickupToken, "???");
+                    var loreTokenOverlay = LanguageAPI.AddOverlay(equipmentDef.loreToken, "???");
+
+                    languageOverlays.Add(nameTokenOverlay);
+                    languageOverlays.Add(descriptionTokenOverlay);
+                    languageOverlays.Add(pickupTokenOverlay);
+                    languageOverlays.Add(loreTokenOverlay);
+
+                    if (!cachedEquipmentDefIcons.ContainsKey(equipmentDef))
+                    {
+                        cachedEquipmentDefIcons.Add(equipmentDef, equipmentDef.pickupIconSprite);
+                    }
+
+                    if (!cachedEquipmentDefModels.ContainsKey(equipmentDef))
+                    {
+                        cachedEquipmentDefModels.Add(equipmentDef, equipmentDef.pickupModelPrefab);
+                    }
+
+                    if (!cachedEquipmentDefColorIndices.ContainsKey(equipmentDef))
+                    {
+                        cachedEquipmentDefColorIndices.Add(equipmentDef, equipmentDef.colorIndex);
+                    }
+
+                    equipmentDef.pickupIconSprite = unknownIcon;
+                    equipmentDef.pickupModelPrefab = unknownModel;
+                    equipmentDef.colorIndex = ColorCatalog.ColorIndex.Equipment;
                 }
 
-                itemTierDef.pickupRules = ItemTierDef.PickupRules.Default;
-                itemTierDef.colorIndex = ColorCatalog.ColorIndex.Tier1Item;
-                itemTierDef.darkColorIndex = ColorCatalog.ColorIndex.Tier1ItemDark;
-            }
-
-            for (int i = 0; i < ContentManager._equipmentDefs.Length; i++)
-            {
-                var equipmentDef = ContentManager._equipmentDefs[i];
-
-                var nameTokenOverlay = LanguageAPI.AddOverlay(equipmentDef.nameToken, "???");
-                var descriptionTokenOverlay = LanguageAPI.AddOverlay(equipmentDef.descriptionToken, "???");
-                var pickupTokenOverlay = LanguageAPI.AddOverlay(equipmentDef.pickupToken, "???");
-                var loreTokenOverlay = LanguageAPI.AddOverlay(equipmentDef.loreToken, "???");
-
-                languageOverlays.Add(nameTokenOverlay);
-                languageOverlays.Add(descriptionTokenOverlay);
-                languageOverlays.Add(pickupTokenOverlay);
-                languageOverlays.Add(loreTokenOverlay);
-
-                if (!cachedEquipmentDefIcons.ContainsKey(equipmentDef))
+                for (int i = 0; i < ContentManager._itemDefs.Length; i++)
                 {
-                    cachedEquipmentDefIcons.Add(equipmentDef, equipmentDef.pickupIconSprite);
+                    var itemDef = ContentManager._itemDefs[i];
+                    var nameTokenOverlay = LanguageAPI.AddOverlay(itemDef.nameToken, "???");
+                    var descriptionTokenOverlay = LanguageAPI.AddOverlay(itemDef.descriptionToken, "???");
+                    var pickupTokenOverlay = LanguageAPI.AddOverlay(itemDef.pickupToken, "???");
+                    var loreTokenOverlay = LanguageAPI.AddOverlay(itemDef.loreToken, "???");
+
+                    languageOverlays.Add(nameTokenOverlay);
+                    languageOverlays.Add(descriptionTokenOverlay);
+                    languageOverlays.Add(pickupTokenOverlay);
+                    languageOverlays.Add(loreTokenOverlay);
+
+                    /*
+                    if (!cachedItemDefIcons.ContainsKey(itemDef))
+                    {
+                        cachedItemDefIcons.Add(itemDef, itemDef.pickupIconSprite);
+                    }
+                    */
+
+                    if (!cachedItemDefModels.ContainsKey(itemDef))
+                    {
+                        cachedItemDefModels.Add(itemDef, itemDef.pickupModelPrefab);
+                    }
+
+                    // itemDef.pickupIconSprite = unknownIcon;
+                    itemDef.pickupModelPrefab = unknownModel;
                 }
 
-                if (!cachedEquipmentDefModels.ContainsKey(equipmentDef))
+                var droplet = Paths.GameObject.Tier1Orb;
+
+                for (int i = 0; i < PickupCatalog.entries.Length; i++)
                 {
-                    cachedEquipmentDefModels.Add(equipmentDef, equipmentDef.pickupModelPrefab);
+                    var pickupDef = PickupCatalog.entries[i];
+
+                    var nameTokenOverlay = LanguageAPI.AddOverlay(pickupDef.nameToken, "???");
+                    languageOverlays.Add(nameTokenOverlay);
+
+                    /*
+                    if (!cachedPickupModels.ContainsKey(entry))
+                    {
+                        cachedPickupModels.Add(entry, entry.displayPrefab);
+                    }
+                    */
+
+                    pickupDef.displayPrefab = unknownModel;
+                    pickupDef.baseColor = ColorCatalog.GetColor(ColorCatalog.ColorIndex.Tier1Item);
+                    pickupDef.dropletDisplayPrefab = droplet;
                 }
-
-                if (!cachedEquipmentDefColorIndices.ContainsKey(equipmentDef))
-                {
-                    cachedEquipmentDefColorIndices.Add(equipmentDef, equipmentDef.colorIndex);
-                }
-
-                equipmentDef.pickupIconSprite = unknownIcon;
-                equipmentDef.pickupModelPrefab = unknownModel;
-                equipmentDef.colorIndex = ColorCatalog.ColorIndex.Equipment;
-            }
-
-            for (int i = 0; i < ContentManager._itemDefs.Length; i++)
-            {
-                var itemDef = ContentManager._itemDefs[i];
-                var nameTokenOverlay = LanguageAPI.AddOverlay(itemDef.nameToken, "???");
-                var descriptionTokenOverlay = LanguageAPI.AddOverlay(itemDef.descriptionToken, "???");
-                var pickupTokenOverlay = LanguageAPI.AddOverlay(itemDef.pickupToken, "???");
-                var loreTokenOverlay = LanguageAPI.AddOverlay(itemDef.loreToken, "???");
-
-                languageOverlays.Add(nameTokenOverlay);
-                languageOverlays.Add(descriptionTokenOverlay);
-                languageOverlays.Add(pickupTokenOverlay);
-                languageOverlays.Add(loreTokenOverlay);
-
-                /*
-                if (!cachedItemDefIcons.ContainsKey(itemDef))
-                {
-                    cachedItemDefIcons.Add(itemDef, itemDef.pickupIconSprite);
-                }
-                */
-
-                if (!cachedItemDefModels.ContainsKey(itemDef))
-                {
-                    cachedItemDefModels.Add(itemDef, itemDef.pickupModelPrefab);
-                }
-
-                // itemDef.pickupIconSprite = unknownIcon;
-                itemDef.pickupModelPrefab = unknownModel;
-            }
-
-            var droplet = Paths.GameObject.Tier1Orb;
-
-            for (int i = 0; i < PickupCatalog.entries.Length; i++)
-            {
-                var pickupDef = PickupCatalog.entries[i];
-
-                var nameTokenOverlay = LanguageAPI.AddOverlay(pickupDef.nameToken, "???");
-                languageOverlays.Add(nameTokenOverlay);
-
-                /*
-                if (!cachedPickupModels.ContainsKey(entry))
-                {
-                    cachedPickupModels.Add(entry, entry.displayPrefab);
-                }
-                */
-
-                pickupDef.displayPrefab = unknownModel;
-                pickupDef.baseColor = ColorCatalog.GetColor(ColorCatalog.ColorIndex.Tier1Item);
-                pickupDef.dropletDisplayPrefab = droplet;
             }
 
             if (remove)

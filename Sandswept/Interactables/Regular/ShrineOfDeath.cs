@@ -1,5 +1,4 @@
-﻿/*
-using Newtonsoft.Json.Utilities;
+﻿using Newtonsoft.Json.Utilities;
 using RoR2.ExpansionManagement;
 using RoR2.Hologram;
 using System;
@@ -7,6 +6,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using static Rewired.UI.ControlMapper.ControlMapper;
 using static RoR2.CombatDirector;
 
 namespace Sandswept.Interactables.Regular
@@ -52,6 +52,12 @@ namespace Sandswept.Interactables.Regular
 
         [ConfigField("Max Use Count", "", 2147483647)]
         public static int maxUseCount;
+
+        [ConfigField("On Kill Proc Chance", "", 100f)]
+        public static float onKillProcChance;
+
+        [ConfigField("On Interact Proc Chance", "", 50f)]
+        public static float onInteractProcChance;
 
         public static GameObject fmpPrefab;
 
@@ -131,7 +137,7 @@ namespace Sandswept.Interactables.Regular
                 TitleColor = Color.white
             };
             // add this to base later tbh?
-            LanguageAPI.Add("SANDSWEPT_SHRINE_DEATH_DESCRIPTION", "When activated by a survivor, the Shrine of Death takes " + percentHealthCost + "% of the survivors health and disables all healing for " + healingDisableDuration + " seconds, but activates on-kill effects.");
+            LanguageAPI.Add("SANDSWEPT_SHRINE_DEATH_DESCRIPTION", "When activated by a survivor, the Shrine of Death takes " + percentHealthCost + "% of the survivors health and disables all healing for " + healingDisableDuration + " seconds, but has a " + onKillProcChance + "% chance of activating on kill effects, and a " + onInteractProcChance + "% chance of activating on interact effects.");
 
             prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo = Object.Instantiate(prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo);
             prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo.Info = inspectInfo;
@@ -205,6 +211,8 @@ namespace Sandswept.Interactables.Regular
 
         private bool waitingForRefresh;
 
+        private InteractionProcFilter interactionProcFilter;
+
         public override int GetNetworkChannel()
         {
             return RoR2.Networking.QosChannelIndex.defaultReliable.intVal;
@@ -214,6 +222,8 @@ namespace Sandswept.Interactables.Regular
         {
             // Main.ModLogger.LogError("shrine sacrifice behavior start");
             purchaseInteraction = GetComponent<PurchaseInteraction>();
+            interactionProcFilter = GetComponent<InteractionProcFilter>();
+            interactionProcFilter.shouldAllowOnInteractionBeginProc = false;
             symbolTransform = transform.Find("Symbol");
         }
 
@@ -245,9 +255,6 @@ namespace Sandswept.Interactables.Regular
 
             // Main.ModLogger.LogError("interactor body is " + interactorBody);
 
-            StartCoroutine(ProcOnKills(interactorBody));
-
-            /*
             if (interactorBody)
             {
                 Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage
@@ -256,7 +263,6 @@ namespace Sandswept.Interactables.Regular
                     baseToken = "SANDSWEPT_SHRINE_DEATH_USE_MESSAGE",
                 });
             }
-            *
 
             EffectManager.SpawnEffect(ShrineOfDeath.shrineVFX, new EffectData
             {
@@ -276,6 +282,13 @@ namespace Sandswept.Interactables.Regular
                 symbolTransform.gameObject.SetActive(false);
                 CallRpcSetPingable(false);
             }
+
+            if (!Run.instance)
+            {
+                return;
+            }
+
+            StartCoroutine(ProcOnKills(interactorBody));
         }
 
         public IEnumerator ProcOnKills(CharacterBody interactorBody)
@@ -284,35 +297,47 @@ namespace Sandswept.Interactables.Regular
 
             interactorBody.AddTimedBuff(RoR2Content.Buffs.HealingDisabled, ShrineOfDeath.healingDisableDuration);
 
-            var ghostFMP = Object.Instantiate<GameObject>(ShrineOfDeath.fmpPrefab, /*new Vector3(0f, -200f, 0f)*interactorBody.footPosition, Quaternion.identity);
-            ghostFMP.transform.localScale = new Vector3(0f, 0f, 0f);
-            ghostFMP.GetComponent<DeathProjectile>().baseDuration = 1.1f;
-            Object.Destroy(ghostFMP.GetComponent<DestroyOnTimer>());
-            Object.Destroy(ghostFMP.GetComponent<DeathProjectile>());
-            Object.Destroy(ghostFMP.GetComponent<ApplyTorqueOnStart>());
-            Object.Destroy(ghostFMP.GetComponent<ProjectileDeployToOwner>());
-            Object.Destroy(ghostFMP.GetComponent<Deployable>());
-            Object.Destroy(ghostFMP.GetComponent<ProjectileStickOnImpact>());
-            Object.Destroy(ghostFMP.GetComponent<ProjectileController>());
-
-            ghostFMP.transform.position = interactorBody.footPosition;
-
-            var hc = ghostFMP.GetComponent<HealthComponent>();
-
-            if (NetworkServer.active)
+            if (Run.instance.spawnRng.RangeFloat(0f, 100f) <= ShrineOfDeath.onInteractProcChance)
             {
-                DamageInfo damageInfo = new()
+                interactionProcFilter.shouldAllowOnInteractionBeginProc = true;
+            }
+            else
+            {
+                interactionProcFilter.shouldAllowOnInteractionBeginProc = false;
+            }
+
+            if (Run.instance.spawnRng.RangeFloat(0f, 100f) <= ShrineOfDeath.onKillProcChance)
+            {
+                var ghostFMP = Object.Instantiate<GameObject>(ShrineOfDeath.fmpPrefab, interactorBody.footPosition, Quaternion.identity);
+                ghostFMP.transform.localScale = new Vector3(0f, 0f, 0f);
+                ghostFMP.GetComponent<DeathProjectile>().baseDuration = 1.1f;
+                Object.Destroy(ghostFMP.GetComponent<DestroyOnTimer>());
+                Object.Destroy(ghostFMP.GetComponent<DeathProjectile>());
+                Object.Destroy(ghostFMP.GetComponent<ApplyTorqueOnStart>());
+                Object.Destroy(ghostFMP.GetComponent<ProjectileDeployToOwner>());
+                Object.Destroy(ghostFMP.GetComponent<Deployable>());
+                Object.Destroy(ghostFMP.GetComponent<ProjectileStickOnImpact>());
+                Object.Destroy(ghostFMP.GetComponent<ProjectileController>());
+
+                ghostFMP.transform.position = interactorBody.footPosition;
+
+                var hc = ghostFMP.GetComponent<HealthComponent>();
+
+                if (NetworkServer.active)
                 {
-                    attacker = interactorBody.gameObject,
-                    crit = interactorBody.RollCrit(),
-                    damage = interactorBody.baseDamage,
-                    position = interactorBody.footPosition,
-                    procCoefficient = 0f,
-                    damageType = DamageType.Generic,
-                    damageColorIndex = DamageColorIndex.Item
-                };
-                var damageReport = new DamageReport(damageInfo, hc, damageInfo.damage, hc.combinedHealth);
-                GlobalEventManager.instance.OnCharacterDeath(damageReport);
+                    DamageInfo damageInfo = new()
+                    {
+                        attacker = interactorBody.gameObject,
+                        crit = interactorBody.RollCrit(),
+                        damage = interactorBody.baseDamage,
+                        position = interactorBody.footPosition,
+                        procCoefficient = 0f,
+                        damageType = DamageType.Generic,
+                        damageColorIndex = DamageColorIndex.Item
+                    };
+                    var damageReport = new DamageReport(damageInfo, hc, damageInfo.damage, hc.combinedHealth);
+                    GlobalEventManager.instance.OnCharacterDeath(damageReport);
+                }
             }
         }
 
@@ -335,4 +360,3 @@ namespace Sandswept.Interactables.Regular
         }
     }
 }
-*/

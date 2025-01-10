@@ -1,10 +1,17 @@
 ## 1.0.8 Patch Notes
+- Ranger
+  - Made Sidestep keep your momentum
+  - Made Heat Signature extend its dash on hit
+  - Reworked Enflame
+  - Reworked Exhaust
+  - Reworked Heat Mechanic
 - VOL-T
   - Reduced crosshair scale to from 100% to 85%
 - Enemies
   - Reduced Delta Construct Director Credit Cost from 150 to 135
   - Reduced Gamma Construct Director Credit Cost from 185 to 150
   - Reduced Theta Construct Director Credit Cost from 140 to 115
+  - Fixed Theta Construct
 - Elites
   - Fixed Motivating bosses having weird aura offsets
 - Items/Equipment
@@ -17,11 +24,15 @@
   - Buffed Universal VIP Pass Chance from 45% to 55%
   - Nerfed Red Spring Water to have diminishing returns scaling with buff count
   - Improved Amber Knife VFX and SFX
+  - Improved Sacrificial Band VFX and SFX
 - Interactables
   - Added Delta Construct and Gamma Construct to Shrine of the Future
   - Added a few more buffs to Corrupted Catalyst
   - Buffed Shrine of The Future enemy stats from 50% to 60% 
   - Fixed Shrine of Ruin spawning a standard teleporter on stage 5
+- Artifacts
+  - Added Artifact of Abysm
+  - Added Artifact of Chimera
 
 ## 1.0.7 Patch Notes
 - VOL-T

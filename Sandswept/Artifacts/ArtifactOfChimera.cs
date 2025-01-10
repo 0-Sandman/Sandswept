@@ -99,7 +99,10 @@ namespace Sandswept.Artifacts
         private void HealthBar_Start(On.RoR2.UI.HealthBar.orig_Start orig, RoR2.UI.HealthBar self)
         {
             orig(self);
-            self.updateDelay = 4f;
+            if (ArtifactEnabled)
+            {
+                self.updateDelay = 4f;
+            }
         }
 
         private void CombatHealthBarViewer_Start(On.RoR2.UI.CombatHealthBarViewer.orig_Start orig, RoR2.UI.CombatHealthBarViewer self)
@@ -209,7 +212,6 @@ namespace Sandswept.Artifacts
                 {
                     if (body.isBoss)
                     {
-                        // makes tp bosses not spawn?????????
                         return;
                     }
 
@@ -227,7 +229,6 @@ namespace Sandswept.Artifacts
                     {
                         deathRewards.spawnValue = 0;
                         deathRewards.expReward = 0U;
-                        // breaks deathRewards for everyone???????????
                         deathRewards.logUnlockableDef = null;
                         deathRewards.bossDropTable = null;
                     }
@@ -260,7 +261,7 @@ namespace Sandswept.Artifacts
     public class RandomSoundController : MonoBehaviour
     {
         public float timeBetweenSounds = 15f;
-        public float maxVariation = 7f;
+        public float maxVariation = 0f;
         public float timer;
         public float rngTimer;
         public float rngRollInterval = 2f;
@@ -272,7 +273,7 @@ namespace Sandswept.Artifacts
 
             if (rngTimer >= rngRollInterval)
             {
-                maxVariation = Run.instance.spawnRng.RangeFloat(-5f, 5f);
+                maxVariation = Run.instance.spawnRng.RangeFloat(-7f, 7f);
                 rngTimer = 0f;
             }
 
