@@ -60,8 +60,8 @@
 
             var reb = new Color32(205, 0, 10, 255);
 
-            MiscUtils.RecolorMaterialsAndLights(vfx, reb, reb, true);
-            MiscUtils.RescaleGameObject(vfx, 2.5f);
+            VFXUtils.RecolorMaterialsAndLights(vfx, reb, reb, true);
+            VFXUtils.MultiplyScale(vfx, 2.5f);
 
             var pointLight = trans.Find("Point Light");
             var light = pointLight.GetComponent<Light>();
@@ -155,6 +155,7 @@
                             Util.PlaySound("Play_item_proc_dagger_impact", attacker);
                             Util.PlaySound("Play_vulture_attack1_impact", attacker);
                             Util.PlaySound("Play_vulture_attack1_impact", attacker);
+                            Util.PlaySound("Play_vulture_death_land_thud", attacker);
 
                             EffectManager.SpawnEffect(vfx, new EffectData() { origin = victimBody.corePosition, rotation = Quaternion.identity }, true);
                         }

@@ -7,9 +7,9 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 {
     public class Galvanize : BaseState
     {
-        public static float DamageCoefficient = 0.8f;
-        public static int Projectiles = 3;
-        public static int MaxProjectiles = 10;
+        public static float damageCoefficient = 0.8f;
+        public static int minProjectiles = 3;
+        public static int maxProjectiles = 10;
         public static float baseDuration = 0.25f;
         public float duration;
         public bool hasFired = false;
@@ -126,7 +126,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
         public IEnumerator FireProjectiles()
         {
             var buffCount = characterBody.GetBuffCount(Buffs.Charge.instance.BuffDef);
-            var projectileCount = (int)Util.Remap(buffCount, 0, DirectCurrent.maxCharge, Projectiles, MaxProjectiles);
+            var projectileCount = (int)Util.Remap(buffCount, 0, DirectCurrent.maxCharge, minProjectiles, maxProjectiles);
             var aimDirection = GetAimRay().direction;
             for (int i = 0; i < projectileCount; i++)
             {
@@ -135,7 +135,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                 {
                     var fpi = new FireProjectileInfo()
                     {
-                        damage = damageStat * DamageCoefficient,
+                        damage = damageStat * damageCoefficient,
                         crit = RollCrit(),
                         damageColorIndex = DamageColorIndex.Default,
                         owner = gameObject,

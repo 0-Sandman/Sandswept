@@ -66,7 +66,7 @@ namespace Sandswept.Items.Greens
                     var body = self.body;
                     var stack = GetCount(body);
 
-                    if (stack > 0 && (body.outOfDanger || body.outOfCombat))
+                    if (stack > 0 && body && (body.outOfDanger || body.outOfCombat))
                     {
                         var reduction = MathHelpers.InverseHyperbolicScaling(1f - baseBarrierDecayReduction, stackBarrierDecayReduction, 0f, stack);
                         // Main.ModLogger.LogError("reduction multiplier is " + reduction);

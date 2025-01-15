@@ -1,4 +1,7 @@
-﻿namespace Sandswept.Survivors.Ranger.VFX
+﻿using UnityEngine.Events;
+using UnityEngine.Rendering.PostProcessing;
+
+namespace Sandswept.Survivors.Ranger.VFX
 {
     public static class ReleaseVFX
     {
@@ -19,7 +22,7 @@
 
         public static void Init()
         {
-            tracerPrefabDefault = CreateTracerRecolor("Default", new Color32(95, 209, 177, 255), new Color32(51, 234, 149, 255), new Color32(95, 224, 125, 255), new Color32(0, 121, 255, 255), true, 2.675917f, 0.8582755f, 10f);
+            tracerPrefabDefault = CreateTracerRecolor("Default", new Color32(0, 255, 183, 255), new Color32(51, 147, 234, 255));
             impactPrefabDefault = CreateImpactRecolor("Default", new Color32(23, 234, 129, 255), new Color32(23, 211, 148, 255), new Color32(0, 255, 210, 255));
 
             tracerPrefabMajor = CreateTracerRecolor("Major", new Color32(95, 125, 209, 255), new Color32(51, 133, 234, 255), new Color32(95, 192, 224, 255), new Color32(4, 0, 255, 255), false, 10.65977f, 0.4565004f, 0.06634249f);
@@ -33,6 +36,45 @@
 
             tracerPrefabSandswept = CreateTracerRecolor("Sandswept", new Color32(214, 159, 79, 255), new Color32(150, 150, 150, 255), new Color32(87, 87, 87, 255), new Color32(11, 4, 2, 255), true, 10.65977f, 0.5846819f, 2.903516f, true);
             impactPrefabSandswept = CreateImpactRecolor("Sandswept", new Color32(214, 159, 79, 255), new Color32(150, 150, 150, 255), new Color32(255, 162, 72, 255));
+        }
+
+        public static GameObject CreateTracerRecolor(string name, Color32 primaryColor, Color32 emissionAndLightColor)
+        {
+            var tracerGameObject = Paths.GameObject.TracerRailgunSuper.InstantiateClone("Release Tracer " + name, false);
+
+            var tracerComponentSucks = tracerGameObject.AddComponent<TracerComponentSucks>();
+            tracerComponentSucks.timeUntilDisable = 0.01f;
+
+            var tracer = tracerGameObject.GetComponent<Tracer>();
+            tracer.onTailReachedDestination = new UnityEvent();
+            tracer.length = 10000f;
+
+            var transform = tracerGameObject.transform;
+
+            transform.Find("TracerHead/HarshGlow, Billboard").GetComponent<ParticleSystemRenderer>().enabled = false;
+
+            var postProcessing = transform.Find("StartTransform/PP");
+            postProcessing.gameObject.SetActive(false);
+            postProcessing.GetComponent<PostProcessDuration>().enabled = false;
+            postProcessing.GetComponent<PostProcessVolume>().enabled = false;
+            postProcessing.GetComponent<SphereCollider>().enabled = false;
+
+            VFXUtils.RecolorMaterialsAndLights(tracerGameObject, primaryColor, emissionAndLightColor, true);
+            VFXUtils.MultiplyScale(tracerGameObject, 2f);
+            VFXUtils.MultiplyDuration(tracerGameObject, 2f, 1.5f);
+
+            var fx = transform.Find("FX");
+            fx.GetComponent<Animator>().speed = 0.75f;
+
+            var beamLingerMaterial = fx.Find("Longer/Beam, Linger").GetComponent<LineRenderer>().material;
+            beamLingerMaterial.SetFloat("_Boost", 4f);
+
+            var mdlRailgunnerBeam = fx.Find("mdlRailgunnerBeam");
+            mdlRailgunnerBeam.transform.localScale = Vector3.one * 0.05f;
+
+            ContentAddition.AddEffect(tracerGameObject);
+
+            return tracerGameObject;
         }
 
         public static GameObject CreateTracerRecolor(string name, Color32 lightBlueEquivalent, Color32 lightAquaEquivalent, Color32 lightGreenEquivalent, Color32 tintColor, bool altRamp = false, float brightnessBoost = 20f, float alphaBias = 0.2612987f, float alphaBoost = 0.5506042f, bool sandsweptRamp = false)

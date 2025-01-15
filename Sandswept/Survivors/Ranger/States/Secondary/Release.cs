@@ -5,9 +5,9 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 {
     public class Release : BaseState
     {
-        public static float DamageCoefficient = 6f;
-        public static float MaxDamageCoefficient = 16f;
-        public static float ProcCoefficient = 1f;
+        public static float minDamageCoefficient = 6f;
+        public static float maxDamageCoefficient = 16f;
+        public static float procCoefficient = 1f;
         public static float baseDuration = 0.25f;
         public float duration;
         public bool hasFired = false;
@@ -114,7 +114,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                 {
                     aimVector = aimDirection,
                     falloffModel = BulletAttack.FalloffModel.None,
-                    damage = damageStat * Util.Remap(buffCount, 0, DirectCurrent.maxCharge, DamageCoefficient, MaxDamageCoefficient),
+                    damage = damageStat * Util.Remap(buffCount, 0, DirectCurrent.maxCharge, minDamageCoefficient, maxDamageCoefficient),
                     isCrit = RollCrit(),
                     minSpread = 0,
                     maxSpread = 0,
@@ -123,7 +123,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                     origin = transform.position,
                     tracerEffectPrefab = tracerEffect,
                     hitEffectPrefab = impactEffect,
-                    procCoefficient = ProcCoefficient,
+                    procCoefficient = procCoefficient,
                     weapon = gameObject,
                     radius = 2f,
                     smartCollision = true,

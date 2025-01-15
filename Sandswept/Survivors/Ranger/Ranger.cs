@@ -252,9 +252,10 @@ namespace Sandswept.Survivors.Ranger
             {
                 // Main.ModLogger.LogError("found ranger survivor icon and button exists");
 
-                var survivorChoiceGridPanel = self.transform.parent;
-                var survivorGrid = survivorChoiceGridPanel.parent;
-                var leftHandPanel = survivorGrid.parent;
+                var survivorGrid = self.transform.parent;
+                var survivorChoiceGridContainer = survivorGrid.parent;
+                var survivorChoiceGridPanel = survivorChoiceGridContainer.parent;
+                var leftHandPanel = survivorChoiceGridPanel.parent;
                 var safeArea = leftHandPanel.parent;
                 var anchor = safeArea;
                 if (anchor.GetComponent<Image>() == null)

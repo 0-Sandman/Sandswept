@@ -5,8 +5,8 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 {
     public class Exhaust : BaseState
     {
-        public static float DamageCoefficient = 2f;
-        public static float ProcCoefficient = 1f;
+        public static float damageCoefficient = 2f;
+        public static float procCoefficient = 1f;
         public static float baseDurationPerVolley = 0.15f;
         public static int baseVolleyCount = 2;
         public int extraVolleyCount;
@@ -14,8 +14,8 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
         public float durationPerVolley;
         public float finalDuration;
         public bool shot = false;
-        private GameObject TracerEffect;
-        private GameObject ImpactEffect;
+        private GameObject tracerEffect;
+        private GameObject impactEffect;
         private RangerHeatController rangerHeatController;
         private Transform modelTransform;
 
@@ -46,7 +46,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
             {
                 var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
 
-                TracerEffect = skinNameToken switch
+                tracerEffect = skinNameToken switch
                 {
                     "SKINDEF_MAJOR" => ExhaustVFX.tracerPrefabMajor,
                     "SKINDEF_RENEGADE" => ExhaustVFX.tracerPrefabRenegade,
@@ -55,7 +55,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                     _ => ExhaustVFX.tracerPrefabDefault
                 };
 
-                ImpactEffect = skinNameToken switch
+                impactEffect = skinNameToken switch
                 {
                     "SKINDEF_MAJOR" => ExhaustVFX.impactPrefabMajor,
                     "SKINDEF_RENEGADE" => ExhaustVFX.impactPrefabRenegade,
@@ -104,15 +104,15 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 
                 BulletAttack attack = new()
                 {
-                    damage = DamageCoefficient * damageStat,
-                    procCoefficient = ProcCoefficient,
+                    damage = damageCoefficient * damageStat,
+                    procCoefficient = procCoefficient,
                     minSpread = -1f * i,
                     maxSpread = 1f * i,
                     damageType = DamageType.IgniteOnHit,
                     bulletCount = 4,
-                    tracerEffectPrefab = TracerEffect,
+                    tracerEffectPrefab = tracerEffect,
                     muzzleName = "Muzzle",
-                    hitEffectPrefab = ImpactEffect,
+                    hitEffectPrefab = impactEffect,
                     falloffModel = BulletAttack.FalloffModel.Buckshot,
                     origin = GetAimRay().origin,
                     owner = gameObject,

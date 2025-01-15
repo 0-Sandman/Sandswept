@@ -35,7 +35,7 @@ namespace Sandswept.Artifacts
         public static Dictionary<EquipmentDef, GameObject> cachedEquipmentDefModels = new();
         public static Dictionary<EquipmentDef, ColorCatalog.ColorIndex> cachedEquipmentDefColorIndices = new();
 
-        // public static Dictionary<ItemDef, Sprite> cachedItemDefIcons = new();
+        public static Dictionary<ItemDef, Sprite> cachedItemDefIcons = new();
 
         public static Dictionary<ItemDef, GameObject> cachedItemDefModels = new();
 
@@ -206,29 +206,41 @@ namespace Sandswept.Artifacts
                 for (int i = 0; i < ContentManager._itemDefs.Length; i++)
                 {
                     var itemDef = ContentManager._itemDefs[i];
-                    var nameTokenOverlay = LanguageAPI.AddOverlay(itemDef.nameToken, "???");
-                    var descriptionTokenOverlay = LanguageAPI.AddOverlay(itemDef.descriptionToken, "???");
-                    var pickupTokenOverlay = LanguageAPI.AddOverlay(itemDef.pickupToken, "???");
-                    var loreTokenOverlay = LanguageAPI.AddOverlay(itemDef.loreToken, "???");
+                    if (itemDef.nameToken != null)
+                    {
+                        var nameTokenOverlay = LanguageAPI.AddOverlay(itemDef.nameToken, "???");
+                        languageOverlays.Add(nameTokenOverlay);
+                    }
 
-                    languageOverlays.Add(nameTokenOverlay);
-                    languageOverlays.Add(descriptionTokenOverlay);
-                    languageOverlays.Add(pickupTokenOverlay);
-                    languageOverlays.Add(loreTokenOverlay);
+                    if (itemDef.descriptionToken != null)
+                    {
+                        var descriptionTokenOverlay = LanguageAPI.AddOverlay(itemDef.descriptionToken, "???");
+                        languageOverlays.Add(descriptionTokenOverlay);
+                    }
 
-                    /*
+                    if (itemDef.pickupToken != null)
+                    {
+                        var pickupTokenOverlay = LanguageAPI.AddOverlay(itemDef.pickupToken, "???");
+                        languageOverlays.Add(pickupTokenOverlay);
+                    }
+
+                    if (itemDef.loreToken != null)
+                    {
+                        var loreTokenOverlay = LanguageAPI.AddOverlay(itemDef.loreToken, "???");
+                        languageOverlays.Add(loreTokenOverlay);
+                    }
+
                     if (!cachedItemDefIcons.ContainsKey(itemDef))
                     {
                         cachedItemDefIcons.Add(itemDef, itemDef.pickupIconSprite);
                     }
-                    */
 
                     if (!cachedItemDefModels.ContainsKey(itemDef))
                     {
                         cachedItemDefModels.Add(itemDef, itemDef.pickupModelPrefab);
                     }
 
-                    // itemDef.pickupIconSprite = unknownIcon;
+                    itemDef.pickupIconSprite = unknownIcon;
                     itemDef.pickupModelPrefab = unknownModel;
                 }
 
@@ -267,15 +279,13 @@ namespace Sandswept.Artifacts
                     languageOverlays.RemoveAt(i);
                 }
 
-                /*
                 foreach (var itemIcon in cachedItemDefIcons)
                 {
                     // sprite.Key is itemDef
                     itemIcon.Key.pickupIconSprite = itemIcon.Value;
                 }
-                */
 
-                // cachedItemDefIcons.Clear();
+                cachedItemDefIcons.Clear();
 
                 foreach (var itemModel in cachedItemDefModels)
                 {
