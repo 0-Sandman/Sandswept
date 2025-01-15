@@ -42,12 +42,21 @@ namespace Sandswept.Survivors.Ranger.VFX
         {
             var tracerGameObject = Paths.GameObject.TracerRailgunSuper.InstantiateClone("Release Tracer " + name, false);
 
-            var tracerComponentSucks = tracerGameObject.AddComponent<TracerComponentSucks>();
-            tracerComponentSucks.timeUntilDisable = 0.01f;
+            var kurwaJebanyTracerComponentKurwaKtoToPisal = tracerGameObject.AddComponent<TracerComponentSucks>();
 
             var tracer = tracerGameObject.GetComponent<Tracer>();
             tracer.onTailReachedDestination = new UnityEvent();
             tracer.length = 10000f;
+
+            // var szmatoJebanaKurwa = tracer.GetComponent<EffectManagerHelper>();
+            // szmatoJebanaKurwa.enabled = false;
+            // kurwa ale jebana szmata pierdolona kurwa dodaje sie pizda jebana automatycznie gdzies kurwa w chuju zajebana spierdolona dziwka kurwa jebane kurwa spaghetti code ja pierdole
+
+            var pizdoKurwaPierdolona = tracer.AddComponent<VFXAttributes>();
+            pizdoKurwaPierdolona.DoNotPool = true;
+
+            // kurwa mac jebane kurwa spaghetti code kurwa jak mozna kurwa zrobic ze jebany tracer usuwa sie kurwa
+            // i potem kurwa dawac jakies zjebane workaroundy zamiast naprawic problem kurwa?? po co stwarzac sobie problem ja pierdole
 
             var transform = tracerGameObject.transform;
 

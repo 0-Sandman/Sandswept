@@ -192,21 +192,15 @@ namespace Sandswept.Utils
     public class TracerComponentSucks : MonoBehaviour
     {
         public Tracer tracer;
-        public float timeUntilDisable = 1f;
 
-        public void Start()
+        public void OnEnable()
         {
-            StartCoroutine(DisableTracerComponent());
             tracer = GetComponent<Tracer>();
         }
 
-        public IEnumerator DisableTracerComponent()
+        public void LateUpdate()
         {
-            tracer.enabled = true;
-
-            yield return new WaitForSeconds(timeUntilDisable);
-
-            tracer.enabled = false;
+            tracer.distanceTraveled = Mathf.Min(tracer.distanceTraveled, tracer.totalDistance - 1f);
         }
     }
 }
