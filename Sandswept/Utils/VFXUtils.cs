@@ -73,11 +73,14 @@ namespace Sandswept.Utils
                 var particleSystemColorOverLifetime = particleSystem.colorOverLifetime;
                 if (particleSystemColorOverLifetime.color.gradient != null && particleSystemColorOverLifetime.color.gradient.colorKeys.Length > 0)
                 {
-                    for (int i = 0; i < particleSystemColorOverLifetime.color.gradient.colorKeys.Length; i++)
-                    {
-                        var particleSystemColorKey = particleSystemColorOverLifetime.color.gradient.colorKeys[i];
-                        particleSystemColorKey.color = Color.white;
-                    }
+                    var colorKeys = new GradientColorKey[2];
+                    colorKeys[0] = new GradientColorKey(Color.white, 0f);
+                    colorKeys[1] = new GradientColorKey(Color.white, 1f);
+                    var alphaKeys = new GradientAlphaKey[2];
+                    alphaKeys[0] = new GradientAlphaKey(1f, 0f);
+                    alphaKeys[0] = new GradientAlphaKey(0f, 1f);
+                    particleSystemColorOverLifetime.color.gradient.SetKeys(colorKeys, alphaKeys);
+                    // fuck off tbh
                 }
             }
 
@@ -88,6 +91,7 @@ namespace Sandswept.Utils
                     switch (material.shader.name)
                     {
                         case "Hopoo Games/FX/Cloud Remap":
+                        case "Hopoo Games/FX/Opaque Cloud Remap":
                         case "Hopoo Games/FX/Cloud Intersection Remap":
                             material.SetColor("_TintColor", primaryColor);
                             material.SetColor("_EmissionColor", emissionAndLightColor);
@@ -158,7 +162,7 @@ namespace Sandswept.Utils
                 }
                 if (maximumDuration > 0f)
                 {
-                    animateShaderAlpha.timeMax = maximumDuration;
+                    animateShaderAlpha.timeMax = Mathf.Min(animateShaderAlpha.timeMax, maximumDuration);
                 }
             }
 

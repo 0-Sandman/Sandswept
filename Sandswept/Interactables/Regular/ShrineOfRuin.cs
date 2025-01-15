@@ -555,7 +555,7 @@ namespace Sandswept.Interactables.Regular
             foreach (var item in inventory.itemAcquisitionOrder)
             {
                 var def = ItemCatalog.GetItemDef(item);
-                if (def.tier != ItemTier.Tier1 || def.ContainsTag(ItemTag.Scrap)) continue;
+                if (def.tier != ItemTier.Tier1 /*|| def.ContainsTag(ItemTag.Scrap)*/) continue;
                 var count = inventory.GetItemCount(def);
                 itemsToRemove.AddChoice(item, count); numItems += count;
             }

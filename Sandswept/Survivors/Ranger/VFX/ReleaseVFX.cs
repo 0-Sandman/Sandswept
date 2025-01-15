@@ -1,4 +1,5 @@
-﻿using UnityEngine.Events;
+﻿using Sandswept.Utils.Components;
+using UnityEngine.Events;
 using UnityEngine.Rendering.PostProcessing;
 
 namespace Sandswept.Survivors.Ranger.VFX
@@ -23,18 +24,18 @@ namespace Sandswept.Survivors.Ranger.VFX
         public static void Init()
         {
             tracerPrefabDefault = CreateTracerRecolor("Default", new Color32(0, 255, 183, 255), new Color32(51, 147, 234, 255));
-            impactPrefabDefault = CreateImpactRecolor("Default", new Color32(23, 234, 129, 255), new Color32(23, 211, 148, 255), new Color32(0, 255, 210, 255));
+            impactPrefabDefault = CreateImpactRecolor("Default", new Color32(23, 234, 129, 255), new Color32(23, 211, 148, 255));
 
-            tracerPrefabMajor = CreateTracerRecolor("Major", new Color32(95, 125, 209, 255), new Color32(51, 133, 234, 255), new Color32(95, 192, 224, 255), new Color32(4, 0, 255, 255), false, 10.65977f, 0.4565004f, 0.06634249f);
+            tracerPrefabMajor = CreateTracerRecolor("Major", new Color32(95, 125, 209, 255), new Color32(51, 133, 234, 255));
             impactPrefabMajor = CreateImpactRecolor("Major", new Color32(23, 124, 234, 255), new Color32(23, 83, 211, 255), new Color32(0, 41, 255, 255));
 
-            tracerPrefabRenegade = CreateTracerRecolor("Renegade", new Color32(219, 103, 159, 255), new Color32(246, 59, 183, 255), new Color32(234, 102, 230, 255), new Color32(176, 31, 187, 255), false, 2.474493f, 0.5483652f, 1.758069f);
+            tracerPrefabRenegade = CreateTracerRecolor("Renegade", new Color32(219, 103, 159, 255), new Color32(246, 59, 183, 255));
             impactPrefabRenegade = CreateImpactRecolor("Renegade", new Color32(247, 32, 182, 255), new Color32(225, 34, 136, 255), new Color32(255, 9, 107, 255));
 
-            tracerPrefabMileZero = CreateTracerRecolor("Mile Zero", new Color32(209, 95, 95, 255), new Color32(234, 51, 84, 255), new Color32(224, 95, 157, 255), new Color32(255, 0, 2, 255), false, 20f, 4.072613f, 0.1128651f);
+            tracerPrefabMileZero = CreateTracerRecolor("Mile Zero", new Color32(209, 95, 95, 255), new Color32(234, 51, 84, 255));
             impactPrefabMileZero = CreateImpactRecolor("Mile Zero", new Color32(234, 23, 68, 255), new Color32(211, 23, 33, 255), new Color32(255, 27, 0, 255));
 
-            tracerPrefabSandswept = CreateTracerRecolor("Sandswept", new Color32(214, 159, 79, 255), new Color32(150, 150, 150, 255), new Color32(87, 87, 87, 255), new Color32(11, 4, 2, 255), true, 10.65977f, 0.5846819f, 2.903516f, true);
+            tracerPrefabSandswept = CreateTracerRecolor("Sandswept", new Color32(214, 159, 79, 255), new Color32(150, 150, 150, 255));
             impactPrefabSandswept = CreateImpactRecolor("Sandswept", new Color32(214, 159, 79, 255), new Color32(150, 150, 150, 255), new Color32(255, 162, 72, 255));
         }
 
@@ -42,11 +43,32 @@ namespace Sandswept.Survivors.Ranger.VFX
         {
             var tracerGameObject = Paths.GameObject.TracerRailgunSuper.InstantiateClone("Release Tracer " + name, false);
 
+            var light = tracerGameObject.AddComponent<Light>();
+            light.type = LightType.Point;
+            light.color = primaryColor;
+            light.intensity = 13f;
+            light.range = 40f;
+
+            var lightIntensityCurve = tracerGameObject.AddComponent<LightIntensityCurve>();
+            lightIntensityCurve.timeMax = 0.125f;
+            lightIntensityCurve.curve = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 0f));
+
             var kurwaJebanyTracerComponentKurwaKtoToPisal = tracerGameObject.AddComponent<TracerComponentSucks>();
 
             var tracer = tracerGameObject.GetComponent<Tracer>();
             tracer.onTailReachedDestination = new UnityEvent();
             tracer.length = 10000f;
+            tracer.speed = 500f;
+
+            var tailLight = tracer.tailTransform.AddComponent<Light>();
+            tailLight.type = LightType.Point;
+            tailLight.color = primaryColor;
+            tailLight.intensity = 13f;
+            tailLight.range = 40f;
+
+            var tailLightIntensityCurve = tracer.tailTransform.AddComponent<LightIntensityCurve>();
+            tailLightIntensityCurve.timeMax = 0.125f;
+            tailLightIntensityCurve.curve = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 0f));
 
             // var szmatoJebanaKurwa = tracer.GetComponent<EffectManagerHelper>();
             // szmatoJebanaKurwa.enabled = false;
@@ -68,12 +90,28 @@ namespace Sandswept.Survivors.Ranger.VFX
             postProcessing.GetComponent<PostProcessVolume>().enabled = false;
             postProcessing.GetComponent<SphereCollider>().enabled = false;
 
+            var fx = transform.Find("FX");
+            //fx.GetComponent<Animator>().speed = 0.75f;
+            fx.GetComponent<Animator>().enabled = false;
+            // jednak trzeba kurwa wylaczyc smiecia
+
+            var brief = fx.Find("Brief");
+
+            var beamFlashBriefly = brief.Find("Beam, Flash Briefly");
+            var beamFlashAnimateShaderAlpha = beamFlashBriefly.AddComponent<AnimateShaderAlpha>();
+            beamFlashAnimateShaderAlpha.alphaCurve = new AnimationCurve(new Keyframe(1f, 1f), new Keyframe(1f, 0f));
+            beamFlashAnimateShaderAlpha.timeMax = 0.1f;
+
+            var beamDistortion = fx.Find("Longer/Beam, Distortion");
+            var beamDistortionDestroyOnTimer = beamDistortion.AddComponent<DestroyOnTimer>();
+            beamDistortionDestroyOnTimer.duration = 1f;
+
             VFXUtils.RecolorMaterialsAndLights(tracerGameObject, primaryColor, emissionAndLightColor, true);
             VFXUtils.MultiplyScale(tracerGameObject, 2f);
             VFXUtils.MultiplyDuration(tracerGameObject, 2f, 1.5f);
 
-            var fx = transform.Find("FX");
-            fx.GetComponent<Animator>().speed = 0.75f;
+            light.color = primaryColor;
+            tailLight.color = primaryColor;
 
             var beamLingerMaterial = fx.Find("Longer/Beam, Linger").GetComponent<LineRenderer>().material;
             beamLingerMaterial.SetFloat("_Boost", 4f);
@@ -86,125 +124,23 @@ namespace Sandswept.Survivors.Ranger.VFX
             return tracerGameObject;
         }
 
-        public static GameObject CreateTracerRecolor(string name, Color32 lightBlueEquivalent, Color32 lightAquaEquivalent, Color32 lightGreenEquivalent, Color32 tintColor, bool altRamp = false, float brightnessBoost = 20f, float alphaBias = 0.2612987f, float alphaBoost = 0.5506042f, bool sandsweptRamp = false)
+        public static GameObject CreateImpactRecolor(string name, Color32 primaryColor, Color32 emissionAndLightColor)
         {
-            // 0 255 141 255
-            // lightBlueEquivalent = new Color32(95, 209, 177, 255);
-            // lightAquaEquivalent = new Color32(51,234,149,255);
-            // lightGreenEquivalent = new Color32(92,224,125,255);
-            // tintColor = new Color32(0, 1, 255, 255);
+            var impact = Paths.GameObject.ImpactRailgun.InstantiateClone("Release Impact " + name, false);
 
-            var tracer = Paths.GameObject.TracerHuntressSnipe.InstantiateClone("Release Tracer " + name, false);
+            var effectComponent = impact.GetComponent<EffectComponent>();
+            effectComponent.soundName = "Play_lunar_wisp_attack2_explode";
 
-            tracer.AddComponent<VFXAttributes>();
+            var pizdoKurwaPierdolona = impact.GetComponent<VFXAttributes>();
+            pizdoKurwaPierdolona.DoNotPool = true;
 
-            var destroyOnTimer = tracer.AddComponent<DestroyOnTimer>();
-            destroyOnTimer.duration = 3f;
+            VFXUtils.RecolorMaterialsAndLights(impact, primaryColor, emissionAndLightColor, true);
+            VFXUtils.MultiplyScale(impact, 1.25f);
+            VFXUtils.MultiplyDuration(impact, 2.5f);
 
-            // tracer head
+            ContentAddition.AddEffect(impact);
 
-            var tracerHead = tracer.transform.GetChild(0).GetComponent<LineRenderer>();
-
-            var animateShaderAlpha = tracerHead.GetComponent<AnimateShaderAlpha>();
-            animateShaderAlpha.timeMax = 0.25f;
-
-            var gradient = new Gradient();
-            var colors = new GradientColorKey[2];
-            colors[0] = new GradientColorKey(Color.white, 0f);
-            colors[1] = new GradientColorKey(lightBlueEquivalent, 1f);
-
-            var alphas = new GradientAlphaKey[2];
-            alphas[0] = new GradientAlphaKey(1f, 0f);
-            alphas[1] = new GradientAlphaKey(1f, 1f);
-
-            gradient.SetKeys(colors, alphas);
-
-            tracerHead.colorGradient = gradient;
-
-            var newMat = Object.Instantiate(Paths.Material.matHuntressArrowBig);
-            newMat.SetColor("_TintColor", lightAquaEquivalent);
-            newMat.SetTexture("_MainTex", Paths.Texture2D.texCrosshairBullets1);
-
-            tracerHead.material = newMat;
-
-            //
-
-            // beam object
-
-            var beamObject = tracer.transform.GetChild(2);
-
-            var destroyOnTimer2 = beamObject.AddComponent<DestroyOnTimer>();
-            destroyOnTimer2.duration = 3f;
-
-            var particleSystem = beamObject.GetComponent<ParticleSystem>();
-
-            var main = particleSystem.main;
-            main.startSize = 1f;
-
-            var startColor = particleSystem.main.startColor;
-            startColor.mode = ParticleSystemGradientMode.Color;
-            startColor.color = Color.white;
-
-            var noise = particleSystem.noise;
-            noise.quality = ParticleSystemNoiseQuality.Medium;
-            noise.rotationAmount = 0.5f;
-            noise.sizeAmount = 0.2f;
-            noise.positionAmount = 2f;
-
-            var startLifetime = main.startLifetime;
-            startLifetime.constant = 1f;
-            var colorOverLifetime = particleSystem.colorOverLifetime;
-
-            var gradient2 = new Gradient();
-            var colors2 = new GradientColorKey[2];
-            colors2[0] = new GradientColorKey(Color.white, 0f);
-            colors2[1] = new GradientColorKey(Color.black, 1f);
-
-            var alphas2 = new GradientAlphaKey[2];
-            alphas2[0] = new GradientAlphaKey(1f, 0f);
-            alphas2[1] = new GradientAlphaKey(0f, 1f);
-
-            gradient2.SetKeys(colors2, alphas2);
-
-            colorOverLifetime.color = gradient2;
-
-            var particleSystemRenderer = beamObject.GetComponent<ParticleSystemRenderer>();
-
-            var newMat2 = Object.Instantiate(Paths.Material.matHuntressSwingTrail);
-            newMat2.SetColor("_TintColor", lightGreenEquivalent);
-
-            // particleSystemRenderer.material = newMat2;
-
-            Texture2D rampToLoad = Main.hifuSandswept.LoadAsset<Texture2D>("texRampGay.png");
-            if (altRamp)
-            {
-                rampToLoad = Paths.Texture2D.texRampBandit;
-            }
-            if (sandsweptRamp)
-            {
-                rampToLoad = Paths.Texture2D.texRampTritone;
-            }
-
-            var newMat3 = Object.Instantiate(Paths.Material.matHuntressSwingTrail);
-            newMat3.SetTexture("_RemapTex", rampToLoad);
-            newMat3.SetColor("_TintColor", tintColor);
-            newMat3.SetFloat("_SoftFactor", 0.8866442f);
-            newMat3.SetFloat("_Boost", brightnessBoost);
-            newMat3.SetFloat("_AlphaBoost", alphaBoost);
-            newMat3.SetFloat("_AlphaBias", alphaBias);
-            newMat3.SetColor("_CutoffScroll", new Color(15f, 0.02f, 0f, 0f));
-
-            particleSystemRenderer.sharedMaterials = new Material[] { newMat2, newMat3 };
-            /*
-            var animateShaderAlpha2 = beamObject.AddComponent<AnimateShaderAlpha>();
-            animateShaderAlpha2.targetRenderer = particleSystemRenderer;
-            animateShaderAlpha2.alphaCurve = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 0f));
-            animateShaderAlpha2.timeMax = 1f;
-            epilepsy
-             */
-            ContentAddition.AddEffect(tracer);
-
-            return tracer;
+            return impact;
         }
 
         public static GameObject CreateImpactRecolor(string name, Color32 saturatedAquaEquivalent, Color32 lessSaturatedAquaEquivalent, Color32 saturatedBlueEquivalent)
