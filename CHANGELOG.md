@@ -5,18 +5,19 @@
   - Reworked Enflame
   - Reworked Exhaust
   - Reworked Heat Mechanic
+  - Improved Release VFX
 - VOL-T
   - Reduced crosshair scale to from 100% to 85%
 - Enemies
-  - Reduced Delta Construct Director Credit Cost from 150 to 135
-  - Reduced Gamma Construct Director Credit Cost from 185 to 150
-  - Reduced Theta Construct Director Credit Cost from 140 to 115
+  - Reduced Delta Construct Director Credit Cost from 150 to 130
+  - Reduced Gamma Construct Director Credit Cost from 185 to 145
+  - Reduced Theta Construct Director Credit Cost from 140 to 105
   - Fixed Theta Construct
 - Elites
   - Fixed Motivating bosses having weird aura offsets
 - Items/Equipment
-  - Buffed Amber Knife Base Damage 140% => 150%
-  - Buffed Amber Knife Stack Damage 140% => 150%
+  - Buffed Amber Knife Base Damage from 140% to 150%
+  - Buffed Amber Knife Stack Damage from 140% to 150%
   - Buffed Amber Knife to also give 3 Flat Barrier
   - Buffed Red Spring Water Base Regen from 0.4 to 0.6
   - Buffed Red Spring Water Base Regen Per Buff from 0.4 to 0.6
@@ -28,8 +29,11 @@
 - Interactables
   - Added Delta Construct and Gamma Construct to Shrine of the Future
   - Added a few more buffs to Corrupted Catalyst
-  - Buffed Shrine of The Future enemy stats from 50% to 60% 
+  - Buffed Shrine of The Future enemy stats from 50% to 60%
+  - Buffed Shrine of Ruin Combat Director Credit Multiplier from 200% to 250%
+  - Berfed Shrine of Ruin Scene Director Interactable Credits behavior - now sets them to 200
   - Fixed Shrine of Ruin spawning a standard teleporter on stage 5
+  - Made Shrine of Ruin not ignore scrap (but also not prioritize it)
 - Artifacts
   - Added Artifact of Abysm
   - Added Artifact of Chimera
@@ -52,7 +56,7 @@
   - Fixed not having csc names
   - Made Theta Construct stack its stat boost if multiple Constructs are shielding the same enemy :)
 - Interactables
-  - Changed Shrine of Ruin Director Credit Cost from 45 to 10
+  - Reduced Shrine of Ruin Director Credit Cost from 45 to 10
 
 ## 1.0.5 Patch Notes
 - Ranger

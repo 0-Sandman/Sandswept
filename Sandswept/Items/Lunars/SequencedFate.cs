@@ -1,5 +1,4 @@
-﻿/*
-using MonoMod.Cil;
+﻿using MonoMod.Cil;
 using System.Linq;
 using Mono.Cecil.Cil;
 using UnityEngine;
@@ -23,9 +22,9 @@ namespace Sandswept.Items.Whites
 
         public override ItemTier Tier => ItemTier.Lunar;
 
-        public override GameObject ItemModel => Main.Assets.LoadAsset<GameObject>("PickupTheirProminence.prefab");
+        public override GameObject ItemModel => null;
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texTheirProminence.png");
+        public override Sprite ItemIcon => null;
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist };
 
@@ -193,4 +192,3 @@ namespace Sandswept.Items.Whites
         }
     }
 }
-*/

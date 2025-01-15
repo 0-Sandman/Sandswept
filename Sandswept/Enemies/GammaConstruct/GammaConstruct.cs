@@ -12,7 +12,7 @@ namespace Sandswept.Enemies.GammaConstruct
         public static Material matDeltaBeamStrong;
         public static GameObject sigmaBlast;
 
-        [ConfigField("Director Credit Cost", "", 150)]
+        [ConfigField("Director Credit Cost", "", 145)]
         public static int directorCreditCost;
 
         public override DirectorCardCategorySelection family => Paths.FamilyDirectorCardCategorySelection.dccsConstructFamily;
