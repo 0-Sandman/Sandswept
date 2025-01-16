@@ -1,11 +1,13 @@
 ## 1.0.8 Patch Notes
 - Ranger
   - Buffed Release Minimum Damage from 400% to 600%
+  - Buffed Release Self Knockback
   - Made Sidestep keep your momentum
   - Made Heat Signature extend its dash on hit
-  - Reworked Enflame
-  - Reworked Exhaust
-  - Reworked Heat Mechanic
+  - Made Heat Sink launch you upward a little bit
+  - Reworked Enflame to have lower fire rate, slightly lower damage, but gain fire rate, ignite chance and reduce its bullet range scaling with heat
+  - Reworked Exhaust to fire 2-4 bursts, burst count scaling with heat
+  - Reworked Heat Mechanic to be more manageable and intuitive
   - Improved Release VFX
   - The focus of our next update is going to be Ranger - she is gonna be getting gameplay tweaks, more VFX and SFX improvements, a remodel, new rig and a second re-animation.
 - VOL-T
@@ -24,7 +26,7 @@
   - Buffed Red Spring Water Base Regen from 0.4 to 0.6
   - Buffed Red Spring Water Base Regen Per Buff from 0.4 to 0.6
   - Buffed Red Spring Water Stack Regen Per Buff from 0.4 to 0.6
-  - Buffed Universal VIP Pass Chance from 45% to 55%
+  - Buffed Universal VIP Pass Chance from 45% to 60%
   - Nerfed Red Spring Water to have diminishing returns scaling with buff count
   - Improved Amber Knife VFX and SFX
   - Improved Sacrificial Band VFX and SFX

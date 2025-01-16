@@ -53,10 +53,8 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var tailObject = tracer.tailTransform.gameObject;
 
-            var briefLightHead = VFXUtils.AddLight(tracerGameObject, primaryColor, 8f, 40f, 0.15f);
-            var briefLightTail = VFXUtils.AddLight(tailObject, primaryColor, 8f, 40f, 0.15f);
-            var slowLightHead = VFXUtils.AddLight(tracerGameObject, primaryColor, 5f, 70f, 1f);
-            var slowLightTail = VFXUtils.AddLight(tailObject, primaryColor, 5f, 70f, 1f);
+            // var slowLightHead = VFXUtils.AddLight(tracerGameObject, primaryColor, 5f, 70f, 1f);
+            // var slowLightTail = VFXUtils.AddLight(tailObject, primaryColor, 5f, 70f, 1f);
             // Four Lights
 
             // var szmatoJebanaKurwa = tracer.GetComponent<EffectManagerHelper>();
@@ -99,19 +97,25 @@ namespace Sandswept.Survivors.Ranger.VFX
             VFXUtils.MultiplyScale(tracerGameObject, 2f);
             VFXUtils.MultiplyDuration(tracerGameObject, 2f, 1.5f);
 
-            briefLightHead.color = primaryColor;
-            briefLightTail.color = primaryColor;
-            slowLightHead.color = primaryColor;
-            slowLightTail.color = primaryColor;
+            // slowLightHead.color = primaryColor;
+            // slowLightTail.color = primaryColor;
 
             var beamLingerMaterial = fx.Find("Longer/Beam, Linger").GetComponent<LineRenderer>().material;
             beamLingerMaterial.SetFloat("_Boost", 4f);
 
-            var beamGlowMaterial = fx.Find("Longer/Beam, Glow").GetComponent<LineRenderer>().material;
+            var beamGlow = fx.Find("Longer/Beam, Glow");
+
+            var beamGlowMaterial = beamGlow.GetComponent<LineRenderer>().material;
             beamGlowMaterial.SetTexture("_MainTex", Paths.Texture2D.texAlphaGradient2Mask);
             beamGlowMaterial.SetInt("_CloudOffsetOn", 0);
             beamGlowMaterial.DisableKeyword("CLOUDOFFSET");
             beamGlowMaterial.SetFloat("_AlphaBias", 0.26f);
+
+            var tracerHead = transform.Find("TracerHead").gameObject;
+
+            VFXUtils.AddLight(tracerHead, primaryColor, 5f, 60f, 2f);
+            VFXUtils.AddLight(tracerGameObject, primaryColor, 8f, 40f, 0.3f);
+            VFXUtils.AddLight(tailObject, primaryColor, 8f, 40f, 0.3f);
 
             var mdlRailgunnerBeam = fx.Find("mdlRailgunnerBeam");
             mdlRailgunnerBeam.transform.localScale = Vector3.one * 0.05f;

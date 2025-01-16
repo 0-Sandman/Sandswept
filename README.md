@@ -226,7 +226,7 @@
 			<td>
 				<b>Shrine of Ruin</b><br>
 				Sacrifice <b>10</b> random common items to corrupt the next stage, making it a simulacrum variant that exclusively drops void items and spawns void enemies.<br>
-				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 2, costs 10 credits. The combat director gets <b>100%</b> more credits and interactable credits are reduced by <b>55%</b>.
+				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 2, costs 10 credits. The combat director gets <b>150%</b> more credits and interactable credits are set to <b>200</b>.
 			</td>
 		</tr>
 		<tr>
@@ -277,7 +277,7 @@
 			<td><img src="https://i.postimg.cc/ZKTbBHc7/tex-Amber-Knife.png" width="96"></td>
 			<td>
 				<b>Amber Knife</b><br>
-				Gain a <b>10%</b> chance on hit to fire a piercing knife for <b>150% (+150% per stack)</b> base damage that gives <b>3.5%</b> plus an additional <b>3</b> barrier for each pierce.
+				Gain a <b>10%</b> chance on hit to fire a piercing knife for <b>150% (+150% per stack)</b> base damage that gives <b>3.5%</b> plus an additional <b>3</b> barrier.
 			</td>
 		</tr>
 		<tr>
@@ -350,7 +350,7 @@
 			<td><img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"></td>
 			<td>
 				<b>Universal VIP Pass</b><br>
-				Category chests have a <b>55%</b> chance of dropping <b>1 (+1 per stack)</b> extra items.
+				Category chests have a <b>60%</b> chance of dropping <b>1 (+1 per stack)</b> extra items.
 			</td>
 		</tr>
 		<tr>

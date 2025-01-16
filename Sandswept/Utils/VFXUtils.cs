@@ -194,9 +194,10 @@ namespace Sandswept.Utils
 
         public static Light AddLight(GameObject gameObject, Color32 color, float intensity, float range, float fadeOutTime)
         {
-            Main.ModLogger.LogError("gameobject is " + gameObject);
+            // Main.ModLogger.LogError("gameobject is " + gameObject);
             var light = gameObject.AddComponent<Light>();
-            Main.ModLogger.LogError("light is " + light);
+            // gameObject.GetComponent<Light>();
+            // Main.ModLogger.LogError("light is " + light);
             light.type = LightType.Point;
             light.color = color;
             light.intensity = intensity;

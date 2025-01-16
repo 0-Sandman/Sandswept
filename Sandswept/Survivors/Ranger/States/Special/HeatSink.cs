@@ -29,7 +29,7 @@ namespace Sandswept.Survivors.Ranger.States.Special
 
             if (characterMotor)
             {
-                SmallHop(characterMotor, 30f);
+                SmallHop(characterMotor, 20f);
             }
 
             int stock = base.skillLocator.special.maxStock;
