@@ -16,7 +16,8 @@ namespace Sandswept.Unlocks
             orig(self, intPickupIndex);
             PickupIndex planula = PickupCatalog.FindPickupIndex(RoR2Content.Items.ParentEgg.itemIndex);
 
-            if (new PickupIndex(intPickupIndex) == planula) {
+            if (new PickupIndex(intPickupIndex) == planula)
+            {
                 Grant();
             }
         }

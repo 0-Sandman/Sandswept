@@ -1,4 +1,5 @@
-﻿using BepInEx.Configuration;
+﻿/*
+using BepInEx.Configuration;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine;
@@ -67,9 +68,9 @@ namespace Sandswept.Artifacts
             "Play_UI_levelUp_player", "Play_UI_equipment_activate", "Play_UI_achievementUnlock", "Play_ui_obj_voidCradle_open", "Play_UI_shrineActivate", "Play_ui_obj_lunarPool_activate",
             "Play_UI_charTeleport", "Play_UI_teleport_off_map", "Play_UI_chest_unlock", "Play_UI_monsterLogLand", "Play_UI_hit", "Play_UI_item_land_command", "Play_UI_arenaMode_voidCollapse_select",
             "Play_ui_player_death", "Play_UI_crit", "Play_UI_obj_casinoChest_expire", "Play_ui_lunar_coin_drop", "Play_UI_chatMessage", "Play_UI_levelUp_enemy", "Play_UI_insufficient_funds",
-            "Play_UI_xp_gain", "Play_wCrit", /* <3 */
+            "Play_UI_xp_gain", "Play_wCrit",
 
-            "Play_wMushroom", /* <3 */ "Play_item_proc_vagrantNova_charge", "Play_item_proc_slug_emerge", "Play_item_proc_slug_hide", "Play_item_proc_TPhealingNova",
+            "Play_wMushroom", "Play_item_proc_vagrantNova_charge", "Play_item_proc_slug_emerge", "Play_item_proc_slug_hide", "Play_item_proc_TPhealingNova",
             "Play_item_proc_squidTurret_spawn", "Play_item_proc_iceRingSpear", "Play_item_proc_TPhealingNova_hitPlayer", "Play_item_proc_feather", "Play_item_proc_bear",
             "Play_item_proc_warhorn", "Play_item_proc_phasing", "Play_item_proc_moveSpeedOnKill", "Play_item_proc_clover", "Play_item_proc_roseBuckler", "Play_item_proc_equipMag",
             "Play_item_use_gainArmor", "Play_item_void_bear", "Play_item_proc_guillotine", "Play_item_proc_personal_shield_recharge", "Play_item_use_tonic_debuff",
@@ -290,3 +291,4 @@ namespace Sandswept.Artifacts
         }
     }
 }
+*/

@@ -6,7 +6,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Secondary
     {
         public override string Name => "Exhaust";
 
-        public override string Description => "$sdIgnite$se. Fire a short-range heat burst for $sd8x180% damage$se. Increase $srheat$se by $sr15%$se.".AutoFormat();
+        public override string Description => "$sdIgnite$se. Fire two short bursts of heat for $sd4x200% damage$se each. $sdBurst count$se increases up to $sdfour$se while in full heat. Reduce $srheat$se by $sr25%$se.".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Secondary.Exhaust);
 

@@ -126,7 +126,7 @@ namespace Sandswept.Survivors.Ranger.States.Utility
             {
                 if (attack.Fire(null))
                 {
-                    duration += 0.2f;
+                    duration += 0.1f;
                 }
             }
 

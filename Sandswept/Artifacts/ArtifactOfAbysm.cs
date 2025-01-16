@@ -252,14 +252,12 @@ namespace Sandswept.Artifacts
 
                     var nameTokenOverlay = LanguageAPI.AddOverlay(pickupDef.nameToken, "???");
                     languageOverlays.Add(nameTokenOverlay);
-
                     /*
                     if (!cachedPickupModels.ContainsKey(entry))
                     {
                         cachedPickupModels.Add(entry, entry.displayPrefab);
                     }
                     */
-
                     pickupDef.displayPrefab = unknownModel;
                     pickupDef.baseColor = ColorCatalog.GetColor(ColorCatalog.ColorIndex.Tier1Item);
                     pickupDef.dropletDisplayPrefab = droplet;
@@ -342,52 +340,5 @@ namespace Sandswept.Artifacts
 
             Language.SetCurrentLanguage(Language.currentLanguageName);
         }
-
-        /*[MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public void FuckingStupidThing(bool enable)
-        {
-            if (Main.LookingGlassLoaded)
-            {
-                // Main.ModLogger.LogError("looking glass loaded");
-                for (int i = 0; i < PlayerCharacterMasterController.instances.Count; i++)
-                {
-                    var pcmc = PlayerCharacterMasterController.instances[i];
-                    var lookingGlassDisabler = pcmc.GetComponent<LookingGlassDisabler>() ? pcmc.GetComponent<LookingGlassDisabler>() : pcmc.AddComponent<LookingGlassDisabler>();
-                    lookingGlassDisabler.shouldRun = enable;
-                }
-            }
-        }*/
     }
-
-    /*public class LookingGlassDisabler : MonoBehaviour
-    {
-        public bool shouldRun = true;
-        public bool cachedItemStatsCalculationsValue;
-        public float timer;
-        public float interval = 0.05f;
-
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public void Start()
-        {
-            cachedItemStatsCalculationsValue = LookingGlass.ItemStatsNameSpace.ItemStats.itemStatsCalculations.Value;
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public void FixedUpdate()
-        {
-            timer += Time.fixedDeltaTime;
-            if (timer >= interval)
-            {
-                if (shouldRun)
-                {
-                    LookingGlass.ItemStatsNameSpace.ItemStats.itemStatsCalculations.Value = false;
-                }
-                else
-                {
-                    LookingGlass.ItemStatsNameSpace.ItemStats.itemStatsCalculations.Value = cachedItemStatsCalculationsValue;
-                }
-                timer = 0f;
-            }
-        }
-    }*/
 }

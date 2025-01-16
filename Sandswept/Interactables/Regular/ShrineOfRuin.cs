@@ -60,11 +60,11 @@ namespace Sandswept.Interactables.Regular
         [ConfigField("White Item Cost", "", 10)]
         public static int whiteItemCost;
 
-        [ConfigField("Combat Director Credit Multiplier", "", 2f)]
+        [ConfigField("Combat Director Credit Multiplier", "", 2.5f)]
         public static float combatDirectorCreditMultiplier;
 
-        [ConfigField("Scene Director Interactable Credit Multiplier", "", 0.45f)]
-        public static float sceneDirectorInteractableCreditMultiplier;
+        [ConfigField("Scene Director Interactable Credits", "", 200)]
+        public static int sceneDirectorInteractableCredits;
 
         public static GameObject shrineVFX;
 
@@ -188,7 +188,7 @@ namespace Sandswept.Interactables.Regular
                 TitleColor = Color.white
             };
             // add this to base later tbh?
-            LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_DESCRIPTION", "When activated by a survivor, the Shrine of Ruin consumes " + whiteItemCost + " white items from the survivor's inventory and corrupts the next stage.");
+            LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_DESCRIPTION", "When activated by a survivor, the Shrine of Ruin consumes " + whiteItemCost + " random white items from the survivor's inventory and corrupts the next stage.");
 
             LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_USE_MESSAGE_2P", "<style=cShrine>The corruption spreads.</color>");
             LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_USE_MESSAGE", "<style=cShrine>The corruption spreads.</color>");
@@ -270,7 +270,8 @@ namespace Sandswept.Interactables.Regular
                     self.teleporterSpawnCard = Paths.InteractableSpawnCard.iscLunarTeleporter;
                 }
 
-                ClassicStageInfo.instance.sceneDirectorInteractibleCredits = (int)(ClassicStageInfo.instance.sceneDirectorInteractibleCredits * sceneDirectorInteractableCreditMultiplier);
+                var multiplier = 1f + 0.5f * (Run.instance.participatingPlayerCount - 1);
+                ClassicStageInfo.instance.sceneDirectorInteractibleCredits = Convert.ToInt32(sceneDirectorInteractableCredits * multiplier);
             }
 
             orig(self);

@@ -9,6 +9,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
         public static float procCoefficient = 1f;
         public static float baseDurationPerVolley = 0.15f;
         public static int baseVolleyCount = 2;
+        public static float heatReduction = 25f;
         public int extraVolleyCount;
         public int finalVolleyCount;
         public float durationPerVolley;
@@ -68,7 +69,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
             }
 
             outer.StartCoroutine(FireShot());
-            rangerHeatController.currentHeat -= 25f;
+            rangerHeatController.currentHeat -= heatReduction;
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

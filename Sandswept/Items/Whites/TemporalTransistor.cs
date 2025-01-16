@@ -18,7 +18,7 @@ namespace Sandswept.Items.Whites
 
         public override ItemTier Tier => ItemTier.Tier1;
 
-        public override GameObject ItemModel => null;
+        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("FracturedTimepieceHolder.prefab");
         public override Sprite ItemIcon => null;
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.OnKillEffect, ItemTag.Utility };
@@ -124,14 +124,6 @@ namespace Sandswept.Items.Whites
 
             var storedJumps = self.GetBuffCount(extraJump);
             self.maxJumpCount += storedJumps;
-
-            /*
-            if (self.characterMotor.jumpCount == self.maxJumpCount && storedJumps >= 1)
-            {
-                self.SetBuffCount(extraJump.buffIndex, self.GetBuffCount(extraJump) - 1);
-                self.maxJumpCount += 1;
-            }
-            */
         }
 
         private void GlobalEventManager_onCharacterDeathGlobal(DamageReport report)

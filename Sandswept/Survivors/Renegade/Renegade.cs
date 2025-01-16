@@ -1,6 +1,7 @@
 using System;
 
-namespace Sandswept.Survivors.Renegade {
+namespace Sandswept.Survivors.Renegade
+{
     public class Renegade : SurvivorBase<Renegade>
     {
         public override string Name => "Renegade";
@@ -27,12 +28,14 @@ namespace Sandswept.Survivors.Renegade {
             GameObject DisplayPrefab = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.LoaderDisplay, "RenegadeDisplay", false);
 
             ModelSkinController controller = DisplayPrefab.GetComponentInChildren<ModelSkinController>();
-            if (controller) {
+            if (controller)
+            {
                 GameObject.Destroy(controller);
             }
 
             controller = Body.GetComponentInChildren<ModelSkinController>();
-            if (controller) {
+            if (controller)
+            {
                 GameObject.Destroy(controller);
             }
 
@@ -54,6 +57,8 @@ namespace Sandswept.Survivors.Renegade {
             SurvivorDef.displayPrefab = DisplayPrefab;
             SurvivorDef.displayNameToken = body.baseNameToken;
             SurvivorDef.desiredSortPosition = 20;
+            // hidden hide hid h
+            SurvivorDef.hidden = true;
 
             SwapMaterials(Body, Utils.Assets.Material.matVoidBubble, true);
             SwapMaterials(DisplayPrefab, Utils.Assets.Material.matVoidBubble, true);
@@ -75,29 +80,36 @@ namespace Sandswept.Survivors.Renegade {
 
         private void HandleGravSlam(DamageReport report)
         {
-            if (report.damageInfo.HasModdedDamageType(GravSlam)) {
+            if (report.damageInfo.HasModdedDamageType(GravSlam))
+            {
                 if (!report.victimBody) return;
                 CharacterBody victim = report.victimBody;
 
-                PhysForceInfo upForce = new PhysForceInfo() {
+                PhysForceInfo upForce = new PhysForceInfo()
+                {
                     massIsOne = false,
                     force = Vector3.upVector * 4000f
                 };
 
-                PhysForceInfo downForce = new PhysForceInfo() {
+                PhysForceInfo downForce = new PhysForceInfo()
+                {
                     massIsOne = true,
                     force = Vector3.upVector * -40f
                 };
-                
-                if (victim.TryGetComponent<CharacterMotor>(out var motor)) {
-                    if (motor.isGrounded) {
+
+                if (victim.TryGetComponent<CharacterMotor>(out var motor))
+                {
+                    if (motor.isGrounded)
+                    {
                         motor.ApplyForceImpulse(in upForce);
                     }
-                    else {
+                    else
+                    {
                         motor.ApplyForceImpulse(in downForce);
                     }
                 }
-                else if (victim.TryGetComponent<RigidbodyMotor>(out var motor2)) {
+                else if (victim.TryGetComponent<RigidbodyMotor>(out var motor2))
+                {
                     motor2.ApplyForceImpulse(in downForce);
                 }
             }
@@ -105,7 +117,8 @@ namespace Sandswept.Survivors.Renegade {
 
         private void HandleShrapnel(On.RoR2.BulletAttack.orig_FireSingle orig, BulletAttack self, Vector3 normal, int muzzleIndex)
         {
-            if (self.HasModdedDamageType(ShrapnelBullet)) {
+            if (self.HasModdedDamageType(ShrapnelBullet))
+            {
                 self.weapon = null;
             }
 

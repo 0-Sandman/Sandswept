@@ -19,7 +19,7 @@ namespace Sandswept.Survivors.Ranger
 
         public static float maxHeat = 100f;
 
-        public float heatGainRate = 15f;
+        public float heatGainRate = 10f;
 
         public float currentHeat = 0f;
 
@@ -72,6 +72,7 @@ namespace Sandswept.Survivors.Ranger
 
             if (isInOverdrive)
             {
+                heatGainRate += Time.fixedDeltaTime;
                 currentHeat += heatGainRate * Time.fixedDeltaTime;
                 currentHeat = Mathf.Clamp(currentHeat, 0, maxHeat);
                 if (currentHeat >= maxHeat)
@@ -89,14 +90,11 @@ namespace Sandswept.Survivors.Ranger
                             selfDamageTimer = 0f;
                         }
                     }
-                    else
-                    {
-                        cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, 0);
-                    }
                 }
                 else
                 {
                     fullHeatTimer = 0f;
+                    cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, 0);
                 }
 
                 var reductionCount = cb.GetBuffCount(HeatHealingReduction.instance.BuffDef.buffIndex);

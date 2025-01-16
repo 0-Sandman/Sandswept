@@ -86,20 +86,20 @@ namespace Sandswept.Equipment
         /// </summary>
         protected virtual void CreateLang()
         {
-            LanguageAPI.Add("EQUIPMENT_" + EquipmentLangTokenName + "_NAME", EquipmentName);
-            LanguageAPI.Add("EQUIPMENT_" + EquipmentLangTokenName + "_PICKUP", EquipmentPickupDesc);
-            LanguageAPI.Add("EQUIPMENT_" + EquipmentLangTokenName + "_DESCRIPTION", EquipmentFullDescription);
-            LanguageAPI.Add("EQUIPMENT_" + EquipmentLangTokenName + "_LORE", EquipmentLore);
+            LanguageAPI.Add("EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_NAME", EquipmentName);
+            LanguageAPI.Add("EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_PICKUP", EquipmentPickupDesc);
+            LanguageAPI.Add("EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_DESCRIPTION", EquipmentFullDescription);
+            LanguageAPI.Add("EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_LORE", EquipmentLore);
         }
 
         protected void CreateEquipment()
         {
             EquipmentDef = ScriptableObject.CreateInstance<EquipmentDef>();
-            EquipmentDef.name = "EQUIPMENT_" + EquipmentLangTokenName;
-            EquipmentDef.nameToken = "EQUIPMENT_" + EquipmentLangTokenName + "_NAME";
-            EquipmentDef.pickupToken = "EQUIPMENT_" + EquipmentLangTokenName + "_PICKUP";
-            EquipmentDef.descriptionToken = "EQUIPMENT_" + EquipmentLangTokenName + "_DESCRIPTION";
-            EquipmentDef.loreToken = "EQUIPMENT_" + EquipmentLangTokenName + "_LORE";
+            EquipmentDef.name = "EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName;
+            EquipmentDef.nameToken = "EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_NAME";
+            EquipmentDef.pickupToken = "EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_PICKUP";
+            EquipmentDef.descriptionToken = "EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_DESCRIPTION";
+            EquipmentDef.loreToken = "EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_LORE";
             EquipmentDef.pickupModelPrefab = EquipmentModel;
             EquipmentDef.pickupIconSprite = EquipmentIcon;
             EquipmentDef.appearsInSinglePlayer = AppearsInSinglePlayer;
