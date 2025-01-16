@@ -191,6 +191,24 @@ namespace Sandswept.Utils
                 lightIntensityCurve.timeMax *= durationMultiplier;
             }
         }
+
+        public static Light AddLight(GameObject gameObject, Color32 color, float intensity, float range, float fadeOutTime)
+        {
+            Main.ModLogger.LogError("gameobject is " + gameObject);
+            var light = gameObject.AddComponent<Light>();
+            Main.ModLogger.LogError("light is " + light);
+            light.type = LightType.Point;
+            light.color = color;
+            light.intensity = intensity;
+            light.range = range;
+
+            var lightIntensityCurve = gameObject.AddComponent<LightIntensityCurve>();
+            lightIntensityCurve.timeMax = fadeOutTime;
+            lightIntensityCurve.curve = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 0f));
+            lightIntensityCurve.light = light;
+
+            return light;
+        }
     }
 
     public class TracerComponentSucks : MonoBehaviour

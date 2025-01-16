@@ -1,18 +1,20 @@
 ## 1.0.8 Patch Notes
 - Ranger
+  - Buffed Release Minimum Damage from 400% to 600%
   - Made Sidestep keep your momentum
   - Made Heat Signature extend its dash on hit
   - Reworked Enflame
   - Reworked Exhaust
   - Reworked Heat Mechanic
   - Improved Release VFX
+  - The focus of our next update is going to be Ranger - she is gonna be getting gameplay tweaks, more VFX and SFX improvements, a remodel, new rig and a second re-animation.
 - VOL-T
   - Reduced crosshair scale to from 100% to 85%
 - Enemies
   - Reduced Delta Construct Director Credit Cost from 150 to 130
   - Reduced Gamma Construct Director Credit Cost from 185 to 145
   - Reduced Theta Construct Director Credit Cost from 140 to 105
-  - Fixed Theta Construct
+  - Fixed Theta Construct umm I forgot
 - Elites
   - Fixed Motivating bosses having weird aura offsets
 - Items/Equipment
@@ -26,6 +28,7 @@
   - Nerfed Red Spring Water to have diminishing returns scaling with buff count
   - Improved Amber Knife VFX and SFX
   - Improved Sacrificial Band VFX and SFX
+  - Improved unlock description for Sun Fragment
 - Interactables
   - Added Delta Construct and Gamma Construct to Shrine of the Future
   - Added a few more buffs to Corrupted Catalyst
@@ -34,9 +37,6 @@
   - Berfed Shrine of Ruin Scene Director Interactable Credits behavior - now sets them to 200
   - Fixed Shrine of Ruin spawning a standard teleporter on stage 5
   - Made Shrine of Ruin not ignore scrap (but also not prioritize it)
-- Artifacts
-  - Added Artifact of Abysm
-  - Added Artifact of Chimera
 
 ## 1.0.7 Patch Notes
 - VOL-T

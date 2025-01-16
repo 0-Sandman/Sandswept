@@ -1,4 +1,5 @@
-﻿using RoR2.Orbs;
+﻿/*
+using RoR2.Orbs;
 using System.Reflection;
 
 namespace Sandswept.Items.Whites
@@ -124,14 +125,6 @@ namespace Sandswept.Items.Whites
 
             var storedJumps = self.GetBuffCount(extraJump);
             self.maxJumpCount += storedJumps;
-
-            /*
-            if (self.characterMotor.jumpCount == self.maxJumpCount && storedJumps >= 1)
-            {
-                self.SetBuffCount(extraJump.buffIndex, self.GetBuffCount(extraJump) - 1);
-                self.maxJumpCount += 1;
-            }
-            */
         }
 
         private void GlobalEventManager_onCharacterDeathGlobal(DamageReport report)
@@ -238,3 +231,4 @@ namespace Sandswept.Items.Whites
         }
     }
 }
+*/

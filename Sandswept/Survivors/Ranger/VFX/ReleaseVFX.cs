@@ -1,4 +1,5 @@
-﻿using Sandswept.Utils.Components;
+﻿using IL.RoR2.ContentManagement;
+using Sandswept.Utils.Components;
 using UnityEngine.Events;
 using UnityEngine.Rendering.PostProcessing;
 
@@ -27,31 +28,21 @@ namespace Sandswept.Survivors.Ranger.VFX
             impactPrefabDefault = CreateImpactRecolor("Default", new Color32(23, 234, 129, 255), new Color32(23, 211, 148, 255));
 
             tracerPrefabMajor = CreateTracerRecolor("Major", new Color32(95, 125, 209, 255), new Color32(51, 133, 234, 255));
-            impactPrefabMajor = CreateImpactRecolor("Major", new Color32(23, 124, 234, 255), new Color32(23, 83, 211, 255), new Color32(0, 41, 255, 255));
+            impactPrefabMajor = CreateImpactRecolor("Major", new Color32(23, 124, 234, 255), new Color32(23, 83, 211, 255));
 
             tracerPrefabRenegade = CreateTracerRecolor("Renegade", new Color32(219, 103, 159, 255), new Color32(246, 59, 183, 255));
-            impactPrefabRenegade = CreateImpactRecolor("Renegade", new Color32(247, 32, 182, 255), new Color32(225, 34, 136, 255), new Color32(255, 9, 107, 255));
+            impactPrefabRenegade = CreateImpactRecolor("Renegade", new Color32(247, 32, 182, 255), new Color32(225, 34, 136, 255));
 
             tracerPrefabMileZero = CreateTracerRecolor("Mile Zero", new Color32(209, 95, 95, 255), new Color32(234, 51, 84, 255));
-            impactPrefabMileZero = CreateImpactRecolor("Mile Zero", new Color32(234, 23, 68, 255), new Color32(211, 23, 33, 255), new Color32(255, 27, 0, 255));
+            impactPrefabMileZero = CreateImpactRecolor("Mile Zero", new Color32(234, 23, 68, 255), new Color32(211, 23, 33, 255));
 
             tracerPrefabSandswept = CreateTracerRecolor("Sandswept", new Color32(214, 159, 79, 255), new Color32(150, 150, 150, 255));
-            impactPrefabSandswept = CreateImpactRecolor("Sandswept", new Color32(214, 159, 79, 255), new Color32(150, 150, 150, 255), new Color32(255, 162, 72, 255));
+            impactPrefabSandswept = CreateImpactRecolor("Sandswept", new Color32(214, 159, 79, 255), new Color32(150, 150, 150, 255));
         }
 
         public static GameObject CreateTracerRecolor(string name, Color32 primaryColor, Color32 emissionAndLightColor)
         {
             var tracerGameObject = Paths.GameObject.TracerRailgunSuper.InstantiateClone("Release Tracer " + name, false);
-
-            var light = tracerGameObject.AddComponent<Light>();
-            light.type = LightType.Point;
-            light.color = primaryColor;
-            light.intensity = 13f;
-            light.range = 40f;
-
-            var lightIntensityCurve = tracerGameObject.AddComponent<LightIntensityCurve>();
-            lightIntensityCurve.timeMax = 0.125f;
-            lightIntensityCurve.curve = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 0f));
 
             var kurwaJebanyTracerComponentKurwaKtoToPisal = tracerGameObject.AddComponent<TracerComponentSucks>();
 
@@ -60,15 +51,13 @@ namespace Sandswept.Survivors.Ranger.VFX
             tracer.length = 10000f;
             tracer.speed = 500f;
 
-            var tailLight = tracer.tailTransform.AddComponent<Light>();
-            tailLight.type = LightType.Point;
-            tailLight.color = primaryColor;
-            tailLight.intensity = 13f;
-            tailLight.range = 40f;
+            var tailObject = tracer.tailTransform.gameObject;
 
-            var tailLightIntensityCurve = tracer.tailTransform.AddComponent<LightIntensityCurve>();
-            tailLightIntensityCurve.timeMax = 0.125f;
-            tailLightIntensityCurve.curve = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 0f));
+            var briefLightHead = VFXUtils.AddLight(tracerGameObject, primaryColor, 8f, 40f, 0.15f);
+            var briefLightTail = VFXUtils.AddLight(tailObject, primaryColor, 8f, 40f, 0.15f);
+            var slowLightHead = VFXUtils.AddLight(tracerGameObject, primaryColor, 5f, 70f, 1f);
+            var slowLightTail = VFXUtils.AddLight(tailObject, primaryColor, 5f, 70f, 1f);
+            // Four Lights
 
             // var szmatoJebanaKurwa = tracer.GetComponent<EffectManagerHelper>();
             // szmatoJebanaKurwa.enabled = false;
@@ -110,11 +99,19 @@ namespace Sandswept.Survivors.Ranger.VFX
             VFXUtils.MultiplyScale(tracerGameObject, 2f);
             VFXUtils.MultiplyDuration(tracerGameObject, 2f, 1.5f);
 
-            light.color = primaryColor;
-            tailLight.color = primaryColor;
+            briefLightHead.color = primaryColor;
+            briefLightTail.color = primaryColor;
+            slowLightHead.color = primaryColor;
+            slowLightTail.color = primaryColor;
 
             var beamLingerMaterial = fx.Find("Longer/Beam, Linger").GetComponent<LineRenderer>().material;
             beamLingerMaterial.SetFloat("_Boost", 4f);
+
+            var beamGlowMaterial = fx.Find("Longer/Beam, Glow").GetComponent<LineRenderer>().material;
+            beamGlowMaterial.SetTexture("_MainTex", Paths.Texture2D.texAlphaGradient2Mask);
+            beamGlowMaterial.SetInt("_CloudOffsetOn", 0);
+            beamGlowMaterial.DisableKeyword("CLOUDOFFSET");
+            beamGlowMaterial.SetFloat("_AlphaBias", 0.26f);
 
             var mdlRailgunnerBeam = fx.Find("mdlRailgunnerBeam");
             mdlRailgunnerBeam.transform.localScale = Vector3.one * 0.05f;

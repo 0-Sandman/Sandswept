@@ -71,7 +71,7 @@
     <tr>
       <td><img src="https://i.postimg.cc/m2DBKrYy/tex-Exhaust.png" width="64"/></td>
       <td><b>Secondary:</b> Exhaust<br>
-          Ignite. Fire a short-range heat burst for 8x180% damage. Reduce heat by 30%.</td>
+          Ignite. Fire two short bursts of heat for 4x200% damage each. Burst count increases up to four while in full heat. Reduce heat by 25%.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/rpkkRSPw/b2.png" width="64"/></td>
@@ -277,7 +277,7 @@
 			<td><img src="https://i.postimg.cc/ZKTbBHc7/tex-Amber-Knife.png" width="96"></td>
 			<td>
 				<b>Amber Knife</b><br>
-				Gain a <b>10%</b> chance on hit to fire a piercing knife for <b>150% (+150% per stack)</b> base damage that gives <b>3</b> plus an additional <b>3.5%</b> barrier for each pierce.
+				Gain a <b>10%</b> chance on hit to fire a piercing knife for <b>150% (+150% per stack)</b> base damage that gives <b>3.5%</b> plus an additional <b>3</b> barrier for each pierce.
 			</td>
 		</tr>
 		<tr>

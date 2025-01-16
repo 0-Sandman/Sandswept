@@ -1,4 +1,5 @@
-﻿using MonoMod.Cil;
+﻿/*
+using MonoMod.Cil;
 using System.Linq;
 using Mono.Cecil.Cil;
 using UnityEngine;
@@ -16,7 +17,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "Shrines of order appear more often and yield additional items.";
 
-        public override string ItemFullDescription => ("Using a shrine of order yields $su" + baseExtraItemsCount + "$se $ss(+" + stackExtraItemsCount + " per stack)$se additional items, but has a $su" + baseSelfOrderChance + "%$se $ss(+" + stackSelfOrderChance + "% per stack)$se chance to reroll this item. $suShrines of order appear more frequently$se.").AutoFormat();
+        public override string ItemFullDescription => ("Using a shrine of order yields $su" + baseExtraItemsCount + "$se $ss(+" + stackExtraItemsCount + " per stack)$se additional items. $suShrines of order appear more frequently$se.").AutoFormat();
 
         public override string ItemLore => "";
 
@@ -192,3 +193,4 @@ namespace Sandswept.Items.Whites
         }
     }
 }
+*/
