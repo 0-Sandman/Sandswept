@@ -19,7 +19,7 @@ namespace Sandswept.Survivors.Ranger
 
         public static float maxHeat = 100f;
 
-        public float heatGainRate = 10f;
+        public float heatGainRate = 11f;
 
         public float currentHeat = 0f;
 
@@ -55,7 +55,7 @@ namespace Sandswept.Survivors.Ranger
                 overlayInstance.GetComponent<RangerCrosshairManager>().target = this;
             };
 
-            heatGainRate = 10f;
+            heatGainRate = 11f;
         }
 
         public void FixedUpdate()
@@ -84,7 +84,8 @@ namespace Sandswept.Survivors.Ranger
 
                     if (fullHeatTimer >= 1f)
                     {
-                        cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, (10 + cb.GetBuffCount(Charge.instance.BuffDef)) * (int)fullHeatTimer);
+                        var damageBuffGain = Convert.ToInt32(10 + cb.GetBuffCount(Charge.instance.BuffDef) * 2f);
+                        cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, damageBuffGain * (int)fullHeatTimer);
 
                         if (selfDamageTimer >= selfDamageInterval)
                         {
@@ -127,7 +128,7 @@ namespace Sandswept.Survivors.Ranger
             chargeLossTimer = 0f;
             cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, 0);
             cb.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, 0);
-            heatGainRate = 10f;
+            heatGainRate = 11f;
 
             currentHeat = 0f;
             Invoke(nameof(RemoveHealingReduction), 2f);
