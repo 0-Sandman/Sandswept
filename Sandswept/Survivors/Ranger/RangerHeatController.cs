@@ -54,6 +54,8 @@ namespace Sandswept.Survivors.Ranger
 
                 overlayInstance.GetComponent<RangerCrosshairManager>().target = this;
             };
+
+            heatGainRate = 10f;
         }
 
         public void FixedUpdate()
@@ -125,6 +127,7 @@ namespace Sandswept.Survivors.Ranger
             chargeLossTimer = 0f;
             cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, 0);
             cb.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, 0);
+            heatGainRate = 10f;
 
             currentHeat = 0f;
             Invoke(nameof(RemoveHealingReduction), 2f);
