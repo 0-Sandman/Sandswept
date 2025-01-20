@@ -187,8 +187,8 @@
 		<tr>
 			<td><img src="https://i.postimg.cc/Px5Q36cQ/tex-Motivator-Buff2.png" width="64"/></td>
 			<td>
-				<b>Motivator T1</b><br>
-				Passively carries a warbanner that grants all allies and itself <b>25%</b> movement speed and <b>25%</b> attack speed in a <b>20m</b> radius. On hit, increases all ally attack speed by <b>25%</b> in a <b>20m</b> radius for <b>4s</b>.<br>
+				<b>Motivating T1</b><br>
+				Passively carries a warbanner that grants all allies and itself <b>30%</b> movement speed and <b>30%</b> attack speed in a <b>20m</b> radius. On hit, increases all ally attack speed by <b>30%</b> in a <b>20m</b> radius for <b>4s</b>.<br>
 			</td>
 		</tr>
 		<tr>
@@ -322,7 +322,7 @@
 			<td><img src="https://i.postimg.cc/1XN5VLQJ/tex-Pocket-Plutonium.png" width="96"></td>
 			<td>
 				<b>Pocket Plutonium</b><br>
-				Gain a shield equal to <b>10%</b> of your maximum health. Upon losing all shield, create a nuclear pool in a <b>16m</b> area that deals <b>750% (+750% per stack)</b> base damage, plus an additional <b>250% (+250% per stack)</b> of shields.
+				Gain a shield equal to <b>10%</b> of your maximum health. Upon losing all shield, create a nuclear pool in a <b>20m</b> area that deals <b>750% (+750% per stack)</b> base damage, plus an additional <b>250% (+250% per stack)</b> of shields.
 			</td>
 		</tr>
 		<tr>

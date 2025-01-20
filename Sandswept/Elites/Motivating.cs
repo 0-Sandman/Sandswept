@@ -48,13 +48,13 @@ namespace Sandswept.Elites
         [ConfigField("Health Multiplier", "Decimal.", 4f)]
         public static float healthMultiplier;
 
-        [ConfigField("Passive Attack Speed Buff", "Decimal.", 0.25f)]
+        [ConfigField("Passive Attack Speed Buff", "Decimal.", 0.3f)]
         public static float passiveAttackSpeedBuff;
 
-        [ConfigField("Passive Movement Speed Buff", "Decimal.", 0.25f)]
+        [ConfigField("Passive Movement Speed Buff", "Decimal.", 0.3f)]
         public static float passiveMovementSpeedBuff;
 
-        [ConfigField("On Hit Attack Speed Buff", "Decimal.", 0.25f)]
+        [ConfigField("On Hit Attack Speed Buff", "Decimal.", 0.3f)]
         public static float onHitAttackSpeedBuff;
 
         [ConfigField("On Hit Attack Speed Buff Duration", "", 4f)]

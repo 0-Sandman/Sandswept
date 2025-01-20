@@ -31,7 +31,7 @@ namespace Sandswept.Items.Greens
         [ConfigField("Base Percent Shield Gain", "Decimal.", 0.1f)]
         public static float basePercentShieldGain;
 
-        [ConfigField("Pool Radius", "", 16f)]
+        [ConfigField("Pool Radius", "", 20f)]
         public static float poolRadius;
 
         [ConfigField("Pool Base Damage", "Decimal.", 7.5f)]
@@ -134,6 +134,11 @@ namespace Sandswept.Items.Greens
             var hitbox = fx.GetChild(2);
             hitbox.gameObject.SetActive(false);
             hitbox.GetComponent<HitBox>().enabled = false;
+
+            foreach (AnimateShaderAlpha animateShaderAlpha in fx.GetComponents<AnimateShaderAlpha>())
+            {
+                animateShaderAlpha.timeMax = 5f;
+            }
 
             var pointLight = fx.GetChild(1).GetComponent<Light>();
             pointLight.intensity = 10f;

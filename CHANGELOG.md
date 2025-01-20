@@ -1,6 +1,7 @@
 ## 1.0.8 Patch Notes
 - Ranger
   - Buffed Release Minimum Damage from 400% to 600%
+  - Buffed Release Maximum Damage from 1600% to 1800%
   - Buffed Release Self Knockback
   - Made Sidestep keep your momentum
   - Made Heat Signature extend its dash on hit
@@ -18,6 +19,10 @@
   - Reduced Theta Construct Director Credit Cost from 140 to 105
   - Fixed Theta Construct umm I forgot
 - Elites
+  - Buffed Motivating Passive Attack Speed Buff from 25% to 30%
+  - Buffed Motivating Passive Movement Speed Buff from 25% to 30%
+  - Buffed Motivating On Hit Attack Speed Buff from 25% to 30%
+  - Buffed Motivating On Hit Movement Speed Buff from 25% to 30%
   - Fixed Motivating bosses having weird aura offsets
 - Items/Equipment
   - Buffed Amber Knife Base Damage from 140% to 150%
@@ -26,9 +31,11 @@
   - Buffed Red Spring Water Base Regen from 0.4 to 0.6
   - Buffed Red Spring Water Base Regen Per Buff from 0.4 to 0.6
   - Buffed Red Spring Water Stack Regen Per Buff from 0.4 to 0.6
+  - Buffed Pocket Plutonium Pool Radius from 16m to 20m
   - Buffed Universal VIP Pass Chance from 45% to 60%
   - Nerfed Red Spring Water to have diminishing returns scaling with buff count
   - Improved Amber Knife VFX and SFX
+  - Improved Pocket Plutonium VFX
   - Improved Sacrificial Band VFX and SFX
   - Improved unlock description for Sun Fragment
 - Interactables

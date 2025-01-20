@@ -65,31 +65,25 @@ namespace Sandswept.Items.VoidWhites
             cooldownBuff.name = "Endless Pierce - Cooldown";
             ContentAddition.AddBuffDef(cooldownBuff);
 
-            vfx = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/Assassin2/AssassinSlash.prefab").WaitForCompletion(), "Harvesters Scythe Effect", false);
-
-            var scaleParticleSystemDuration = vfx.GetComponent<ScaleParticleSystemDuration>();
-            // scaleParticleSystemDuration.initialDuration = 0.2f;
+            vfx = PrefabAPI.InstantiateClone(Addressables.LoadAssetAsync<GameObject>("RoR2/DLC1/Assassin2/AssassinSlash.prefab").WaitForCompletion(), "The Endless Pierce VFX", false);
 
             var effectComponent = vfx.GetComponent<EffectComponent>();
             effectComponent.applyScale = true;
 
             var swingTrail = vfx.transform.GetChild(0);
             var swingTrailPS = swingTrail.GetComponent<ParticleSystem>();
-            var main = swingTrailPS.main;
-            // main.startLifetime = 0.2f;
             var rotationOverLifetime = swingTrailPS.rotationOverLifetime;
             rotationOverLifetime.zMultiplier = 1.1f;
 
             var swingTrailMat = swingTrail.GetComponent<ParticleSystemRenderer>();
 
-            var newMat = GameObject.Instantiate(Paths.Material.matMercSwipe2);
-            newMat.SetColor("_TintColor", new Color32(96, 56, 177, 255));
-
-            swingTrailMat.material = newMat;
+            var newSwingMat = new Material(Paths.Material.matMercSwipe2);
+            newSwingMat.SetColor("_TintColor", new Color32(96, 56, 177, 255));
+            newSwingMat.SetTexture("_RemapTex", Paths.Texture2D.texRampAncientWisp);
+            newSwingMat.SetFloat("_Boost", 7f);
+            swingTrailMat.material = newSwingMat;
 
             var swingDistortion = vfx.transform.GetChild(1).GetComponent<ParticleSystem>();
-            var main2 = swingDistortion.main;
-            // main2.startLifetime = 0.2f;
             var rotationOverLifetime2 = swingDistortion.rotationOverLifetime;
             rotationOverLifetime2.zMultiplier = 1.13f;
 
@@ -219,10 +213,10 @@ namespace Sandswept.Items.VoidWhites
 
                 if (overlapAttack.Fire())
                 {
-                    body.AddTimedBuffAuthority(TheEndlessPierce.cooldownBuff.buffIndex, TheEndlessPierce.cooldown);
-
                     // add plating hereee
                 }
+
+                body.AddTimedBuffAuthority(TheEndlessPierce.cooldownBuff.buffIndex, TheEndlessPierce.cooldown);
             }
 
             yield return null;

@@ -6,7 +6,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
     public class Release : BaseState
     {
         public static float minDamageCoefficient = 6f;
-        public static float maxDamageCoefficient = 16f;
+        public static float maxDamageCoefficient = 18f;
         public static float procCoefficient = 1f;
         public static float baseDuration = 0.25f;
         public float duration;
