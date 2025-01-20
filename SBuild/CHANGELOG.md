@@ -1,27 +1,44 @@
 ## 1.0.8 Patch Notes
+- Ranger
+  - Buffed Release Minimum Damage from 400% to 600%
+  - Buffed Release Self Knockback
+  - Made Sidestep keep your momentum
+  - Made Heat Signature extend its dash on hit
+  - Made Heat Sink launch you upward a little bit
+  - Reworked Enflame to have lower fire rate, slightly lower damage, but gain fire rate, ignite chance and reduce its bullet range scaling with heat
+  - Reworked Exhaust to fire 2-4 bursts, burst count scaling with heat
+  - Reworked Heat Mechanic to be more manageable and intuitive
+  - Improved Release VFX
+  - The focus of our next update is going to be Ranger - she is gonna be getting gameplay tweaks, more VFX and SFX improvements, a remodel, new rig and a second re-animation.
 - VOL-T
   - Reduced crosshair scale to from 100% to 85%
 - Enemies
-  - Reduced Delta Construct Director Credit Cost from 150 to 135
-  - Reduced Gamma Construct Director Credit Cost from 185 to 150
-  - Reduced Theta Construct Director Credit Cost from 140 to 115
+  - Reduced Delta Construct Director Credit Cost from 150 to 130
+  - Reduced Gamma Construct Director Credit Cost from 185 to 145
+  - Reduced Theta Construct Director Credit Cost from 140 to 105
+  - Fixed Theta Construct umm I forgot
 - Elites
   - Fixed Motivating bosses having weird aura offsets
 - Items/Equipment
-  - Buffed Amber Knife Base Damage 140% => 150%
-  - Buffed Amber Knife Stack Damage 140% => 150%
+  - Buffed Amber Knife Base Damage from 140% to 150%
+  - Buffed Amber Knife Stack Damage from 140% to 150%
   - Buffed Amber Knife to also give 3 Flat Barrier
   - Buffed Red Spring Water Base Regen from 0.4 to 0.6
   - Buffed Red Spring Water Base Regen Per Buff from 0.4 to 0.6
   - Buffed Red Spring Water Stack Regen Per Buff from 0.4 to 0.6
-  - Buffed Universal VIP Pass Chance from 45% to 55%
+  - Buffed Universal VIP Pass Chance from 45% to 60%
   - Nerfed Red Spring Water to have diminishing returns scaling with buff count
   - Improved Amber Knife VFX and SFX
+  - Improved Sacrificial Band VFX and SFX
+  - Improved unlock description for Sun Fragment
 - Interactables
   - Added Delta Construct and Gamma Construct to Shrine of the Future
   - Added a few more buffs to Corrupted Catalyst
-  - Buffed Shrine of The Future enemy stats from 50% to 60% 
+  - Buffed Shrine of The Future enemy stats from 50% to 60%
+  - Buffed Shrine of Ruin Combat Director Credit Multiplier from 200% to 250%
+  - Berfed Shrine of Ruin Scene Director Interactable Credits behavior - now sets them to 200
   - Fixed Shrine of Ruin spawning a standard teleporter on stage 5
+  - Made Shrine of Ruin not ignore scrap (but also not prioritize it)
 
 ## 1.0.7 Patch Notes
 - VOL-T
@@ -41,7 +58,7 @@
   - Fixed not having csc names
   - Made Theta Construct stack its stat boost if multiple Constructs are shielding the same enemy :)
 - Interactables
-  - Changed Shrine of Ruin Director Credit Cost from 45 to 10
+  - Reduced Shrine of Ruin Director Credit Cost from 45 to 10
 
 ## 1.0.5 Patch Notes
 - Ranger
