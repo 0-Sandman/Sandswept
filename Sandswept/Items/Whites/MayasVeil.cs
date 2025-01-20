@@ -15,7 +15,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemFullDescription => ("Upon using your Equipment, become $sucloaked$se for $su" + cloakBuffDuration + "s$se. While $sucloaked$se, $suexit$se combat and danger. Recharges every $su" + baseRechargeTime + " seconds$se $ss(-" + d(stackRechargeTime) + " per stack)$se.").AutoFormat();
 
-        public override string ItemLore => "";
+        public override string ItemLore => "item name is wip and so is the theme";
 
         public override ItemTier Tier => ItemTier.Tier1;
 

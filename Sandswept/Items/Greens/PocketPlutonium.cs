@@ -10,7 +10,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemLangTokenName => "POCKET_PLUTONIUM";
 
-        public override string ItemPickupDesc => "Create a nuclear pool after losing shields.";
+        public override string ItemPickupDesc => "Create a nuclear pool after losing all shield.";
 
         public override string ItemFullDescription => ("Gain a $shshield$se equal to $sh" + d(basePercentShieldGain) + "$se of your maximum health. Upon losing all $shshield$se, create a $sdnuclear pool$se in a $sd" + poolRadius + "m$se area that deals $sd" + d(poolBaseDamage) + "$se $ss(+" + d(poolStackDamage) + " per stack)$se base damage, plus an additional $sd" + d(poolBasePercentShieldDamage) + "$se $ss(+" + d(poolStackPercentShieldDamage) + " per stack)$se of $shshields$se.").AutoFormat();
 

@@ -50,8 +50,4 @@
 	    <HintPath>libs/Unity.Postprocessing.Runtime.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Items\VoidWhites\" />
-	</ItemGroup>
 </Project>
