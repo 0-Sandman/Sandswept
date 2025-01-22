@@ -13,7 +13,7 @@ namespace Sandswept.Items.VoidGreens
 
         public override string ItemPickupDesc => "Create a tidal cataclysm on hit that grounds and collapses enemies. $svCorrupts all Sun Fragments$se.".AutoFormat();
 
-        public override string ItemFullDescription => ("$su" + chance + "%$se chance on hit to create a $sdtidal cataclysm$se in a $su" + baseExplosionRadius + "m$se $ss(+" + stackExplosionRadius + "m per stack)$se area, $sdcollapsing$se and $sugrounding$se enemies for $sd400%$se base damage. $svCorrupts all Sun Fragments$se.").AutoFormat();
+        public override string ItemFullDescription => $"$su{chance}%$se chance on hit to create a $sdtidal cataclysm$se in a $su{baseExplosionRadius}m$se $ss(+{stackExplosionRadius}m per stack)$se area, $sdcollapsing$se and $sugrounding$se enemies for $sd400%$se base damage. $svCorrupts all Sun Fragments$se.".AutoFormat();
 
         public override string ItemLore => "This voice.\r\nI hear ringing..\r\nIt asks . . .\r\nIt invades my mind.\r\nMy hearing has become reversed..\r\nI'm falling\r\n\r\n[...]\r\n\r\nThis maze, reversed..\r\nCircled by a close fog\r\n\r\n[...]\r\n\r\nI've lost.\r\n[...]\r\n\r\n[...]\r\nVast. Infinite. Purgatory.";
 
@@ -29,6 +29,9 @@ namespace Sandswept.Items.VoidGreens
         [ConfigField("Explosion Proc Coefficient", "", 0.33f)]
         public static float explosionProcCoefficient;
 
+        [ConfigField("Grounding Force", "", -25f)]
+        public static float groundingForce;
+
         public override ItemTier Tier => ItemTier.VoidTier2;
 
         public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("MilleniumHolder.prefab");
@@ -43,7 +46,8 @@ namespace Sandswept.Items.VoidGreens
 
         public override void Init(ConfigFile config)
         {
-            if (!ItemBase.DefaultEnabledCallback(SunFragment.instance)) {
+            if (!ItemBase.DefaultEnabledCallback(SunFragment.instance))
+            {
                 return;
             }
 
@@ -202,7 +206,7 @@ namespace Sandswept.Items.VoidGreens
                 teamIndex = attackerBody.teamComponent.teamIndex,
                 position = damageInfo.position,
                 damageType = DamageType.Silent,
-                bonusForce = new Vector3(0f, -25f * mass, 0f),
+                bonusForce = new Vector3(0f, -groundingForce * mass, 0f),
                 procChainMask = damageInfo.procChainMask
             };
 

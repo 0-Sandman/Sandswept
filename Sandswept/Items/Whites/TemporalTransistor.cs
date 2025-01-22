@@ -12,9 +12,9 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "Chance on kill to store an extra jump.";
 
-        public override string ItemFullDescription => ("Gain a $su" + chance + "%$se chance on kill to store an $suextra jump$se. Can store up to $su" + baseMaxJumps + "$se $ss(+" + stackMaxJumps + " per stack)$se $suextra jumps$se.").AutoFormat();
+        public override string ItemFullDescription => $"Gain a $su{chance}%$se chance on kill to store an $suextra jump$se. Can store up to $su{baseMaxJumps}$se $ss(+{stackMaxJumps} per stack)$se $suextra jumps$se.".AutoFormat();
 
-        public override string ItemLore => "trans lore";
+        public override string ItemLore => "wanted to do a white jump item and make it a trans reference somehow cause I heavily support lol, you can make it some funny trans/brazilian/celeste reference or just do whatever ig";
 
         public override ItemTier Tier => ItemTier.Tier1;
 
@@ -23,7 +23,7 @@ namespace Sandswept.Items.Whites
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.OnKillEffect, ItemTag.Utility };
 
-        [ConfigField("Chance", "", 20f)]
+        [ConfigField("Chance", "", 25f)]
         public static float chance;
 
         [ConfigField("Base Max Jumps", "", 2)]

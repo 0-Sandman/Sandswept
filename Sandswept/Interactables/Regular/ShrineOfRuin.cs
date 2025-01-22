@@ -6,6 +6,7 @@ using Rewired.Utils.Classes.Data;
 using RoR2;
 using RoR2.EntitlementManagement;
 using RoR2.ExpansionManagement;
+using RoR2.Orbs;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -571,6 +572,11 @@ namespace Sandswept.Interactables.Regular
                 var idx = itemsToRemove.EvaluateToChoiceIndex(Run.instance.treasureRng.nextNormalizedFloat);
                 var choice = itemsToRemove.GetChoice(idx);
                 inventory.RemoveItem(ItemCatalog.GetItemDef(choice.value));
+
+                ItemTransferOrb.DispatchItemTransferOrb(transform.position, inventory, choice.value, 1);
+
+                AkSoundEngine.PostEvent(Events.Play_UI_3D_printer_selectItem, gameObject);
+
                 if (choice.weight <= 1)
                 {
                     itemsToRemove.RemoveChoice(idx);

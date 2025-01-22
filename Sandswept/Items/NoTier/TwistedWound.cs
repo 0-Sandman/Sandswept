@@ -10,7 +10,7 @@ namespace Sandswept.Items.NoTier
 
         public override string ItemFullDescription => "A crystalline mark of your greed.".AutoFormat();
 
-        public override string ItemLore => "you shouldnt be reading this";
+        public override string ItemLore => "OwO UwU :333 >w< >_< <3 uwuuu owo <3 <3";
 
         public override ItemTier Tier => ItemTier.NoTier;
 
@@ -18,7 +18,7 @@ namespace Sandswept.Items.NoTier
 
         public override Sprite ItemIcon => null;
 
-        public override ItemTag[] ItemTags => new ItemTag[] {  };
+        public override ItemTag[] ItemTags => new ItemTag[] { };
 
         public override void Init(ConfigFile config)
         {
@@ -35,7 +35,8 @@ namespace Sandswept.Items.NoTier
             if (!sender.inventory) return;
             int c = sender.inventory.GetItemCount(ItemDef);
 
-            if (c > 0) {
+            if (c > 0)
+            {
                 args.baseCurseAdd += 0.01f * c;
             }
         }

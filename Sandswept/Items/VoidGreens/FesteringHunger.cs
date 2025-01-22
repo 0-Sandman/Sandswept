@@ -16,7 +16,7 @@ namespace Sandswept.Items.VoidGreens
 
         public override string ItemPickupDesc => "Chance to decay enemies on hit. Moving near decaying enemies increases movement speed. $svCorrupts all Smouldering Documents$se.".AutoFormat();
 
-        public override string ItemFullDescription => ("$sd" + chance + "%$se chance on hit to inflict $sddecay$se for $sd" + d(DoTs.Decay.baseDamage) + "$se base damage. Moving near $sddecaying$se enemies increases $sumovement speed$se by $su" + d(baseMovementSpeedGain) + "$se $ss(+" + d(stackMovementSpeedGain) + " per stack)$se for $su" + movementSpeedBuffDuration + "$se seconds. $svCorrupts all Smouldering Documents$se.").AutoFormat();
+        public override string ItemFullDescription => $"$sd{chance}%$se chance on hit to inflict $sddecay$se for $sd{DoTs.Decay.baseDamage * 100f}%$se base damage. Moving near $sddecaying$se enemies increases $sumovement speed$se by $su{baseMovementSpeedGain * 100f}%$se $ss(+{stackMovementSpeedGain}% per stack)$se for $su{movementSpeedBuffDuration}$se seconds. $svCorrupts all Smouldering Documents$se.".AutoFormat();
 
         public override string ItemLore => "This hunger..\r\nIt grows inside me.\r\nSevers mortality.\r\n\r\nIts showing its teeth.\r\n\r\n\r\nBlood like wine!";
 

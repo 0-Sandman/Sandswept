@@ -284,7 +284,7 @@
 			<td><img src="https://i.postimg.cc/sfH2YN1y/tex-Fractured-Timepiece.png" width="96"></td>
 			<td>
 				<b>Fractured Timepiece</b><br>
-				Upon using your utility skill, heal for <b>5% (+5% per stack)</b> of your maximum health and reduce special skill cooldown by <b>15%</b>.
+				Upon using your Utility skill, heal for <b>5% (+5% per stack)</b> of your maximum health and reduce Special skill cooldown by <b>15%</b>.
 			</td>
 		</tr>
 		<tr>
@@ -391,7 +391,7 @@
 			<td><img src="https://i.postimg.cc/rp3zfsBQ/tex-Torn-Feather.png" width="96"></td>
 			<td>
 				<b>Torn Feather</b><br>
-				Tap Interact to perform an omni-directional dash. Can dash twice until hitting the ground. Gain <b>20% (+35% per stack)</b> movement speed.
+				Tap Interact to perform an omni-directional dash. Can dash twice before hitting the ground. Gain <b>20% (+35% per stack)</b> movement speed.
 			</td>
 		</tr>
 		<tr>

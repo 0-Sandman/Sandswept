@@ -9,7 +9,7 @@
 
         public override string ItemPickupDesc => "High damage hits also make enemies bleed. Recharges over time.";
 
-        public override string ItemFullDescription => ("Hits that deal $sdmore than 400% damage$se also inflict $sd" + baseBleedCount + "$se $ss(+" + stackBleedCount + " per stack)$se $sdbleeds$se on enemies for each $sd" + d(damageScalar) + "$se of $sdskill damage$se. Recharges every $su10$se seconds.").AutoFormat();
+        public override string ItemFullDescription => $"Hits that deal $sdmore than {percentDamageThreshold * 100f}% damage$se also inflict $sd{baseBleedCount}$se $ss(+{stackBleedCount} per stack)$se $sdbleeds$se on enemies for each $sd{damageScalar * 100f}$se of $sdskill damage$se. Recharges every $su{cooldown}$se seconds.".AutoFormat();
 
         public override string ItemLore => "\"When we draw our final breaths,\r\nWhen N'kuhana's grasp entwines us,\r\nMay our patience and our solace\r\nClear the clouds of deathly silence.\r\nWill you live with me?\"\r\n\r\n- The Syzygy of Io and Europa";
 
@@ -22,6 +22,12 @@
         [ConfigField("Per Skill Damage Scalar", "Decimal.", 1.1f)]
         public static float damageScalar;
 
+        [ConfigField("Percent Damage Threshold", "Decimal.", 4f)]
+        public static float percentDamageThreshold;
+
+        [ConfigField("Cooldown", "", 10f)]
+        public static float cooldown;
+
         public override ItemTier Tier => ItemTier.Tier2;
 
         public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("SacrificialBandHolder.prefab");
@@ -30,8 +36,8 @@
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
 
-        public static BuffDef ready;
-        public static BuffDef cooldown;
+        public static BuffDef readyBuff;
+        public static BuffDef cooldownBuff;
 
         public static GameObject vfx;
 
@@ -72,27 +78,27 @@
 
             ContentAddition.AddEffect(vfx);
 
-            ready = ScriptableObject.CreateInstance<BuffDef>();
-            ready.isDebuff = false;
-            ready.canStack = false;
-            ready.isHidden = false;
-            ready.isCooldown = false;
-            ready.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffSacrificialBandReady.png");
-            ready.buffColor = new Color32(160, 0, 5, 255);
-            ready.name = "Sacrificial Band Ready";
+            readyBuff = ScriptableObject.CreateInstance<BuffDef>();
+            readyBuff.isDebuff = false;
+            readyBuff.canStack = false;
+            readyBuff.isHidden = false;
+            readyBuff.isCooldown = false;
+            readyBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffSacrificialBandReady.png");
+            readyBuff.buffColor = new Color32(160, 0, 5, 255);
+            readyBuff.name = "Sacrificial Band Ready";
 
-            ContentAddition.AddBuffDef(ready);
+            ContentAddition.AddBuffDef(readyBuff);
 
-            cooldown = ScriptableObject.CreateInstance<BuffDef>();
-            cooldown.canStack = true;
-            cooldown.isDebuff = false;
-            cooldown.isHidden = false;
-            cooldown.isCooldown = true;
-            cooldown.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffSacrificialBandCooldown.png");
-            cooldown.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1f);
-            cooldown.name = "Sacrificial Band Cooldown";
+            cooldownBuff = ScriptableObject.CreateInstance<BuffDef>();
+            cooldownBuff.canStack = true;
+            cooldownBuff.isDebuff = false;
+            cooldownBuff.isHidden = false;
+            cooldownBuff.isCooldown = true;
+            cooldownBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffSacrificialBandCooldown.png");
+            cooldownBuff.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1f);
+            cooldownBuff.name = "Sacrificial Band Cooldown";
 
-            ContentAddition.AddBuffDef(cooldown);
+            ContentAddition.AddBuffDef(cooldownBuff);
 
             CreateLang();
             CreateItem();
@@ -131,7 +137,7 @@
                     {
                         var skillDamage = damageInfo.damage / attackerBody.damage;
 
-                        if (attackerBody.HasBuff(ready) && skillDamage >= 4f)
+                        if (attackerBody.HasBuff(readyBuff) && skillDamage >= percentDamageThreshold)
                         {
                             triggered = true;
 
@@ -165,12 +171,12 @@
 
             orig(self, damageInfo, victim);
 
-            if (triggered && attackerBody.HasBuff(ready))
+            if (triggered && attackerBody.HasBuff(readyBuff))
             {
-                attackerBody.RemoveBuff(ready);
-                for (int j = 1; j <= 10f; j++)
+                attackerBody.RemoveBuff(readyBuff);
+                for (int j = 1; j <= cooldown; j++)
                 {
-                    attackerBody.AddTimedBuff(cooldown, j);
+                    attackerBody.AddTimedBuff(cooldownBuff, j);
                 }
             }
         }
@@ -189,9 +195,9 @@
         public void Start()
         {
             body = GetComponent<CharacterBody>();
-            if (!body.HasBuff(SacrificialBand.ready) && stack > 0)
+            if (!body.HasBuff(SacrificialBand.readyBuff) && stack > 0)
             {
-                body.AddBuff(SacrificialBand.ready);
+                body.AddBuff(SacrificialBand.readyBuff);
                 shouldRun = true;
             }
         }
@@ -203,21 +209,21 @@
                 return;
             }
 
-            if (!body.HasBuff(SacrificialBand.cooldown) && !body.HasBuff(SacrificialBand.ready))
+            if (!body.HasBuff(SacrificialBand.cooldownBuff) && !body.HasBuff(SacrificialBand.readyBuff))
             {
-                body.AddBuff(SacrificialBand.ready);
+                body.AddBuff(SacrificialBand.readyBuff);
             }
         }
 
         public void OnDestroy()
         {
-            if (body.HasBuff(SacrificialBand.ready))
+            if (body.HasBuff(SacrificialBand.readyBuff))
             {
-                body.RemoveBuff(SacrificialBand.ready);
+                body.RemoveBuff(SacrificialBand.readyBuff);
             }
-            if (body.HasBuff(SacrificialBand.cooldown))
+            if (body.HasBuff(SacrificialBand.cooldownBuff))
             {
-                body.RemoveBuff(SacrificialBand.cooldown);
+                body.RemoveBuff(SacrificialBand.cooldownBuff);
             }
         }
     }

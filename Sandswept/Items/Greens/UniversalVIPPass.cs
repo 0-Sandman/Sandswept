@@ -11,7 +11,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Category chests have a chance to drop multiple items.";
 
-        public override string ItemFullDescription => ("$suCategory chests$se have a $su" + chance + "%$se chance of dropping $su" + baseExtraItems + "$se $ss(+" + stackExtraItems + " per stack)$se $suextra items$se.").AutoFormat();
+        public override string ItemFullDescription => $"$suCategory chests$se have a $su{chance}%$se chance of dropping $su{baseExtraItems}$se $ss(+{stackExtraItems} per stack)$se $suextra items$se.".AutoFormat();
 
         public override string ItemLore => "\"I'm sorry, sir, this is a restricted area. We can't allow you in.\"\r\n\r\n\"Special orders from the UES. It would be in your best interests to make an exception.\"\r\n\r\n\"I'm afraid I can't do that. We've received specific instruction from two of our guests not to let you in. It would be against our policy to betray their trust in our services.\"\r\n\r\n\"Those two 'guests' have stolen from the UESC. You are harboring criminals. If you do not let us in, you will be obstructing justice in violation of interplanetary law.\"\r\n\r\n\"The UESC does not have legal jurisdiction over Pluto, sir. We are under no obligation to allow you in. If you do not vacate the premises, I will be forced to call security, and make no mistake, our security is the best of the best.\"\r\n\r\n...\r\n\r\n\"...is that...?\"\r\n\r\n\"Yes. Universal. This is serious business. I'll ask one more time: let us through.\"\r\n\r\n\"...right away, sir.\"";
 

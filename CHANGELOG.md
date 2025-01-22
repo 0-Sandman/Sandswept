@@ -25,6 +25,7 @@
   - Buffed Motivating On Hit Movement Speed Buff from 25% to 30%
   - Fixed Motivating bosses having weird aura offsets
 - Items/Equipment
+  - Added more config options to some items
   - Buffed Amber Knife Base Damage from 140% to 150%
   - Buffed Amber Knife Stack Damage from 140% to 150%
   - Buffed Amber Knife to also give 3 Flat Barrier
@@ -38,6 +39,7 @@
   - Improved Pocket Plutonium VFX
   - Improved Sacrificial Band VFX and SFX
   - Improved unlock description for Sun Fragment
+  - Improved descriptions for some items
 - Interactables
   - Added Delta Construct and Gamma Construct to Shrine of the Future
   - Added a few more buffs to Corrupted Catalyst

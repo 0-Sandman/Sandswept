@@ -1,5 +1,4 @@
-﻿/*
-using MonoMod.Cil;
+﻿using MonoMod.Cil;
 using System.Linq;
 using Mono.Cecil.Cil;
 using UnityEngine;
@@ -15,9 +14,9 @@ namespace Sandswept.Items.Whites
 
         public override string ItemLangTokenName => "SEQUENCED_FATE";
 
-        public override string ItemPickupDesc => "Shrines of order appear more often and yield additional items.";
+        public override string ItemPickupDesc => "Shrines of order appear more often and grant extra items.";
 
-        public override string ItemFullDescription => ("Using a shrine of order yields $su" + baseExtraItemsCount + "$se $ss(+" + stackExtraItemsCount + " per stack)$se additional items. $suShrines of order appear more frequently$se.").AutoFormat();
+        public override string ItemFullDescription => $"Using a shrine of order grant $su{baseExtraItemsCount}$se $ss(+{stackExtraItemsCount} per stack)$se extra items. $suShrines of order appear more frequently$se.".AutoFormat();
 
         public override string ItemLore => "";
 
@@ -144,9 +143,9 @@ namespace Sandswept.Items.Whites
                     foreach (var kvp in dict)
                     {
                         ItemTransferOrb.DispatchItemTransferOrb(self.transform.position, inventory, kvp.Key, kvp.Value);
-
-                        AkSoundEngine.PostEvent(Events.Play_UI_3D_printer_selectItem, self.gameObject);
                     }
+
+                    AkSoundEngine.PostEvent(Events.Play_UI_3D_printer_selectItem, self.gameObject);
                 }
             }
         }
@@ -193,4 +192,3 @@ namespace Sandswept.Items.Whites
         }
     }
 }
-*/
