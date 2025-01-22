@@ -17,7 +17,7 @@ namespace Sandswept.Items.VoidWhites
 
         public override string ItemPickupDesc => "Activating your secondary skill also swings The Endless Pierce. Recharges over time. $svCorrupts all Amber Knives$se.".AutoFormat();
 
-        public override string ItemFullDescription => ($"Activating your $suSecondary skill$se also swings $sdThe Endless Pierce$se for $sd{baseDamage * 100f}%$se base damage and grants $sh{basePlatingGain}$se $ss(+{stackPlatingGain} per stack)$se plating. $sdThe Endless Pierce$se renews over $sd{cooldown}$se seconds. $svCorrupts all Amber Knives$se.").AutoFormat();
+        public override string ItemFullDescription => $"Activating your $suSecondary skill$se also swings $sdThe Endless Pierce$se for $sd{baseDamage * 100f}%$se base damage and grants $sh{basePlatingGain}$se $ss(+{stackPlatingGain} per stack)$se plating. $sdThe Endless Pierce$se renews over $sd{cooldown}$se seconds. $svCorrupts all Amber Knives$se.".AutoFormat();
 
         public override string ItemLore => "badass lore for a long cutlass that got corrupted and became sentient, choosing its owners based on strength of will (maybe a mercenary got captured?) :trollshrug:";
 

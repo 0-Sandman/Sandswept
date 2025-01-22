@@ -13,9 +13,9 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "Gain a shock drone. Drone attacks have a chance to shock nearby targets.";
 
-        public override string ItemFullDescription => $"<style=cIsUtility>Gain a Shock Drone.</style> Your drones have a <style=cIsDamage>{chance}%</style> chance to <style=cIsUtility>shock</style> up to <style=cIsDamage>{baseMaxTargets}</style> <style=cStack>(+{stackMaxTargets} per stack)</style> targets for <style=cIsDamage>{baseDamageCoefficient * 100f} TOTAL damage</style>.".AutoFormat();
+        public override string ItemFullDescription => $"$suGain a Shock Drone.$se Your drones have a $sd{chance}%$se chance to $sushock$se up to $sd{baseMaxTargets}$se $ss(+{stackMaxTargets} per stack)$se targets for $sd{baseDamageCoefficient * 100f} TOTAL damage$se.".AutoFormat();
 
-        public override string ItemLore => "can you find the moredrones";
+        public override string ItemLore => "the silver cord is a king gizzard and the lizard wizard reference. you can make it related to that or just do whatever I guess";
 
         public override ItemTier Tier => ItemTier.Tier1;
 
@@ -32,17 +32,17 @@ namespace Sandswept.Items.Whites
 
         [ConfigField("Stack Max Targets", "", 1)]
         public static int stackMaxTargets;
+
         [ConfigField("Base Damage Coefficient", "", 3f)]
         public static float baseDamageCoefficient;
+
         public static LazyAddressable<GameObject> ShockEffect = new(() => Paths.GameObject.MageLightningBombExplosion);
         public static ModdedProcType SilverShock = ProcTypeAPI.ReserveProcType();
         public static ModdedDamageType StupidButNeccessary = DamageAPI.ReserveDamageType();
 
-
         public override void Init(ConfigFile config)
         {
             base.Init(config);
-            
         }
 
         public override void Hooks()
@@ -52,8 +52,10 @@ namespace Sandswept.Items.Whites
 
         private void HandleShockAttacks(DamageReport report)
         {
-            if (report.damageInfo.HasModdedDamageType(StupidButNeccessary)) { // orbs dont accept an impact effect so we bullshit this with a damage type
-                EffectManager.SpawnEffect(ShockEffect, new EffectData {
+            if (report.damageInfo.HasModdedDamageType(StupidButNeccessary))
+            { // orbs dont accept an impact effect so we bullshit this with a damage type
+                EffectManager.SpawnEffect(ShockEffect, new EffectData
+                {
                     origin = report.damageInfo.position,
                     scale = 1.5f
                 }, true);
@@ -63,15 +65,18 @@ namespace Sandswept.Items.Whites
 
             if (report.damageInfo.procChainMask.HasModdedProc(SilverShock)) return;
 
-            if (report.attackerBody.bodyFlags.HasFlag(CharacterBody.BodyFlags.Mechanical) && !report.attackerBody.isPlayerControlled) {
-                if (report.attackerBody.master && report.attackerBody.master.minionOwnership) {
+            if (report.attackerBody.bodyFlags.HasFlag(CharacterBody.BodyFlags.Mechanical) && !report.attackerBody.isPlayerControlled)
+            {
+                if (report.attackerBody.master && report.attackerBody.master.minionOwnership)
+                {
                     CharacterMaster owner = report.attackerBody.master.minionOwnership.ownerMaster;
 
                     if (!owner) return;
 
                     int c = owner.inventory.GetItemCount(ItemDef);
 
-                    if (Util.CheckRoll(chance)) {
+                    if (Util.CheckRoll(chance))
+                    {
                         report.damageInfo.procChainMask.AddModdedProc(SilverShock);
 
                         LightningOrb orb = new();
@@ -90,8 +95,9 @@ namespace Sandswept.Items.Whites
                         orb.bouncedObjects = new();
                         orb.AddModdedDamageType(StupidButNeccessary);
                         orb.target = orb.PickNextTarget(report.damageInfo.position);
-                        
-                        if (orb.target) {
+
+                        if (orb.target)
+                        {
                             OrbManager.instance.AddOrb(orb);
                         }
                     }

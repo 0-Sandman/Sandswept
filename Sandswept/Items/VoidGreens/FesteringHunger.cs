@@ -43,7 +43,7 @@ namespace Sandswept.Items.VoidGreens
 
         public override Sprite ItemIcon => Main.Assets.LoadAsset<Sprite>("texFesteringHunger.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage };
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility };
 
         public static DamageColorIndex milleniumColor = DamageColourHelper.RegisterDamageColor(new Color32(75, 27, 174, 255));
 

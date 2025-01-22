@@ -17,7 +17,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "Chance to fire a piercing knife that grants barrier on hit.";
 
-        public override string ItemFullDescription => ($"Gain a $sd{chance}%$se chance on hit to fire a $sdpiercing knife$se for $sd{baseDamage * 100f}%$se $ss(+{stackDamage * 100f}% per stack)$se base damage that gives $sh{percentBarrierGain * 100f}%$se plus an additional $sh{flatBarrierGain} barrier$se.").AutoFormat();
+        public override string ItemFullDescription => $"Gain a $sd{chance}%$se chance on hit to fire a $sdpiercing knife$se for $sd{baseDamage * 100f}%$se $ss(+{stackDamage * 100f}% per stack)$se base damage that gives $sh{percentBarrierGain * 100f}%$se plus an additional $sh{flatBarrierGain} barrier$se.".AutoFormat();
 
         public override string ItemLore => "<style=cMono>Order: Amber Knife\r\nTracking Number: 534*****\r\nEstimated Delivery: 06/15/2056\r\nShipping Method: High Priority\r\nShipping Address: Outer Ring Lab, Venus\r\nShipping Details:\r\n\r\n</style>This is an ancient ritual artifact, once used by Neptunian priests in sacrifices, said to protect them from attack and assassination. This was not without credence, it seems, as the knife operates similarly to the ultra-phasic shield technology used in the assassination of Mars's ambassador two months back.\r\n\r\nOf course, we can't use such an old and fragile weapon in our own operations, but its effect seems more potent than what the assassin used. Along with serving your planet, you'll receive generous funding to discover how it works and incorporate it into something more usable.\r\n";
 

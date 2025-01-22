@@ -18,7 +18,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemFullDescription => $"Using a shrine of order grant $su{baseExtraItemsCount}$se $ss(+{stackExtraItemsCount} per stack)$se extra items. $suShrines of order appear more frequently$se.".AutoFormat();
 
-        public override string ItemLore => "";
+        public override string ItemLore => "it's blueprints for shrine of order";
 
         public override ItemTier Tier => ItemTier.Lunar;
 
