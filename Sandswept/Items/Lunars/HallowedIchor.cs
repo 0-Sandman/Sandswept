@@ -12,7 +12,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "Enemies are more numerous and more often elite. Chests can be re-opened additional times, but attract even more enemies and elites permanently.";
 
-        public override string ItemFullDescription => $"Enemies are $su{baseCombatDirectorCreditMultiplierGain * 100f}%$se more numerous and more often elite. Chests can be $sure-opened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but attract $su{baseOnChestReopenCombatDirectorCreditMultiplierGain * 100f}% (+{stackOnChestReopenCombatDirectorCreditMultiplierGain * 100f}% per stack)$se more enemies and elites $supermanently$se.".AutoFormat();
+        public override string ItemFullDescription => $"Enemies are $su{baseCombatDirectorCreditMultiplierGain * 100f}%$se more numerous and more often elite. Chests can be $sure-opened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but attract $su{baseOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain * 100f}% (+{stackOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain * 100f}% per stack)$se more enemies and elites $supermanently$se.".AutoFormat();
 
         public override string ItemLore => "A large wine glass with a blue liquid inside it, its handle resembling a cross shape. Supposed to be a terrariar reference somewhat. You can do whatever with it";
 
@@ -34,10 +34,10 @@ namespace Sandswept.Items.Whites
         public static int stackExtraChestInteractions;
 
         [ConfigField("Base On Chest Re-open Combat Director Credit Multiplier And Elite Bias Gain", "Decimal.", 0.2f)]
-        public static int baseOnChestReopenCombatDirectorCreditMultiplierGain;
+        public static int baseOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain;
 
         [ConfigField("Stack On Chest Re-open Combat Director Credit Multiplier And Elite Bias Gain", "Decimal.", 0.2f)]
-        public static int stackOnChestReopenCombatDirectorCreditMultiplierGain;
+        public static int stackOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain;
 
         public float cachedCombatDirectorCreditMultiplier = -999f;
 
@@ -89,9 +89,10 @@ namespace Sandswept.Items.Whites
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
             itemCount = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, false, true);
+
             if (permanentHallowedIchorTracker.TryGetComponent<HallowedIchorController>(out var hallowedIchorController))
             {
-                hallowedIchorController.Recalculate(GetCount(body));
+                hallowedIchorController.Recalculate(itemCount);
             }
         }
 
@@ -184,7 +185,7 @@ namespace Sandswept.Items.Whites
         public void Recalculate(int itemCount)
         {
             totalIncreases = HallowedIchor.baseCombatDirectorCreditMultiplierGain;
-            var finalIncrease = HallowedIchor.baseOnChestReopenCombatDirectorCreditMultiplierGain + HallowedIchor.stackOnChestReopenCombatDirectorCreditMultiplierGain * (itemCount - 1);
+            var finalIncrease = HallowedIchor.baseOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain + HallowedIchor.stackOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain * (itemCount - 1);
             for (int i = 0; i < itemCount; i++)
             {
                 totalIncreases *= finalIncrease;
