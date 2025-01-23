@@ -86,8 +86,6 @@ namespace Sandswept.Items.Whites
                 return;
             }
 
-            permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().Recalculate(itemCount);
-
             if (permanentHallowedIchorTracker.TryGetComponent<HallowedIchorController>(out var hallowedIchorController))
             {
                 hallowedIchorController.Recalculate(itemCount);
