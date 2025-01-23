@@ -73,7 +73,7 @@ namespace Sandswept.Equipment.Lunar
                     body.AddComponent<FlawlessDesignTracker>();
                 }
 
-                if (def != EquipmentDef && body.AddComponent<FlawlessDesignTracker>())
+                if (def != EquipmentDef && body.GetComponent<FlawlessDesignTracker>())
                 {
                     body.RemoveComponent<FlawlessDesignTracker>();
                 }

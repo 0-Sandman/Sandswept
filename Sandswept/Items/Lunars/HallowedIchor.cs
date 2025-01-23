@@ -65,6 +65,7 @@ namespace Sandswept.Items.Whites
 
         private void CombatDirector_Awake(On.RoR2.CombatDirector.orig_Awake orig, CombatDirector self)
         {
+            // todo - store this better duh lol
             if (cachedCombatDirectorCreditMultiplier < -998f)
             {
                 cachedCombatDirectorCreditMultiplier = self.creditMultiplier;
@@ -92,8 +93,8 @@ namespace Sandswept.Items.Whites
 
                 foreach (CombatDirector combatDirector in CombatDirector.instancesList)
                 {
-                    combatDirector.creditMultiplier = cachedCombatDirectorCreditMultiplier + (hallowedIchorController.totalIncreases - 1f);
-                    combatDirector.eliteBias = cachedCombatDirectorEliteBias + (hallowedIchorController.totalIncreases - 1f);
+                    combatDirector.creditMultiplier = cachedCombatDirectorCreditMultiplier + hallowedIchorController.totalIncreases;
+                    combatDirector.eliteBias = cachedCombatDirectorEliteBias + hallowedIchorController.totalIncreases - 1f;
                 }
             }
         }
@@ -137,7 +138,7 @@ namespace Sandswept.Items.Whites
 
         public IEnumerator SetRepurchaseAsAvailable(GameObject interactableObject)
         {
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(EntityStates.Barrel.Opening.duration + 0.25f);
 
             var chestBehavior = interactableObject.GetComponent<ChestBehavior>();
             if (!chestBehavior)
@@ -168,6 +169,7 @@ namespace Sandswept.Items.Whites
 
             purchaseInteraction.SetAvailableTrue();
             chestBehavior.NetworkisChestOpened = false;
+            chestBehavior.RollItem();
             // idk if this is necessary but just in case >_<
         }
 
@@ -198,8 +200,8 @@ namespace Sandswept.Items.Whites
         public void Recalculate(int itemCount)
         {
             Main.ModLogger.LogError("hallowedichorcontroller recalculate called");
-            totalIncreases = 1f + HallowedIchor.baseCombatDirectorCreditMultiplierGain;
-            var finalIncrease = HallowedIchor.baseOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain + HallowedIchor.stackOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain * (itemCount - 1);
+            totalIncreases = HallowedIchor.baseCombatDirectorCreditMultiplierGain;
+            var finalIncrease = 1f + HallowedIchor.baseOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain + HallowedIchor.stackOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain * (itemCount - 1);
             for (int i = 0; i < itemCount; i++)
             {
                 totalIncreases *= finalIncrease;
