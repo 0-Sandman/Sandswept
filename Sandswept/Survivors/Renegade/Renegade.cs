@@ -13,9 +13,10 @@ namespace Sandswept.Survivors.Renegade
         public override string Outro => "sigma";
 
         public override string Failure => "the ever so helpful hive";
-        public static DamageAPI.ModdedDamageType ShrapnelBullet;
-        public static DamageAPI.ModdedDamageType GravSlam;
+        public static DamageAPI.ModdedDamageType ShrapnelBullet = DamageAPI.ReserveDamageType();
+        public static DamageAPI.ModdedDamageType GravSlam = DamageAPI.ReserveDamageType();
 
+        //
         public override void LoadAssets()
         {
             base.LoadAssets();
