@@ -47,7 +47,8 @@ namespace Sandswept.Survivors.Electrician.States
 
             if (fixedAge >= baseDuration)
             {
-                if (base.healthComponent.shield > 0) {
+                if (base.healthComponent.shield > 0)
+                {
                     float shieldToDrain = base.healthComponent.shield;
 
                     if (shieldToDrain > healthComponent.shield)
@@ -75,7 +76,7 @@ namespace Sandswept.Survivors.Electrician.States
                         }
                     }
                 }
-                
+
                 outer.SetNextState(new SignalOverloadDischarge(Util.Remap(shieldDrained, 0f, healthComponent.fullHealth * baseMax, 0.6f, 1f)));
             }
 

@@ -61,14 +61,6 @@ namespace Sandswept.Items.Whites
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
             GlobalEventManager.OnInteractionsGlobal += GlobalEventManager_OnInteractionsGlobal;
             On.RoR2.CombatDirector.Awake += CombatDirector_Awake;
-            On.RoR2.CombatDirector.Spawn += CombatDirector_Spawn;
-        }
-
-        private bool CombatDirector_Spawn(On.RoR2.CombatDirector.orig_Spawn orig, CombatDirector self, SpawnCard spawnCard, EliteDef eliteDef, Transform spawnTarget, DirectorCore.MonsterSpawnDistance spawnDistance, bool preventOverhead, float valueMultiplier, DirectorPlacementRule.PlacementMode placementMode)
-        {
-            self.creditMultiplier = cachedCombatDirectorCreditMultiplier + permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().totalIncreases - 1f;
-            self.eliteBias = cachedCombatDirectorEliteBias + permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().totalIncreases - 1f;
-            return orig(self, spawnCard, eliteDef, spawnTarget, spawnDistance, preventOverhead, valueMultiplier, placementMode);
         }
 
         private void CombatDirector_Awake(On.RoR2.CombatDirector.orig_Awake orig, CombatDirector self)
@@ -94,9 +86,17 @@ namespace Sandswept.Items.Whites
                 return;
             }
 
+            permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().Recalculate(itemCount);
+
             if (permanentHallowedIchorTracker.TryGetComponent<HallowedIchorController>(out var hallowedIchorController))
             {
                 hallowedIchorController.Recalculate(itemCount);
+
+                foreach (CombatDirector combatDirector in CombatDirector.instancesList)
+                {
+                    combatDirector.creditMultiplier = cachedCombatDirectorCreditMultiplier + (hallowedIchorController.totalIncreases - 1f);
+                    combatDirector.eliteBias = cachedCombatDirectorEliteBias + (hallowedIchorController.totalIncreases - 1f);
+                }
             }
         }
 

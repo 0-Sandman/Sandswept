@@ -23,7 +23,7 @@ namespace Sandswept.Items.Whites
 
         public override ItemTier Tier => ItemTier.Lunar;
 
-        public override GameObject ItemModel => null;
+        public override GameObject ItemModel => Main.Assets.LoadAsset<GameObject>("PickupTheirProminence.prefab");
 
         public override Sprite ItemIcon => null;
 
@@ -31,8 +31,14 @@ namespace Sandswept.Items.Whites
 
         public static List<InteractableSpawnCard> shrinesOfOrder = new() { Paths.InteractableSpawnCard.iscShrineRestack, Paths.InteractableSpawnCard.iscShrineRestackSandy, Paths.InteractableSpawnCard.iscShrineRestackSnowy };
 
+        public static GameObject sequencedFateTracker;
+
+        public static int itemCount = 0;
+
         public override void Init(ConfigFile config)
         {
+            sequencedFateTracker = new GameObject("Sequenced Fate Tracker", typeof(SetDontDestroyOnLoad), typeof(SequencedFateController));
+
             CreateLang();
             CreateItem();
             Hooks();
@@ -44,39 +50,73 @@ namespace Sandswept.Items.Whites
         [ConfigField("Stack Extra Items Count", "", 3)]
         public static int stackExtraItemsCount;
 
-        [ConfigField("Base Shrine Of Order Category Selection Weight", "", 2f)]
-        public static float baseShrineOfOrderCategorySelectionWeight;
+        [ConfigField("Base Shrine Of Order Category Average Selection Weight Percentage", "Decimal.", 0.3f)]
+        public static float baseShrineOfOrderCategoryAverageSelectionWeightPercentage;
 
-        [ConfigField("Stack Shrine Of Order Category Selection Weight", "", 2f)]
-        public static float stackShrineOfOrderCategorySelectionWeight;
+        [ConfigField("Stack Shrine Of Order Category Average Selection Weight Percentage", "", 0.3f)]
+        public static float stackShrineOfOrderCategoryAverageSelectionWeightPercentage;
 
         public override void Hooks()
         {
+            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
             On.RoR2.ShrineRestackBehavior.AddShrineStack += ShrineRestackBehavior_AddShrineStack;
             IL.RoR2.Inventory.ShrineRestackInventory += Inventory_ShrineRestackInventory;
             On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
+        }
+
+        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
+        {
+            itemCount = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
+            if (itemCount <= 0)
+            {
+                return;
+            }
+
+            sequencedFateTracker.GetComponent<SequencedFateController>().lastItemCount = itemCount;
         }
 
         private void ClassicStageInfo_RebuildCards(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self, DirectorCardCategorySelection forcedMonsterCategory, DirectorCardCategorySelection forcedInteractableCategory)
         {
             orig(self, forcedMonsterCategory, forcedInteractableCategory);
 
-            var stack = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
-            Main.ModLogger.LogError("stack is " + stack);
-            if (stack > 0)
-            {
-                Main.ModLogger.LogFatal("trying to add shrine of order category but its not gonna work lmao");
+            var lastItemCount = sequencedFateTracker.GetComponent<SequencedFateController>().lastItemCount;
 
-                var totalWeight = baseShrineOfOrderCategorySelectionWeight + stackShrineOfOrderCategorySelectionWeight * (stack - 1);
+            Main.ModLogger.LogError("stack is " + itemCount);
+            Main.ModLogger.LogError("last stack is " + lastItemCount);
+            if (itemCount > 0 || lastItemCount > 0)
+            {
+                Main.ModLogger.LogFatal("trying to add shrine of order category and card");
+
+                float totalWeight = 0f;
+
+                for (int i = 0; i < self.interactableCategories.categories.Length; i++)
+                {
+                    var category = self.interactableCategories.categories[i];
+                    totalWeight += category.selectionWeight;
+                }
+
+                Main.ModLogger.LogError("total weight is " + totalWeight);
+
+                var averageWeight = totalWeight / self.interactableCategories.categories.Length;
+
+                Main.ModLogger.LogError("average weight is " + averageWeight);
+
+                var finalWeight = averageWeight * (baseShrineOfOrderCategoryAverageSelectionWeightPercentage + stackShrineOfOrderCategoryAverageSelectionWeightPercentage * (itemCount - 1));
+
+                Main.ModLogger.LogError("final weight is " + finalWeight);
 
                 Array.Resize(ref self.interactableCategories.categories, self.interactableCategories.categories.Length + 1);
-                var newCategory = self.interactableCategories.categories[^1];
 
-                newCategory.name = "Sequenced Fate Shrine of Order";
-                newCategory.selectionWeight = totalWeight;
+                var shrineOfOrderCard = new DirectorCard
+                {
+                    spawnCard = Paths.InteractableSpawnCard.iscShrineRestack,
+                    selectionWeight = 1,
+                    minimumStageCompletions = -1
+                };
 
-                newCategory.cards = new DirectorCard[1];
-                newCategory.cards[0] = new DirectorCard { spawnCard = Paths.InteractableSpawnCard.iscShrineRestack, selectionWeight = 100 };
+                var newShrineOfOrderCategory = new DirectorCardCategorySelection.Category { name = "Sequenced Fate Shrine of Order", selectionWeight = finalWeight, cards = new DirectorCard[1] { shrineOfOrderCard } };
+
+                self.interactableCategories.categories[self.interactableCategories.categories.Length - 1] = newShrineOfOrderCategory;
             }
         }
 
@@ -166,5 +206,10 @@ namespace Sandswept.Items.Whites
         {
             return new ItemDisplayRuleDict();
         }
+    }
+
+    public class SequencedFateController : MonoBehaviour
+    {
+        public int lastItemCount = 0;
     }
 }
