@@ -12,7 +12,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "Cloak upon using your Equipment. Being cloaked immediately exits combat and danger. Recharges over time.";
 
-        public override string ItemFullDescription => $"Upon using your Equipment, become $sucloaked$se for $su{cloakBuffDuration}s$se. While $sucloaked$se, $suexit$se combat and danger. Recharges every $su{baseRechargeTime} seconds$se $ss(-{stackRechargeTime * 100f}% per stack)$se.".AutoFormat();
+        public override string ItemFullDescription => $"Upon using your $suEquipment$se, become $sucloaked$se for $su{cloakBuffDuration}s$se. While $sucloaked$se, $suexit$se combat and danger. Recharges every $su{baseRechargeTime} seconds$se $ss(-{stackRechargeTime * 100f}% per stack)$se.".AutoFormat();
 
         public override string ItemLore => "item name is wip and so is the theme";
 

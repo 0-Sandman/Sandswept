@@ -9,7 +9,7 @@
 
         public override string ItemPickupDesc => "High damage hits also make enemies bleed. Recharges over time.";
 
-        public override string ItemFullDescription => $"Hits that deal $sdmore than {percentDamageThreshold * 100f}% damage$se also inflict $sd{baseBleedCount}$se $ss(+{stackBleedCount} per stack)$se $sdbleeds$se on enemies for each $sd{damageScalar * 100f}$se of $sdskill damage$se. Recharges every $su{cooldown}$se seconds.".AutoFormat();
+        public override string ItemFullDescription => $"Hits that deal $sdmore than {percentDamageThreshold * 100f}% damage$se also inflict $sd{baseBleedCount}$se $ss(+{stackBleedCount} per stack)$se $sdbleeds$se on enemies for each $sd{damageScalar * 100f}%$se of $sddamage dealt$se. Recharges every $su{cooldown}$se seconds.".AutoFormat();
 
         public override string ItemLore => "\"When we draw our final breaths,\r\nWhen N'kuhana's grasp entwines us,\r\nMay our patience and our solace\r\nClear the clouds of deathly silence.\r\nWill you live with me?\"\r\n\r\n- The Syzygy of Io and Europa";
 

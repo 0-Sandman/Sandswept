@@ -26,8 +26,10 @@ namespace Sandswept.Equipment.Lunar
         public override bool IsLunar => true;
         public override Sprite EquipmentIcon => null;
         public override float Cooldown => 45f;
+
         [ConfigField("Base Health Cost", "", 10)]
         public static int BaseHealthCost;
+
         public static GameObject DesignIndicator;
         public static LazyAddressable<GameObject> DuplicationEffect = new(() => Paths.GameObject.ExplosionLunarSun);
 
@@ -57,17 +59,22 @@ namespace Sandswept.Equipment.Lunar
         {
             orig(self);
 
-            if (self.inventory) {
+            Main.ModLogger.LogError("flawless design oninventorychanged called");
+
+            if (self.inventory)
+            {
                 GameObject body = self.bodyInstanceObject;
                 if (!body) return;
 
                 EquipmentDef def = EquipmentCatalog.GetEquipmentDef(self.inventory.GetEquipmentIndex());
 
-                if (def == EquipmentDef && !body.GetComponent<FlawlessDesignTracker>()) {
+                if (def == EquipmentDef && !body.GetComponent<FlawlessDesignTracker>())
+                {
                     body.AddComponent<FlawlessDesignTracker>();
                 }
 
-                if (def != EquipmentDef && body.AddComponent<FlawlessDesignTracker>()) {
+                if (def != EquipmentDef && body.AddComponent<FlawlessDesignTracker>())
+                {
                     body.RemoveComponent<FlawlessDesignTracker>();
                 }
             }
@@ -77,7 +84,8 @@ namespace Sandswept.Equipment.Lunar
         {
             var pickup = orig(ref createPickupInfo);
 
-            if (pickup && createPickupInfo.delusionItemIndex == Items.NoTier.TwistedWound.instance.ItemDef.itemIndex) {
+            if (pickup && createPickupInfo.delusionItemIndex == Items.NoTier.TwistedWound.instance.ItemDef.itemIndex)
+            {
                 pickup.AddComponent<FlawlessDesignMarker>();
             }
 
@@ -93,7 +101,8 @@ namespace Sandswept.Equipment.Lunar
 
             if (slot.characterBody.TryGetComponent<FlawlessDesignTracker>(out var designTracker))
             {
-                if (!designTracker.target) {
+                if (!designTracker.target)
+                {
                     return false;
                 }
 
@@ -102,14 +111,17 @@ namespace Sandswept.Equipment.Lunar
                 int cost = GetCurseCostForPickup(pickup.pickupIndex);
                 pickup.AddComponent<FlawlessDesignMarker>();
 
-                GenericPickupController.CreatePickupInfo info = new();
-                info.position = pickup.transform.position;
-                info.delusionItemIndex = Items.NoTier.TwistedWound.instance.ItemDef.itemIndex; // this is really jank but i cant think of a better way to send this information
-                info.pickupIndex = pickup.pickupIndex;
+                GenericPickupController.CreatePickupInfo info = new()
+                {
+                    position = pickup.transform.position,
+                    delusionItemIndex = Items.NoTier.TwistedWound.instance.ItemDef.itemIndex, // this is really jank but i cant think of a better way to send this information
+                    pickupIndex = pickup.pickupIndex
+                };
 
                 PickupDropletController.CreatePickupDroplet(info, info.position, Random.onUnitSphere * 15f);
 
-                EffectManager.SpawnEffect(DuplicationEffect, new EffectData {
+                EffectManager.SpawnEffect(DuplicationEffect, new EffectData
+                {
                     origin = pickup.transform.position,
                     scale = 3f
                 }, true);
@@ -121,28 +133,34 @@ namespace Sandswept.Equipment.Lunar
             return true;
         }
 
-        public static int GetCurseCostForPickup(PickupIndex index) {
+        public static int GetCurseCostForPickup(PickupIndex index)
+        {
             PickupDef def = PickupCatalog.GetPickupDef(index);
             float cost = BaseHealthCost;
 
-            if (EquipmentCatalog.GetEquipmentDef(def.equipmentIndex)) {
+            if (EquipmentCatalog.GetEquipmentDef(def.equipmentIndex))
+            {
                 cost *= 1.5f;
                 return (int)cost;
             }
 
-            switch (def.itemTier) {
+            switch (def.itemTier)
+            {
                 case ItemTier.VoidTier2:
                 case ItemTier.Tier2:
                     cost *= 2f;
                     break;
+
                 case ItemTier.VoidTier3:
                 case ItemTier.Tier3:
                     cost *= 4f;
                     break;
+
                 case ItemTier.VoidBoss:
                 case ItemTier.Boss:
                     cost *= 3f;
                     break;
+
                 default:
                     break;
             }
@@ -150,16 +168,19 @@ namespace Sandswept.Equipment.Lunar
             return (int)cost;
         }
 
-        public class FlawlessDesignTracker : ComponentTracker<GenericPickupController> {
+        public class FlawlessDesignTracker : ComponentTracker<GenericPickupController>
+        {
             public override void Start()
             {
                 base.maxSearchAngle = 45f;
                 base.maxSearchDistance = 30f;
                 base.searchDelay = 0.1f;
-                base.isActiveCallback = () => {
+                base.isActiveCallback = () =>
+                {
                     return base.body && base.body.isEquipmentActivationAllowed;
                 };
-                base.validFilter = (x) => {
+                base.validFilter = (x) =>
+                {
                     return !x.GetComponent<FlawlessDesignMarker>();
                 };
                 base.targetingIndicatorPrefab = DesignIndicator;
@@ -167,7 +188,8 @@ namespace Sandswept.Equipment.Lunar
             }
         }
 
-        public class FlawlessDesignMarker : MonoBehaviour {
+        public class FlawlessDesignMarker : MonoBehaviour
+        {
             private bool slur; // having a class with nothing in it causes omnisharp to bug out
         }
     }

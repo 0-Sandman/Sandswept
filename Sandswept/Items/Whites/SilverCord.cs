@@ -13,7 +13,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "Gain a shock drone. Drone attacks have a chance to shock nearby targets.";
 
-        public override string ItemFullDescription => $"$suGain a Shock Drone.$se Your drones have a $sd{chance}%$se chance to $sushock$se up to $sd{baseMaxTargets}$se $ss(+{stackMaxTargets} per stack)$se targets for $sd{baseDamageCoefficient * 100f} TOTAL damage$se.".AutoFormat();
+        public override string ItemFullDescription => $"$suGain a Shock Drone.$se Your drones have a $sd{chance}%$se chance to $sushock$se up to $sd{baseMaxTargets}$se $ss(+{stackMaxTargets} per stack)$se targets for $sd{damage * 100f}% TOTAL damage$se.".AutoFormat();
 
         public override string ItemLore => "the silver cord is a king gizzard and the lizard wizard reference. you can make it related to that or just do whatever I guess";
 
@@ -33,8 +33,14 @@ namespace Sandswept.Items.Whites
         [ConfigField("Stack Max Targets", "", 1)]
         public static int stackMaxTargets;
 
-        [ConfigField("Base Damage Coefficient", "", 3f)]
-        public static float baseDamageCoefficient;
+        [ConfigField("Damage", "Decimal.", 3f)]
+        public static float damage;
+
+        [ConfigField("Range", "", 28f)]
+        public static float range;
+
+        [ConfigField("Proc Coefficient", "", 0.2f)]
+        public static float procCoefficient;
 
         public static LazyAddressable<GameObject> ShockEffect = new(() => Paths.GameObject.MageLightningBombExplosion);
         public static ModdedProcType SilverShock = ProcTypeAPI.ReserveProcType();
@@ -73,26 +79,28 @@ namespace Sandswept.Items.Whites
 
                     if (!owner) return;
 
-                    int c = owner.inventory.GetItemCount(ItemDef);
+                    var stack = owner.inventory.GetItemCount(ItemDef);
 
                     if (Util.CheckRoll(chance))
                     {
                         report.damageInfo.procChainMask.AddModdedProc(SilverShock);
 
-                        LightningOrb orb = new();
-                        orb.damageValue = report.damageInfo.damage * baseDamageCoefficient;
-                        orb.bouncesRemaining = baseMaxTargets + (stackMaxTargets * (c - 1));
-                        orb.attacker = report.attacker;
-                        orb.damageColorIndex = DamageColorIndex.Item;
-                        orb.isCrit = report.damageInfo.crit;
-                        orb.origin = report.damageInfo.position;
-                        orb.procCoefficient = 0.2f;
-                        orb.range = 28;
-                        orb.teamIndex = report.attackerTeamIndex;
-                        orb.lightningType = LightningOrb.LightningType.Loader;
-                        orb.procChainMask = report.damageInfo.procChainMask;
-                        orb.canBounceOnSameTarget = false;
-                        orb.bouncedObjects = new();
+                        LightningOrb orb = new()
+                        {
+                            damageValue = report.damageInfo.damage * damage,
+                            bouncesRemaining = baseMaxTargets + stackMaxTargets * (stack - 1),
+                            attacker = report.attacker,
+                            damageColorIndex = DamageColorIndex.Item,
+                            isCrit = report.damageInfo.crit,
+                            origin = report.damageInfo.position,
+                            procCoefficient = procCoefficient,
+                            range = range,
+                            teamIndex = report.attackerTeamIndex,
+                            lightningType = LightningOrb.LightningType.Loader,
+                            procChainMask = report.damageInfo.procChainMask,
+                            canBounceOnSameTarget = false,
+                            bouncedObjects = new()
+                        };
                         orb.AddModdedDamageType(StupidButNeccessary);
                         orb.target = orb.PickNextTarget(report.damageInfo.position);
 

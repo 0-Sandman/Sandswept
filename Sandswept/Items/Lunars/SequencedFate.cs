@@ -4,6 +4,7 @@ using Mono.Cecil.Cil;
 using UnityEngine;
 using static Rewired.Utils.Classes.Utility.ObjectInstanceTracker;
 using RoR2.Orbs;
+using R2API;
 
 namespace Sandswept.Items.Whites
 {
@@ -16,7 +17,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "Shrines of order appear more often and grant extra items.";
 
-        public override string ItemFullDescription => $"Using a shrine of order grant $su{baseExtraItemsCount}$se $ss(+{stackExtraItemsCount} per stack)$se extra items. $suShrines of order appear more frequently$se.".AutoFormat();
+        public override string ItemFullDescription => $"Using a shrine of order grants $su{baseExtraItemsCount}$se $ss(+{stackExtraItemsCount} per stack)$se extra items. $suShrines of order appear more frequently$se.".AutoFormat();
 
         public override string ItemLore => "it's blueprints for shrine of order";
 
@@ -43,63 +44,39 @@ namespace Sandswept.Items.Whites
         [ConfigField("Stack Extra Items Count", "", 3)]
         public static int stackExtraItemsCount;
 
-        [ConfigField("Base Self Order Chance", "", 0f)]
-        public static float baseSelfOrderChance;
+        [ConfigField("Base Shrine Of Order Category Selection Weight", "", 2f)]
+        public static float baseShrineOfOrderCategorySelectionWeight;
 
-        [ConfigField("Stack Self Order Chance", "", 20f)]
-        public static float stackSelfOrderChance;
-
-        [ConfigField("Shrine Category Weight Multiplier", "", 2f)]
-        public static float shrineCategoryWeightMultiplier;
-
-        [ConfigField("Shrine of Order Weight Multiplier", "", 3f)]
-        public static float shrineOfOrderWeightMultiplier;
+        [ConfigField("Stack Shrine Of Order Category Selection Weight", "", 2f)]
+        public static float stackShrineOfOrderCategorySelectionWeight;
 
         public override void Hooks()
         {
             On.RoR2.ShrineRestackBehavior.AddShrineStack += ShrineRestackBehavior_AddShrineStack;
             IL.RoR2.Inventory.ShrineRestackInventory += Inventory_ShrineRestackInventory;
-            On.RoR2.ClassicStageInfo.Start += ClassicStageInfo_Start;
+            On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
         }
 
-        private void ClassicStageInfo_Start(On.RoR2.ClassicStageInfo.orig_Start orig, ClassicStageInfo self)
+        private void ClassicStageInfo_RebuildCards(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self, DirectorCardCategorySelection forcedMonsterCategory, DirectorCardCategorySelection forcedInteractableCategory)
         {
-            orig(self);
+            orig(self, forcedMonsterCategory, forcedInteractableCategory);
+
             var stack = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
+            Main.ModLogger.LogError("stack is " + stack);
             if (stack > 0)
             {
-                var categories = self.interactableCategories.categories;
-                bool hasShrineOfOrder = false;
-                for (int i = 0; i < categories.Length; i++)
-                {
-                    var categoryIndex = categories[i];
-                    if (categoryIndex.name.ToLower().Contains("shrine")) // wharever im pupy
-                    {
-                        Main.ModLogger.LogError("found shrine category");
+                Main.ModLogger.LogFatal("trying to add shrine of order category but its not gonna work lmao");
 
-                        for (int j = 0; j < categoryIndex.cards.Length; j++)
-                        {
-                            var cardIndex = categoryIndex.cards[j];
-                            if (shrinesOfOrder.Contains(cardIndex.spawnCard))
-                            {
-                                hasShrineOfOrder = true;
-                                Main.ModLogger.LogError("found shrine of order spawn");
+                var totalWeight = baseShrineOfOrderCategorySelectionWeight + stackShrineOfOrderCategorySelectionWeight * (stack - 1);
 
-                                Main.ModLogger.LogError("shrine of order weight beforehand: " + cardIndex.selectionWeight);
-                                cardIndex.selectionWeight = Mathf.RoundToInt(cardIndex.selectionWeight * shrineOfOrderWeightMultiplier);
-                                Main.ModLogger.LogError("shrine of order weight AFTERRRRR: " + cardIndex.selectionWeight);
-                                break;
-                            }
-                        }
+                Array.Resize(ref self.interactableCategories.categories, self.interactableCategories.categories.Length + 1);
+                var newCategory = self.interactableCategories.categories[^1];
 
-                        if (hasShrineOfOrder)
-                        {
-                            Main.ModLogger.LogError("shrine category weight beforehand: " + categoryIndex.selectionWeight);
-                            categoryIndex.selectionWeight = Mathf.RoundToInt(categoryIndex.selectionWeight * shrineCategoryWeightMultiplier);
-                            Main.ModLogger.LogError("shrine category weight AFTERRRRR: " + categoryIndex.selectionWeight);
-                        }
-                    }
-                }
+                newCategory.name = "Sequenced Fate Shrine of Order";
+                newCategory.selectionWeight = totalWeight;
+
+                newCategory.cards = new DirectorCard[1];
+                newCategory.cards[0] = new DirectorCard { spawnCard = Paths.InteractableSpawnCard.iscShrineRestack, selectionWeight = 100 };
             }
         }
 
@@ -132,7 +109,6 @@ namespace Sandswept.Items.Whites
             var stack = GetCount(interactorBody);
             if (stack > 0 && interactorBody)
             {
-                stack = (int)Mathf.Min(stack, 100f / stackSelfOrderChance);
                 var inventory = interactorBody.inventory;
                 if (inventory)
                 {

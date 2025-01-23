@@ -291,7 +291,7 @@
 			<td><img src="https://i.postimg.cc/1RVSGrFJ/tex-Red-Spring-Water.png" width="96"></td>
 			<td>
 				<b>Red Spring Water</b><br>
-				Increase health regeneration by <b>0.6 hp/s</b>, plus an additional <b>0.6 hp/s (+0.6 hp/s per stack)</b> for every buff you have (diminishing returns scaling with buff count).
+				Increase health regeneration by <b>0.6 hp/s</b>, plus an additional <b>0.6 hp/s (+0.6 hp/s per stack)</b> for every unique buff you have (diminishing returns scaling with buff count).
 			</td>
 		</tr>
 		<tr>
@@ -329,7 +329,7 @@
 			<td><img src="https://i.postimg.cc/gcvrKYNH/tex-Sacrificial-Band.png" width="96"></td>
 			<td>
 				<b>Sacrificial Band</b><br>
-				Hits that deal more than <b>400%</b> damage also inflict <b>1 (+1 per stack)</b> bleeds on enemies for each <b>110%</b> of skill damage. Recharges every <b>10</b> seconds.
+				Hits that deal more than <b>400%</b> damage also inflict <b>1 (+1 per stack)</b> bleeds on enemies for each <b>110%</b> of damage dealt. Recharges every <b>10</b> seconds.
 			</td>
 		</tr>
 		<tr>

@@ -12,7 +12,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemPickupDesc => "Enemies are more numerous and more often elite. Chests can be re-opened additional times, but attract even more enemies and elites permanently.";
 
-        public override string ItemFullDescription => $"Enemies are $su{baseCombatDirectorCreditMultiplierGain * 100f}%$se more numerous and more often elite. Chests can be $sure-opened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but attract $su{baseOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain * 100f}% (+{stackOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain * 100f}% per stack)$se more enemies and elites $supermanently$se.".AutoFormat();
+        public override string ItemFullDescription => $"Enemies are $su{baseCombatDirectorCreditMultiplierGain * 100f}%$se more numerous and more often elite. Chests can be $sure-opened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but attract $su{baseOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain * 100f}%$se $ss(+{stackOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain * 100f}% per stack)$se more enemies and elites $supermanently$se.".AutoFormat();
 
         public override string ItemLore => "A large wine glass with a blue liquid inside it, its handle resembling a cross shape. Supposed to be a terrariar reference somewhat. You can do whatever with it";
 
@@ -25,7 +25,7 @@ namespace Sandswept.Items.Whites
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist };
 
         [ConfigField("Base Combat Director Credit Multiplier And Elite Bias Gain", "Decimal.", 0.5f)]
-        public static int baseCombatDirectorCreditMultiplierGain;
+        public static float baseCombatDirectorCreditMultiplierGain;
 
         [ConfigField("Base Extra Chest Interactions", "", 1)]
         public static int baseExtraChestInteractions;
@@ -34,10 +34,10 @@ namespace Sandswept.Items.Whites
         public static int stackExtraChestInteractions;
 
         [ConfigField("Base On Chest Re-open Combat Director Credit Multiplier And Elite Bias Gain", "Decimal.", 0.2f)]
-        public static int baseOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain;
+        public static float baseOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain;
 
         [ConfigField("Stack On Chest Re-open Combat Director Credit Multiplier And Elite Bias Gain", "Decimal.", 0.2f)]
-        public static int stackOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain;
+        public static float stackOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain;
 
         public float cachedCombatDirectorCreditMultiplier = -999f;
 
@@ -66,8 +66,8 @@ namespace Sandswept.Items.Whites
 
         private bool CombatDirector_Spawn(On.RoR2.CombatDirector.orig_Spawn orig, CombatDirector self, SpawnCard spawnCard, EliteDef eliteDef, Transform spawnTarget, DirectorCore.MonsterSpawnDistance spawnDistance, bool preventOverhead, float valueMultiplier, DirectorPlacementRule.PlacementMode placementMode)
         {
-            self.creditMultiplier = cachedCombatDirectorCreditMultiplier + permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().totalIncreases;
-            self.eliteBias = cachedCombatDirectorEliteBias + permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().totalIncreases;
+            self.creditMultiplier = cachedCombatDirectorCreditMultiplier + permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().totalIncreases - 1f;
+            self.eliteBias = cachedCombatDirectorEliteBias + permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().totalIncreases - 1f;
             return orig(self, spawnCard, eliteDef, spawnTarget, spawnDistance, preventOverhead, valueMultiplier, placementMode);
         }
 
@@ -89,6 +89,10 @@ namespace Sandswept.Items.Whites
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
             itemCount = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, false, true);
+            if (itemCount <= 0)
+            {
+                return;
+            }
 
             if (permanentHallowedIchorTracker.TryGetComponent<HallowedIchorController>(out var hallowedIchorController))
             {
@@ -118,6 +122,16 @@ namespace Sandswept.Items.Whites
                         return;
                     }
 
+                    var maxPurchases = 1 + baseExtraChestInteractions + stackExtraChestInteractions * (stack - 1);
+
+                    var chestPurchaseCounter = interactableObject.GetComponent<ChestPurchaseCounter>() ? interactableObject.GetComponent<ChestPurchaseCounter>() : interactableObject.AddComponent<ChestPurchaseCounter>();
+                    chestPurchaseCounter.openedCount++;
+
+                    if (chestPurchaseCounter.openedCount >= maxPurchases)
+                    {
+                        return;
+                    }
+
                     purchaseInteraction.StartCoroutine(SetRepurchaseAsAvailable(interactableObject));
                 }
             }
@@ -125,7 +139,7 @@ namespace Sandswept.Items.Whites
 
         public IEnumerator SetRepurchaseAsAvailable(GameObject interactableObject)
         {
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.25f);
 
             var chestBehavior = interactableObject.GetComponent<ChestBehavior>();
             if (!chestBehavior)
@@ -144,7 +158,7 @@ namespace Sandswept.Items.Whites
             entityStateMachine.SetNextState(new EntityStates.Barrel.Closing());
 
             // play vfx here ig
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.25f);
             // or here
 
             var purchaseInteraction = interactableObject.GetComponent<PurchaseInteraction>();
@@ -155,6 +169,7 @@ namespace Sandswept.Items.Whites
             }
 
             purchaseInteraction.SetAvailableTrue();
+            chestBehavior.NetworkisChestOpened = false;
             // idk if this is necessary but just in case >_<
         }
 
@@ -173,18 +188,19 @@ namespace Sandswept.Items.Whites
         }
     }
 
+    public class ChestPurchaseCounter : MonoBehaviour
+    {
+        public int openedCount = 0;
+    }
+
     public class HallowedIchorController : MonoBehaviour
     {
         public float totalIncreases = 0f;
 
-        public void Start()
-        {
-            totalIncreases = HallowedIchor.baseCombatDirectorCreditMultiplierGain;
-        }
-
         public void Recalculate(int itemCount)
         {
-            totalIncreases = HallowedIchor.baseCombatDirectorCreditMultiplierGain;
+            Main.ModLogger.LogError("hallowedichorcontroller recalculate called");
+            totalIncreases = 1f + HallowedIchor.baseCombatDirectorCreditMultiplierGain;
             var finalIncrease = HallowedIchor.baseOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain + HallowedIchor.stackOnChestReopenCombatDirectorCreditMultiplierAndEliteBiasGain * (itemCount - 1);
             for (int i = 0; i < itemCount; i++)
             {
