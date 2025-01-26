@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using MonoMod.RuntimeDetour;
+using RoR2.UI;
+using System.Collections;
 using System.Linq;
 
 namespace Sandswept.Items.Whites
@@ -10,9 +12,9 @@ namespace Sandswept.Items.Whites
 
         public override string ItemLangTokenName => "HALLOWED_ICHOR";
 
-        public override string ItemPickupDesc => "Chests can be re-opened additional times, but scale the difficulty even faster.";
+        public override string ItemPickupDesc => "Chests may be reopened an additional time... <color=#FF7F7F>BUT reopening them increases time scaling permanently.</color>";
 
-        public override string ItemFullDescription => $"Chests can be $sure-opened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but scale the difficulty $su{chestReopenDifficultyCoefficientMultiplierAdd * 100f}%$se faster.".AutoFormat();
+        public override string ItemFullDescription => $"Chests may be $sureopened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but $sureopening$se them increases $sutime scaling$se by $su{1f + (chestReopenDifficultyCoefficientMultiplierAdd * 3f)}x$se permanently.".AutoFormat(); // this will be inaccurate no matter what but this is somewhat accurate for the first use on monsoon lmao
 
         public override string ItemLore => "A large wine glass with a blue liquid inside it, its handle resembling a cross shape. Supposed to be a terrariar reference somewhat. You can do whatever with it";
 
@@ -30,17 +32,29 @@ namespace Sandswept.Items.Whites
         [ConfigField("Stack Extra Chest Interactions", "", 1)]
         public static int stackExtraChestInteractions;
 
-        [ConfigField("Chest Re-open Difficulty Coefficient Flat Add", "Adds to the current difficulty scaling value each time a chest is re-opened. This is calculated first.", 0.15f)]
+        [ConfigField("Chest Re-open Difficulty Coefficient Flat Add", "Adds to the current difficulty scaling value each time a chest is re-opened. This is calculated first.", 0.5f)]
         public static float chestReopenDifficultyCoefficientFlatAdd;
 
-        [ConfigField("Chest Re-open Difficulty Coefficient Multiplier Add", "Multiplies the current difficulty value by 1 + this value each time a chest is re-opened. This is calculated last.", 0.08f)]
+        [ConfigField("Chest Re-open Difficulty Coefficient Multiplier Add", "Multiplies the current difficulty value by 1 + this value each time a chest is re-opened. This is calculated last.", 0.12f)]
         public static float chestReopenDifficultyCoefficientMultiplierAdd;
 
         public static GameObject permanentHallowedIchorTracker;
 
-        public static float cachedDifficultyDefScalingValue = -696912345f;
+        public static float cachedDifficultyDefScalingValue = -1f;
 
         public static int itemCount = 0;
+
+        public static float currentDifficultyDefScalingValue = -1f;
+
+        public bool isScoreboardOpen = false;
+
+        private static Hook overrideHook;
+        private static Hook overrideHook2;
+
+        public static Color32 hallowedIchorBlue = new(156, 207, 255, 255);
+        public static Color32 cachedTimerColor = Color.white;
+
+        public static bool anyoneHadHallowedIchor = false;
 
         public override void Init(ConfigFile config)
         {
@@ -57,6 +71,93 @@ namespace Sandswept.Items.Whites
             GlobalEventManager.OnInteractionsGlobal += GlobalEventManager_OnInteractionsGlobal;
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
+            On.RoR2.UI.RunTimerUIController.Update += RunTimerUIController_Update;
+            On.RoR2.UI.RunTimerUIController.Start += RunTimerUIController_Start;
+            var targetMethod = typeof(ScoreboardController).GetMethod(nameof(ScoreboardController.OnEnable), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            var destMethod = typeof(HallowedIchor).GetMethod(nameof(OnScoreboardOpened), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            overrideHook = new Hook(targetMethod, destMethod, this);
+            targetMethod = typeof(ScoreboardController).GetMethod(nameof(ScoreboardController.OnDisable), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            destMethod = typeof(HallowedIchor).GetMethod(nameof(OnScoreboardClosed), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+            overrideHook2 = new Hook(targetMethod, destMethod, this);
+        }
+
+        private void RunTimerUIController_Start(On.RoR2.UI.RunTimerUIController.orig_Start orig, RunTimerUIController self)
+        {
+            orig(self);
+            if (self.runStopwatchTimerTextController.TryGetComponent<HGTextMeshProUGUI>(out var hgTextMeshProUGUI))
+            {
+                cachedTimerColor = hgTextMeshProUGUI.color;
+                var wobblyText = self.runStopwatchTimerTextController.AddComponent<FreakyText>();
+                wobblyText.enabled = false;
+            }
+        }
+
+        private void OnScoreboardOpened(Action<ScoreboardController> orig, ScoreboardController self)
+        {
+            isScoreboardOpen = true;
+            orig(self);
+        }
+
+        private void OnScoreboardClosed(Action<ScoreboardController> orig, ScoreboardController self)
+        {
+            isScoreboardOpen = false;
+            orig(self);
+        }
+
+        // the code may be unoptimized buuut it doesn't really take up performance
+        private void RunTimerUIController_Update(On.RoR2.UI.RunTimerUIController.orig_Update orig, RoR2.UI.RunTimerUIController self)
+        {
+            if (anyoneHadHallowedIchor)
+            {
+                double time = 0f;
+                var stopwatch = Run.instance.GetRunStopwatch();
+
+                if (Run.instance)
+                {
+                    var wobblyText = self.runStopwatchTimerTextController.GetComponent<FreakyText>();
+
+                    if (isScoreboardOpen)
+                    {
+                        wobblyText.enabled = false;
+                        time = stopwatch;
+                    }
+                    else
+                    {
+                        wobblyText.enabled = true;
+                        time = stopwatch * (currentDifficultyDefScalingValue / cachedDifficultyDefScalingValue);
+                        if (Util.CheckRoll(1.5f))
+                        {
+                            time *= -1f;
+                        }
+                    }
+                }
+
+                if (self.runStopwatchTimerTextController)
+                {
+                    self.runStopwatchTimerTextController.seconds = time;
+                    if (self.runStopwatchTimerTextController.TryGetComponent<HGTextMeshProUGUI>(out var hgTextMeshProUGUI))
+                    {
+                        if (isScoreboardOpen)
+                        {
+                            hgTextMeshProUGUI.color = cachedTimerColor;
+                        }
+                        else
+                        {
+                            hgTextMeshProUGUI.color = hallowedIchorBlue;
+                        }
+                    }
+                    return;
+                }
+
+                if (self.spriteAsNumberManager)
+                {
+                    self.spriteAsNumberManager.SetTimerValue((int)time);
+                }
+            }
+            else
+            {
+                orig(self);
+            }
         }
 
         private void Run_onRunDestroyGlobal(Run run)
@@ -70,11 +171,16 @@ namespace Sandswept.Items.Whites
         {
             var runDifficultyDef = DifficultyCatalog.GetDifficultyDef(run.selectedDifficulty);
             cachedDifficultyDefScalingValue = runDifficultyDef.scalingValue;
+            currentDifficultyDefScalingValue = cachedDifficultyDefScalingValue;
         }
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
             itemCount = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
+            if (itemCount > 0)
+            {
+                anyoneHadHallowedIchor = true;
+            }
         }
 
         private void GlobalEventManager_OnInteractionsGlobal(Interactor interactor, IInteractable interactable, GameObject interactableObject)
@@ -212,6 +318,62 @@ namespace Sandswept.Items.Whites
             var runDifficultyDef = DifficultyCatalog.GetDifficultyDef(Run.instance.selectedDifficulty);
             runDifficultyDef.scalingValue += flatIncrease;
             runDifficultyDef.scalingValue *= multiplier;
+            HallowedIchor.currentDifficultyDefScalingValue = runDifficultyDef.scalingValue;
+        }
+    }
+
+    public class FreakyText : MonoBehaviour
+    {
+        public HGTextMeshProUGUI HGTextMeshProUGUI;
+        public float timer;
+        public float updateInterval = 0.5f;
+        public float yMovementMultiplier = 3f;
+        public float xMovementMultiplier = 0.5f;
+
+        public void Start()
+        {
+            HGTextMeshProUGUI = GetComponent<HGTextMeshProUGUI>();
+        }
+
+        public void Update()
+        {
+            timer += Time.deltaTime;
+            if (timer >= updateInterval)
+            {
+                HGTextMeshProUGUI.ForceMeshUpdate();
+
+                var textInfo = HGTextMeshProUGUI.textInfo;
+
+                for (int i = 0; i < textInfo.characterCount; i++)
+                {
+                    var charInfo = textInfo.characterInfo[i];
+
+                    if (!charInfo.isVisible)
+                    {
+                        continue;
+                    }
+
+                    var verts = textInfo.meshInfo[charInfo.materialReferenceIndex].vertices;
+
+                    for (int j = 0; j < 4; ++j)
+                    {
+                        var orig = verts[charInfo.vertexIndex + j];
+
+                        verts[charInfo.vertexIndex + j] = orig + new Vector3(Mathf.Sin(Time.time * 2f + orig.x * 0.01f) * xMovementMultiplier, Mathf.Sin(Time.time * 2f + orig.x * 0.01f) * yMovementMultiplier, 0);
+                    }
+                }
+
+                for (int i = 0; i < textInfo.meshInfo.Length; ++i)
+                {
+                    var meshInfo = textInfo.meshInfo[i];
+
+                    meshInfo.mesh.vertices = meshInfo.vertices;
+
+                    HGTextMeshProUGUI.UpdateGeometry(meshInfo.mesh, i);
+                }
+
+                timer = 0f;
+            }
         }
     }
 }
