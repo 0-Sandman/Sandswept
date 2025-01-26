@@ -59,7 +59,7 @@ namespace Sandswept.Equipment.Lunar
         {
             orig(self);
 
-            Main.ModLogger.LogError("flawless design oninventorychanged called");
+            // Main.ModLogger.LogError("flawless design oninventorychanged called");
 
             if (self.inventory)
             {
