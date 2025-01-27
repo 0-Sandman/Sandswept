@@ -5,15 +5,15 @@ namespace Sandswept.Utils
 {
     public class VFXUtils
     {
-        public static void RecolorMaterialsAndLights(GameObject gameObject, Color32 primaryColor, Color32 emissionAndLightColor, bool fuckRamps)
+        public static void RecolorMaterialsAndLights(GameObject gameObject, Color32 primaryColor, Color32 emissionAndLightColor, bool convertRampsToGrayscale)
         {
             // for itself
-            RecolorMaterialsAndLightsInternal(gameObject, primaryColor, emissionAndLightColor, fuckRamps);
+            RecolorMaterialsAndLightsInternal(gameObject, primaryColor, emissionAndLightColor, convertRampsToGrayscale);
 
             // and for all children recursively
             foreach (Transform child in gameObject.transform.GetComponentsInChildren<Transform>())
             {
-                RecolorMaterialsAndLightsInternal(child.gameObject, primaryColor, emissionAndLightColor, fuckRamps);
+                RecolorMaterialsAndLightsInternal(child.gameObject, primaryColor, emissionAndLightColor, convertRampsToGrayscale);
             }
         }
 
@@ -31,7 +31,7 @@ namespace Sandswept.Utils
 
         private static void MultiplyScaleInternal(GameObject gameObject, float scaleMultiplier)
         {
-            if (gameObject.GetComponent<ParticleSystem>() == null && gameObject.GetComponent<LineRenderer>() == null)
+            if (gameObject.GetComponent<ParticleSystem>() == null && gameObject.GetComponent<LineRenderer>() == null && gameObject.GetComponent<TemporaryVisualEffect>() == null)
             {
                 gameObject.transform.localScale *= scaleMultiplier;
             }
@@ -53,6 +53,12 @@ namespace Sandswept.Utils
                 lineRenderer.startWidth *= scaleMultiplier;
                 lineRenderer.endWidth *= scaleMultiplier;
             }
+
+            foreach (TemporaryVisualEffect temporaryVisualEffect in gameObject.GetComponents<TemporaryVisualEffect>())
+            {
+                temporaryVisualEffect.radius *= scaleMultiplier;
+            }
+
             /*
             foreach (Tracer tracer in gameObject.GetComponents<Tracer>())
             {
@@ -61,7 +67,7 @@ namespace Sandswept.Utils
             */
         }
 
-        private static void RecolorMaterialsAndLightsInternal(GameObject gameObject, Color32 primaryColor, Color32 emissionAndLightColor, bool convertToGrayscaleColors)
+        private static void RecolorMaterialsAndLightsInternal(GameObject gameObject, Color32 primaryColor, Color32 emissionAndLightColor, bool convertRampsToGrayscale)
         {
             foreach (ParticleSystem particleSystem in gameObject.GetComponents<ParticleSystem>())
             {
@@ -95,7 +101,7 @@ namespace Sandswept.Utils
                         case "Hopoo Games/FX/Cloud Intersection Remap":
                             material.SetColor("_TintColor", primaryColor);
                             material.SetColor("_EmissionColor", emissionAndLightColor);
-                            if (convertToGrayscaleColors)
+                            if (convertRampsToGrayscale)
                             {
                                 material.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone);
                             }

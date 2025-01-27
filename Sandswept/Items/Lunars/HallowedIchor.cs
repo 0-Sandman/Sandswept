@@ -51,14 +51,25 @@ namespace Sandswept.Items.Whites
         private static Hook overrideHook;
         private static Hook overrideHook2;
 
-        public static Color32 hallowedIchorBlue = new(156, 207, 255, 255);
+        public static Color32 hallowedIchorBlue = new(124, 198, 255, 255);
         public static Color32 cachedTimerColor = Color.white;
 
         public static bool anyoneHadHallowedIchor = false;
 
+        public static GameObject vfx;
+
         public override void Init(ConfigFile config)
         {
             permanentHallowedIchorTracker = new GameObject("Hallowed Ichor Tracker", typeof(SetDontDestroyOnLoad), typeof(HallowedIchorController));
+
+            vfx = PrefabAPI.InstantiateClone(Paths.GameObject.LightningStrikeImpactEffect, "Hallowed Ichor VFX", false);
+            // VFXUtils.MultiplyScale(vfx, 0.5f);
+            VFXUtils.MultiplyDuration(vfx, 3f);
+            VFXUtils.AddLight(vfx, hallowedIchorBlue, 15f, 30f, 2f);
+            VFXUtils.RecolorMaterialsAndLights(vfx, new Color32(0, 114, 255, 255), hallowedIchorBlue, true);
+            vfx.transform.Find("Backdrop").localScale = Vector3.one * 0.15f;
+            vfx.transform.Find("Point light").gameObject.SetActive(false);
+            ContentAddition.AddEffect(vfx);
 
             CreateLang();
             CreateItem();
@@ -228,6 +239,11 @@ namespace Sandswept.Items.Whites
                 {
                     // Main.ModLogger.LogError("opened count is more than equal to max purchases, returning, cant drop item");
                     hallowedIchorChestController.canDropItem = false;
+                    if (interactableObject.TryGetComponent<Highlight>(out var highlight))
+                    {
+                        highlight.strength = 0f;
+                        highlight.isOn = false;
+                    }
                     return;
                 }
 
@@ -243,7 +259,23 @@ namespace Sandswept.Items.Whites
         public IEnumerator SetRepurchaseAsAvailable(GameObject interactableObject, HallowedIchorChestController hallowedIchorChestController)
         {
             // Main.ModLogger.LogError("setrepurchaseasavailable called");
+
+            var effectData = new EffectData()
+            {
+                rotation = Quaternion.identity,
+                origin = interactableObject.transform.position + new Vector3(0f, 3.5f, 0f),
+                scale = 1f
+            };
+
             yield return new WaitForSeconds(EntityStates.Barrel.Opening.duration);
+            EffectManager.SpawnEffect(vfx, effectData, true);
+            if (interactableObject.TryGetComponent<Highlight>(out var highlight))
+            {
+                highlight.highlightColor = Highlight.HighlightColor.custom;
+                highlight.CustomColor = hallowedIchorBlue;
+                highlight.strength = 1f;
+                highlight.isOn = true;
+            }
 
             var chestBehavior = interactableObject.GetComponent<ChestBehavior>();
             if (!chestBehavior)
@@ -262,18 +294,10 @@ namespace Sandswept.Items.Whites
             entityStateMachine.SetNextState(new EntityStates.Barrel.Closing());
 
             yield return new WaitForSeconds(EntityStates.Barrel.Closing.duration / 2f);
-            var effectData = new EffectData()
-            {
-                rotation = Quaternion.identity,
-                origin = interactableObject.transform.position,
-                start = interactableObject.transform.position,
-                scale = 3f
-            };
-            EffectManager.SpawnEffect(Paths.GameObject.LightningFlash, effectData, true);
+
             Util.PlaySound("Play_UI_item_land_command", interactableObject);
             Util.PlaySound("Play_UI_item_land_command", interactableObject);
             yield return new WaitForSeconds(EntityStates.Barrel.Closing.duration / 2f);
-            EffectManager.SpawnEffect(Paths.GameObject.LightningFlash, effectData, true);
 
             var purchaseInteraction = interactableObject.GetComponent<PurchaseInteraction>();
             if (!purchaseInteraction)
