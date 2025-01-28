@@ -27,14 +27,14 @@ namespace Sandswept.Survivors.Ranger.VFX
             tracerPrefabDefault = CreateTracerRecolor("Default", new Color32(0, 255, 183, 255), new Color32(51, 147, 234, 255));
             impactPrefabDefault = CreateImpactRecolor("Default", new Color32(23, 234, 129, 255), new Color32(23, 211, 148, 255));
 
-            tracerPrefabMajor = CreateTracerRecolor("Major", new Color32(95, 125, 209, 255), new Color32(51, 133, 234, 255));
-            impactPrefabMajor = CreateImpactRecolor("Major", new Color32(23, 124, 234, 255), new Color32(23, 83, 211, 255));
+            tracerPrefabMajor = CreateTracerRecolor("Major", new Color32(109, 95, 209, 255), new Color32(51, 63, 234, 255));
+            impactPrefabMajor = CreateImpactRecolor("Major", new Color32(23, 43, 234, 255), new Color32(35, 23, 211, 255));
 
             tracerPrefabRenegade = CreateTracerRecolor("Renegade", new Color32(219, 103, 159, 255), new Color32(246, 59, 183, 255));
             impactPrefabRenegade = CreateImpactRecolor("Renegade", new Color32(247, 32, 182, 255), new Color32(225, 34, 136, 255));
 
-            tracerPrefabMileZero = CreateTracerRecolor("Mile Zero", new Color32(209, 95, 95, 255), new Color32(234, 51, 84, 255));
-            impactPrefabMileZero = CreateImpactRecolor("Mile Zero", new Color32(234, 23, 68, 255), new Color32(211, 23, 33, 255));
+            tracerPrefabMileZero = CreateTracerRecolor("Mile Zero", new Color32(255, 0, 0, 255), new Color32(255, 0, 0, 255));
+            impactPrefabMileZero = CreateImpactRecolor("Mile Zero", new Color32(255, 0, 0, 255), new Color32(255, 0, 0, 255));
 
             tracerPrefabSandswept = CreateTracerRecolor("Sandswept", new Color32(214, 159, 79, 255), new Color32(150, 150, 150, 255));
             impactPrefabSandswept = CreateImpactRecolor("Sandswept", new Color32(214, 159, 79, 255), new Color32(150, 150, 150, 255));

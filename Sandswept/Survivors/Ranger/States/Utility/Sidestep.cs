@@ -47,7 +47,7 @@ namespace Sandswept.Survivors.Ranger.States.Utility
                     _ => SidestepVFX.dashMat2Default
                 };
                 var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
-                temporaryOverlay.duration = 0.9f;
+                temporaryOverlay.duration = 0.6f;
                 temporaryOverlay.animateShaderAlpha = true;
                 temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
                 temporaryOverlay.destroyComponentOnEnd = true;

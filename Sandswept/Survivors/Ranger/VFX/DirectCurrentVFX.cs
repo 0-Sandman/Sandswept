@@ -28,42 +28,42 @@ namespace Sandswept.Survivors.Ranger.VFX
         {
             ghostPrefabDefault = CreateGhostRecolor("Default", new Color32(0, 255, 167, 255), new Color32(0, 141, 197, 255), new Color32(111, 170, 151, 255));
 
-            impactPrefabDefault = CreateImpactRecolor("Default", new Color32(17, 17, 17, 255), new Color32(14, 32, 161, 255), new Color32(25, 67, 255, 255),
+            impactPrefabDefault = CreateImpactRecolor("Default", new Color32(34, 34, 34, 255), new Color32(14, 32, 161, 255), new Color32(25, 67, 255, 255),
                 new Color32(0, 108, 238, 255), new Color32(0, 57, 147, 255), new Color32(20, 255, 168, 255), new Color32(0, 133, 255, 255), new Color32(88, 229, 255, 255),
                 new Color32(54, 71, 214, 255), new Color32(58, 218, 219, 255), new Color32(255, 255, 255, 255), new Color32(39, 140, 144, 255), new Color32(49, 166, 180, 255),
                 new Color32(0, 255, 62, 255), new Color32(0, 255, 90, 255), 1.301445f, 0.07936508f);
 
-            ghostPrefabMajor = CreateGhostRecolor("Major", new Color32(0, 224, 255, 255), new Color32(0, 49, 197, 255), new Color32(100, 20, 217, 255));
+            ghostPrefabMajor = CreateGhostRecolor("Major", new Color32(43, 94, 134, 255), new Color32(0, 49, 197, 255), new Color32(100, 20, 217, 255));
 
-            impactPrefabMajor = CreateImpactRecolor("Major", new Color32(17, 17, 17, 255), new Color32(65, 14, 161, 255), new Color32(90, 25, 255, 255),
+            impactPrefabMajor = CreateImpactRecolor("Major", new Color32(34, 34, 34, 255), new Color32(65, 14, 161, 255), new Color32(90, 25, 255, 255),
                 new Color32(3, 0, 238, 255), new Color32(12, 0, 147, 255), new Color32(34, 20, 255, 255), new Color32(0, 14, 255, 255), new Color32(88, 151, 255, 255),
                 new Color32(112, 54, 214, 255), new Color32(95, 65, 243, 255), new Color32(255, 255, 255, 255), new Color32(96, 71, 255, 255),
                 new Color32(49, 105, 180, 255), new Color32(193, 67, 184, 255), new Color32(108, 0, 255, 255));
 
             ghostPrefabRenegade = CreateGhostRecolor("Renegade", new Color32(219, 51, 232, 255), new Color32(187, 0, 197, 255), new Color32(217, 20, 98, 255));
 
-            impactPrefabRenegade = CreateImpactRecolor("Renegade", new Color32(17, 17, 17, 255), new Color32(161, 14, 81, 255), new Color32(255, 25, 144, 255),
+            impactPrefabRenegade = CreateImpactRecolor("Renegade", new Color32(34, 34, 34, 255), new Color32(161, 14, 81, 255), new Color32(255, 25, 144, 255),
                 new Color32(238, 0, 187, 255), new Color32(147, 0, 106, 255), new Color32(255, 20, 194, 255), new Color32(255, 0, 218, 255), new Color32(225, 88, 255, 255),
                 new Color32(214, 54, 124, 255), new Color32(85, 65, 243, 255), new Color32(255, 255, 255, 255), new Color32(255, 71, 193, 255),
                 new Color32(150, 49, 180, 255), new Color32(234, 44, 85, 255), new Color32(255, 0, 38, 255), 0.9672766f, 0.1169591f);
 
             ghostPrefabMileZero = CreateGhostRecolor("Mile Zero", new Color32(255, 0, 50, 255), new Color32(197, 0, 13, 255), new Color32(217, 21, 20, 255));
 
-            impactPrefabMileZero = CreateImpactRecolor("Mile Zero", new Color32(17, 17, 17, 255), new Color32(167, 0, 0, 255), new Color32(255, 0, 3, 255),
+            impactPrefabMileZero = CreateImpactRecolor("Mile Zero", new Color32(34, 34, 34, 255), new Color32(167, 0, 0, 255), new Color32(255, 0, 3, 255),
                 new Color32(250, 0, 0, 255), new Color32(154, 0, 0, 255), new Color32(255, 0, 0, 255), new Color32(255, 0, 0, 255), new Color32(255, 19, 19, 255),
                 new Color32(216, 31, 25, 255), new Color32(255, 0, 0, 255), new Color32(255, 255, 255, 255), new Color32(255, 37, 39, 255),
                 new Color32(181, 25, 29, 255), new Color32(170, 5, 2, 255), new Color32(255, 0, 0, 255), 2.639934f, 0.1044277f);
 
             ghostPrefabRacecar = CreateGhostRecolor("Racecar", new Color32(0, 255, 248, 255), new Color32(0, 180, 197, 255), new Color32(111, 170, 170, 255));
 
-            impactPrefabRacecar = CreateImpactRecolor("Racecar", new Color32(17, 17, 17, 255), new Color32(14, 161, 158, 255), new Color32(25, 186, 255, 255),
+            impactPrefabRacecar = CreateImpactRecolor("Racecar", new Color32(34, 34, 34, 255), new Color32(14, 161, 158, 255), new Color32(25, 186, 255, 255),
                 new Color32(0, 211, 238, 255), new Color32(0, 113, 147, 255), new Color32(20, 190, 255, 255), new Color32(0, 214, 255, 255), new Color32(88, 229, 255, 255),
                 new Color32(54, 178, 214, 255), new Color32(243, 211, 65, 255), new Color32(255, 255, 255, 255), new Color32(39, 140, 144, 255), new Color32(49, 166, 180, 255),
                 new Color32(0, 255, 223, 255), new Color32(0, 255, 251, 255), 1.301445f, 0.07936508f);
 
             ghostPrefabSandswept = CreateGhostRecolor("Sandswept", new Color32(249, 197, 143, 255), new Color32(214, 159, 79, 255), new Color32(87, 87, 87, 255));
 
-            impactPrefabSandswept = CreateImpactRecolor("Sandswept", new Color32(17, 17, 17, 255), new Color32(214, 159, 79, 255), new Color32(249, 197, 143, 255),
+            impactPrefabSandswept = CreateImpactRecolor("Sandswept", new Color32(34, 34, 34, 255), new Color32(214, 159, 79, 255), new Color32(249, 197, 143, 255),
                 new Color32(214, 159, 79, 255), new Color32(255, 255, 255, 255), new Color32(150, 150, 150, 255), new Color32(255, 255, 255, 255), new Color32(87, 87, 87, 255),
                 new Color32(255, 255, 255, 255), new Color32(255, 255, 255, 255), new Color32(255, 255, 255, 255), new Color32(100, 70, 36, 255),
                 new Color32(59, 45, 23, 255), new Color32(214, 159, 79, 255), new Color32(249, 197, 143, 255));
@@ -193,6 +193,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var pointLight = trans.GetChild(11).GetComponent<Light>();
             pointLight.color = saturatedBlueEquivalent5;
+            pointLight.range = 5f;
 
             var matrixBillboard = trans.GetChild(12);
             var matrixBPS = matrixBillboard.GetComponent<ParticleSystem>().main.startColor;
@@ -265,10 +266,21 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var quad = mdl.GetChild(1).GetComponent<MeshRenderer>();
 
-            var newQuadMat = Object.Instantiate(Paths.Material.matLunarSunProjectile);
+            VFXUtils.AddLight(quad.gameObject, saturatedAquaEquivalent, 1.5f, 13f, 5f);
 
+            quad.transform.localScale = Vector3.one;
+            var setRandomScale = quad.GetComponent<SetRandomScale>();
+            setRandomScale.minimumScale = 0.75f;
+            setRandomScale.maximumScale = 1f;
+
+            var newQuadMat = new Material(Paths.Material.matLunarSunProjectile);
+
+            newQuadMat.SetColor("_Color", Color.white);
             newQuadMat.SetColor("_EmColor", green); // 0, 187, 255, 255
             newQuadMat.SetTexture("_FresnelRamp", fresnel);
+            newQuadMat.SetFloat("_EmPower", 4f);
+            newQuadMat.SetFloat("_FresnelPower", 1f);
+            newQuadMat.SetFloat("_FresnelBoost", 20f);
 
             quad.material = newQuadMat;
 
@@ -285,6 +297,9 @@ namespace Sandswept.Survivors.Ranger.VFX
             pop.color = green;
 
             var trail = particles.GetChild(3).GetComponent<TrailRenderer>();
+
+            VFXUtils.AddLight(trail.gameObject, saturatedAquaEquivalent, 1f, 26f, 5f);
+
             trail.startWidth = 0.6f;
             trail.endWidth = 0.25f;
             trail.widthMultiplier = 0.5f;
@@ -293,7 +308,7 @@ namespace Sandswept.Survivors.Ranger.VFX
             var newTrailMat = Object.Instantiate(Paths.Material.matLunarSunProjectileTrail);
 
             newTrailMat.SetTexture("_RemapTex", ramp);
-            newTrailMat.SetFloat("_Boost", 1f);
+            newTrailMat.SetFloat("_Boost", 7f);
             newTrailMat.SetFloat("_AlphaBoost", 4.710526f);
             newTrailMat.SetFloat("_AlphaBias", 0.3349282f);
             newTrailMat.SetTexture("_MainTex", Paths.Texture2D.texAlphaGradient1);
