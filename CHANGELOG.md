@@ -43,6 +43,7 @@
   - Improved Sacrificial Band VFX and SFX
   - Improved unlock description for Sun Fragment
   - Improved descriptions for some items
+  - Fixed Crown's Diamond NRE
 - Interactables
   - Added Delta Construct and Gamma Construct to Shrine of the Future
   - Added a few more buffs to Corrupted Catalyst
