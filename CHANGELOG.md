@@ -1,4 +1,4 @@
-## 1.0.8 Patch Notes
+# 1.1.0 Patch Notes
 - Ranger
   - Buffed Release Minimum Damage from 400% to 600%
   - Buffed Release Maximum Damage from 1600% to 1800%
@@ -10,7 +10,6 @@
   - Reworked Exhaust to fire 2-4 bursts, burst count scaling with heat
   - Reworked Heat Mechanic to be more manageable and intuitive
   - Improved Release VFX
-  - The focus of our next update is going to be Ranger - she is gonna be getting gameplay tweaks, more VFX and SFX improvements, a remodel, new rig and a second re-animation.
 - VOL-T
   - Reduced crosshair scale to from 100% to 85%
 - Enemies
