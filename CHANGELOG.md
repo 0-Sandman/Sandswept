@@ -1,4 +1,4 @@
-# 1.0.8 Patch Notes
+# 1.1.0 Patch Notes
 - Ranger
   - Buffed Release Minimum Damage from 400% to 600%
   - Buffed Release Maximum Damage from 1600% to 1800%
