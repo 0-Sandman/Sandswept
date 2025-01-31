@@ -9,15 +9,21 @@
   - Reworked Enflame to have lower fire rate, slightly lower damage, but gain fire rate, ignite chance and reduce its bullet range scaling with heat
   - Reworked Exhaust to fire 2-4 bursts, burst count scaling with heat
   - Reworked Heat Mechanic to be more manageable and intuitive
+  - Improved Direct Current VFX
   - Improved Release VFX
-  - The focus of our next update is going to be Ranger - she is gonna be getting gameplay tweaks, more VFX and SFX improvements, a remodel, new rig and a second re-animation.
+  - Ranger no longer has a constant seizure when she tries to move any direction except forward while using Enflame.
+  - Enflame is no longer agile.
+  - The focus of our upcoming updates is going to be Ranger - she is gonna be getting gameplay tweaks, more VFX and SFX improvements, a remodel, new rig and a second re-animation.
 - VOL-T
+  - Made Sigma Overload Self Damage unaffected by Eclipse 8
   - Reduced crosshair scale to from 100% to 85%
 - Enemies
+  - Nerfed Cannonball Jellyfish Base Damage from 15 to 12
   - Reduced Delta Construct Director Credit Cost from 150 to 130
   - Reduced Gamma Construct Director Credit Cost from 185 to 145
-  - Reduced Theta Construct Director Credit Cost from 140 to 105
-  - Fixed Theta Construct umm I forgot
+  - Reduced Theta Construct Director Credit Cost from 140 to 130
+  - Removed Theta Construct yuri blast, now just refunds its CD and force acquires a new target if it attempts to shield another Theta Construct
+  - Fixed Cannonball Jellyfish having a missing CM field (caused a whole host of issues from not having IDRS or elite overlays to the sillyitems conflict)
 - Elites
   - Buffed Motivating Passive Attack Speed Buff from 25% to 30%
   - Buffed Motivating Passive Movement Speed Buff from 25% to 30%
@@ -33,20 +39,22 @@
   - Buffed Red Spring Water Base Regen Per Buff from 0.4 to 0.6
   - Buffed Red Spring Water Stack Regen Per Buff from 0.4 to 0.6
   - Buffed Pocket Plutonium Pool Radius from 16m to 20m
-  - Buffed Universal VIP Pass Chance from 45% to 60%
+  - Buffed Universal VIP Pass Chance from 45% to 50%
   - Nerfed Red Spring Water to have diminishing returns scaling with buff count
   - Improved Amber Knife VFX and SFX
   - Improved Pocket Plutonium VFX
   - Improved Sacrificial Band VFX and SFX
   - Improved unlock description for Sun Fragment
   - Improved descriptions for some items
+  - Fixed Crown's Diamond NRE
 - Interactables
   - Added Delta Construct and Gamma Construct to Shrine of the Future
   - Added a few more buffs to Corrupted Catalyst
-  - Buffed Shrine of The Future enemy stats from 50% to 60%
+  - Buffed Shrine of The Future to spawn two enemies instead of one
   - Buffed Shrine of Ruin Combat Director Credit Multiplier from 200% to 250%
-  - Berfed Shrine of Ruin Scene Director Interactable Credits behavior - now sets them to 200
+  - Berfed Shrine of Ruin Scene Director Interactable Credits behavior - now sets them to 220
   - Fixed Shrine of Ruin spawning a standard teleporter on stage 5
+  - Fixed NREs
   - Made Shrine of Ruin not ignore scrap (but also not prioritize it)
 
 ## 1.0.7 Patch Notes

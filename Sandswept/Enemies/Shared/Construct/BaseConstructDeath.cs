@@ -3,100 +3,31 @@ using R2API.Utils;
 
 namespace Sandswept.Enemies
 {
-    public class BaseConstructDeath : BaseState
+    public class BaseConstructDeath : GenericCharacterDeath
     {
         public static LazyAddressable<GameObject> DeathEffect = new(() => Paths.GameObject.ExplosionMinorConstruct);
-        private static readonly float bodyPreservationDuration = 1f;
 
-        private static readonly float hardCutoffDuration = 10f;
-
-        private static readonly float maxFallDuration = 4f;
-
-        private static readonly float minTimeToKeepBodyForNetworkMessages = 0.5f;
-
-        public static GameObject voidDeathEffect;
-
-        private float restStopwatch;
-
-        private float fallingStopwatch;
-
-        private bool bodyMarkedForDestructionServer;
-
-        private CameraTargetParams.AimRequest aimRequest;
-
-        protected Transform cachedModelTransform { get; private set; }
-
-        protected bool isBrittle { get; private set; }
-
-        protected bool isVoidDeath { get; private set; }
-
-        protected bool isPlayerDeath { get; private set; }
-
-        protected virtual bool shouldAutoDestroy => true;
-
-        protected virtual float GetDeathAnimationCrossFadeDuration()
+        public override void CreateDeathEffects()
         {
-            return 0.1f;
-        }
+            base.CreateDeathEffects();
 
-        public override void OnEnter()
-        {
-            base.OnEnter();
-            bodyMarkedForDestructionServer = true;
-            cachedModelTransform = (base.modelLocator ? base.modelLocator.modelTransform : null);
-            isBrittle = (bool)base.characterBody && base.characterBody.isGlass;
-            isVoidDeath = (bool)base.healthComponent && (base.healthComponent.killingDamageType & DamageType.VoidDeath) != 0;
-            isPlayerDeath = (bool)base.characterBody.master && base.characterBody.master.GetComponent<PlayerCharacterMasterController>() != null;
-            if (isVoidDeath)
+            characterBody.modelLocator.autoUpdateModelTransform = false;
+            cachedModelTransform.parent = null;
+
+            var boxes = cachedModelTransform.GetComponentsInChildren<HurtBox>(true);
+            for (int i = 0; i < boxes.Length; i++) {
+                boxes[i].enabled = false;
+                boxes[i].gameObject.SetActive(false);
+            }
+            cachedModelTransform.GetComponent<RagdollController>().BeginRagdoll(Vector3.one * -5f);
+
+            EffectManager.SpawnEffect(DeathEffect, new EffectData
             {
-                if ((bool)base.characterBody && base.isAuthority)
-                {
-                    EffectManager.SpawnEffect(voidDeathEffect, new EffectData
-                    {
-                        origin = base.characterBody.corePosition,
-                        scale = base.characterBody.bestFitRadius
-                    }, transmit: true);
-                }
-                if ((bool)cachedModelTransform)
-                {
-                    EntityState.Destroy(cachedModelTransform.gameObject);
-                    cachedModelTransform = null;
-                }
-            }
-            else
-            {
-                base.GetModelTransform().parent = null;
-                base.GetModelTransform().AddComponent<DestroyOnTimer>().duration = 15f;
-                var boxes = base.GetModelTransform().GetComponentsInChildren<HurtBox>(true);
-                for (int i = 0; i < boxes.Length; i++) {
-                    boxes[i].enabled = false;
-                    boxes[i].gameObject.SetActive(false);
-                }
-                base.GetModelTransform().GetComponent<RagdollController>().BeginRagdoll(Vector3.zero);
-                cachedModelTransform = null;
+                origin = base.characterBody.corePosition,
+                scale = base.characterBody.bestFitRadius * 2f,
+            }, false);
 
-                EffectManager.SpawnEffect(DeathEffect, new EffectData
-                {
-                    origin = base.characterBody.corePosition,
-                    scale = base.characterBody.bestFitRadius * 2f,
-                }, false);
-
-                Util.PlaySound("Play_minorConstruct_attack_explode", base.gameObject);
-            }
-        }
-
-        public override void FixedUpdate()
-        {
-            base.FixedUpdate();
-            
-            if (base.fixedAge >= 1f && NetworkServer.active) {
-                Destroy(base.gameObject);
-            }
-        }
-
-        public override InterruptPriority GetMinimumInterruptPriority()
-        {
-            return InterruptPriority.Death;
+            Util.PlaySound("Play_minorConstruct_attack_explode", base.gameObject);
         }
     }
 }

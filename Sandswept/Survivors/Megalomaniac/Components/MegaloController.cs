@@ -44,7 +44,7 @@ namespace Sandswept.Survivors.Megalomaniac {
                         damage.crit = false;
                         damage.position = base.transform.position;
                         damage.damageType = DamageType.Silent | DamageType.BypassBlock | DamageType.NonLethal | DamageType.BypassArmor;
-                        damage.AddModdedDamageType(Main.HeatSelfDamage);
+                        damage.AddModdedDamageType(Main.eclipseSelfDamage);
                         body.healthComponent.TakeDamage(damage);
                     }    
                 }

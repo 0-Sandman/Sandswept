@@ -11,16 +11,19 @@
   - Reworked Heat Mechanic to be more manageable and intuitive
   - Improved Direct Current VFX
   - Improved Release VFX
+  - Ranger no longer has a constant seizure when she tries to move any direction except forward while using Enflame.
+  - Enflame is no longer agile.
   - The focus of our upcoming updates is going to be Ranger - she is gonna be getting gameplay tweaks, more VFX and SFX improvements, a remodel, new rig and a second re-animation.
 - VOL-T
-  - Made Sigma Overload Self Damage unaffected by Eclipse 8
+  - Made Signal Overload Self Damage unaffected by Eclipse 8
   - Reduced crosshair scale to from 100% to 85%
 - Enemies
   - Nerfed Cannonball Jellyfish Base Damage from 15 to 12
   - Reduced Delta Construct Director Credit Cost from 150 to 130
   - Reduced Gamma Construct Director Credit Cost from 185 to 145
   - Reduced Theta Construct Director Credit Cost from 140 to 130
-  - Fixed Theta Construct umm I forgot
+  - Removed Theta Construct yuri blast, now just refunds its CD and force acquires a new target if it attempts to shield another Theta Construct
+  - Fixed Cannonball Jellyfish having a missing CM field (caused a whole host of issues from not having IDRS or elite overlays to the sillyitems conflict)
 - Elites
   - Buffed Motivating Passive Attack Speed Buff from 25% to 30%
   - Buffed Motivating Passive Movement Speed Buff from 25% to 30%
