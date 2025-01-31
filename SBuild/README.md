@@ -187,8 +187,8 @@
 		<tr>
 			<td><img src="https://i.postimg.cc/Px5Q36cQ/tex-Motivator-Buff2.png" width="64"/></td>
 			<td>
-				<b>Motivator T1</b><br>
-				Passively carries a warbanner that grants all allies and itself <b>25%</b> movement speed and <b>25%</b> attack speed in a <b>20m</b> radius. On hit, increases all ally attack speed by <b>25%</b> in a <b>20m</b> radius for <b>4s</b>.<br>
+				<b>Motivating T1</b><br>
+				Passively carries a warbanner that grants all allies and itself <b>30%</b> movement speed and <b>30%</b> attack speed in a <b>20m</b> radius. On hit, increases all ally attack speed by <b>30%</b> in a <b>20m</b> radius for <b>4s</b>.<br>
 			</td>
 		</tr>
 		<tr>
@@ -284,14 +284,14 @@
 			<td><img src="https://i.postimg.cc/sfH2YN1y/tex-Fractured-Timepiece.png" width="96"></td>
 			<td>
 				<b>Fractured Timepiece</b><br>
-				Upon using your utility skill, heal for <b>5% (+5% per stack)</b> of your maximum health and reduce special skill cooldown by <b>15%</b>.
+				Upon using your Utility skill, heal for <b>5% (+5% per stack)</b> of your maximum health and reduce Special skill cooldown by <b>15%</b>.
 			</td>
 		</tr>
 		<tr>
 			<td><img src="https://i.postimg.cc/1RVSGrFJ/tex-Red-Spring-Water.png" width="96"></td>
 			<td>
 				<b>Red Spring Water</b><br>
-				Increase health regeneration by <b>0.6 hp/s</b>, plus an additional <b>0.6 hp/s (+0.6 hp/s per stack)</b> for every buff you have (diminishing returns scaling with buff count).
+				Increase health regeneration by <b>0.6 hp/s</b>, plus an additional <b>0.6 hp/s (+0.6 hp/s per stack)</b> for every unique buff you have (diminishing returns scaling with buff count).
 			</td>
 		</tr>
 		<tr>
@@ -322,14 +322,14 @@
 			<td><img src="https://i.postimg.cc/1XN5VLQJ/tex-Pocket-Plutonium.png" width="96"></td>
 			<td>
 				<b>Pocket Plutonium</b><br>
-				Gain a shield equal to <b>10%</b> of your maximum health. Upon losing all shield, create a nuclear pool in a <b>16m</b> area that deals <b>750% (+750% per stack)</b> base damage, plus an additional <b>250% (+250% per stack)</b> of shields.
+				Gain a shield equal to <b>10%</b> of your maximum health. Upon losing all shield, create a nuclear pool in a <b>20m</b> area that deals <b>750% (+750% per stack)</b> base damage, plus an additional <b>250% (+250% per stack)</b> of shields.
 			</td>
 		</tr>
 		<tr>
 			<td><img src="https://i.postimg.cc/gcvrKYNH/tex-Sacrificial-Band.png" width="96"></td>
 			<td>
 				<b>Sacrificial Band</b><br>
-				Hits that deal more than <b>400%</b> damage also inflict <b>1 (+1 per stack)</b> bleeds on enemies for each <b>110%</b> of skill damage. Recharges every <b>10</b> seconds.
+				Hits that deal more than <b>400%</b> damage also inflict <b>1 (+1 per stack)</b> bleeds on enemies for each <b>110%</b> of damage dealt. Recharges every <b>10</b> seconds.
 			</td>
 		</tr>
 		<tr>
@@ -391,7 +391,7 @@
 			<td><img src="https://i.postimg.cc/rp3zfsBQ/tex-Torn-Feather.png" width="96"></td>
 			<td>
 				<b>Torn Feather</b><br>
-				Tap Interact to perform an omni-directional dash. Can dash twice until hitting the ground. Gain <b>20% (+35% per stack)</b> movement speed.
+				Tap Interact to perform an omni-directional dash. Can dash twice before hitting the ground. Gain <b>20% (+35% per stack)</b> movement speed.
 			</td>
 		</tr>
 		<tr>
