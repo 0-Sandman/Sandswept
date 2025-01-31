@@ -1,20 +1,21 @@
-﻿using IL.RoR2.EntitlementManagement;
+﻿/*
+using IL.RoR2.EntitlementManagement;
 using RoR2.Items;
 
 namespace Sandswept.Items.Whites
 {
-    [ConfigSection("Items :: Mayas Veil")]
-    internal class MayasVeil : ItemBase<MayasVeil>
+    [ConfigSection("Items :: Dissonant Veil")]
+    internal class DissonantVeil : ItemBase<DissonantVeil>
     {
-        public override string ItemName => "Maya's Veil";
+        public override string ItemName => "Dissonant Veil";
 
-        public override string ItemLangTokenName => "MAYAS_VEIL";
+        public override string ItemLangTokenName => "DISSONANT_VEIL";
 
         public override string ItemPickupDesc => "Cloak upon using your Equipment. Being cloaked immediately exits combat and danger. Recharges over time.";
 
         public override string ItemFullDescription => $"Upon using your $suEquipment$se, become $sucloaked$se for $su{cloakBuffDuration}s$se. While $sucloaked$se, $suexit$se combat and danger. Recharges every $su{baseRechargeTime} seconds$se $ss(-{stackRechargeTime * 100f}% per stack)$se.".AutoFormat();
 
-        public override string ItemLore => "item name is wip and so is the theme";
+        public override string ItemLore => "item name is no longer wip but no idea about the visual design lol";
 
         public override ItemTier Tier => ItemTier.Tier1;
 
@@ -129,3 +130,4 @@ namespace Sandswept.Items.Whites
         }
     }
 }
+*/

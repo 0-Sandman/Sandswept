@@ -64,7 +64,7 @@ namespace Sandswept.Interactables.Regular
         [ConfigField("Combat Director Credit Multiplier", "", 2.5f)]
         public static float combatDirectorCreditMultiplier;
 
-        [ConfigField("Scene Director Interactable Credits", "", 200)]
+        [ConfigField("Scene Director Interactable Credits", "", 220)]
         public static int sceneDirectorInteractableCredits;
 
         public static GameObject shrineVFX;

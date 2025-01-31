@@ -62,17 +62,19 @@ namespace Sandswept.Survivors.Electrician.States
 
                         if (NetworkServer.active)
                         {
-                            healthComponent.TakeDamage(
-                                new DamageInfo
-                                {
-                                    position = transform.position,
-                                    damage = shieldToDrain,
-                                    procCoefficient = 0f,
-                                    damageType = DamageType.NonLethal | DamageType.BypassArmor | DamageType.BypassBlock,
-                                    damageColorIndex = DamageColorIndex.Luminous,
-                                    attacker = null
-                                }
-                            );
+                            var damageInfo = new DamageInfo
+                            {
+                                position = transform.position,
+                                damage = shieldToDrain,
+                                procCoefficient = 0f,
+                                damageType = DamageType.NonLethal | DamageType.BypassArmor | DamageType.BypassBlock,
+                                damageColorIndex = DamageColorIndex.Luminous,
+                                attacker = null
+                            };
+
+                            damageInfo.AddModdedDamageType(Main.eclipseSelfDamage);
+
+                            healthComponent.TakeDamage(damageInfo);
                         }
                     }
                 }

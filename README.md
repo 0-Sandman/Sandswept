@@ -226,7 +226,7 @@
 			<td>
 				<b>Shrine of Ruin</b><br>
 				Sacrifice <b>10</b> random common items to corrupt the next stage, making it a simulacrum variant that exclusively drops void items and spawns void enemies.<br>
-				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 2, costs 10 credits. The combat director gets <b>150%</b> more credits and interactable credits are set to <b>200</b>.
+				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 2, costs 10 credits. The combat director gets <b>150%</b> more credits and interactable credits are set to <b>220</b>.
 			</td>
 		</tr>
 		<tr>
@@ -241,7 +241,7 @@
 			<td><img src="https://i.postimg.cc/Bv3RF8Zg/tex-Shrine-Of-The-Future.png" width="64"/></td>
 			<td>
 				<b>Shrine of The Future</b><br>
-				Summon a random <b>Tier 2 Elite Miniboss</b> with reduced stats that, upon being defeated, drops <b>3</b> item potentials per player.<br>
+				Summon two random <b>Tier 2 Elite Minibosses</b> with halved stats that, upon being defeated, drops <b>3</b> item potentials per player.<br>
 				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 3 and &le; 11, costs 35 credits. Item potentials have a choice between a random white and a random green.
 			</td>
 		</tr>
@@ -350,7 +350,7 @@
 			<td><img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"></td>
 			<td>
 				<b>Universal VIP Pass</b><br>
-				Category chests have a <b>60%</b> chance of dropping <b>1 (+1 per stack)</b> extra items.
+				Category chests have a <b>50%</b> chance of dropping <b>1 (+1 per stack)</b> extra items.
 			</td>
 		</tr>
 		<tr>

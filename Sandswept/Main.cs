@@ -64,7 +64,7 @@ namespace Sandswept
         public static AssetBundle hifuSandswept;
         public static AssetBundle dgoslingAssets;
 
-        public static ModdedDamageType HeatSelfDamage = ReserveDamageType();
+        public static ModdedDamageType eclipseSelfDamage = ReserveDamageType();
 
         public static ExpansionDef SOTV;
         public static ExpansionDef SandsweptExpansionDef;
@@ -135,6 +135,8 @@ namespace Sandswept
             prodAssets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // MFS I SAID MERGE INTO OTHER ASSETS // nuh uh :3c
             hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
             dgoslingAssets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "dgoslingstuff"));
+
+            Survivors.SelfDamageHook.Init();
 
             // Based.Init();
 

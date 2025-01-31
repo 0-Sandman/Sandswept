@@ -278,7 +278,7 @@ namespace Sandswept.Survivors.Ranger.VFX
             newQuadMat.SetColor("_Color", Color.white);
             newQuadMat.SetColor("_EmColor", green); // 0, 187, 255, 255
             newQuadMat.SetTexture("_FresnelRamp", fresnel);
-            newQuadMat.SetFloat("_EmPower", 4f);
+            newQuadMat.SetFloat("_EmPower", 3f);
             newQuadMat.SetFloat("_FresnelPower", 1f);
             newQuadMat.SetFloat("_FresnelBoost", 20f);
 

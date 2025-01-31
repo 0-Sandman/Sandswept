@@ -18,7 +18,6 @@ namespace Sandswept.Survivors
 
             RangerVFX.Init();
             EliteVFX.Init();
-            Eclipse8.Init();
 
             DirectCurrent.Init();
             TheFuckingBFG.Init();
