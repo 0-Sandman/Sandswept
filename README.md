@@ -46,7 +46,7 @@
     <tr>
       <td><img src="https://i.postimg.cc/TwM8hGL6/image2.png" width="64"/></td>
       <td><b>Secondary:</b> Release<br>
-          Lose all Charge. Fire a piercing blast for 600% damage, increasing up to 1600% at full Charge.</td>
+          Lose all Charge. Fire a piercing blast for 600% damage, increasing up to 1800% at full Charge.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/JhgLFXHk/b1.png" width="64"/></td>
