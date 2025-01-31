@@ -163,7 +163,7 @@ namespace Sandswept.Survivors.Ranger
                 force = Vector3.zero
             };
 
-            info.AddModdedDamageType(Main.HeatSelfDamage);
+            info.AddModdedDamageType(Main.eclipseSelfDamage);
 
             if (NetworkServer.active)
             {

@@ -23,33 +23,33 @@ namespace Sandswept.Survivors.Ranger.VFX
 
         public static void Init()
         {
-            dashMat1Default = CreateMat1Recolor(new Color32(3, 191, 100, 255));
+            dashMat1Default = CreateMat1Recolor(new Color32(2, 126, 7, 255));
 
-            dashMat2Default = CreateMat2Recolor(new Color32(0, 148, 74, 255));
-
-            //
-
-            dashMat1Major = CreateMat1Recolor(new Color32(70, 56, 204, 255));
-
-            dashMat2Major = CreateMat2Recolor(new Color32(65, 61, 170, 255));
+            dashMat2Default = CreateMat2Recolor(new Color32(0, 127, 64, 255));
 
             //
 
-            dashMat1Renegade = CreateMat1Recolor(new Color32(204, 56, 182, 255));
+            dashMat1Major = CreateMat1Recolor(new Color32(46, 37, 135, 255));
 
-            dashMat2Renegade = CreateMat2Recolor(new Color32(170, 54, 155, 255));
-
-            //
-
-            dashMat1MileZero = CreateMat1Recolor(new Color32(191, 3, 6, 255));
-
-            dashMat2MileZero = CreateMat2Recolor(new Color32(148, 0, 5, 255));
+            dashMat2Major = CreateMat2Recolor(new Color32(56, 52, 146, 255));
 
             //
 
-            dashMat1Sandswept = CreateMat1Recolor(new Color32(214, 159, 79, 255));
+            dashMat1Renegade = CreateMat1Recolor(new Color32(135, 37, 121, 255));
 
-            dashMat2Sandswept = CreateMat2Recolor(new Color32(148, 112, 59, 255));
+            dashMat2Renegade = CreateMat2Recolor(new Color32(146, 46, 133, 255));
+
+            //
+
+            dashMat1MileZero = CreateMat1Recolor(new Color32(126, 2, 4, 255));
+
+            dashMat2MileZero = CreateMat2Recolor(new Color32(127, 0, 4, 255));
+
+            //
+
+            dashMat1Sandswept = CreateMat1Recolor(new Color32(142, 105, 52, 255));
+
+            dashMat2Sandswept = CreateMat2Recolor(new Color32(127, 96, 51, 255));
         }
 
         public static Material CreateMat1Recolor(Color32 blueEquivalent)

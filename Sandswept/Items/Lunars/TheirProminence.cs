@@ -36,9 +36,24 @@ namespace Sandswept.Items.Whites
         [ConfigField("Stack Chance", "Decimal.", 0.15f)]
         public static float stackChance;
 
+        [ConfigField("Count stacks as global?", "This makes everyone able to proc Their Prominence if any player has it, and stacks add to a global counter instead.", true)]
+        public static bool countStacksAsGlobal;
+
+        public static int itemCount;
+
         public override void Hooks()
         {
+            if (countStacksAsGlobal)
+            {
+                CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
+            }
+
             GlobalEventManager.OnInteractionsGlobal += GlobalEventManager_OnInteractionsGlobal;
+        }
+
+        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
+        {
+            itemCount = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
         }
 
         private void GlobalEventManager_OnInteractionsGlobal(Interactor interactor, IInteractable interactable, GameObject interactableObject)
@@ -46,6 +61,10 @@ namespace Sandswept.Items.Whites
             if (interactor.TryGetComponent<CharacterBody>(out var interactorBody))
             {
                 var stack = GetCount(interactorBody);
+                if (countStacksAsGlobal)
+                {
+                    stack = itemCount;
+                }
                 if (stack <= 0)
                 {
                     return;

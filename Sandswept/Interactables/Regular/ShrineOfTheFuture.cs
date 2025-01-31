@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Utilities;
+﻿using IL.RoR2.UI;
+using Newtonsoft.Json.Utilities;
 using RoR2.ExpansionManagement;
 using Sandswept.Enemies.DeltaConstruct;
 using Sandswept.Enemies.GammaConstruct;
@@ -37,14 +38,20 @@ namespace Sandswept.Interactables.Regular
 
         public static GameObject shrineVFX;
 
+        [ConfigField("Enemy Count", "", 2)]
+        public static int enemyCount;
+
         [ConfigField("Director Credit Cost", "", 35)]
         public static int directorCreditCost;
 
         [ConfigField("Item Count Per Player", "", 3)]
         public static int itemCount;
 
-        [ConfigField("Enemy Stats Multiplier", "", 0.6f)]
+        [ConfigField("Enemy Stats Multiplier", "", 0.5f)]
         public static float enemyStatsMultiplier;
+
+        [ConfigField("Max Stage To Spawn On", "", 11)]
+        public static int maxStageToSpawnOn;
 
         public override void Init()
         {
@@ -187,7 +194,7 @@ namespace Sandswept.Interactables.Regular
         private void ClassicStageInfo_RebuildCards(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self, DirectorCardCategorySelection forcedMonsterCategory, DirectorCardCategorySelection forcedInteractableCategory)
         {
             orig(self, forcedMonsterCategory, forcedInteractableCategory);
-            if (Run.instance && Run.instance.stageClearCount >= 11)
+            if (Run.instance && Run.instance.stageClearCount >= maxStageToSpawnOn)
             {
                 self.interactableCategories.RemoveCardsThatFailFilter(x => x.spawnCard != interactableSpawnCard);
             }
@@ -253,13 +260,13 @@ namespace Sandswept.Interactables.Regular
             combatSquad.onMemberAddedServer += CombatSquad_onMemberAddedServer;
             combatSquad.onDefeatedServer += CombatSquad_onDefeatedServer;
 
-            var randomIndex1 = scriptedCombatEncounter.spawns[Run.instance.stageRng.RangeInt(0, scriptedCombatEncounter.spawns.Length)];
-            // var randomIndex2 = scriptedCombatEncounter.spawns[Run.instance.stageRng.RangeInt(0, scriptedCombatEncounter.spawns.Length)];
+            List<ScriptedCombatEncounter.SpawnInfo> spawns = new();
+            for (int i = 0; i < ShrineOfTheFuture.enemyCount; i++)
+            {
+                spawns.Add(scriptedCombatEncounter.spawns[Run.instance.stageRng.RangeInt(0, scriptedCombatEncounter.spawns.Length)]);
+            }
 
-            // ScriptedCombatEncounter.SpawnInfo[] randomSpawn = new ScriptedCombatEncounter.SpawnInfo[2] { randomIndex1, randomIndex2 };
-            ScriptedCombatEncounter.SpawnInfo[] randomSpawn = new ScriptedCombatEncounter.SpawnInfo[1] { randomIndex1 };
-
-            scriptedCombatEncounter.spawns = randomSpawn;
+            scriptedCombatEncounter.spawns = spawns.ToArray();
         }
 
         public Dictionary<EliteDef, EquipmentIndex> GetRandomT2EliteDefToEquipmentIndexPair()

@@ -4,9 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Sandswept.Survivors.Ranger.Hooks
+namespace Sandswept.Survivors
 {
-    public static class Eclipse8
+    public static class SelfDamageHook
     {
         public static void Init()
         {
@@ -24,7 +24,7 @@ namespace Sandswept.Survivors.Ranger.Hooks
                 c.Emit(OpCodes.Ldarg_1);
                 c.EmitDelegate<Func<float, DamageInfo, float>>((orig, self) =>
                 {
-                    if (self.HasModdedDamageType(Main.HeatSelfDamage))
+                    if (self.HasModdedDamageType(Main.eclipseSelfDamage))
                     {
                         return 0f;
                     }

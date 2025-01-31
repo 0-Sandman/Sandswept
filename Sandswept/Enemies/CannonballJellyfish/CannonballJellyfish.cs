@@ -39,6 +39,8 @@ namespace Sandswept.Enemies.CannonballJellyfish
 
             master.bodyPrefab = prefab;
             body.baseNameToken.Add("Cannonball Jellyfish");
+            body.baseDamage = 12f;
+            body.levelDamage = 2.4f;
             var loreToken = body.baseNameToken.Replace("_NAME", "_LORE");
             loreToken.Add("<style=cMono>Welcome to DataScraper (v3.1.53 - beta branch)\r\n$ Scraping memory… done.\r\n$ Resolving… done.\r\n$ Combing for relevant data… done.\r\nComplete!\r\n\r\n</style>UES incident report: Incident 193442\r\nTwo personnel reported seeing a Petrichorpus Scyphozoa inside a cabin of the Safe Travels rescue ship. After ‘terminating’ it, it was identified as a new species, unrelated to Petrichorpus Scyphozoa entirely. \r\nBegin Transcript…\r\n\r\n\"W-why is there a [redacted] jellyfish, in the [redacted] CABIN?!\"\r\n\r\n\"I-I don't know! H-How am I supposed to know?!\"\r\n\r\n\"You’re the [redacted] xenobiologist! I thought you had a book about this stuff?!\"\r\n\r\n\"L-look! It’s back in my quarters… Also… aren't those Petrichorian jellyfish usually like… cyan? This one is jet black. And I can't really see inside of it…\"\r\n\r\n[Sounds of electricity, and the xenobiologist yelping in pain]\r\n\r\n\"Shoot the damn thing you oaf! You’re supposed to be the bodyguard, if we want to get picky about jobs!\"\r\n\r\n[Sound of an m335 laser rifle being shot, and rock hitting the ground]\r\n\r\n\"What the hell even… is it? I- I can't even tell what kingdom this thing should be in, certainly not an animal, or macrobacteria…\" \r\n\r\n\"I dunno, you’re the [redacted] xenobiologist.\"\r\n");
             body.portraitIcon = Main.hifuSandswept.LoadAsset<Texture>("texCannonballJellyfish.png");

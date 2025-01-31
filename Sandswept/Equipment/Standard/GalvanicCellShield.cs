@@ -123,7 +123,7 @@
 
         private void HealthComponent_TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)
         {
-            if (NetworkServer.active && self.body.HasBuff(Buffs.ParryBuff.instance.BuffDef) && damageInfo.damage > 0f)
+            if (NetworkServer.active && self.body.HasBuff(Buffs.ParryBuff.instance.BuffDef) && damageInfo.damage > 0f && damageInfo.procCoefficient > 0)
             {
                 HandleParryBuffsServer(self.body, damageInfo);
                 return;

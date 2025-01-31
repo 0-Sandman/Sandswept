@@ -1,4 +1,5 @@
-﻿using BepInEx.Configuration;
+﻿/*
+using BepInEx.Configuration;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine;
@@ -253,12 +254,12 @@ namespace Sandswept.Artifacts
 
                     var nameTokenOverlay = LanguageAPI.AddOverlay(pickupDef.nameToken, "???");
                     languageOverlays.Add(nameTokenOverlay);
-                    /*
-                    if (!cachedPickupModels.ContainsKey(entry))
-                    {
-                        cachedPickupModels.Add(entry, entry.displayPrefab);
-                    }
-                    */
+
+                    // if (!cachedPickupModels.ContainsKey(entry))
+                    // {
+                        // cachedPickupModels.Add(entry, entry.displayPrefab);
+                    // }
+
                     pickupDef.displayPrefab = unknownModel;
                     pickupDef.baseColor = ColorCatalog.GetColor(ColorCatalog.ColorIndex.Tier1Item);
                     pickupDef.dropletDisplayPrefab = droplet;
@@ -343,3 +344,4 @@ namespace Sandswept.Artifacts
         }
     }
 }
+*/

@@ -1,4 +1,5 @@
-﻿using MonoMod.Cil;
+﻿/*
+using MonoMod.Cil;
 using System.Linq;
 using Mono.Cecil.Cil;
 using UnityEngine;
@@ -81,11 +82,11 @@ namespace Sandswept.Items.Whites
 
             var lastItemCount = sequencedFateTracker.GetComponent<SequencedFateController>().lastItemCount;
 
-            Main.ModLogger.LogError("stack is " + itemCount);
-            Main.ModLogger.LogError("last stack is " + lastItemCount);
+            // Main.ModLogger.LogError("stack is " + itemCount);
+            // Main.ModLogger.LogError("last stack is " + lastItemCount);
             if (itemCount > 0 || lastItemCount > 0)
             {
-                Main.ModLogger.LogFatal("trying to add shrine of order category and card");
+                // Main.ModLogger.LogFatal("trying to add shrine of order category and card");
 
                 float totalWeight = 0f;
 
@@ -95,15 +96,15 @@ namespace Sandswept.Items.Whites
                     totalWeight += category.selectionWeight;
                 }
 
-                Main.ModLogger.LogError("total weight is " + totalWeight);
+                // Main.ModLogger.LogError("total weight is " + totalWeight);
 
                 var averageWeight = totalWeight / self.interactableCategories.categories.Length;
 
-                Main.ModLogger.LogError("average weight is " + averageWeight);
+                // Main.ModLogger.LogError("average weight is " + averageWeight);
 
                 var finalWeight = averageWeight * (baseShrineOfOrderCategoryAverageSelectionWeightPercentage + stackShrineOfOrderCategoryAverageSelectionWeightPercentage * (itemCount - 1));
 
-                Main.ModLogger.LogError("final weight is " + finalWeight);
+                // Main.ModLogger.LogError("final weight is " + finalWeight);
 
                 Array.Resize(ref self.interactableCategories.categories, self.interactableCategories.categories.Length + 1);
 
@@ -213,3 +214,4 @@ namespace Sandswept.Items.Whites
         public int lastItemCount = 0;
     }
 }
+*/

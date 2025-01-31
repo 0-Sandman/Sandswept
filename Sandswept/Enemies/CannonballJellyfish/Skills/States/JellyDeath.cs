@@ -5,7 +5,7 @@ namespace Sandswept.Enemies.CannonballJellyfish
     [ConfigSection("Enemies :: Cannonball Jellyfish")]
     public class JellyDeath : BaseState
     {
-        [ConfigField("Death Projectile Damage Coefficient", "Decimal.", 3f)]
+        [ConfigField("Death Projectile Damage Coefficient", "Decimal.", 2f)]
         public static float DamageCoefficient;
 
         private static readonly float bodyPreservationDuration = 1f;
