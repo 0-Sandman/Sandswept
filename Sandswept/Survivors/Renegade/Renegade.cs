@@ -17,6 +17,10 @@ namespace Sandswept.Survivors.Renegade
         public static DamageAPI.ModdedDamageType GravSlam = DamageAPI.ReserveDamageType();
 
         //
+        public override void Init()
+        {
+            return; // dont load
+        }
         public override void LoadAssets()
         {
             base.LoadAssets();
