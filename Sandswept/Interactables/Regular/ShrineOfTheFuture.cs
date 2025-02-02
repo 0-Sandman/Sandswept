@@ -38,8 +38,11 @@ namespace Sandswept.Interactables.Regular
 
         public static GameObject shrineVFX;
 
-        [ConfigField("Enemy Count", "", 2)]
-        public static int enemyCount;
+        [ConfigField("Base Enemy Count", "", 1)]
+        public static int baseEnemyCount;
+
+        [ConfigField("Enemy Count Per Player", "", 1)]
+        public static int enemyCountPerPlayer;
 
         [ConfigField("Director Credit Cost", "", 35)]
         public static int directorCreditCost;
@@ -260,8 +263,10 @@ namespace Sandswept.Interactables.Regular
             combatSquad.onMemberAddedServer += CombatSquad_onMemberAddedServer;
             combatSquad.onDefeatedServer += CombatSquad_onDefeatedServer;
 
+            var finalCount = ShrineOfTheFuture.baseEnemyCount + (ShrineOfTheFuture.enemyCountPerPlayer * Run.instance.participatingPlayerCount);
+
             List<ScriptedCombatEncounter.SpawnInfo> spawns = new();
-            for (int i = 0; i < ShrineOfTheFuture.enemyCount; i++)
+            for (int i = 0; i < finalCount; i++)
             {
                 spawns.Add(scriptedCombatEncounter.spawns[Run.instance.stageRng.RangeInt(0, scriptedCombatEncounter.spawns.Length)]);
             }

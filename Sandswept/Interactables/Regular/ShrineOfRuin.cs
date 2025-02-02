@@ -1,21 +1,7 @@
-﻿using EntityStates.NullifierMonster;
-using MonoMod.Cil;
-using R2API.Utils;
-using Rewired.Demos;
-using Rewired.Utils.Classes.Data;
-using RoR2;
-using RoR2.EntitlementManagement;
-using RoR2.ExpansionManagement;
+﻿using RoR2.ExpansionManagement;
 using RoR2.Orbs;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
-using static Rewired.UI.ControlMapper.ControlMapper;
 
 namespace Sandswept.Interactables.Regular
 {
@@ -567,13 +553,13 @@ namespace Sandswept.Interactables.Regular
                 return;
             }
 
+            var fuckItemDispatchOrb = GetComponent<Inventory>();
+
             for (int i = 0; i < ShrineOfRuin.whiteItemCost; i++)
             {
                 var idx = itemsToRemove.EvaluateToChoiceIndex(Run.instance.treasureRng.nextNormalizedFloat);
                 var choice = itemsToRemove.GetChoice(idx);
                 inventory.RemoveItem(ItemCatalog.GetItemDef(choice.value));
-
-                ItemTransferOrb.DispatchItemTransferOrb(transform.position, inventory, choice.value, 1);
 
                 AkSoundEngine.PostEvent(Events.Play_UI_3D_printer_selectItem, gameObject);
 
@@ -621,6 +607,10 @@ namespace Sandswept.Interactables.Regular
                 CallRpcSetPingable(false);
                 gameObject.SetActive(false);
             }
+        }
+
+        public void OnArriveBehavior()
+        {
         }
 
         public IEnumerator TheVoices()

@@ -206,7 +206,7 @@ namespace Sandswept.Items.VoidGreens
                 teamIndex = attackerBody.teamComponent.teamIndex,
                 position = damageInfo.position,
                 damageType = DamageType.Silent,
-                bonusForce = new Vector3(0f, -groundingForce * mass, 0f),
+                bonusForce = new Vector3(0f, groundingForce * mass, 0f),
                 procChainMask = damageInfo.procChainMask
             };
 

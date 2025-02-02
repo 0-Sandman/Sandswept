@@ -1,3 +1,9 @@
+# 1.0.9 Patch Notes
+- Enemies
+  - NOT YET Fixed Cannonball Jellyfish Death State
+- Interactables
+  - Fixed Shrine of Ruin giving back the items it took
+
 # 1.0.8 Patch Notes
 - Ranger
   - Buffed Release Minimum Damage from 400% to 600%
