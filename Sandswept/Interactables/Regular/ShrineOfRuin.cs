@@ -553,8 +553,6 @@ namespace Sandswept.Interactables.Regular
                 return;
             }
 
-            var fuckItemDispatchOrb = GetComponent<Inventory>();
-
             for (int i = 0; i < ShrineOfRuin.whiteItemCost; i++)
             {
                 var idx = itemsToRemove.EvaluateToChoiceIndex(Run.instance.treasureRng.nextNormalizedFloat);
@@ -607,10 +605,6 @@ namespace Sandswept.Interactables.Regular
                 CallRpcSetPingable(false);
                 gameObject.SetActive(false);
             }
-        }
-
-        public void OnArriveBehavior()
-        {
         }
 
         public IEnumerator TheVoices()
