@@ -66,7 +66,7 @@
     <tr>
       <td><img src="https://i.postimg.cc/XJCb6v9D/tex-Ranger-Skill-Icon-hm1.png" width="64"/></td>
       <td><b>Primary:</b> Enflame<br>
-          Agile. Fire a rapid stream of bullets for 80% damage. Heat increases fire rate and ignite chance but reduces range.</td>
+          Fire a rapid stream of bullets for 75% damage. Heat increases fire rate and ignite chance but reduces range.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/m2DBKrYy/tex-Exhaust.png" width="64"/></td>

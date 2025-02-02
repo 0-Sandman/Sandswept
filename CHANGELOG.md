@@ -1,10 +1,14 @@
-# 1.0.9 Patch Notes
+# # 1.0.9 Patch Notes
 - Enemies
   - NOT YET Fixed Cannonball Jellyfish Death State
+  - Fixed Cannonball Jellyfish having incorrect skill damage coefficients
+- Items/Equipment
+  - Fixed Millenium knocking up enemies
 - Interactables
+  - Made Shrine of The Future spawn an extra enemy per player in multiplayer
   - Fixed Shrine of Ruin giving back the items it took
 
-# 1.0.8 Patch Notes
+## 1.0.8 Patch Notes
 - Ranger
   - Buffed Release Minimum Damage from 400% to 600%
   - Buffed Release Maximum Damage from 1600% to 1800%
@@ -17,16 +21,19 @@
   - Reworked Heat Mechanic to be more manageable and intuitive
   - Improved Direct Current VFX
   - Improved Release VFX
-  - The focus of our upcoming updates is going to be Ranger - she is gonna be getting gameplay tweaks, more VFX and SFX improvements, a remodel, new rig and a second re-animation.
+  - Improved Sidestep VFX
+  - Made Enflame no longer agile
+  - The focus of our upcoming updates is going to be Ranger - she is gonna be getting gameplay tweaks, more VFX and SFX improvements, a remodel, new rig and a second re-animation
 - VOL-T
-  - Made Sigma Overload Self Damage unaffected by Eclipse 8
+  - Made Signal Overload Self Damage unaffected by Eclipse 8
   - Reduced crosshair scale to from 100% to 85%
 - Enemies
   - Nerfed Cannonball Jellyfish Base Damage from 15 to 12
   - Reduced Delta Construct Director Credit Cost from 150 to 130
   - Reduced Gamma Construct Director Credit Cost from 185 to 145
   - Reduced Theta Construct Director Credit Cost from 140 to 130
-  - Fixed Theta Construct umm I forgot
+  - Removed Theta Construct yuri blast, now just refunds its CD and force acquires a new target if it attempts to shield another Theta Construct
+  - Fixed Cannonball Jellyfish having a missing CM field (caused a whole host of issues from not having IDRS or elite overlays to the sillyitems conflict)
 - Elites
   - Buffed Motivating Passive Attack Speed Buff from 25% to 30%
   - Buffed Motivating Passive Movement Speed Buff from 25% to 30%
@@ -35,6 +42,7 @@
   - Fixed Motivating bosses having weird aura offsets
 - Items/Equipment
   - Added more config options to some items
+  - Added a few more buffs to Corrupted Catalyst
   - Buffed Amber Knife Base Damage from 140% to 150%
   - Buffed Amber Knife Stack Damage from 140% to 150%
   - Buffed Amber Knife to also give 3 Flat Barrier
@@ -52,7 +60,6 @@
   - Fixed Crown's Diamond NRE
 - Interactables
   - Added Delta Construct and Gamma Construct to Shrine of the Future
-  - Added a few more buffs to Corrupted Catalyst
   - Buffed Shrine of The Future to spawn two enemies instead of one
   - Buffed Shrine of Ruin Combat Director Credit Multiplier from 200% to 250%
   - Berfed Shrine of Ruin Scene Director Interactable Credits behavior - now sets them to 220

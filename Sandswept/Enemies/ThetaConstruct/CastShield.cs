@@ -16,7 +16,9 @@ namespace Sandswept.Enemies.ThetaConstruct
         {
             base.OnEnter();
 
-            buddy = base.characterBody.master.GetComponent<BaseAI>().buddy._gameObject;
+            BaseAI ai = base.characterBody.master.GetComponent<BaseAI>();
+
+            buddy = ai.buddy.gameObject;
 
             if (!buddy)
             {
@@ -25,16 +27,10 @@ namespace Sandswept.Enemies.ThetaConstruct
             }
 
             if (buddy.GetComponent<CharacterBody>() && buddy.GetComponent<CharacterBody>().bodyIndex == ThetaConstruct.ThetaIndex) {
-                doYuriBlast = true;
-                yuriDir = (buddy.transform.position - base.transform.position).normalized * -1f;
-
-                EffectManager.SpawnEffect(Paths.GameObject.MajorConstructSpawnEffect, new EffectData {
-                    origin = base.transform.position,
-                    scale = base.characterBody.bestFitRadius * 2f
-                }, false);
-
-                AkSoundEngine.PostEvent(Events.Play_majorConstruct_spawn_rumble, base.gameObject);
-                AkSoundEngine.PostEvent(Events.Play_vagrant_R_explode, base.gameObject);
+                ai.buddy.gameObject = null;
+                ai.UpdateTargets();
+                outer.SetNextStateToMain();
+                return;
             }
 
             if (base.isAuthority) {
@@ -49,6 +45,8 @@ namespace Sandswept.Enemies.ThetaConstruct
 
                 NetworkServer.Spawn(shieldInstance);
             }
+
+            base.skillLocator.primary.DeductStock(1);
         }
 
         public void DoYuriBlast() {
@@ -80,14 +78,10 @@ namespace Sandswept.Enemies.ThetaConstruct
         {
             base.FixedUpdate();
 
-            if (doYuriBlast) {
-                base.rigidbody.velocity = Vector3.zero;
-            }
-
             if (!base.isAuthority) return;
 
-            if (base.fixedAge >= 2.5f && doYuriBlast) {
-                DoYuriBlast();
+            if (shieldInstance && Vector3.Distance(base.characterBody.corePosition, shieldInstance.transform.position) > 90f) {
+                outer.SetNextStateToMain();
             }
 
             if (base.fixedAge >= duration || !shieldInstance) {
@@ -128,6 +122,7 @@ namespace Sandswept.Enemies.ThetaConstruct
         public override float Cooldown => 10f;
 
         public override Sprite Icon => null;
+        public override int StockToConsume => 0;
         public override bool BeginCooldownOnSkillEnd => true;
         public override bool CanceledFromSprinting => false;
     }

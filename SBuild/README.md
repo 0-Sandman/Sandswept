@@ -46,7 +46,7 @@
     <tr>
       <td><img src="https://i.postimg.cc/TwM8hGL6/image2.png" width="64"/></td>
       <td><b>Secondary:</b> Release<br>
-          Lose all Charge. Fire a piercing blast for 600% damage, increasing up to 1600% at full Charge.</td>
+          Lose all Charge. Fire a piercing blast for 600% damage, increasing up to 1800% at full Charge.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/JhgLFXHk/b1.png" width="64"/></td>
@@ -187,8 +187,8 @@
 		<tr>
 			<td><img src="https://i.postimg.cc/Px5Q36cQ/tex-Motivator-Buff2.png" width="64"/></td>
 			<td>
-				<b>Motivator T1</b><br>
-				Passively carries a warbanner that grants all allies and itself <b>25%</b> movement speed and <b>25%</b> attack speed in a <b>20m</b> radius. On hit, increases all ally attack speed by <b>25%</b> in a <b>20m</b> radius for <b>4s</b>.<br>
+				<b>Motivating T1</b><br>
+				Passively carries a warbanner that grants all allies and itself <b>30%</b> movement speed and <b>30%</b> attack speed in a <b>20m</b> radius. On hit, increases all ally attack speed by <b>30%</b> in a <b>20m</b> radius for <b>4s</b>.<br>
 			</td>
 		</tr>
 		<tr>
@@ -226,7 +226,7 @@
 			<td>
 				<b>Shrine of Ruin</b><br>
 				Sacrifice <b>10</b> random common items to corrupt the next stage, making it a simulacrum variant that exclusively drops void items and spawns void enemies.<br>
-				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 2, costs 10 credits. The combat director gets <b>150%</b> more credits and interactable credits are set to <b>200</b>.
+				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 2, costs 10 credits. The combat director gets <b>150%</b> more credits and interactable credits are set to <b>220</b>.
 			</td>
 		</tr>
 		<tr>
@@ -241,7 +241,7 @@
 			<td><img src="https://i.postimg.cc/Bv3RF8Zg/tex-Shrine-Of-The-Future.png" width="64"/></td>
 			<td>
 				<b>Shrine of The Future</b><br>
-				Summon a random <b>Tier 2 Elite Miniboss</b> with reduced stats that, upon being defeated, drops <b>3</b> item potentials per player.<br>
+				Summon two random <b>Tier 2 Elite Minibosses</b> with halved stats that, upon being defeated, drops <b>3</b> item potentials per player.<br>
 				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 3 and &le; 11, costs 35 credits. Item potentials have a choice between a random white and a random green.
 			</td>
 		</tr>
@@ -284,14 +284,14 @@
 			<td><img src="https://i.postimg.cc/sfH2YN1y/tex-Fractured-Timepiece.png" width="96"></td>
 			<td>
 				<b>Fractured Timepiece</b><br>
-				Upon using your utility skill, heal for <b>5% (+5% per stack)</b> of your maximum health and reduce special skill cooldown by <b>15%</b>.
+				Upon using your Utility skill, heal for <b>5% (+5% per stack)</b> of your maximum health and reduce Special skill cooldown by <b>15%</b>.
 			</td>
 		</tr>
 		<tr>
 			<td><img src="https://i.postimg.cc/1RVSGrFJ/tex-Red-Spring-Water.png" width="96"></td>
 			<td>
 				<b>Red Spring Water</b><br>
-				Increase health regeneration by <b>0.6 hp/s</b>, plus an additional <b>0.6 hp/s (+0.6 hp/s per stack)</b> for every buff you have (diminishing returns scaling with buff count).
+				Increase health regeneration by <b>0.6 hp/s</b>, plus an additional <b>0.6 hp/s (+0.6 hp/s per stack)</b> for every unique buff you have (diminishing returns scaling with buff count).
 			</td>
 		</tr>
 		<tr>
@@ -322,14 +322,14 @@
 			<td><img src="https://i.postimg.cc/1XN5VLQJ/tex-Pocket-Plutonium.png" width="96"></td>
 			<td>
 				<b>Pocket Plutonium</b><br>
-				Gain a shield equal to <b>10%</b> of your maximum health. Upon losing all shield, create a nuclear pool in a <b>16m</b> area that deals <b>750% (+750% per stack)</b> base damage, plus an additional <b>250% (+250% per stack)</b> of shields.
+				Gain a shield equal to <b>10%</b> of your maximum health. Upon losing all shield, create a nuclear pool in a <b>20m</b> area that deals <b>750% (+750% per stack)</b> base damage, plus an additional <b>250% (+250% per stack)</b> of shields.
 			</td>
 		</tr>
 		<tr>
 			<td><img src="https://i.postimg.cc/gcvrKYNH/tex-Sacrificial-Band.png" width="96"></td>
 			<td>
 				<b>Sacrificial Band</b><br>
-				Hits that deal more than <b>400%</b> damage also inflict <b>1 (+1 per stack)</b> bleeds on enemies for each <b>110%</b> of skill damage. Recharges every <b>10</b> seconds.
+				Hits that deal more than <b>400%</b> damage also inflict <b>1 (+1 per stack)</b> bleeds on enemies for each <b>110%</b> of damage dealt. Recharges every <b>10</b> seconds.
 			</td>
 		</tr>
 		<tr>
@@ -350,7 +350,7 @@
 			<td><img src="https://i.postimg.cc/NGXcyd7k/Uni-VIPIcon.png" width="96"></td>
 			<td>
 				<b>Universal VIP Pass</b><br>
-				Category chests have a <b>60%</b> chance of dropping <b>1 (+1 per stack)</b> extra items.
+				Category chests have a <b>50%</b> chance of dropping <b>1 (+1 per stack)</b> extra items.
 			</td>
 		</tr>
 		<tr>
@@ -391,7 +391,7 @@
 			<td><img src="https://i.postimg.cc/rp3zfsBQ/tex-Torn-Feather.png" width="96"></td>
 			<td>
 				<b>Torn Feather</b><br>
-				Tap Interact to perform an omni-directional dash. Can dash twice until hitting the ground. Gain <b>20% (+35% per stack)</b> movement speed.
+				Tap Interact to perform an omni-directional dash. Can dash twice before hitting the ground. Gain <b>20% (+35% per stack)</b> movement speed.
 			</td>
 		</tr>
 		<tr>

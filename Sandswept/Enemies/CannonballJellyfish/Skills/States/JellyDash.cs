@@ -9,7 +9,7 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
     [ConfigSection("Enemies :: Cannonball Jellyfish")]
     public class JellyDash : BaseState
     {
-        [ConfigField("Dash Damage Coefficient", "Decimal.", 2.7f)]
+        [ConfigField("Dash Damage Coefficient", "Decimal.", 4f)]
         public static float DamageCoefficient;
 
         public static float DashForce = 50f;

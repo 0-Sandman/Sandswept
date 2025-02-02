@@ -73,7 +73,7 @@ namespace Sandswept.Survivors.Ranger.States.Primary
 
             if (characterBody)
             {
-                characterBody.isSprinting = true;
+                characterBody.isSprinting = false;
                 characterBody.SetAimTimer(1f);
             }
         }
