@@ -1,3 +1,13 @@
+# # 1.0.9 Patch Notes
+- Enemies
+  - NOT YET Fixed Cannonball Jellyfish Death State
+  - Fixed Cannonball Jellyfish having incorrect skill damage coefficients
+- Items/Equipment
+  - Fixed Millenium knocking up enemies
+- Interactables
+  - Made Shrine of The Future spawn an extra enemy per player in multiplayer
+  - Fixed Shrine of Ruin giving back the items it took
+
 ## 1.0.8 Patch Notes
 - Ranger
   - Buffed Release Minimum Damage from 400% to 600%
@@ -11,11 +21,11 @@
   - Reworked Heat Mechanic to be more manageable and intuitive
   - Improved Direct Current VFX
   - Improved Release VFX
-  - Ranger no longer has a constant seizure when she tries to move any direction except forward while using Enflame.
-  - Enflame is no longer agile.
-  - The focus of our upcoming updates is going to be Ranger - she is gonna be getting gameplay tweaks, more VFX and SFX improvements, a remodel, new rig and a second re-animation.
+  - Improved Sidestep VFX
+  - Made Enflame no longer agile
+  - The focus of our upcoming updates is going to be Ranger - she is gonna be getting gameplay tweaks, more VFX and SFX improvements, a remodel, new rig and a second re-animation
 - VOL-T
-  - Made Sigma Overload Self Damage unaffected by Eclipse 8
+  - Made Signal Overload Self Damage unaffected by Eclipse 8
   - Reduced crosshair scale to from 100% to 85%
 - Enemies
   - Nerfed Cannonball Jellyfish Base Damage from 15 to 12
@@ -32,6 +42,7 @@
   - Fixed Motivating bosses having weird aura offsets
 - Items/Equipment
   - Added more config options to some items
+  - Added a few more buffs to Corrupted Catalyst
   - Buffed Amber Knife Base Damage from 140% to 150%
   - Buffed Amber Knife Stack Damage from 140% to 150%
   - Buffed Amber Knife to also give 3 Flat Barrier
@@ -49,7 +60,6 @@
   - Fixed Crown's Diamond NRE
 - Interactables
   - Added Delta Construct and Gamma Construct to Shrine of the Future
-  - Added a few more buffs to Corrupted Catalyst
   - Buffed Shrine of The Future to spawn two enemies instead of one
   - Buffed Shrine of Ruin Combat Director Credit Multiplier from 200% to 250%
   - Berfed Shrine of Ruin Scene Director Interactable Credits behavior - now sets them to 220
