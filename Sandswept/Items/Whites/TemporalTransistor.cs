@@ -1,5 +1,4 @@
-﻿/*
-using RoR2.Orbs;
+﻿using RoR2.Orbs;
 using System.Reflection;
 
 namespace Sandswept.Items.Whites
@@ -19,7 +18,7 @@ namespace Sandswept.Items.Whites
 
         public override ItemTier Tier => ItemTier.Tier1;
 
-        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("FracturedTimepieceHolder.prefab");
+        public override GameObject ItemModel => Main.Assets.LoadAsset<GameObject>("TransistorPickup.prefab");
         public override Sprite ItemIcon => null;
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.OnKillEffect, ItemTag.Utility };
@@ -231,4 +230,3 @@ namespace Sandswept.Items.Whites
         }
     }
 }
-*/
