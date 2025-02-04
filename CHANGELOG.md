@@ -6,7 +6,9 @@
   - Fixed Millenium knocking up enemies
 - Interactables
   - Made Shrine of The Future spawn an extra enemy per player in multiplayer
+  - Improved Shrine of Ruin VFX
   - Fixed Shrine of Ruin giving back the items it took
+  - Fixed Shrine of Ruin sounds (finally gfhffgdf)
 
 ## 1.0.8 Patch Notes
 - Ranger

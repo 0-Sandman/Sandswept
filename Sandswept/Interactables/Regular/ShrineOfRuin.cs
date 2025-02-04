@@ -1,4 +1,5 @@
-﻿using RoR2.ExpansionManagement;
+﻿using R2API.Utils;
+using RoR2.ExpansionManagement;
 using RoR2.Orbs;
 using System.Collections;
 using UnityEngine.SceneManagement;
@@ -117,6 +118,11 @@ namespace Sandswept.Interactables.Regular
             mdl.AddComponent<ChildLocator>().transformPairs = new ChildLocator.NameTransformPair[] { new() { name = "FireworkOrigin", transform = prefab.transform.Find("Symbol") } };
             var areYouFuckingKiddingMe = mdl.GetComponent<MeshRenderer>();
             areYouFuckingKiddingMe.material.shader = Paths.Shader.HGStandard;
+            var areYouFuckingKiddngMe2 = mdl.transform.Find("shrineRuinInner");
+            var mat = areYouFuckingKiddngMe2.GetComponent<MeshRenderer>().material;
+            mat.shader = Paths.Shader.HGStandard;
+            mat.SetColor("_Color", new Color32(255, 0, 173, 255));
+            mat.SetFloat("_EmPower", 5f);
 
             var to = mdl.AddComponent<BoxCollider>();
             to.center = Vector3.zero; to.size = Vector3.one * 0.04f;
@@ -553,23 +559,7 @@ namespace Sandswept.Interactables.Regular
                 return;
             }
 
-            for (int i = 0; i < ShrineOfRuin.whiteItemCost; i++)
-            {
-                var idx = itemsToRemove.EvaluateToChoiceIndex(Run.instance.treasureRng.nextNormalizedFloat);
-                var choice = itemsToRemove.GetChoice(idx);
-                inventory.RemoveItem(ItemCatalog.GetItemDef(choice.value));
-
-                AkSoundEngine.PostEvent(Events.Play_UI_3D_printer_selectItem, gameObject);
-
-                if (choice.weight <= 1)
-                {
-                    itemsToRemove.RemoveChoice(idx);
-                }
-                else
-                {
-                    itemsToRemove.ModifyChoiceWeight(idx, choice.weight - 1);
-                }
-            }
+            StartCoroutine(RemoveItems(itemsToRemove, interactorBody, inventory));
 
             if (Run.instance)
             {
@@ -603,19 +593,58 @@ namespace Sandswept.Interactables.Regular
             {
                 symbolTransform.gameObject.SetActive(false);
                 CallRpcSetPingable(false);
-                gameObject.SetActive(false);
+                purchaseInteraction.SetAvailable(false);
             }
+        }
+
+        public IEnumerator RemoveItems(WeightedSelection<ItemIndex> itemsToRemove, CharacterBody interactorBody, Inventory inventory)
+        {
+            for (int i = 0; i < ShrineOfRuin.whiteItemCost; i++)
+            {
+                // Main.ModLogger.LogError("runnning remove items for loop #" + i);
+
+                var idx = itemsToRemove.EvaluateToChoiceIndex(Run.instance.treasureRng.nextNormalizedFloat);
+                var choice = itemsToRemove.GetChoice(idx);
+
+                PurchaseInteraction.CreateItemTakenOrb(interactorBody.corePosition, gameObject, choice.value);
+
+                inventory.RemoveItem(ItemCatalog.GetItemDef(choice.value));
+
+                Util.PlaySound("Play_voidJailer_m1_impact", gameObject);
+
+                if (choice.weight <= 1)
+                {
+                    itemsToRemove.RemoveChoice(idx);
+                }
+                else
+                {
+                    itemsToRemove.ModifyChoiceWeight(idx, choice.weight - 1);
+                }
+                yield return new WaitForSeconds(0.5f / ShrineOfRuin.whiteItemCost);
+            }
+
+            var materialPropertyBlock = new MaterialPropertyBlock();
+
+            materialPropertyBlock.SetColor("_EmColor", new Color32(215, 0, 255, 255));
+
+            gameObject.GetComponent<ModelLocator>().modelTransform.Find("shrineRuinInner").GetComponent<MeshRenderer>().SetPropertyBlock(materialPropertyBlock);
+
+            yield return null;
         }
 
         public IEnumerator TheVoices()
         {
             Util.PlaySound("Play_voidRaid_fog_explode", gameObject);
 
-            yield return null;
+            Util.PlaySound("Play_voidRaid_fog_affectPlayer", gameObject);
+            Util.PlaySound("Play_voidRaid_fog_affectPlayer", gameObject);
 
-            // yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(5f);
 
-            // Util.PlaySound("Stop_voidRaid_fog_affectPlayer", gameObject);
+            Util.PlaySound("Stop_voidRaid_fog_affectPlayer", gameObject);
+            Util.PlaySound("Stop_voidRaid_fog_affectPlayer", gameObject);
+
+            gameObject.SetActive(false);
         }
 
         public static bool HasMetRequirement(CharacterBody interactorBody)
