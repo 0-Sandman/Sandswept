@@ -1,93 +1,35 @@
 using System;
+using R2API.Utils;
 
 namespace Sandswept.Enemies.CannonballJellyfish
 {
     [ConfigSection("Enemies :: Cannonball Jellyfish")]
-    public class JellyDeath : BaseState
+    public class JellyDeath : GenericCharacterDeath
     {
-        [ConfigField("Death Projectile Damage Coefficient", "Decimal.", 3f)]
+        public static LazyAddressable<GameObject> DeathEffect = new(() => Paths.GameObject.ExplosivePotExplosion);
+        [ConfigField("Death Projectile Damage Coefficient", "Decimal.", 5f)]
         public static float DamageCoefficient;
 
-        private static readonly float bodyPreservationDuration = 1f;
-
-        private static readonly float hardCutoffDuration = 10f;
-
-        private static readonly float maxFallDuration = 4f;
-
-        private static readonly float minTimeToKeepBodyForNetworkMessages = 0.5f;
-
-        public static GameObject voidDeathEffect;
-
-        private float restStopwatch;
-
-        private float fallingStopwatch;
-
-        private bool bodyMarkedForDestructionServer;
-
-        private CameraTargetParams.AimRequest aimRequest;
-
-        protected Transform cachedModelTransform { get; private set; }
-
-        protected bool isBrittle { get; private set; }
-
-        protected bool isVoidDeath { get; private set; }
-
-        protected bool isPlayerDeath { get; private set; }
-
-        protected virtual bool shouldAutoDestroy => true;
-
-        protected virtual float GetDeathAnimationCrossFadeDuration()
+        public override void CreateDeathEffects()
         {
-            return 0.1f;
-        }
+            base.CreateDeathEffects();
 
-        public override void OnEnter()
-        {
-            base.OnEnter();
-            bodyMarkedForDestructionServer = false;
-            cachedModelTransform = (base.modelLocator ? base.modelLocator.modelTransform : null);
-            isBrittle = (bool)base.characterBody && base.characterBody.isGlass;
-            isVoidDeath = (bool)base.healthComponent && (base.healthComponent.killingDamageType & DamageType.VoidDeath) != 0;
-            isPlayerDeath = (bool)base.characterBody.master && base.characterBody.master.GetComponent<PlayerCharacterMasterController>() != null;
-            if (isVoidDeath)
+            for (int i = 0; i < 2; i++)
             {
-                if ((bool)base.characterBody && base.isAuthority)
+                EffectManager.SpawnEffect(Paths.GameObject.ExplosivePotExplosion, new EffectData
                 {
-                    EffectManager.SpawnEffect(voidDeathEffect, new EffectData
-                    {
-                        origin = base.characterBody.corePosition,
-                        scale = base.characterBody.bestFitRadius
-                    }, transmit: true);
-                }
-                if ((bool)cachedModelTransform)
-                {
-                    EntityState.Destroy(cachedModelTransform.gameObject);
-                    cachedModelTransform = null;
-                }
+                    origin = base.characterBody.corePosition,
+                    scale = base.characterBody.bestFitRadius * 2f,
+                }, false);
             }
-            else
+
+            base.DestroyModel();
+
+            if (base.isAuthority)
             {
-                Destroy(this.GetModelTransform().gameObject);
-                for (int i = 0; i < 2; i++)
-                {
-                    EffectManager.SpawnEffect(Paths.GameObject.ExplosivePotExplosion, new EffectData
-                    {
-                        origin = base.characterBody.corePosition,
-                        scale = base.characterBody.bestFitRadius * 2f,
-                    }, false);
-                }
-
-                if (base.isAuthority)
-                {
-                    var proj = MiscUtils.GetProjectile(CannonballJellyfish.JellyCoreProjectile, DamageCoefficient, base.characterBody);
-                    ProjectileManager.instance.FireProjectile(proj);
-                }
+                var proj = MiscUtils.GetProjectile(CannonballJellyfish.JellyCoreProjectile, DamageCoefficient, base.characterBody);
+                ProjectileManager.instance.FireProjectile(proj);
             }
-        }
-
-        public override InterruptPriority GetMinimumInterruptPriority()
-        {
-            return InterruptPriority.Death;
         }
     }
 }

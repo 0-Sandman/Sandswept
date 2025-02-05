@@ -1,13 +1,17 @@
 # # 1.0.9 Patch Notes
 - Enemies
-  - NOT YET Fixed Cannonball Jellyfish Death State
+  - Fixed Cannonball Jellyfish Death State
   - Fixed Cannonball Jellyfish having incorrect skill damage coefficients
+  - Buffed Cannonball Jellyfish seeking core 300% -> 500%
 - Items/Equipment
   - Fixed Millenium knocking up enemies
 - Interactables
   - Made Shrine of The Future spawn an extra enemy per player in multiplayer
+  - Improved Shrine of Ruin VFX
   - Fixed Shrine of Ruin giving back the items it took
-
+  - Fixed Shrine of Ruin sounds (finally gfhffgdf)
+- Survivors
+  - Stopped deadnaming VOL-T in achievements
 ## 1.0.8 Patch Notes
 - Ranger
   - Buffed Release Minimum Damage from 400% to 600%

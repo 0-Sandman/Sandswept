@@ -15,8 +15,8 @@
             };
             ContentAddition.AddUnlockableDef(masteryUnlock);
 
-            LanguageAPI.Add("ACHIEVEMENT_ELECTRICIANCLEARGAMEMONSOON_NAME", "Electrician: Mastery");
-            LanguageAPI.Add("ACHIEVEMENT_ELECTRICIANCLEARGAMEMONSOON_DESCRIPTION", "As Electrician, beat the game or obliterate on Monsoon.");
+            LanguageAPI.Add("ACHIEVEMENT_ELECTRICIANCLEARGAMEMONSOON_NAME", "VOL-T: Mastery");
+            LanguageAPI.Add("ACHIEVEMENT_ELECTRICIANCLEARGAMEMONSOON_DESCRIPTION", "As VOL-T, beat the game or obliterate on Monsoon.");
 
             charUnlock = new UnlockableDef()
             {

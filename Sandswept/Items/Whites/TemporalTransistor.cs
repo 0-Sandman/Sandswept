@@ -167,17 +167,15 @@ namespace Sandswept.Items.Whites
                 return;
             }
 
+            int jc1 = self.characterMotor.jumpCount;
+            
+            orig(self);
+
             var storedJumps = self.characterBody.GetBuffCount(extraJump);
 
-            if (self.characterMotor.jumpCount > self.characterBody.maxJumpCount - storedJumps)
+            if (jc1 >= self.characterBody.maxJumpCount - storedJumps && self.characterMotor.jumpCount != jc1)
             {
                 self.characterBody.SetBuffCount(extraJump.buffIndex, self.characterBody.GetBuffCount(extraJump) - 1);
-
-                orig(self);
-            }
-            else
-            {
-                orig(self);
             }
         }
 

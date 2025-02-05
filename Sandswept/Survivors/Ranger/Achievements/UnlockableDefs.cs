@@ -12,6 +12,7 @@
                 nameToken = "ACHIEVEMENT_RANGERCLEARGAMEMONSOON_NAME",
                 cachedName = "Skins.Ranger.Sandswept"
             };
+
             ContentAddition.AddUnlockableDef(masteryUnlock);
 
             LanguageAPI.Add("ACHIEVEMENT_RANGERCLEARGAMEMONSOON_NAME", "Ranger: Mastery");
