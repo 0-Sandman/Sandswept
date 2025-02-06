@@ -337,7 +337,7 @@ Check out our update trailer!</a>
 			</td>
 		</tr>
 		<tr>
-			<td><img src="https://i.postimg.cc/Mpy8TFhk/tex-Temporal-Transistor-Locked.png" width="96"></td>
+			<td><img src="https://i.postimg.cc/T1Z9FGqp/tex-Temporal-Transistor-Locked2.png" width="96"></td>
 			<td>
 				<b>Temporal Transistor</b>
 				<br>

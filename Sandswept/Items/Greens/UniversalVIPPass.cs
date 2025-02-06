@@ -21,8 +21,6 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("UniVIPIcon.png");
 
-        public override bool nonstandardScaleModel => true;
-
         [ConfigField("Chance", "", 50f)]
         public static float chance;
 

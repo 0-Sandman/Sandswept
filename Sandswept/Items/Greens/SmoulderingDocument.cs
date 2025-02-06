@@ -23,8 +23,6 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("DocumentIcon.png");
 
-        public override bool nonstandardScaleModel => true;
-
         [ConfigField("Chance", "", 5f)]
         public static float chance;
 
