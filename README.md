@@ -188,7 +188,9 @@
 			<td><img src="https://i.postimg.cc/Px5Q36cQ/tex-Motivator-Buff2.png" width="64"/></td>
 			<td>
 				<b>Motivating T1</b><br>
-				Passively carries a warbanner that grants all allies and itself <b>30%</b> movement speed and <b>30%</b> attack speed in a <b>20m</b> radius. On hit, increases all ally attack speed by <b>30%</b> in a <b>20m</b> radius for <b>4s</b>.<br>
+				Passively carries a warbanner that grants all allies and itself <b>30%</b> movement speed and <b>30%</b> attack speed in a <b>20m</b> radius. On hit, increases all ally attack speed by <b>30%</b> in a <b>20m</b> radius for <b>4s</b>.
+<br>
+				<b>Tier 1</b>
 			</td>
 		</tr>
 		<tr>
@@ -196,7 +198,9 @@
 			<td><img src="https://i.postimg.cc/NMWbpbzn/tex-Osmium-Buff.png" width="64"/></td>
 			<td>
 				<b>Osmium T2</b><br>
-				Passively has a <b>13m-40m</b> aura, scaling with base max health, that makes every ally and itself take <b>85%</b> less damage and reduce procs by <b>50%</b> from outside the aura. From the inside, takes <b>33%</b> more damage instead, but passively pulls down all airborne enemies every second. Immune to knockback.<br>
+				Passively has a <b>13m-40m</b> aura, scaling with base max health, that makes every ally and itself take <b>85%</b> less damage and reduce procs by <b>50%</b> from outside the aura. From the inside, takes <b>33%</b> more damage instead, but passively pulls down all airborne enemies every second. Immune to knockback.
+				<br>
+				<b>Tier 2</b>
 			</td>
 		</tr>
 	</tbody>
