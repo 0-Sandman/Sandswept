@@ -217,6 +217,7 @@ Check out our update trailer!</a>
 				<br>
 				Passively carries a warbanner that grants all allies and itself <b>30%</b> movement speed and <b>30%</b> attack speed in a <b>20m</b> radius. On hit, increases all ally attack speed by <b>30%</b> in a <b>20m</b> radius for <b>4s</b>.
 				<br>
+				<b>Tier 1</b>
 			</td>
 		</tr>
 		<tr>
