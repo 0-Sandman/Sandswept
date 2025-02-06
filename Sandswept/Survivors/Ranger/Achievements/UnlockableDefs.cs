@@ -8,7 +8,11 @@
         {
             masteryUnlock = new UnlockableDef()
             {
-                achievementIcon = null,
+                achievementIcon = Skins.CreateSkinIcon(
+                new Color32(228, 146, 55, 255),
+                new Color32(201, 178, 143, 255),
+                new Color32(74, 79, 77, 255),
+                new Color32(108, 68, 45, 255)),
                 nameToken = "ACHIEVEMENT_RANGERCLEARGAMEMONSOON_NAME",
                 cachedName = "Skins.Ranger.Sandswept"
             };

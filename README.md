@@ -242,7 +242,7 @@
 			<td>
 				<b>Shrine of The Future</b><br>
 				Summon two random <b>Tier 2 Elite Minibosses</b> with halved stats that, upon being defeated, drops <b>3</b> item potentials per player.<br>
-				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 3 and &le; 11, costs 35 credits. Item potentials have a choice between a random white and a random green.
+				<b>Details:</b> Usable only once, can only spawn once per stage, can only spawn on stages &ge; 3 and &le; 11, costs 35 credits. Enemy count increases by 1 per player. Item potentials have a choice between a random white and a random green.
 			</td>
 		</tr>
 	</tbody>
@@ -295,6 +295,15 @@
 			</td>
 		</tr>
 		<tr>
+			<td><img src="https://i.postimg.cc/1RVSGrFJ/tex-Red-Spring-Water.png" width="96"></td>
+			<td>
+				<b>Temporal Transistor</b><br>
+				Gain a <b>25%</b> chance on kill to store an extra jump. Can store up to <b>2 (+2 per stack)</b> extra jumps.<br><br>
+				<b>Achievement: An Epilogue of Life</b><br>
+				"Complete a Shrine of The Future without jumping."
+			</td>
+		</tr>
+		<tr>
 			<td colspan="2" align="center"><h3>Green Items</h3></td>
 		</tr>
 		<tr>
@@ -340,10 +349,12 @@
 			</td>
 		</tr>
 		<tr>
-			<td><img src="https://i.postimg.cc/LXcqFPFd/tex-Sun-Fragment.png" width="96"></td>
+			<td><img src="https://i.postimg.cc/ZRjHQ7rG/tex-Sun-Fragment-Locked.png" width="96"></td>
 			<td>
 				<b>Sun Fragment</b><br>
-				<b>9%</b> chance on hit to create a blinding flash in a <b>12m</b> area, stunning for <b>1.5s</b> and igniting enemies for <b>150% (+150% per stack)</b> TOTAL damage.
+				<b>9%</b> chance on hit to create a blinding flash in a <b>12m</b> area, stunning for <b>1.5s</b> and igniting enemies for <b>150% (+150% per stack)</b> TOTAL damage.<br><br>
+				<b>Achievement: A cycle, broken.</b><br>
+				"Scrap a child of the stars..."
 			</td>
 		</tr>
 		<tr>

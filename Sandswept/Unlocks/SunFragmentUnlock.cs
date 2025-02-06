@@ -3,7 +3,7 @@
 namespace Sandswept.Unlocks
 {
     [RegisterAchievement("ITEM_SANDSWEPT_SUN_FRAGMENT", "ITEM_SANDSWEPT_SUN_FRAGMENT", null, 5, null)]
-    public class Tracker : BaseAchievement
+    public class SunFragmentUnlock : BaseAchievement
     {
         public override void OnInstall()
         {

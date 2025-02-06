@@ -942,7 +942,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
             softGlow.gameObject.SetActive(false);
             core.gameObject.SetActive(false);
 
-            light.intensity = 60f;
+            light.intensity = 10f;
             light.range = 24f;
             light.color = new Color32(204, 0, 255, 255);
 
@@ -953,7 +953,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
             main.startLifetime = 0.45f;
 
             var emission = ps.emission;
-            emission.rateOverTime = 60f;
+            emission.rateOverTime = 100f;
 
             var newMat2 = Object.Instantiate(Paths.Material.matRailgunTracerHead1);
             newMat2.SetColor("_TintColor", Color.black);
@@ -1086,10 +1086,13 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
                                 }
 
                                 damageInfo.procCoefficient *= outsideProcCoefficientMultiplier;
+
+                                // damageInfo.damageColorIndex = DamageColorIndex.; // fall damage color??? wtf hopooo where the fuck
                             }
                             else if (attackerBody.HasBuff(insideAuraBuff))
                             {
                                 damageInfo.damage *= insideDamageTakenMultiplier;
+                                damageInfo.damageColorIndex = DamageColorIndex.Nearby;
                             }
                         }
                     }
@@ -1170,10 +1173,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
             wardInstance.GetComponent<BuffWard>().Networkradius = radius;
             wardInstance.GetComponent<TeamFilter>().teamIndex = TeamIndex.None;
             wardInstance.transform.Find("AreaIndicator/Sphere").localScale = Vector3.one * 2f;
-            if (body.isPlayerControlled)
-            {
-                wardInstance.transform.Find("AreaIndicator/Point Light").GetComponent<Light>().intensity = 10f; // down from 60f
-            }
+
             /*
             var sphere = wardInstance.transform.Find("AreaIndicator/Sphere");
             var modelScale = model.localScale;

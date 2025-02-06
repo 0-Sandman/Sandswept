@@ -14,8 +14,11 @@ namespace Sandswept.Items.Whites
 
         public override string ItemFullDescription => $"Gain a $su{chance}%$se chance on kill to store an $suextra jump$se. Can store up to $su{baseMaxJumps}$se $ss(+{stackMaxJumps} per stack)$se $suextra jumps$se.".AutoFormat();
 
-        public override string ItemLore => "wanted to do a white jump item and make it a trans reference somehow cause I heavily support lol, you can make it some funny trans/brazilian/celeste reference or just do whatever ig";
+        public override string ItemLore => "<style=cMono>//--AUTO-TRANSCRIPTION FROM LOADING BAY 3 OF THE UES [Redacted] --//</style>\r\n\"I've got a pretty weird shipment here. Come check it out, I know you love this stuff.\"\r\n\r\n\"One sec, I gotta finish packing this. Just describe it to me.\"\r\n\r\n\"Oh, okay. Well, when I picked it up, I got this weird feeling. The loading bay seemed a little different, but I didn't really pay it any heed until I looked down at my own limbs. It took me a second, but I realized I was looking through my body from like, five years ago. Crazy stuff. I dropped it and things went back to normal.\"\r\n\r\n\"That's wild. I'll have to try it when I'm done. Do you know what it is?\"\r\n\r\n\"Input log just says 'transistor.' I guess I can see it, with the shape and everything, but it's an awfully big one. Figures, with what it does, I suppose. I wonder what it'll be used for.\"\r\n\r\n\"What do you mean, 'transistor?'\"\r\n\r\n\r\n\"Oh. Y'know, the things that make computers work.\"\r\n\r\n\"Well, my sister does work in tech, but that seems like a bit of a generalization.\"\r\n\r\n\"What?\"\r\n";
 
+        public override string AchievementName => "An Epilogue of Life";
+
+        public override string AchievementDesc => "Complete a Shrine of The Future without jumping.";
         public override ItemTier Tier => ItemTier.Tier1;
 
         public override GameObject ItemModel => Main.Assets.LoadAsset<GameObject>("TransistorPickup.prefab");
@@ -107,6 +110,7 @@ namespace Sandswept.Items.Whites
             ContentAddition.AddEffect(TemporalTransistor.orbEffect);
 
             CreateLang();
+            CreateUnlockLang();
             CreateItem();
             Hooks();
         }
@@ -168,7 +172,7 @@ namespace Sandswept.Items.Whites
             }
 
             int jc1 = self.characterMotor.jumpCount;
-            
+
             orig(self);
 
             var storedJumps = self.characterBody.GetBuffCount(extraJump);

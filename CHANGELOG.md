@@ -1,18 +1,23 @@
-# # 1.0.9 Patch Notes
+## 1.0.9 Patch Notes
+- Ranger
+  - Fixed Mastery achievement not having an icon
+- VOL-T
+  - Stopped deadnaming her in achievements
 - Enemies
   - Fixed Cannonball Jellyfish Death State
   - Fixed Cannonball Jellyfish having incorrect skill damage coefficients
-  - Buffed Cannonball Jellyfish seeking core 300% -> 500%
+- Elites
+  - Improved Osmium VFX
 - Items/Equipment
   - Added Temporal Transistor
+  - Updated all logs
   - Fixed Millenium knocking up enemies
 - Interactables
   - Made Shrine of The Future spawn an extra enemy per player in multiplayer
   - Improved Shrine of Ruin VFX
   - Fixed Shrine of Ruin giving back the items it took
   - Fixed Shrine of Ruin sounds (finally gfhffgdf)
-- Survivors
-  - Stopped deadnaming VOL-T in achievements
+
 ## 1.0.8 Patch Notes
 - Ranger
   - Buffed Release Minimum Damage from 400% to 600%
@@ -60,7 +65,7 @@
   - Improved Amber Knife VFX and SFX
   - Improved Pocket Plutonium VFX
   - Improved Sacrificial Band VFX and SFX
-  - Improved unlock description for Sun Fragment
+  - Improved achievement description for Sun Fragment
   - Improved descriptions for some items
   - Fixed Crown's Diamond NRE
 - Interactables
@@ -102,7 +107,7 @@
   - Nerfed Volatile Shields Damage from 2x600% to 2x450%
   - Reduced Static Snare endlag
   - Changed Signal Overload description
-  - Fixed Unlock missing token string
+  - Fixed achievement missing token string
 - Elites
   - Fixed getting fucked by the patch that changed the SOTS elites
 - Enemies
@@ -128,7 +133,7 @@
 - Ranger
   - Fixed Char not using its skill icon (for real this time)
 - VOL-T
-  - Fixed unlock condition not actually counting Royal Capacitor and Charged Perforator like it was supposed to
+  - Fixed achievement not actually counting Royal Capacitor and Charged Perforator like it was supposed to
   - Fixed electrocuting herself with Galvanic Bolt (caused by 1.0.1, oops)
 - Enemies
   - Fixed all not appearing in family events
@@ -322,7 +327,7 @@
   - Improved VFX for Nuclear Salvo and Pocket Plutonium
   - Improved item logs for Amber Knife, Fractured Timepiece, Nuclear Salvo and Pocket Plutonium
   - Improved icon for Fractured Timepiece
-  - Improved unlock description for Sun Fragment??
+  - Improved achievement description for Sun Fragment??
   - Improved optimization for Universal VIP Paws
   - Made Fractured Timepiece no longer stack Special Cooldown Reduction
   - Made Universal VIP Paws count purchases prior to getting the item

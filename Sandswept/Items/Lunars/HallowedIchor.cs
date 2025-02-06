@@ -17,7 +17,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemFullDescription => $"Chests may be $sureopened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but $sureopening$se them increases $sutime scaling$se by $su{1f + (chestReopenDifficultyCoefficientMultiplierAdd * 3f)}x$se permanently.".AutoFormat(); // this will be inaccurate no matter what but this is somewhat accurate for the first use on monsoon lmao
 
-        public override string ItemLore => "A large wine glass with a blue liquid inside it, its handle resembling a cross shape. Supposed to be a terrariar reference somewhat. You can do whatever with it";
+        public override string ItemLore => "This will be the most potent creation I give to you, my servant. I have weaved many of these artifacts for vermin like you, but this one was far more costly than the others. It will be given only to a scarce few of my most dedicated servants. If used properly, it will be worth the price spent constructing it.\r\n\r\nIt is my blood, held in a vessel of my design. Superior blood. It grants me — along with my treacherous brother — the power to shape the compounds. A transfusion is sufficient to enable its effects. It cannot provide the extent of my abilities in such limited quantity, but it will allow you to create more of the trinkets you cling to so tightly.\r\n\r\nIts use will not go unnoticed, however. He will sense its presence, and send his vermin to hunt you down. Use its power to create suitable weapons and avoid encountering him in the flesh, and I do not suspect you will have any issue dispatching your pursuers.";
 
         public override ItemTier Tier => ItemTier.Lunar;
 

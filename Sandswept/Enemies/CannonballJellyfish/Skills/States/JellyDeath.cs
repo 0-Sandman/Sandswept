@@ -7,7 +7,8 @@ namespace Sandswept.Enemies.CannonballJellyfish
     public class JellyDeath : GenericCharacterDeath
     {
         public static LazyAddressable<GameObject> DeathEffect = new(() => Paths.GameObject.ExplosivePotExplosion);
-        [ConfigField("Death Projectile Damage Coefficient", "Decimal.", 5f)]
+
+        [ConfigField("Death Projectile Damage Coefficient", "Decimal.", 3f)]
         public static float DamageCoefficient;
 
         public override void CreateDeathEffects()
