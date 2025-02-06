@@ -4,6 +4,7 @@
 - VOL-T
   - Stopped deadnaming her in achievements
 - Enemies
+  - Made Delta Construct immune to fall damage
   - Fixed Cannonball Jellyfish Death State
   - Fixed Cannonball Jellyfish having incorrect skill damage coefficients
 - Elites

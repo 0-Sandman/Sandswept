@@ -177,7 +177,7 @@ namespace Sandswept.Interactables.Regular
                 TitleColor = Color.white
             };
             // add this to base later tbh?
-            LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_DESCRIPTION", "When activated by a survivor, the Shrine of The Future spawns a random strong elite miniboss that when defeated, drops " + itemCount + " items per player.");
+            LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_DESCRIPTION", "When activated by a survivor, the Shrine of The Future spawns a random strong elite miniboss for each player, that when defeated, drops " + itemCount + " item potentials per player.");
 
             LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_USE_MESSAGE_2P", "<style=cShrine>Time has shifted.</color>");
             LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_USE_MESSAGE", "<style=cShrine>Time has warped.</color>");

@@ -955,7 +955,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
             main.startLifetime = 0.45f;
 
             var emission = ps.emission;
-            emission.rateOverTime = 100f;
+            emission.rateOverTime = 150f;
 
             var newMat2 = Object.Instantiate(Paths.Material.matRailgunTracerHead1);
             newMat2.SetColor("_TintColor", Color.black);

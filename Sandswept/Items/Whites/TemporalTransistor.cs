@@ -19,10 +19,11 @@ namespace Sandswept.Items.Whites
         public override string AchievementName => "An Epilogue of Life";
 
         public override string AchievementDesc => "Complete a Shrine of The Future without jumping.";
+
         public override ItemTier Tier => ItemTier.Tier1;
 
         public override GameObject ItemModel => Main.Assets.LoadAsset<GameObject>("TransistorPickup.prefab");
-        public override Sprite ItemIcon => null;
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texTemporalTransistor.png");
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.OnKillEffect, ItemTag.Utility };
 
