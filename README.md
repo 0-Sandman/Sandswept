@@ -7,7 +7,7 @@ Check out our update trailer!</a>
 - 4 Enemies
 - 2 Elites
 - 4 Interactables
-- 20 Items
+- 21 Items
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
