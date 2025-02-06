@@ -72,6 +72,8 @@ namespace Sandswept.Elites
         [ConfigField("Aura Grounding Interval", "", 1.25f)]
         public static float auraGroundingInterval;
 
+        public static DamageColorIndex outsideColor = DamageColourHelper.RegisterDamageColor(new Color32(100, 100, 100, 255));
+
         public override void Init(ConfigFile config)
         {
             CreateConfig(config);
@@ -1088,6 +1090,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
                                 damageInfo.procCoefficient *= outsideProcCoefficientMultiplier;
 
                                 // damageInfo.damageColorIndex = DamageColorIndex.; // fall damage color??? wtf hopooo where the fuck
+                                damageInfo.damageColorIndex = outsideColor;
                             }
                             else if (attackerBody.HasBuff(insideAuraBuff))
                             {
