@@ -44,8 +44,8 @@ namespace Sandswept.Items.VoidGreens
 
         public static ModdedProcType millenium = ProcTypeAPI.ReserveProcType();
 
-        public override float modelPanelParametersMinDistance => 0.02f;
-        public override float modelPanelParametersMaxDistance => 0.1f;
+        public override float modelPanelParametersMinDistance => 5f;
+        public override float modelPanelParametersMaxDistance => 12f;
 
         public override void Init(ConfigFile config)
         {

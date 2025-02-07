@@ -33,8 +33,8 @@ namespace Sandswept.Items.Greens
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility };
 
-        public override float modelPanelParametersMinDistance => 0.02f;
-        public override float modelPanelParametersMaxDistance => 0.1f;
+        public override float modelPanelParametersMinDistance => 4f;
+        public override float modelPanelParametersMaxDistance => 11f;
 
         public override void Init(ConfigFile config)
         {

@@ -23,8 +23,8 @@ namespace Sandswept.Items.Whites
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Healing, ItemTag.Utility, ItemTag.AIBlacklist };
 
-        public override float modelPanelParametersMinDistance => 0.02f;
-        public override float modelPanelParametersMaxDistance => 0.1f;
+        public override float modelPanelParametersMinDistance => 5f;
+        public override float modelPanelParametersMaxDistance => 13f;
 
         public static List<string> blacklistedSkills = new() { "MAGE_UTILITY_ICE_NAME", "ENGI_SKILL_HARPOON_NAME" };
 
