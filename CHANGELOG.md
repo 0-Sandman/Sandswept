@@ -14,10 +14,11 @@
   - Nerfed Sun Fragment Chance from 9% to 8%
   - Updated all logs
   - Fixed Millenium knocking up enemies
-  - Unfarlandified Sacrificial Band (more fixes in future updates)
+  - Unfarlandified and fixed the pickup scale of all models
 - Interactables
   - Made Shrine of The Future spawn an extra enemy per player in multiplayer
   - Improved Shrine of Ruin VFX
+  - Fixed Inferno Drone throwing an NRE
   - Fixed Shrine of Ruin giving back the items it took
   - Fixed Shrine of Ruin sounds (finally gfhffgdf)
   - Fixed Shrine of Ruin not corrupting Abyssal Depths

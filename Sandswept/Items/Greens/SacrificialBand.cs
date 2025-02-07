@@ -13,8 +13,8 @@
 
         public override string ItemLore => "\"When we draw our final breaths,\r\nWhen N'kuhana's grasp entwines us,\r\nMay our patience and our solace\r\nClear the clouds of deathly silence.\r\nWill you live with me?\"\r\n\r\n- The Syzygy of Io and Europa\r\n";
 
-        public override float modelPanelParametersMinDistance => 6f;
-        public override float modelPanelParametersMaxDistance => 13f;
+        public override float modelPanelParametersMinDistance => 4f;
+        public override float modelPanelParametersMaxDistance => 10f;
 
         [ConfigField("Base Bleed Count", "", 1)]
         public static float baseBleedCount;

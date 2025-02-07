@@ -46,8 +46,8 @@ namespace Sandswept.Items.Reds
         [ConfigField("Proc Coefficient", "", 0.33f)]
         public static float procCoefficient;
 
-        public override float modelPanelParametersMinDistance => 0.02f;
-        public override float modelPanelParametersMaxDistance => 0.1f;
+        public override float modelPanelParametersMinDistance => 5f;
+        public override float modelPanelParametersMaxDistance => 12f;
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {

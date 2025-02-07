@@ -38,8 +38,8 @@ namespace Sandswept.Items.Whites
 
         public static GameObject impactVFX;
 
-        public override float modelPanelParametersMinDistance => 0.02f;
-        public override float modelPanelParametersMaxDistance => 0.1f;
+        public override float modelPanelParametersMinDistance => 4f;
+        public override float modelPanelParametersMaxDistance => 12f;
 
         [ConfigField("Chance", "", 10f)]
         public static float chance;
