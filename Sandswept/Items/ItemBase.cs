@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 using static Sandswept.Utils.TotallyNotStolenUtils;
 
 namespace Sandswept.Items
@@ -163,12 +164,32 @@ namespace Sandswept.Items
                 return;
             }
 
-            var modelPanelParameters = itemModel.AddComponent<ModelPanelParameters>();
-            var firstMesh = itemModel.transform.GetChild(0);
-            modelPanelParameters.focusPointTransform = firstMesh;
-            modelPanelParameters.cameraPositionTransform = firstMesh;
-            modelPanelParameters.minDistance = modelPanelParametersMinDistance;
-            modelPanelParameters.maxDistance = modelPanelParametersMaxDistance;
+            GameObject model = PrefabAPI.InstantiateClone(itemModel, itemModel.name + "-fixed", false);
+            GameObject focus = new("Focus");
+            GameObject camera = new("Camera");
+            MeshRenderer biggestRenderer = model.GetComponentsInChildren<MeshRenderer>().ToList().OrderByDescending(x => ToFloat(x.bounds.size)).First();
+            float mult = ToFloat(biggestRenderer.bounds.size) / 3f;
+            float min = 2f * mult;
+            float max = 10f * mult;
+            focus.transform.parent = model.transform;
+            camera.transform.parent = model.transform;
+            focus.transform.position = biggestRenderer.bounds.center;
+            camera.transform.localPosition = focus.transform.position + (model.transform.forward * max);
+
+            var modelPanelParameters = model.AddComponent<ModelPanelParameters>();
+            modelPanelParameters.focusPointTransform = focus.transform;
+            modelPanelParameters.cameraPositionTransform = camera.transform;
+            modelPanelParameters.minDistance = min;
+            modelPanelParameters.maxDistance = max;
+
+            ItemDef.pickupModelPrefab = model;
+        }
+
+        public static float ToFloat(Vector3 vec) {
+            vec.x = Mathf.Abs(vec.x);
+            vec.y = Mathf.Abs(vec.y);
+            vec.z = Mathf.Abs(vec.z);
+            return vec.x + vec.y + vec.z;
         }
 
         protected UnlockableDef CreateUnlock()
