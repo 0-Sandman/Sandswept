@@ -44,6 +44,9 @@ namespace Sandswept.Items.VoidGreens
 
         public static ModdedProcType millenium = ProcTypeAPI.ReserveProcType();
 
+        public override float modelPanelParametersMinDistance => 0.02f;
+        public override float modelPanelParametersMaxDistance => 0.1f;
+
         public override void Init(ConfigFile config)
         {
             if (!ItemBase.DefaultEnabledCallback(SunFragment.instance))

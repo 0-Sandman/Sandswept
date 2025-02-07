@@ -21,6 +21,9 @@
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Healing };
 
+        public override float modelPanelParametersMinDistance => 0.02f;
+        public override float modelPanelParametersMaxDistance => 0.1f;
+
         [ConfigField("Base Regen", "Only for the first stack", 0.6f)]
         public static float baseRegen;
 

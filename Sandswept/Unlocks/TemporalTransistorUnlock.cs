@@ -21,7 +21,7 @@ namespace Sandswept.Unlocks
             {
                 interactorBody = interactor.GetComponent<CharacterBody>();
                 interactor.AddComponent<TemporalTransistorJumpTracker>();
-                Main.ModLogger.LogError("interactor body is " + interactorBody);
+                // Main.ModLogger.LogError("interactor body is " + interactorBody);
             }
         }
 
@@ -30,7 +30,7 @@ namespace Sandswept.Unlocks
             orig(self);
             if (interactorBody && self.GetComponent<ShrineOfTheFutureController>())
             {
-                Main.ModLogger.LogError("combat squad defeat: is shrine of the future");
+                // Main.ModLogger.LogError("combat squad defeat: is shrine of the future");
                 if (interactorBody.TryGetComponent<TemporalTransistorJumpTracker>(out var temporalTransistorJumpTracker) && !temporalTransistorJumpTracker.hasJumped)
                 {
                     Grant();
@@ -54,7 +54,7 @@ namespace Sandswept.Unlocks
         public void Start()
         {
             body = GetComponent<CharacterBody>();
-            Main.ModLogger.LogError("tracker: body is " + body);
+            // Main.ModLogger.LogError("tracker: body is " + body);
             if (body)
             {
                 body.onJump += OnJump;
@@ -63,7 +63,7 @@ namespace Sandswept.Unlocks
 
         public void OnJump()
         {
-            Main.ModLogger.LogError("has jumped !!");
+            // Main.ModLogger.LogError("has jumped !!");
             hasJumped = true;
         }
     }

@@ -333,7 +333,7 @@ Check out our update trailer!</a>
 			<td>
 				<b>Red Spring Water</b>
 				<br>
-				Increase health regeneration by <b>0.6 hp/s</b>, plus an additional <b>0.6 hp/s (+0.6 hp/s per stack)</b> for every unique buff you have (diminishing returns scaling with buff count).
+				Increase health regeneration by <b>0.6 hp/s</b>, plus an additional <b>0.6 hp/s (+0.6 hp/s per stack)</b> for every unique buff you have (has diminishing returns scaling with buff count).
 			</td>
 		</tr>
 		<tr>
@@ -405,7 +405,7 @@ Check out our update trailer!</a>
 			<td>
 				<b>Sun Fragment</b>
 				<br>
-				<b>9%</b> chance on hit to create a blinding flash in a <b>12m</b> area, stunning for <b>1.5s</b> and igniting enemies for <b>150% (+150% per stack)</b> TOTAL damage.
+				<b>8%</b> chance on hit to create a blinding flash in a <b>12m</b> area, stunning for <b>1.5s</b> and igniting enemies for <b>150% (+150% per stack)</b> TOTAL damage.
 				<br>
 				<br>
 				<b>Achievement: A cycle, broken.</b>

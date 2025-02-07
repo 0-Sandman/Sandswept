@@ -26,6 +26,9 @@ namespace Sandswept.Items.Greens
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.BrotherBlacklist, ItemTag.AIBlacklist };
 
+        public override float modelPanelParametersMinDistance => 0.02f;
+        public override float modelPanelParametersMaxDistance => 0.1f;
+
         public GameObject SalvoPrefab;
         public GameObject SalvoMissile;
 

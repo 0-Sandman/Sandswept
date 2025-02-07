@@ -38,6 +38,9 @@ namespace Sandswept.Items.Reds
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Healing };
 
+        public override float modelPanelParametersMinDistance => 0.02f;
+        public override float modelPanelParametersMaxDistance => 0.1f;
+
         public override void Init(ConfigFile config)
         {
             CreateLang();

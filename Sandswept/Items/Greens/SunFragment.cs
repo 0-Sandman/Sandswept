@@ -22,7 +22,7 @@ namespace Sandswept.Items.Greens
 
         public override string AchievementDesc => "Scrap a child of the stars...";
 
-        [ConfigField("Chance", "", 9f)]
+        [ConfigField("Chance", "", 8f)]
         public static float chance;
 
         [ConfigField("Explosion Radius", "", 12f)]

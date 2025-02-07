@@ -1,4 +1,4 @@
-## 1.0.9 Patch Notes
+## 1.1.0 Patch Notes
 - Ranger
   - Fixed Mastery achievement not having an icon
 - VOL-T
@@ -11,13 +11,16 @@
   - Improved Osmium VFX
 - Items/Equipment
   - Added Temporal Transistor
+  - Nerfed Sun Fragment Chance from 9% to 8%
   - Updated all logs
   - Fixed Millenium knocking up enemies
+  - Unfarlandified Sacrificial Band (more fixes in future updates)
 - Interactables
   - Made Shrine of The Future spawn an extra enemy per player in multiplayer
   - Improved Shrine of Ruin VFX
   - Fixed Shrine of Ruin giving back the items it took
   - Fixed Shrine of Ruin sounds (finally gfhffgdf)
+  - Fixed Shrine of Ruin not corrupting Abyssal Depths
 
 ## 1.0.8 Patch Notes
 - Ranger

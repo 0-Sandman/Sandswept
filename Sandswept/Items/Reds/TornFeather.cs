@@ -21,6 +21,9 @@ namespace Sandswept.Items.Reds
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texTornFeather.png");
 
+        public override float modelPanelParametersMinDistance => 20f;
+        public override float modelPanelParametersMaxDistance => 60f;
+
         [ConfigField("Base Movement Speed Gain", "Decimal.", 0.2f)]
         public static float baseMovementSpeedGain;
 

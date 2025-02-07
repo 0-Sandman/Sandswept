@@ -23,6 +23,9 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("DocumentIcon.png");
 
+        public override float modelPanelParametersMinDistance => 4f;
+        public override float modelPanelParametersMaxDistance => 9f;
+
         [ConfigField("Chance", "", 5f)]
         public static float chance;
 

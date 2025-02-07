@@ -314,6 +314,10 @@ namespace Sandswept.Interactables.Regular
                 SceneDef originalScene = self.useRunNextStageScene ? Run.instance.nextStageScene : self.destinationScene;
 
                 SceneDef simulacrumScene = SceneCatalog.FindSceneDef("it" + originalScene.cachedName);
+                if (originalScene.cachedName == "dampcavesimple")
+                {
+                    simulacrumScene = SceneCatalog.FindSceneDef("itdampcave");
+                }
 
                 if (simulacrumScene)
                 {
