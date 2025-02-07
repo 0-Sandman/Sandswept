@@ -21,8 +21,8 @@
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Healing };
 
-        public override float modelPanelParametersMinDistance => 7f;
-        public override float modelPanelParametersMaxDistance => 15f;
+        public override float modelPanelParametersMinDistance => 4f;
+        public override float modelPanelParametersMaxDistance => 12f;
 
         [ConfigField("Base Regen", "Only for the first stack", 0.6f)]
         public static float baseRegen;
@@ -44,7 +44,7 @@
 
             var redSpringWaterHolder = Main.hifuSandswept.LoadAsset<GameObject>("RedSpringWaterHolder.prefab");
             var model = redSpringWaterHolder.transform.GetChild(0);
-            var jarMr = model.GetChild(0).GetComponent<MeshRenderer>();
+            var jarMr = model.GetChild(1).GetComponent<MeshRenderer>();
             jarMr.material = powerElixirGlassMat;
 
             CreateLang();
