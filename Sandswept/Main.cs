@@ -29,6 +29,7 @@ using Sandswept.Drones;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
+using MonoMod.Cil;
 
 // using Sandswept.Survivors.Ranger.ItemDisplays;
 
@@ -265,6 +266,24 @@ namespace Sandswept
             // On.RoR2.Networking.NetworkManagerSystemSteam.OnClientConnect += (s, u, t) => { }; // for having multiple instances of the game at once - mp testing, make sure to comment out before release
 
             On.RoR2.RoR2Content.Init += OnWwiseInit;
+
+            IL.EntityStates.Drone.DeathState.OnImpactServer += DroneDropFix;
+        }
+
+        private void DroneDropFix(ILContext il)
+        {
+            ILCursor c = new(il);
+            c.TryGotoNext(MoveType.After, x => x.MatchStloc(1));
+            c.Prev.Operand = typeof(Main).GetMethod(nameof(GetDroneCard), BindingFlags.NonPublic | BindingFlags.Static);
+        }
+
+        private static SpawnCard GetDroneCard(string str) {
+            switch (str) {
+                case "SpawnCards/InteractableSpawnCard/iscBrokenInfernoDrone":
+                    return Drones.Inferno.InfernoDrone.Instance.iscBroken;
+                default:
+                    return LegacyResourcesAPI.Load<SpawnCard>(str);
+            }
         }
 
         private void OnWwiseInit(On.RoR2.RoR2Content.orig_Init orig)

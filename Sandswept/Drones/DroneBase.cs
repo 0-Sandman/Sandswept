@@ -4,6 +4,16 @@ using Sandswept.Utils;
 
 namespace Sandswept.Drones
 {
+    public abstract class DroneBase<T> : DroneBase where T : DroneBase<T>
+    {
+        public static T Instance { get; private set; }
+
+        public DroneBase()
+        {
+            if (Instance != null) throw new InvalidOperationException("Singleton class \"" + typeof(T).Name + "\" inheriting ItemBase was instantiated twice");
+            Instance = this as T;
+        }
+    }
     public abstract class DroneBase
     {
         public abstract GameObject DroneBody { get; }
@@ -16,7 +26,7 @@ namespace Sandswept.Drones
         public abstract int Credits { get; }
         public abstract DirectorAPI.Stage[] Stages { get; }
         public abstract string iscName { get; }
-        private InteractableSpawnCard iscBroken;
+        public InteractableSpawnCard iscBroken;
 
         public void Initialize()
         {

@@ -3,7 +3,7 @@ using System;
 namespace Sandswept.Drones.Inferno
 {
     [ConfigSection("Interactables :: Inferno Drone")]
-    public class InfernoDrone : DroneBase
+    public class InfernoDrone : DroneBase<InfernoDrone>
     {
         public override GameObject DroneBody => Main.Assets.LoadAsset<GameObject>("InfernoDroneBody.prefab");
 
