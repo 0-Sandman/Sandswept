@@ -127,6 +127,8 @@ namespace Sandswept.Interactables.Regular
             voidLink.transform.GetChild(0).gameObject.SetActive(false);
             voidLink.transform.GetChild(1).gameObject.SetActive(false);
 
+            voidLink.AddComponent<TracerComponentSucks>();
+
             var tracer = voidLink.GetComponent<Tracer>();
             tracer.speed = 30f;
 
@@ -802,7 +804,7 @@ namespace Sandswept.Interactables.Regular
 
         private static void HoldoutZoneController_calcColor(ref Color color)
         {
-            color = new Color(0.4f, 0f, 1f, 1f) * 1.5f;
+            color = new Color(0.25f, 0f, 1f, 1f) * 2f;
         }
 
         public class VoidedPickupTable
