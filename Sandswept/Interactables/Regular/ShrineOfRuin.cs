@@ -306,7 +306,7 @@ namespace Sandswept.Interactables.Regular
             // On.RoR2.ClassicStageInfo.Start += ClassicStageInfo_Start;
             SceneManager.activeSceneChanged += SpawnAndModifySimulacrumDirectors;
             On.RoR2.SceneExitController.Begin += SetNextSceneToSimulacrum;
-            On.RoR2.Run.PickNextStageSceneFromCurrentSceneDestinations += HandleScenes;
+            On.RoR2.Run.PickNextStageSceneFromCurrentSceneDestinations += HandleSceneAndCache;
             On.RoR2.SceneDirector.Start += Gyatttttt;
             On.RoR2.BasicPickupDropTable.GenerateDropPreReplacement += OnGenerateDrop;
             On.RoR2.Run.Start += ResetShrineOfRuin;
@@ -372,7 +372,7 @@ namespace Sandswept.Interactables.Regular
             orig(self);
         }
 
-        private void HandleScenes(On.RoR2.Run.orig_PickNextStageSceneFromCurrentSceneDestinations orig, Run self)
+        private void HandleSceneAndCache(On.RoR2.Run.orig_PickNextStageSceneFromCurrentSceneDestinations orig, Run self)
         {
             if (shouldCorruptNextStage)
             {
@@ -380,6 +380,10 @@ namespace Sandswept.Interactables.Regular
                 SceneCatalog.mostRecentSceneDef.AddDestinationsToWeightedSelection(weightedSelection, (x) =>
                 {
                     SceneDef simulacrumScene = SceneCatalog.FindSceneDef("it" + x.cachedName);
+                    if (x.cachedName == "dampcavesimple")
+                    {
+                        simulacrumScene = SceneCatalog.FindSceneDef("itdampcave");
+                    }
 
                     return simulacrumScene && self.CanPickStage(x);
                 });
@@ -486,32 +490,32 @@ namespace Sandswept.Interactables.Regular
             }
 
             yield return new WaitForSeconds(0.03f);
-            var overlay1 = LanguageAPI.AddOverlay("TELEPORTER_NAME", "Corrupted Teleporter");
+            var overlay1 = LanguageAPI.AddOverlay("TELEPORTER_NAME", "...Teleporter?");
             yield return new WaitForSeconds(0.03f);
-            var overlay2 = LanguageAPI.AddOverlay("TELEPORTER_BEGIN_CONTEXT", "Activate Corrupted Teleporter..?");
+            var overlay2 = LanguageAPI.AddOverlay("TELEPORTER_BEGIN_CONTEXT", "Activate ...Teleporter..?");
             yield return new WaitForSeconds(0.03f);
-            var overlay3 = LanguageAPI.AddOverlay("TELEPORTER_END_CONTEXT", "Enter Corrupted Teleporter");
+            var overlay3 = LanguageAPI.AddOverlay("TELEPORTER_END_CONTEXT", "Enter ...Teleporter?");
 
             yield return new WaitForSeconds(0.03f);
-            var overlay4 = LanguageAPI.AddOverlay("LUNAR_TELEPORTER_NAME", "Corrupted Primordial Teleporter");
+            var overlay4 = LanguageAPI.AddOverlay("LUNAR_TELEPORTER_NAME", "...Primordial Teleporter?");
             yield return new WaitForSeconds(0.03f);
-            var overlay5 = LanguageAPI.AddOverlay("LUNAR_TELEPORTER_BEGIN_CONTEXT", "Activate Corrupted Primordial Teleporter..?");
+            var overlay5 = LanguageAPI.AddOverlay("LUNAR_TELEPORTER_BEGIN_CONTEXT", "Activate ...Primordial Teleporter..?");
             yield return new WaitForSeconds(0.03f);
-            var overlay6 = LanguageAPI.AddOverlay("LUNAR_TELEPORTER_END_CONTEXT", "Enter Corrupted Primordial Teleporter");
+            var overlay6 = LanguageAPI.AddOverlay("LUNAR_TELEPORTER_END_CONTEXT", "Enter ...Primordial Teleporter?");
 
             yield return new WaitForSeconds(0.03f);
-            var overlay7 = LanguageAPI.AddOverlay("OBJECTIVE_FIND_TELEPORTER", "Find and activate the <style=cIsVoid>Corrupted Teleporter <sprite name=\"TP\" tint=1></style>");
+            var overlay7 = LanguageAPI.AddOverlay("OBJECTIVE_FIND_TELEPORTER", "Find and activate the <style=cIsVoid>...Teleporter? <sprite name=\"TP\" tint=1></style>");
             yield return new WaitForSeconds(0.03f);
-            var overlay8 = LanguageAPI.AddOverlay("OBJECTIVE_CHARGE_TELEPORTER", "Charge the <style=cIsVoid>Corrupted Teleporter <sprite name=\"TP\" tint=1></style> ({0}%)");
+            var overlay8 = LanguageAPI.AddOverlay("OBJECTIVE_CHARGE_TELEPORTER", "Charge the <style=cIsVoid>...Teleporter? <sprite name=\"TP\" tint=1></style> ({0}%)");
             yield return new WaitForSeconds(0.03f);
-            var overlay9 = LanguageAPI.AddOverlay("OBJECTIVE_CHARGE_TELEPORTER_OOB", "Enter the <style=cIsVoid>Corrupted Teleporter zone!</style> ({0}%)");
+            var overlay9 = LanguageAPI.AddOverlay("OBJECTIVE_CHARGE_TELEPORTER_OOB", "Enter the <style=cIsVoid>...Teleporter? zone!</style> ({0}%)");
             yield return new WaitForSeconds(0.03f);
-            var overlay10 = LanguageAPI.AddOverlay("OBJECTIVE_FINISH_TELEPORTER", "Proceed through the <style=cIsVoid>Corrupted Teleporter <sprite name=\"TP\" tint=1></style>");
+            var overlay10 = LanguageAPI.AddOverlay("OBJECTIVE_FINISH_TELEPORTER", "Proceed through the <style=cIsVoid>...Teleporter? <sprite name=\"TP\" tint=1></style>");
 
             yield return new WaitForSeconds(0.03f);
-            var overlay11 = LanguageAPI.AddOverlay("PLAYER_ACTIVATED_TELEPORTER_2P", "<style=cEvent>You activated the <style=cIsVoid>Corrupted Teleporter <sprite name=\"TP\" tint=1></style>.</style>");
+            var overlay11 = LanguageAPI.AddOverlay("PLAYER_ACTIVATED_TELEPORTER_2P", "<style=cEvent>You activated the <style=cIsVoid>...Teleporter? <sprite name=\"TP\" tint=1></style>.</style>");
             yield return new WaitForSeconds(0.03f);
-            var overlay12 = LanguageAPI.AddOverlay("PLAYER_ACTIVATED_TELEPORTER_", "<style=cEvent>{0} activated the <style=cIsVoid>Corrupted Teleporter <sprite name=\"TP\" tint=1></style>.</style>");
+            var overlay12 = LanguageAPI.AddOverlay("PLAYER_ACTIVATED_TELEPORTER_", "<style=cEvent>{0} activated the <style=cIsVoid>...Teleporter? <sprite name=\"TP\" tint=1></style>.</style>");
 
             ShrineOfRuin.teleporterLanguageOverlays.Add(overlay1);
             ShrineOfRuin.teleporterLanguageOverlays.Add(overlay2);
