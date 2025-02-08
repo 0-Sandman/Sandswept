@@ -57,7 +57,7 @@ namespace Sandswept
     {
         public const string ModGuid = "com.TeamSandswept.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVer = "1.1.0";
+        public const string ModVer = "1.1.1";
 
         public static AssetBundle MainAssets;
         public static AssetBundle Assets;
@@ -277,10 +277,13 @@ namespace Sandswept
             c.Prev.Operand = typeof(Main).GetMethod(nameof(GetDroneCard), BindingFlags.NonPublic | BindingFlags.Static);
         }
 
-        private static SpawnCard GetDroneCard(string str) {
-            switch (str) {
+        private static SpawnCard GetDroneCard(string str)
+        {
+            switch (str)
+            {
                 case "SpawnCards/InteractableSpawnCard/iscBrokenInfernoDrone":
                     return Drones.Inferno.InfernoDrone.Instance.iscBroken;
+
                 default:
                     return LegacyResourcesAPI.Load<SpawnCard>(str);
             }

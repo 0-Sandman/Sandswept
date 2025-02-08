@@ -1,7 +1,11 @@
 ﻿using R2API.Utils;
 using RoR2.ExpansionManagement;
 using RoR2.Orbs;
+using RoR2.UI;
 using System.Collections;
+using System.Linq;
+using ThreeEyedGames;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 
 namespace Sandswept.Interactables.Regular
@@ -64,9 +68,90 @@ namespace Sandswept.Interactables.Regular
         public static CostTypeIndex costTypeIndex;
         public CostTypeDef def;
 
+        public static List<LanguageAPI.LanguageOverlay> teleporterLanguageOverlays = new();
+
+        public static Material corruptedTeleporterFresnelMaterial;
+        public static Material corruptedTeleporterMaterial;
+        public static Material corruptedTeleporterWaterMaterial;
+        public static Material corruptedTeleporterProngMaterial;
+        public static Material corruptedTeleporterFireMaterial;
+        public static Material corruptedTeleporterBeamMaterial;
+        public static Material corruptedTeleporterRingMaterial;
+        public static Material corruptedTeleporterLightningMaterial;
+
+        public static GameObject voidLink;
+
+        public static GameObject decal;
+
         public override void Init()
         {
             base.Init();
+
+            corruptedTeleporterFresnelMaterial = new Material(Paths.Material.matTeleporterFresnelOverlay);
+            corruptedTeleporterFresnelMaterial.SetColor("_TintColor", new Color32(255, 0, 164, 255));
+            corruptedTeleporterFresnelMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampArtifactShellSoft);
+
+            corruptedTeleporterMaterial = new Material(Paths.Material.matTeleporterClean);
+            corruptedTeleporterMaterial.SetColor("_Color", new Color32(219, 139, 209, 255));
+            corruptedTeleporterMaterial.SetFloat("_SpecularStrength", 1f);
+            corruptedTeleporterMaterial.SetFloat("_SpecularExponent", 1.5f);
+
+            corruptedTeleporterWaterMaterial = new Material(Paths.Material.matLunarTeleporterWater);
+            corruptedTeleporterWaterMaterial.SetColor("_Color", new Color32(255, 0, 242, 255));
+            corruptedTeleporterWaterMaterial.SetColor("_SpecColor", new Color32(197, 0, 183, 255));
+            corruptedTeleporterWaterMaterial.SetColor("_FoamColor", new Color32(255, 0, 249, 255));
+
+            corruptedTeleporterProngMaterial = new Material(Paths.Material.matTeleporterClean);
+            corruptedTeleporterProngMaterial.SetColor("_Color", new Color32(255, 0, 223, 255));
+            corruptedTeleporterProngMaterial.SetFloat("_SpecularStrength", 0.2f);
+            corruptedTeleporterProngMaterial.SetFloat("_SpecularExponent", 1.5f);
+
+            corruptedTeleporterFireMaterial = new Material(Paths.Material.matTPLunarFire);
+            corruptedTeleporterFireMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampBell);
+
+            corruptedTeleporterBeamMaterial = new Material(Paths.Material.matTPLunarLaser);
+            corruptedTeleporterBeamMaterial.SetColor("_TintColor", new Color32(85, 0, 255, 255));
+            corruptedTeleporterBeamMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone);
+
+            corruptedTeleporterRingMaterial = new Material(Paths.Material.matTPShockwave);
+            corruptedTeleporterRingMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampAncientWisp);
+            corruptedTeleporterRingMaterial.SetFloat("_Boost", 7f);
+
+            corruptedTeleporterLightningMaterial = new Material(Paths.Material.matTPLightning);
+            corruptedTeleporterLightningMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampAncientWisp);
+            corruptedTeleporterLightningMaterial.SetTexture("_MainTex", Paths.Texture2D.texVoidGrass);
+            corruptedTeleporterLightningMaterial.SetFloat("_Boost", 20f);
+            corruptedTeleporterLightningMaterial.SetFloat("_AlphaBoost", 1f);
+
+            voidLink = Paths.GameObject.VoidSurvivorBeamTracer.InstantiateClone("Shrine of Ruin Corrupted Teleporter Link", false);
+            voidLink.transform.GetChild(0).gameObject.SetActive(false);
+            voidLink.transform.GetChild(1).gameObject.SetActive(false);
+
+            var tracer = voidLink.GetComponent<Tracer>();
+            tracer.speed = 30f;
+
+            var lineRenderer = voidLink.GetComponent<LineRenderer>();
+            lineRenderer.widthMultiplier = 1f;
+            lineRenderer.startWidth = 0.5f;
+            lineRenderer.endWidth = 0.5f;
+            lineRenderer.numCapVertices = 1;
+
+            var newTracerMat = new Material(Paths.Material.matVoidSurvivorBeamTrail);
+            newTracerMat.SetTexture("_RemapTex", Paths.Texture2D.texRampAncientWisp);
+
+            lineRenderer.material = newTracerMat;
+
+            var animateShaderAlpha = voidLink.GetComponent<AnimateShaderAlpha>();
+            animateShaderAlpha.timeMax = 7f;
+
+            ContentAddition.AddEffect(voidLink);
+
+            decal = PrefabAPI.InstantiateClone(Paths.GameObject.WPDirtDecalRadial, "Corrupted Teleporter Decal", false);
+            var decalComponent = decal.GetComponent<Decal>();
+            decalComponent.Material = Paths.Material.matVoidCampDecal;
+            decalComponent.RenderMode = Decal.DecalRenderMode.Deferred;
+            decalComponent.Fade = 1f;
+            decal.transform.localScale = Vector3.one * 100f;
 
             def = new()
             {
@@ -129,6 +214,11 @@ namespace Sandswept.Interactables.Regular
             prefab.GetComponent<DitherModel>().bounds = to;
             prefab.GetComponent<DitherModel>().renderers[0] = mdl.GetComponent<MeshRenderer>();
             prefab.GetComponent<Highlight>().targetRenderer = mdl.GetComponent<MeshRenderer>();
+
+            var light = mdl.AddComponent<Light>();
+            light.intensity = 12f;
+            light.range = 20f;
+            light.color = new Color32(170, 0, 255, 255);
 
             var symbol = prefab.transform.Find("Symbol");
             symbol.localPosition = new(-4, 8, -2);
@@ -212,8 +302,8 @@ namespace Sandswept.Interactables.Regular
             voidEnemiesDccsPool.poolCategories = allCategories;
 
             // On.RoR2.ClassicStageInfo.Start += ClassicStageInfo_Start;
-            SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
-            On.RoR2.SceneExitController.Begin += OnSceneExit;
+            SceneManager.activeSceneChanged += SpawnAndModifySimulacrumDirectors;
+            On.RoR2.SceneExitController.Begin += SetNextSceneToSimulacrum;
             On.RoR2.Run.PickNextStageSceneFromCurrentSceneDestinations += HandleScenes;
             On.RoR2.SceneDirector.Start += Gyatttttt;
             On.RoR2.BasicPickupDropTable.GenerateDropPreReplacement += OnGenerateDrop;
@@ -265,6 +355,16 @@ namespace Sandswept.Interactables.Regular
 
                 var multiplier = 1f + 0.5f * (Run.instance.participatingPlayerCount - 1);
                 ClassicStageInfo.instance.sceneDirectorInteractibleCredits = Convert.ToInt32(sceneDirectorInteractableCredits * multiplier);
+
+                for (int i = 0; i < teleporterLanguageOverlays.Count; i++)
+                {
+                    var languageOverlay = teleporterLanguageOverlays[i];
+                    languageOverlay.Remove();
+                }
+
+                teleporterLanguageOverlays.Clear();
+
+                Language.SetCurrentLanguage(Language.currentLanguageName);
             }
 
             orig(self);
@@ -274,17 +374,18 @@ namespace Sandswept.Interactables.Regular
         {
             if (shouldCorruptNextStage)
             {
-                WeightedSelection<SceneDef> ws = new WeightedSelection<SceneDef>();
-                SceneCatalog.mostRecentSceneDef.AddDestinationsToWeightedSelection(ws, (x) =>
+                WeightedSelection<SceneDef> weightedSelection = new();
+                SceneCatalog.mostRecentSceneDef.AddDestinationsToWeightedSelection(weightedSelection, (x) =>
                 {
                     SceneDef simulacrumScene = SceneCatalog.FindSceneDef("it" + x.cachedName);
 
                     return simulacrumScene && self.CanPickStage(x);
                 });
 
-                if (ws.choices.Length > 0)
+                if (weightedSelection.choices.Length > 0)
                 {
-                    self.PickNextStageScene(ws);
+                    self.PickNextStageScene(weightedSelection);
+                    self.StartCoroutine(CorruptTeleporter());
                     return;
                 }
             }
@@ -292,20 +393,20 @@ namespace Sandswept.Interactables.Regular
             if (shouldReplaceDrops)
             {
                 SceneDef scene = SceneCatalog.FindSceneDef(SceneCatalog.mostRecentSceneDef.cachedName.Substring(2));
-                WeightedSelection<SceneDef> ws = new WeightedSelection<SceneDef>();
-                scene.AddDestinationsToWeightedSelection(ws, (x) =>
+                WeightedSelection<SceneDef> weightedSelection = new();
+                scene.AddDestinationsToWeightedSelection(weightedSelection, (x) =>
                 {
                     return self.CanPickStage(x);
                 });
 
-                self.PickNextStageScene(ws);
+                self.PickNextStageScene(weightedSelection);
                 return;
             }
 
             orig(self);
         }
 
-        private void OnSceneExit(On.RoR2.SceneExitController.orig_Begin orig, SceneExitController self)
+        private void SetNextSceneToSimulacrum(On.RoR2.SceneExitController.orig_Begin orig, SceneExitController self)
         {
             if (shouldCorruptNextStage)
             {
@@ -329,7 +430,7 @@ namespace Sandswept.Interactables.Regular
             orig(self);
         }
 
-        private void SceneManager_activeSceneChanged(Scene oldScene, Scene newScene)
+        private void SpawnAndModifySimulacrumDirectors(Scene oldScene, Scene newScene)
         {
             if (shouldCorruptNextStage)
             {
@@ -370,15 +471,338 @@ namespace Sandswept.Interactables.Regular
             }
         }
 
-        private void ClassicStageInfo_Start(On.RoR2.ClassicStageInfo.orig_Start orig, ClassicStageInfo self)
+        public static IEnumerator CorruptTeleporter()
         {
-            if (shouldCorruptNextStage)
+            if (!TeleporterInteraction.instance)
             {
-                self.monsterDccsPool = voidEnemiesDccsPool;
-                self.RebuildCards();
+                yield break;
             }
 
-            orig(self);
+            if (!DirectorCore.instance)
+            {
+                yield break;
+            }
+
+            yield return new WaitForSeconds(0.03f);
+            var overlay1 = LanguageAPI.AddOverlay("TELEPORTER_NAME", "Corrupted Teleporter");
+            yield return new WaitForSeconds(0.03f);
+            var overlay2 = LanguageAPI.AddOverlay("TELEPORTER_BEGIN_CONTEXT", "Activate Corrupted Teleporter..?");
+            yield return new WaitForSeconds(0.03f);
+            var overlay3 = LanguageAPI.AddOverlay("TELEPORTER_END_CONTEXT", "Enter Corrupted Teleporter");
+
+            yield return new WaitForSeconds(0.03f);
+            var overlay4 = LanguageAPI.AddOverlay("LUNAR_TELEPORTER_NAME", "Corrupted Primordial Teleporter");
+            yield return new WaitForSeconds(0.03f);
+            var overlay5 = LanguageAPI.AddOverlay("LUNAR_TELEPORTER_BEGIN_CONTEXT", "Activate Corrupted Primordial Teleporter..?");
+            yield return new WaitForSeconds(0.03f);
+            var overlay6 = LanguageAPI.AddOverlay("LUNAR_TELEPORTER_END_CONTEXT", "Enter Corrupted Primordial Teleporter");
+
+            yield return new WaitForSeconds(0.03f);
+            var overlay7 = LanguageAPI.AddOverlay("OBJECTIVE_FIND_TELEPORTER", "Find and activate the <style=cIsVoid>Corrupted Teleporter <sprite name=\"TP\" tint=1></style>");
+            yield return new WaitForSeconds(0.03f);
+            var overlay8 = LanguageAPI.AddOverlay("OBJECTIVE_CHARGE_TELEPORTER", "Charge the <style=cIsVoid>Corrupted Teleporter <sprite name=\"TP\" tint=1></style> ({0}%)");
+            yield return new WaitForSeconds(0.03f);
+            var overlay9 = LanguageAPI.AddOverlay("OBJECTIVE_CHARGE_TELEPORTER_OOB", "Enter the <style=cIsVoid>Corrupted Teleporter zone!</style> ({0}%)");
+            yield return new WaitForSeconds(0.03f);
+            var overlay10 = LanguageAPI.AddOverlay("OBJECTIVE_FINISH_TELEPORTER", "Proceed through the <style=cIsVoid>Corrupted Teleporter <sprite name=\"TP\" tint=1></style>");
+
+            yield return new WaitForSeconds(0.03f);
+            var overlay11 = LanguageAPI.AddOverlay("PLAYER_ACTIVATED_TELEPORTER_2P", "<style=cEvent>You activated the <style=cIsVoid>Corrupted Teleporter <sprite name=\"TP\" tint=1></style>.</style>");
+            yield return new WaitForSeconds(0.03f);
+            var overlay12 = LanguageAPI.AddOverlay("PLAYER_ACTIVATED_TELEPORTER_", "<style=cEvent>{0} activated the <style=cIsVoid>Corrupted Teleporter <sprite name=\"TP\" tint=1></style>.</style>");
+
+            ShrineOfRuin.teleporterLanguageOverlays.Add(overlay1);
+            ShrineOfRuin.teleporterLanguageOverlays.Add(overlay2);
+            ShrineOfRuin.teleporterLanguageOverlays.Add(overlay3);
+
+            ShrineOfRuin.teleporterLanguageOverlays.Add(overlay4);
+            ShrineOfRuin.teleporterLanguageOverlays.Add(overlay5);
+            ShrineOfRuin.teleporterLanguageOverlays.Add(overlay6);
+
+            ShrineOfRuin.teleporterLanguageOverlays.Add(overlay7);
+            ShrineOfRuin.teleporterLanguageOverlays.Add(overlay8);
+            ShrineOfRuin.teleporterLanguageOverlays.Add(overlay9);
+            ShrineOfRuin.teleporterLanguageOverlays.Add(overlay10);
+
+            ShrineOfRuin.teleporterLanguageOverlays.Add(overlay11);
+            ShrineOfRuin.teleporterLanguageOverlays.Add(overlay12);
+
+            Language.SetCurrentLanguage(Language.currentLanguageName);
+
+            foreach (HUD hud in HUD.instancesList)
+            {
+                var infoPanel = hud.gameModeUiRoot.Find("ClassicRunInfoHudPanel(Clone)");
+                if (infoPanel)
+                {
+                    var rightInfoBar = infoPanel.Find("RightInfoBar");
+                    if (rightInfoBar)
+                    {
+                        var objectivePanel = rightInfoBar.Find("ObjectivePanel");
+                        if (objectivePanel)
+                        {
+                            var objectivePanelController = objectivePanel.GetComponent<ObjectivePanelController>();
+                            if (objectivePanelController)
+                            {
+                                /*
+                                var fuckingH = objectivePanelController.objectiveTrackers.Where(x => x.baseToken == "OBJECTIVE_FIND_TELEPORTER").FirstOrDefault();
+                                if (fuckingH != null)
+                                {
+                                    fuckingH.label.text = fuckingH.GenerateString();
+                                }
+                                */
+                                // of course it doesnt work
+                                //
+
+                                var fuckingH = objectivePanelController.objectiveTrackers.Where(x => x.baseToken == "OBJECTIVE_FIND_TELEPORTER").FirstOrDefault();
+                                if (fuckingH != null)
+                                {
+                                    fuckingH.cachedString = null;
+                                }
+                                objectivePanelController.RefreshObjectiveTrackers();
+                            }
+                        }
+                    }
+                }
+            }
+
+            // stupid fuck
+
+            var voidColor = new Color32(108, 0, 241, 255);
+
+            var holdoutZoneController = TeleporterInteraction.instance.GetComponent<HoldoutZoneController>();
+            yield return new WaitForSeconds(0.03f);
+            holdoutZoneController.calcColor += HoldoutZoneController_calcColor;
+
+            var teleporterTransform = TeleporterInteraction.instance.transform;
+            var baseMesh = teleporterTransform.Find("TeleporterBaseMesh");
+            if (baseMesh)
+            {
+                yield return new WaitForSeconds(0.03f);
+                Object.Instantiate(ShrineOfRuin.decal, baseMesh.position, Quaternion.identity);
+
+                var baseMr = baseMesh.GetComponent<MeshRenderer>();
+                var materials = new Material[2];
+                materials[0] = ShrineOfRuin.corruptedTeleporterMaterial;
+                materials[1] = ShrineOfRuin.corruptedTeleporterFresnelMaterial;
+
+                yield return new WaitForSeconds(0.03f);
+                baseMr.SetMaterialArray(materials);
+
+                var teleporterProngMesh = baseMesh.Find("TeleporterProngMesh");
+                if (teleporterProngMesh)
+                {
+                    var teleporterProngMeshMr = teleporterProngMesh.GetComponent<MeshRenderer>();
+                    yield return new WaitForSeconds(0.03f);
+                    teleporterProngMeshMr.SetMaterialArray(materials);
+                }
+
+                var prongContainer = baseMesh.Find("ProngContainer");
+                if (prongContainer)
+                {
+                    yield return new WaitForSeconds(0.03f);
+                    baseMr.material = ShrineOfRuin.corruptedTeleporterProngMaterial;
+                    var lunarTeleporter = prongContainer.Find("LunarTeleporterProngs(Clone)/ModelBase/lunar teleporter");
+                    if (lunarTeleporter)
+                    {
+                        var water = lunarTeleporter.Find("Water");
+                        if (water)
+                        {
+                            yield return new WaitForSeconds(0.03f);
+                            water.GetComponent<MeshRenderer>().material = ShrineOfRuin.corruptedTeleporterWaterMaterial;
+                        }
+
+                        var lunarTeleporterProngSkinned = lunarTeleporter.Find("LunarTeleporterProngSkinned");
+                        if (lunarTeleporterProngSkinned)
+                        {
+                            yield return new WaitForSeconds(0.03f);
+                            lunarTeleporterProngSkinned.GetComponent<SkinnedMeshRenderer>().material = ShrineOfRuin.corruptedTeleporterProngMaterial;
+                        }
+                    }
+                }
+
+                // Main.ModLogger.LogError("found base mesh");
+                var builtInEffects = baseMesh.Find("BuiltInEffects");
+                if (builtInEffects)
+                {
+                    // Main.ModLogger.LogError("found built in effects");
+                    var passiveParticleSphere = builtInEffects.Find("PassiveParticle, Sphere");
+                    if (passiveParticleSphere)
+                    {
+                        // Main.ModLogger.LogError("found passive particle sphere");
+                        var passiveParticleSphereMain = passiveParticleSphere.GetComponent<ParticleSystem>().main;
+                        yield return new WaitForSeconds(0.03f);
+                        passiveParticleSphereMain.startColor = new ParticleSystem.MinMaxGradient(voidColor);
+                    }
+                    var passiveParticleCenter = builtInEffects.Find("PassiveParticle, Center");
+                    if (passiveParticleCenter)
+                    {
+                        // Main.ModLogger.LogError("found passive particle center");
+                        var passiveParticleCenterMain = passiveParticleCenter.GetComponent<ParticleSystem>().main;
+                        var passiveParticleStartColor = passiveParticleCenterMain.startColor;
+                        yield return new WaitForSeconds(0.03f);
+                        passiveParticleCenterMain.startColor = new ParticleSystem.MinMaxGradient(voidColor);
+                    }
+
+                    var pp = builtInEffects.Find("PP");
+                    if (pp)
+                    {
+                        var postProcessVolume = pp.GetComponent<PostProcessVolume>();
+                        var profile = postProcessVolume.profile;
+                        var colorGrading = profile.GetSetting<ColorGrading>();
+                        colorGrading.SetAllOverridesTo(false);
+                        colorGrading.temperature.overrideState = true;
+                        colorGrading.temperature.value = 20f;
+                        colorGrading.tint.overrideState = true;
+                        colorGrading.tint.value = 100f;
+                        colorGrading.colorFilter.overrideState = true;
+                        colorGrading.colorFilter.value = new Color32(255, 79, 141, 255);
+                    }
+
+                    var chargingEffect = builtInEffects.Find("ChargingEffect");
+                    if (chargingEffect)
+                    {
+                        var betweenProngs = chargingEffect.Find("BetweenProngs");
+                        if (betweenProngs)
+                        {
+                            var loop = betweenProngs.Find("Loop");
+                            if (loop)
+                            {
+                                var pointLight = loop.Find("Point light");
+                                if (pointLight)
+                                {
+                                    var light = pointLight.GetComponent<Light>();
+                                    yield return new WaitForSeconds(0.03f);
+                                    light.range = 100f;
+                                    yield return new WaitForSeconds(0.03f);
+                                    light.color = new Color32(187, 96, 255, 255);
+                                }
+
+                                var core = loop.Find("Core");
+                                if (core)
+                                {
+                                    yield return new WaitForSeconds(0.03f);
+                                    core.transform.localScale = new Vector3(2f, 4f, 2f);
+                                    var coreParticleSystemRenderer = core.GetComponent<ParticleSystemRenderer>();
+                                    yield return new WaitForSeconds(0.03f);
+                                    coreParticleSystemRenderer.material = ShrineOfRuin.corruptedTeleporterFireMaterial;
+                                }
+
+                                var beam = loop.Find("Beam");
+                                if (beam)
+                                {
+                                    yield return new WaitForSeconds(0.03f);
+                                    beam.transform.localScale = new Vector3(3f, 50f, 3f);
+                                    var beamParticleSystemRenderer = beam.GetComponent<ParticleSystemRenderer>();
+                                    yield return new WaitForSeconds(0.03f);
+                                    beamParticleSystemRenderer.material = ShrineOfRuin.corruptedTeleporterBeamMaterial;
+                                }
+                            }
+                        }
+                    }
+
+                    var chargedEffect = builtInEffects.Find("ChargedEffect");
+                    if (chargedEffect)
+                    {
+                        var ring = chargedEffect.Find("Ring");
+                        if (ring)
+                        {
+                            yield return new WaitForSeconds(0.03f);
+                            ring.GetComponent<ParticleSystemRenderer>().material = ShrineOfRuin.corruptedTeleporterRingMaterial;
+                        }
+
+                        var betweenProngs = chargedEffect.Find("BetweenProngs");
+                        if (betweenProngs)
+                        {
+                            var initialBurst = betweenProngs.Find("InitialBurst");
+                            if (initialBurst)
+                            {
+                                var pointLight = initialBurst.Find("Point light");
+                                if (pointLight)
+                                {
+                                    yield return new WaitForSeconds(0.03f);
+                                    var light = pointLight.GetComponent<Light>();
+                                    light.color = new Color32(197, 96, 255, 255);
+                                    light.range = 100f;
+                                }
+
+                                var gradient = new Gradient();
+
+                                var colors = new GradientColorKey[2];
+                                colors[0] = new GradientColorKey(Color.white, 0f);
+                                colors[1] = new GradientColorKey(new Color32(164, 19, 236, 255), 0.117f);
+
+                                var alphas = new GradientAlphaKey[2];
+                                alphas[0] = new GradientAlphaKey(1f, 0.362f);
+                                alphas[1] = new GradientAlphaKey(0f, 1f);
+
+                                gradient.SetKeys(colors, alphas);
+
+                                var flash = initialBurst.Find("Flash");
+                                if (flash)
+                                {
+                                    var flashColorOverLifetime = flash.GetComponent<ParticleSystem>().colorOverLifetime;
+                                    yield return new WaitForSeconds(0.03f);
+                                    flashColorOverLifetime.color = gradient;
+                                }
+
+                                var flashLines = initialBurst.Find("Flash Lines");
+                                if (flashLines)
+                                {
+                                    var flashLinesColorOverLifetime = flashLines.GetComponent<ParticleSystem>().colorOverLifetime;
+                                    yield return new WaitForSeconds(0.03f);
+                                    flashLinesColorOverLifetime.color = gradient;
+                                }
+
+                                var flashLinesVertical = initialBurst.Find("Flash Lines, Vertical");
+                                if (flashLinesVertical)
+                                {
+                                    var flashLinesVerticalColorOverLifetime = flashLinesVertical.GetComponent<ParticleSystem>().colorOverLifetime;
+                                    yield return new WaitForSeconds(0.03f);
+                                    flashLinesVerticalColorOverLifetime.color = gradient;
+                                }
+                            }
+                        }
+
+                        var lightningAlongProngs = chargedEffect.Find("LightningAlongProngs");
+                        if (lightningAlongProngs)
+                        {
+                            yield return new WaitForSeconds(0.03f);
+                            lightningAlongProngs.GetComponent<ParticleSystemRenderer>().material = ShrineOfRuin.corruptedTeleporterLightningMaterial;
+                        }
+                    }
+                }
+            }
+
+            var directorPlacementRule = new DirectorPlacementRule()
+            {
+                minDistance = 16f,
+                maxDistance = 32f,
+                placementMode = DirectorPlacementRule.PlacementMode.Approximate,
+                position = TeleporterInteraction.instance.transform.position,
+                preventOverhead = false,
+            };
+
+            for (int j = 0; j < 2; j++)
+            {
+                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampGrass, directorPlacementRule, Run.instance.stageRng));
+                yield return new WaitForSeconds(0.1f);
+                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampTallGrassCluster1, directorPlacementRule, Run.instance.stageRng));
+                yield return new WaitForSeconds(0.1f);
+                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampTallGrassCluster2, directorPlacementRule, Run.instance.stageRng));
+                yield return new WaitForSeconds(0.1f);
+                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampTallGrassCluster3, directorPlacementRule, Run.instance.stageRng));
+                yield return new WaitForSeconds(0.1f);
+                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampKelp, directorPlacementRule, Run.instance.stageRng));
+                yield return new WaitForSeconds(0.1f);
+                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampXYZ, directorPlacementRule, Run.instance.stageRng));
+                yield return new WaitForSeconds(0.1f);
+                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampXYZOpen, directorPlacementRule, Run.instance.stageRng));
+            }
+        }
+
+        private static void HoldoutZoneController_calcColor(ref Color color)
+        {
+            color = new Color(0.4f, 0f, 1f, 1f) * 1.5f;
         }
 
         public class VoidedPickupTable
@@ -570,6 +994,25 @@ namespace Sandswept.Interactables.Regular
                 ShrineOfRuin.shouldCorruptNextStage = true;
             }
 
+            Transform origin = TeleporterInteraction.instance.transform;
+            var baseMesh = TeleporterInteraction.instance.transform.Find("BaseMesh");
+            if (baseMesh)
+            {
+                var surfaceHeight = baseMesh.Find("SurfaceHeight");
+                if (surfaceHeight)
+                {
+                    origin = surfaceHeight;
+                }
+            }
+
+            EffectManager.SpawnEffect(ShrineOfRuin.voidLink, new EffectData
+            {
+                start = gameObject.transform.position + new Vector3(0f, 3f, 0f),
+                origin = origin.position
+            }, true);
+
+            StartCoroutine(ShrineOfRuin.CorruptTeleporter());
+
             if (interactorBody)
             {
                 Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage
@@ -631,7 +1074,11 @@ namespace Sandswept.Interactables.Regular
 
             materialPropertyBlock.SetColor("_EmColor", new Color32(215, 0, 255, 255));
 
-            gameObject.GetComponent<ModelLocator>().modelTransform.Find("shrineRuinInner").GetComponent<MeshRenderer>().SetPropertyBlock(materialPropertyBlock);
+            var model = gameObject.GetComponent<ModelLocator>().modelTransform;
+
+            model.GetComponent<Light>().range = 60f;
+
+            model.Find("shrineRuinInner").GetComponent<MeshRenderer>().SetPropertyBlock(materialPropertyBlock);
 
             yield return null;
         }
