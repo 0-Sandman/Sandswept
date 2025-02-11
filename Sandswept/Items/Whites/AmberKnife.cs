@@ -279,7 +279,7 @@ namespace Sandswept.Items.Whites
 
             public void AddBarrier()
             {
-                var randomRotation = new Vector3(Run.instance.stageRng.RangeFloat(0f, 360f), Run.instance.stageRng.RangeFloat(0f, 360f), Run.instance.stageRng.RangeFloat(0f, 360f));
+                var randomRotation = new Vector3(Run.instance.spawnRng.RangeFloat(0f, 360f), Run.instance.spawnRng.RangeFloat(0f, 360f), Run.instance.spawnRng.RangeFloat(0f, 360f));
                 EffectManager.SimpleEffect(impactVFX, transform.position, Util.QuaternionSafeLookRotation(randomRotation), true);
                 if (owner != null)
                 {

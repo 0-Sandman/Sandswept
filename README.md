@@ -357,7 +357,7 @@ Check out our update trailer!</a>
 			<td>
 				<b>Crown's Diamond</b>
 				<br>
-				Being out of danger grants <b>20%</b> of maximum health as barrier. Barrier decays <b>15% (+15% per stack, hyperbolic)</b> slower while out of combat or danger.
+				Being out of danger grants <b>20%</b> of maximum health as barrier every 7 seconds. Barrier decays <b>15% (+15% per stack, hyperbolic)</b> slower while out of combat or danger.
 			</td>
 		</tr>
 		<tr>
@@ -381,7 +381,7 @@ Check out our update trailer!</a>
 			<td>
 				<b>Pocket Plutonium</b>
 				<br>
-				Gain a shield equal to <b>10%</b> of your maximum health. Upon losing all shield, create a nuclear pool in a <b>20m</b> area that deals <b>750% (+750% per stack)</b> base damage, plus an additional <b>250% (+250% per stack)</b> of shields.
+				Gain a shield equal to <b>10%</b> of your maximum health. Upon losing all shield, create a nuclear pool in a <b>20m</b> area that deals <b>750% (+750% per stack)</b> base damage, plus an additional <b>250% (+250% per stack)</b> of shield.
 			</td>
 		</tr>
 		<tr>
@@ -448,7 +448,7 @@ Check out our update trailer!</a>
 			<td>
 				<b>Bleeding Witness</b>
 				<br>
-				<b>8%</b> chance on hit to hemorrhage enemies for <b>500%</b> base damage. Your damage over time effects heal all allies for <b>0.33% (+0.33% per stack)</b> of their maximum health.
+				<b>8%</b> chance on hit to hemorrhage enemies for <b>500%</b> base damage. Your damage over time ticks heal all allies for <b>0.33% (+0.33% per stack)</b> of their maximum health.
 			</td>
 		</tr>
 		<tr>
