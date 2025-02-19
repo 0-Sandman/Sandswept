@@ -1,5 +1,5 @@
 ## 1.1.2 Patch Notes
-- TikTokified item descriptions for the TikTok pilled
+- Updated some descriptions to be more clear
 
 ## 1.1.1 Patch Notes
 - Interactables
