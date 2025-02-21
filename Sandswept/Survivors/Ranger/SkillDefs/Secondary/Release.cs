@@ -6,7 +6,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Secondary
     {
         public override string Name => "Release";
 
-        public override string Description => "$rcLose all Charge$ec. Fire a piercing blast for $sd600% damage$se, increasing up to $sd1800%$se at full $rcCharge$ec.".AutoFormat();
+        public override string Description => "$rcConsume all Charge$ec. Fire a piercing blast for $sd600% damage$se, increasing up to $sd1800%$se at full $rcCharge$ec.".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Secondary.Release);
 

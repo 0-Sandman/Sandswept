@@ -1,5 +1,11 @@
 ## 1.1.2 Patch Notes
-- TikTokified item descriptions for the TikTok pilled
+- Ranger
+ - Added keyword for the Heat mechanic
+ - Improved some descriptions
+ - Fixed some inconsistencies with formatting
+- Items
+ - Improved Sacrificial Band model
+ - Changed some descriptions to be clearer and less confusing
 
 ## 1.1.1 Patch Notes
 - Interactables

@@ -53,13 +53,13 @@ Check out our update trailer!</a>
       <td><img src="https://i.postimg.cc/TwM8hGL6/image2.png" width="64"/></td>
       <td><b>Secondary:</b> Release
 	  <br>
-          Lose all Charge. Fire a piercing blast for 600% damage, increasing up to 1800% at full Charge.</td>
+          Consume all Charge. Fire a piercing blast for 600% damage, increasing up to 1800% at full Charge.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/JhgLFXHk/b1.png" width="64"/></td>
       <td><b>Alt-Secondary:</b> Galvanize
 	  <br>
-		  Lose all Charge. Fire 3 orbs of electricity, increasing up to 10 at full Charge for 80% damage per second each.</td>
+		  Consume all Charge. Fire 3 orbs of electricity, increasing up to 10 at full Charge for 80% damage per second each.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/C5GmjyVK/sand4.png" width="64"/></td>
@@ -101,13 +101,13 @@ Check out our update trailer!</a>
       <td><img src="https://i.postimg.cc/DwBpjK4J/sand8.png" width="64"/></td>
       <td><b>Special:</b> Heat Sink
 	  <br>
-          Agile. Ignite. Release a fire nova around you that deals 300% base damage, increasing up to 900% in full heat. Consume all heat, gaining an attack speed boost, and exit overdrive.</td>
+          Agile. Ignite. Release a fire nova around you that deals 300% damage, increasing up to 900% in full heat. Consume all heat, gaining an attack speed boost, and exit overdrive.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/52w9KFnf/heat-Mechanic.png" width="64"/></td>
       <td><b>Heat Mechanic</b>
 	  <br>
-          While in overdrive, you passively build up heat and healing reduction. While in full heat, your base damage constantly increases, further amplified by Charge, but you take increasingly high self-damage.</td>
+          While in overdrive, you passively build up heat and healing reduction. While in full heat, your base damage constantly increases by 20%, further amplified by 10% for each Charge, but you take increasingly high self-damage.</td>
     </tr>
     <tr>
       <td colspan="2" align="center"><h3>VOL-T</h3></td>
@@ -357,7 +357,7 @@ Check out our update trailer!</a>
 			<td>
 				<b>Crown's Diamond</b>
 				<br>
-				Being out of danger grants <b>20%</b> of maximum health as barrier every 7 seconds. Barrier decays <b>15% (+15% per stack, hyperbolic)</b> slower while out of combat or danger.
+				Being out of danger grants <b>20%</b> barrier every 7 seconds. Barrier decays <b>15% (+15% per stack, hyperbolic)</b> slower while out of combat or danger.
 			</td>
 		</tr>
 		<tr>

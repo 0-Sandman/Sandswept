@@ -6,7 +6,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Secondary
     {
         public override string Name => "Char";
 
-        public override string Description => "$sdIgnite$se. Fire off a $sdblazing ball$se for $sd600%$se damage that $sdengulfs$se the ground on impact for $sd250%$se damage per second. Reduce $srheat$se by $su50%$se.".AutoFormat();
+        public override string Description => "$sdIgnite$se. Fire off a $sdblazing ball$se for $sd600%$se damage that $sdengulfs$se the ground on impact for $sd250%$se damage per second. $suReduce$se $srheat$se by $su50%$se.".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Secondary.Char);
 
