@@ -31,7 +31,7 @@ namespace Sandswept.Utils
 
         public static void SetupKeywords()
         {
-            OverdriveFormHeat.Add("<style=cKeywordName>Heat Mechanic</style>Passively build up $srheat$se and $srhealing reduction$se, up to $sr100%$se. While in $srfull heat$se, your $sdbase damage$se constantly increases by $sd20%$se, further amplified by $sd10%$se for each $rcCharge$ec, but you take $srincreasingly high self-damage$se.");
+            OverdriveFormHeat.Add("<style=cKeywordName>Scorching</style>Passively build up $srheat$se and $srhealing reduction$se, up to $sr100%$se. While in $srfull heat$se, your $sdbase damage$se constantly increases by $sd20%$se, further amplified by $sd10%$se for each $rcCharge$ec, but you take $srincreasingly high self-damage$se.");
             OverdriveFormPrimary.Add("<style=cKeywordName>Overdriven Form</style>Fire a rapid stream of bullets for $sd75% damage$se. $srHeat$se increases $sdfire rate$se and $sdignite chance$se but $srreduces range$se.");
             OverdriveFormSecondary.Add("<style=cKeywordName>Overdriven Form</style>$sdIgnite$se. Fire $sdtwo$se short bursts of $srheat$se for $sd4x200% damage$se each. $sdBurst count$se increases up to $sdfour$se while in $srfull heat$se. $suReduce$se $srheat$se by $su25%$se.");
             OverdriveFormAltSecondary.Add("<style=cKeywordName>Overdriven Form</style>$sdIgnite$se. Fire off a $sdblazing ball$se for $sd600%$se damage that $sdengulfs$se the ground on impact for $sd250%$se damage per second. $suReduce$se $srheat$se by $su50%$se.");

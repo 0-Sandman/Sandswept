@@ -6,7 +6,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Special
     {
         public override string Name => "Overdrive";
 
-        public override string Description => "<style=cIsUtility>Agile</style>. <style=cDeath>Scorching</style>. <style=cIsDamage>Transform</style> your rifle, replacing all of your skills with <style=cIsDamage>scorching forms</style>.";
+        public override string Description => "$suAgile$se. $srScorching$se. $sdTransform$se your rifle, replacing all of your skills with $sdscorching forms$se.";
 
         public override Type ActivationStateType => typeof(States.Special.OverdriveEnter);
 

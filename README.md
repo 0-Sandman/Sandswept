@@ -105,9 +105,9 @@ Check out our update trailer!</a>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/52w9KFnf/heat-Mechanic.png" width="64"/></td>
-      <td><b>Heat Mechanic</b>
+      <td><b>Scorching</b>
 	  <br>
-          While in overdrive, you passively build up heat and healing reduction. While in full heat, your base damage constantly increases by 20%, further amplified by 10% for each Charge, but you take increasingly high self-damage.</td>
+          While in overdrive, you passively build up heat and healing reduction, up to 100%. While in full heat, your base damage constantly increases by 20%, further amplified by 10% for each Charge, but you take increasingly high self-damage.</td>
     </tr>
     <tr>
       <td colspan="2" align="center"><h3>VOL-T</h3></td>
@@ -134,7 +134,7 @@ Check out our update trailer!</a>
       <td><img src="https://i.postimg.cc/XvPHWc8n/sand11.png" width="64"/></td>
       <td><b>Secondary:</b> Tempest Sphere
 	  <br>
-          Send forth an orb of energy that damages targets within for 500% damage per second. Release to lock the orb in place.</td>
+          Send forth an orb of energy that damages targets within for 385% damage per second. Release to lock the orb in place.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/fyn8tzpF/sand12.png" width="64"/></td>
