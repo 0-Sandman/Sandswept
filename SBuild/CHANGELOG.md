@@ -1,3 +1,7 @@
+## 1.1.1 Patch Notes
+- Interactables
+  - Improved Shrine of Ruin VFX
+
 ## 1.1.0 Patch Notes
 - Ranger
   - Fixed Mastery achievement not having an icon

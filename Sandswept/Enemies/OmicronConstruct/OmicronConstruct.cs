@@ -1,5 +1,6 @@
 using System;
 using RoR2.Navigation;
+using Sandswept.Enemies.OmicronConstruct.Skills;
 
 namespace Sandswept.Enemies.OmicronConstruct
 {
@@ -14,8 +15,8 @@ namespace Sandswept.Enemies.OmicronConstruct
 
         public override void LoadPrefabs()
         {
-            prefab = Main.Assets.LoadAsset<GameObject>("OmicronConstructBody.prefab");
-            prefabMaster = Main.Assets.LoadAsset<GameObject>("OmicronConstructMaster.prefab");
+            prefab = Main.Assets.LoadAsset<GameObject>("OmicronBody.prefab");
+            prefabMaster = Main.Assets.LoadAsset<GameObject>("OmicronMaster.prefab");
             LanguageAPI.Add(prefab.GetComponent<CharacterBody>().baseNameToken.Replace("_NAME", "_LORE"), "sigma");
         }
 
@@ -69,11 +70,13 @@ namespace Sandswept.Enemies.OmicronConstruct
 
             SkillLocator loc = body.GetComponent<SkillLocator>();
 
-            // ReplaceSkill(loc.primary, FireBeamSkill.instance.skillDef);
+            ReplaceSkill(loc.primary, CommandSlam.instance);
             // ReplaceSkill(loc.secondary, FireTwinBeamSkill.instance.skillDef);
 
             prefab.GetComponent<CharacterDeathBehavior>().deathState = new(typeof(BaseConstructDeath));
             EntityStateMachine.FindByCustomName(prefab, "Body").initialStateType = new(typeof(BaseConstructSpawn));
+
+            body.AddComponent<OmicronController>();
         }
 
         public override void SetupIDRS()

@@ -266,6 +266,11 @@ namespace Sandswept.Utils
                 return new Vector3[] { center };
             }
         }
+
+        internal static void GetSafePositionsWithinDistance()
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class LazyAddressable<T> where T : UnityEngine.Object

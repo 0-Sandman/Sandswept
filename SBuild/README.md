@@ -401,7 +401,7 @@ Check out our update trailer!</a>
 			</td>
 		</tr>
 		<tr>
-			<td><img src="https://i.postimg.cc/ZRjHQ7rG/tex-Sun-Fragment-Locked.png" width="96"></td>
+			<td><img src="https://i.postimg.cc/d3mbhhvk/tex-Sun-Fragment-Locked2.png" width="96"></td>
 			<td>
 				<b>Sun Fragment</b>
 				<br>

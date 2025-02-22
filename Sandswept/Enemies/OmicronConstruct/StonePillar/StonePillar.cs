@@ -1,5 +1,6 @@
 using System;
 using RoR2.Navigation;
+using Sandswept.Enemies.StonePillar.States;
 
 namespace Sandswept.Enemies.StonePillar
 {
@@ -38,16 +39,17 @@ namespace Sandswept.Enemies.StonePillar
 
             master.bodyPrefab = prefab;
 
-            body.baseNameToken.Add("Stone Pillar");
+            body.baseNameToken.Add("Nu Construct");
             body.portraitIcon = null;
 
             SkillLocator loc = body.GetComponent<SkillLocator>();
 
-            // ReplaceSkill(loc.primary, FireBeamSkill.instance.skillDef);
+            ReplaceSkill(loc.primary, Skills.Slam.instance);
             // ReplaceSkill(loc.secondary, FireTwinBeamSkill.instance.skillDef);
 
             prefab.GetComponent<CharacterDeathBehavior>().deathState = new(typeof(BaseConstructDeath));
             EntityStateMachine.FindByCustomName(prefab, "Body").initialStateType = new(typeof(BaseConstructSpawn));
+            EntityStateMachine.FindByCustomName(prefab, "Body").mainStateType = new(typeof(PillarMainState));
         }
 
         public override void SetupIDRS()
