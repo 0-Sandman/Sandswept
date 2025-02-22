@@ -36,6 +36,8 @@ namespace Sandswept.Items.Whites
 
         public static GameObject vfx;
 
+        public static Color32 darkBlue = new(0, 2, 255, 255);
+
         public override void Init(ConfigFile config)
         {
             CreateLang();
@@ -59,12 +61,14 @@ namespace Sandswept.Items.Whites
             var coloredDustBalance = transform.Find("ColoredDustBalance").GetComponent<ParticleSystemRenderer>();
 
             var newColoredDustBalanceMat = new Material(Paths.Material.matChanceShrineDollEffect);
-            newColoredDustBalanceMat.SetColor("_TintColor", new Color32(0, 2, 255, 255));
+            newColoredDustBalanceMat.SetColor("_TintColor", darkBlue);
             newColoredDustBalanceMat.SetTexture("_RemapTex", Paths.Texture2D.texRampAreaIndicator);
             newColoredDustBalanceMat.SetFloat("_Boost", 12f);
             newColoredDustBalanceMat.SetTexture("_MainTex", Paths.Texture2D.texShrineBossSymbol);
 
-            VFXUtils.MultiplyScale(vfx, 1.25f);
+            VFXUtils.MultiplyScale(vfx, 3f);
+            VFXUtils.MultiplyDuration(vfx, 1.5f);
+            VFXUtils.AddLight(vfx, darkBlue, 100f, 20f, 2f);
 
             coloredDustBalance.material = newColoredDustBalanceMat;
 
@@ -127,12 +131,12 @@ namespace Sandswept.Items.Whites
                         baseToken = "SHRINE_BOSS_USE_MESSAGE"
                     });
 
-                    EffectManager.SpawnEffect(Paths.GameObject.ShrineChanceDollUseEffect, new EffectData
+                    EffectManager.SpawnEffect(vfx, new EffectData
                     {
                         origin = interactableObject.transform.position,
                         rotation = Quaternion.identity,
-                        scale = 1f,
-                        color = new Color(0.7372549f, 0.90588236f, 0.94509804f)
+                        scale = 3f,
+                        color = darkBlue
                     }, true);
                     /*
                     EffectManager.SpawnEffect(ShrineChanceBehavior.effectPrefabShrineRewardJackpotVFX, new EffectData
