@@ -7,7 +7,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Utility
     {
         public override string Name => "Sidestep";
 
-        public override string Description => "$suAgile$se. Quickly $susidestep$se a short distance. Getting hit during Sidestep generates $rc5 Charge$ec.".AutoFormat();
+        public override string Description => "$suAgile$se. Quickly $susidestep$se a short distance. Getting hit during $rcSidestep$ec generates $rc5 Charge$ec.".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Utility.Sidestep);
 

@@ -129,9 +129,6 @@ namespace Sandswept.Interactables.Regular
 
             prefab.AddComponent<DisableOnTeleporterStart>();
 
-            var expansionRequirementComponent = prefab.AddComponent<ExpansionRequirementComponent>();
-            expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
-
             PrefabAPI.RegisterNetworkPrefab(prefab);
 
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_NAME", "Shrine of Sacrifice");

@@ -31,12 +31,12 @@ namespace Sandswept.Utils
 
         public static void SetupKeywords()
         {
-            OverdriveFormHeat.Add("<style=cKeywordName>Scorching</style>Passively build up $srheat$se and $srhealing reduction$se, up to $sr100%$se. While in $srfull heat$se, your $sdbase damage$se constantly increases by $sd20%$se, further amplified by $sd10%$se for each $rcCharge$ec, but you take $srincreasingly high self-damage$se.");
-            OverdriveFormPrimary.Add("<style=cKeywordName>Overdriven Form</style>Fire a rapid stream of bullets for $sd75% damage$se. $srHeat$se increases $sdfire rate$se and $sdignite chance$se but $srreduces range$se.");
-            OverdriveFormSecondary.Add("<style=cKeywordName>Overdriven Form</style>$sdIgnite$se. Fire $sdtwo$se short bursts of $srheat$se for $sd4x200% damage$se each. $sdBurst count$se increases up to $sdfour$se while in $srfull heat$se. $suReduce$se $srheat$se by $su25%$se.");
-            OverdriveFormAltSecondary.Add("<style=cKeywordName>Overdriven Form</style>$sdIgnite$se. Fire off a $sdblazing ball$se for $sd600%$se damage that $sdengulfs$se the ground on impact for $sd250%$se damage per second. $suReduce$se $srheat$se by $su50%$se.");
-            OverdriveFormUtility.Add("<style=cKeywordName>Overdriven Form</style>$suAgile$se. $sdStunning$se. $suSidestep$se a very short distance and deal $sd250% damage$se. Hitting enemies generates $rc3 Charge$ec and $sdextends$se the dash.");
-            OverdriveFormSpecial.Add("<style=cKeywordName>Overdriven Form</style>$suAgile$se. $sdIgnite$se. Release a $sdfire nova$se around you that deals $sd300%$se damage, increasing up to $sd900%$se in $srfull heat$se. $suConsume all$se $srheat$se, gaining an $sdattack speed$se boost, and $suexit overdrive$se.");
+            OverdriveFormHeat.Add("<style=cKeywordName>Scorching</style>Passively build up $srheat$se and $srhealing reduction$se, up to $sr100%$se. While in $srfull heat$se, your $sdbase damage$se constantly increases by $sd20%$se, further amplified by $sd10%$se for each $rcCharge$ec, but you take $srincreasingly high self-damage$se.".AutoFormat());
+            OverdriveFormPrimary.Add("<style=cKeywordName>Overdriven Form</style>Fire a rapid stream of bullets for $sd75% damage$se. $srHeat$se increases $sdfire rate$se and $sdignite chance$se but $srreduces range$se.".AutoFormat());
+            OverdriveFormSecondary.Add("<style=cKeywordName>Overdriven Form</style>$sdIgnite$se. Fire $sdtwo$se short bursts of $srheat$se for $sd4x200% damage$se each. $sdBurst count$se increases up to $sdfour$se while in $srfull heat$se. $suReduce$se $srheat$se by $su25%$se.".AutoFormat());
+            OverdriveFormAltSecondary.Add("<style=cKeywordName>Overdriven Form</style>$sdIgnite$se. Fire off a $sdblazing ball$se for $sd600%$se damage that $sdengulfs$se the ground on impact for $sd250%$se damage per second. $suReduce$se $srheat$se by $su50%$se.".AutoFormat());
+            OverdriveFormUtility.Add("<style=cKeywordName>Overdriven Form</style>$suAgile$se. $sdStunning$se. $suSidestep$se a very short distance and deal $sd250% damage$se. Hitting enemies generates $rc3 Charge$ec and $sdextends$se the dash.".AutoFormat());
+            OverdriveFormSpecial.Add("<style=cKeywordName>Overdriven Form</style>$suAgile$se. $sdIgnite$se. Release a $sdfire nova$se around you that deals $sd300%$se damage, increasing up to $sd900%$se in $srfull heat$se. $suConsume all$se $srheat$se, gaining an $sdattack speed$se boost, and $suexit overdrive$se.".AutoFormat());
         }
     }
 }

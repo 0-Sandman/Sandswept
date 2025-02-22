@@ -251,9 +251,6 @@ namespace Sandswept.Interactables.Regular
             modelBase.Find("mdlShrineHealing").gameObject.SetActive(false);
             mdl.transform.parent = modelBase;
 
-            var expansionRequirementComponent = prefab.AddComponent<ExpansionRequirementComponent>();
-            expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
-
             var expansionRequirementComponent2 = prefab.AddComponent<ExpansionRequirementComponent>();
             expansionRequirementComponent2.requiredExpansion = Utils.Assets.ExpansionDef.DLC1;
 

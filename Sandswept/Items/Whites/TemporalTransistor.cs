@@ -184,6 +184,39 @@ namespace Sandswept.Items.Whites
             }
         }
 
+        public static bool IsDoubleJump(CharacterMotor motor, CharacterBody body)
+        {
+            int baseJumpCount = body.baseJumpCount;
+            int num = motor.jumpCount + 1;
+            if (num > baseJumpCount)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool IsBaseJump(CharacterMotor motor, CharacterBody body)
+        {
+            int baseJumpCount = body.baseJumpCount;
+            int num = motor.jumpCount + 1;
+            if (num <= baseJumpCount)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public static bool IsLastJump(CharacterMotor motor, CharacterBody body)
+        {
+            int maxJumpCount = body.maxJumpCount;
+            int num = motor.jumpCount + 1;
+            if (num == maxJumpCount)
+            {
+                return true;
+            }
+            return false;
+        }
+
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
