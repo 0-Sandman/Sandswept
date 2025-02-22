@@ -6,7 +6,9 @@
 - Items
  - Added Universal VIP Pass VFX
  - Improved Their Prominence VFX
+ - Improved Nuclear Salvo textures
  - Improved Sacrificial Band model and textures
+ - Changed Nuclear Salvo icon
  - Changed Sacrificial Band icon
  - Changed some descriptions to be clearer and less confusing
 

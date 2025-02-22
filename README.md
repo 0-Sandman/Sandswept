@@ -369,7 +369,7 @@ Check out our update trailer!</a>
 			</td>
 		</tr>
 		<tr>
-			<td><img src="https://i.postimg.cc/yd9LgHmF/tex-Nuclear-Salvo.png" width="96"></td>
+			<td><img src="https://i.postimg.cc/1zfPRXSK/tex-Nuclear-Salvo3.png" width="96"></td>
 			<td>
 				<b>Nuclear Salvo</b>
 				<br>
