@@ -23,13 +23,6 @@ namespace Sandswept.Items.Whites
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist };
 
-        public override void Init(ConfigFile config)
-        {
-            CreateLang();
-            CreateItem();
-            Hooks();
-        }
-
         [ConfigField("Base Chance", "Decimal.", 0.35f)]
         public static float baseChance;
 
@@ -40,6 +33,43 @@ namespace Sandswept.Items.Whites
         public static bool countStacksAsGlobal;
 
         public static int itemCount;
+
+        public static GameObject vfx;
+
+        public override void Init(ConfigFile config)
+        {
+            CreateLang();
+            CreateItem();
+            Hooks();
+
+            vfx = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineChanceDollUseEffect, "Their Prominence VFX", false);
+
+            var transform = vfx.transform;
+
+            var coloredLightShafts = transform.Find("ColoredLightShafts").GetComponent<ParticleSystemRenderer>();
+
+            var newColoredLightShaftMat = new Material(Paths.Material.matClayBossLightshaft);
+            newColoredLightShaftMat.SetFloat("_AlphaBoost", 4f);
+            newColoredLightShaftMat.SetFloat("_AlphaBias", 0.1f);
+
+            coloredLightShafts.material = newColoredLightShaftMat;
+
+            transform.Find("ColoredLightShaftsBalance").GetComponent<ParticleSystemRenderer>().material = newColoredLightShaftMat;
+
+            var coloredDustBalance = transform.Find("ColoredDustBalance").GetComponent<ParticleSystemRenderer>();
+
+            var newColoredDustBalanceMat = new Material(Paths.Material.matChanceShrineDollEffect);
+            newColoredDustBalanceMat.SetColor("_TintColor", new Color32(0, 2, 255, 255));
+            newColoredDustBalanceMat.SetTexture("_RemapTex", Paths.Texture2D.texRampAreaIndicator);
+            newColoredDustBalanceMat.SetFloat("_Boost", 12f);
+            newColoredDustBalanceMat.SetTexture("_MainTex", Paths.Texture2D.texShrineBossSymbol);
+
+            VFXUtils.MultiplyScale(vfx, 1.25f);
+
+            coloredDustBalance.material = newColoredDustBalanceMat;
+
+            ContentAddition.AddEffect(vfx);
+        }
 
         public override void Hooks()
         {
