@@ -55,6 +55,7 @@ namespace Sandswept.Items.Greens
             var newColoredLightShaftMat = new Material(Paths.Material.matClayBossLightshaft);
             newColoredLightShaftMat.SetFloat("_AlphaBoost", 4f);
             newColoredLightShaftMat.SetFloat("_AlphaBias", 0.1f);
+            newColoredLightShaftMat.SetColor("_TintColor", new Color32(255, 84, 0, 255));
 
             coloredLightShafts.material = newColoredLightShaftMat;
 
@@ -66,7 +67,7 @@ namespace Sandswept.Items.Greens
             newColoredDustBalanceMat.SetColor("_TintColor", pink);
             newColoredDustBalanceMat.SetTexture("_RemapTex", Paths.Texture2D.texRampAreaIndicator);
             newColoredDustBalanceMat.SetFloat("_Boost", 12f);
-            newColoredDustBalanceMat.SetTexture("_MainTex", Paths.Texture2D.texShrineBossSymbol);
+            newColoredDustBalanceMat.SetTexture("_MainTex", Paths.Texture2D.texSpark1Mask);
 
             VFXUtils.MultiplyScale(vfx, 3f);
             VFXUtils.MultiplyDuration(vfx, 1.5f);
