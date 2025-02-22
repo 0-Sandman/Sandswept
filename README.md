@@ -385,7 +385,7 @@ Check out our update trailer!</a>
 			</td>
 		</tr>
 		<tr>
-			<td><img src="https://i.postimg.cc/gcvrKYNH/tex-Sacrificial-Band.png" width="96"></td>
+			<td><img src="https://i.postimg.cc/1XrFMJfM/tex-Sacrificial-Band.png" width="96"></td>
 			<td>
 				<b>Sacrificial Band</b>
 				<br>

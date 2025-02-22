@@ -4,7 +4,10 @@
  - Improved some descriptions
  - Fixed some inconsistencies with formatting
 - Items
- - Improved Sacrificial Band model
+ - Added Universal VIP Pass VFX
+ - Improved Their Prominence VFX
+ - Improved Sacrificial Band model and textures
+ - Changed Sacrificial Band icon
  - Changed some descriptions to be clearer and less confusing
 
 ## 1.1.1 Patch Notes
