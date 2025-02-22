@@ -30,6 +30,10 @@ namespace Sandswept.Items.Greens
         [ConfigField("Stack Extra Items", "", 1)]
         public static int stackExtraItems;
 
+        public static GameObject vfx;
+
+        public static Color32 pink = new(229, 0, 218, 255);
+
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist, ItemTag.CannotDuplicate };
 
         public override void Init(ConfigFile config)
@@ -41,6 +45,37 @@ namespace Sandswept.Items.Greens
             CreateLang();
             CreateItem();
             Hooks();
+
+            vfx = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineChanceDollUseEffect, "Universal VIP Paws VFX", false);
+
+            var transform = vfx.transform;
+
+            var coloredLightShafts = transform.Find("ColoredLightShafts").GetComponent<ParticleSystemRenderer>();
+            //
+            var newColoredLightShaftMat = new Material(Paths.Material.matClayBossLightshaft);
+            newColoredLightShaftMat.SetFloat("_AlphaBoost", 4f);
+            newColoredLightShaftMat.SetFloat("_AlphaBias", 0.1f);
+            newColoredLightShaftMat.SetColor("_TintColor", new Color32(255, 84, 0, 255));
+
+            coloredLightShafts.material = newColoredLightShaftMat;
+
+            transform.Find("ColoredLightShaftsBalance").GetComponent<ParticleSystemRenderer>().material = newColoredLightShaftMat;
+
+            var coloredDustBalance = transform.Find("ColoredDustBalance").GetComponent<ParticleSystemRenderer>();
+
+            var newColoredDustBalanceMat = new Material(Paths.Material.matChanceShrineDollEffect);
+            newColoredDustBalanceMat.SetColor("_TintColor", pink);
+            newColoredDustBalanceMat.SetTexture("_RemapTex", Paths.Texture2D.texRampAreaIndicator);
+            newColoredDustBalanceMat.SetFloat("_Boost", 12f);
+            newColoredDustBalanceMat.SetTexture("_MainTex", Paths.Texture2D.texSpark1Mask);
+
+            VFXUtils.MultiplyScale(vfx, 3f);
+            VFXUtils.MultiplyDuration(vfx, 1.5f);
+            VFXUtils.AddLight(vfx, pink, 100f, 20f, 2f);
+
+            coloredDustBalance.material = newColoredDustBalanceMat;
+
+            ContentAddition.AddEffect(vfx);
         }
 
         public override void Hooks()
@@ -114,6 +149,14 @@ namespace Sandswept.Items.Greens
 
                                     Util.PlaySound("Play_UI_commandHUD_select", chestBehavior.gameObject);
                                     Util.PlaySound("Play_UI_commandHUD_select", chestBehavior.gameObject);
+
+                                    EffectManager.SpawnEffect(vfx, new EffectData
+                                    {
+                                        origin = interactableObject.transform.position,
+                                        rotation = Quaternion.identity,
+                                        scale = 3f,
+                                        color = pink
+                                    }, true);
 
                                     if (Random.Range(0f, 100f) >= 96f)
                                     {

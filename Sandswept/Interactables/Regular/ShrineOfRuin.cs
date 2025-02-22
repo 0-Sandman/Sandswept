@@ -251,9 +251,6 @@ namespace Sandswept.Interactables.Regular
             modelBase.Find("mdlShrineHealing").gameObject.SetActive(false);
             mdl.transform.parent = modelBase;
 
-            var expansionRequirementComponent = prefab.AddComponent<ExpansionRequirementComponent>();
-            expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
-
             var expansionRequirementComponent2 = prefab.AddComponent<ExpansionRequirementComponent>();
             expansionRequirementComponent2.requiredExpansion = Utils.Assets.ExpansionDef.DLC1;
 
@@ -490,32 +487,32 @@ namespace Sandswept.Interactables.Regular
             }
 
             yield return new WaitForSeconds(0.03f);
-            var overlay1 = LanguageAPI.AddOverlay("TELEPORTER_NAME", "...Teleporter?");
+            var overlay1 = LanguageAPI.AddOverlay("TELEPORTER_NAME", "T?eleporter?");
             yield return new WaitForSeconds(0.03f);
-            var overlay2 = LanguageAPI.AddOverlay("TELEPORTER_BEGIN_CONTEXT", "Activate ...Teleporter..?");
+            var overlay2 = LanguageAPI.AddOverlay("TELEPORTER_BEGIN_CONTEXT", "Activate T?eleporter..?");
             yield return new WaitForSeconds(0.03f);
-            var overlay3 = LanguageAPI.AddOverlay("TELEPORTER_END_CONTEXT", "Enter ...Teleporter?");
+            var overlay3 = LanguageAPI.AddOverlay("TELEPORTER_END_CONTEXT", "Enter T?eleporter?");
 
             yield return new WaitForSeconds(0.03f);
-            var overlay4 = LanguageAPI.AddOverlay("LUNAR_TELEPORTER_NAME", "...Primordial Teleporter?");
+            var overlay4 = LanguageAPI.AddOverlay("LUNAR_TELEPORTER_NAME", "...Pr??imordial T?eleporter?");
             yield return new WaitForSeconds(0.03f);
-            var overlay5 = LanguageAPI.AddOverlay("LUNAR_TELEPORTER_BEGIN_CONTEXT", "Activate ...Primordial Teleporter..?");
+            var overlay5 = LanguageAPI.AddOverlay("LUNAR_TELEPORTER_BEGIN_CONTEXT", "Activate ...Pr??imordial T?eleporter..?");
             yield return new WaitForSeconds(0.03f);
-            var overlay6 = LanguageAPI.AddOverlay("LUNAR_TELEPORTER_END_CONTEXT", "Enter ...Primordial Teleporter?");
+            var overlay6 = LanguageAPI.AddOverlay("LUNAR_TELEPORTER_END_CONTEXT", "Enter ...Pr??imordial T?eleporter?");
 
             yield return new WaitForSeconds(0.03f);
-            var overlay7 = LanguageAPI.AddOverlay("OBJECTIVE_FIND_TELEPORTER", "Find and activate the <style=cIsVoid>...Teleporter? <sprite name=\"TP\" tint=1></style>");
+            var overlay7 = LanguageAPI.AddOverlay("OBJECTIVE_FIND_TELEPORTER", "Find and activate the <style=cIsVoid>T?eleporter? <sprite name=\"TP\" tint=1></style>");
             yield return new WaitForSeconds(0.03f);
-            var overlay8 = LanguageAPI.AddOverlay("OBJECTIVE_CHARGE_TELEPORTER", "Charge the <style=cIsVoid>...Teleporter? <sprite name=\"TP\" tint=1></style> ({0}%)");
+            var overlay8 = LanguageAPI.AddOverlay("OBJECTIVE_CHARGE_TELEPORTER", "Charge the <style=cIsVoid>T?eleporter? <sprite name=\"TP\" tint=1></style> ({0}%)");
             yield return new WaitForSeconds(0.03f);
-            var overlay9 = LanguageAPI.AddOverlay("OBJECTIVE_CHARGE_TELEPORTER_OOB", "Enter the <style=cIsVoid>...Teleporter? zone!</style> ({0}%)");
+            var overlay9 = LanguageAPI.AddOverlay("OBJECTIVE_CHARGE_TELEPORTER_OOB", "Enter the <style=cIsVoid>T?eleporter? zone!</style> ({0}%)");
             yield return new WaitForSeconds(0.03f);
-            var overlay10 = LanguageAPI.AddOverlay("OBJECTIVE_FINISH_TELEPORTER", "Proceed through the <style=cIsVoid>...Teleporter? <sprite name=\"TP\" tint=1></style>");
+            var overlay10 = LanguageAPI.AddOverlay("OBJECTIVE_FINISH_TELEPORTER", "Proceed through the <style=cIsVoid>T?eleporter? <sprite name=\"TP\" tint=1></style>");
 
             yield return new WaitForSeconds(0.03f);
-            var overlay11 = LanguageAPI.AddOverlay("PLAYER_ACTIVATED_TELEPORTER_2P", "<style=cEvent>You activated the <style=cIsVoid>...Teleporter? <sprite name=\"TP\" tint=1></style>.</style>");
+            var overlay11 = LanguageAPI.AddOverlay("PLAYER_ACTIVATED_TELEPORTER_2P", "<style=cEvent>You activated the <style=cIsVoid>T?eleporter? <sprite name=\"TP\" tint=1></style>.</style>");
             yield return new WaitForSeconds(0.03f);
-            var overlay12 = LanguageAPI.AddOverlay("PLAYER_ACTIVATED_TELEPORTER_", "<style=cEvent>{0} activated the <style=cIsVoid>...Teleporter? <sprite name=\"TP\" tint=1></style>.</style>");
+            var overlay12 = LanguageAPI.AddOverlay("PLAYER_ACTIVATED_TELEPORTER_", "<style=cEvent>{0} activated the <style=cIsVoid>T?eleporter? <sprite name=\"TP\" tint=1></style>.</style>");
 
             ShrineOfRuin.teleporterLanguageOverlays.Add(overlay1);
             ShrineOfRuin.teleporterLanguageOverlays.Add(overlay2);
@@ -790,19 +787,19 @@ namespace Sandswept.Interactables.Regular
 
             for (int j = 0; j < 2; j++)
             {
-                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampGrass, directorPlacementRule, Run.instance.stageRng));
+                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampGrass, directorPlacementRule, Run.instance.spawnRng));
                 yield return new WaitForSeconds(0.1f);
-                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampTallGrassCluster1, directorPlacementRule, Run.instance.stageRng));
+                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampTallGrassCluster1, directorPlacementRule, Run.instance.spawnRng));
                 yield return new WaitForSeconds(0.1f);
-                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampTallGrassCluster2, directorPlacementRule, Run.instance.stageRng));
+                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampTallGrassCluster2, directorPlacementRule, Run.instance.spawnRng));
                 yield return new WaitForSeconds(0.1f);
-                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampTallGrassCluster3, directorPlacementRule, Run.instance.stageRng));
+                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampTallGrassCluster3, directorPlacementRule, Run.instance.spawnRng));
                 yield return new WaitForSeconds(0.1f);
-                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampKelp, directorPlacementRule, Run.instance.stageRng));
+                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampKelp, directorPlacementRule, Run.instance.spawnRng));
                 yield return new WaitForSeconds(0.1f);
-                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampXYZ, directorPlacementRule, Run.instance.stageRng));
+                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampXYZ, directorPlacementRule, Run.instance.spawnRng));
                 yield return new WaitForSeconds(0.1f);
-                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampXYZOpen, directorPlacementRule, Run.instance.stageRng));
+                DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampXYZOpen, directorPlacementRule, Run.instance.spawnRng));
             }
         }
 

@@ -132,9 +132,6 @@ namespace Sandswept.Interactables.Regular
             prefab.AddComponent<ShrineOfTheFutureController>();
             prefab.AddComponent<UnityIsAFuckingPieceOfShit3>();
 
-            var expansionRequirementComponent = prefab.AddComponent<ExpansionRequirementComponent>();
-            expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
-
             interactableSpawnCard.prefab = prefab;
 
             var combatSquad = prefab.GetComponent<CombatSquad>();
@@ -268,7 +265,7 @@ namespace Sandswept.Interactables.Regular
             List<ScriptedCombatEncounter.SpawnInfo> spawns = new();
             for (int i = 0; i < finalCount; i++)
             {
-                spawns.Add(scriptedCombatEncounter.spawns[Run.instance.stageRng.RangeInt(0, scriptedCombatEncounter.spawns.Length)]);
+                spawns.Add(scriptedCombatEncounter.spawns[Run.instance.spawnRng.RangeInt(0, scriptedCombatEncounter.spawns.Length)]);
             }
 
             scriptedCombatEncounter.spawns = spawns.ToArray();

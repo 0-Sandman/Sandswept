@@ -6,7 +6,7 @@ namespace Sandswept.Survivors.Electrician.Skills
     public class SignalOverload : SkillBase<SignalOverload>
     {
         public override string Name => Random.Range(0f, 100f) >= 98f ? "Sigma Overload" : "Signal Overload";
-        public override string Description => "<style=cIsDamage>Grounding.</style> Briefly wind up and drain your $shshield$se, unleashing a $sdbeam of energy$se for $sd3$se seconds that $supulls$se enemies inward and $sdzaps$se them in a large radius for $sd320%-800%$se damage per second, scaling with $shshield$se drained.".AutoFormat();
+        public override string Description => "<style=cIsDamage>Grounding.</style> Briefly wind up and drain your $shshield$se, unleashing a $sdbeam of energy$se for $sd3$se seconds that $supulls$se enemies inward and $sdzaps$se them in a large radius for $sd320%-800% damage per second$se, scaling with $shshield$se drained.".AutoFormat();
         public override Type ActivationStateType => typeof(SignalOverloadCharge);
         public override string ActivationMachineName => "Weapon";
         public override float Cooldown => 12f;

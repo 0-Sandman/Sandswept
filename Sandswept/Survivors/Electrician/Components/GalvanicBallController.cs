@@ -53,7 +53,7 @@ namespace Sandswept.Survivors.Electrician
         {
             Collider[] collidersTmp = Physics.OverlapSphere(base.transform.position, radius, LayerIndex.entityPrecise.mask, QueryTriggerInteraction.Ignore);
             List<HealthComponent> alreadyStruck = new();
-            IEnumerable<Collider> colliders = collidersTmp.Shuffle(Run.instance.stageRng);
+            IEnumerable<Collider> colliders = collidersTmp.Shuffle(Run.instance.spawnRng);
 
             TeamIndex team = GetComponent<TeamFilter>().teamIndex;
 

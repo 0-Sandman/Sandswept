@@ -164,14 +164,14 @@ namespace Sandswept.Interactables.Regular
             var sceneName = SceneManager.GetActiveScene().name;
             if (sceneName == "moon2")
             {
-                var randomPos = possibleCommencementSpots[Run.instance.stageRng.RangeInt(0, possibleCommencementSpots.Count)];
+                var randomPos = possibleCommencementSpots[Run.instance.spawnRng.RangeInt(0, possibleCommencementSpots.Count)];
 
                 DirectorPlacementRule directorPlacementRule = new()
                 {
                     placementMode = DirectorPlacementRule.PlacementMode.Direct,
                     position = randomPos
                 };
-                var shrineOfDeathInstance = DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Instance.interactableSpawnCard, directorPlacementRule, Run.instance.stageRng));
+                var shrineOfDeathInstance = DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Instance.interactableSpawnCard, directorPlacementRule, Run.instance.spawnRng));
             }
         }
     }

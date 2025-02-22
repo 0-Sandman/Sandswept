@@ -22,7 +22,7 @@ namespace Sandswept.Items.Greens
 
         public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("NuclearSalvoHolder.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texNuclearSalvo.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texNuclearSalvo3.png");
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.BrotherBlacklist, ItemTag.AIBlacklist };
 

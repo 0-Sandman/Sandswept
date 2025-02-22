@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using RoR2.ExpansionManagement;
+using System.Reflection;
+using static Rewired.UI.ControlMapper.ControlMapper;
 
 namespace Sandswept.Interactables
 {
@@ -85,6 +87,9 @@ namespace Sandswept.Interactables
                     Helpers.AddNewInteractableToStage(directorCardHolder, stage);
                 }
             }
+
+            var expansionRequirementComponent = interactableSpawnCard.prefab.AddComponent<ExpansionRequirementComponent>();
+            expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
         }
 
         public static bool DefaultEnabledCallback(InteractableBase self)

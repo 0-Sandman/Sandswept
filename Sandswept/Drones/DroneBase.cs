@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using RoR2.ExpansionManagement;
 using Sandswept.Utils;
 
 namespace Sandswept.Drones
@@ -14,6 +15,7 @@ namespace Sandswept.Drones
             Instance = this as T;
         }
     }
+
     public abstract class DroneBase
     {
         public abstract GameObject DroneBody { get; }
@@ -52,6 +54,9 @@ namespace Sandswept.Drones
             DeathState.droneCards.Add(DroneBody.name, iscBroken);
 
             DroneBody.GetComponent<CharacterDeathBehavior>().deathState = new(typeof(DeathState));
+
+            var expansionRequirementComponent = DroneBroken.AddComponent<ExpansionRequirementComponent>();
+            expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
         }
 
         public static bool DefaultEnabledCallback(DroneBase self)

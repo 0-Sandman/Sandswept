@@ -22,6 +22,7 @@ namespace Sandswept.Utils
         public static string ActiveReload = "KEYWORD_ACTIVERELOAD";
         public static string VoidCorruption = "KEYWORD_VOIDCORRUPTION";
 
+        public static string OverdriveFormHeat = "SANDSWEPT_KEYWORD_OVERDRIVE_HEAT";
         public static string OverdriveFormPrimary = "SANDSWEPT_KEYWORD_OVERDRIVE_PRIMARY";
         public static string OverdriveFormSecondary = "SANDSWEPT_KEYWORD_OVERDRIVE_SECONDARY";
         public static string OverdriveFormAltSecondary = "SANDSWEPT_KEYWORD_OVERDRIVE_SECONDARY_ALT";
@@ -30,11 +31,12 @@ namespace Sandswept.Utils
 
         public static void SetupKeywords()
         {
-            OverdriveFormPrimary.Add("<style=cKeywordName>Overdriven Form</style><style=cIsUtility>Agile</style>. Fire a rapid stream of bullets for <style=cIsDamage>80% damage</style>. <style=cDeath>Heat</style> increases <style=cIsDamage>fire rate</style> and <style=cIsDamage>ignite chance</style> but <style=cDeath>reduces range</style>.");
-            OverdriveFormSecondary.Add("<style=cKeywordName>Overdriven Form</style><style=cIsDamage>Ignite</style>. Fire <style=cIsDamage>two</style> short bursts of heat for <style=cIsDamage>4x200% damage</style> each. <style=cIsDamage>Burst count</style> increases up to <style=cIsDamage>four</style> while in full heat. Reduce <style=cDeath>heat</style> by <style=cDeath>25%</style>.");
-            OverdriveFormAltSecondary.Add("<style=cKeywordName>Overdriven Form</style><style=cIsDamage>Ignite</style>. Fire off a <style=cIsDamage>blazing ball</style> for <style=cIsDamage>600%</style> damage that <style=cIsDamage>engulfs</style> the ground on impact for <style=cIsDamage>250%</style> damage per second. Reduce $srheat$se by $su50%$se.");
-            OverdriveFormUtility.Add("<style=cKeywordName>Overdriven Form</style><style=cIsUtility>Agile</style>. <style=cIsDamage>Stunning</style>. <style=cIsUtility>Sidestep</style> a very short distance and deal <style=cIsDamage>250% damage</style>. Hitting enemies generates <color=#36D7A9>3 Charge</style> and <style=cIsDamage>extends</style> the dash.");
-            OverdriveFormSpecial.Add("<style=cKeywordName>Overdriven Form</style><style=cIsUtility>Agile</style>. <style=cIsDamage>Ignite</style>. Release a <style=cIsDamage>fire nova</style> around you that deals <style=cIsDamage>300%</style> damage, increasing up to <style=cIsDamage>900%</style> in full heat. <style=cIsUtility>Consume all heat</style>, gaining an <style=cIsDamage>attack speed</style> boost, and <style=cDeath>exit overdrive</style>.");
+            OverdriveFormHeat.Add("<style=cKeywordName>Scorching</style>Passively build up $srheat$se and $srhealing reduction$se, up to $sr100%$se. While in $srfull heat$se, your $sdbase damage$se constantly increases by $sd20%$se, further amplified by $sd10%$se for each $rcCharge$ec, but you take $srincreasingly high self-damage$se.".AutoFormat());
+            OverdriveFormPrimary.Add("<style=cKeywordName>Overdriven Form</style>Fire a rapid stream of bullets for $sd75% damage$se. $srHeat$se increases $sdfire rate$se and $sdignite chance$se but $srreduces range$se.".AutoFormat());
+            OverdriveFormSecondary.Add("<style=cKeywordName>Overdriven Form</style>$sdIgnite$se. Fire $sdtwo$se short bursts of $srheat$se for $sd4x200% damage$se each. $sdBurst count$se increases up to $sdfour$se while in $srfull heat$se. $suReduce$se $srheat$se by $su25%$se.".AutoFormat());
+            OverdriveFormAltSecondary.Add("<style=cKeywordName>Overdriven Form</style>$sdIgnite$se. Fire off a $sdblazing ball$se for $sd600%$se damage that $sdengulfs$se the ground on impact for $sd250%$se damage per second. $suReduce$se $srheat$se by $su50%$se.".AutoFormat());
+            OverdriveFormUtility.Add("<style=cKeywordName>Overdriven Form</style>$suAgile$se. $sdStunning$se. $suSidestep$se a very short distance and deal $sd250% damage$se. Hitting enemies generates $rc3 Charge$ec and $sdextends$se the dash.".AutoFormat());
+            OverdriveFormSpecial.Add("<style=cKeywordName>Overdriven Form</style>$suAgile$se. $sdIgnite$se. Release a $sdfire nova$se around you that deals $sd300%$se damage, increasing up to $sd900%$se in $srfull heat$se. $suConsume all$se $srheat$se, gaining an $sdattack speed$se boost, and $suexit overdrive$se.".AutoFormat());
         }
     }
 }

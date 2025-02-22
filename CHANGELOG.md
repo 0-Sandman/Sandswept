@@ -1,3 +1,17 @@
+## 1.1.2 Patch Notes
+- Ranger
+ - Added keyword for the Heat mechanic
+ - Improved some descriptions
+ - Fixed some inconsistencies with formatting
+- Items
+ - Added Universal VIP Pass VFX
+ - Improved Their Prominence VFX
+ - Improved Nuclear Salvo textures
+ - Improved Sacrificial Band model and textures
+ - Changed Nuclear Salvo icon
+ - Changed Sacrificial Band icon
+ - Changed some descriptions to be clearer and less confusing
+
 ## 1.1.1 Patch Notes
 - Interactables
   - Improved Shrine of Ruin VFX

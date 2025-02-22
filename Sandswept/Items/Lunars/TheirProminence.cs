@@ -23,13 +23,6 @@ namespace Sandswept.Items.Whites
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist };
 
-        public override void Init(ConfigFile config)
-        {
-            CreateLang();
-            CreateItem();
-            Hooks();
-        }
-
         [ConfigField("Base Chance", "Decimal.", 0.35f)]
         public static float baseChance;
 
@@ -40,6 +33,47 @@ namespace Sandswept.Items.Whites
         public static bool countStacksAsGlobal;
 
         public static int itemCount;
+
+        public static GameObject vfx;
+
+        public static Color32 darkBlue = new(0, 2, 255, 255);
+
+        public override void Init(ConfigFile config)
+        {
+            CreateLang();
+            CreateItem();
+            Hooks();
+
+            vfx = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineChanceDollUseEffect, "Their Prominence VFX", false);
+
+            var transform = vfx.transform;
+
+            var coloredLightShafts = transform.Find("ColoredLightShafts").GetComponent<ParticleSystemRenderer>();
+
+            var newColoredLightShaftMat = new Material(Paths.Material.matClayBossLightshaft);
+            newColoredLightShaftMat.SetFloat("_AlphaBoost", 4f);
+            newColoredLightShaftMat.SetFloat("_AlphaBias", 0.1f);
+
+            coloredLightShafts.material = newColoredLightShaftMat;
+
+            transform.Find("ColoredLightShaftsBalance").GetComponent<ParticleSystemRenderer>().material = newColoredLightShaftMat;
+
+            var coloredDustBalance = transform.Find("ColoredDustBalance").GetComponent<ParticleSystemRenderer>();
+
+            var newColoredDustBalanceMat = new Material(Paths.Material.matChanceShrineDollEffect);
+            newColoredDustBalanceMat.SetColor("_TintColor", darkBlue);
+            newColoredDustBalanceMat.SetTexture("_RemapTex", Paths.Texture2D.texRampAreaIndicator);
+            newColoredDustBalanceMat.SetFloat("_Boost", 12f);
+            newColoredDustBalanceMat.SetTexture("_MainTex", Paths.Texture2D.texShrineBossSymbol);
+
+            VFXUtils.MultiplyScale(vfx, 3f);
+            VFXUtils.MultiplyDuration(vfx, 1.5f);
+            VFXUtils.AddLight(vfx, darkBlue, 100f, 20f, 2f);
+
+            coloredDustBalance.material = newColoredDustBalanceMat;
+
+            ContentAddition.AddEffect(vfx);
+        }
 
         public override void Hooks()
         {
@@ -97,12 +131,12 @@ namespace Sandswept.Items.Whites
                         baseToken = "SHRINE_BOSS_USE_MESSAGE"
                     });
 
-                    EffectManager.SpawnEffect(Paths.GameObject.ShrineChanceDollUseEffect, new EffectData
+                    EffectManager.SpawnEffect(vfx, new EffectData
                     {
                         origin = interactableObject.transform.position,
                         rotation = Quaternion.identity,
-                        scale = 1f,
-                        color = new Color(0.7372549f, 0.90588236f, 0.94509804f)
+                        scale = 3f,
+                        color = darkBlue
                     }, true);
                     /*
                     EffectManager.SpawnEffect(ShrineChanceBehavior.effectPrefabShrineRewardJackpotVFX, new EffectData

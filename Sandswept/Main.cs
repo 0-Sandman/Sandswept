@@ -57,7 +57,7 @@ namespace Sandswept
     {
         public const string ModGuid = "com.TeamSandswept.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVer = "1.1.1";
+        public const string ModVer = "1.1.2";
 
         public static AssetBundle MainAssets;
         public static AssetBundle Assets;
@@ -305,7 +305,7 @@ namespace Sandswept
             SandsweptExpansionDef = dgoslingAssets.LoadAsset<ExpansionDef>("SandSweptExpDef");
             SandsweptExpansionDef.nameToken.Add("Sandswept");
             SandsweptExpansionDef.descriptionToken.Add("Adds content from the 'Sandswept' expansion to the game <3. Have fun <3.");
-            SandsweptExpansionDef.disabledIconSprite = Utils.Assets.Texture2D.texUnlockIcon.MakeSprite();
+            SandsweptExpansionDef.disabledIconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texUnlockIcon.png");
             ContentAddition.AddExpansionDef(SandsweptExpansionDef);
         }
 
