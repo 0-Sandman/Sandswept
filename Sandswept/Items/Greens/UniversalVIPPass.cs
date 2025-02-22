@@ -51,7 +51,7 @@ namespace Sandswept.Items.Greens
             var transform = vfx.transform;
 
             var coloredLightShafts = transform.Find("ColoredLightShafts").GetComponent<ParticleSystemRenderer>();
-
+            //
             var newColoredLightShaftMat = new Material(Paths.Material.matClayBossLightshaft);
             newColoredLightShaftMat.SetFloat("_AlphaBoost", 4f);
             newColoredLightShaftMat.SetFloat("_AlphaBias", 0.1f);
