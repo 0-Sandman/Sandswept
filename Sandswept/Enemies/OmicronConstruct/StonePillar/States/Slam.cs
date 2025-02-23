@@ -19,7 +19,7 @@ namespace Sandswept.Enemies.StonePillar.States {
         {
             base.FixedUpdate();
 
-            if (rigidbody.velocity.y <= 0.5f && base.fixedAge >= 0.1f) {
+            if (Mathf.Abs(rigidbody.velocity.y) <= 0.5f && base.fixedAge >= 0.1f) {
                 rigidbody.velocity = Vector3.zero;
                 outer.SetNextStateToMain();
                 OnHitGround(base.transform.position);
