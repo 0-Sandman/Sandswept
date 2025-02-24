@@ -24,7 +24,7 @@ namespace Sandswept.Items.Greens
         [ConfigField("Base Chance", "Decimal.", 0.4f)]
         public static float baseChance;
 
-        [ConfigField("Stack Chance", "", 0.4f)]
+        [ConfigField("Stack Chance", "Decimal.", 0.4f)]
         public static float stackChance;
 
         [ConfigField("Extra Items", "", 1)]
