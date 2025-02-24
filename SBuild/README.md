@@ -53,13 +53,13 @@ Check out our update trailer!</a>
       <td><img src="https://i.postimg.cc/TwM8hGL6/image2.png" width="64"/></td>
       <td><b>Secondary:</b> Release
 	  <br>
-          Lose all Charge. Fire a piercing blast for 600% damage, increasing up to 1800% at full Charge.</td>
+          Consume all Charge. Fire a piercing blast for 600% damage, increasing up to 1800% at full Charge.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/JhgLFXHk/b1.png" width="64"/></td>
       <td><b>Alt-Secondary:</b> Galvanize
 	  <br>
-		  Lose all Charge. Fire 3 orbs of electricity, increasing up to 10 at full Charge for 80% damage per second each.</td>
+		  Consume all Charge. Fire 3 orbs of electricity, increasing up to 10 at full Charge for 80% damage per second each.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/C5GmjyVK/sand4.png" width="64"/></td>
@@ -101,13 +101,13 @@ Check out our update trailer!</a>
       <td><img src="https://i.postimg.cc/DwBpjK4J/sand8.png" width="64"/></td>
       <td><b>Special:</b> Heat Sink
 	  <br>
-          Agile. Ignite. Release a fire nova around you that deals 300% base damage, increasing up to 900% in full heat. Consume all heat, gaining an attack speed boost, and exit overdrive.</td>
+          Agile. Ignite. Release a fire nova around you that deals 300% damage, increasing up to 900% in full heat. Consume all heat, gaining an attack speed boost, and exit overdrive.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/52w9KFnf/heat-Mechanic.png" width="64"/></td>
-      <td><b>Heat Mechanic</b>
+      <td><b>Scorching</b>
 	  <br>
-          While in overdrive, you passively build up heat and healing reduction. While in full heat, your base damage constantly increases, further amplified by Charge, but you take increasingly high self-damage.</td>
+          While in overdrive, you passively build up heat and healing reduction, up to 100%. While in full heat, your base damage constantly increases by 20%, further amplified by 10% for each Charge, but you take increasingly high self-damage.</td>
     </tr>
     <tr>
       <td colspan="2" align="center"><h3>VOL-T</h3></td>
@@ -134,7 +134,7 @@ Check out our update trailer!</a>
       <td><img src="https://i.postimg.cc/XvPHWc8n/sand11.png" width="64"/></td>
       <td><b>Secondary:</b> Tempest Sphere
 	  <br>
-          Send forth an orb of energy that damages targets within for 500% damage per second. Release to lock the orb in place.</td>
+          Send forth an orb of energy that damages targets within for 385% damage per second. Release to lock the orb in place.</td>
     </tr>
     <tr>
       <td><img src="https://i.postimg.cc/fyn8tzpF/sand12.png" width="64"/></td>
@@ -357,7 +357,7 @@ Check out our update trailer!</a>
 			<td>
 				<b>Crown's Diamond</b>
 				<br>
-				Being out of danger grants <b>20%</b> of maximum health as barrier. Barrier decays <b>15% (+15% per stack, hyperbolic)</b> slower while out of combat or danger.
+				Being out of danger grants <b>20%</b> barrier every 7 seconds. Barrier decays <b>15% (+15% per stack, hyperbolic)</b> slower while out of combat or danger.
 			</td>
 		</tr>
 		<tr>
@@ -369,7 +369,7 @@ Check out our update trailer!</a>
 			</td>
 		</tr>
 		<tr>
-			<td><img src="https://i.postimg.cc/yd9LgHmF/tex-Nuclear-Salvo.png" width="96"></td>
+			<td><img src="https://i.postimg.cc/1zfPRXSK/tex-Nuclear-Salvo3.png" width="96"></td>
 			<td>
 				<b>Nuclear Salvo</b>
 				<br>
@@ -381,11 +381,11 @@ Check out our update trailer!</a>
 			<td>
 				<b>Pocket Plutonium</b>
 				<br>
-				Gain a shield equal to <b>10%</b> of your maximum health. Upon losing all shield, create a nuclear pool in a <b>20m</b> area that deals <b>750% (+750% per stack)</b> base damage, plus an additional <b>250% (+250% per stack)</b> of shields.
+				Gain a shield equal to <b>10%</b> of your maximum health. Upon losing all shield, create a nuclear pool in a <b>20m</b> area that deals <b>750% (+750% per stack)</b> base damage, plus an additional <b>250% (+250% per stack)</b> of shield.
 			</td>
 		</tr>
 		<tr>
-			<td><img src="https://i.postimg.cc/gcvrKYNH/tex-Sacrificial-Band.png" width="96"></td>
+			<td><img src="https://i.postimg.cc/1XrFMJfM/tex-Sacrificial-Band.png" width="96"></td>
 			<td>
 				<b>Sacrificial Band</b>
 				<br>
@@ -401,7 +401,7 @@ Check out our update trailer!</a>
 			</td>
 		</tr>
 		<tr>
-			<td><img src="https://i.postimg.cc/ZRjHQ7rG/tex-Sun-Fragment-Locked.png" width="96"></td>
+			<td><img src="https://i.postimg.cc/d3mbhhvk/tex-Sun-Fragment-Locked2.png" width="96"></td>
 			<td>
 				<b>Sun Fragment</b>
 				<br>
@@ -448,7 +448,7 @@ Check out our update trailer!</a>
 			<td>
 				<b>Bleeding Witness</b>
 				<br>
-				<b>8%</b> chance on hit to hemorrhage enemies for <b>500%</b> base damage. Your damage over time effects heal all allies for <b>0.33% (+0.33% per stack)</b> of their maximum health.
+				<b>8%</b> chance on hit to hemorrhage enemies for <b>500%</b> base damage. Your damage over time ticks heal all allies for <b>0.33% (+0.33% per stack)</b> of their maximum health.
 			</td>
 		</tr>
 		<tr>

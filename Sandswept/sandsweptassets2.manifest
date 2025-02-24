@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1460355947
+CRC: 2498874392
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: b1668c34eb02f9e89cc55e556ebae7fb
+    Hash: 45f825ea304e1de5e17c3bcbff4dcf98
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 2912771e32a58accde197a38e24be8d8
+    Hash: d43b465cb8a2ec249b997f7ff058e48d
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -44,11 +44,11 @@ ClassTypes:
 - Class: 108
   Script: {instanceID: 0}
 - Class: 114
+  Script: {fileID: 1297580292, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: 1952035242, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
   Script: {fileID: 1788389205, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: 1297580292, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1143142494, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -352,6 +352,7 @@ Assets:
 - Assets/Sandswept/Base/Items/CellShield/matCellShield.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tripwire/matElecMine.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvSpark.mat
+- Assets/Sandswept/Base/Characters/OmicronConstruct/OmicronMaster.prefab
 - Assets/Sandswept/Base/Characters/Ranger/skills/OverheatPrimary.png
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianBody.mat
 - Assets/Sandswept/Base/Characters/ThetaConstruct/ThetaConstructLog.asset
@@ -372,6 +373,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/Ranger/CrosshairRanger.prefab
 - Assets/Sandswept/Base/Items/CellShield/matSparkFlare.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvOverlay.mat
+- Assets/Sandswept/Base/Characters/OmicronConstruct/OmicronBody.prefab
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElecMastery.mat
 - Assets/Sandswept/Base/Characters/DeltaConstruct/mdl/mdlDeltaConstruct.prefab
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/tempest sphere/TempestSphereProjectile.prefab
@@ -440,10 +442,12 @@ Assets:
 - Assets/Sandswept/Base/Characters/Megalomaniac/projectiles/sticky orb/MegaloStickyProjectile.prefab
 - Assets/Sandswept/Base/Characters/Electrician/effects/matMuzzleSpark.mat
 - Assets/Sandswept/Base/Characters/InfernoDrone/InfernoDroneBroken.prefab
+- Assets/Sandswept/Base/Characters/OmicronConstruct/Stone Pillar/StonePillarBody.prefab
 - Assets/Sandswept/Base/Characters/Electrician/mdl/interatable/BrokenDroneVFX.prefab
 - Assets/Sandswept/Base/Items/TemporalTransistor/matTransistorSwirl.mat
 - Assets/Sandswept/Base/Characters/InfernoDrone/InfernoDroneBody.prefab
 - Assets/Sandswept/Base/Characters/InfernoDrone/InfernoDroneMaster.prefab
+- Assets/Sandswept/Base/Characters/OmicronConstruct/Stone Pillar/StonePillarMaster.prefab
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianOrbOuter.mat
 - Assets/Sandswept/Base/Characters/DeltaConstruct/DeltaConstructBody.prefab
 - Assets/Sandswept/Base/Characters/ThetaConstruct/DisplayThetaConstruct.prefab

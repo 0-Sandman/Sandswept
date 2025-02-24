@@ -1,3 +1,21 @@
+## 1.1.2 Patch Notes
+- Ranger
+ - Added keyword for the Heat mechanic
+ - Improved some descriptions
+ - Fixed some inconsistencies with formatting
+- Items
+ - Added Universal VIP Pass VFX
+ - Improved Their Prominence VFX
+ - Improved Nuclear Salvo textures
+ - Improved Sacrificial Band model and textures
+ - Changed Nuclear Salvo icon
+ - Changed Sacrificial Band icon
+ - Changed some descriptions to be clearer and less confusing
+
+## 1.1.1 Patch Notes
+- Interactables
+  - Improved Shrine of Ruin VFX
+
 ## 1.1.0 Patch Notes
 - Ranger
   - Fixed Mastery achievement not having an icon
@@ -14,10 +32,11 @@
   - Nerfed Sun Fragment Chance from 9% to 8%
   - Updated all logs
   - Fixed Millenium knocking up enemies
-  - Unfarlandified Sacrificial Band (more fixes in future updates)
+  - Unfarlandified and fixed the pickup scale of all models
 - Interactables
   - Made Shrine of The Future spawn an extra enemy per player in multiplayer
   - Improved Shrine of Ruin VFX
+  - Fixed Inferno Drone not dropping itself on death
   - Fixed Shrine of Ruin giving back the items it took
   - Fixed Shrine of Ruin sounds (finally gfhffgdf)
   - Fixed Shrine of Ruin not corrupting Abyssal Depths

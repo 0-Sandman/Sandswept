@@ -395,7 +395,11 @@ namespace Sandswept.Interactables.Regular
 
             if (shouldReplaceDrops)
             {
-                SceneDef scene = SceneCatalog.FindSceneDef(SceneCatalog.mostRecentSceneDef.cachedName.Substring(2));
+                string sceneName = SceneCatalog.mostRecentSceneDef.cachedName.Substring(2);
+                if (sceneName == "dampcave") {
+                    sceneName = "dampcavesimple";
+                }
+                SceneDef scene = SceneCatalog.FindSceneDef(sceneName);
                 WeightedSelection<SceneDef> weightedSelection = new();
                 scene.AddDestinationsToWeightedSelection(weightedSelection, (x) =>
                 {

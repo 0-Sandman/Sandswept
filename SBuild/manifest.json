@@ -1,6 +1,6 @@
 {
     "name": "Sandswept",
-    "version_number": "1.1.1",
+    "version_number": "1.1.2",
     "website_url": "https://github.com/0-Sandman/Sandswept/",
     "description": "[1.0.0 - New Survivor, Enemies & More] A content expansion that adds a variety of unique and high quality content including enemies, interactables, survivors and more.",
     "dependencies": [
@@ -18,6 +18,5 @@
 		"RiskofThunder-R2API_Director-2.3.2",
 		"RiskofThunder-R2API_ProcType-1.0.2",
 		"KingEnderBrine-LobbySkinsFix-1.2.1",
-		"KingEnderBrine-ScrollableLobbyUI-1.9.1"
     ]
 }
