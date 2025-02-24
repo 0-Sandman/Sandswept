@@ -5,6 +5,7 @@
  - Fixed some inconsistencies with formatting
 - Items
  - Added Universal VIP Pass VFX
+ - Reworked Universal VIP Pass to have a 40% (+40% per stack, hyperbolic) chance of dropping 1 extra item.
  - Improved Their Prominence VFX
  - Improved Nuclear Salvo textures
  - Improved Sacrificial Band model and textures

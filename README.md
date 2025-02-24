@@ -418,7 +418,7 @@ Check out our update trailer!</a>
 			<td>
 				<b>Universal VIP Pass</b>
 				<br>
-				Category chests have a <b>50%</b> chance of dropping <b>1 (+1 per stack)</b> extra items.
+				Category chests have a <b>40% (+40% per stack, hyperbolic)</b> chance of dropping <b>1</b> extra item.
 			</td>
 		</tr>
 		<tr>
