@@ -7,9 +7,9 @@ namespace Sandswept.Items.Reds
 
         public override string ItemLangTokenName => "TORN_FEATHER";
 
-        public override string ItemPickupDesc => "Gain an omni-directional dash when tapping Interact. Refreshes when grounded.";
+        public override string ItemPickupDesc => "Tap Interact to perform an omni-directional dash. Refreshes upon landing.";
 
-        public override string ItemFullDescription => $"Tap $sdInteract$se to perform an $suomni-directional dash$se. Can dash $sutwice$se before hitting the ground. Gain $su{baseMovementSpeedGain * 100f}%$se $ss(+{stackMovementSpeedGain * 100f}% per stack)$se movement speed.".AutoFormat();
+        public override string ItemFullDescription => $"Tap $suInteract$se to perform an $suomni-directional dash$se, up to $su2 times$se before hitting the ground. Gain $su{baseMovementSpeedGain * 100f}%$se $ss(+{stackMovementSpeedGain * 100f}% per stack)$se movement speed.".AutoFormat();
 
         public override string ItemLore => "<style=cMono>//--AUTO-TRANSCRIPTION FROM LOADING BAY 6 OF THE UES [Redacted] --//\r\n</style>\r\n\"Whoa...\"\r\n\r\n\"Quite something, eh?\"\r\n\r\n\"Yeah, it's...it's like holding a dream.\"\r\n\r\n\"I know the feeling. Once in a while, these steel tubes of hell are blessed with something so special, it's hard to resist the temptation to just take it for yourself and fly away.\"\r\n\r\n\"...mhm.\"\r\n\r\n\"But—\"\r\n\r\n\"Hey!\"\r\n\r\n\"—we must not fall prey to it. The steel-toed boot of the UESC is swift and agonizing.\"\r\n\r\n\"...yeah, you're right.\"\r\n\r\n\"Indeed I am! As with many things, you'll soon learn. I can't blame you, though. Honestly, this might just be the most magical thing I've seen in these docks. It probably ought to be in the Hall of the Revered, but I guess some lucky sap nabbed it first. Time will tell how long it'll be before those Martians get their divine mitts on it. They always do, in the end.\"\r\n\r\n...\r\n\r\n\"Well, now you're just ogling at it, too.\"\r\n\r\n\"Ah, so I am! See, not even I, in my ultimate wisdom, am fully immune to such things. Oh, well; into the abyssal maw of the shipping crate it goes!\"\r\n\r\n...you'll get over it, with time. Just try not to think about it, especially while it's still in this dock. For us, it's back to work.\"\r\n";
 

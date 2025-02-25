@@ -456,7 +456,7 @@ Check out our update trailer!</a>
 			<td>
 				<b>Ceremonial Jar</b>
 				<br>
-				On hit, link enemies up to <b>3</b> times. Linked enemies take <b>1500% (+1500% per stack)</b> base damage each and cannot be linked for <b>5</b> seconds afterward.
+				Enemies hit with any skill get linked, up to <b>3</b> times. Linked enemies take <b>1500% (+1500% per stack)</b> base damage each and cannot be linked for <b>5</b> seconds afterward.
 			</td>
 		</tr>
 		<tr>
@@ -464,7 +464,7 @@ Check out our update trailer!</a>
 			<td>
 				<b>Torn Feather</b>
 				<br>
-				Tap Interact to perform an omni-directional dash. Can dash twice before hitting the ground. Gain <b>20% (+35% per stack)</b> movement speed.
+				Tap Interact to perform an omni-directional dash, up to <b>2</b> times before hitting the ground. Gain <b>20% (+35% per stack)</b> movement speed.
 			</td>
 		</tr>
 		<tr>

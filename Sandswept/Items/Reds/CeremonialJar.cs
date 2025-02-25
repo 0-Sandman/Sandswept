@@ -10,9 +10,9 @@ namespace Sandswept.Items.Reds
     {
         public override string ItemLangTokenName => "CEREMONIAL_JAR";
 
-        public override string ItemPickupDesc => "Link enemies on hit. Linked enemies take massive damage.";
+        public override string ItemPickupDesc => "Enemies hit with any skill get linked. Linked enemies take massive damage.";
 
-        public override string ItemFullDescription => $"$sdLink$se enemies on hit. Linking $sd{linkedEnemiesRequirement}$se enemies deals $sd{baseDamage * 100f}%$se $ss(+{stackDamage * 100f}% per stack)$se $sdbase damage$se to each. Enemies become immune to getting $sdlinked$se for $sd{linkedEnemyCooldown}$se seconds afterward.".AutoFormat();
+        public override string ItemFullDescription => $"Enemies hit with any $suskill$se get $sdlinked$se, up to $sd{linkedEnemiesRequirement}$se times. Linked enemies take $sd{baseDamage * 100f}%$se $ss(+{stackDamage * 100f}% per stack)$se $sdbase damage$se each and cannot be $sdlinked$se for $sd{linkedEnemyCooldown}$se seconds afterward.".AutoFormat();
 
         public override string ItemLore => "\"In the early days, the Tar was localized to only a few of the dunepeople's smaller towns and villages. This slow start was merely a silent beginning to its takeover, though, ending with the crusades of those now called the \"tainted generation,\" for whom the Tar had been present since birth.\r\n\r\nAs the Tar's cultural relevance in those isolated places grew, it stopped being a symbiotic equal, and became a divine superior. It was worshipped as a god, one whose existence was undeniable, and whose gifts were powerful, and the tainted generation took it upon themselves to crusade through all of Aphelia and spread it.\r\n\r\nAt first, the crusades were met with only skepticism and rejection from those not used to the Tar's presence. Some doubted the Tar's existence; those who didn't, doubted its power; and those who did neither, were rightfully wary of its influence. With an inability to demonstrate the Tar's existence or potency without travelling all the way back to their hometowns, the crusaders only recruited a scarce few. With their new handful of allies, though, they discovered a way to transport the Tar, and thus, its first vessel was created.\r\n\r\nThough simple in design, this original clay jar was the cornerstone to the Tar epidemic. The original jar was worshipped as an idol. The dunepeople fed what they had to it, allowing the Tar to spread forth. Brought from town to town, village to village, city to city, the vessel crushed all doubts of the Tar's power or existence, quickly integrating itself into all of the dunepeople's struggling civilization. Those who continued to warn against the Tar's influence were bribed with its power, and those who couldn't be bribed were fed to Aphelia's new god.\"\r\n\r\n- Tragedy of Aphelia\r\n";
 
@@ -88,6 +88,11 @@ namespace Sandswept.Items.Reds
             orig(self, info, victim);
 
             GameObject attackerGO = info.attacker;
+
+            if (!info.damageType.IsDamageSourceSkillBased)
+            {
+                return;
+            }
 
             if (!attackerGO || !attackerGO.GetComponent<CharacterBody>())
             {

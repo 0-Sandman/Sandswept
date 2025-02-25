@@ -131,6 +131,9 @@ namespace Sandswept.Items.Whites
                         baseToken = "SHRINE_BOSS_USE_MESSAGE"
                     });
 
+                    Util.PlaySound("Play_UI_monsterLogDrop", interactableObject);
+                    Util.PlaySound("Play_UI_monsterLogDrop", interactableObject);
+
                     EffectManager.SpawnEffect(vfx, new EffectData
                     {
                         origin = interactableObject.transform.position,
