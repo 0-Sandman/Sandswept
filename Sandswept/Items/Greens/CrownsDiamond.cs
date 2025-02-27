@@ -45,8 +45,25 @@ namespace Sandswept.Items.Greens
 
         public override void Hooks()
         {
-            IL.RoR2.HealthComponent.ServerFixedUpdate += HealthComponent_ServerFixedUpdate;
+            // IL.RoR2.HealthComponent.ServerFixedUpdate += HealthComponent_ServerFixedUpdate;
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
+            MoreStats.StatHooks.GetMoreStatCoefficients += StatHooks_GetMoreStatCoefficients;
+        }
+
+        private void StatHooks_GetMoreStatCoefficients(CharacterBody sender, MoreStats.StatHooks.MoreStatHookEventArgs args)
+        {
+            if (sender)
+            {
+                var stack = GetCount(sender);
+                if (stack > 0 && (sender.outOfCombat || sender.outOfDanger))
+                {
+                    var reduction = MathHelpers.InverseHyperbolicScaling(baseBarrierDecayReduction, stackBarrierDecayReduction, 1f, stack);
+
+                    args.barrierDecayDecreaseDivisor += reduction;
+                    // 1f results in 50% decay :pray:
+                    // 1 - (1 / (1 + 0.5))
+                }
+            }
         }
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)

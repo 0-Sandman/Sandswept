@@ -1,5 +1,7 @@
-﻿using RoR2.Orbs;
+﻿using MoreStats;
+using RoR2.Orbs;
 using System.Reflection;
+using static MoreStats.StatHooks;
 
 namespace Sandswept.Items.Whites
 {
@@ -119,16 +121,23 @@ namespace Sandswept.Items.Whites
         public override void Hooks()
         {
             GlobalEventManager.onCharacterDeathGlobal += GlobalEventManager_onCharacterDeathGlobal;
-            On.EntityStates.GenericCharacterMain.ProcessJump += GenericCharacterMain_ProcessJump;
-            On.RoR2.CharacterBody.RecalculateStats += CharacterBody_RecalculateStats;
+            StatHooks.GetMoreStatCoefficients += StatHooks_GetMoreStatCoefficients;
+            OnJump.OnJumpEvent += OnJump_OnJumpEvent;
         }
 
-        private void CharacterBody_RecalculateStats(On.RoR2.CharacterBody.orig_RecalculateStats orig, CharacterBody self)
+        private void OnJump_OnJumpEvent(CharacterMotor sender, CharacterBody body, ref float verticalBonus)
         {
-            orig(self);
+            var extraJumps = body.GetBuffCount(extraJump);
+            if (extraJumps > 0 && OnJump.IsDoubleJump(sender, body))
+            {
+                body.SetBuffCount(extraJump.buffIndex, extraJumps - 1);
+            }
+        }
 
-            var storedJumps = self.GetBuffCount(extraJump);
-            self.maxJumpCount += storedJumps;
+        private void StatHooks_GetMoreStatCoefficients(CharacterBody sender, MoreStatHookEventArgs args)
+        {
+            var buffCount = sender.GetBuffCount(extraJump);
+            args.jumpCountAdd += buffCount;
         }
 
         private void GlobalEventManager_onCharacterDeathGlobal(DamageReport report)
@@ -162,59 +171,6 @@ namespace Sandswept.Items.Whites
 
                 OrbManager.instance.AddOrb(temporalTransistorOrb);
             }
-        }
-
-        private void GenericCharacterMain_ProcessJump(On.EntityStates.GenericCharacterMain.orig_ProcessJump orig, GenericCharacterMain self)
-        {
-            if (!self.hasCharacterMotor || !self.jumpInputReceived)
-            {
-                orig(self);
-                return;
-            }
-
-            int jc1 = self.characterMotor.jumpCount;
-
-            orig(self);
-
-            var storedJumps = self.characterBody.GetBuffCount(extraJump);
-
-            if (jc1 >= self.characterBody.maxJumpCount - storedJumps && self.characterMotor.jumpCount != jc1)
-            {
-                self.characterBody.SetBuffCount(extraJump.buffIndex, self.characterBody.GetBuffCount(extraJump) - 1);
-            }
-        }
-
-        public static bool IsDoubleJump(CharacterMotor motor, CharacterBody body)
-        {
-            int baseJumpCount = body.baseJumpCount;
-            int num = motor.jumpCount + 1;
-            if (num > baseJumpCount)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public static bool IsBaseJump(CharacterMotor motor, CharacterBody body)
-        {
-            int baseJumpCount = body.baseJumpCount;
-            int num = motor.jumpCount + 1;
-            if (num <= baseJumpCount)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public static bool IsLastJump(CharacterMotor motor, CharacterBody body)
-        {
-            int maxJumpCount = body.maxJumpCount;
-            int num = motor.jumpCount + 1;
-            if (num == maxJumpCount)
-            {
-                return true;
-            }
-            return false;
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
