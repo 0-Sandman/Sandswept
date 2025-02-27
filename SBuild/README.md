@@ -418,7 +418,7 @@ Check out our update trailer!</a>
 			<td>
 				<b>Universal VIP Pass</b>
 				<br>
-				Category chests have a <b>50%</b> chance of dropping <b>1 (+1 per stack)</b> extra items.
+				Category chests have a <b>40% (+40% per stack, hyperbolic)</b> chance of dropping <b>1</b> extra item.
 			</td>
 		</tr>
 		<tr>
@@ -456,7 +456,7 @@ Check out our update trailer!</a>
 			<td>
 				<b>Ceremonial Jar</b>
 				<br>
-				On hit, link enemies up to <b>3</b> times. Linked enemies take <b>1500% (+1500% per stack)</b> base damage each and cannot be linked for <b>5</b> seconds afterward.
+				Enemies hit with any skill get linked, up to <b>3</b> times. Linked enemies take <b>1500% (+1500% per stack)</b> base damage each and cannot be linked for <b>5</b> seconds afterward.
 			</td>
 		</tr>
 		<tr>
@@ -464,7 +464,7 @@ Check out our update trailer!</a>
 			<td>
 				<b>Torn Feather</b>
 				<br>
-				Tap Interact to perform an omni-directional dash. Can dash twice before hitting the ground. Gain <b>20% (+35% per stack)</b> movement speed.
+				Tap Interact to perform an omni-directional dash, up to <b>2</b> times before hitting the ground. Gain <b>20% (+35% per stack)</b> movement speed.
 			</td>
 		</tr>
 		<tr>

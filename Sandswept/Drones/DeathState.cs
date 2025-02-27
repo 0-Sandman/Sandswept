@@ -70,7 +70,9 @@ namespace Sandswept.Drones {
 
         public void Explode()
         {
-            EntityState.Destroy(base.modelLocator.modelTransform.gameObject);
+            if (base.modelLocator && base.modelLocator.modelTransform) {
+                EntityState.Destroy(base.modelLocator.modelTransform.gameObject);
+            }
             EntityState.Destroy(base.gameObject);
         }
 
