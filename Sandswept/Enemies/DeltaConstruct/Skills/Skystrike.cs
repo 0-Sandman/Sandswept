@@ -51,7 +51,7 @@ namespace Sandswept.Enemies.DeltaConstruct
 
         public override InterruptPriority GetMinimumInterruptPriority()
         {
-            return InterruptPriority.Death;
+            return InterruptPriority.Stun;
         }
     }
 
@@ -386,7 +386,7 @@ namespace Sandswept.Enemies.DeltaConstruct
 
         public override Type ActivationStateType => typeof(SkystrikeIntro);
 
-        public override string ActivationMachineName => "Weapon";
+        public override string ActivationMachineName => "Body";
 
         public override float Cooldown => 20f;
 
