@@ -34,6 +34,15 @@ namespace Sandswept.Enemies.ThetaConstruct
             }
 
             if (base.isAuthority) {
+                Vector3 dir = (buddy.transform.position - base.transform.position).normalized;
+
+                if (Physics.Raycast(base.transform.position, dir, (Vector3.Distance(base.transform.position, buddy.transform.position) * 0.75f), LayerIndex.world.mask)) {
+                    ai.buddy.gameObject = null;
+                    ai.UpdateTargets();
+                    outer.SetNextStateToMain();
+                    return;
+                }
+
                 shieldInstance = GameObject.Instantiate(ThetaConstruct.ThetaShieldEffect, buddy.transform.position, Quaternion.identity);
                 ThetaShieldController shieldController = shieldInstance.GetComponent<ThetaShieldController>();
                 shieldController.targetHolder.ownerObject = buddy;
