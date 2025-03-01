@@ -13,8 +13,15 @@
  - Changed Nuclear Salvo icon
  - Changed Sacrificial Band icon
  - Changed some descriptions to be clearer and less confusing
+- Enemies
+ - Fixed Delta Construct breaking when getting stunned during its sky laser attack
+ - Fixed Theta Construct initiating its shield to a target that is behind a wall
+ - Fixed Theta Construct shield blocking the projectiles of certain enemies being shielded
 - Interactables
  - Fixed Shrine of Ruin not corrupting Abyssal Depths properly sometimes
+ - Fixed Inferno Drone having an abnormally high weight
+ - Fixed an NRE with Abyssal Depths and Shrine of Ruin
+ - Fixed NRE spam when Inferno Drone died to a void implosion
 
 ## 1.1.1 Patch Notes
 - Interactables
