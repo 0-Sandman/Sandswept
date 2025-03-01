@@ -22,7 +22,7 @@ namespace Sandswept.Drones.Inferno
 
         public override GameObject DroneBroken => Main.Assets.LoadAsset<GameObject>("InfernoDroneBroken.prefab");
 
-        public override int Weight => 40;
+        public override int Weight => 7;
 
         public override int Credits => 35;
 
