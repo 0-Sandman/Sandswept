@@ -1,4 +1,6 @@
 ## 1.1.2 Patch Notes
+- General
+ - Re-made readme with cool images
 - Ranger
  - Added keyword for the Heat mechanic
  - Improved some descriptions
@@ -20,7 +22,7 @@
 - Interactables
   - Improved Shrine of Ruin VFX
 
-## 1.1.0 Patch Notes
+# 1.1.0 Patch Notes
 - Ranger
   - Fixed Mastery achievement not having an icon
 - VOL-T
