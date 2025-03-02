@@ -24,7 +24,7 @@ Check out our update trailer!</a>
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 ![](https://i.postimg.cc/T2Q4S4Jw/Interactable-UI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/B6z1PsGb/ItemUI.png)
+![](https://i.postimg.cc/fRDrfMfq/Item-UI-2.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 
 # Credits
