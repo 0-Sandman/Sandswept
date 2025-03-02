@@ -1,22 +1,22 @@
 ## 1.1.2 Patch Notes
 - General
- - Re-made readme with cool images
+  - Re-made readme with cool images
 - Ranger
- - Added keyword for the Heat mechanic
- - Improved some descriptions
- - Fixed some inconsistencies with formatting
+  - Added keyword for the Heat mechanic
+  - Improved some descriptions
+  - Fixed some inconsistencies with formatting
 - Items
- - Added Universal VIP Pass VFX
- - Reworked Universal VIP Pass to have a 40% (+40% per stack, hyperbolic) chance of dropping 1 extra item.
- - Made Ceremonial Jar only trigger with skill damage
- - Improved Their Prominence VFX
- - Improved Nuclear Salvo textures
- - Improved Sacrificial Band model and textures
- - Changed Nuclear Salvo icon
- - Changed Sacrificial Band icon
- - Changed some descriptions to be clearer and less confusing
+  - Added Universal VIP Pass VFX
+  - Reworked Universal VIP Pass to have a 40% (+40% per stack, hyperbolic) chance of dropping 1 extra item.
+  - Made Ceremonial Jar only trigger with skill damage
+  - Improved Their Prominence VFX
+  - Improved Nuclear Salvo textures
+  - Improved Sacrificial Band model and textures
+  - Changed Nuclear Salvo icon
+  - Changed Sacrificial Band icon
+  - Changed some descriptions to be clearer and less confusing
 - Interactables
- - Fixed Shrine of Ruin not corrupting Abyssal Depths properly sometimes
+  - Fixed Shrine of Ruin not corrupting Abyssal Depths properly sometimes
 
 ## 1.1.1 Patch Notes
 - Interactables
