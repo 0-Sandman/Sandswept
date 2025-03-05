@@ -1,4 +1,5 @@
-﻿namespace Sandswept.Items.Reds
+﻿/*
+namespace Sandswept.Items.Reds
 {
     [ConfigSection("Items :: Glacial Plasma")]
     internal class GlacialPlasma : ItemBase<GlacialPlasma>
@@ -182,3 +183,4 @@
         }
     }
 }
+*/
