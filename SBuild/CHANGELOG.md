@@ -1,33 +1,31 @@
 ## 1.1.2 Patch Notes
+- General
+  - Re-made readme with cool images
 - Ranger
- - Added keyword for the Heat mechanic
- - Improved some descriptions
- - Fixed some inconsistencies with formatting
+  - Added keyword for the Heat mechanic
+  - Improved some descriptions
+  - Fixed some inconsistencies with formatting
+  - Now has a charge indicator on the crosshair
 - Items
- - Added Universal VIP Pass VFX
- - Reworked Universal VIP Pass to have a 40% (+40% per stack, hyperbolic) chance of dropping 1 extra item.
- - Made Ceremonial Jar only trigger with skill damage
- - Improved Their Prominence VFX
- - Improved Nuclear Salvo textures
- - Improved Sacrificial Band model and textures
- - Changed Nuclear Salvo icon
- - Changed Sacrificial Band icon
- - Changed some descriptions to be clearer and less confusing
-- Enemies
- - Fixed Delta Construct breaking when getting stunned during its sky laser attack
- - Fixed Theta Construct initiating its shield to a target that is behind a wall
- - Fixed Theta Construct shield blocking the projectiles of certain enemies being shielded
+  - Added Universal VIP Pass VFX
+  - Reworked Universal VIP Pass to have a 40% (+40% per stack, hyperbolic) chance of dropping 1 extra item.
+  - Made Ceremonial Jar only trigger with skill damage
+  - Improved Their Prominence VFX
+  - Improved Nuclear Salvo textures
+  - Improved Sacrificial Band model and textures
+  - Changed Nuclear Salvo icon
+  - Changed Sacrificial Band icon
+  - Changed some descriptions to be clearer and less confusing
 - Interactables
  - Fixed Shrine of Ruin not corrupting Abyssal Depths properly sometimes
- - Fixed Inferno Drone having an abnormally high weight
- - Fixed an NRE with Abyssal Depths and Shrine of Ruin
- - Fixed NRE spam when Inferno Drone died to a void implosion
+- General
+ - Updated for most recent SOTS patch.
 
 ## 1.1.1 Patch Notes
 - Interactables
   - Improved Shrine of Ruin VFX
 
-## 1.1.0 Patch Notes
+# 1.1.0 Patch Notes
 - Ranger
   - Fixed Mastery achievement not having an icon
 - VOL-T

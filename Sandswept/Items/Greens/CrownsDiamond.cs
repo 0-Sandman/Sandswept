@@ -59,7 +59,7 @@ namespace Sandswept.Items.Greens
                 {
                     var reduction = MathHelpers.InverseHyperbolicScaling(baseBarrierDecayReduction, stackBarrierDecayReduction, 1f, stack);
 
-                    args.barrierDecayDecreaseDivisor += reduction;
+                    args.barrierDecayRatePercentDecreaseDiv += reduction;
                     // 1f results in 50% decay :pray:
                     // 1 - (1 / (1 + 0.5))
                 }

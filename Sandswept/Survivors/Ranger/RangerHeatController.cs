@@ -174,6 +174,62 @@ namespace Sandswept.Survivors.Ranger
         }
     }
 
+    public class RangerChargeDisplay : MonoBehaviour {
+        public RawImage[] ChargePips;
+        public static Color32 ChargeColor = new(76, 255, 246, 255);
+        public CharacterBody body;
+        public HudElement hud;
+
+        public void Start() {
+            hud = GetComponent<HudElement>();
+
+            ChargePips[0].transform.localScale *= 1.5f;
+            ChargePips[1].transform.localScale *= 1.5f;
+            ChargePips[2].transform.localScale *= 1.5f;
+        }
+
+        public void Update() {
+            if (!body && hud && hud.targetBodyObject) {
+                body = hud.targetBodyObject.GetComponent<CharacterBody>();
+            }
+
+            if (!body) {
+                return;
+            }
+
+            int charge = body.GetBuffCount(Buffs.Charge.instance.BuffDef);
+            
+            ChargePips[0].color = new Color32(0, 0, 0, 0);
+            ChargePips[1].color = new Color32(0, 0, 0, 0);
+            ChargePips[2].color = new Color32(0, 0, 0, 0);
+            ChargePips[3].color = Color.white;
+
+            if (charge >= 10) {
+                ChargePips[3].color = ChargeColor;
+            }
+
+            UpdateColor(ChargePips[0]);
+            UpdateColor(ChargePips[1]);
+            UpdateColor(ChargePips[2]);
+
+            void UpdateColor(RawImage image) {
+                if (charge == 0) {
+                    return;
+                }
+
+                if (charge >= 3) {
+                    image.color = ChargeColor;
+                    charge -= 3;
+                    return;
+                }
+
+                float mult = (float)charge / 3f;
+                image.color = new Color32((byte)(ChargeColor.r * mult), (byte)(ChargeColor.g * mult), (byte)(ChargeColor.b * mult), (byte)(ChargeColor.a * mult));
+                charge -= charge;
+            }
+        }
+    }
+
     public class RangerCrosshairManager : MonoBehaviour
     {
         public ImageFillController ifc;

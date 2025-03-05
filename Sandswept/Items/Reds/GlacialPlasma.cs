@@ -1,4 +1,5 @@
-﻿/*namespace Sandswept.Items.Reds
+﻿/*
+namespace Sandswept.Items.Reds
 {
     [ConfigSection("Items :: Glacial Plasma")]
     internal class GlacialPlasma : ItemBase<GlacialPlasma>
@@ -9,9 +10,9 @@
 
         public override string ItemPickupDesc => "Activating your primary also conjures a freezing javelin. Chance on hit to freeze stunned enemies.";
 
-        public override string ItemFullDescription => ("Activating your $suPrimary skill$se also conjures a $sdjavelin$se that deals $sd" + d(baseDamage) + "$se damage $ss(+" + d(stackDamage) + " per stack)$se and $sufreezes$se enemies. Recharges over $su10$se seconds. Your $sustuns$se have a $su" + stunToFreezeChance + "%$se chance to $sufreeze$se.").AutoFormat();
+        public override string ItemFullDescription => ("Activating your $suPrimary skill$se also conjures a $sdpiercing javelin$se that deals $sd" + d(baseDamage) + "$se $ss(+" + d(stackDamage) + " per stack)$se damage and $sufreezes$se enemies. Recharges over $su10$se seconds. Your $sustuns$se have a $su" + stunToFreezeChance + "%$se chance to $sufreeze$se for $su3$se seconds.").AutoFormat();
 
-        public override string ItemLore => "";
+        public override string ItemLore => "tbd but might be cool if the lore had the phrase 'everything will freeze' somewhere in there";
 
         public override ItemTier Tier => ItemTier.Tier3;
 
@@ -43,10 +44,10 @@
             javelinProjectile = PrefabAPI.InstantiateClone(Paths.GameObject.MageIceBombProjectile, "Glacial Plasma Javelin", true);
 
             var projectileSimple = javelinProjectile.GetComponent<ProjectileSimple>();
-            projectileSimple.desiredForwardSpeed = 120f;
+            projectileSimple.desiredForwardSpeed = 400f;
             projectileSimple.lifetime = 3f;
             projectileSimple.enableVelocityOverLifetime = true;
-            projectileSimple.velocityOverLifetime = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.1f, 0f), new Keyframe(1f, 3f));
+            projectileSimple.velocityOverLifetime = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.05f, 0f), new Keyframe(1f, 3f));
 
             PrefabAPI.RegisterNetworkPrefab(javelinProjectile);
             ContentAddition.AddProjectile(javelinProjectile);
@@ -56,6 +57,7 @@
             javelinReady.canStack = false;
             javelinReady.isDebuff = false;
             javelinReady.isHidden = false;
+            javelinReady.iconSprite = Paths.BuffDef.bdBleeding.iconSprite;
             javelinReady.buffColor = Color.cyan;
 
             ContentAddition.AddBuffDef(javelinReady);
@@ -65,6 +67,7 @@
             javelinCooldown.canStack = false;
             javelinCooldown.isDebuff = false;
             javelinCooldown.isHidden = false;
+            javelinCooldown.iconSprite = Paths.BuffDef.bdBugWings.iconSprite;
             javelinCooldown.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1f);
 
             ContentAddition.AddBuffDef(javelinCooldown);
@@ -115,8 +118,8 @@
             {
                 if (Util.CheckRoll(stunToFreezeChance, attackerMaster) && setStateOnHurt.targetStateMachine.state is StunState)
                 {
-                    var stunState = setStateOnHurt.targetStateMachine.state as StunState;
-                    setStateOnHurt.SetFrozen(stunState.timeRemaining);
+                    // var stunState = setStateOnHurt.targetStateMachine.state as StunState;
+                    setStateOnHurt.SetFrozen(3f);
                 }
             }
         }
@@ -179,4 +182,5 @@
             }
         }
     }
-}*/
+}
+*/
