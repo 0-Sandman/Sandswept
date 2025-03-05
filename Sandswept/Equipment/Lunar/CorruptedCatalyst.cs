@@ -87,7 +87,6 @@ namespace Sandswept.Equipment.Lunar
                 Elites.Motivating.wrbnnerBuff,
                 Elites.Osmium.outsideAuraBuff,
                 Elites.Osmium.insideAuraBuff,
-                Elites.Osmium.jumpDisabledBuff, // get fucked
                 FesteringHunger.movementSpeedBuff,
             };
 
@@ -105,9 +104,7 @@ namespace Sandswept.Equipment.Lunar
                 RoR2Content.Buffs.NoCooldowns,
                 RoR2Content.Buffs.AffixWhite,
                 RoR2Content.Buffs.TonicBuff,
-                RoR2Content.Buffs.HealingDisabled, // get fucked
                 RoR2Content.Buffs.Pulverized, // get fucked
-                RoR2Content.Buffs.AffixHaunted,
                 RoR2Content.Buffs.WhipBoost,
                 RoR2Content.Buffs.DeathMark,
                 RoR2Content.Buffs.CrocoRegen,
@@ -121,12 +118,12 @@ namespace Sandswept.Equipment.Lunar
                 DLC1Content.Buffs.KillMoveSpeed,
                 DLC1Content.Buffs.OutOfCombatArmorBuff,
                 DLC1Content.Buffs.BearVoidReady,
-                DLC1Content.Buffs.EliteEarth,
                 DLC1Content.Buffs.EliteVoid,
                 DLC1Content.Buffs.ImmuneToDebuffReady,
+                DLC1Content.Buffs.EliteEarth,
+                DLC1Content.Buffs.VoidSurvivorCorruptMode,
 
                 DLC2Content.Buffs.BoostAllStatsBuff,
-                DLC2Content.Buffs.LowerHealthHigherDamageBuff,
                 DLC2Content.Buffs.IncreaseDamageBuff,
 
                 DLC2Content.Buffs.AurelioniteBlessing,

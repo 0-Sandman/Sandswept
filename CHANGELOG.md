@@ -15,6 +15,8 @@
  - Changed some descriptions to be clearer and less confusing
 - Interactables
  - Fixed Shrine of Ruin not corrupting Abyssal Depths properly sometimes
+- General
+- Updated for most recent SOTS patch.
 
 ## 1.1.1 Patch Notes
 - Interactables
