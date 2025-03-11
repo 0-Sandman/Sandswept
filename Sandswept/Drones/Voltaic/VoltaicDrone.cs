@@ -13,9 +13,9 @@ namespace Sandswept.Drones.Voltaic
 
         public override Dictionary<string, string> Tokens =>
         new() {
-            {"SANDSWEPT_Voltaic_DRONE_BODY", "Voltaic Drone"},
-            {"SANDSWEPT_Voltaic_DRONE_BROKEN_NAME", "Broken Voltaic Drone"},
-            {"SANDSWEPT_Voltaic_DRONE_CONTEXT", "Repair?"}
+            {"SANDSWEPT_VOLTAIC_DRONE_BODY", "Voltaic Drone"},
+            {"SANDSWEPT_VOLTAIC_DRONE_BROKEN_NAME", "Broken Voltaic Drone"},
+            {"SANDSWEPT_VOLTAIC_DRONE_CONTEXT", "Repair?"}
         };
 
         public override string ConfigName => "Voltaic Drone";
