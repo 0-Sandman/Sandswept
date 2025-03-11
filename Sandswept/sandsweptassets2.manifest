@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3455969048
+CRC: 2792778686
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ccb79c31b07a2d6f04348ae7f18fcf3d
+    Hash: 7f657ee7ab0152ce80c0873129889ad9
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 43d694dfb329e08d66769a12005dc0c8
+    Hash: 9251d179577dc54df006ab718e4b4730
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -117,6 +117,8 @@ ClassTypes:
   Script: {fileID: -2119253084, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
   Script: {fileID: 1384451184, guid: ca6fb10b837101520834a90b90b15080, type: 3}
+- Class: 114
+  Script: {fileID: 1068319814, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
   Script: {fileID: -1237287157, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
@@ -269,8 +271,6 @@ ClassTypes:
   Script: {fileID: 52559370, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 105922711, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: 1068319814, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 120
@@ -384,6 +384,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/Ranger/skills/b2.png
 - Assets/Sandswept/Base/Items/TornFeather/DashTrailEffect.prefab
 - Assets/Sandswept/Base/Characters/Ranger/RangerIDRS.asset
+- Assets/Sandswept/Base/Characters/VoltaicDrone/VoltaicDroneMaster.prefab
 - Assets/Sandswept/Base/Characters/Ranger/mdl/matRanger.mat
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matMasteryElecOrbOuter.mat
 - Assets/Sandswept/Base/Characters/CannonJelly/DisplayCannonJelly.prefab
@@ -419,6 +420,7 @@ Assets:
 - Assets/Sandswept/Base/Items/NuclearSalvo/SalvoBehaviour.prefab
 - Assets/Sandswept/Base/Items/FesteringHunger/texFesteringHunger.png
 - Assets/Sandswept/Base/Characters/ThetaConstruct/texBuffThetaConstruct.png
+- Assets/Sandswept/Base/Characters/VoltaicDrone/mdl/matVoltaicDrone.mat
 - Assets/Sandswept/Base/Characters/DeltaConstruct/mdl/DeltaBeam.prefab
 - Assets/Sandswept/Base/Characters/Electrician/skins/sdElecDefault.asset
 - Assets/Sandswept/Base/Characters/Ranger/skills/Pew.png
@@ -427,9 +429,11 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/sdElectrician.asset
 - Assets/Sandswept/Base/Characters/DeltaConstruct/mdl/matDeltaBeamStrong.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/Blast.png
+- Assets/Sandswept/Base/Characters/VoltaicDrone/VoltaicDroneBody.prefab
 - Assets/Sandswept/Base/Characters/GammaConstruct/mdl/GammaDisplay.prefab
 - Assets/Sandswept/Base/Characters/Electrician/mdl/ElecMastery.fbx
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherPink.mat
+- Assets/Sandswept/Base/Characters/VoltaicDrone/voltaic spike/VoltaicSpikeProjectile.prefab
 - Assets/Sandswept/Base/Characters/Electrician/effects/ElectricianChargeBeam.prefab
 - Assets/Sandswept/Base/Characters/CannonJelly/CannonJellyLog.asset
 - Assets/Sandswept/Base/Characters/CannonJelly/mdl/matJellyFlesh.mat
@@ -451,12 +455,14 @@ Assets:
 - Assets/Sandswept/Base/Characters/InfernoDrone/InfernoDroneMaster.prefab
 - Assets/Sandswept/Base/Characters/OmicronConstruct/Stone Pillar/StonePillarMaster.prefab
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianOrbOuter.mat
+- Assets/Sandswept/Base/Characters/VoltaicDrone/mdlVoltaicDrone.prefab
 - Assets/Sandswept/Base/Characters/DeltaConstruct/DeltaConstructBody.prefab
 - Assets/Sandswept/Base/Characters/ThetaConstruct/DisplayThetaConstruct.prefab
 - Assets/Sandswept/Base/Characters/Megalomaniac/MegalomaniacBody.prefab
 - Assets/Sandswept/Base/Characters/InfernoDrone/matSmoke.mat
 - Assets/Sandswept/Base/Characters/GammaConstruct/GammaConstructMaster.prefab
 - Assets/Sandswept/Base/Characters/Electrician/effects/matMuzzleFlash.mat
+- Assets/Sandswept/Base/Characters/VoltaicDrone/VoltaicDroneBroken.prefab
 - Assets/Sandswept/Base/Characters/DeltaConstruct/DeltaLog.asset
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matBoltFlare.mat
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matMasteryElecOrbCenter.mat
