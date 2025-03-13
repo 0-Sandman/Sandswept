@@ -221,6 +221,9 @@ namespace Sandswept.Components
             return purchaseInteractions > 2 ? Mathf.RoundToInt(purchaseInteractions * 0.8f) : -1;
             // 2 * 0.8 = 1.6 = 2 rounded so ehh
             // 3 makes you sacrifice at least 1 item
+            // a multiplier of purchase interaction count makes it better on lower interactable credit stages but muuch worse on higher ones
+            // like 15 purchase interactions become... > get up to 12 items
+            // technically could still be worth it for like a band or atg or some red but probably very unviable on smth like abyssal depths or sky meadow
         }
 
         public void GrantRewards(int count, CharacterBody body, RewardType rewardType)
