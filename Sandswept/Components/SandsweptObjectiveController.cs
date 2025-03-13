@@ -16,7 +16,6 @@ namespace Sandswept.Components
             LanguageAPI.Add("SANDSWEPT_OBJECTIVE_CHARGE_TP_EARLY", "Find and activate the <style=cDeath>Teleporter <sprite name=\"TP\" tint=1></style> within <style=cDeath>{0}s!</style>");
             LanguageAPI.Add("SANDSWEPT_OBJECTIVE_GET_UP_TO_X_ITEMS", "Get up to <style=cIsUtility>{0} items</style>.");
             On.RoR2.Stage.Start += Stage_Start;
-            GlobalEventManager.OnInteractionsGlobal += GlobalEventManager_OnInteractionsGlobal;
             On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
         }
 
@@ -35,30 +34,6 @@ namespace Sandswept.Components
         // and then remove the objective, like MoonBatteryMissionController do AND also grant a random reward type
         // reward count should prolly scale with stages completed
         // there is probably no reason for GetRandomObjective to be a tuple anymore, or the whole ObjectiveType enum, but who knows lol, I was experimenting around and couldn't figure out another way, sorry
-
-        private static void GlobalEventManager_OnInteractionsGlobal(Interactor interactor, IInteractable interactable, GameObject interactableObject)
-        {
-            if (!interactor)
-            {
-                return;
-            }
-            var body = interactor.GetComponent<CharacterBody>();
-            if (!body)
-            {
-                return;
-            }
-
-            var master = body.master;
-            if (!master)
-            {
-                return;
-            }
-
-            if (IsActualInteractable(interactableObject))
-            {
-                return;
-            }
-        }
 
         public static bool IsActualInteractable(GameObject interactable)
         {
