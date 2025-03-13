@@ -32,7 +32,7 @@ namespace Sandswept.Components
 
         // use unity events to listen when currentPickupCount >= maxPickupCount and currentTeleporterTime >= maxTeleporterTime (or vice versa)
         // and then remove the objective, like MoonBatteryMissionController do AND also grant a random reward type
-        // reward count should prolly scale with stages completed
+        // there also needs to be reward ui and current/max counter for the item objective but like guhhhhhh :(( me when ui
         // there is probably no reason for GetRandomObjective to be a tuple anymore, or the whole ObjectiveType enum, but who knows lol, I was experimenting around and couldn't figure out another way, sorry
 
         public static bool IsActualInteractable(GameObject interactable)
