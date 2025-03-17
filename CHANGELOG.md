@@ -1,3 +1,6 @@
+## 1.1.3 Patch Notes
+- Added a thing
+
 ## 1.1.2 Patch Notes
 - General
   - Re-made readme with cool images
@@ -19,7 +22,7 @@
 - Interactables
  - Fixed Shrine of Ruin not corrupting Abyssal Depths properly sometimes
 - General
- - Updated for most recent SOTS patch.
+ - Updated for most recent SOTS patch
 
 ## 1.1.1 Patch Notes
 - Interactables

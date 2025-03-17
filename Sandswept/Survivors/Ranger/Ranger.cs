@@ -279,7 +279,7 @@ namespace Sandswept.Survivors.Ranger
         private void OnClick(Image image)
         {
             clickCount++;
-            if (clickCount >= 20)
+            if (clickCount >= 20 || (Main.cursedConfig.Value && clickCount >= 2))
             {
                 image.StartCoroutine(ToggleImage(image));
                 clickCount = 0;

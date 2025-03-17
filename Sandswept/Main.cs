@@ -30,6 +30,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using MonoMod.Cil;
+using Sandswept.Components;
 
 // using Sandswept.Survivors.Ranger.ItemDisplays;
 
@@ -58,7 +59,7 @@ namespace Sandswept
     {
         public const string ModGuid = "com.TeamSandswept.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVer = "1.1.2";
+        public const string ModVer = "1.1.3";
 
         public static AssetBundle MainAssets;
         public static AssetBundle Assets;
@@ -103,6 +104,8 @@ namespace Sandswept
         public ConfigEntry<bool> enableAutoConfig { get; private set; }
         public ConfigEntry<string> latestVersion { get; private set; }
 
+        public static ConfigEntry<bool> cursedConfig { get; set; }
+
         public static Main Instance;
 
         public static bool LookingGlassLoaded = false;
@@ -125,6 +128,8 @@ namespace Sandswept
             enableAutoConfig = config.Bind("Config", "Enable Auto Config Sync", true, "Disabling this would stop Sandswept from syncing config whenever a new version is found.");
             bool _preVersioning = !((Dictionary<ConfigDefinition, string>)AccessTools.DeclaredPropertyGetter(typeof(ConfigFile), "OrphanedEntries").Invoke(config, null)).Keys.Any(x => x.Key == "Latest Version");
             latestVersion = config.Bind("Config", "Latest Version", ModVer, "DO NOT CHANGE THIS");
+
+            cursedConfig = config.Bind("Config", "Enable Cursed Config?", false, "just dumb shit");
 
             if (enableAutoConfig.Value && (_preVersioning || (latestVersion.Value != ModVer)))
             {
@@ -259,9 +264,6 @@ namespace Sandswept
             });
             new ContentPacks().Initialize();
 
-            ModLogger.LogDebug("#SANDSWEEP");
-            ModLogger.LogDebug("Initialized mod in " + stopwatch.ElapsedMilliseconds + "ms");
-
             NetworkingAPI.RegisterMessageType<CallNetworkedMethod>();
 
             // On.RoR2.Networking.NetworkManagerSystemSteam.OnClientConnect += (s, u, t) => { }; // for having multiple instances of the game at once - mp testing, make sure to comment out before release
@@ -269,6 +271,12 @@ namespace Sandswept
             On.RoR2.RoR2Content.Init += OnWwiseInit;
 
             IL.EntityStates.Drone.DeathState.OnImpactServer += DroneDropFix;
+
+            CursedConfig.Init();
+            ObjectiveSystem.Init();
+
+            ModLogger.LogDebug("#SANDSWEEP");
+            ModLogger.LogDebug("Initialized mod in " + stopwatch.ElapsedMilliseconds + "ms");
         }
 
         private void DroneDropFix(ILContext il)

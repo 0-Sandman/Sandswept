@@ -30,9 +30,6 @@ namespace Sandswept.Items.Greens
         [ConfigField("Extra Items", "", 1)]
         public static int extraItems;
 
-        [ConfigField("mdmpDebug", "This will break your save file! Only enable this if you know what you are doing!", false)]
-        public static bool dumbassThingLmao;
-
         public static GameObject vfx;
 
         public static Color32 pink = new(229, 0, 218, 255);
@@ -65,7 +62,7 @@ namespace Sandswept.Items.Greens
             transform.Find("ColoredLightShaftsBalance").GetComponent<ParticleSystemRenderer>().material = newColoredLightShaftMat;
 
             var coloredDustBalance = transform.Find("ColoredDustBalance").GetComponent<ParticleSystemRenderer>();
-            var tex = dumbassThingLmao ? Main.hifuSandswept.LoadAsset<Texture2D>("texPawMask.png") : Paths.Texture2D.texSpark1Mask;
+            var tex = Main.cursedConfig.Value ? Main.hifuSandswept.LoadAsset<Texture2D>("texPawMask.png") : Paths.Texture2D.texSpark1Mask;
             var newColoredDustBalanceMat = new Material(Paths.Material.matChanceShrineDollEffect);
             newColoredDustBalanceMat.SetColor("_TintColor", pink);
             newColoredDustBalanceMat.SetTexture("_RemapTex", Paths.Texture2D.texRampAreaIndicator);
@@ -136,7 +133,7 @@ namespace Sandswept.Items.Greens
                                     Util.PlaySound("Play_UI_obj_casinoChest_open", interactableObject);
                                     Util.PlaySound("Play_ui_obj_lunarPool_activate", interactableObject);
 
-                                    if (dumbassThingLmao)
+                                    if (Main.cursedConfig.Value)
                                     {
                                         Chat.AddMessage("<color=#DC4C7B>Universal VIP Paws :3 x3 OwO UwU :3 <3</color>");
                                     }

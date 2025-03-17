@@ -14,44 +14,26 @@ namespace Sandswept.Components
         public static void Init()
         {
             LanguageAPI.Add("SANDSWEPT_OBJECTIVE_CHARGE_TP_EARLY", "Find and activate the <style=cDeath>Teleporter <sprite name=\"TP\" tint=1></style> within <style=cDeath>{0}s!</style>");
-            LanguageAPI.Add("SANDSWEPT_OBJECTIVE_GET_UP_TO_X_PICKUPS", "Find up to <style=cIsUtility>{0} pickups</style>.");
+            LanguageAPI.Add("SANDSWEPT_OBJECTIVE_GET_UP_TO_X_ITEMS", "Get up to <style=cIsUtility>{0} items</style>.");
             On.RoR2.Stage.Start += Stage_Start;
-            GlobalEventManager.OnInteractionsGlobal += GlobalEventManager_OnInteractionsGlobal;
+            On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
+        }
+
+        private static void Inventory_GiveItem_ItemIndex_int(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
+        {
+            orig(self, itemIndex, count);
+            var itemDef = ItemCatalog.GetItemDef(itemIndex);
+            var master = self.GetComponent<CharacterMaster>();
+            if (itemDef && !itemDef.hidden && itemDef.canRemove && master && master.TryGetComponent<SandsweptObjectiveController>(out var sandsweptObjectiveController))
+            {
+                sandsweptObjectiveController.currentItemCount++;
+            }
         }
 
         // use unity events to listen when currentPickupCount >= maxPickupCount and currentTeleporterTime >= maxTeleporterTime (or vice versa)
         // and then remove the objective, like MoonBatteryMissionController do AND also grant a random reward type
-        // reward count should prolly scale with stages completed
+        // there also needs to be reward ui and current/max counter for the item objective but like guhhhhhh :(( me when ui
         // there is probably no reason for GetRandomObjective to be a tuple anymore, or the whole ObjectiveType enum, but who knows lol, I was experimenting around and couldn't figure out another way, sorry
-
-        private static void GlobalEventManager_OnInteractionsGlobal(Interactor interactor, IInteractable interactable, GameObject interactableObject)
-        {
-            if (!interactor)
-            {
-                return;
-            }
-            var body = interactor.GetComponent<CharacterBody>();
-            if (!body)
-            {
-                return;
-            }
-
-            var master = body.master;
-            if (!master)
-            {
-                return;
-            }
-
-            if (IsActualInteractable(interactableObject))
-            {
-                return;
-            }
-
-            if (master.TryGetComponent<SandsweptObjectiveController>(out var sandsweptObjectiveController))
-            {
-                sandsweptObjectiveController.currentPickupCount++;
-            }
-        }
 
         public static bool IsActualInteractable(GameObject interactable)
         {
@@ -61,7 +43,7 @@ namespace Sandswept.Components
             }
             if (interactable.GetComponent<VehicleSeat>())
             {
-                return true;
+                return false;
             }
             if (interactable.GetComponent<NetworkUIPromptController>())
             {
@@ -92,8 +74,8 @@ namespace Sandswept.Components
 
     public class SandsweptObjectiveController : MonoBehaviour
     {
-        public int maxPickupCount;
-        public int currentPickupCount;
+        public int maxItemCount;
+        public int currentItemCount;
 
         public float maxTeleporterTimer;
         public float currentTeleporterTimer;
@@ -106,15 +88,15 @@ namespace Sandswept.Components
         public Inventory inventory;
 
         public bool addedChargeTPEarly = false;
-        public bool addedGetUpToXPickups = false;
+        public bool addedGetUpToXItems = false;
 
         public string chargeTPEarlyToken = "SANDSWEPT_OBJECTIVE_CHARGE_TP_EARLY";
-        public string getUpToXPickupsToken = "SANDSWEPT_OBJECTIVE_GET_UP_TO_X_PICKUPS";
+        public string getUpToXItemsToken = "SANDSWEPT_OBJECTIVE_GET_UP_TO_X_ITEMS";
 
         public enum ObjectiveType
         {
             ChargeTPEarly,
-            GetUpToXPickups
+            GetUpToXItems
         }
 
         public enum RewardType
@@ -127,7 +109,7 @@ namespace Sandswept.Components
             VoidItem,
             Equipment,
             LunarEquipment,
-            HealRevive
+            // HealRevive -- fucking SOTS man
         }
 
         public enum EquipmentTier
@@ -164,6 +146,8 @@ namespace Sandswept.Components
                 GetRandomObjective(rng, stage, body);
                 rerollCount++;
 
+                Main.ModLogger.LogError("could not find teleporter, rerolling objective");
+
                 // reroll, failed to find teleporter instance
             }
             else
@@ -175,20 +159,23 @@ namespace Sandswept.Components
                 return new Tuple<float, ObjectiveType>(randomTeleporterActivationTime, ObjectiveType.ChargeTPEarly);
             }
 
-            var randomPickupCount = GetRandomPickupCount();
-            if (randomPickupCount == -1 && !addedGetUpToXPickups)
+            var randomItemCount = GetRandomPickupCount();
+            if (randomItemCount != -1 && !addedGetUpToXItems)
             {
                 GetRandomObjective(rng, stage, body);
                 rerollCount++;
+
+                Main.ModLogger.LogError("could not find purchaseinteractions, rerolling objective");
+
                 // reroll, failed to find objects with a purchase interaction component
             }
             else
             {
-                addedGetUpToXPickups = true;
-                maxPickupCount = randomPickupCount;
-                currentPickupCount = 0;
+                addedGetUpToXItems = true;
+                maxItemCount = randomItemCount;
+                currentItemCount = 0;
                 ObjectivePanelController.collectObjectiveSources += AddGetUpToXPickupsObjective;
-                return new Tuple<float, ObjectiveType>(randomPickupCount, ObjectiveType.ChargeTPEarly);
+                return new Tuple<float, ObjectiveType>(randomItemCount, ObjectiveType.ChargeTPEarly);
             }
 
             return null;
@@ -230,8 +217,13 @@ namespace Sandswept.Components
 
         public int GetRandomPickupCount()
         {
-            var purchaseInteractions = FindObjectsOfType<PurchaseInteraction>().Length;
-            return purchaseInteractions > 0 ? purchaseInteractions : -1;
+            var purchaseInteractions = InstanceTracker.GetInstancesList<PurchaseInteraction>().Count;
+            return purchaseInteractions > 2 ? Mathf.RoundToInt(purchaseInteractions * 0.8f) : -1;
+            // 2 * 0.8 = 1.6 = 2 rounded so ehh
+            // 3 makes you sacrifice at least 1 item
+            // a multiplier of purchase interaction count makes it better on lower interactable credit stages but muuch worse on higher ones
+            // like 15 purchase interactions become... > get up to 12 items
+            // technically could still be worth it for like a band or atg or some red but probably very unviable on smth like abyssal depths or sky meadow
         }
 
         public void GrantRewards(int count, CharacterBody body, RewardType rewardType)
@@ -348,18 +340,18 @@ namespace Sandswept.Components
 
     public class GetUpToXPickupsObjectiveTracker : ObjectivePanelController.ObjectiveTracker
     {
-        public int currentPickupCount = -1;
+        public int currentItemCount = -1;
 
         public override string GenerateString()
         {
             var SandsweptObjectiveController = (SandsweptObjectiveController)sourceDescriptor.source;
-            currentPickupCount = SandsweptObjectiveController.currentPickupCount;
-            return string.Format(Language.GetString(SandsweptObjectiveController.getUpToXPickupsToken), currentPickupCount);
+            currentItemCount = SandsweptObjectiveController.currentItemCount;
+            return string.Format(Language.GetString(SandsweptObjectiveController.getUpToXItemsToken), currentItemCount);
         }
 
         public override bool IsDirty()
         {
-            return ((SandsweptObjectiveController)this.sourceDescriptor.source).currentPickupCount != currentPickupCount;
+            return ((SandsweptObjectiveController)this.sourceDescriptor.source).currentItemCount != currentItemCount;
         }
     }
 }
