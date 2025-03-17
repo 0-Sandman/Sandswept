@@ -1,7 +1,9 @@
 ﻿using RoR2;
 using RoR2.Navigation;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Sandswept.Utils
@@ -240,6 +242,56 @@ namespace Sandswept.Utils
             }
 
             return new(null, null);
+        }
+
+        public static void DeformPoint(Vector3 pos, float radius = 5f, float depth = 3f) {
+            Collider[] cols = Physics.OverlapSphere(pos, radius, LayerIndex.world.mask);
+
+            for (int i = 0; i < cols.Length; i++) {
+                Collider col = cols[i];
+
+                if (col is MeshCollider && col.TryGetComponent<MeshFilter>(out MeshFilter filter)) {
+                    if (!filter.mesh.isReadable) {
+                        continue;
+                    }
+
+                    DeformCollider(pos, radius, depth, filter, col as MeshCollider);
+                }
+            }
+        }
+
+        public static void DeformCollider(Vector3 pos, float radius, float depth, MeshFilter filter, MeshCollider collider) {
+        
+            if (!filter.mesh.isReadable) return;
+
+            Matrix4x4 localToWorld = filter.transform.localToWorldMatrix;
+            Matrix4x4 worldToLocal = filter.transform.worldToLocalMatrix;
+            
+
+            Vector3[] verts = new Vector3[filter.mesh.vertices.Length];
+            Vector3[] original = filter.mesh.vertices;
+            List<Color> colors = new();
+            filter.mesh.GetColors(colors);
+
+            Parallel.For(0, verts.Length, (i, state) => {
+                Vector3 local = original[i];
+                Vector3 world = localToWorld.MultiplyPoint3x4(local);
+
+                float distance = Vector3.Distance(world, pos);
+
+                if (distance <= radius) {
+                    float scalar = (1f - (distance / radius));
+                    world += (Vector3.down) * (depth) * scalar;
+
+                    colors[i] = Color.Lerp(colors[i], Color.red, scalar);
+                }
+
+                verts[i] = worldToLocal.MultiplyPoint3x4(world);
+            });
+
+            filter.mesh.SetVertices(verts.ToList());
+            filter.mesh.SetColors(colors);
+            collider.sharedMesh = filter.mesh;
         }
 
         //<summary>Returns a list of all safe nodes within the specified radius</summary>
