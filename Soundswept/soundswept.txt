@@ -1,18 +1,26 @@
 Event	ID	Name			Wwise Object Path	Notes
+	131240550	Play_transistor_jump			\Default Work Unit\Play_transistor_jump	
 	709801243	Play_elec_r_loop			\Default Work Unit\Play_elec_r_loop	
+	726586564	Play_ichor_proc			\Default Work Unit\Play_ichor_proc	
 	1309240013	Stop_elec_r_loop			\Default Work Unit\Stop_elec_r_loop	
 	1580466542	Play_elec_m1_shoot			\Default Work Unit\Play_elec_m1_shoot	
 	1715774432	Play_elec_spin			\Default Work Unit\Play_elec_spin	
 	2945889283	Play_elec_pylon_blast			\Default Work Unit\Play_elec_pylon_blast	
 	3473094343	Play_elec_r_wind			\Default Work Unit\Play_elec_r_wind	
+	4101414873	Play_kerfus_blast			\Default Work Unit\Play_kerfus_blast	
 
 Game Parameter	ID	Name			Wwise Object Path	Notes
 	3673881719	Volume_SFX			\Default Work Unit\Volume_SFX	
 
 In Memory Audio	ID	Name	Audio source file		Wwise Object Path	Notes	Data Size
+	11926077	gigavine	C:\users\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\gigavine_C9B120F6.wem		\Actor-Mixer Hierarchy\Default Work Unit\gigavine		29458
 	45946089	elec_r_loop	C:\users\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\elec_r_loop_15EB72DC.wem		\Actor-Mixer Hierarchy\Default Work Unit\elec_r_loop		49481
+	108666310	sndTemporalTransistorJump2	C:\users\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\sndTemporalTransistorJump2_8E324C96.wem		\Actor-Mixer Hierarchy\Default Work Unit\TransistorJump\sndTemporalTransistorJump2		19278
 	321387913	elec_r_wind	C:\users\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\elec_r_wind_EC99838C.wem		\Actor-Mixer Hierarchy\Default Work Unit\elec_r_wind		35271
+	377588396	HallowedIchorProcSound	C:\users\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\HallowedIchorProcSound_8E324C96.wem		\Actor-Mixer Hierarchy\Default Work Unit\HallowedIchorProcSound		59598
+	515325557	sndTemporalTransistorJump	C:\users\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\sndTemporalTransistorJump_8E324C96.wem		\Actor-Mixer Hierarchy\Default Work Unit\TransistorJump\sndTemporalTransistorJump		19903
 	537764756	elec_mechanical_spin	C:\users\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\elec_mechanical_spin_8E324C96.wem		\Actor-Mixer Hierarchy\Default Work Unit\elec_mechanical_spin		16498
 	782622910	elec_pylon_discharge	C:\users\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\elec_pylon_discharge_3B2A0BBB.wem		\Actor-Mixer Hierarchy\Default Work Unit\elec_pylon_discharge		15498
 	838482249	elec_m1_shoot	C:\users\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\elec_m1_shoot_DD44F307.wem		\Actor-Mixer Hierarchy\Default Work Unit\elec_m1_shoot		8878
+	888663873	sndTemporalTransistorJump3	C:\users\pseudopulse\Documents\WwiseProjects\Sandswept\.cache\Windows\SFX\sndTemporalTransistorJump3_8E324C96.wem		\Actor-Mixer Hierarchy\Default Work Unit\TransistorJump\sndTemporalTransistorJump3		10143
 
