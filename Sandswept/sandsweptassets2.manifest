@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3164684024
+CRC: 497733277
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: d49d210aa59de4abe72214a5d9f4a545
+    Hash: 3c32c0648153a0e71aa0f678b7fe8af9
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 3b3d16e20b3fe7daf7165560beb31fca
+    Hash: 9f1d1885819c30506606dac71b1bc4d4
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -49,6 +49,8 @@ ClassTypes:
   Script: {fileID: 1952035242, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
   Script: {fileID: 1788389205, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 296141222, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1143142494, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -163,6 +165,8 @@ ClassTypes:
   Script: {fileID: 924743675, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 662316482, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1431018688, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1161602148, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -361,18 +365,19 @@ Assets:
 - Assets/Sandswept/Base/Characters/Electrician/effects/matChargeFlare.mat
 - Assets/Sandswept/Base/Characters/CannonJelly/mdl/mdlCannonJelly.prefab
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvanicBall.mat
+- Assets/Sandswept/Base/Items/GlacialPlasma/vfx/GlacialCastEffect.prefab
 - Assets/Sandswept/Base/Characters/DeltaConstruct/DeltaConstructMaster.prefab
-- Assets/Sandswept/Base/Characters/DeltaConstruct/mdl/matDeltaTrail.mat
 - Assets/Sandswept/Base/Items/CellShield/DisplayCellShieldFollower.prefab
 - Assets/Sandswept/Base/Characters/Ranger/RangerBody.prefab
 - Assets/Sandswept/Base/Items/LunarCatalyst/PickupLunarCatalyst.prefab
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianOrbCenter.mat
 - Assets/Sandswept/Base/Items/GlacialPlasma/matGlacialSwirl.mat
 - Assets/Sandswept/Base/Items/FesteringHunger/matGutBacteria.mat
-- Assets/Sandswept/Base/Items/TemporalTransistor/matTransistor.mat
+- Assets/Sandswept/Base/Characters/DeltaConstruct/mdl/matDeltaTrail.mat
 - Assets/Sandswept/Base/Items/TornFeather/ActiveIndicatorParticles.prefab
 - Assets/Sandswept/Base/Characters/CannonJelly/CannonJellyMaster.prefab
 - Assets/Sandswept/Base/Items/CellShield/DisplayCellShield.prefab
+- Assets/Sandswept/Base/Items/TemporalTransistor/matTransistor.mat
 - Assets/Sandswept/Base/Characters/Ranger/CrosshairRanger.prefab
 - Assets/Sandswept/Base/Items/CellShield/matSparkFlare.mat
 - Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/matGalvOverlay.mat
@@ -386,6 +391,7 @@ Assets:
 - Assets/Sandswept/Base/Items/TornFeather/DashTrailEffect.prefab
 - Assets/Sandswept/Base/Characters/Ranger/RangerIDRS.asset
 - Assets/Sandswept/Base/Characters/VoltaicDrone/VoltaicDroneMaster.prefab
+- Assets/Sandswept/Base/Items/GlacialPlasma/bdGPSpent.png
 - Assets/Sandswept/Base/Characters/Ranger/mdl/matRanger.mat
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matMasteryElecOrbOuter.mat
 - Assets/Sandswept/Base/Characters/CannonJelly/DisplayCannonJelly.prefab
@@ -431,6 +437,7 @@ Assets:
 - Assets/Sandswept/Base/Items/LunarCatalyst/matLunarCatalyst.mat
 - Assets/Sandswept/Base/Characters/Electrician/sdElectrician.asset
 - Assets/Sandswept/Base/Items/GlacialPlasma/matGlacialSpear.mat
+- Assets/Sandswept/Base/Items/GlacialPlasma/vfx/matGlacialTrail.mat
 - Assets/Sandswept/Base/Characters/DeltaConstruct/mdl/matDeltaBeamStrong.mat
 - Assets/Sandswept/Base/Characters/Ranger/skills/Blast.png
 - Assets/Sandswept/Base/Characters/VoltaicDrone/VoltaicDroneBody.prefab
@@ -447,6 +454,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/Ranger/mdl/mastery/matRangerMastery.mat
 - Assets/Sandswept/Base/Characters/Ranger/OverlayRanger.prefab
 - Assets/Sandswept/Base/Items/LunarCatalyst/matCatalystCore.mat
+- Assets/Sandswept/Base/Items/GlacialPlasma/bdGPReady.png
 - Assets/Sandswept/Base/Characters/GammaConstruct/mdl/GammaLog.asset
 - Assets/Sandswept/Base/Characters/Electrician/mdl/interatable/BrokenElectricianBody.prefab
 - Assets/Sandswept/Base/Characters/Megalomaniac/projectiles/sticky orb/MegaloStickyProjectile.prefab
@@ -459,11 +467,12 @@ Assets:
 - Assets/Sandswept/Base/Characters/InfernoDrone/InfernoDroneMaster.prefab
 - Assets/Sandswept/Base/Characters/OmicronConstruct/Stone Pillar/StonePillarMaster.prefab
 - Assets/Sandswept/Base/Characters/Electrician/mdl/matElectricianOrbOuter.mat
-- Assets/Sandswept/Base/Characters/VoltaicDrone/mdlVoltaicDrone.prefab
+- Assets/Sandswept/Base/Items/GlacialPlasma/vfx/GlacialSpearGhost.prefab
 - Assets/Sandswept/Base/Characters/DeltaConstruct/DeltaConstructBody.prefab
 - Assets/Sandswept/Base/Characters/ThetaConstruct/DisplayThetaConstruct.prefab
 - Assets/Sandswept/Base/Characters/Megalomaniac/MegalomaniacBody.prefab
 - Assets/Sandswept/Base/Characters/InfernoDrone/matSmoke.mat
+- Assets/Sandswept/Base/Characters/VoltaicDrone/mdlVoltaicDrone.prefab
 - Assets/Sandswept/Base/Characters/GammaConstruct/GammaConstructMaster.prefab
 - Assets/Sandswept/Base/Characters/Electrician/effects/matMuzzleFlash.mat
 - Assets/Sandswept/Base/Characters/VoltaicDrone/VoltaicDroneBroken.prefab
