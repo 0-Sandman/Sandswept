@@ -1,5 +1,4 @@
-﻿/*
-namespace Sandswept.Items.Reds
+﻿namespace Sandswept.Items.Reds
 {
     [ConfigSection("Items :: Glacial Plasma")]
     internal class GlacialPlasma : ItemBase<GlacialPlasma>
@@ -16,7 +15,7 @@ namespace Sandswept.Items.Reds
 
         public override ItemTier Tier => ItemTier.Tier3;
 
-        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("BleedingWitnessHolder.prefab");
+        public override GameObject ItemModel => Main.Assets.LoadAsset<GameObject>("PickupGlacialPlasma.prefab");
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texBleedingWitness.png");
 
@@ -183,4 +182,3 @@ namespace Sandswept.Items.Reds
         }
     }
 }
-*/
