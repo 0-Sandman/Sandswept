@@ -38,7 +38,7 @@ namespace Sandswept
                 LanguageAPI.Add("SS_RANGER_BODY_NAME", "gay little [CHEESE PUFF]");
                 LanguageAPI.Add("SS_RANGER_DESCRIPTION", "this is a [CHEESE PUFF]");
                 LanguageAPI.Add("SKINDEF_MAJOR", "minor");
-                LanguageAPI.Add("SKINDEF_RENEGADE", "holy shit its been more than 2 years and we still havent added renegade that this skin is a reference to");
+                LanguageAPI.Add("SKINDEF_RENEGADE", "holy shit its been more than 2 years and we still havent added renegade thagt this skin is a reference to");
                 LanguageAPI.Add("SKINDEF_MILEZERO", "literally just Periphery 2");
                 LanguageAPI.Add("ACHIEVEMENT_RANGERCLEARGAMEMONSOON_NAME", "[CHEESE PUFF]: Mastery");
                 LanguageAPI.Add("ACHIEVEMENT_RANGERCLEARGAMEMONSOON_DESCRIPTION", "As [CHEESE PUFF], beat the game or obliterate on Monsoon.");

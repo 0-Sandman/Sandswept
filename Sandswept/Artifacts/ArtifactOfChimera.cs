@@ -1,4 +1,5 @@
-﻿using BepInEx.Configuration;
+﻿/*
+using BepInEx.Configuration;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine;
@@ -99,9 +100,9 @@ namespace Sandswept.Artifacts
 
         private uint Util_PlaySound_string_GameObject(On.RoR2.Util.orig_PlaySound_string_GameObject orig, string soundString, GameObject gameObject)
         {
-            if (ArtifactEnabled && Run.instance.spawnRng.RangeInt(0, 100) > 75)
+            if (Run.instance && ArtifactEnabled && Run.instance.spawnRng.RangeInt(0, 100) > 75)
             {
-                soundString = string.Empty;
+                return 0U;
             }
             return orig(soundString, gameObject);
         }
@@ -301,3 +302,4 @@ namespace Sandswept.Artifacts
         }
     }
 }
+*/

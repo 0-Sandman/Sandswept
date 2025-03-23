@@ -17,7 +17,7 @@
 
         public override GameObject ItemModel => Main.Assets.LoadAsset<GameObject>("PickupGlacialPlasma.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texBleedingWitness.png");
+        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texGlacialPlasma.png");
 
         [ConfigField("Base Damage", "Decimal.", 20f)]
         public static float baseDamage;
