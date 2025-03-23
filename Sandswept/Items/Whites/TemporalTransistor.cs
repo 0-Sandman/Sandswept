@@ -131,6 +131,7 @@ namespace Sandswept.Items.Whites
             if (extraJumps > 0 && OnJump.IsDoubleJump(sender, body))
             {
                 body.SetBuffCount(extraJump.buffIndex, extraJumps - 1);
+                Util.PlaySound("Play_transistor_jump", body.gameObject);
             }
         }
 

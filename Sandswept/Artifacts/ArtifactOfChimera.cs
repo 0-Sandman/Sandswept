@@ -1,5 +1,4 @@
-﻿/*
-using BepInEx.Configuration;
+﻿using BepInEx.Configuration;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using UnityEngine;
@@ -95,6 +94,16 @@ namespace Sandswept.Artifacts
             CharacterBody.onBodyStartGlobal += CharacterBody_onBodyStartGlobal;
             On.RoR2.UI.CombatHealthBarViewer.Start += CombatHealthBarViewer_Start;
             On.RoR2.UI.HealthBar.Start += HealthBar_Start;
+            On.RoR2.Util.PlaySound_string_GameObject += Util_PlaySound_string_GameObject;
+        }
+
+        private uint Util_PlaySound_string_GameObject(On.RoR2.Util.orig_PlaySound_string_GameObject orig, string soundString, GameObject gameObject)
+        {
+            if (ArtifactEnabled && Run.instance.spawnRng.RangeInt(0, 100) > 75)
+            {
+                soundString = string.Empty;
+            }
+            return orig(soundString, gameObject);
         }
 
         private void HealthBar_Start(On.RoR2.UI.HealthBar.orig_Start orig, RoR2.UI.HealthBar self)
@@ -176,6 +185,7 @@ namespace Sandswept.Artifacts
                             damageInfo.dotIndex = DotController.DotIndex.None;
                             damageInfo.procCoefficient = 0;
                             damageInfo.crit = false;
+                            damageInfo.damageType = new DamageTypeCombo(DamageType.Silent, DamageTypeExtended.Generic, DamageSource.NoneSpecified);
                         }
                     }
                 }
@@ -291,4 +301,3 @@ namespace Sandswept.Artifacts
         }
     }
 }
-*/
