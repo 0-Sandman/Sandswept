@@ -307,6 +307,8 @@ namespace Sandswept.Items.Whites
                 yield break;
             }
 
+            Util.PlaySound("Play_ichor_proc", interactableObject);
+
             purchaseInteraction.SetAvailableTrue();
             // idk if this is necessary but just in case >_<
             chestBehavior.NetworkisChestOpened = false;

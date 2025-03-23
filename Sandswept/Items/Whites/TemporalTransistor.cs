@@ -128,9 +128,19 @@ namespace Sandswept.Items.Whites
         private void OnJump_OnJumpEvent(CharacterMotor sender, CharacterBody body, ref float verticalBonus)
         {
             var extraJumps = body.GetBuffCount(extraJump);
-            if (extraJumps > 0 && OnJump.IsDoubleJump(sender, body))
+
+            var stack = GetCount(body);
+            if (stack <= 0)
+            {
+                body.SetBuffCount(extraJump.buffIndex, 0);
+                return;
+            }
+
+            if (extraJumps > 0 && !OnJump.IsBaseJump(sender, body))
             {
                 body.SetBuffCount(extraJump.buffIndex, extraJumps - 1);
+                sender.jumpCount--;
+                Util.PlaySound("Play_transistor_jump", body.gameObject);
             }
         }
 

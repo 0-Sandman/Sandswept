@@ -44,6 +44,8 @@ namespace Sandswept.Items
         public virtual float modelPanelParametersMinDistance { get; } = 2f;
         public virtual float modelPanelParametersMaxDistance { get; } = 10f;
 
+        public virtual Sprite ItemIconOverride { get; set; } = null;
+
         public static bool DefaultEnabledCallback(ItemBase self)
         {
             ConfigSectionAttribute attribute = self.GetType().GetCustomAttribute<ConfigSectionAttribute>();
@@ -154,6 +156,11 @@ namespace Sandswept.Items
                 CreateModelPanelParameters(sigma);
             }
 
+            if (ItemIconOverride != null)
+            {
+                ItemDef.pickupIconSprite = ItemIconOverride;
+            }
+
             ItemAPI.Add(new CustomItem(ItemDef, CreateItemDisplayRules()));
         }
 
@@ -185,7 +192,8 @@ namespace Sandswept.Items
             ItemDef.pickupModelPrefab = model;
         }
 
-        public static float ToFloat(Vector3 vec) {
+        public static float ToFloat(Vector3 vec)
+        {
             vec.x = Mathf.Abs(vec.x);
             vec.y = Mathf.Abs(vec.y);
             vec.z = Mathf.Abs(vec.z);

@@ -30,7 +30,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using MonoMod.Cil;
-using Sandswept.Components;
+
+// using Sandswept.Components;
 
 // using Sandswept.Survivors.Ranger.ItemDisplays;
 
@@ -273,7 +274,7 @@ namespace Sandswept
             IL.EntityStates.Drone.DeathState.OnImpactServer += DroneDropFix;
 
             CursedConfig.Init();
-            ObjectiveSystem.Init();
+            // ObjectiveSystem.Init();
 
             ModLogger.LogDebug("#SANDSWEEP");
             ModLogger.LogDebug("Initialized mod in " + stopwatch.ElapsedMilliseconds + "ms");
