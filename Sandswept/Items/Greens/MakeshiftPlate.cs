@@ -24,12 +24,13 @@ $$ |     \$$$$$$$ |\$$$$$$$ |\$$$$$$$ |\$$$$$$  | \$$$$  |
  * hello pseudopulse
  *
  *
- * there are a few ways you could tacke this, this item could stack hyperbolically, or you could make plating have a higher cap (or maybe unlimited cap?)
+ * there are a few ways you could tackle this, this item could stack hyperbolically, or you could make plating have a higher cap (or maybe unlimited cap?)
  * but then handling the healthbar display would be aids
  * also making it razorwire 2 but only when you have plating is kinda ehhh imo
  * I had a no thoughts head empty idea to make it give you barrier on getting hit with a cooldown or something but that's also ehhh
  *
- *
+ */
+
 using System;
 using System.Diagnostics;
 using RoR2.UI;
@@ -282,4 +283,3 @@ namespace Sandswept.Items.Whites
         }
     }
 }
-*/

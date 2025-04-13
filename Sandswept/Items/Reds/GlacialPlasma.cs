@@ -48,6 +48,9 @@
             projectileSimple.enableVelocityOverLifetime = true;
             projectileSimple.velocityOverLifetime = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.05f, 0f), new Keyframe(1f, 3f));
 
+            var hitbox = javelinProjectile.transform.Find("Hitbox");
+            hitbox.localScale *= 2f;
+
             PrefabAPI.RegisterNetworkPrefab(javelinProjectile);
             ContentAddition.AddProjectile(javelinProjectile);
 
@@ -58,6 +61,7 @@
             javelinReady.isHidden = false;
             javelinReady.iconSprite = Paths.BuffDef.bdBleeding.iconSprite;
             javelinReady.buffColor = Color.cyan;
+            javelinReady.name = "Glacial Plasma Ready";
 
             ContentAddition.AddBuffDef(javelinReady);
 
@@ -68,6 +72,7 @@
             javelinCooldown.isHidden = false;
             javelinCooldown.iconSprite = Paths.BuffDef.bdBugWings.iconSprite;
             javelinCooldown.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1f);
+            javelinCooldown.name = "Glacial Plasma Cooldown";
 
             ContentAddition.AddBuffDef(javelinCooldown);
 

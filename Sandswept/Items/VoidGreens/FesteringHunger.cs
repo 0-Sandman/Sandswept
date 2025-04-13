@@ -32,7 +32,7 @@ namespace Sandswept.Items.VoidGreens
         [ConfigField("Movement Speed Buff Duration", "", 2f)]
         public static float movementSpeedBuffDuration;
 
-        [ConfigField("Movement Speed Buff Range", "", 13f)]
+        [ConfigField("Movement Speed Buff Range", "", 16f)]
         public static float movementSpeedBuffRange;
 
         public static BuffDef movementSpeedBuff;

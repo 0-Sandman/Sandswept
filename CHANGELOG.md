@@ -1,5 +1,26 @@
-## 1.1.3 Patch Notes
-- Added a thing
+## 1.2.0 Patch Notes
+- General
+  - Added ProcSolver support
+- Enemies
+  - Added Stone Desecrator
+- Items/Equipment
+  - Added Dissonant Veil
+  - Added Silver Cord
+  - Added Makeshift Plate
+  - Added Glacial Plasma
+  - Added Hallowed Ichor
+  - Added Sequenced Fate
+  - Added Flawless Design
+  - Added VFX and SFX to Temporal Transistor
+  - Buffed Festering Hunger Movement Speed Buff Range from 13m to 16m
+  - Fixed Temporal Transistor consuming Hopoo Feather jumps
+- Interactables
+  - Added Nuclear Drone
+  - Added Tar Drone
+  - Added Voltaic Drone
+  - Added Shrine of Death
+  - Fixed Shrine of The Future not working with MysticsItems' Black Monolith
+  - Fixed Shrine of Ruin potentially working with MysticsItems' Black Monolith
 
 ## 1.1.2 Patch Notes
 - General
