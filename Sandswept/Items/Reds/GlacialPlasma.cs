@@ -35,6 +35,7 @@
 
         public static BuffDef javelinReady;
         public static BuffDef javelinCooldown;
+        public static GameObject SpawnEffect;
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility };
 
@@ -49,7 +50,8 @@
             projectileSimple.velocityOverLifetime = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.05f, 0f), new Keyframe(1f, 3f));
 
             var hitbox = javelinProjectile.transform.Find("Hitbox");
-            hitbox.localScale *= 2f;
+            hitbox.localScale *= 3f;
+            javelinProjectile.GetComponent<ProjectileController>().ghostPrefab = Main.Assets.LoadAsset<GameObject>("GlacialSpearGhost.prefab");
 
             PrefabAPI.RegisterNetworkPrefab(javelinProjectile);
             ContentAddition.AddProjectile(javelinProjectile);
@@ -59,7 +61,7 @@
             javelinReady.canStack = false;
             javelinReady.isDebuff = false;
             javelinReady.isHidden = false;
-            javelinReady.iconSprite = Paths.BuffDef.bdBleeding.iconSprite;
+            javelinReady.iconSprite = Main.Assets.LoadAsset<Sprite>("bdGPReady.png");
             javelinReady.buffColor = Color.cyan;
             javelinReady.name = "Glacial Plasma Ready";
 
@@ -70,11 +72,14 @@
             javelinCooldown.canStack = false;
             javelinCooldown.isDebuff = false;
             javelinCooldown.isHidden = false;
-            javelinCooldown.iconSprite = Paths.BuffDef.bdBugWings.iconSprite;
+            javelinCooldown.iconSprite = Main.Assets.LoadAsset<Sprite>("bdGPSpent.png");
             javelinCooldown.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1f);
             javelinCooldown.name = "Glacial Plasma Cooldown";
 
             ContentAddition.AddBuffDef(javelinCooldown);
+
+            SpawnEffect = Main.Assets.LoadAsset<GameObject>("GlacialCastEffect.prefab");
+            ContentAddition.AddEffect(SpawnEffect);
 
             CreateLang();
             CreateItem();
@@ -176,6 +181,13 @@
                     projectilePrefab = javelinProjectile,
                     damageTypeOverride = DamageType.Freeze2s
                 };
+
+                EffectManager.SpawnEffect(SpawnEffect, new EffectData
+                {
+                    scale = 2f,
+                    origin = fpi.position,
+                    rotation = fpi.rotation
+                }, false);
 
                 if (Util.HasEffectiveAuthority(gameObject))
                 {
