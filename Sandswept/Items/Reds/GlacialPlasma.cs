@@ -60,7 +60,7 @@
             javelinReady.isDebuff = false;
             javelinReady.isHidden = false;
             javelinReady.iconSprite = Main.Assets.LoadAsset<Sprite>("bdGPReady.png");
-            javelinReady.buffColor = Color.cyan;
+            javelinReady.buffColor = new Color32(174, 233, 241, 255);
 
             ContentAddition.AddBuffDef(javelinReady);
 
