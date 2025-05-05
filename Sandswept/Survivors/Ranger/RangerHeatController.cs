@@ -77,28 +77,30 @@ namespace Sandswept.Survivors.Ranger
                 heatGainRate += Time.fixedDeltaTime;
                 currentHeat += heatGainRate * Time.fixedDeltaTime;
                 currentHeat = Mathf.Clamp(currentHeat, 0, maxHeat);
-                if (currentHeat >= maxHeat)
+                // if (currentHeat >= maxHeat)
+                // {
+                fullHeatTimer += Time.fixedDeltaTime;
+                selfDamageTimer += Time.fixedDeltaTime;
+
+                if (fullHeatTimer >= 1.5f)
                 {
-                    fullHeatTimer += Time.fixedDeltaTime;
-                    selfDamageTimer += Time.fixedDeltaTime;
+                    var damageBuffGain = (3 + cb.GetBuffCount(Charge.instance.BuffDef)) * 3;
+                    cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, damageBuffGain * (int)fullHeatTimer);
 
-                    if (fullHeatTimer >= 1f)
+                    if (selfDamageTimer >= selfDamageInterval)
                     {
-                        var damageBuffGain = (10 + cb.GetBuffCount(Charge.instance.BuffDef)) * 2;
-                        cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, damageBuffGain * (int)fullHeatTimer);
-
-                        if (selfDamageTimer >= selfDamageInterval)
-                        {
-                            TakeDamage(fullHeatTimer * 0.4f);
-                            selfDamageTimer = 0f;
-                        }
+                        TakeDamage(fullHeatTimer * 0.2f);
+                        selfDamageTimer = 0f;
                     }
                 }
+                // }
+                /*
                 else
                 {
                     fullHeatTimer = 0f;
                     cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, 0);
                 }
+                */
 
                 var reductionCount = cb.GetBuffCount(HeatHealingReduction.instance.BuffDef.buffIndex);
 
@@ -155,7 +157,7 @@ namespace Sandswept.Survivors.Ranger
             {
                 attacker = null,
                 procCoefficient = 0,
-                damage = hc.fullCombinedHealth * 0.013f * timeInOverheat,
+                damage = hc.fullCombinedHealth * 0.01f * timeInOverheat,
                 crit = false,
                 position = transform.position,
                 damageColorIndex = DamageColorIndex.Fragile,
@@ -174,37 +176,63 @@ namespace Sandswept.Survivors.Ranger
         }
     }
 
-    public class RangerChargeDisplay : MonoBehaviour {
+    public class RangerChargeDisplay : MonoBehaviour
+    {
         public RawImage[] ChargePips;
-        public static Color32 ChargeColor = new(76, 255, 246, 255);
+        public Color32 ChargeColor;
         public CharacterBody body;
         public HudElement hud;
 
-        public void Start() {
+        public void Start()
+        {
             hud = GetComponent<HudElement>();
 
             ChargePips[0].transform.localScale *= 1.5f;
             ChargePips[1].transform.localScale *= 1.5f;
             ChargePips[2].transform.localScale *= 1.5f;
+
+            Transform modelTransform = null;
+            if (body.modelLocator)
+            {
+                modelTransform = body.modelLocator.modelTransform;
+            }
+
+            if (modelTransform)
+            {
+                var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[body.skinIndex].nameToken;
+
+                ChargeColor = skinNameToken switch
+                {
+                    "SKINDEF_MAJOR" => new Color32(61, 105, 198, 140),
+                    "SKINDEF_RENEGADE" => new Color32(196, 62, 174, 140),
+                    "SKINDEF_MILEZERO" => new Color32(181, 30, 30, 140),
+                    "SKINDEF_SANDSWEPT" => new Color32(196, 136, 62, 140),
+                    _ => new Color32(78, 182, 142, 140),
+                };
+            }
         }
 
-        public void Update() {
-            if (!body && hud && hud.targetBodyObject) {
+        public void Update()
+        {
+            if (!body && hud && hud.targetBodyObject)
+            {
                 body = hud.targetBodyObject.GetComponent<CharacterBody>();
             }
 
-            if (!body) {
+            if (!body)
+            {
                 return;
             }
 
             int charge = body.GetBuffCount(Buffs.Charge.instance.BuffDef);
-            
+
             ChargePips[0].color = new Color32(0, 0, 0, 0);
             ChargePips[1].color = new Color32(0, 0, 0, 0);
             ChargePips[2].color = new Color32(0, 0, 0, 0);
             ChargePips[3].color = Color.white;
 
-            if (charge >= 10) {
+            if (charge >= 10)
+            {
                 ChargePips[3].color = ChargeColor;
             }
 
@@ -212,12 +240,15 @@ namespace Sandswept.Survivors.Ranger
             UpdateColor(ChargePips[1]);
             UpdateColor(ChargePips[2]);
 
-            void UpdateColor(RawImage image) {
-                if (charge == 0) {
+            void UpdateColor(RawImage image)
+            {
+                if (charge == 0)
+                {
                     return;
                 }
 
-                if (charge >= 3) {
+                if (charge >= 3)
+                {
                     image.color = ChargeColor;
                     charge -= 3;
                     return;

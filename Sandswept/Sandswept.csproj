@@ -34,6 +34,7 @@
 	<PackageReference Include="R2API.Networking" Version="*" />
 	<PackageReference Include="R2API.Director" Version="*" />
 	<PackageReference Include="R2API.ProcType" Version="*" />
+	<PackageReference Include="R2API.Skills" Version="*" />
   </ItemGroup>
 
 	<ItemGroup>

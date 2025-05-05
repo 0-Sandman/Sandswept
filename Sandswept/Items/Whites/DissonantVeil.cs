@@ -14,7 +14,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemFullDescription => $"Upon using your $suEquipment$se, become $sucloaked$se for $su{cloakBuffDuration}s$se. While $sucloaked$se, $suexit$se combat and danger. Recharges every $su{baseRechargeTime} seconds$se $ss(-{stackRechargeTime * 100f}% per stack)$se.".AutoFormat();
 
-        public override string ItemLore => "visual design is ivaras's helmet + syandana thingy?";
+        public override string ItemLore => "visual design is sevagoth's or ivaras's helmet + syandana thingy?";
 
         public override ItemTier Tier => ItemTier.Tier1;
 

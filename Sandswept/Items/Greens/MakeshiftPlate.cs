@@ -31,6 +31,7 @@ $$ |     \$$$$$$$ |\$$$$$$$ |\$$$$$$$ |\$$$$$$  | \$$$$  |
  *
  */
 
+/*
 using System;
 using System.Diagnostics;
 using RoR2.UI;
@@ -283,3 +284,4 @@ namespace Sandswept.Items.Whites
         }
     }
 }
+*/

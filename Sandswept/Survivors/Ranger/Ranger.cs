@@ -110,8 +110,10 @@ namespace Sandswept.Survivors.Ranger
             Body.GetComponent<ModelLocator>()._modelTransform.GetComponent<FootstepHandler>().footstepDustPrefab = Paths.GameObject.GenericFootstepDust;
 
             SkillLocator locator = Body.GetComponent<SkillLocator>();
-            locator.passiveSkill = default; PassiveFix.Init();
+            locator.passiveSkill = default; // PassiveFix.Init();
             var passive = Body.AddComponent<GenericSkill>(); passive.skillName = "Passive";
+            SkillsAPI.SetLoadoutTitleTokenOverride(passive, "Passive");
+            SkillsAPI.SetOrderPriority(passive, -1);
             ReplaceSkills(passive, new SkillDef[] { SkillDefs.Passive.OverchargedProtection.instance.skillDef, SkillDefs.Passive.OverchargedSpeed.instance.skillDef });
             ReplaceSkills(locator.primary, new SkillDef[] { SkillDefs.Primary.DirectCurrent.instance.skillDef });
             ReplaceSkills(locator.secondary, new SkillDef[] { SkillDefs.Secondary.Release.instance.skillDef, SkillDefs.Secondary.Galvanize.instance.skillDef });
