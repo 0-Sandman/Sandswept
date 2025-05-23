@@ -120,10 +120,13 @@ namespace Sandswept.Items.Greens
 
                 if (body.HasBuff(DriftingPerception.ready) && body.outOfCombatStopwatch <= 2f /*!body.outOfCombat*/)
                 {
-                    if (!body.hasCloakBuff || !body.HasBuff(RoR2Content.Buffs.CloakSpeed))
+                    if (!body.hasCloakBuff)
                     {
                         body.AddTimedBuffAuthority(RoR2Content.Buffs.Cloak.buffIndex, DriftingPerception.cloakBuffDuration);
-                        body.AddTimedBuffAuthority(RoR2Content.Buffs.CloakSpeed.buffIndex, DriftingPerception.cloakBuffDuration);
+                        if (!body.HasBuff(RoR2Content.Buffs.CloakSpeed))
+                        {
+                            body.AddTimedBuffAuthority(RoR2Content.Buffs.CloakSpeed.buffIndex, DriftingPerception.cloakBuffDuration);
+                        }
 
                         Util.PlaySound("Play_roboBall_attack2_mini_spawn", gameObject);
                         Util.PlaySound("Play_roboBall_attack2_mini_spawn", gameObject);

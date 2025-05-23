@@ -182,6 +182,7 @@ namespace Sandswept.Survivors.Ranger
         public Color32 ChargeColor;
         public CharacterBody body;
         public HudElement hud;
+        public bool ranColorSwap = false;
 
         public void Start()
         {
@@ -190,26 +191,6 @@ namespace Sandswept.Survivors.Ranger
             ChargePips[0].transform.localScale *= 1.5f;
             ChargePips[1].transform.localScale *= 1.5f;
             ChargePips[2].transform.localScale *= 1.5f;
-
-            Transform modelTransform = null;
-            if (body.modelLocator)
-            {
-                modelTransform = body.modelLocator.modelTransform;
-            }
-
-            if (modelTransform)
-            {
-                var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[body.skinIndex].nameToken;
-
-                ChargeColor = skinNameToken switch
-                {
-                    "SKINDEF_MAJOR" => new Color32(61, 105, 198, 140),
-                    "SKINDEF_RENEGADE" => new Color32(196, 62, 174, 140),
-                    "SKINDEF_MILEZERO" => new Color32(181, 30, 30, 140),
-                    "SKINDEF_SANDSWEPT" => new Color32(196, 136, 62, 140),
-                    _ => new Color32(78, 182, 142, 140),
-                };
-            }
         }
 
         public void Update()
@@ -222,6 +203,30 @@ namespace Sandswept.Survivors.Ranger
             if (!body)
             {
                 return;
+            }
+
+            if (!ranColorSwap)
+            {
+                Transform modelTransform = null;
+                if (body.modelLocator)
+                {
+                    modelTransform = body.modelLocator.modelTransform;
+                }
+
+                if (modelTransform)
+                {
+                    var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[body.skinIndex].nameToken;
+
+                    ChargeColor = skinNameToken switch
+                    {
+                        "SKINDEF_MAJOR" => new Color32(61, 105, 198, 140),
+                        "SKINDEF_RENEGADE" => new Color32(196, 62, 174, 140),
+                        "SKINDEF_MILEZERO" => new Color32(181, 30, 30, 140),
+                        "SKINDEF_SANDSWEPT" => new Color32(196, 136, 62, 140),
+                        _ => new Color32(78, 182, 142, 140),
+                    };
+                }
+                ranColorSwap = true;
             }
 
             int charge = body.GetBuffCount(Buffs.Charge.instance.BuffDef);

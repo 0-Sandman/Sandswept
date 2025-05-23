@@ -1,24 +1,25 @@
 ## 1.2.0 Patch Notes
-- General
-  - Added ProcSolver support
 - Enemies
-  - Added Stone Desecrator
+  - Added Stone Desecrator (NO CODE, NO ANIMS)
 - Items/Equipment
-  - Added Dissonant Veil
-  - Added Silver Cord
-  - Added Makeshift Plate
-  - Added Glacial Plasma
-  - Added Hallowed Ichor
-  - Added Sequenced Fate
-  - Added Flawless Design
-  - Added VFX and SFX to Temporal Transistor
+  - Added Dissonant Veil (HAS CODE, NO MODEL, NO DESIGN)
+  - Added Silver Cord (HAS CODE, NO MODEL, HAS DESIGN)
+  - Added Makeshift Plate (ALMOST HAS CODE, HAS MODEL)
+  - Added Glacial Plasma (HAS CODE, HAS MODEL)
+  - Added Hallowed Ichor (HAS CODE, NO MODEL, HAS DESIGN)
+  - Added Sequenced Fate (HAS CODE, NO MODEL, HAS DESIGN)
+  - Added Flawless Design (ALMOST HAS CODE, NO MODEL, HAS DESIGN)
+  - Added SFX to Temporal Transistor
+  - Made Drifting Perception work better
   - Buffed Festering Hunger Movement Speed Buff Range from 13m to 16m
+  - Buffed The Sand Sweeper Cooldown from 30s to 25s
   - Fixed Temporal Transistor consuming Hopoo Feather jumps
+  - Fixed Loadout bugs
 - Interactables
-  - Added Nuclear Drone
-  - Added Tar Drone
-  - Added Voltaic Drone
-  - Added Shrine of Death
+  - Added Ballistic Drone (NO CODE, NO MODEL, HAS DESIGN)
+  - Added Tar Drone (NO CODE, MODEL)
+  - Added Voltaic Drone (HAS CODE, HAS MODEL, NATURAL SPAWN)
+  - Added Galvanic Drone (NO CODE, NO MODEL, HAS DESIGN, FOR SILVER CORD)
   - Fixed Shrine of The Future not working with MysticsItems' Black Monolith
   - Fixed Shrine of Ruin potentially working with MysticsItems' Black Monolith
 

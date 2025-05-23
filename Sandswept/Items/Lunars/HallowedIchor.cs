@@ -38,9 +38,6 @@ namespace Sandswept.Items.Whites
         [ConfigField("Chest Re-open Difficulty Coefficient Multiplier Add", "Multiplies the current difficulty value by 1 + this value each time a chest is re-opened. This is calculated second to last.", 0.12f)]
         public static float chestReopenDifficultyCoefficientMultiplierAdd;
 
-        [ConfigField("Chest Re-open Difficulty Coefficient To Cost Scale Multiplier Add", "Multiplies the current difficulty value by 1 + this value for each $1 above $30 of the chest's base cost. This is calculated last.", 0.01f)]
-        public static float chestReopenDifficultyCoefficientToCostScaleMultiplierAdd;
-
         public static GameObject permanentHallowedIchorTracker;
 
         public static float cachedDifficultyDefScalingValue = -1f;
@@ -354,7 +351,7 @@ namespace Sandswept.Items.Whites
     {
         public HGTextMeshProUGUI HGTextMeshProUGUI;
         public float timer;
-        public float updateInterval = 0.5f;
+        public float updateInterval = 0.4f;
         public float yMovementMultiplier = 3f;
         public float xMovementMultiplier = 0.5f;
 
