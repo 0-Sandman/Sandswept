@@ -11,6 +11,23 @@ namespace Sandswept.Utils
     public static class MiscUtils
     {
         //Sourced from source code, couldn't access because it was private, modified a little
+
+        public static bool HasUnlockable(NetworkUser networkUser, UnlockableDef unlockableDef)
+        {
+            if (!networkUser)
+            {
+                return true;
+            }
+
+            LocalUser localUser = networkUser.localUser;
+            if (localUser != null)
+            {
+                return localUser.userProfile.HasUnlockable(unlockableDef.cachedName);
+            }
+
+            return networkUser.unlockables.Contains(UnlockableCatalog.GetUnlockableDef(unlockableDef.cachedName));
+        }
+
         public static Vector3? RaycastToDirection(Vector3 position, float maxDistance, Vector3 direction, int layer)
         {
             if (Physics.Raycast(new Ray(position, direction), out RaycastHit raycastHit, maxDistance, layer, QueryTriggerInteraction.Ignore))
@@ -244,14 +261,18 @@ namespace Sandswept.Utils
             return new(null, null);
         }
 
-        public static void DeformPoint(Vector3 pos, float radius = 5f, float depth = 3f) {
+        public static void DeformPoint(Vector3 pos, float radius = 5f, float depth = 3f)
+        {
             Collider[] cols = Physics.OverlapSphere(pos, radius, LayerIndex.world.mask);
 
-            for (int i = 0; i < cols.Length; i++) {
+            for (int i = 0; i < cols.Length; i++)
+            {
                 Collider col = cols[i];
 
-                if (col is MeshCollider && col.TryGetComponent<MeshFilter>(out MeshFilter filter)) {
-                    if (!filter.mesh.isReadable) {
+                if (col is MeshCollider && col.TryGetComponent<MeshFilter>(out MeshFilter filter))
+                {
+                    if (!filter.mesh.isReadable)
+                    {
                         continue;
                     }
 
@@ -260,26 +281,27 @@ namespace Sandswept.Utils
             }
         }
 
-        public static void DeformCollider(Vector3 pos, float radius, float depth, MeshFilter filter, MeshCollider collider) {
-        
+        public static void DeformCollider(Vector3 pos, float radius, float depth, MeshFilter filter, MeshCollider collider)
+        {
             if (!filter.mesh.isReadable) return;
 
             Matrix4x4 localToWorld = filter.transform.localToWorldMatrix;
             Matrix4x4 worldToLocal = filter.transform.worldToLocalMatrix;
-            
 
             Vector3[] verts = new Vector3[filter.mesh.vertices.Length];
             Vector3[] original = filter.mesh.vertices;
             List<Color> colors = new();
             filter.mesh.GetColors(colors);
 
-            Parallel.For(0, verts.Length, (i, state) => {
+            Parallel.For(0, verts.Length, (i, state) =>
+            {
                 Vector3 local = original[i];
                 Vector3 world = localToWorld.MultiplyPoint3x4(local);
 
                 float distance = Vector3.Distance(world, pos);
 
-                if (distance <= radius) {
+                if (distance <= radius)
+                {
                     float scalar = (1f - (distance / radius));
                     world += (Vector3.down) * (depth) * scalar;
 

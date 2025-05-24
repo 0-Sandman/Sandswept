@@ -182,7 +182,7 @@ namespace Sandswept.Survivors.Electrician
             brokenBody.baseMaxHealth = 10f;
             brokenBody.levelMaxHealth = 0;
             var brokenBodyHealthComponent = brokenBody.GetComponent<HealthComponent>();
-            brokenBodyHealthComponent.health = 6f;
+            brokenBodyHealthComponent.Networkhealth = 6f;
             ContentAddition.AddBody(BrokenElectricianBody);
 
             On.RoR2.Stage.Start += OnStageStart;
@@ -251,49 +251,56 @@ namespace Sandswept.Survivors.Electrician
                 int currentElectricianUnlockCount = 0;
                 bool hasEveryoneUnlockedElectrician = false;
 
-                foreach (var pcmc in PlayerCharacterMasterController.instances)
+                // Main.ModLogger.LogError("electricianindex lazyindex bitchass is " + ElectricianIndex.Value);
+
+                for (int i = 0; i < PlayerCharacterMasterController.instances.Count; i++)
                 {
-                    if (pcmc.networkUser && pcmc.networkUser.bodyIndexPreference != ElectricianIndex)
+                    var playerCharacterMasterController = PlayerCharacterMasterController.instances[i];
+
+                    var master = playerCharacterMasterController.master;
+                    // Main.ModLogger.LogError("master body backup index is " + master.backupBodyIndex);
+                    if (master.backupBodyIndex != ElectricianIndex.Value)
                     {
                         isAnyonePlayingElectrician = false;
                     }
 
-                    if (pcmc.TryGetComponent<PlayerStatsComponent>(out var playerStatsComponent))
+                    if (MiscUtils.HasUnlockable(playerCharacterMasterController.networkUser, UnlockableDefs.charUnlock))
                     {
-                        Main.ModLogger.LogError("got player stats component");
-                        Main.ModLogger.LogError("unlockabledef is " + UnlockableDefs.charUnlock);
-                        Main.ModLogger.LogError("unlockabledef index is " + UnlockableDefs.charUnlock.index);
-                        if (playerStatsComponent.currentStats.HasUnlockable(UnlockableDefs.charUnlock))
-                        {
-                            Main.ModLogger.LogError("found volt unlockable, incrementing current electrician unlock count");
-                            currentElectricianUnlockCount++;
-                        }
+                        // Main.ModLogger.LogError("found volt unlockable, incrementing current volt unlock count");
+                        currentElectricianUnlockCount++;
                     }
                 }
 
                 if (currentElectricianUnlockCount >= Run.instance.participatingPlayerCount)
                 {
-                    Main.ModLogger.LogError("current electrician unlock count is more than or equal to participating player count");
+                    // Main.ModLogger.LogError("current volt unlock count is more than or equal to participating player count");
                     hasEveryoneUnlockedElectrician = true;
                 }
 
-                Main.ModLogger.LogError("is anyone playing electrician? " + isAnyonePlayingElectrician);
-                Main.ModLogger.LogError("has everyone unlocked electrician? " + hasEveryoneUnlockedElectrician);
+                // Main.ModLogger.LogError("is anyone playing volt? " + isAnyonePlayingElectrician);
+                // Main.ModLogger.LogError("has everyone unlocked volt? " + hasEveryoneUnlockedElectrician);
 
-                if (!isAnyonePlayingElectrician || !hasEveryoneUnlockedElectrician)
+                if (isAnyonePlayingElectrician)
                 {
-                    bool landmassEnabled = GameObject.Find("HOLDER: Randomization").transform.Find("GROUP: Tunnel Landmass").Find("CHOICE: Tunnel Landmass").gameObject.activeSelf;
-                    Vector3 pos = new Vector3(103.4f, -3.1f, 170f);
-                    Quaternion rot = Quaternion.Euler(0, -120f, 0);
-
-                    if (!landmassEnabled)
-                    {
-                        pos = new(-209f, 75f, -185.9f);
-                    }
-
-                    GameObject obj = GameObject.Instantiate(BrokenElectricianBody, pos, rot);
-                    NetworkServer.Spawn(obj);
+                    yield break;
                 }
+
+                if (hasEveryoneUnlockedElectrician)
+                {
+                    yield break;
+                }
+
+                bool landmassEnabled = GameObject.Find("HOLDER: Randomization").transform.Find("GROUP: Tunnel Landmass").Find("CHOICE: Tunnel Landmass").gameObject.activeSelf;
+                Vector3 pos = new Vector3(103.4f, -3.1f, 170f);
+                Quaternion rot = Quaternion.Euler(0, -120f, 0);
+
+                if (!landmassEnabled)
+                {
+                    pos = new(-209f, 75f, -185.9f);
+                }
+
+                GameObject obj = GameObject.Instantiate(BrokenElectricianBody, pos, rot);
+                NetworkServer.Spawn(obj);
             }
         }
 

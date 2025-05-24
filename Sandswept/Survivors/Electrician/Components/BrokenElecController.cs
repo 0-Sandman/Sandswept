@@ -19,6 +19,7 @@ namespace Sandswept.Survivors.Electrician
         public void Start()
         {
             body = GetComponent<CharacterBody>();
+            body.healthComponent.Networkhealth = 6f;
         }
 
         public void OnTakeDamageServer(DamageReport damageReport)
