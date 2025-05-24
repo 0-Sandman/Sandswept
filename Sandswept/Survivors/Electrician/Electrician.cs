@@ -9,6 +9,7 @@ using Sandswept.Survivors.Electrician.Skills;
 using Sandswept.Survivors.Electrician.States;
 using Sandswept.Utils.Components;
 using UnityEngine.SceneManagement;
+using RoR2.Stats;
 
 namespace Sandswept.Survivors.Electrician
 {
@@ -177,6 +178,11 @@ namespace Sandswept.Survivors.Electrician
             ContentAddition.AddMaster(Main.Assets.LoadAsset<GameObject>("ElectricianMonsterMaster.prefab"));
 
             BrokenElectricianBody = Main.Assets.LoadAsset<GameObject>("BrokenElectricianBody.prefab");
+            var brokenBody = BrokenElectricianBody.GetComponent<CharacterBody>();
+            brokenBody.baseMaxHealth = 10f;
+            brokenBody.levelMaxHealth = 0;
+            var brokenBodyHealthComponent = brokenBody.GetComponent<HealthComponent>();
+            brokenBodyHealthComponent.health = 6f;
             ContentAddition.AddBody(BrokenElectricianBody);
 
             On.RoR2.Stage.Start += OnStageStart;
@@ -242,6 +248,8 @@ namespace Sandswept.Survivors.Electrician
             if (NetworkServer.active && SceneManager.GetActiveScene().name == Scenes.SunderedGrove)
             {
                 bool isAnyonePlayingElectrician = true;
+                int currentElectricianUnlockCount = 0;
+                bool hasEveryoneUnlockedElectrician = false;
 
                 foreach (var pcmc in PlayerCharacterMasterController.instances)
                 {
@@ -249,9 +257,30 @@ namespace Sandswept.Survivors.Electrician
                     {
                         isAnyonePlayingElectrician = false;
                     }
+
+                    if (pcmc.TryGetComponent<PlayerStatsComponent>(out var playerStatsComponent))
+                    {
+                        Main.ModLogger.LogError("got player stats component");
+                        Main.ModLogger.LogError("unlockabledef is " + UnlockableDefs.charUnlock);
+                        Main.ModLogger.LogError("unlockabledef index is " + UnlockableDefs.charUnlock.index);
+                        if (playerStatsComponent.currentStats.HasUnlockable(UnlockableDefs.charUnlock))
+                        {
+                            Main.ModLogger.LogError("found volt unlockable, incrementing current electrician unlock count");
+                            currentElectricianUnlockCount++;
+                        }
+                    }
                 }
 
-                if (!isAnyonePlayingElectrician)
+                if (currentElectricianUnlockCount >= Run.instance.participatingPlayerCount)
+                {
+                    Main.ModLogger.LogError("current electrician unlock count is more than or equal to participating player count");
+                    hasEveryoneUnlockedElectrician = true;
+                }
+
+                Main.ModLogger.LogError("is anyone playing electrician? " + isAnyonePlayingElectrician);
+                Main.ModLogger.LogError("has everyone unlocked electrician? " + hasEveryoneUnlockedElectrician);
+
+                if (!isAnyonePlayingElectrician || !hasEveryoneUnlockedElectrician)
                 {
                     bool landmassEnabled = GameObject.Find("HOLDER: Randomization").transform.Find("GROUP: Tunnel Landmass").Find("CHOICE: Tunnel Landmass").gameObject.activeSelf;
                     Vector3 pos = new Vector3(103.4f, -3.1f, 170f);

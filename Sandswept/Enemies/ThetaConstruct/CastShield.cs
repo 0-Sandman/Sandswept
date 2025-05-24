@@ -12,6 +12,7 @@ namespace Sandswept.Enemies.ThetaConstruct
         public bool doYuriBlast = false;
         private Vector3 yuriDir;
         private GameObject buddy;
+
         public override void OnEnter()
         {
             base.OnEnter();
@@ -26,17 +27,20 @@ namespace Sandswept.Enemies.ThetaConstruct
                 return;
             }
 
-            if (buddy.GetComponent<CharacterBody>() && buddy.GetComponent<CharacterBody>().bodyIndex == ThetaConstruct.ThetaIndex) {
+            if (buddy.GetComponent<CharacterBody>() && buddy.GetComponent<CharacterBody>().bodyIndex == ThetaConstruct.ThetaIndex)
+            {
                 ai.buddy.gameObject = null;
                 ai.UpdateTargets();
                 outer.SetNextStateToMain();
                 return;
             }
 
-            if (base.isAuthority) {
+            if (base.isAuthority)
+            {
                 Vector3 dir = (buddy.transform.position - base.transform.position).normalized;
 
-                if (Physics.Raycast(base.transform.position, dir, (Vector3.Distance(base.transform.position, buddy.transform.position) * 0.75f), LayerIndex.world.mask)) {
+                if (Physics.Raycast(base.transform.position, dir, (Vector3.Distance(base.transform.position, buddy.transform.position) * 0.75f), LayerIndex.world.mask))
+                {
                     ai.buddy.gameObject = null;
                     ai.UpdateTargets();
                     outer.SetNextStateToMain();
@@ -58,14 +62,16 @@ namespace Sandswept.Enemies.ThetaConstruct
             base.skillLocator.primary.DeductStock(1);
         }
 
-        public void DoYuriBlast() {
+        public void DoYuriBlast()
+        {
             doYuriBlast = false;
 
-            EffectManager.SpawnEffect(Paths.GameObject.ExplosionMinorConstruct, new EffectData {
-                    origin = base.transform.position,
-                    scale = base.characterBody.bestFitRadius * 3.5f
+            EffectManager.SpawnEffect(Paths.GameObject.ExplosionMinorConstruct, new EffectData
+            {
+                origin = base.transform.position,
+                scale = base.characterBody.bestFitRadius * 3.5f
             }, true);
-            
+
             PhysForceInfo info = default;
             info.force = yuriDir * 90f;
             info.massIsOne = true;
@@ -75,7 +81,8 @@ namespace Sandswept.Enemies.ThetaConstruct
             AkSoundEngine.PostEvent(Events.Play_majorConstruct_death, base.gameObject);
             AkSoundEngine.PostEvent(Events.Play_majorConstruct_R_pulse, base.gameObject);
 
-            EffectManager.SpawnEffect(Paths.GameObject.ExplosionMinorConstruct, new EffectData {
+            EffectManager.SpawnEffect(Paths.GameObject.ExplosionMinorConstruct, new EffectData
+            {
                 origin = shieldInstance.transform.position,
                 scale = base.characterBody.bestFitRadius * 3.5f
             }, true);
@@ -89,11 +96,13 @@ namespace Sandswept.Enemies.ThetaConstruct
 
             if (!base.isAuthority) return;
 
-            if (shieldInstance && Vector3.Distance(base.characterBody.corePosition, shieldInstance.transform.position) > 90f) {
+            if (shieldInstance && Vector3.Distance(base.characterBody.corePosition, shieldInstance.transform.position) > 90f)
+            {
                 outer.SetNextStateToMain();
             }
 
-            if (base.fixedAge >= duration || !shieldInstance) {
+            if (base.fixedAge >= duration || !shieldInstance)
+            {
                 outer.SetNextStateToMain();
             }
         }
@@ -112,7 +121,8 @@ namespace Sandswept.Enemies.ThetaConstruct
                 NetworkServer.DestroyObject(shieldInstance);
             }
 
-            if (base.isAuthority && buddy) {
+            if (base.isAuthority && buddy)
+            {
                 buddy.gameObject.GetComponent<CharacterBody>().RemoveBuff(RoR2Content.Buffs.Immune);
             }
         }

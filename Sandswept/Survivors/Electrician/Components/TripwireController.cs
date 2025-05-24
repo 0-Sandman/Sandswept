@@ -40,6 +40,11 @@ namespace Sandswept.Survivors.Electrician
 
         public void OnInteract(Interactor interactor)
         {
+            if (!isInVehicleMode)
+            {
+                return;
+            }
+
             blast.position = explo.position;
             blast.radius *= 2f;
             blast.baseDamage *= 2f;
