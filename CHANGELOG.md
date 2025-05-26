@@ -1,4 +1,8 @@
 ## 1.2.0 Patch Notes
+- VOL-T
+  - Fixed her broken variant spawning while unlocked already
+  - Fixed most instances of infinite procs on her broken variant
+  - Fixed pressing Interact while in Static Snare teleporting you instantly (NONE OF Y'ALL KNEW OF THIS 6+ MONTH OLD BUG!!!)
 - Enemies
   - Added Stone Desecrator (NO CODE, NO ANIMS)
 - Items/Equipment

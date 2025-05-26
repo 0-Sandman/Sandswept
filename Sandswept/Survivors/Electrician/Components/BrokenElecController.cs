@@ -19,7 +19,7 @@ namespace Sandswept.Survivors.Electrician
         public void Start()
         {
             body = GetComponent<CharacterBody>();
-            body.healthComponent.Networkhealth = 6f;
+            if (NetworkServer.active) body.healthComponent.TakeDamage(new DamageInfo() { attacker = null, damageType = DamageType.BypassArmor | DamageType.BypassBlock, damage = 4f, inflictor = null, procCoefficient = 0f, position = transform.position });
         }
 
         public void OnTakeDamageServer(DamageReport damageReport)

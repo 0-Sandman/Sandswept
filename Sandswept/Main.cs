@@ -56,7 +56,7 @@ namespace Sandswept
     [BepInDependency(MoreStats.MoreStatsPlugin.guid, MoreStats.MoreStatsPlugin.version)]
     [BepInDependency("com.weliveinasociety.CustomEmotesAPI", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("droppod.lookingglass", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency("com.RiskOfBrainrot.ProcSolver", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.KingEnderBrine.ProperSave", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
     {
@@ -113,6 +113,8 @@ namespace Sandswept
 
         public static bool LookingGlassLoaded = false;
 
+        public static bool ProperSaveLoaded = false;
+
         private void Awake()
         {
             Instance = this;
@@ -120,6 +122,7 @@ namespace Sandswept
             var stopwatch = Stopwatch.StartNew();
 
             LookingGlassLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("droppod.lookingglass");
+            ProperSaveLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.KingEnderBrine.ProperSave");
 
             SOTV = Utils.Assets.ExpansionDef.DLC1;
 
