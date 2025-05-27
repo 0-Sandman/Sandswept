@@ -314,11 +314,6 @@ namespace Sandswept.Interactables.Regular
             PostInit();
         }
 
-        private void SaveFile_OnGatherSaveData(Dictionary<string, object> save)
-        {
-            throw new NotImplementedException();
-        }
-
         private void ResetShrineOfRuin(On.RoR2.Run.orig_Start orig, Run self)
         {
             orig(self);

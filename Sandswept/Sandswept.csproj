@@ -53,8 +53,8 @@
 	  <Reference Include="MoreStats">
 	    <HintPath>libs/MoreStats.dll</HintPath>
 	  </Reference>
-	  <Reference Include="ProperSave">
-	    <HintPath>libs/ProperSave.dll</HintPath>
+	  <Reference Include="LookingGlass">
+	    <HintPath>libs/LookingGlass-nstrip.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
 </Project>

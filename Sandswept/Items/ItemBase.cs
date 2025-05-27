@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using LookingGlass.ItemStatsNameSpace;
+using System.Linq;
 using System.Reflection;
 using static Sandswept.Utils.TotallyNotStolenUtils;
 
