@@ -59,17 +59,17 @@ namespace Sandswept.Items.Greens
             cooldown.canStack = false;
             cooldown.isCooldown = false;
             cooldown.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1f);
-            cooldown.iconSprite = Paths.BuffDef.bdCloak.iconSprite;
+            cooldown.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffDriftingPerceptionCooldown.png");
             cooldown.name = "Drifting Perception - Cooldown";
             ContentAddition.AddBuffDef(cooldown);
 
             ready = ScriptableObject.CreateInstance<BuffDef>();
-            ready.isHidden = true;
+            ready.isHidden = false;
             ready.isDebuff = false;
             ready.canStack = false;
             ready.isCooldown = false;
             ready.buffColor = Color.white;
-            ready.iconSprite = Paths.BuffDef.bdCloak.iconSprite;
+            ready.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffDriftingPerceptionReady.png");
             ready.name = "Drifting Perception - Ready";
             ContentAddition.AddBuffDef(ready);
         }

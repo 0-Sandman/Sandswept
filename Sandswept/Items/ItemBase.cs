@@ -42,7 +42,7 @@ namespace Sandswept.Items
 
         public virtual Sprite ItemIconOverride { get; set; } = null;
 
-        public virtual LookingGlass.ItemStatsNameSpace.ItemStatsDef ItemStatsDef { get; } = null;
+        // public virtual LookingGlass.ItemStatsNameSpace.ItemStatsDef ItemStatsDef { get; } = null;
 
         public ItemDef ItemDef;
 
@@ -93,12 +93,16 @@ namespace Sandswept.Items
         {
             CreateItem();
             Hooks();
+            // idk what do
+            /*
             if (Main.LookingGlassLoaded && ItemStatsDef != null)
             {
                 AddItemStats(ItemStatsDef);
             }
+            */
         }
 
+        /*
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         public void AddItemStats(LookingGlass.ItemStatsNameSpace.ItemStatsDef itemStatsDef)
         {
@@ -107,6 +111,7 @@ namespace Sandswept.Items
                 LookingGlass.ItemStatsNameSpace.ItemDefinitions.RegisterItemStatsDef(itemStatsDef, ItemDef.itemIndex);
             });
         }
+        */
 
         public abstract ItemDisplayRuleDict CreateItemDisplayRules();
 
