@@ -46,12 +46,14 @@ namespace Sandswept.Items.Reds
             return new ItemDisplayRuleDict();
         }
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
-            CreateLang();
-            CreateItem();
-            Hooks();
+            base.Init();
+            SetUpVFX();
+        }
 
+        public void SetUpVFX()
+        {
             PassiveParticleEffect = Main.Assets.LoadAsset<GameObject>("ActiveIndicatorParticles.prefab");
             DashTrailEffect = Main.Assets.LoadAsset<GameObject>("DashTrailEffect.prefab");
             BlueParticles = Main.Assets.LoadAsset<Material>("matFeatherBlue.mat");

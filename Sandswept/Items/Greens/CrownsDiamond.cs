@@ -36,11 +36,9 @@ namespace Sandswept.Items.Greens
         public override float modelPanelParametersMinDistance => 4f;
         public override float modelPanelParametersMaxDistance => 11f;
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
-            CreateLang();
-            CreateItem();
-            Hooks();
+            base.Init();
         }
 
         public override void Hooks()

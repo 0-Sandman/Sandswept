@@ -67,7 +67,13 @@ namespace Sandswept.Items.Whites
 
         // why tf does it bounce so oddly
         // also the unity event doesnt work bruhhhh
-        public override void Init(ConfigFile config)
+        public override void Init()
+        {
+            base.Init();
+            SetUpProjectile();
+        }
+
+        public void SetUpProjectile()
         {
             impactVFX = PrefabAPI.InstantiateClone(Paths.GameObject.MercSwordFinisherSlash, "Amber Knife Impact VFX", false);
 
@@ -192,10 +198,6 @@ namespace Sandswept.Items.Whites
             // amberKnifeProjectile.AddComponent<AmberKnifeProjectile>();
 
             PrefabAPI.RegisterNetworkPrefab(amberKnifeProjectile);
-
-            CreateLang();
-            CreateItem();
-            Hooks();
         }
 
         public override void Hooks()

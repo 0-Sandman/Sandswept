@@ -46,15 +46,13 @@ namespace Sandswept.Items.Greens
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility };
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
-            CreateLang();
-            CreateItem();
-            CreateBuff();
-            Hooks();
+            base.Init();
+            SetUpBuff();
         }
 
-        public void CreateBuff()
+        public void SetUpBuff()
         {
             SmoulderingDocumentDebuff = ScriptableObject.CreateInstance<BuffDef>();
             SmoulderingDocumentDebuff.name = "Burdened";

@@ -1,4 +1,6 @@
 ## 1.2.0 Patch Notes
+- Ranger
+  - Fixed Loadout bugs
 - VOL-T
   - Fixed her broken variant spawning while unlocked already
   - Fixed most instances of infinite procs on her broken variant
@@ -18,7 +20,7 @@
   - Buffed Festering Hunger Movement Speed Buff Range from 13m to 16m
   - Buffed The Sand Sweeper Cooldown from 30s to 25s
   - Fixed Temporal Transistor consuming Hopoo Feather jumps
-  - Fixed Loadout bugs
+  - Fixed Pocket Plutonium VFX
 - Interactables
   - Added Ballistic Drone (NO CODE, NO MODEL, HAS DESIGN)
   - Added Tar Drone (NO CODE, MODEL)

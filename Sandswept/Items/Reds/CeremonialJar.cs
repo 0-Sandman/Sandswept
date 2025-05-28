@@ -54,9 +54,9 @@ namespace Sandswept.Items.Reds
             return null;
         }
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
-            base.Init(config);
+            base.Init();
             SetupVFX();
             SetupBuffs();
         }

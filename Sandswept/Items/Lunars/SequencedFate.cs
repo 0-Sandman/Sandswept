@@ -35,13 +35,10 @@ namespace Sandswept.Items.Whites
 
         public static int itemCount = 0;
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
+            base.Init();
             sequencedFateTracker = new GameObject("Sequenced Fate Tracker", typeof(SetDontDestroyOnLoad), typeof(SequencedFateController));
-
-            CreateLang();
-            CreateItem();
-            Hooks();
         }
 
         [ConfigField("Base Extra Items Count", "", 6)]

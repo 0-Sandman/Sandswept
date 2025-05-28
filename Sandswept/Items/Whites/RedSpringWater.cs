@@ -33,7 +33,13 @@
         [ConfigField("Stack Regen Per Buff", "", 0.6f)]
         public static float stackRegenPerBuff;
 
-        public override void Init(ConfigFile config)
+        public override void Init()
+        {
+            base.Init();
+            SetUpMaterials();
+        }
+
+        public void SetUpMaterials()
         {
             var powerElixirGlassMat = new Material(Utils.Assets.Material.matHealingPotionGlass);
             powerElixirGlassMat.SetFloat("_Boost", 0.25f);
@@ -46,10 +52,6 @@
             var model = redSpringWaterHolder.transform.GetChild(0);
             var jarMr = model.GetChild(1).GetComponent<MeshRenderer>();
             jarMr.material = powerElixirGlassMat;
-
-            CreateLang();
-            CreateItem();
-            Hooks();
         }
 
         public override void Hooks()

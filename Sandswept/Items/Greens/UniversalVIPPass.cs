@@ -36,15 +36,17 @@ namespace Sandswept.Items.Greens
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist, ItemTag.CannotDuplicate };
 
-        public override void Init(ConfigFile config)
+        public override void Init()
+        {
+            base.Init();
+            SetUpVFX();
+        }
+
+        public void SetUpVFX()
         {
             var uniVip = Main.MainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");
             var uniVipMat = uniVip.transform.GetChild(0).GetComponent<MeshRenderer>().material;
             uniVipMat.SetColor("_Color", new Color32(205, 205, 205, 249));
-
-            CreateLang();
-            CreateItem();
-            Hooks();
 
             vfx = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineChanceDollUseEffect, "Universal VIP Paws VFX", false);
 

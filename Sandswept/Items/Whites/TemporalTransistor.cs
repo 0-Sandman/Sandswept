@@ -42,7 +42,14 @@ namespace Sandswept.Items.Whites
 
         public static GameObject orbEffect;
 
-        public override void Init(ConfigFile config)
+        public override void Init()
+        {
+            base.Init();
+            SetUpBuff();
+            SetUpVFX();
+        }
+
+        public void SetUpBuff()
         {
             extraJump = ScriptableObject.CreateInstance<BuffDef>();
             extraJump.isHidden = false;
@@ -53,7 +60,10 @@ namespace Sandswept.Items.Whites
             extraJump.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffTemporalTransistor.png");
             extraJump.name = "Temporal Transistor - Extra Jump";
             ContentAddition.AddBuffDef(extraJump);
+        }
 
+        public void SetUpVFX()
+        {
             var blue = new Color32(102, 195, 255, 255);
             var darkerBlue = new Color32(102, 148, 255, 255);
             var aqua = new Color32(169, 249, 255, 127);
@@ -111,11 +121,6 @@ namespace Sandswept.Items.Whites
             pulseGlowStartColor.color = aqua;
 
             ContentAddition.AddEffect(TemporalTransistor.orbEffect);
-
-            CreateLang();
-            CreateUnlockLang();
-            CreateItem();
-            Hooks();
         }
 
         public override void Hooks()

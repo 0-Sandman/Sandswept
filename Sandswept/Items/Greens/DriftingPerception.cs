@@ -45,7 +45,13 @@ namespace Sandswept.Items.Greens
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility };
 
-        public override void Init(ConfigFile config)
+        public override void Init()
+        {
+            base.Init();
+            SetUpBuffs();
+        }
+
+        public void SetUpBuffs()
         {
             cooldown = ScriptableObject.CreateInstance<BuffDef>();
             cooldown.isHidden = false;
@@ -66,10 +72,6 @@ namespace Sandswept.Items.Greens
             ready.iconSprite = Paths.BuffDef.bdCloak.iconSprite;
             ready.name = "Drifting Perception - Ready";
             ContentAddition.AddBuffDef(ready);
-
-            CreateLang();
-            CreateItem();
-            Hooks();
         }
 
         public override void Hooks()

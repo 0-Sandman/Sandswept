@@ -210,7 +210,7 @@ namespace Sandswept
             {
                 if (ValidateItem(item, new()))
                 {
-                    item.Init(Config);
+                    item.Init();
                 }
             }
 

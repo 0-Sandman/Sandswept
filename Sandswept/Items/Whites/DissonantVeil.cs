@@ -38,7 +38,13 @@ namespace Sandswept.Items.Whites
 
         public static BuffDef cooldown;
 
-        public override void Init(ConfigFile config)
+        public override void Init()
+        {
+            base.Init();
+            SetUpBuff();
+        }
+
+        public void SetUpBuff()
         {
             cooldown = ScriptableObject.CreateInstance<BuffDef>();
             cooldown.isHidden = false;
@@ -49,9 +55,6 @@ namespace Sandswept.Items.Whites
             cooldown.iconSprite = Paths.BuffDef.bdEnergized.iconSprite;
             cooldown.name = "Dissonant Veil - Cooldown";
             ContentAddition.AddBuffDef(cooldown);
-            CreateLang();
-            CreateItem();
-            Hooks();
         }
 
         public override void Hooks()

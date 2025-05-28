@@ -58,10 +58,15 @@ namespace Sandswept.Items.Whites
 
         public static GameObject vfx;
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
+            base.Init();
             permanentHallowedIchorTracker = new GameObject("Hallowed Ichor Tracker", typeof(SetDontDestroyOnLoad), typeof(HallowedIchorController));
+            SetUpVFX();
+        }
 
+        public void SetUpVFX()
+        {
             vfx = PrefabAPI.InstantiateClone(Paths.GameObject.LightningStrikeImpactEffect, "Hallowed Ichor VFX", false);
             // VFXUtils.MultiplyScale(vfx, 0.5f);
             VFXUtils.MultiplyDuration(vfx, 3f);
@@ -70,10 +75,6 @@ namespace Sandswept.Items.Whites
             vfx.transform.Find("Backdrop").localScale = Vector3.one * 0.15f;
             vfx.transform.Find("Point light").gameObject.SetActive(false);
             ContentAddition.AddEffect(vfx);
-
-            CreateLang();
-            CreateItem();
-            Hooks();
         }
 
         public override void Hooks()
