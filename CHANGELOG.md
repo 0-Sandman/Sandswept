@@ -1,5 +1,28 @@
-## 1.1.3 Patch Notes
-- Added a thing
+## 1.2.0 Patch Notes
+- General
+  - Added ProcSolver support
+- Enemies
+  - Added Stone Desecrator [NOT YET REMOVE IF NECCESSARY]
+  - Increased the tick rate of Gamma Construct's focused beam
+  - Increased the width of Gamma Construct's twin beams
+- Items/Equipment
+  - Added Dissonant Veil
+  - Added Silver Cord
+  - Added Makeshift Plate [NOT YET REMOVE IF NECCESSARY]
+  - Added Glacial Plasma
+  - Added Hallowed Ichor
+  - Added Sequenced Fate
+  - Added Flawless Design
+  - Added VFX and SFX to Temporal Transistor
+  - Buffed Festering Hunger Movement Speed Buff Range from 13m to 16m
+  - Fixed Temporal Transistor consuming Hopoo Feather jumps
+- Interactables
+  - Added Nuclear Drone [NOT YET REMOVE IF NECCESSARY]
+  - Added Tar Drone [NOT YET REMOVE IF NECCESSARY]
+  - Added Voltaic Drone
+  - Added Shrine of Death [NOT YET REMOVE IF NECCESSARY]
+  - Fixed Shrine of The Future not working with MysticsItems' Black Monolith
+  - Fixed Shrine of Ruin potentially working with MysticsItems' Black Monolith
 
 ## 1.1.2 Patch Notes
 - General

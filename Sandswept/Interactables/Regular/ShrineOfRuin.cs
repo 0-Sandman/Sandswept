@@ -396,7 +396,8 @@ namespace Sandswept.Interactables.Regular
             if (shouldReplaceDrops)
             {
                 string sceneName = SceneCatalog.mostRecentSceneDef.cachedName.Substring(2);
-                if (sceneName == "dampcave") {
+                if (sceneName == "dampcave")
+                {
                     sceneName = "dampcavesimple";
                 }
                 SceneDef scene = SceneCatalog.FindSceneDef(sceneName);
@@ -914,7 +915,7 @@ namespace Sandswept.Interactables.Regular
 
     public class ShrineOfRuinController : ShrineBehavior
     {
-        public int maxPurchaseCount = 1;
+        public int faggot = 1;
 
         public float costMultiplierPerPurchase;
 
@@ -949,7 +950,7 @@ namespace Sandswept.Interactables.Regular
             if (waitingForRefresh)
             {
                 refreshTimer -= Time.fixedDeltaTime;
-                if (refreshTimer <= 0f && purchaseCount < maxPurchaseCount)
+                if (refreshTimer <= 0f && purchaseCount < faggot)
                 {
                     purchaseInteraction.SetAvailable(true);
                     purchaseInteraction.Networkcost = ShrineOfRuin.whiteItemCost;
@@ -1043,7 +1044,7 @@ namespace Sandswept.Interactables.Regular
 
             purchaseCount++;
             refreshTimer = 2f;
-            if (purchaseCount >= maxPurchaseCount)
+            if (purchaseCount >= faggot)
             {
                 symbolTransform.gameObject.SetActive(false);
                 CallRpcSetPingable(false);

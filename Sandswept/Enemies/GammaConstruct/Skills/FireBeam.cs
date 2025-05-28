@@ -49,7 +49,7 @@ namespace Sandswept.Enemies.GammaConstruct
                     EffectPrefab = GammaConstruct.beam,
                     FiringMode = LaserFiringMode.TrackAim,
                     ImpactEffect = GammaConstruct.sigmaBlast,
-                    TickRate = 5f
+                    TickRate = 10f
                 }
             );
 

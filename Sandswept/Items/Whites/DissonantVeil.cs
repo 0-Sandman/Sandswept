@@ -1,5 +1,4 @@
-﻿/*
-using IL.RoR2.EntitlementManagement;
+﻿using IL.RoR2.EntitlementManagement;
 using RoR2.Items;
 
 namespace Sandswept.Items.Whites
@@ -15,7 +14,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemFullDescription => $"Upon using your $suEquipment$se, become $sucloaked$se for $su{cloakBuffDuration}s$se. While $sucloaked$se, $suexit$se combat and danger. Recharges every $su{baseRechargeTime} seconds$se $ss(-{stackRechargeTime * 100f}% per stack)$se.".AutoFormat();
 
-        public override string ItemLore => "item name is no longer wip but no idea about the visual design lol";
+        public override string ItemLore => "visual design is ivaras's helmet + syandana thingy?";
 
         public override ItemTier Tier => ItemTier.Tier1;
 
@@ -130,4 +129,3 @@ namespace Sandswept.Items.Whites
         }
     }
 }
-*/

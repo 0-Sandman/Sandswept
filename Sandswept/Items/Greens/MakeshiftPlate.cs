@@ -1,36 +1,4 @@
-/*
- *
- *
- *
- *
- *
- *
-
- $$$$$$\                                          $$\
-$$  __$$\                                         $$ |
-$$ /  \__|$$$$$$\   $$$$$$\   $$$$$$\   $$$$$$\ $$$$$$\
-$$$$\     \____$$\ $$  __$$\ $$  __$$\ $$  __$$\\_$$  _|
-$$  _|    $$$$$$$ |$$ /  $$ |$$ /  $$ |$$ /  $$ | $$ |
-$$ |     $$  __$$ |$$ |  $$ |$$ |  $$ |$$ |  $$ | $$ |$$\
-$$ |     \$$$$$$$ |\$$$$$$$ |\$$$$$$$ |\$$$$$$  | \$$$$  |
-\__|      \_______| \____$$ | \____$$ | \______/   \____/
-                   $$\   $$ |$$\   $$ |
-                   \$$$$$$  |\$$$$$$  |
-                    \______/  \______/
- *
- *
- *
- *
- * hello pseudopulse
- *
- *
- * there are a few ways you could tacke this, this item could stack hyperbolically, or you could make plating have a higher cap (or maybe unlimited cap?)
- * but then handling the healthbar display would be aids
- * also making it razorwire 2 but only when you have plating is kinda ehhh imo
- * I had a no thoughts head empty idea to make it give you barrier on getting hit with a cooldown or something but that's also ehhh
- *
- *
-using System;
+/*using System;
 using System.Diagnostics;
 using RoR2.UI;
 using BarInfo = RoR2.UI.HealthBar.BarInfo;
@@ -157,7 +125,7 @@ namespace Sandswept.Items.Whites
                 PlatingManager manager = self.source.GetComponent<PlatingManager>();
                 ref BarInfo info = ref guh.info;
 
-                info.enabled = manager.CurrentPlating > 0;
+                info.enabled = platingManager.CurrentPlating > 0;
 
                 info.normalizedXMin = 0f;
                 info.normalizedXMax = platingManager.CurrentPlating == 0 ? 0 : (float)platingManager.CurrentPlating / (float)platingManager.MaxPlating;
@@ -281,5 +249,4 @@ namespace Sandswept.Items.Whites
             return new ItemDisplayRuleDict();
         }
     }
-}
-*/
+}*/

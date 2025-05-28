@@ -49,6 +49,8 @@
             projectileSimple.enableVelocityOverLifetime = true;
             projectileSimple.velocityOverLifetime = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.05f, 0f), new Keyframe(1f, 3f));
 
+            var hitbox = javelinProjectile.transform.Find("Hitbox");
+            hitbox.localScale *= 3f;
             javelinProjectile.GetComponent<ProjectileController>().ghostPrefab = Main.Assets.LoadAsset<GameObject>("GlacialSpearGhost.prefab");
 
             PrefabAPI.RegisterNetworkPrefab(javelinProjectile);
@@ -60,7 +62,8 @@
             javelinReady.isDebuff = false;
             javelinReady.isHidden = false;
             javelinReady.iconSprite = Main.Assets.LoadAsset<Sprite>("bdGPReady.png");
-            javelinReady.buffColor = new Color32(174, 233, 241, 255);
+            javelinReady.buffColor = Color.cyan;
+            javelinReady.name = "Glacial Plasma Ready";
 
             ContentAddition.AddBuffDef(javelinReady);
 
@@ -71,6 +74,7 @@
             javelinCooldown.isHidden = false;
             javelinCooldown.iconSprite = Main.Assets.LoadAsset<Sprite>("bdGPSpent.png");
             javelinCooldown.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1f);
+            javelinCooldown.name = "Glacial Plasma Cooldown";
 
             ContentAddition.AddBuffDef(javelinCooldown);
 
@@ -178,7 +182,8 @@
                     damageTypeOverride = DamageType.Freeze2s
                 };
 
-                EffectManager.SpawnEffect(SpawnEffect, new EffectData {
+                EffectManager.SpawnEffect(SpawnEffect, new EffectData
+                {
                     scale = 2f,
                     origin = fpi.position,
                     rotation = fpi.rotation

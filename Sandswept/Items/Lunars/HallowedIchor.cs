@@ -1,5 +1,4 @@
-﻿/*
-using MonoMod.RuntimeDetour;
+﻿using MonoMod.RuntimeDetour;
 using RoR2.UI;
 using System.Collections;
 using System.Linq;
@@ -36,8 +35,11 @@ namespace Sandswept.Items.Whites
         [ConfigField("Chest Re-open Difficulty Coefficient Flat Add", "Adds to the current difficulty scaling value each time a chest is re-opened. This is calculated first.", 0.5f)]
         public static float chestReopenDifficultyCoefficientFlatAdd;
 
-        [ConfigField("Chest Re-open Difficulty Coefficient Multiplier Add", "Multiplies the current difficulty value by 1 + this value each time a chest is re-opened. This is calculated last.", 0.12f)]
+        [ConfigField("Chest Re-open Difficulty Coefficient Multiplier Add", "Multiplies the current difficulty value by 1 + this value each time a chest is re-opened. This is calculated second to last.", 0.12f)]
         public static float chestReopenDifficultyCoefficientMultiplierAdd;
+
+        [ConfigField("Chest Re-open Difficulty Coefficient To Cost Scale Multiplier Add", "Multiplies the current difficulty value by 1 + this value for each $1 above $30 of the chest's base cost. This is calculated last.", 0.01f)]
+        public static float chestReopenDifficultyCoefficientToCostScaleMultiplierAdd;
 
         public static GameObject permanentHallowedIchorTracker;
 
@@ -269,14 +271,6 @@ namespace Sandswept.Items.Whites
             };
 
             yield return new WaitForSeconds(EntityStates.Barrel.Opening.duration);
-            EffectManager.SpawnEffect(vfx, effectData, true);
-            if (interactableObject.TryGetComponent<Highlight>(out var highlight))
-            {
-                highlight.highlightColor = Highlight.HighlightColor.custom;
-                highlight.CustomColor = hallowedIchorBlue;
-                highlight.strength = 1f;
-                highlight.isOn = true;
-            }
 
             var chestBehavior = interactableObject.GetComponent<ChestBehavior>();
             if (!chestBehavior)
@@ -296,9 +290,18 @@ namespace Sandswept.Items.Whites
 
             yield return new WaitForSeconds(EntityStates.Barrel.Closing.duration / 2f);
 
-            Util.PlaySound("Play_UI_item_land_command", interactableObject);
-            Util.PlaySound("Play_UI_item_land_command", interactableObject);
+            EffectManager.SpawnEffect(vfx, effectData, true);
+            if (interactableObject.TryGetComponent<Highlight>(out var highlight))
+            {
+                highlight.highlightColor = Highlight.HighlightColor.custom;
+                highlight.CustomColor = hallowedIchorBlue;
+                highlight.strength = 1f;
+                highlight.isOn = true;
+            }
+
             yield return new WaitForSeconds(EntityStates.Barrel.Closing.duration / 2f);
+
+            Util.PlaySound("Play_ichor_proc", interactableObject);
 
             var purchaseInteraction = interactableObject.GetComponent<PurchaseInteraction>();
             if (!purchaseInteraction)
@@ -306,8 +309,6 @@ namespace Sandswept.Items.Whites
                 // Main.ModLogger.LogError("no purchaseinteraction found");
                 yield break;
             }
-
-            Util.PlaySound("Play_ichor_proc", interactableObject);
 
             purchaseInteraction.SetAvailableTrue();
             // idk if this is necessary but just in case >_<
@@ -404,4 +405,3 @@ namespace Sandswept.Items.Whites
         }
     }
 }
-*/

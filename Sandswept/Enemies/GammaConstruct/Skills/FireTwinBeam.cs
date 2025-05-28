@@ -7,7 +7,7 @@ namespace Sandswept.Enemies.GammaConstruct
     public class FireTwinBeam : BaseSkillState
     {
         public Animator anim;
-        public float duration = 2.5f;
+        public float duration = 3.5f;
         public bool firing = false;
         public BasicLaserBeam laser;
         public BasicLaserBeam laser2;
@@ -27,7 +27,7 @@ namespace Sandswept.Enemies.GammaConstruct
                     OriginIsBase = true,
                     EndpointName = "End",
                     DamageCoefficient = twinLaserDamage,
-                    FiringWidthMultiplier = 4.5f,
+                    FiringWidthMultiplier = 6.5f,
                     MaxRange = 190f,
                     FiringMaterial = GammaConstruct.matDeltaBeamStrong,
                     ChargeDelay = duration * 0.3f,
@@ -44,7 +44,7 @@ namespace Sandswept.Enemies.GammaConstruct
                     OriginIsBase = true,
                     EndpointName = "End",
                     DamageCoefficient = twinLaserDamage,
-                    FiringWidthMultiplier = 4.5f,
+                    FiringWidthMultiplier = 6.5f,
                     MaxRange = 190f,
                     FiringMaterial = GammaConstruct.matDeltaBeamStrong,
                     ChargeDelay = duration * 0.3f,

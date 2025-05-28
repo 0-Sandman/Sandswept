@@ -55,6 +55,7 @@ namespace Sandswept
     [BepInDependency(MoreStats.MoreStatsPlugin.guid, MoreStats.MoreStatsPlugin.version)]
     [BepInDependency("com.weliveinasociety.CustomEmotesAPI", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("droppod.lookingglass", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.RiskOfBrainrot.ProcSolver", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
     {

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using IL.RoR2.Achievements.Engi;
+using Sandswept.Items.Whites;
 
 namespace Sandswept.Items.Greens
 {
@@ -117,7 +118,7 @@ namespace Sandswept.Items.Greens
                     return;
                 }
 
-                if (body.HasBuff(DriftingPerception.ready) && !body.outOfCombat)
+                if (body.HasBuff(DriftingPerception.ready) && body.outOfCombatStopwatch <= 2f /*!body.outOfCombat*/)
                 {
                     if (!body.hasCloakBuff || !body.HasBuff(RoR2Content.Buffs.CloakSpeed))
                     {

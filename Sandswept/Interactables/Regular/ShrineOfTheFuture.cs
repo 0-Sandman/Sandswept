@@ -305,19 +305,14 @@ namespace Sandswept.Interactables.Regular
         private void CombatSquad_onDefeatedServer()
         {
             SpawnRewards();
-        }
-
-        public void FixedUpdate()
-        {
-            if (waitingForRefresh)
+            if (purchaseCount >= maxPurchaseCount)
             {
-                refreshTimer -= Time.fixedDeltaTime;
-                if (refreshTimer <= 0f && purchaseCount < maxPurchaseCount)
-                {
-                    purchaseInteraction.SetAvailable(true);
-                    purchaseInteraction.Networkcost = ShrineOfSacrifice.curseCost;
-                    waitingForRefresh = false;
-                }
+                symbolTransform.gameObject.SetActive(false);
+                CallRpcSetPingable(false);
+            }
+            else
+            {
+                purchaseInteraction.SetAvailable(true);
             }
         }
 
@@ -359,11 +354,9 @@ namespace Sandswept.Interactables.Regular
 
             purchaseCount++;
             refreshTimer = 2f;
-            if (purchaseCount >= maxPurchaseCount)
-            {
-                symbolTransform.gameObject.SetActive(false);
-                CallRpcSetPingable(false);
-            }
+
+            symbolTransform.gameObject.SetActive(false);
+            CallRpcSetPingable(false);
         }
 
         public IEnumerator SpawnEnemies()
