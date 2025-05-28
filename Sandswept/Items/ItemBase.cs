@@ -1,5 +1,4 @@
-﻿using LookingGlass.ItemStatsNameSpace;
-using System.Linq;
+﻿using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using static Sandswept.Utils.TotallyNotStolenUtils;
@@ -42,6 +41,8 @@ namespace Sandswept.Items
         public virtual float modelPanelParametersMaxDistance { get; } = 10f;
 
         public virtual Sprite ItemIconOverride { get; set; } = null;
+
+        public virtual LookingGlass.ItemStatsNameSpace.ItemStatsDef ItemStatsDef { get; } = null;
 
         public ItemDef ItemDef;
 
@@ -92,10 +93,19 @@ namespace Sandswept.Items
         {
             CreateItem();
             Hooks();
-            if (Main.LookingGlassLoaded)
+            if (Main.LookingGlassLoaded && ItemStatsDef != null)
             {
-                // AddItemStats();
+                AddItemStats(ItemStatsDef);
             }
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public void AddItemStats(LookingGlass.ItemStatsNameSpace.ItemStatsDef itemStatsDef)
+        {
+            ItemCatalog.availability.CallWhenAvailable(() =>
+            {
+                LookingGlass.ItemStatsNameSpace.ItemDefinitions.RegisterItemStatsDef(itemStatsDef, ItemDef.itemIndex);
+            });
         }
 
         public abstract ItemDisplayRuleDict CreateItemDisplayRules();
@@ -205,11 +215,6 @@ namespace Sandswept.Items
 
         public virtual void Hooks()
         { }
-
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public void AddItemStats(ItemStatsDef itemStatsDef)
-        {
-        }
 
         //Based on ThinkInvis' methods
         public int GetCount(CharacterBody body)

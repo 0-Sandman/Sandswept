@@ -203,9 +203,10 @@ namespace Sandswept.Items.Whites
         public override void Hooks()
         {
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
-            AddLookingGlassCompat();
+            // AddLookingGlassCompat();
         }
 
+        /*
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         private void AddLookingGlassCompat()
         {
@@ -223,10 +224,10 @@ namespace Sandswept.Items.Whites
                 itemStatsDef.calculateValuesNew = (luck, stack, procChance) =>
                 {
                     List<float> values = new()
-                {
-                    LookingGlass.Utils.CalculateChanceWithLuck(chance * procChance / 100f, luck),
-                    baseDamage + stackDamage * (stack - 1)
-                };
+                    {
+                        LookingGlass.Utils.CalculateChanceWithLuck(chance * procChance / 100f, luck),
+                        baseDamage + stackDamage * (stack - 1)
+                    };
 
                     return values;
                 };
@@ -236,6 +237,7 @@ namespace Sandswept.Items.Whites
                 });
             }
         }
+        */
 
         private void GlobalEventManager_onServerDamageDealt(DamageReport report)
         {
