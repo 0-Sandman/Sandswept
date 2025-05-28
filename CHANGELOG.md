@@ -8,6 +8,7 @@
 - Enemies
   - Added Stone Desecrator (NO CODE, NO ANIMS)
 - Items/Equipment
+  - Added proper buff icons to Drifting Perception
   - Added Dissonant Veil (HAS CODE, NO MODEL, NO DESIGN)
   - Added Silver Cord (HAS CODE, NO MODEL, HAS DESIGN)
   - Added Makeshift Plate (ALMOST HAS CODE, HAS MODEL)
@@ -17,6 +18,7 @@
   - Added Flawless Design (ALMOST HAS CODE, NO MODEL, HAS DESIGN)
   - Added SFX to Temporal Transistor
   - Made Drifting Perception work better
+  - Buffed Drifting Perception Base Crit Chance Gain from 20% to 25%
   - Buffed Festering Hunger Movement Speed Buff Range from 13m to 16m
   - Buffed The Sand Sweeper Cooldown from 30s to 25s
   - Fixed Temporal Transistor consuming Hopoo Feather jumps
