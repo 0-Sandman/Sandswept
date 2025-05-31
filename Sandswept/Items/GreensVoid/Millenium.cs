@@ -55,6 +55,14 @@ namespace Sandswept.Items.VoidGreens
                 return;
             }
 
+            ItemToCorrupt = SunFragment.instance.ItemDef;
+
+            SetUpMaterial();
+            SetUpVFX();
+        }
+
+        public void SetUpMaterial()
+        {
             var powerElixirGlassMat = new Material(Utils.Assets.Material.matHealingPotionGlass);
             powerElixirGlassMat.SetFloat("_Boost", 0.3f);
             powerElixirGlassMat.SetFloat("_RimPower", 1.567551f);
@@ -67,7 +75,10 @@ namespace Sandswept.Items.VoidGreens
             var model = millenium.transform.GetChild(0);
             var hourglassMr = model.Find("Vert").GetComponent<MeshRenderer>();
             hourglassMr.material = powerElixirGlassMat;
+        }
 
+        public void SetUpVFX()
+        {
             vfx = PrefabAPI.InstantiateClone(Paths.GameObject.NullifierExplosion, "Millenium VFX", false);
 
             var trans = vfx.transform;
@@ -127,7 +138,9 @@ namespace Sandswept.Items.VoidGreens
         public override void Hooks()
         {
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
-            On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
+
+            ItemToCorrupt = SunFragment.instance.ItemDef;
+            // On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
         }
 
         private static void ContagiousItemManager_Init(On.RoR2.Items.ContagiousItemManager.orig_Init orig)

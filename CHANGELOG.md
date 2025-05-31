@@ -1,4 +1,6 @@
 ## 1.2.0 Patch Notes
+- General
+  - Added Support
 - Ranger
   - Fixed Loadout bugs
 - VOL-T
@@ -8,7 +10,6 @@
 - Enemies
   - Added Stone Desecrator (NO CODE, NO ANIMS)
 - Items/Equipment
-  - Added proper buff icons to Drifting Perception
   - Added Dissonant Veil (HAS CODE, NO MODEL, NO DESIGN)
   - Added Silver Cord (HAS CODE, NO MODEL, HAS DESIGN)
   - Added Makeshift Plate (ALMOST HAS CODE, HAS MODEL)
@@ -16,6 +17,7 @@
   - Added Hallowed Ichor (HAS CODE, NO MODEL, HAS DESIGN)
   - Added Sequenced Fate (HAS CODE, NO MODEL, HAS DESIGN)
   - Added Flawless Design (ALMOST HAS CODE, NO MODEL, HAS DESIGN)
+  - Added proper buff icons to Drifting Perception
   - Added SFX to Temporal Transistor
   - Made Drifting Perception work better
   - Buffed Drifting Perception Base Crit Chance Gain from 20% to 25%

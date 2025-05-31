@@ -277,8 +277,38 @@ namespace Sandswept
             CursedConfig.Init();
             // ObjectiveSystem.Init();
 
+            On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
+
             ModLogger.LogDebug("#SANDSWEEP");
             ModLogger.LogDebug("Initialized mod in " + stopwatch.ElapsedMilliseconds + "ms");
+        }
+
+        private void ContagiousItemManager_Init(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
+        {
+            for (int i = 0; i < Items.Count; i++)
+            {
+                var itemBase = Items[i];
+                var itemToCorrupt = itemBase.ItemToCorrupt;
+                if (itemToCorrupt == null)
+                {
+                    continue;
+                }
+
+                var itemDef = itemBase.ItemDef;
+
+                ItemDef.Pair transformation = new()
+                {
+                    itemDef2 = itemDef,
+                    itemDef1 = itemToCorrupt
+                };
+
+                // Main.ModLogger.LogError("itemdef pair transformation itemdef2 is " + transformation.itemDef2);
+                // Main.ModLogger.LogError("itemdef pair transformation itemdef1 is " + transformation.itemDef1);
+
+                ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].AddToArray(transformation);
+            }
+
+            orig();
         }
 
         private void DroneDropFix(ILContext il)
