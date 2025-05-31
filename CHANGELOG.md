@@ -4,6 +4,7 @@
 - Ranger
   - Fixed Loadout bugs
 - VOL-T
+  - Fixed her broken variant spawning on the host's side
   - Fixed her broken variant spawning while unlocked already
   - Fixed most instances of infinite procs on her broken variant
   - Fixed pressing Interact while in Static Snare teleporting you instantly (NONE OF Y'ALL KNEW OF THIS 6+ MONTH OLD BUG!!!)

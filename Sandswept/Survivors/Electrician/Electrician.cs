@@ -245,7 +245,7 @@ namespace Sandswept.Survivors.Electrician
         {
             yield return orig(self);
 
-            if (NetworkServer.active && SceneManager.GetActiveScene().name == Scenes.SunderedGrove)
+            if (SceneManager.GetActiveScene().name == Scenes.SunderedGrove)
             {
                 bool isAnyonePlayingElectrician = true;
                 int currentElectricianUnlockCount = 0;
@@ -258,6 +258,11 @@ namespace Sandswept.Survivors.Electrician
                     var playerCharacterMasterController = PlayerCharacterMasterController.instances[i];
 
                     var master = playerCharacterMasterController.master;
+                    if (!master)
+                    {
+                        continue;
+                    }
+
                     // Main.ModLogger.LogError("master body backup index is " + master.backupBodyIndex);
                     if (master.backupBodyIndex != ElectricianIndex.Value)
                     {
@@ -300,7 +305,10 @@ namespace Sandswept.Survivors.Electrician
                 }
 
                 GameObject obj = GameObject.Instantiate(BrokenElectricianBody, pos, rot);
-                NetworkServer.Spawn(obj);
+                if (NetworkServer.active)
+                {
+                    NetworkServer.Spawn(obj);
+                }
             }
         }
 
