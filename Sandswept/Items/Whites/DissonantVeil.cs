@@ -1,4 +1,5 @@
-﻿using IL.RoR2.EntitlementManagement;
+﻿/*
+using IL.RoR2.EntitlementManagement;
 using RoR2.Items;
 
 namespace Sandswept.Items.Whites
@@ -136,3 +137,4 @@ namespace Sandswept.Items.Whites
         }
     }
 }
+*/

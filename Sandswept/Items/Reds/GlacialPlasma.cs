@@ -1,4 +1,7 @@
-﻿namespace Sandswept.Items.Reds
+﻿using Rewired.ComponentControls.Effects;
+using UnityEngine;
+
+namespace Sandswept.Items.Reds
 {
     [ConfigSection("Items :: Glacial Plasma")]
     internal class GlacialPlasma : ItemBase<GlacialPlasma>
@@ -54,11 +57,60 @@
             projectileSimple.desiredForwardSpeed = 400f;
             projectileSimple.lifetime = 3f;
             projectileSimple.enableVelocityOverLifetime = true;
-            projectileSimple.velocityOverLifetime = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.05f, 0f), new Keyframe(1f, 3f));
+            projectileSimple.velocityOverLifetime = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.04f, 0f), new Keyframe(0.9f, 3f), new Keyframe(1f, 0f));
+
+            var ghost = Main.Assets.LoadAsset<GameObject>("GlacialSpearGhost.prefab");
+            ghost.transform.localScale = Vector3.one * 4f;
+
+            var mesh = ghost.transform.Find("GlacialPlasma").GetComponent<MeshFilter>();
+
+            var rot = mesh.AddComponent<RotateAroundAxis>();
+            rot.enabled = true;
+            rot.speed = RotateAroundAxis.Speed.Fast;
+            rot.fastRotationSpeed = 300f;
+            rot.rotateAroundAxis = RotateAroundAxis.RotationAxis.Y;
+
+            /*
+            var rot2 = mesh.AddComponent<RotateAroundAxis>();
+            rot2.enabled = true;
+            rot2.speed = RotateAroundAxis.Speed.Fast;
+            rot2.fastRotationSpeed = 200f;
+            rot2.rotateAroundAxis = RotateAroundAxis.RotationAxis.X;
+
+            var rot3 = mesh.AddComponent<RotateAroundAxis>();
+            rot3.enabled = true;
+            rot3.speed = RotateAroundAxis.Speed.Fast;
+            rot3.fastRotationSpeed = 200f;
+            rot3.rotateAroundAxis = RotateAroundAxis.RotationAxis.Z;
+            */
+
+            var randomRot2 = mesh.AddComponent<SetRandomRotation>();
+            randomRot2.setRandomXRotation = true;
+            randomRot2.setRandomYRotation = false;
+            randomRot2.setRandomZRotation = false;
+
+            var objectScaleCurve = ghost.AddComponent<ObjectScaleCurve>();
+            objectScaleCurve.useOverallCurveOnly = true;
+            objectScaleCurve.timeMax = 3f;
+            objectScaleCurve.overallCurve = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.2f, 1f), new Keyframe(1f, 3f));
 
             var hitbox = javelinProjectile.transform.Find("Hitbox");
-            hitbox.localScale *= 3f;
-            javelinProjectile.GetComponent<ProjectileController>().ghostPrefab = Main.Assets.LoadAsset<GameObject>("GlacialSpearGhost.prefab");
+            hitbox.localScale = new Vector3(6f, 6f, 20f);
+            hitbox.localPosition = new Vector3(0f, 0f, -4f);
+            javelinProjectile.GetComponent<ProjectileController>().ghostPrefab = ghost;
+
+            var newImpact = PrefabAPI.InstantiateClone(Paths.GameObject.MageIceExplosion, "Glacial Plasma Explosion VFX", false);
+
+            VFXUtils.MultiplyScale(newImpact, 2.5f);
+            VFXUtils.RecolorMaterialsAndLights(newImpact, new Color32(0, 188, 255, 255), new Color32(0, 188, 255, 255), true);
+
+            newImpact.transform.Find("Point Light").GetComponent<Light>().range = 15f;
+
+            ContentAddition.AddEffect(newImpact);
+
+            projectileSimple.lifetimeExpiredEffect = newImpact;
+            var projectileSingleTargetImpact = javelinProjectile.GetComponent<ProjectileSingleTargetImpact>();
+            projectileSingleTargetImpact.impactEffect = newImpact;
 
             PrefabAPI.RegisterNetworkPrefab(javelinProjectile);
             ContentAddition.AddProjectile(javelinProjectile);
@@ -74,8 +126,8 @@
             javelinReady.canStack = false;
             javelinReady.isDebuff = false;
             javelinReady.isHidden = false;
-            javelinReady.iconSprite = Main.Assets.LoadAsset<Sprite>("bdGPReady.png");
-            javelinReady.buffColor = Color.cyan;
+            javelinReady.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffGlacialPlasmaReady.png");
+            javelinReady.buffColor = new Color32(0, 208, 252, 255);
             javelinReady.name = "Glacial Plasma Ready";
 
             ContentAddition.AddBuffDef(javelinReady);
@@ -85,7 +137,7 @@
             javelinCooldown.canStack = false;
             javelinCooldown.isDebuff = false;
             javelinCooldown.isHidden = false;
-            javelinCooldown.iconSprite = Main.Assets.LoadAsset<Sprite>("bdGPSpent.png");
+            javelinCooldown.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffGlacialPlasmaCooldown.png");
             javelinCooldown.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1f);
             javelinCooldown.name = "Glacial Plasma Cooldown";
 
