@@ -203,41 +203,32 @@ namespace Sandswept.Items.Whites
         public override void Hooks()
         {
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
-            // AddLookingGlassCompat();
         }
-
-        /*
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        private void AddLookingGlassCompat()
+        
+        public override object GetItemStatsDef()
         {
-            if (Main.LookingGlassLoaded)
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Fire Chance: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.descriptions.Add("Base Damage: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.hasChance = true;
+            itemStatsDef.chanceScaling = ItemStatsDef.ChanceScaling.DoesNotScale;
+            itemStatsDef.calculateValuesNew = (luck, stack, procChance) =>
             {
-                var itemStatsDef = new ItemStatsDef();
-                itemStatsDef.descriptions.Add("Fire Chance: ");
-                itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
-                itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
-                itemStatsDef.descriptions.Add("Base Damage: ");
-                itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
-                itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
-                itemStatsDef.hasChance = true;
-                itemStatsDef.chanceScaling = ItemStatsDef.ChanceScaling.DoesNotScale;
-                itemStatsDef.calculateValuesNew = (luck, stack, procChance) =>
+                List<float> values = new()
                 {
-                    List<float> values = new()
-                    {
                         LookingGlass.Utils.CalculateChanceWithLuck(chance * procChance / 100f, luck),
                         baseDamage + stackDamage * (stack - 1)
-                    };
-
-                    return values;
                 };
-                ItemCatalog.availability.CallWhenAvailable(() =>
-                {
-                    ItemDefinitions.RegisterItemStatsDef(itemStatsDef, ItemDef.itemIndex);
-                });
-            }
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
-        */
 
         private void GlobalEventManager_onServerDamageDealt(DamageReport report)
         {

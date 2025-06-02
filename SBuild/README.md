@@ -30,8 +30,9 @@
 
 - Code: HIFU, pseudopulse, Sandman, prod, dgosling
 - Models: Smxrez, Sandman, GEMO, Bog, pseudopulse, prod, HIFU
-- Animations: IcieTea, unmatchedpowerofthesun, Bog
+- Animations: IcieTea, unmatchedpowerofthesun, Bog, Synodii
 - VFX: HIFU, Sandman, prod
+- SFX: HIFU, pseudopulse
 - Skill Icons: prod, HIFU
 - Additional Help: swuff★, DuhDoesNothing
 - Concept Art: yorikobear, IcieTea, Sandman, Shepd

@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using LookingGlass.ItemStatsNameSpace;
 using RoR2.Items;
 using Sandswept.Items.Greens;
 using Sandswept.Items.VoidGreens;
@@ -45,8 +46,6 @@ namespace Sandswept.Items
         public virtual float modelPanelParametersMaxDistance { get; } = 10f;
 
         public virtual Sprite ItemIconOverride { get; set; } = null;
-
-        // public virtual LookingGlass.ItemStatsNameSpace.ItemStatsDef ItemStatsDef { get; } = null;
 
         public ItemDef ItemDef;
 
@@ -99,27 +98,26 @@ namespace Sandswept.Items
         {
             CreateItem();
             Hooks();
-            // idk what do
-            /*
-            if (Main.LookingGlassLoaded && ItemStatsDef != null)
+
+            if (Main.LookingGlassLoaded)
             {
-                AddItemStats(ItemStatsDef);
+                LGWrapper();
             }
-            */
         }
-
-        /*
-        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        public void AddItemStats(LookingGlass.ItemStatsNameSpace.ItemStatsDef itemStatsDef)
-        {
-            ItemCatalog.availability.CallWhenAvailable(() =>
-            {
-                LookingGlass.ItemStatsNameSpace.ItemDefinitions.RegisterItemStatsDef(itemStatsDef, ItemDef.itemIndex);
-            });
-        }
-        */
-
         public abstract ItemDisplayRuleDict CreateItemDisplayRules();
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private void LGWrapper() {
+            ItemStatsDef def = GetItemStatsDef() as ItemStatsDef;
+
+            if (def != null)
+            {
+                ItemCatalog.availability.CallWhenAvailable(() =>
+                {
+                    LookingGlass.ItemStatsNameSpace.ItemDefinitions.RegisterItemStatsDef(def, ItemDef.itemIndex);
+                });
+            }
+        }
 
         protected void CreateItem()
         {
@@ -258,6 +256,9 @@ namespace Sandswept.Items
         {
             Main.ModLogger.LogError(ItemName);
             return ItemName;
+        }
+        public virtual object GetItemStatsDef() {
+            return null;
         }
     }
 }
