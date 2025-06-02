@@ -4,6 +4,8 @@ using RoR2.Orbs;
 using RoR2.UI;
 using System.Collections;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.Serialization;
 using ThreeEyedGames;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
@@ -61,6 +63,7 @@ namespace Sandswept.Interactables.Regular
         public static GameObject shrineVFX;
 
         public static bool shouldCorruptNextStage = false;
+
         public static bool shouldReplaceDrops = false;
 
         public static DccsPool voidEnemiesDccsPool;

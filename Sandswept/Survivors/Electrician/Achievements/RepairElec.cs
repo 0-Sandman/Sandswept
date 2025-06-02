@@ -6,8 +6,10 @@ using RoR2.Achievements;
 namespace Sandswept.Survivors.Electrician.Achievements
 {
     [RegisterAchievement("ElectricianRepair", "Unlocks.Electrician.Sandswept", null, 3, typeof(RepairElecAchievementServer))]
-    public class RepairElecAchievement : BaseAchievement {
-        public class RepairElecAchievementServer : BaseServerAchievement {
+    public class RepairElecAchievement : BaseAchievement
+    {
+        public class RepairElecAchievementServer : BaseServerAchievement
+        {
             public override void OnInstall()
             {
                 base.OnInstall();
@@ -20,14 +22,17 @@ namespace Sandswept.Survivors.Electrician.Achievements
                 BrokenElecController.OnUserUnlock -= OnUnlocked;
             }
 
-            public void OnUnlocked(CharacterBody body) {
+            public void OnUnlocked(CharacterBody body)
+            {
                 CharacterBody current = serverAchievementTracker.networkUser.GetCurrentBody();
 
-                if (current && body == current) {
+                if (current && body == current)
+                {
                     base.Grant();
                 }
             }
         }
+
         public override void OnInstall()
         {
             base.OnInstall();

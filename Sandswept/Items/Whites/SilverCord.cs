@@ -46,9 +46,9 @@ namespace Sandswept.Items.Whites
         public static ModdedProcType SilverShock = ProcTypeAPI.ReserveProcType();
         public static ModdedDamageType StupidButNeccessary = DamageAPI.ReserveDamageType();
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
-            base.Init(config);
+            base.Init();
         }
 
         public override void Hooks()

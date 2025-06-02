@@ -49,8 +49,9 @@ namespace Sandswept.Items.VoidGreens
 
         public static GameObject vfx;
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
+            base.Init();
             if (!ItemBase.DefaultEnabledCallback(SmoulderingDocument.instance))
             {
                 return;
@@ -65,10 +66,6 @@ namespace Sandswept.Items.VoidGreens
             movementSpeedBuff.isDebuff = false;
             movementSpeedBuff.name = "Festering Hunger - Movement Speed";
             ContentAddition.AddBuffDef(movementSpeedBuff);
-
-            CreateLang();
-            CreateItem();
-            Hooks();
         }
 
         public override void Hooks()

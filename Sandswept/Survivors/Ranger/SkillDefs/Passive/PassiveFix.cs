@@ -1,4 +1,5 @@
-﻿using BepInEx;
+﻿/*
+using BepInEx;
 using BepInEx.Bootstrap;
 using JetBrains.Annotations;
 using Mono.Cecil.Cil;
@@ -63,3 +64,4 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
         }
     }
 }
+*/

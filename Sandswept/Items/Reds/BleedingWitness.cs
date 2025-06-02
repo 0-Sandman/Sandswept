@@ -41,55 +41,17 @@ namespace Sandswept.Items.Reds
         public override float modelPanelParametersMinDistance => 7f;
         public override float modelPanelParametersMaxDistance => 15f;
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
-            CreateLang();
-            CreateItem();
-            Hooks();
+            base.Init();
         }
 
         public override void Hooks()
         {
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
-            // RoR2.DotController.onDotInflictedServerGlobal += DotController_onDotInflictedServerGlobal;
-            // On.RoR2.DotController.FixedUpdate += DotController_FixedUpdate;
-            // CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
-        }
-
-        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
-        {
-            stack = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
         }
 
         public static int stack = 0;
-
-        private void DotController_FixedUpdate(On.RoR2.DotController.orig_FixedUpdate orig, DotController self)
-        {
-            orig(self);
-            if (NetworkServer.active && stack > 0)
-            {
-                var healAmount = baseDoTHealing + stackDoTHealing * (stack - 1);
-                for (var dotIndex = DotIndex.Bleed; dotIndex < DotIndex.Count; dotIndex++)
-                {
-                    uint num = 1U << (int)dotIndex;
-                    if ((self.activeDotFlags & num) > 0U)
-                    {
-                        var lastDotTimer = self.dotTimers[(int)dotIndex] - Time.fixedDeltaTime;
-                        if (lastDotTimer <= 0f)
-                        {
-                            for (int i = 0; i < CharacterBody.instancesList.Count; i++)
-                            {
-                                var body = CharacterBody.instancesList[i];
-                                if (body.teamComponent.teamIndex == TeamIndex.Player)
-                                {
-                                    body.healthComponent?.HealFraction(healAmount, default);
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
 
         private void GlobalEventManager_onServerDamageDealt(DamageReport report)
         {

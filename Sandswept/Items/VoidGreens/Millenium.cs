@@ -47,8 +47,9 @@ namespace Sandswept.Items.VoidGreens
         public override float modelPanelParametersMinDistance => 5f;
         public override float modelPanelParametersMaxDistance => 12f;
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
+            base.Init();
             if (!ItemBase.DefaultEnabledCallback(SunFragment.instance))
             {
                 return;
@@ -121,10 +122,6 @@ namespace Sandswept.Items.VoidGreens
             sphereMeshRenderer.materials = newSphereMaterials;
 
             ContentAddition.AddEffect(vfx);
-
-            CreateLang();
-            CreateItem();
-            Hooks();
         }
 
         public override void Hooks()

@@ -22,7 +22,7 @@
         [ConfigField("Base Damage", "Decimal.", 20f)]
         public static float baseDamage;
 
-        [ConfigField("Hit Damage", "Decimal.", 2f)]
+        [ConfigField("Enemy Hit Damage", "Decimal.", 2f)]
         public static float hitDamage;
 
         [ConfigField("Blast Field Radius", "", 12f)]

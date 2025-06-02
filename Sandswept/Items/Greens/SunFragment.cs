@@ -7,8 +7,6 @@ namespace Sandswept.Items.Greens
     {
         public static DamageColorIndex SolarFlareColour = DamageColourHelper.RegisterDamageColor(new Color32(255, 150, 25, 255));
 
-        public static DamageAPI.ModdedDamageType SunFragmentDamageType;
-
         public override string ItemName => "Sun Fragment";
 
         public override string ItemLangTokenName => "SUN_FRAGMENT";
@@ -54,13 +52,17 @@ namespace Sandswept.Items.Greens
 
         public static ModdedProcType sunFragment = ProcTypeAPI.ReserveProcType();
 
-        public override void Init(ConfigFile config)
+        public override void Init()
+        {
+            base.Init();
+            SetUpVFX();
+        }
+
+        public void SetUpVFX()
         {
             var sunFragment = Main.MainAssets.LoadAsset<GameObject>("SunFragmentPrefab.prefab");
             var sunFragmentMat = sunFragment.transform.GetChild(0).GetComponent<MeshRenderer>().material;
             sunFragmentMat.SetFloat("_NormalStrength", 0.8263923f);
-
-            SunFragmentDamageType = DamageAPI.ReserveDamageType();
 
             FragmentVFX = Main.MainAssets.LoadAsset<GameObject>("FragmentFXRing.prefab");
             var component = FragmentVFX.AddComponent<EffectComponent>();
@@ -81,11 +83,6 @@ namespace Sandswept.Items.Greens
             var component2 = FragmentVFXSphere.AddComponent<EffectComponent>();
             component2.applyScale = true;
             Main.EffectPrefabs.Add(FragmentVFXSphere);
-
-            CreateLang();
-            CreateUnlockLang();
-            CreateItem();
-            Hooks();
         }
 
         public override void Hooks()

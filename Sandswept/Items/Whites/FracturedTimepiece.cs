@@ -31,13 +31,6 @@ namespace Sandswept.Items.Whites
         public static GameObject healVFX;
         public static GameObject cdrVFX;
 
-        public override void Init(ConfigFile config)
-        {
-            CreateLang();
-            CreateItem();
-            Hooks();
-        }
-
         [ConfigField("Base Percent Healing", "Decimal.", 0.05f)]
         public static float basePercentHealing;
 
@@ -47,7 +40,13 @@ namespace Sandswept.Items.Whites
         [ConfigField("Special Cooldown Reduction", "Decimal.", 0.15f)]
         public static float specialCooldownReduction;
 
-        public override void Hooks()
+        public override void Init()
+        {
+            base.Init();
+            SetUpVFX();
+        }
+
+        public void SetUpVFX()
         {
             healVFX = PrefabAPI.InstantiateClone(Paths.GameObject.MedkitHealEffect, "Fractured Timepiece Heal VFX", false);
             var effectComponent = healVFX.GetComponent<EffectComponent>();
@@ -112,7 +111,10 @@ namespace Sandswept.Items.Whites
             crosses2.material = newMat4;
 
             ContentAddition.AddEffect(cdrVFX);
+        }
 
+        public override void Hooks()
+        {
             On.RoR2.CharacterBody.OnSkillActivated += CharacterBody_OnSkillActivated;
             On.EntityStates.Mage.Weapon.PrepWall.OnExit += PrepWall_OnExit;
             On.EntityStates.Engi.EngiMissilePainter.Fire.FireMissile += Fire_FireMissile;

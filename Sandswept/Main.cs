@@ -51,11 +51,11 @@ namespace Sandswept
     [BepInDependency(R2APIContentManager.PluginGUID, R2APIContentManager.PluginVersion)]
     [BepInDependency(NetworkingAPI.PluginGUID, NetworkingAPI.PluginVersion)]
     [BepInDependency(DirectorAPI.PluginGUID, DirectorAPI.PluginVersion)]
+    [BepInDependency(SkillsAPI.PluginGUID, SkillsAPI.PluginVersion)]
     [BepInDependency(ProcTypeAPI.PluginGUID, ProcTypeAPI.PluginVersion)]
     [BepInDependency(MoreStats.MoreStatsPlugin.guid, MoreStats.MoreStatsPlugin.version)]
     [BepInDependency("com.weliveinasociety.CustomEmotesAPI", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("droppod.lookingglass", BepInDependency.DependencyFlags.SoftDependency)]
-    [BepInDependency("com.RiskOfBrainrot.ProcSolver", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
     {
@@ -210,7 +210,7 @@ namespace Sandswept
             {
                 if (ValidateItem(item, new()))
                 {
-                    item.Init(Config);
+                    item.Init();
                 }
             }
 

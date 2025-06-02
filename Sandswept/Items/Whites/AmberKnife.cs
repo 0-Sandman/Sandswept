@@ -1,5 +1,7 @@
-﻿using Rewired.ComponentControls.Effects;
+﻿using LookingGlass.ItemStatsNameSpace;
+using Rewired.ComponentControls.Effects;
 using RoR2.EntityLogic;
+using System.Runtime.CompilerServices;
 using UnityEngine.Events;
 using UnityEngine.Networking.NetworkSystem;
 using static Sandswept.Utils.Components.MaterialControllerComponents;
@@ -65,7 +67,13 @@ namespace Sandswept.Items.Whites
 
         // why tf does it bounce so oddly
         // also the unity event doesnt work bruhhhh
-        public override void Init(ConfigFile config)
+        public override void Init()
+        {
+            base.Init();
+            SetUpProjectile();
+        }
+
+        public void SetUpProjectile()
         {
             impactVFX = PrefabAPI.InstantiateClone(Paths.GameObject.MercSwordFinisherSlash, "Amber Knife Impact VFX", false);
 
@@ -190,16 +198,46 @@ namespace Sandswept.Items.Whites
             // amberKnifeProjectile.AddComponent<AmberKnifeProjectile>();
 
             PrefabAPI.RegisterNetworkPrefab(amberKnifeProjectile);
-
-            CreateLang();
-            CreateItem();
-            Hooks();
         }
 
         public override void Hooks()
         {
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
+            // AddLookingGlassCompat();
         }
+
+        /*
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private void AddLookingGlassCompat()
+        {
+            if (Main.LookingGlassLoaded)
+            {
+                var itemStatsDef = new ItemStatsDef();
+                itemStatsDef.descriptions.Add("Fire Chance: ");
+                itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+                itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+                itemStatsDef.descriptions.Add("Base Damage: ");
+                itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+                itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+                itemStatsDef.hasChance = true;
+                itemStatsDef.chanceScaling = ItemStatsDef.ChanceScaling.DoesNotScale;
+                itemStatsDef.calculateValuesNew = (luck, stack, procChance) =>
+                {
+                    List<float> values = new()
+                    {
+                        LookingGlass.Utils.CalculateChanceWithLuck(chance * procChance / 100f, luck),
+                        baseDamage + stackDamage * (stack - 1)
+                    };
+
+                    return values;
+                };
+                ItemCatalog.availability.CallWhenAvailable(() =>
+                {
+                    ItemDefinitions.RegisterItemStatsDef(itemStatsDef, ItemDef.itemIndex);
+                });
+            }
+        }
+        */
 
         private void GlobalEventManager_onServerDamageDealt(DamageReport report)
         {

@@ -39,7 +39,14 @@
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility };
 
-        public override void Init(ConfigFile config)
+        public override void Init()
+        {
+            base.Init();
+            SetUpVFX();
+            SetUpBuffs();
+        }
+
+        public void SetUpVFX()
         {
             javelinProjectile = PrefabAPI.InstantiateClone(Paths.GameObject.MageIceBombProjectile, "Glacial Plasma Javelin", true);
 
@@ -56,6 +63,12 @@
             PrefabAPI.RegisterNetworkPrefab(javelinProjectile);
             ContentAddition.AddProjectile(javelinProjectile);
 
+            SpawnEffect = Main.Assets.LoadAsset<GameObject>("GlacialCastEffect.prefab");
+            ContentAddition.AddEffect(SpawnEffect);
+        }
+
+        public void SetUpBuffs()
+        {
             javelinReady = ScriptableObject.CreateInstance<BuffDef>();
             javelinReady.isCooldown = false;
             javelinReady.canStack = false;
@@ -77,13 +90,6 @@
             javelinCooldown.name = "Glacial Plasma Cooldown";
 
             ContentAddition.AddBuffDef(javelinCooldown);
-
-            SpawnEffect = Main.Assets.LoadAsset<GameObject>("GlacialCastEffect.prefab");
-            ContentAddition.AddEffect(SpawnEffect);
-
-            CreateLang();
-            CreateItem();
-            Hooks();
         }
 
         public override void Hooks()

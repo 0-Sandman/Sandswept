@@ -14,7 +14,7 @@ namespace Sandswept.Items.Whites
 
         public override string ItemFullDescription => $"Upon using your $suEquipment$se, become $sucloaked$se for $su{cloakBuffDuration}s$se. While $sucloaked$se, $suexit$se combat and danger. Recharges every $su{baseRechargeTime} seconds$se $ss(-{stackRechargeTime * 100f}% per stack)$se.".AutoFormat();
 
-        public override string ItemLore => "visual design is ivaras's helmet + syandana thingy?";
+        public override string ItemLore => "visual design is sevagoth's or ivaras's helmet + syandana thingy?";
 
         public override ItemTier Tier => ItemTier.Tier1;
 
@@ -38,7 +38,13 @@ namespace Sandswept.Items.Whites
 
         public static BuffDef cooldown;
 
-        public override void Init(ConfigFile config)
+        public override void Init()
+        {
+            base.Init();
+            SetUpBuff();
+        }
+
+        public void SetUpBuff()
         {
             cooldown = ScriptableObject.CreateInstance<BuffDef>();
             cooldown.isHidden = false;
@@ -47,10 +53,8 @@ namespace Sandswept.Items.Whites
             cooldown.isCooldown = false;
             cooldown.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1f);
             cooldown.iconSprite = Paths.BuffDef.bdEnergized.iconSprite;
+            cooldown.name = "Dissonant Veil - Cooldown";
             ContentAddition.AddBuffDef(cooldown);
-            CreateLang();
-            CreateItem();
-            Hooks();
         }
 
         public override void Hooks()
@@ -63,10 +67,8 @@ namespace Sandswept.Items.Whites
         {
             orig(self, buffDef);
             var stack = GetCount(self);
-            if (stack > 0 && self.hasCloakBuff && !self.HasBuff(cooldown))
+            if (stack > 0 && (self.hasCloakBuff || buffDef == RoR2Content.Buffs.Cloak))
             {
-                var cooldownBuffDuration = baseRechargeTime / (1f + stackRechargeTime * (stack - 1));
-
                 self.outOfCombatStopwatch = 9999f;
                 self.outOfDangerStopwatch = 9999f;
 
@@ -80,8 +82,6 @@ namespace Sandswept.Items.Whites
                 {
                     self.healthComponent.ForceShieldRegen();
                 }
-
-                self.AddTimedBuff(cooldown, cooldownBuffDuration);
             }
         }
 
@@ -111,13 +111,20 @@ namespace Sandswept.Items.Whites
                 return;
             }
 
-            if (body.HasBuff(cooldown) || body.hasCloakBuff || body.HasBuff(RoR2Content.Buffs.CloakSpeed))
+            if (body.HasBuff(cooldown) || body.hasCloakBuff)
             {
                 return;
             }
 
             body.AddTimedBuff(RoR2Content.Buffs.Cloak, cloakBuffDuration);
-            body.AddTimedBuff(RoR2Content.Buffs.CloakSpeed, cloakBuffDuration);
+
+            if (!body.HasBuff(RoR2Content.Buffs.CloakSpeed))
+            {
+                body.AddTimedBuff(RoR2Content.Buffs.CloakSpeed, cloakBuffDuration);
+            }
+
+            var cooldownBuffDuration = baseRechargeTime / (1f + stackRechargeTime * (stack - 1));
+            body.AddTimedBuff(cooldown, cooldownBuffDuration);
 
             Util.PlaySound("Play_merc_m2_uppercut", equipmentSlot.gameObject);
             EffectManager.SimpleEffect(Paths.GameObject.SniperTargetHitEffect, body.corePosition, Quaternion.identity, true);

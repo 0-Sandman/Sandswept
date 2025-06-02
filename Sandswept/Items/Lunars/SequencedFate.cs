@@ -35,13 +35,10 @@ namespace Sandswept.Items.Whites
 
         public static int itemCount = 0;
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
+            base.Init();
             sequencedFateTracker = new GameObject("Sequenced Fate Tracker", typeof(SetDontDestroyOnLoad), typeof(SequencedFateController));
-
-            CreateLang();
-            CreateItem();
-            Hooks();
         }
 
         [ConfigField("Base Extra Items Count", "", 6)]
@@ -176,7 +173,7 @@ namespace Sandswept.Items.Whites
             weightedSelection.AddChoice(Run.instance.availableTier3DropList, 4f);
             weightedSelection.AddChoice(Run.instance.availableLunarItemDropList, 4f);
             weightedSelection.AddChoice(Run.instance.availableVoidTier1DropList, 4f);
-            weightedSelection.AddChoice(Run.instance.availableVoidTier2DropList, 2.3999999f);
+            weightedSelection.AddChoice(Run.instance.availableVoidTier2DropList, 2.4f);
             weightedSelection.AddChoice(Run.instance.availableVoidTier3DropList, 0.16f);
 
             for (int i = 0; i < count; i++)

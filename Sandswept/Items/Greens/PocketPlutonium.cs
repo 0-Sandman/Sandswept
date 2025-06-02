@@ -54,15 +54,27 @@ namespace Sandswept.Items.Greens
 
         public static GameObject pocketPlutoniumConstantVFX;
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
-            CreateLang();
-            CreateItem();
-            // CreatePrefab();
-            Hooks();
+            base.Init();
+            SetUpBuffs();
+            SetUpProjectiles();
         }
 
-        public override void Hooks()
+        public void SetUpBuffs()
+        {
+            pocketPlutoniumRecharge = ScriptableObject.CreateInstance<BuffDef>();
+            pocketPlutoniumRecharge.isDebuff = false;
+            pocketPlutoniumRecharge.canStack = false;
+            pocketPlutoniumRecharge.buffColor = new Color32(115, 204, 71, 255);
+            pocketPlutoniumRecharge.isHidden = true;
+            pocketPlutoniumRecharge.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texProtogen3.png");
+            pocketPlutoniumRecharge.name = "Pocket Plutonium Cooldown";
+
+            ContentAddition.AddBuffDef(pocketPlutoniumRecharge);
+        }
+
+        public void SetUpProjectiles()
         {
             pocketPlutoniumPoolProcVFX = PrefabAPI.InstantiateClone(Paths.GameObject.MolotovSingleIgniteExplosionVFXVariant, "Pocket Plutonium Proc VFX", false);
 
@@ -132,8 +144,8 @@ namespace Sandswept.Items.Greens
             effectComponent.applyScale = true;
             pocketPlutoniumConstantVFX.AddComponent<VFXAttributes>();
 
-            var fx = pocketPlutoniumConstantVFX.transform.GetChild(0);
-            var hitbox = fx.GetChild(2);
+            var fx = pocketPlutoniumConstantVFX.transform.Find("FX");
+            var hitbox = fx.Find("Hitbox");
             hitbox.gameObject.SetActive(false);
             hitbox.GetComponent<HitBox>().enabled = false;
 
@@ -142,7 +154,7 @@ namespace Sandswept.Items.Greens
                 animateShaderAlpha.timeMax = 5f;
             }
 
-            var pointLight = fx.GetChild(1).GetComponent<Light>();
+            var pointLight = fx.Find("Point Light").GetComponent<Light>();
             pointLight.intensity = 10f;
             pointLight.color = new Color32(36, 255, 0, 255);
             pointLight.range = 70f;
@@ -150,11 +162,11 @@ namespace Sandswept.Items.Greens
             var flickerLight = pointLight.GetComponent<FlickerLight>();
             flickerLight.enabled = false;
 
-            var scaled = fx.GetChild(0);
-            var teamIndicator = scaled.GetChild(2);
+            var scaledOnImpact = fx.Find("ScaledOnImpact");
+            var teamIndicator = scaledOnImpact.Find("TeamAreaIndicator, GroundOnly");
             teamIndicator.gameObject.SetActive(false);
 
-            var decal = scaled.GetChild(0).GetComponent<Decal>();
+            var decal = scaledOnImpact.Find("Decal").GetComponent<Decal>();
             // decal Fade keeps increasing, and once it reaches 2, it completely disappears
             // idk what causes it to increase - like where
 
@@ -164,24 +176,18 @@ namespace Sandswept.Items.Greens
 
             decal.Material = newMat4;
 
-            var fire = scaled.GetChild(1).GetComponent<ParticleSystemRenderer>();
+            var fireBillboard = scaledOnImpact.Find("Fire, Billboard").GetComponent<ParticleSystemRenderer>();
 
-            var newMat5 = Object.Instantiate(Paths.Material.matFirePillarParticle);
-            newMat5.SetTexture("_RemapTex", Paths.Texture2D.texRampTwotoneBlack);
+            var fireMaterial = new Material(Paths.Material.matFirePillarParticle);
+            fireMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampTritoneHShrine);
+            fireMaterial.SetFloat("_Boost", 5f);
+            fireMaterial.SetFloat("_AlphaBoost", 5f);
+            fireMaterial.SetFloat("_AlphaBias", 0.07f);
+            fireMaterial.SetColor("_TintColor", new Color32(25, 255, 0, 255));
 
-            fire.material = newMat5;
+            fireBillboard.material = fireMaterial;
 
             ContentAddition.AddEffect(pocketPlutoniumConstantVFX);
-
-            pocketPlutoniumRecharge = ScriptableObject.CreateInstance<BuffDef>();
-            pocketPlutoniumRecharge.isDebuff = false;
-            pocketPlutoniumRecharge.canStack = false;
-            pocketPlutoniumRecharge.buffColor = new Color32(115, 204, 71, 255);
-            pocketPlutoniumRecharge.isHidden = true;
-            pocketPlutoniumRecharge.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texProtogen3.png");
-            pocketPlutoniumRecharge.name = "Pocket Plutonium Cooldown";
-
-            ContentAddition.AddBuffDef(pocketPlutoniumRecharge);
 
             poolPrefab = PrefabAPI.InstantiateClone(Paths.GameObject.HuntressArrowRain, "Pocket Plutonium Pool");
             poolPrefab.transform.localScale = Vector3.one * (poolRadius * 2f);
@@ -226,7 +232,10 @@ namespace Sandswept.Items.Greens
             impaledArrow.gameObject.SetActive(false);
 
             PrefabAPI.RegisterNetworkPrefab(poolPrefab);
+        }
 
+        public override void Hooks()
+        {
             GetStatCoefficients += GrantBaseShield;
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
         }

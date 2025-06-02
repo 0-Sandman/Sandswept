@@ -14,6 +14,13 @@ namespace Sandswept.Survivors.Electrician
         public Light targetLight;
         public bool hasAttemptedBattery = false;
         public GameObject warningVFX;
+        public CharacterBody body;
+
+        public void Start()
+        {
+            body = GetComponent<CharacterBody>();
+            if (NetworkServer.active) body.healthComponent.TakeDamage(new DamageInfo() { attacker = null, damageType = DamageType.BypassArmor | DamageType.BypassBlock, damage = 4f, inflictor = null, procCoefficient = 0f, position = transform.position });
+        }
 
         public void OnTakeDamageServer(DamageReport damageReport)
         {
@@ -21,7 +28,7 @@ namespace Sandswept.Survivors.Electrician
 
             bool didAnyoneUnlock = false;
 
-            if (damageReport.damageInfo.HasModdedDamageType(Electrician.LIGHTNING))
+            if (damageReport.damageInfo.HasModdedDamageType(Electrician.LIGHTNING) && damageReport.damageInfo.procCoefficient > 0)
             {
                 foreach (PlayerCharacterMasterController pcmc in PlayerCharacterMasterController.instances)
                 {
@@ -35,7 +42,7 @@ namespace Sandswept.Survivors.Electrician
                 if (didAnyoneUnlock)
                 {
                     activatable = false;
-                    base.GetComponent<CharacterBody>().AddBuff(RoR2Content.Buffs.Intangible);
+                    body.AddBuff(RoR2Content.Buffs.Intangible);
 
                     base.gameObject.CallNetworkedMethod("HandleActivationEffects");
                     HandleActivationEffects();
@@ -43,18 +50,22 @@ namespace Sandswept.Survivors.Electrician
             }
         }
 
-        public void HandleBatteryInsertion(Interactor sigma) {
-            if (!hasAttemptedBattery) {
+        // need to insert my battery into my vol-t
+        public void HandleBatteryInsertion(Interactor sigma)
+        {
+            if (!hasAttemptedBattery)
+            {
                 hasAttemptedBattery = true;
                 base.GetComponent<PurchaseInteraction>().SetAvailable(true);
                 AkSoundEngine.PostEvent(Events.Play_drone_deathpt1, base.gameObject);
                 warningVFX.SetActive(true);
-                
+
                 PickupDropletController.CreatePickupDroplet(PickupCatalog.FindPickupIndex(RoR2Content.Equipment.QuestVolatileBattery.equipmentIndex), base.transform.position, -base.transform.right * 5f + Vector3.up);
 
-                Chat.SendBroadcastChat(new Chat.SimpleChatMessage() { baseToken = "SANDSWEPT_VOLATILEINSERT"});
+                Chat.SendBroadcastChat(new Chat.SimpleChatMessage() { baseToken = "SANDSWEPT_VOLATILEINSERT" });
             }
-            else {
+            else
+            {
                 BlastAttack attack = new();
                 attack.teamIndex = TeamIndex.Void;
                 attack.baseDamage = 999999f;
@@ -69,13 +80,14 @@ namespace Sandswept.Survivors.Electrician
                 AkSoundEngine.PostEvent(Events.Play_drone_deathpt2, base.gameObject);
                 AkSoundEngine.PostEvent(Events.Play_vagrant_R_explode, base.gameObject);
 
-                EffectManager.SpawnEffect(Paths.GameObject.ExplosionMinorConstruct, new EffectData {
+                EffectManager.SpawnEffect(Paths.GameObject.ExplosionMinorConstruct, new EffectData
+                {
                     scale = attack.radius * 2f,
                     origin = attack.position
                 }, true);
 
                 activatable = false;
-                base.GetComponent<CharacterBody>().AddBuff(RoR2Content.Buffs.Intangible);
+                body.AddBuff(RoR2Content.Buffs.Intangible);
                 base.gameObject.CallNetworkedMethod("HandleActivationEffects");
                 HandleActivationEffects();
 

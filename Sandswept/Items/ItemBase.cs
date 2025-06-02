@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using static Sandswept.Utils.TotallyNotStolenUtils;
 
 namespace Sandswept.Items
@@ -23,21 +24,16 @@ namespace Sandswept.Items
         public abstract string ItemFullDescription { get; }
         public abstract string ItemLore { get; }
 
-        public virtual string UnlockName { get; }
-        public virtual string UnlockDesc { get; }
-
         public abstract ItemTier Tier { get; }
         public abstract ItemTag[] ItemTags { get; }
 
         public abstract GameObject ItemModel { get; }
         public abstract Sprite ItemIcon { get; }
 
-        public ItemDef ItemDef;
-
         public virtual bool CanRemove { get; } = true;
 
-        public virtual string AchievementName { get; }
-        public virtual string AchievementDesc { get; }
+        public virtual string AchievementName { get; } = string.Empty;
+        public virtual string AchievementDesc { get; } = string.Empty;
         public virtual Func<string> GetHowToUnlock => () => AchievementName + "\n<style=cStack>" + AchievementDesc + "</style>";
         public virtual Func<string> GetUnlocked => () => AchievementName + "\n<style=cStack>" + AchievementDesc + "</style>";
 
@@ -45,6 +41,12 @@ namespace Sandswept.Items
         public virtual float modelPanelParametersMaxDistance { get; } = 10f;
 
         public virtual Sprite ItemIconOverride { get; set; } = null;
+
+        // public virtual LookingGlass.ItemStatsNameSpace.ItemStatsDef ItemStatsDef { get; } = null;
+
+        public ItemDef ItemDef;
+
+        public UnlockableDef UnlockableDef;
 
         public static bool DefaultEnabledCallback(ItemBase self)
         {
@@ -77,8 +79,6 @@ namespace Sandswept.Items
             }
         }
 
-        public UnlockableDef UnlockableDef;
-
         /// <summary>
         /// This method structures your code execution of this class. An example implementation inside of it would be:
         /// <para>CreateConfig(config);</para>
@@ -89,41 +89,36 @@ namespace Sandswept.Items
         /// <para>P.S. CreateItemDisplayRules(); does not have to be called in this, as it already gets called in CreateItem();</para>
         /// </summary>
         /// <param name="config">The config file that will be passed into this from the main class.</param>
-        public virtual void Init(ConfigFile config)
+        public virtual void Init()
         {
-            CreateConfig(config);
-            CreateLang();
             CreateItem();
             Hooks();
-        }
-
-        public virtual void CreateConfig(ConfigFile config)
-        { }
-
-        protected virtual void CreateLang()
-        {
-            LanguageAPI.Add("ITEM_SANDSWEPT_" + ItemLangTokenName + "_NAME", ItemName);
-            LanguageAPI.Add("ITEM_SANDSWEPT_" + ItemLangTokenName + "_PICKUP", ItemPickupDesc);
-            LanguageAPI.Add("ITEM_SANDSWEPT_" + ItemLangTokenName + "_DESCRIPTION", ItemFullDescription);
-            LanguageAPI.Add("ITEM_SANDSWEPT_" + ItemLangTokenName + "_LORE", ItemLore);
-        }
-
-        protected virtual void CreateUnlockLang()
-        {
-            if (AchievementName == null || AchievementDesc == null)
+            // idk what do
+            /*
+            if (Main.LookingGlassLoaded && ItemStatsDef != null)
             {
-                Main.ModLogger.LogError("tried adding unlockable strings to an item without them set");
+                AddItemStats(ItemStatsDef);
             }
-            LanguageAPI.Add("ACHIEVEMENT_ITEM_SANDSWEPT_" + ItemLangTokenName + "_NAME", AchievementName);
-            LanguageAPI.Add("ACHIEVEMENT_ITEM_SANDSWEPT_" + ItemLangTokenName + "_DESCRIPTION", AchievementDesc);
+            */
         }
+
+        /*
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public void AddItemStats(LookingGlass.ItemStatsNameSpace.ItemStatsDef itemStatsDef)
+        {
+            ItemCatalog.availability.CallWhenAvailable(() =>
+            {
+                LookingGlass.ItemStatsNameSpace.ItemDefinitions.RegisterItemStatsDef(itemStatsDef, ItemDef.itemIndex);
+            });
+        }
+        */
 
         public abstract ItemDisplayRuleDict CreateItemDisplayRules();
 
         protected void CreateItem()
         {
-            var gyatt = Main.hifuSandswept.LoadAsset<Sprite>("texItemTemp.png");
-            var sigma = Main.hifuSandswept.LoadAsset<GameObject>("TempHolder.prefab");
+            var temporaryItemIcon = Main.hifuSandswept.LoadAsset<Sprite>("texItemTemp.png");
+            var temporaryItemModel = Main.hifuSandswept.LoadAsset<GameObject>("TempHolder.prefab");
 
             ItemDef = ScriptableObject.CreateInstance<ItemDef>();
             ItemDef.name = "ITEM_SANDSWEPT_" + ItemLangTokenName;
@@ -131,21 +126,30 @@ namespace Sandswept.Items
             ItemDef.pickupToken = "ITEM_SANDSWEPT_" + ItemLangTokenName + "_PICKUP";
             ItemDef.descriptionToken = "ITEM_SANDSWEPT_" + ItemLangTokenName + "_DESCRIPTION";
             ItemDef.loreToken = "ITEM_SANDSWEPT_" + ItemLangTokenName + "_LORE";
-            ItemDef.pickupModelPrefab = ItemModel ?? sigma;
-            ItemDef.pickupIconSprite = ItemIcon ?? gyatt;
+            ItemDef.pickupModelPrefab = ItemModel ?? temporaryItemModel;
+            ItemDef.pickupIconSprite = ItemIcon ?? temporaryItemIcon;
             ItemDef.hidden = false;
             ItemDef.canRemove = CanRemove;
 #pragma warning disable
             ItemDef.deprecatedTier = Tier;
-#pragma warning enable
             ItemDef.requiredExpansion = Main.SandsweptExpansionDef;
-
-            if (AchievementName != null)
+            if (ItemTags.Length > 0)
             {
-                ItemDef.unlockableDef = CreateUnlock();
+                ItemDef.tags = ItemTags;
             }
 
-            if (ItemTags.Length > 0) { ItemDef.tags = ItemTags; }
+            LanguageAPI.Add("ITEM_SANDSWEPT_" + ItemLangTokenName + "_NAME", ItemName);
+            LanguageAPI.Add("ITEM_SANDSWEPT_" + ItemLangTokenName + "_PICKUP", ItemPickupDesc);
+            LanguageAPI.Add("ITEM_SANDSWEPT_" + ItemLangTokenName + "_DESCRIPTION", ItemFullDescription);
+            LanguageAPI.Add("ITEM_SANDSWEPT_" + ItemLangTokenName + "_LORE", ItemLore);
+
+            if (AchievementName != string.Empty && AchievementDesc != string.Empty)
+            {
+                LanguageAPI.Add("ACHIEVEMENT_ITEM_SANDSWEPT_" + ItemLangTokenName + "_NAME", AchievementName);
+                LanguageAPI.Add("ACHIEVEMENT_ITEM_SANDSWEPT_" + ItemLangTokenName + "_DESCRIPTION", AchievementDesc);
+
+                ItemDef.unlockableDef = CreateUnlock();
+            }
 
             if (ItemModel != null)
             {
@@ -153,7 +157,7 @@ namespace Sandswept.Items
             }
             else
             {
-                CreateModelPanelParameters(sigma);
+                CreateModelPanelParameters(temporaryItemModel);
             }
 
             if (ItemIconOverride != null)

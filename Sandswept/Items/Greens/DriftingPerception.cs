@@ -19,7 +19,7 @@ namespace Sandswept.Items.Greens
         public override float modelPanelParametersMinDistance => 7f;
         public override float modelPanelParametersMaxDistance => 15f;
 
-        [ConfigField("Base Crit Chance Gain", "", 20f)]
+        [ConfigField("Base Crit Chance Gain", "", 25f)]
         public static float baseCritChanceGain;
 
         [ConfigField("Base Crit Damage Gain", "Decimal.", 0.6f)]
@@ -45,31 +45,33 @@ namespace Sandswept.Items.Greens
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility };
 
-        public override void Init(ConfigFile config)
+        public override void Init()
+        {
+            base.Init();
+            SetUpBuffs();
+        }
+
+        public void SetUpBuffs()
         {
             cooldown = ScriptableObject.CreateInstance<BuffDef>();
             cooldown.isHidden = false;
             cooldown.isDebuff = false;
             cooldown.canStack = false;
             cooldown.isCooldown = false;
-            cooldown.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1f);
-            cooldown.iconSprite = Paths.BuffDef.bdCloak.iconSprite;
+            cooldown.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1f); // wolfo consistency
+            cooldown.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffDriftingPerceptionCooldown.png");
             cooldown.name = "Drifting Perception - Cooldown";
             ContentAddition.AddBuffDef(cooldown);
 
             ready = ScriptableObject.CreateInstance<BuffDef>();
-            ready.isHidden = true;
+            ready.isHidden = false;
             ready.isDebuff = false;
             ready.canStack = false;
             ready.isCooldown = false;
-            ready.buffColor = Color.white;
-            ready.iconSprite = Paths.BuffDef.bdCloak.iconSprite;
+            ready.buffColor = new Color32(198, 114, 48, 255);
+            ready.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffDriftingPerceptionReady.png");
             ready.name = "Drifting Perception - Ready";
             ContentAddition.AddBuffDef(ready);
-
-            CreateLang();
-            CreateItem();
-            Hooks();
         }
 
         public override void Hooks()
@@ -120,10 +122,13 @@ namespace Sandswept.Items.Greens
 
                 if (body.HasBuff(DriftingPerception.ready) && body.outOfCombatStopwatch <= 2f /*!body.outOfCombat*/)
                 {
-                    if (!body.hasCloakBuff || !body.HasBuff(RoR2Content.Buffs.CloakSpeed))
+                    if (!body.hasCloakBuff)
                     {
                         body.AddTimedBuffAuthority(RoR2Content.Buffs.Cloak.buffIndex, DriftingPerception.cloakBuffDuration);
-                        body.AddTimedBuffAuthority(RoR2Content.Buffs.CloakSpeed.buffIndex, DriftingPerception.cloakBuffDuration);
+                        if (!body.HasBuff(RoR2Content.Buffs.CloakSpeed))
+                        {
+                            body.AddTimedBuffAuthority(RoR2Content.Buffs.CloakSpeed.buffIndex, DriftingPerception.cloakBuffDuration);
+                        }
 
                         Util.PlaySound("Play_roboBall_attack2_mini_spawn", gameObject);
                         Util.PlaySound("Play_roboBall_attack2_mini_spawn", gameObject);

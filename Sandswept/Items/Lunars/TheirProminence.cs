@@ -38,12 +38,14 @@ namespace Sandswept.Items.Whites
 
         public static Color32 darkBlue = new(0, 2, 255, 255);
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
-            CreateLang();
-            CreateItem();
-            Hooks();
+            base.Init();
+            SetUpVFX();
+        }
 
+        public void SetUpVFX()
+        {
             vfx = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineChanceDollUseEffect, "Their Prominence VFX", false);
 
             var transform = vfx.transform;

@@ -44,43 +44,15 @@
 
         public static GameObject vfx;
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
-            vfx = PrefabAPI.InstantiateClone(Paths.GameObject.ElementalRingVoidImplodeEffect, "Sacrificial Band VFX", false);
-            var effectComponent = vfx.GetComponent<EffectComponent>();
-            effectComponent.soundName = "Play_gravekeeper_attack2_impact";
-            effectComponent.applyScale = true;
-            var trans = vfx.transform;
-            /*
-            var particleSystemColorFromEffectData = vfx.AddComponent<ParticleSystemColorFromEffectData>();
-            particleSystemColorFromEffectData.effectComponent = vfx.GetComponent<EffectComponent>();
+            base.Init();
+            SetUpBuffs();
+            SetUpVFX();
+        }
 
-            var scaledHitspark = trans.Find("Scaled Hitspark").GetComponent<ParticleSystem>();
-            var chunksDark = trans.Find("Chunks, Dark").GetComponent<ParticleSystem>();
-            var flashHard = trans.Find("Flash, Hard");
-            flashHard.gameObject.SetActive(false);
-            var flashHard1 = trans.Find("Flash, Hard (1)").GetComponent<ParticleSystem>();
-            var fans = trans.Find("Fans").GetComponent<ParticleSystem>();
-            var sphereColor = trans.Find("Sphere, Color").GetComponent<ParticleSystem>();
-            var sparksOut = trans.Find("SparksOut").GetComponent<ParticleSystem>();
-
-            particleSystemColorFromEffectData.particleSystems = new ParticleSystem[6] { scaledHitspark, chunksDark, flashHard1, fans, sphereColor, sparksOut };
-            */
-
-            var reb = new Color32(205, 0, 10, 255);
-
-            VFXUtils.RecolorMaterialsAndLights(vfx, reb, reb, true);
-            VFXUtils.MultiplyScale(vfx, 2.5f);
-
-            var pointLight = trans.Find("Point Light");
-            var light = pointLight.GetComponent<Light>();
-            light.intensity = 150f;
-            light.range = 50f;
-            var lightIntensityCurve = pointLight.GetComponent<LightIntensityCurve>();
-            lightIntensityCurve.timeMax = 0.5f;
-
-            ContentAddition.AddEffect(vfx);
-
+        public void SetUpBuffs()
+        {
             readyBuff = ScriptableObject.CreateInstance<BuffDef>();
             readyBuff.isDebuff = false;
             readyBuff.canStack = false;
@@ -102,10 +74,29 @@
             cooldownBuff.name = "Sacrificial Band Cooldown";
 
             ContentAddition.AddBuffDef(cooldownBuff);
+        }
 
-            CreateLang();
-            CreateItem();
-            Hooks();
+        public void SetUpVFX()
+        {
+            vfx = PrefabAPI.InstantiateClone(Paths.GameObject.ElementalRingVoidImplodeEffect, "Sacrificial Band VFX", false);
+            var effectComponent = vfx.GetComponent<EffectComponent>();
+            effectComponent.soundName = "Play_gravekeeper_attack2_impact";
+            effectComponent.applyScale = true;
+            var trans = vfx.transform;
+
+            var reb = new Color32(205, 0, 10, 255);
+
+            VFXUtils.RecolorMaterialsAndLights(vfx, reb, reb, true);
+            VFXUtils.MultiplyScale(vfx, 2.5f);
+
+            var pointLight = trans.Find("Point Light");
+            var light = pointLight.GetComponent<Light>();
+            light.intensity = 150f;
+            light.range = 50f;
+            var lightIntensityCurve = pointLight.GetComponent<LightIntensityCurve>();
+            lightIntensityCurve.timeMax = 0.5f;
+
+            ContentAddition.AddEffect(vfx);
         }
 
         public override void Hooks()

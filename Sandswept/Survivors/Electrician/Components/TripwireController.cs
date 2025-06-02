@@ -71,6 +71,8 @@ namespace Sandswept.Survivors.Electrician
             controller = GetComponent<ProjectileController>();
             pDamage = GetComponent<ProjectileDamage>();
 
+            seat.passengerAssignmentCooldown = float.MaxValue;
+
             delay = 1f / hitRate;
 
             attack = new()

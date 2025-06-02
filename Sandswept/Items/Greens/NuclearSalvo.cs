@@ -54,15 +54,14 @@ namespace Sandswept.Items.Greens
 
         // for salvo display you can instantiate Main.hifuSandswept.LoadAsset<GameObject>("NuclearSalvoHolder.prefab");
 
-        public override ItemDisplayRuleDict CreateItemDisplayRules()
+        public override void Init()
         {
-            return new ItemDisplayRuleDict();
+            base.Init();
+            SetUpProjectiles();
         }
 
-        public override void Hooks()
+        public void SetUpProjectiles()
         {
-            base.Hooks();
-
             SalvoPrefab = Main.Assets.LoadAsset<GameObject>("SalvoBehaviour.prefab");
             // Main.ModLogger.LogError(SalvoPrefab);
             /*
@@ -191,9 +190,17 @@ namespace Sandswept.Items.Greens
             ContentAddition.AddProjectile(missilePrefab);
 
             ContentAddition.AddNetworkedObject(SalvoPrefab);
+        }
 
-            // On.RoR2.CharacterBody.RecalculateStats += GiveItem;
-            // On.RoR2.CharacterBody.OnInventoryChanged += RecheckItems;
+        public override ItemDisplayRuleDict CreateItemDisplayRules()
+        {
+            return new ItemDisplayRuleDict();
+        }
+
+        public override void Hooks()
+        {
+            base.Hooks();
+
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
         }
 
@@ -211,7 +218,6 @@ namespace Sandswept.Items.Greens
             }
 
             body.gameObject.AddComponent<SalvoPlayerController>();
-            // Main.ModLogger.LogError("oninventorychagned: giving itembehavior");
         }
     }
 
