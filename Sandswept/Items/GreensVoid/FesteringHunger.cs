@@ -57,6 +57,13 @@ namespace Sandswept.Items.VoidGreens
                 return;
             }
 
+            ItemToCorrupt = SmoulderingDocument.instance.ItemDef;
+
+            SetUpBuff();
+        }
+
+        public void SetUpBuff()
+        {
             movementSpeedBuff = ScriptableObject.CreateInstance<BuffDef>();
             movementSpeedBuff.canStack = false;
             movementSpeedBuff.isCooldown = false;
@@ -73,7 +80,7 @@ namespace Sandswept.Items.VoidGreens
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
             RecalculateStatsAPI.GetStatCoefficients += RecalculateStatsAPI_GetStatCoefficients;
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
-            On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
+            // On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
         }
 
         private static void ContagiousItemManager_Init(On.RoR2.Items.ContagiousItemManager.orig_Init orig)

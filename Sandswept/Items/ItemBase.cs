@@ -1,4 +1,8 @@
-﻿using System.Linq;
+﻿using HarmonyLib;
+using RoR2.Items;
+using Sandswept.Items.Greens;
+using Sandswept.Items.VoidGreens;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using static Sandswept.Utils.TotallyNotStolenUtils;
@@ -47,6 +51,8 @@ namespace Sandswept.Items
         public ItemDef ItemDef;
 
         public UnlockableDef UnlockableDef;
+
+        public virtual ItemDef ItemToCorrupt { get; set; } = null;
 
         public static bool DefaultEnabledCallback(ItemBase self)
         {

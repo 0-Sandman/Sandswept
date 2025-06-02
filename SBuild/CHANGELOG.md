@@ -1,21 +1,15 @@
-## 1.2.0 Patch Notes
+## 1.1.3 Patch Notes
+- General
+  - Added Support
 - Ranger
   - Fixed Loadout bugs
 - VOL-T
+  - Fixed her broken variant spawning on the host's side
   - Fixed her broken variant spawning while unlocked already
   - Fixed most instances of infinite procs on her broken variant
   - Fixed pressing Interact while in Static Snare teleporting you instantly (NONE OF Y'ALL KNEW OF THIS 6+ MONTH OLD BUG!!!)
-- Enemies
-  - Added Stone Desecrator (NO CODE, NO ANIMS)
 - Items/Equipment
   - Added proper buff icons to Drifting Perception
-  - Added Dissonant Veil (HAS CODE, NO MODEL, NO DESIGN)
-  - Added Silver Cord (HAS CODE, NO MODEL, HAS DESIGN)
-  - Added Makeshift Plate (ALMOST HAS CODE, HAS MODEL)
-  - Added Glacial Plasma (HAS CODE, HAS MODEL)
-  - Added Hallowed Ichor (HAS CODE, NO MODEL, HAS DESIGN)
-  - Added Sequenced Fate (HAS CODE, NO MODEL, HAS DESIGN)
-  - Added Flawless Design (ALMOST HAS CODE, NO MODEL, HAS DESIGN)
   - Added SFX to Temporal Transistor
   - Made Drifting Perception work better
   - Buffed Drifting Perception Base Crit Chance Gain from 20% to 25%
@@ -24,10 +18,7 @@
   - Fixed Temporal Transistor consuming Hopoo Feather jumps
   - Fixed Pocket Plutonium VFX
 - Interactables
-  - Added Ballistic Drone (NO CODE, NO MODEL, HAS DESIGN)
-  - Added Tar Drone (NO CODE, MODEL)
-  - Added Voltaic Drone (HAS CODE, HAS MODEL, NATURAL SPAWN)
-  - Added Galvanic Drone (NO CODE, NO MODEL, HAS DESIGN, FOR SILVER CORD)
+  - Added Voltaic Drone
   - Fixed Shrine of The Future not working with MysticsItems' Black Monolith
   - Fixed Shrine of Ruin potentially working with MysticsItems' Black Monolith
 
