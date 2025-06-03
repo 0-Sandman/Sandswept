@@ -1,4 +1,5 @@
-﻿using ThreeEyedGames;
+﻿using LookingGlass.ItemStatsNameSpace;
+using ThreeEyedGames;
 using UnityEngine.XR;
 
 namespace Sandswept.Items.Greens
@@ -59,6 +60,29 @@ namespace Sandswept.Items.Greens
             base.Init();
             SetUpBuffs();
             SetUpProjectiles();
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Pool Damage: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.descriptions.Add("Pool Shield Damage: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.calculateValues = (master, stack) =>
+            {
+                List<float> values = new()
+                {
+                    poolBaseDamage + poolStackDamage * (stack - 1),
+                    poolBasePercentShieldDamage + poolStackPercentShieldDamage * (stack - 1),
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         public void SetUpBuffs()

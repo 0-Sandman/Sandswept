@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using LookingGlass.ItemStatsNameSpace;
 using Sandswept.Items.Greens;
 using System.Collections;
 using UnityEngine.UIElements;
@@ -60,6 +61,31 @@ namespace Sandswept.Items.VoidGreens
             ItemToCorrupt = SmoulderingDocument.instance.ItemDef;
 
             SetUpBuff();
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Decay Chance: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.descriptions.Add("Movement Speed: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Utility);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.hasChance = true;
+            itemStatsDef.chanceScaling = ItemStatsDef.ChanceScaling.DoesNotScale;
+            itemStatsDef.calculateValuesNew = (luck, stack, procChance) =>
+            {
+                List<float> values = new()
+                {
+                    LookingGlass.Utils.CalculateChanceWithLuck(chance * procChance * 0.01f, luck),
+                    baseMovementSpeedGain + stackMovementSpeedGain * (stack - 1)
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         public void SetUpBuff()

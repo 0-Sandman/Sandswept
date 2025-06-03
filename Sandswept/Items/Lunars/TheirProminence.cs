@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using LookingGlass.ItemStatsNameSpace;
+using System.Linq;
 
 namespace Sandswept.Items.Whites
 {
@@ -42,6 +43,26 @@ namespace Sandswept.Items.Whites
         {
             base.Init();
             SetUpVFX();
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Challenge of the Mountain Chance: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Utility);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+
+            itemStatsDef.calculateValuesNew = (luck, stack, procChance) =>
+            {
+                List<float> values = new()
+                {
+                    MathHelpers.InverseHyperbolicScaling(baseChance, stackChance, 1f, stack)
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         public void SetUpVFX()

@@ -15,6 +15,13 @@ namespace Sandswept.Utils
             LanguageAPI.Add(str, text);
         }
 
+        /// <summary>Adds a string-value pair to the ROR2 language strings via an overlay</summary>
+        /// <param name="text">the value when the string is searched</param>
+        public static void AddOverlay(this string str, string text)
+        {
+            LanguageAPI.AddOverlay(str, text);
+        }
+
         /// <summary>Attempts to load the string through AddressableAssets</summary>
         /// <returns>the asset if it was found, otherwise returns default(T)</returns>
         public static T Load<T>(this string str)

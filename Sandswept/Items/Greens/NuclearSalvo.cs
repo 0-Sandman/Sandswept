@@ -1,3 +1,4 @@
+using LookingGlass.ItemStatsNameSpace;
 using System;
 using System.Collections;
 using System.Linq;
@@ -58,6 +59,25 @@ namespace Sandswept.Items.Greens
         {
             base.Init();
             SetUpProjectiles();
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Missile Count: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Number);
+            itemStatsDef.calculateValues = (master, stack) =>
+            {
+                List<float> values = new()
+                {
+                    baseMissileCount + stackMissileCount * (stack - 1)
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         public void SetUpProjectiles()

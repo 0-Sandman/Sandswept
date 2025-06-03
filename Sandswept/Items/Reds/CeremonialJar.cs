@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using HG;
+using LookingGlass.ItemStatsNameSpace;
 using TMPro;
 
 namespace Sandswept.Items.Reds
@@ -81,6 +82,25 @@ namespace Sandswept.Items.Reds
         {
             base.Hooks();
             On.RoR2.GlobalEventManager.OnHitEnemy += OnHitEnemy;
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Link Damage: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.calculateValuesNew = (luck, stack, procChance) =>
+            {
+                List<float> values = new()
+                {
+                    baseDamage + stackDamage * (stack - 1)
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         public void OnHitEnemy(On.RoR2.GlobalEventManager.orig_OnHitEnemy orig, GlobalEventManager self, DamageInfo info, GameObject victim)

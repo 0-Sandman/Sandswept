@@ -22,9 +22,12 @@ namespace Sandswept.Drones.Inferno
 
         public override GameObject DroneBroken => Main.Assets.LoadAsset<GameObject>("InfernoDroneBroken.prefab");
 
+        [ConfigField("Director Credit Cost", "", 35)]
+        public static int directorCreditCost;
+
         public override int Weight => 7;
 
-        public override int Credits => 35;
+        public override int Credits => directorCreditCost;
 
         public override DirectorAPI.Stage[] Stages => new DirectorAPI.Stage[] {
             DirectorAPI.Stage.TitanicPlains,

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using IL.RoR2.Achievements.Engi;
+using LookingGlass.ItemStatsNameSpace;
 using Sandswept.Items.Whites;
 
 namespace Sandswept.Items.Greens
@@ -49,6 +50,25 @@ namespace Sandswept.Items.Greens
         {
             base.Init();
             SetUpBuffs();
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Crit Damage: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.calculateValues = (master, stack) =>
+            {
+                List<float> values = new()
+                {
+                    baseCritDamageGain + stackCritDamageGain * (stack - 1)
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         public void SetUpBuffs()

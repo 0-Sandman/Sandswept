@@ -1,4 +1,5 @@
-﻿using Mono.Cecil.Cil;
+﻿using LookingGlass.ItemStatsNameSpace;
+using Mono.Cecil.Cil;
 using MonoMod.Cil;
 
 namespace Sandswept.Items.Greens
@@ -46,6 +47,25 @@ namespace Sandswept.Items.Greens
             // IL.RoR2.HealthComponent.ServerFixedUpdate += HealthComponent_ServerFixedUpdate;
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
             MoreStats.StatHooks.GetMoreStatCoefficients += StatHooks_GetMoreStatCoefficients;
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Barrier Decay Reduction: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Healing);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.calculateValues = (master, stack) =>
+            {
+                List<float> values = new()
+                {
+                    MathHelpers.InverseHyperbolicScaling(baseBarrierDecayReduction, stackBarrierDecayReduction, 1f, stack)
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         private void StatHooks_GetMoreStatCoefficients(CharacterBody sender, MoreStats.StatHooks.MoreStatHookEventArgs args)

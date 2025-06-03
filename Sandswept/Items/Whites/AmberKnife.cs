@@ -204,7 +204,7 @@ namespace Sandswept.Items.Whites
         {
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
         }
-        
+
         public override object GetItemStatsDef()
         {
             ItemStatsDef itemStatsDef = new();
@@ -220,8 +220,8 @@ namespace Sandswept.Items.Whites
             {
                 List<float> values = new()
                 {
-                        LookingGlass.Utils.CalculateChanceWithLuck(chance * procChance / 100f, luck),
-                        baseDamage + stackDamage * (stack - 1)
+                    LookingGlass.Utils.CalculateChanceWithLuck(chance * procChance * 0.01f, luck),
+                    baseDamage + stackDamage * (stack - 1)
                 };
 
                 return values;

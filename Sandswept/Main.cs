@@ -106,7 +106,7 @@ namespace Sandswept
         public ConfigEntry<bool> enableAutoConfig { get; private set; }
         public ConfigEntry<string> latestVersion { get; private set; }
 
-        public static ConfigEntry<bool> cursedConfig { get; set; }
+        public static ConfigEntry<bool> cursedConfig { get; private set; }
 
         public static Main Instance;
 

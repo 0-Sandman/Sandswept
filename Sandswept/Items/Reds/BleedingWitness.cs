@@ -1,4 +1,5 @@
-﻿using static RoR2.DotController;
+﻿using LookingGlass.ItemStatsNameSpace;
+using static RoR2.DotController;
 
 namespace Sandswept.Items.Reds
 {
@@ -44,6 +45,31 @@ namespace Sandswept.Items.Reds
         public override void Init()
         {
             base.Init();
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Hemorrhage Chance: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.descriptions.Add("Healing: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Healing);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.PercentHealth);
+            itemStatsDef.hasChance = true;
+            itemStatsDef.chanceScaling = ItemStatsDef.ChanceScaling.DoesNotScale;
+            itemStatsDef.calculateValuesNew = (luck, stack, procChance) =>
+            {
+                List<float> values = new()
+                {
+                    LookingGlass.Utils.CalculateChanceWithLuck(hemorrhageChance * procChance * 0.01f, luck),
+                    baseDoTHealing + stackDoTHealing * (stack - 1)
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         public override void Hooks()

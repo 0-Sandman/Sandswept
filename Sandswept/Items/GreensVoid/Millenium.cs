@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using LookingGlass.ItemStatsNameSpace;
 using Sandswept.Items.Greens;
 using System.Collections;
 
@@ -59,6 +60,31 @@ namespace Sandswept.Items.VoidGreens
 
             SetUpMaterial();
             SetUpVFX();
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Tidal Cataclysm Chance: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.descriptions.Add("Explosion Radius: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Meters);
+            itemStatsDef.hasChance = true;
+            itemStatsDef.chanceScaling = ItemStatsDef.ChanceScaling.DoesNotScale;
+            itemStatsDef.calculateValuesNew = (luck, stack, procChance) =>
+            {
+                List<float> values = new()
+                {
+                    LookingGlass.Utils.CalculateChanceWithLuck(chance * procChance * 0.01f, luck),
+                    baseExplosionRadius + stackExplosionRadius * (stack - 1)
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         public void SetUpMaterial()

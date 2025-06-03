@@ -1,4 +1,5 @@
-﻿using static Sandswept.Utils.Components.MaterialControllerComponents;
+﻿using LookingGlass.ItemStatsNameSpace;
+using static Sandswept.Utils.Components.MaterialControllerComponents;
 
 namespace Sandswept.Items.Greens
 {
@@ -50,6 +51,35 @@ namespace Sandswept.Items.Greens
         {
             base.Init();
             SetUpBuff();
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Burn Chance: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.descriptions.Add("Damage Reduction: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.descriptions.Add("Attack Speed Reduction: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.hasChance = true;
+            itemStatsDef.chanceScaling = ItemStatsDef.ChanceScaling.DoesNotScale;
+            itemStatsDef.calculateValuesNew = (luck, stack, procChance) =>
+            {
+                List<float> values = new()
+                {
+                    LookingGlass.Utils.CalculateChanceWithLuck(chance * procChance * 0.01f, luck),
+                    Util.ConvertAmplificationPercentageIntoReductionPercentage((burdenBaseDamageReduction * 100f) + (burdenStackDamageReduction * 100f) * (stack - 1)) * 0.01f,
+                    Util.ConvertAmplificationPercentageIntoReductionPercentage((burdenBaseAttackSpeedReduction * 100f) + (burdenStackAttackSpeedReduction * 100f) * (stack - 1)) * 0.01f,
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         public void SetUpBuff()

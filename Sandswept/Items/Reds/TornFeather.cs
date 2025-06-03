@@ -1,3 +1,5 @@
+using LookingGlass.ItemStatsNameSpace;
+
 namespace Sandswept.Items.Reds
 {
     [ConfigSection("Items :: Torn Feather")]
@@ -50,6 +52,26 @@ namespace Sandswept.Items.Reds
         {
             base.Init();
             SetUpVFX();
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Movement Speed: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Utility);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+
+            itemStatsDef.calculateValuesNew = (luck, stack, procChance) =>
+            {
+                List<float> values = new()
+                {
+                    baseMovementSpeedGain + stackMovementSpeedGain * (stack - 1)
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         public void SetUpVFX()

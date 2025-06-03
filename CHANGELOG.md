@@ -1,5 +1,6 @@
 ## 1.1.3 Patch Notes
 - General
+  - Added LookingGlass Support
   - Added Support
 - Ranger
   - Fixed Loadout bugs
@@ -19,6 +20,7 @@
   - Fixed Pocket Plutonium VFX
 - Interactables
   - Added Voltaic Drone
+  - Added Drone config options
   - Fixed Shrine of The Future not working with MysticsItems' Black Monolith
   - Fixed Shrine of Ruin potentially working with MysticsItems' Black Monolith
 

@@ -45,8 +45,6 @@ namespace Sandswept.Items
         public virtual float modelPanelParametersMinDistance { get; } = 2f;
         public virtual float modelPanelParametersMaxDistance { get; } = 10f;
 
-        public virtual Sprite ItemIconOverride { get; set; } = null;
-
         public ItemDef ItemDef;
 
         public UnlockableDef UnlockableDef;
@@ -104,10 +102,12 @@ namespace Sandswept.Items
                 LGWrapper();
             }
         }
+
         public abstract ItemDisplayRuleDict CreateItemDisplayRules();
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
-        private void LGWrapper() {
+        private void LGWrapper()
+        {
             ItemStatsDef def = GetItemStatsDef() as ItemStatsDef;
 
             if (def != null)
@@ -162,11 +162,6 @@ namespace Sandswept.Items
             else
             {
                 CreateModelPanelParameters(temporaryItemModel);
-            }
-
-            if (ItemIconOverride != null)
-            {
-                ItemDef.pickupIconSprite = ItemIconOverride;
             }
 
             ItemAPI.Add(new CustomItem(ItemDef, CreateItemDisplayRules()));
@@ -257,7 +252,9 @@ namespace Sandswept.Items
             Main.ModLogger.LogError(ItemName);
             return ItemName;
         }
-        public virtual object GetItemStatsDef() {
+
+        public virtual object GetItemStatsDef()
+        {
             return null;
         }
     }

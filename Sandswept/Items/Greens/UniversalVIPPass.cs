@@ -1,4 +1,5 @@
-﻿using UnityEngine.SceneManagement;
+﻿using LookingGlass.ItemStatsNameSpace;
+using UnityEngine.SceneManagement;
 
 namespace Sandswept.Items.Greens
 {
@@ -7,7 +8,7 @@ namespace Sandswept.Items.Greens
     {
         public override string ItemName => "Universal VIP Pass";
 
-        public override string ItemLangTokenName => "VIP_PASS";
+        public override string ItemLangTokenName => "UNIVERSAL_VIP_PASS";
 
         public override string ItemPickupDesc => "Category chests have a chance to drop an extra item.";
 
@@ -40,6 +41,36 @@ namespace Sandswept.Items.Greens
         {
             base.Init();
             SetUpVFX();
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Extra Item Chance: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Utility);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            if (Main.cursedConfig.Value)
+            {
+                itemStatsDef.descriptions.Add("UwU~ Love is Love! ");
+                itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Healing);
+                itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            }
+            itemStatsDef.calculateValues = (master, stack) =>
+            {
+                List<float> values = new()
+                {
+                    MathHelpers.InverseHyperbolicScaling(baseChance, stackChance, 1f, stack)
+                };
+
+                if (Main.cursedConfig.Value)
+                {
+                    values.Add(1f);
+                }
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         public void SetUpVFX()

@@ -1,4 +1,5 @@
-﻿using Rewired.ComponentControls.Effects;
+﻿using LookingGlass.ItemStatsNameSpace;
+using Rewired.ComponentControls.Effects;
 using UnityEngine;
 
 namespace Sandswept.Items.Reds
@@ -47,6 +48,31 @@ namespace Sandswept.Items.Reds
             base.Init();
             SetUpVFX();
             SetUpBuffs();
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Javelin Damage: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.descriptions.Add("Stun to Freeze Chance: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Utility);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.hasChance = true;
+            itemStatsDef.chanceScaling = ItemStatsDef.ChanceScaling.DoesNotScale;
+            itemStatsDef.calculateValuesNew = (luck, stack, procChance) =>
+            {
+                List<float> values = new()
+                {
+                    baseDamage + stackDamage * (stack - 1),
+                    LookingGlass.Utils.CalculateChanceWithLuck(stunToFreezeChance * procChance * 0.01f, luck),
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         public void SetUpVFX()

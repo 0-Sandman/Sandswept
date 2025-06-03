@@ -1,4 +1,5 @@
-﻿using MoreStats;
+﻿using LookingGlass.ItemStatsNameSpace;
+using MoreStats;
 using RoR2.Orbs;
 using System.Reflection;
 using static MoreStats.StatHooks;
@@ -47,6 +48,25 @@ namespace Sandswept.Items.Whites
             base.Init();
             SetUpBuff();
             SetUpVFX();
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Max Extra Jumps: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Utility);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Number);
+            itemStatsDef.calculateValuesNew = (luck, stack, procChance) =>
+            {
+                List<float> values = new()
+                {
+                    baseMaxJumps + stackMaxJumps * (stack - 1)
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         public void SetUpBuff()

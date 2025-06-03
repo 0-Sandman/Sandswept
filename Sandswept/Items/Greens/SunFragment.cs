@@ -1,4 +1,5 @@
-﻿using static Sandswept.Utils.Components.MaterialControllerComponents;
+﻿using LookingGlass.ItemStatsNameSpace;
+using static Sandswept.Utils.Components.MaterialControllerComponents;
 
 namespace Sandswept.Items.Greens
 {
@@ -56,6 +57,31 @@ namespace Sandswept.Items.Greens
         {
             base.Init();
             SetUpVFX();
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Stun and Burn Chance: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Utility);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.descriptions.Add("TOTAL Damage: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.hasChance = true;
+            itemStatsDef.chanceScaling = ItemStatsDef.ChanceScaling.DoesNotScale;
+            itemStatsDef.calculateValuesNew = (luck, stack, procChance) =>
+            {
+                List<float> values = new()
+                {
+                    LookingGlass.Utils.CalculateChanceWithLuck(chance * procChance * 0.01f, luck),
+                    baseTotalDamage + stackTotalDamage * (stack - 1)
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         public void SetUpVFX()

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using LookingGlass.ItemStatsNameSpace;
+using System.Linq;
+using UnityEngine;
 
 namespace Sandswept.Items.Whites
 {
@@ -44,6 +46,53 @@ namespace Sandswept.Items.Whites
         {
             base.Init();
             SetUpVFX();
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Healing: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Healing);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.PercentHealth);
+            itemStatsDef.descriptions.Add("Special Skill Cooldown Reduction: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Utility);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Seconds);
+            itemStatsDef.calculateValues = (master, stack) =>
+            {
+                float healValue = 0f;
+                float cooldownReductionValue = 0f;
+                var body = master.GetBody();
+                if (body)
+                {
+                    var skillLocator = body.skillLocator;
+                    if (skillLocator)
+                    {
+                        var utility = skillLocator.utility;
+                        var special = skillLocator.special;
+
+                        if (utility && special)
+                        {
+                            var utilitySkillDef = utility.skillDef;
+                            var specialSkillDef = special.skillDef;
+                            if (utilitySkillDef && specialSkillDef && !blacklistedSkills.Contains(utilitySkillDef.skillNameToken))
+                            {
+                                healValue = basePercentHealing + stackPercentHealing * (stack - 1) / utilitySkillDef.baseMaxStock;
+                                cooldownReductionValue = special.baseRechargeInterval * specialCooldownReduction / utilitySkillDef.baseMaxStock;
+                            }
+                        }
+                    }
+                }
+
+                List<float> values = new()
+                {
+                    healValue,
+                    cooldownReductionValue
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         public void SetUpVFX()
@@ -157,10 +206,9 @@ namespace Sandswept.Items.Whites
             if (passesCondition)
             {
                 var special = skillLocator.special;
-                var reduction = Util.ConvertAmplificationPercentageIntoReductionPercentage(specialCooldownReduction);
                 if (special && special.stock < special.maxStock)
                 {
-                    special.rechargeStopwatch += special.baseRechargeInterval * reduction / skill.skillDef.baseMaxStock;
+                    special.rechargeStopwatch += special.baseRechargeInterval * specialCooldownReduction / skill.skillDef.baseMaxStock;
                 }
                 characterBody.healthComponent?.HealFraction((basePercentHealing + stackPercentHealing * (stack - 1)) / skill.skillDef.baseMaxStock, default);
 

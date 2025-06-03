@@ -1,4 +1,6 @@
-﻿namespace Sandswept.Items.Whites
+﻿using LookingGlass.ItemStatsNameSpace;
+
+namespace Sandswept.Items.Whites
 {
     [ConfigSection("Items :: Red Spring Water")]
     internal class RedSpringWater : ItemBase<RedSpringWater>
@@ -37,6 +39,48 @@
         {
             base.Init();
             SetUpMaterials();
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Healing: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Healing);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.FlatHealing);
+            itemStatsDef.calculateValues = (master, stack) =>
+            {
+                float totalRegenGain = 0f;
+                var body = master.GetBody();
+                if (body)
+                {
+                    float gainPerBuff = 0f;
+                    float counter = 0.5f;
+                    totalRegenGain = baseRegen;
+
+                    for (BuffIndex index = (BuffIndex)0; (int)index < BuffCatalog.buffCount; index++)
+                    {
+                        BuffDef buff = BuffCatalog.GetBuffDef(index);
+                        if (buff && !buff.isDebuff && body.HasBuff(buff))
+                        {
+                            counter += 0.5f;
+                            gainPerBuff += (baseRegenPerBuff + stackRegenPerBuff * (stack - 1)) / counter;
+                        }
+                    }
+
+                    totalRegenGain += gainPerBuff;
+                }
+
+                // dont scale value with level cause lookingglass doesnt
+
+                List<float> values = new()
+                {
+                    totalRegenGain,
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         public void SetUpMaterials()
