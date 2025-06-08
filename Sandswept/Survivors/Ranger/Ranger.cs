@@ -243,7 +243,7 @@ namespace Sandswept.Survivors.Ranger
             masteryDef.nameToken = "SKINDEF_SANDSWEPT";
             "SKINDEF_SANDSWEPT".Add("Sandswept");
 
-            On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
+            // On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
         }
 
         private void SurvivorIconController_Rebuild(On.RoR2.UI.SurvivorIconController.orig_Rebuild orig, SurvivorIconController self)
