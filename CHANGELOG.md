@@ -1,4 +1,4 @@
-## 1.2.0 Patch Notes
+# 1.2.0 Patch Notes
 - General
   - Added LookingGlass Support
 - Ranger
