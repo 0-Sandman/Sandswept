@@ -276,7 +276,7 @@ namespace Sandswept.Survivors.Ranger
             }
             
             clickCount++;
-            if (clickCount >= 10 || (Main.cursedConfig.Value && clickCount >= 2))
+            if (clickCount >= 25 || (Main.cursedConfig.Value && clickCount >= 2))
             {
                 GameObject.Instantiate(Main.Assets.LoadAsset<GameObject>("EggPrefab.prefab"), canvas.transform).GetComponent<EggController>().velocity = Random.insideUnitCircle.normalized * 50f;
                 clickCount = 0;
