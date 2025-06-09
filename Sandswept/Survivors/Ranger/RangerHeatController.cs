@@ -84,7 +84,7 @@ namespace Sandswept.Survivors.Ranger
 
                 if (fullHeatTimer >= 1.5f)
                 {
-                    var damageBuffGain = (3 + cb.GetBuffCount(Charge.instance.BuffDef)) * 3;
+                    var damageBuffGain = (5 + cb.GetBuffCount(Charge.instance.BuffDef)) * 5;
                     cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, damageBuffGain * (int)fullHeatTimer);
 
                     if (selfDamageTimer >= selfDamageInterval)
