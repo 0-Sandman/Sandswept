@@ -15,6 +15,7 @@
 - Enemies
   - Fixed Theta Construct visual effects not appearing on clients.
 - Items/Equipment
+  - Added Glacial Plasma
   - Added proper logs to Festering Hunger and Millenium (please check the logbooks they are really cool)
   - Added proper buff icons to Drifting Perception
   - Added SFX to Temporal Transistor
