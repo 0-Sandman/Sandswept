@@ -3,8 +3,8 @@
 - 2 Survivors
 - 4 Enemies
 - 2 Elites
-- 4 Interactables
-- 21 Items
+- 5 Interactables
+- 22 Items
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
