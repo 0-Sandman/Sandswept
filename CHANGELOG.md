@@ -2,6 +2,8 @@
 - General
   - Added LookingGlass Support
 - Ranger
+  - Reworked Direct Current
+  - Reworked Heat Mechanic
   - Fixed Loadout bugs
   - Removed jumpscare easter egg.
   - Direct Current now has inverse damage falloff (deals less damage up close, but ramps up to more than before at range; this change is to help mitigate base form being so all-rounder good that you never bother using heat)
@@ -13,6 +15,7 @@
 - Enemies
   - Fixed Theta Construct visual effects not appearing on clients.
 - Items/Equipment
+  - Added proper logs to Festering Hunger and Millenium (please check the logbooks they are really cool)
   - Added proper buff icons to Drifting Perception
   - Added SFX to Temporal Transistor
   - Made Drifting Perception work better

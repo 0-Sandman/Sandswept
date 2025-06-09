@@ -15,7 +15,38 @@ namespace Sandswept.Items.Reds
 
         public override string ItemFullDescription => ("Activating your $suPrimary skill$se also conjures a $sdpiercing javelin$se that deals $sd" + d(baseDamage) + "$se $ss(+" + d(stackDamage) + " per stack)$se damage and $sufreezes$se enemies. Recharges over $su10$se seconds. Your $sustuns$se have a $su" + stunToFreezeChance + "%$se chance to $sufreeze$se for $su3$se seconds.").AutoFormat();
 
-        public override string ItemLore => "tbd but might be cool if the lore had the phrase 'everything will freeze' somewhere in there";
+        public override string ItemLore =>
+        """
+        "Drink it in."
+
+        "It’s quite something. I’ve never seen anything like it…this is a thoroughly unparalleled discovery."
+
+        "I’d like to think so. The potential of such an object is nearly boundless, even just in engineering, and it does far more. Temperatures previously restricted to isolated labs, now applicable to any object with just a smear of this stuff."
+
+        "How’d you discover it? And how did you synthesize such a bizarre thing so quickly?"
+
+        "Well, um…"
+
+        "Hm? Oh, no, I know that look on your face. What’d you do?"
+
+        "So, you remember that High Court ambassador?"
+
+        "You didn’t."
+
+        "I may have."
+
+        "We’re dead meat, you know. We’re [REDACTED] dead. You don’t mess with the High Court, you just don’t. You know that."
+
+        "I beg to differ. I’ve had it for over a month now—"
+
+        "WHAT?"
+
+        "—for over a month now, and nobody’s come a-knocking. I think it’s high time we gave this sample to someone else. Let them deal with the consequences, and we’ll make it out with a nice chunk of change."
+
+        "So what, we just lie to them about its origins? What happens when the High Court starts knocking on their door? Even if the Court doesn’t kill us, our buyer will."
+
+        "We don’t have to lie. Have you seen the things this stuff can do? For the UES, or one of its would-be competitors, this is too valuable to pass up."
+        """;
 
         public override ItemTier Tier => ItemTier.Tier3;
 
