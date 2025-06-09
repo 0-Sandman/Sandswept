@@ -1,13 +1,17 @@
 ## 1.1.3 Patch Notes
 - General
-  - Added Support
+  - Added LookingGlass Support
 - Ranger
   - Fixed Loadout bugs
+  - Removed jumpscare easter egg.
+  - Direct Current now has inverse damage falloff (deals less damage up close, but ramps up to more than before at range; this change is to help mitigate base form being so all-rounder good that you never bother using heat)
 - VOL-T
   - Fixed her broken variant spawning on the host's side
   - Fixed her broken variant spawning while unlocked already
   - Fixed most instances of infinite procs on her broken variant
   - Fixed pressing Interact while in Static Snare teleporting you instantly (NONE OF Y'ALL KNEW OF THIS 6+ MONTH OLD BUG!!!)
+- Enemies
+  - Fixed Theta Construct visual effects not appearing on clients.
 - Items/Equipment
   - Added proper buff icons to Drifting Perception
   - Added SFX to Temporal Transistor
@@ -19,6 +23,7 @@
   - Fixed Pocket Plutonium VFX
 - Interactables
   - Added Voltaic Drone
+  - Added Drone config options
   - Fixed Shrine of The Future not working with MysticsItems' Black Monolith
   - Fixed Shrine of Ruin potentially working with MysticsItems' Black Monolith
 

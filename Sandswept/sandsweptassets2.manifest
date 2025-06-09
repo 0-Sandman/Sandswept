@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 3595246868
+CRC: 378104806
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8e74a90c819edcd55deae682d0099eb6
+    Hash: f3b88d7a41c3666094373b67db22f0d5
   TypeTreeHash:
     serializedVersion: 2
-    Hash: aba6fd9a838d0b788be440fbe67ba651
+    Hash: d43e3017b60c1dbb902f9e67377599ac
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -28,6 +28,8 @@ ClassTypes:
 - Class: 48
   Script: {instanceID: 0}
 - Class: 54
+  Script: {instanceID: 0}
+- Class: 61
   Script: {instanceID: 0}
 - Class: 65
   Script: {instanceID: 0}
@@ -275,6 +277,8 @@ ClassTypes:
   Script: {fileID: 52559370, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 105922711, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 1246913829, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 120
@@ -430,6 +434,7 @@ Assets:
 - Assets/Sandswept/Base/Items/FesteringHunger/texFesteringHunger.png
 - Assets/Sandswept/Base/Characters/ThetaConstruct/texBuffThetaConstruct.png
 - Assets/Sandswept/Base/Characters/VoltaicDrone/mdl/matVoltaicDrone.mat
+- Assets/Sandswept/Base/Misc/Egg/EggPrefab.prefab
 - Assets/Sandswept/Base/Characters/DeltaConstruct/mdl/DeltaBeam.prefab
 - Assets/Sandswept/Base/Characters/Electrician/skins/sdElecDefault.asset
 - Assets/Sandswept/Base/Characters/Ranger/skills/Pew.png

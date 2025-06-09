@@ -243,7 +243,7 @@ namespace Sandswept.Survivors.Ranger
             masteryDef.nameToken = "SKINDEF_SANDSWEPT";
             "SKINDEF_SANDSWEPT".Add("Sandswept");
 
-            // On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
+            On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
         }
 
         private void SurvivorIconController_Rebuild(On.RoR2.UI.SurvivorIconController.orig_Rebuild orig, SurvivorIconController self)
@@ -262,38 +262,27 @@ namespace Sandswept.Survivors.Ranger
                 var anchor = safeArea;
                 if (anchor.GetComponent<Image>() == null)
                 {
-                    // Main.ModLogger.LogError("adding gay furries");
-                    var image = anchor.AddComponent<Image>();
-
-                    // Main.ModLogger.LogError("image component is " + image);
-                    Main.ModLogger.LogWarning(Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texGayFurries.png"));
-                    image.sprite = Main.hifuSandswept.LoadAsset<Sprite>("Assets/Sandswept/texGayFurries.png");
-                    image.enabled = false;
-                    image.color = new Color32(255, 211, 216, 147);
-
-                    self.hgButton.onClick.AddListener(() => OnClick(image));
+                    self.hgButton.onClick.AddListener(() => OnClick(self.transform.root.GetComponent<Canvas>(), self));
                 }
             }
         }
 
         private int clickCount = 0;
 
-        private void OnClick(Image image)
+        private void OnClick(Canvas canvas, SurvivorIconController icon)
         {
+            if (icon.survivorDef != Ranger.instance.SurvivorDef) {
+                return;
+            }
+            
             clickCount++;
-            if (clickCount >= 20 || (Main.cursedConfig.Value && clickCount >= 2))
+            if (clickCount >= 10 || (Main.cursedConfig.Value && clickCount >= 2))
             {
-                image.StartCoroutine(ToggleImage(image));
+                GameObject.Instantiate(Main.Assets.LoadAsset<GameObject>("EggPrefab.prefab"), canvas.transform).GetComponent<EggController>().velocity = Random.insideUnitCircle.normalized * 50f;
                 clickCount = 0;
             }
         }
 
-        private IEnumerator ToggleImage(Image image)
-        {
-            image.enabled = true;
-            yield return new WaitForSecondsRealtime(0.33f);
-            image.enabled = false;
-        }
 
         public void RegisterStuff()
         {

@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine.UI;
 
 namespace Sandswept
 {
@@ -96,6 +97,70 @@ namespace Sandswept
             {
                 // play vine boom
                 // show https://i.postimg.cc/0ySDXKxD/Gjh-z-Cw-WIAArjok-1.png on the hud
+            }
+        }
+    }
+
+    public class EggController : MonoBehaviour {
+        private float decayStopwatch = 0.5f;
+        private bool decaying = false;
+        private Vector3 baseScale;
+        //
+        private Vector3 tl;
+        private Vector3 bl;
+        private Vector3 tr;
+        private Vector3 br;
+        internal Vector3 velocity;
+        private float boundsSize;
+        public void Start()
+        {
+            baseScale = base.transform.localScale;
+
+            bl = Camera.main.ViewportToScreenPoint(new Vector3(0f, 0f));
+            tl = Camera.main.ViewportToScreenPoint(new Vector3(0f, 1f));
+            br = Camera.main.ViewportToScreenPoint(new Vector3(1f, 0f));
+            tr = Camera.main.ViewportToScreenPoint(new Vector3(1f, 1f));
+
+            BoxCollider2D col = base.GetComponent<BoxCollider2D>();
+            boundsSize = col.bounds.size.magnitude / 2f;
+        }
+        public void OnMouseDown() {
+            if (!decaying) {
+                decaying = true;
+            }
+        }
+
+        public void Update() {
+            if (decaying) {
+                decayStopwatch -= Time.deltaTime;
+
+                if (decayStopwatch <= 0f) {
+                    Destroy(base.gameObject);
+                }
+
+                base.transform.localScale = baseScale * (1f - (decayStopwatch / 0.5f));
+            }
+        }
+
+        public void FixedUpdate() {
+            base.transform.position += velocity * Time.fixedDeltaTime;
+
+            Vector3 point = Camera.main.WorldToScreenPoint(base.transform.position) + (boundsSize * velocity.normalized);
+
+            if (point.y >= tr.y) {
+                velocity = Vector3.Reflect(velocity, Vector3.down);
+            }
+
+            if (point.y <= br.y) {
+                velocity = Vector3.Reflect(velocity, Vector3.up);
+            }
+
+            if (point.x >= br.x) {
+                velocity = Vector3.Reflect(velocity, Vector3.left);
+            }
+
+            if (point.x <= bl.x) {
+                velocity = Vector3.Reflect(velocity, Vector3.right);
             }
         }
     }

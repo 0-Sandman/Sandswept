@@ -125,7 +125,7 @@ namespace Sandswept.Survivors.Ranger.Projectiles
                 if (distance < thresholds[1]) {
                     stages = 1;
 
-                    damage.damage = Util.Remap(distance, 0f, thresholds[1], originalDamage * minDamage, originalDamage);
+                    damage.damage = Util.Remap(distance, 0.5f, thresholds[1], originalDamage * minDamage, originalDamage);
                     if (explosion) explosion.blastRadius = Util.Remap(distance, 0f, thresholds[1], originalRadius * minRadius, originalRadius);
                 }
 
