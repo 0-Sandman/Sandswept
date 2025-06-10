@@ -22,6 +22,7 @@
   - Added proper logs to Festering Hunger and Millenium (please check the logbooks they are really cool)
   - Added proper buff icons to Drifting Perception
   - Added SFX to Temporal Transistor
+  - Improved Sand Sweeper VFX and SFX
   - Made Drifting Perception work better
   - Buffed Drifting Perception Base Crit Chance Gain from 20% to 25%
   - Buffed Festering Hunger Movement Speed Buff Range from 13m to 16m
@@ -29,6 +30,7 @@
   - Updated all logs (fuck Google Docs)
   - Fixed Temporal Transistor consuming Hopoo Feather jumps
   - Fixed Pocket Plutonium VFX
+  - Fixed Sand Sweeper not working on airborne enemies
 - Interactables
   - Added Voltaic Drone
   - Added Drone config options
