@@ -14,6 +14,7 @@
   - Fixed most instances of infinite procs on her broken variant
   - Fixed pressing Interact while in Static Snare teleporting you instantly (NONE OF Y'ALL KNEW OF THIS 6+ MONTH OLD BUG!!!)
 - Enemies
+  - Added SwepSwep
   - Updated all logs (fuck Google Docs)
   - Fixed Theta Construct visual effects not appearing on clients.
 - Items/Equipment
