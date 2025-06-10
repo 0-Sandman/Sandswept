@@ -97,18 +97,38 @@ namespace Sandswept.Equipment.Standard
 
         public static readonly SphereSearch sphereSearch = new SphereSearch();
 
+        public static GameObject vfx;
+
         public override void Init(ConfigFile config)
         {
             CreateConfig(config);
             CreateLang();
             CreateEquipment();
+            InitVFX();
+        }
+
+        public void InitVFX()
+        {
+            vfx = PrefabAPI.InstantiateClone(Paths.GameObject.Bandit2SmokeBomb, "Sand Sweeper VFX", false);
+            var goldenSigma = new Color32(239, 181, 79, 255);
+            VFXUtils.RecolorMaterialsAndLights(vfx, goldenSigma, goldenSigma, true);
+            VFXUtils.AddLight(vfx, goldenSigma, 5f, range, 1f);
+
+            ContentAddition.AddEffect(vfx);
         }
 
         protected override bool ActivateEquipment(EquipmentSlot slot)
         {
             if (slot.characterBody == null) return false;
+            Util.PlaySound("Play_bison_charge_attack_end_skid", slot.gameObject);
             EffectManager.SimpleSoundEffect(EntityStates.Croco.BaseLeap.landingSound.index, slot.characterBody.footPosition, transmit: true); // sandleep! BRUH LMFAO
-            EffectManager.SpawnEffect(Paths.GameObject.Bandit2SmokeBomb, new EffectData() { origin = slot.characterBody.footPosition, scale = range / 12f }, true);
+            for (int i = 0; i < 4; i++)
+            {
+                Util.PlaySound("Play_Player_footstep", slot.gameObject);
+            }
+
+
+            EffectManager.SpawnEffect(vfx, new EffectData() { origin = slot.characterBody.footPosition }, true);
             sphereSearch.origin = slot.characterBody.corePosition;
             sphereSearch.mask = LayerIndex.entityPrecise.mask;
             sphereSearch.radius = range;
@@ -121,7 +141,6 @@ namespace Sandswept.Equipment.Standard
             foreach (HurtBox dest in dests)
             {
                 CharacterBody body = dest?.healthComponent?.body;
-                if (body?.characterMotor == null) continue;
                 float dist = Vector3.Distance(slot.characterBody.corePosition, body.corePosition);
                 Vector3 temp = body.corePosition - slot.characterBody.corePosition;
                 temp.y = 0;

@@ -17,23 +17,29 @@ namespace Sandswept.Utils
             }
         }
 
-        public static void MultiplyScale(GameObject gameObject, float scaleMultiplier)
+        public static void MultiplyScale(GameObject gameObject, float scaleMultiplier, bool ignoreYScale = false)
         {
             // for itself
-            MultiplyScaleInternal(gameObject, scaleMultiplier);
+            MultiplyScaleInternal(gameObject, scaleMultiplier, ignoreYScale);
 
             // and for all children recursively
             foreach (Transform child in gameObject.transform.GetComponentsInChildren<Transform>())
             {
-                MultiplyScaleInternal(child.gameObject, scaleMultiplier);
+                MultiplyScaleInternal(child.gameObject, scaleMultiplier, ignoreYScale);
             }
         }
 
-        private static void MultiplyScaleInternal(GameObject gameObject, float scaleMultiplier)
+        private static void MultiplyScaleInternal(GameObject gameObject, float scaleMultiplier, bool ignoreYScale = false)
         {
+            var trans = gameObject.transform;
+            float yScale = trans.localScale.y;
             if (gameObject.GetComponent<ParticleSystem>() == null && gameObject.GetComponent<LineRenderer>() == null && gameObject.GetComponent<TemporaryVisualEffect>() == null)
             {
-                gameObject.transform.localScale *= scaleMultiplier;
+                trans.localScale *= scaleMultiplier;
+                if (ignoreYScale)
+                {
+                    trans.localScale = new Vector3(trans.localScale.x, yScale, trans.localScale.z);
+                }
             }
 
             foreach (ParticleSystem particleSystem in gameObject.GetComponents<ParticleSystem>())
