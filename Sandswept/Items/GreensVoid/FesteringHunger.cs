@@ -22,87 +22,87 @@ namespace Sandswept.Items.VoidGreens
         public override string ItemLore =>
         """
         <style=cMono>
-        Welcome to DataScraper (v3.1.53 – beta branch)
+        Welcome to DataScraper (v3.1.53 - beta branch)
         $ Scraping memory... done.
         $ Resolving... done.
         $ Combing for relevant data... done.
         Complete!
         </style>
 
-        <b>Day [null]</b>
-        It’s beautiful here, but terrifying. When we landed on the planet, we already knew what to expect on the surface from the screening. But this…the portal didn’t show up in our scans, nor did this vast ecosystem. Ash opted to stay on the surface instead, a choice I thought foolish at first, but I’m now realizing may have been the better of the two.
+        Day [null]
+        It’s beautiful here, but terrifying. When we landed on the planet, we already knew what to expect on the surface from the screening. But this...the portal didn’t show up in our scans, nor did this vast ecosystem. Ash opted to stay on the surface instead, a choice I thought foolish at first, but I’m now realizing may have been the better of the two.
 
-        I’m not even certain where I am. My navigation and communication tools don’t seem to be working, and the black sky holds no answers. The dizzying depth I observed when looking up makes me think we might be far underground. VERY far.
+        I’m not even certain where I am. My navigation and communication tools don’t seem to be working, and the black sky holds no answers. The dizzying depth I observed when looking up makes me think I might be far underground. VERY far.
 
-        <b>Day [null]</b>
-        I found something. Not life — still no signs of that, but…something. Sort of like a pool, I guess. I don’t know what the blackness inside it is, but it seems liquid-ish. I’d take a sample, but I’m far more interested in just getting out of here alive at this point. I can come back later to investigate the wonders of this place. Ideally, someone else will. I’m sure my father can find some overeager xenobiologist.
+        Day [null]
+        I found something. Not life -- still no signs of that, but...something. Sort of like a pool, I guess. I don’t know what the blackness inside it is, but it seems liquid-ish. I’d take a sample, but I’m far more interested in just getting out of here alive at this point. I can come back later to investigate the wonders of this place. Ideally, someone else will. I’m sure my father can find some overeager xenobiologist.
 
-        I don’t know how I knew to try, but I put one of my knives in there. I just sort of felt pulled to do it. When I brought it back out, it was…different. Now it looks like everything else, like it was made here. I felt a sharp pain in my hand when I pulled it out, though, as if it didn’t want me to have it. My suit says there’s no injuries, but the pain lingers.
+        I don’t know why I did it, but I put one of my knives in. I just sort of felt compelled to do it. When I brought it back out, it was...different. Now it looks like everything else, like it was made here. I felt a sharp pain in my hand when I did, though, as if it didn’t want me to have it. My suit says there’s no injuries, but the pain lingers.
 
-        <b>Day -2</b>
-        Finally found another portal. I’m out! It was on the other side of the planet, but my distress beacons work now, and the ship should be on its way. They told me over the radio that Ash returned a couple days ago and described the portal. Indeed, they’d never heard of anything like it before.
+        Day -2
+        Finally found another portal. I’m out! It was on the other side of the planet, but my distress beacons work now, and the ship should be on its way. They told me over the radio that Ash returned a couple days ago and described the portal. They’d never heard of anything like it before.
 
-        How I missed the sunlight, the air, the…finite-ness.
+        How I missed the sunlight, the air, the...finite-ness.
 
-        I’m more convinced now than ever that the portal is invasive. There’s nothing intelligent enough here to have created something like that. Nothing in the known universe, probably. Whatever I’ve discovered will shake things up for sure, though I want nothing to do with that place anymore.
+        I’m more convinced now than ever that the portal is invasive. There’s nothing intelligent enough on this planet to have created something like that, and no signs of a past civilization, either. It’s far outside the bounds of human technology. This discovery, whatever it is exactly, will shake things up for sure, though I want nothing to do with that place anymore.
 
-        <b>Day -1</b>
+        Day -1
         They’re running tests on the portal. I’ve just been watching from far away. After what I described, nobody except the xenobiologists want to go in, and even they’re hesitant. My father is enforcing strict regulations around the portal. Either way, they’ll be making sure whoever follows in my footsteps is safer than I was.
 
-        What was I thinking, just stepping in like that? At least it’s over now…
+        What was I thinking, just stepping in like that? At least it’s over now...
 
-        <b>Day 0</b>
-        There’s a hole in the glass container they used to store the knife. In the camera footage, it just sort of…appeared. Nothing was cut, the footage from that day is the length it should be. They didn’t just tape it over, either — you can see the glass breaking. But nothing caused it.
+        Day 0
+        There’s a hole in the glass container they used to store the knife. In the camera footage, it just sort of...appeared. Nothing was cut, the footage from that day is the length it should be. They didn’t just tape it over, either -- you can see the glass breaking. But nothing caused it.
 
         They’re calling it a pressure abnormality. They aren’t worried. I don’t fully share that, but they’re probably right. After being in what we’re now calling the void, I’m probably just paranoid.
 
-        <b>Day 1</b>
-        I woke up feeling a terrible empti?ness. Nothing has quenched it. It’s made it hard to be cordial. Every time I talk to someone, I have to push down anger that wells up just from the time wasted on the words — especially with the way they talk about the void, as if it were some hellscape. 
+        Day 1
+        I woke up feeling a terrible empti?ness. Nothing has quenched it. It’s made it hard to be cordial. Every time I talk to someone, I have to push down anger that wells up just from the time wasted on the words -- especially with the way they talk about the void, as if it were some hellscape. 
 
         They’ve never been there. Only I have. Cowards. They tell me I didn’t say it was majestic before, that they’re just repeating my wor?ds back to me, but I know my own memories.
 
-        <b>Day 2</b>
+        Day 2
         They all looked at me with surprise when I said I w?anted to go back. I calmed myself at first, trying to explai?n to them, but they wouldn’t get out of the way. Just stood there, slack jawed. When I started yelling, they dragg?ed me away. Unbelievable.
 
-        I’m in the med bay now. They’re running sc?ans, but I can’t let them. Between doses of Some of my friends came in, talked with soft and concerned voices. They all b?lur together. Any one of them could have let me go, brought m?e to the portal, but they didn’t. Some friends. I?’ll just have to get out myself.
+        I’m in the med bay now. They’re running sc?ans, but I can’t let them. Some of my friends came in, talked with soft and concerned voices. They all b?lur together. Any one of them could have let me go, brought m?e to the portal, but they didn’t. Some friends they are. I?’ll just have to get out myself.
 
-        <b>Day 3</b>
+        Day 3
         When they dis?covere?d I’d broken out, I made up something abou?t hating to be confined, and the doctors s?eemed to believe it. I suppressed the em??ptiness, told them I was fine, told them I never really wanted to go back anyw?ay. But it gets worse an?d worse, deeper and d?eeper, every hour.
 
-        They let me go. I’m fr?ee.
+        They let me go. I’m too valuab?le to the ship, apparently, a?nd my fa?ther wanted me out. I’m fr?ee.
 
-        When I arr?ived breathless at the pods, though, I found onl?y empty space outside. The sh?ip left during my confinement, l?eaving the planet and the portal behind.
+        When I arr?ived breathless at the pods, though, I found onl?y empty space outside. The sh?ip had left during my confinement, l?eaving the planet and the portal behind.
 
-        The captain won’t listen. I had to b?ackped?al to avoid being sent to med bay again. I?f I kill him and take control of the ship, we can go back. He left me no choic?e.
+        The captain won’t listen. I had to b?ackped?al to avoid being sent to med bay again. I?f I kill him and take control of the ship, we can go back. He leaves me no choic?e.
 
 
-        <b>Day 4</b>
-        I l??ooked in the mirror t?oday. The s?kin below my eyes is darker than I’ve ev?er s?een before. I only then r??ealized I haven’t sle?pt since the emptine?ss started. I n?ever felt tired. I can feel my body shaki??ng slightly now, tho?ugh. But I sti?ll fee?l energized.
+        Day 4
+        I l??ooked in the mirror t?oday. The s?kin below my eyes was darker than I’ve ev?er s?een before. I only then r??ealized I haven’t sle?pt since the emptine?ss started. I n?ever feel tired. I can feel my body shaki??ng slightly now, tho?ugh. But I sti?ll fee?l energized.
 
         Toda??y will be the day I do it. I have a pr?ivate lunch scheduled with the h?im in the cockp?it, like we do ev?ery week. He l?ikes to keep up "father-d??aughter bonding time." It’s the p?erfect opportun?ity.
 
-        <b>Day 5</b>
+        Day 5
         He’s d?ead. All it took was some sob st?ory about how horrible the v??oid had been, and he came right up and embraced me without a seco?nd thought. Idio?t. I wasted no time rerouting the d?estination. They’re at the door now, but th?ey won’t get in. Father bragged ab?out the security of the cockpit. U?ES put a lot into that, after Contact L?ight.
 
-        The warmth of his blood on m?y skin made the emptiness subside a bi?t. It’s nothing compared to w?hat the [void] can offer, of cour?se. I doubt they’ll follow me will?ingly after this, but maybe I can bring some of the c?rew in with me regardless. They nee?d to see.
+        The warmth of his blood on m?y skin made the emptiness subside a bi?t. It’s nothing compared to w?hat the [void] can offer, of cour?se. They won’t follow me will?ingly after this, but maybe I can bring some of the c?rew in with me. They nee?d to see.
 
-        <b>Day 8</b>
+        Day 8
         Th?ey’re trying to st?arve me out. I’ve been living o?ff his body. It’s hard to e??at in the m?omen?t, but it ke?eps me alive. It make??s the emptin?ess a little bette?r, t?oo.
 
-        We’re on the p??lanet now. I lan?ded near the p?ortal. The terrain is rough, so the shi?p is com??promised, but the cockpit i?s fine. They’re guardin?g it, t?hough, and they’ll outl?ast me. I have t?o do so??mething.
+        We’re on the p??lanet now, near the p?ortal. The terrain is rough, so the shi?p is com??promised, but the cockpit i?s fine. They’re guardin?g it, t?hough, and they’ll outl?ast me. I have t?o do so??mething.
 
-        <b>Day 9</b>
+        Day 9
         I could feel the [reavers] arriving. Screams from outside, followed by gunfire. The gunfire gradually faded, but the screams didn’t. Eventually, the last bullet was shot, and now only the screams fill the silence, along with the [reavers’] songs.
 
-        Their songs bring tears to my eyes. They’re even more beautiful than the screams. They sing of how the ship will be taken and sequenced. How the crew will be [touched] to serve [the one beyond], and sent across the galaxy. Of my valor, and of my essence will finally return to the [void]. The songs drive away the emptiness.
+        Their songs brought tears to my eyes. They’re even more beautiful than the screams. They sing of how the ship will be taken and sequenced. How the crew will be [touched] to serve [the one beyond], and sent across the galaxy. Of my valor, and how my essence will finally return to the [void]. The songs drove away the emptiness.
 
         I open the doors. The crew is disarmed, bound to the floor by the [reavers]. They gaze upon me in horror, but they don’t matter. The [reavers’] gaze is the one that matters. I feel enormous pride. I’ve served the [void] well.
 
         One by one, the crew is [touched], then unbound. The effect takes hold for them faster than for me. The [infestors] have evolved. They amble away, into the portal, until only one is left. I wish to join them, but I know it isn’t my place. I’ll be there soon enough.
 
-        At last, the [infestor] leaves me. As I collapse, my will spent throughout the past nine days, I watch it crawl onto the final crewmember.
+        At last, the [infestor] leaves me. As I collapse, the toll on my system throughout the past nine days finally paid, I watch it crawl onto the final crewmember.
 
-        Lucidity returns, and the horror of what I’ve done dawns on me. The scent and sight of my father’s blood alone makes me want to throw up. I can’t even begin to think about the…other stuff. Already, my mind is blocking out the memories. In that moment, I want nothing less than to live with what I’ve done forever, sequenced into one of their cells.
+        Lucidity returns, and the horror of what I’ve done dawns on me. The scent and sight of my father’s blood alone makes me want to throw up. I can’t even begin to think about the...other stuff. Already, my mind is blocking out the memories. In that moment, I want nothing less than to live with what I’ve done forever, sequenced into one of their cells.
 
         Another horror joins it as I recognize the last crewmember. Ash. They struggle against the reavers’ bonds, but it’s fruitless, and I’m powerless to help. I have to watch as they become touched, before following the others through the portal.
 

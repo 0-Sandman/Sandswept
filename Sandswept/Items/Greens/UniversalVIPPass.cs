@@ -14,8 +14,26 @@ namespace Sandswept.Items.Greens
 
         public override string ItemFullDescription => $"$suCategory chests$se have a $su{baseChance * 100f}%$se $ss(+{stackChance * 100f}% per stack)$se chance of dropping $su{extraItems}$se $suextra item$se.".AutoFormat();
 
-        public override string ItemLore => "\"I'm sorry, sir, this is a restricted area. We can't allow you in.\"\r\n\r\n\"Special orders from UES. It would be in your best interests to make an exception.\"\r\n\r\n\"I'm afraid I can't do that. We received specific instructions from two of our guests not to let in anyone from UES. It'd be against policy to betray their trust.\"\r\n\r\n\"Those two 'guests' have stolen from the UESC. You're harboring criminals. If you do not let us in, you will be obstructing justice in violation of interplanetary law.\"\r\n\r\n\"The UESC does not have legal jurisdiction over Pluto, sir. We're under no obligation to let you in. If you don't vacate the premises, I'll be forced to call security, and make no mistake, our security is the best of the best.\"\r\n\r\n...\r\n\r\n\"...is that...?\"\r\n\r\n\"Yes. Universal. This is serious business. I'll ask one more time: let us through.\"\r\n\r\n\"...right away, sir.\"\r\n";
+        public override string ItemLore =>
+        """
+        "I'm sorry, sir, this is a restricted area. We can't allow you in."
 
+        "Special orders from UES. It would be in your best interests to make an exception."
+
+        "I'm afraid I can't do that. We received specific instructions from two of our guests not to let in anyone from UES. It'd be against policy to betray their trust."
+
+        "Those two 'guests' have stolen from the UESC. You're harboring criminals. If you do not let us in, you will be obstructing justice in violation of interplanetary law."
+
+        "The UESC does not have legal jurisdiction over Pluto, sir. We're under no obligation to let you in. If you don't vacate the premises, I'll be forced to call security, and make no mistake, our security is the best of the best."
+
+        ...
+
+        "...is that...?"
+
+        "Yes. Universal. This is serious business. I'll ask one more time: let us through."
+
+        "...right away, sir."
+        """;
         public override ItemTier Tier => ItemTier.Tier2;
 
         public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");

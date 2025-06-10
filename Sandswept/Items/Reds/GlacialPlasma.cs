@@ -37,11 +37,11 @@ namespace Sandswept.Items.Reds
 
         "We’re dead meat, you know. We’re [REDACTED] dead. You don’t mess with the High Court, you just don’t. You know that."
 
-        "I beg to differ. I’ve had it for over a month now—"
+        "I beg to differ. I’ve had it for over a month now--"
 
         "WHAT?"
 
-        "—for over a month now, and nobody’s come a-knocking. I think it’s high time we gave this sample to someone else. Let them deal with the consequences, and we’ll make it out with a nice chunk of change."
+        "--for over a month now, and nobody’s come a-knocking. I think it’s high time we gave this sample to someone else. Let them deal with the consequences, and we’ll make it out with a nice chunk of change."
 
         "So what, we just lie to them about its origins? What happens when the High Court starts knocking on their door? Even if the Court doesn’t kill us, our buyer will."
 

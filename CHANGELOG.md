@@ -2,17 +2,19 @@
 - General
   - Added LookingGlass Support
 - Ranger
-  - Reworked Direct Current
-  - Reworked Heat Mechanic
+  - Reworked Direct Current - now has inverse damage falloff (deals less damage up close, but ramps up to more than before at range; this change is to help mitigate base form being so all-rounder good that you never bother using heat)
+  - Reworked Heat Mechanic - self damage and base damage gain is now almost immediate
+  - Updated log (fuck Google Docs)
   - Fixed Loadout bugs
-  - Removed jumpscare easter egg.
-  - Direct Current now has inverse damage falloff (deals less damage up close, but ramps up to more than before at range; this change is to help mitigate base form being so all-rounder good that you never bother using heat)
+  - Removed jumpscare easter egg
 - VOL-T
+  - Updated log (fuck Google Docs)
   - Fixed her broken variant spawning on the host's side
   - Fixed her broken variant spawning while unlocked already
   - Fixed most instances of infinite procs on her broken variant
   - Fixed pressing Interact while in Static Snare teleporting you instantly (NONE OF Y'ALL KNEW OF THIS 6+ MONTH OLD BUG!!!)
 - Enemies
+  - Updated all logs (fuck Google Docs)
   - Fixed Theta Construct visual effects not appearing on clients.
 - Items/Equipment
   - Added Glacial Plasma
@@ -23,6 +25,7 @@
   - Buffed Drifting Perception Base Crit Chance Gain from 20% to 25%
   - Buffed Festering Hunger Movement Speed Buff Range from 13m to 16m
   - Buffed The Sand Sweeper Cooldown from 30s to 25s
+  - Updated all logs (fuck Google Docs)
   - Fixed Temporal Transistor consuming Hopoo Feather jumps
   - Fixed Pocket Plutonium VFX
 - Interactables
@@ -33,7 +36,7 @@
 
 ## 1.1.2 Patch Notes
 - General
-  - Re-made readme with cool images
+  - Remade readme with cool images
 - Ranger
   - Added keyword for the Heat mechanic
   - Improved some descriptions

@@ -19,7 +19,42 @@ namespace Sandswept.Enemies.ThetaConstruct
         {
             prefab = Main.Assets.LoadAsset<GameObject>("ThetaConstructBody.prefab");
             prefabMaster = Main.Assets.LoadAsset<GameObject>("ThetaConstructMaster.prefab");
-            LanguageAPI.Add(prefab.GetComponent<CharacterBody>().baseNameToken.Replace("_NAME", "_LORE"), "<style=cMono>\r\n========================================\r\n====   MyBabel Machine Translator   ====\r\n====     [Version 12.45.1.009 ]   ======\r\n========================================\r\nTraining... <100000000 cycles>\r\nTraining... <100000000 cycles>\r\nTraining... <51032988 cycles>\r\nPaused...\r\nDisplay partial result? Y/N\r\nY\r\n================================</style>\r\n\r\nPlease, gather around children. Let me tell you the story of why I created you: the story of an attack on [CITY]\r\n\r\nThree lemurians are walking through the bustling city, the buildings with eccentric shapes all around them. Small pyramids, pillars, and spheres. There, two young hatchlings, clutching their dolls, accompanied by their mother, walking the streets. One of the hatchlings has been mortified after their bigger sibling told them a scary story.\r\n\r\n\"Mother! Mother! W-what if the big scary red guys attack?!\" the hatchling asks their mother, tears in their eyes. \"’Scary red things’? Oh! Do you mean the Imps? This city is a holy ground, sweetie, the imps can’t hurt us here!\"\r\nSuddenly, a massive portal appears in the market, a looming blackness accented by red. Imps pour out, the overlord watching as havoc is wreaked upon [CITY].\r\n\r\nBut—! before any lives are claimed, yellow spheres surround lemurians, and a barrage of small orbs falls upon the invading imps. The sculptures that seemed mere decoration are constructs — like you — and come to [CITY]’s aid.\r\n\r\nThe mother grabs her children and covers their eyes. One with her hands, the other with her tail. She shushes their cries, and ensuring they remain in the construct’s bubble as they flee. Countless imp bodies are strewn about [CITY]. The portal to the [RED PLANE] is completely closed off.\r\n\r\n\"F-follow me dearies, I-it’ll be OK... T-this is a holy land. This is a holy land!\"\r\n\r\nAnd indeed, it is not long before the constructs purge the city of imps, and the overlord’s skull displayed as a centerpiece of the town. Good prevails over evil.\r\nThat is why you, my children, must protect those below — those innocents who cannot defend themselves.\r\n\r\nGo, and guard them with your souls.\r\n\r\n<style=cMono>================================</style>");
+            LanguageAPI.Add(prefab.GetComponent<CharacterBody>().baseNameToken.Replace("_NAME", "_LORE"),
+            """
+            <style=cMono>
+            ========================================
+            ====   MyBabel Machine Translator   ====
+            ====     [Version 12.45.1.009 ]   ======
+            ========================================
+            Training... <100000000 cycles>
+            Training... <100000000 cycles>
+            Training... <51032988 cycles>
+            Paused...
+            Display partial result? Y/N
+            Y
+            ================================
+            </style>
+            Please, gather around children. Let me tell you the story of why I created you: the story of an attack on [CITY]
+
+            Three lemurians are walking through the bustling city, the buildings with eccentric shapes all around them. Small pyramids, pillars, and spheres. There, two young hatchlings, clutching their dolls, accompanied by their mother, walking the streets. One of the hatchlings has been mortified after their bigger sibling told them a scary story. 
+
+            "Mother! Mother! W-what if the big scary red guys attack?!" the hatchling asks their mother, tears in their eyes. " 'Scary red things'? Oh! Do you mean the Imps? This city is a holy ground, sweetie, the imps can't hurt us here!"
+            Suddenly, a massive portal appears in the market, a looming blackness accented by red. Imps pour out, the overlord watching as havoc is wreaked upon [CITY].
+
+            But--! before any lives are claimed, yellow spheres surround lemurians, and a barrage of small orbs falls upon the invading imps. The sculptures that seemed mere decoration are constructs -- like you -- and come to [CITY]'s aid.
+
+            The mother grabs her children and covers their eyes. One with her hands, the other with her tail. She shushes their cries, and ensuring they remain in the construct's bubble as they flee. Countless imp bodies are strewn about [CITY]. The portal to the [RED PLANE] is completely closed off. 
+
+            "F-follow me dearies, I-it'll be OK... T-this is a holy land. This is a holy land!" 
+
+            And indeed, it is not long before the constructs purge the city of imps, and the overlord's skull displayed as a centerpiece of the town. Good prevails over evil.
+            That is why you, my children, must protect those below -- those innocents who cannot defend themselves.
+
+            Go, and guard them with your souls.
+            <style=cMono>
+            ================================
+            </style>
+            """);
             ThetaShieldEffect = Main.Assets.LoadAsset<GameObject>("ThetaShieldEffect.prefab");
             ThetaShieldEffect.GetComponent<MeshRenderer>().sharedMaterial = Paths.Material.matMinorConstructShield;
             PrefabAPI.RegisterNetworkPrefab(ThetaShieldEffect);

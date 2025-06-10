@@ -11,8 +11,16 @@
 
         public override string ItemFullDescription => $"Hits that deal $sdmore than {percentDamageThreshold * 100f}% damage$se also inflict $sd{baseBleedCount}$se $ss(+{stackBleedCount} per stack)$se $sdbleeds$se on enemies for each $sd{damageScalar * 100f}%$se of $sddamage dealt$se. Recharges every $su{cooldown}$se seconds.".AutoFormat();
 
-        public override string ItemLore => "\"When we draw our final breaths,\r\nWhen N'kuhana's grasp entwines us,\r\nMay our patience and our solace\r\nClear the clouds of deathly silence.\r\nWill you live with me?\"\r\n\r\n- The Syzygy of Io and Europa\r\n";
+        public override string ItemLore =>
+        """
+        "When we draw our final breaths,
+        When N'kuhana's grasp entwines us,
+        May our patience and our solace
+        Clear the clouds of deathly silence.
+        Will you live with me?"
 
+        - The Syzygy of Io and Europa
+        """;
         public override float modelPanelParametersMinDistance => 4f;
         public override float modelPanelParametersMaxDistance => 10f;
 

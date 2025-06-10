@@ -13,8 +13,27 @@ namespace Sandswept.Items.Whites
 
         public override string ItemFullDescription => $"Increase $shhealth regeneration$se by $sh{baseRegen} hp/s$se, plus an additional $sh{baseRegenPerBuff} hp/s$se $ss(+{stackRegenPerBuff} hp/s per stack)$se for $suevery unique buff you have$se.".AutoFormat();
 
-        public override string ItemLore => "<style=cMono>//--AUTO-TRANSCRIPTION FROM UES [Redacted] --//</style>\r\n\r\n\"I don't know if you should be drinking that.\"\r\n\r\n\"Why not? I feel amazing!\"\r\n\r\n\"We don't know what's in that stuff. No xenologist would ever recommend you drink an unknown red liquid from a more unknown planet.\"\r\n\r\n\"Well, it's only ever been of help to me. We need everything we can get down there.\"\r\n\r\n\"Better to be without it than to be poisoned. When we gave it to Kyle to help him recover, it just made things worse.\"\r\n\r\n\"Well, unlike Kyle, I'm not sick. Probably because of this stuff, too, with how much faster my wounds are healing.\"\r\n\r\n\"It's your funeral.\"\r\n";
+        public override string ItemLore =>
+        """
+        <style=cMono>
+        //--AUTO-TRANSCRIPTION FROM UES [Redacted] --//
+        </style>
 
+        "I don't know if you should be drinking that."
+
+        "Why not? I feel amazing!"
+
+        "We don't know what's in that stuff. No xenologist would ever recommend you drink an unknown red liquid from a more unknown planet."
+
+        "Well, it's only ever been of help to me. We need everything we can get down there."
+
+        "Better to be without it than to be poisoned. When we gave it to Kyle to help him recover, it just made things worse."
+
+        "Well, unlike Kyle, I'm not sick. Probably because of this stuff, too, with how much faster my wounds are healing."
+
+        "It's your funeral."
+
+        """;
         public override ItemTier Tier => ItemTier.Tier1;
 
         public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("RedSpringWaterHolder.prefab");
