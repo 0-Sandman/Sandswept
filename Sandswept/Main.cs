@@ -30,7 +30,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using MonoMod.Cil;
-using Sandswept.Enemies.SwepSwep;
+using Sandswept.Enemies.SwepSwepTheSandy;
 
 // using Sandswept.Components;
 
@@ -281,7 +281,7 @@ namespace Sandswept
 
             CursedConfig.Init();
             // ObjectiveSystem.Init();
-            SwepSwep.Init();
+            SwepSwepTheSandy.Init();
 
             On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
 
