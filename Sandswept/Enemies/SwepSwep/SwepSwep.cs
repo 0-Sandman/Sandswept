@@ -11,7 +11,7 @@ namespace Sandswept.Enemies.SwepSwep
             var anyEquipmentDisabled = Main.AllEquipment.Count < Main.EnabledEquipment.Count;
             if (anyItemDisabled || anyEquipmentDisabled)
             {
-                Main.ModLogger.LogError("Swepswep will not load because you disabled an item or equipment. Shame on you!");
+                Main.ModLogger.LogError("Swepswep will not load because you disabled an item or equipment. Shame on you.");
                 return;
             }
 

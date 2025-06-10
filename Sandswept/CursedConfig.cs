@@ -49,7 +49,7 @@ namespace Sandswept
                 LanguageAPI.AddOverlay("ACHIEVEMENT_ELECTRICIANCLEARGAMEMONSOON_NAME", "(WOKE DEI WARNING!) gay robot [CHEESE PUFF] girl: Mastery");
 
                 LanguageAPI.AddOverlay("SANDSWEPT_CANNONJELLY_NAME", "[CHEESE PUFF]");
-                LanguageAPI.AddOverlay("SANDSWEPT_SWEPSWEP_NAME", "hey vro play this while fighting me https://www.youtube.com/watch?v=XYCQcy76100");
+                LanguageAPI.AddOverlay("SANDSWEPT_SWEPSWEP_NAME", "https://www.youtube.com/watch?v=XYCQcy76100");
 
                 LanguageAPI.AddOverlay("SANDSWEPT_VOLATILECONTEXT", "Forcefully Insert Battery~");
                 LanguageAPI.AddOverlay("SANDSWEPT_VOLATILEINSERT", "your life is as valuable as a <style=cDeath>summer ant</style>");
