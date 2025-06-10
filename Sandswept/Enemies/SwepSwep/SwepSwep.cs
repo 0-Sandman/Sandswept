@@ -1,9 +1,9 @@
 using EntityStates.QuestVolatileBattery;
 using static RoR2.GivePickupsOnStart;
 
-namespace Sandswept.Enemies.SweepSweep
+namespace Sandswept.Enemies.SwepSwep
 {
-    public class SweepSweep
+    public class SwepSwep
     {
         public static void Init()
         {
@@ -11,20 +11,20 @@ namespace Sandswept.Enemies.SweepSweep
             var anyEquipmentDisabled = Main.AllEquipment.Count < Main.EnabledEquipment.Count;
             if (anyItemDisabled || anyEquipmentDisabled)
             {
-                Main.ModLogger.LogError("Sweep Sweep will not load cause you disabled an item or equipment. Shame on you!");
+                Main.ModLogger.LogError("Swepswep will not load because you disabled an item or equipment. Shame on you!");
                 return;
             }
 
-            var master = PrefabAPI.InstantiateClone(Paths.GameObject.ScavLunar1Master, "SweepSweepMaster", true);
-            var body = PrefabAPI.InstantiateClone(Paths.GameObject.ScavLunar1Body, "SweepSweepBody", true);
+            var master = PrefabAPI.InstantiateClone(Paths.GameObject.ScavLunar1Master, "SwepSwepMaster", true);
+            var body = PrefabAPI.InstantiateClone(Paths.GameObject.ScavLunar1Body, "SwepSwepBody", true);
 
             var characterMaster = master.GetComponent<CharacterMaster>();
             characterMaster.bodyPrefab = body;
 
             var characterBody = body.GetComponent<CharacterBody>();
-            characterBody.baseNameToken = "SANDSWEPT_SWEEP_SWEEP_NAME";
+            characterBody.baseNameToken = "SANDSWEPT_SWEPSWEP_NAME";
 
-            LanguageAPI.Add("SANDSWEPT_SWEEP_SWEEP_NAME", "Swepswep the Sandy");
+            LanguageAPI.Add("SANDSWEPT_SWEPSWEP_NAME", "Swepswep the Sandy");
 
             var twistedScavengerSpawnCard = Paths.MultiCharacterSpawnCard.cscScavLunar;
             var count = twistedScavengerSpawnCard.masterPrefabs.Length;
