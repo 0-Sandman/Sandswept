@@ -32,7 +32,6 @@ namespace Sandswept.Items.Greens
 
         This is not over. We will be back.
 
-
         And, to the UES employee reading this:
         Having read the above, and seeing what I'm shipping, I'm sure I don't need to tell you that the suits at the top of UES wouldn't be fond of what we're doing here. I have no doubt that someone at your level resents UES nearly as much as we do, with all they put you through. Just don't report us, and you could help change things for the better.
 

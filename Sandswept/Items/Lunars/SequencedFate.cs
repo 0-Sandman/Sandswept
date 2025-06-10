@@ -7,7 +7,7 @@ using static Rewired.Utils.Classes.Utility.ObjectInstanceTracker;
 using RoR2.Orbs;
 using R2API;
 
-namespace Sandswept.Items.Whites
+namespace Sandswept.Items.Lunars
 {
     [ConfigSection("Items :: Sequenced Fate")]
     public class SequencedFate : ItemBase<SequencedFate>

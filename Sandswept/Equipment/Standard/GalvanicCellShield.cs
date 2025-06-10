@@ -1,7 +1,7 @@
 ﻿namespace Sandswept.Equipment.Standard
 {
     [ConfigSection("Equipment :: Galvanic Cell Shield")]
-    public class GalvanicCellShield : EquipmentBase
+    public class GalvanicCellShield : EquipmentBase<GalvanicCellShield>
     {
         public override string EquipmentName => "Galvanic Cell Shield";
 

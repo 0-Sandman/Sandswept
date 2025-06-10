@@ -4,7 +4,7 @@ using static Sandswept.Main;
 namespace Sandswept.Equipment.Standard
 {
     [ConfigSection("Equipment :: The Sand Sweeper")]
-    public class SandSweeper : EquipmentBase
+    public class SandSweeper : EquipmentBase<SandSweeper>
     {
         public override string EquipmentName => "The Sand Sweeper";
 

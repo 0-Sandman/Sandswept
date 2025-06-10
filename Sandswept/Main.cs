@@ -30,6 +30,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using MonoMod.Cil;
+using Sandswept.Enemies.SwepSwep;
 
 // using Sandswept.Components;
 
@@ -84,11 +85,13 @@ namespace Sandswept
         { "stubbed hopoo games/fx/hgsolid parallax", "shaders/fx/hgsolidparallax" }
     };
 
-        public List<ArtifactBase> Artifacts = new();
-        public List<ItemBase> Items = new();
-        public List<EquipmentBase> Equipments = new();
-        public List<BuffBase> Buffs = new();
-        public List<EliteEquipmentBase> EliteEquipments = new();
+        public static List<ArtifactBase> Artifacts = new();
+        public static List<ItemBase> AllItems = new();
+        public static List<ItemBase> EnabledItems = new();
+        public static List<EquipmentBase> AllEquipment = new();
+        public static List<EquipmentBase> EnabledEquipment = new();
+        public static List<BuffBase> Buffs = new();
+        public static List<EliteEquipmentBase> EliteEquipments = new();
         public static List<UnlockableDef> Unlocks = new();
         public static List<GameObject> EffectPrefabs = new();
 
@@ -203,13 +206,14 @@ namespace Sandswept
             foreach (var itemType in ItemTypes)
             {
                 ItemBase item = (ItemBase)Activator.CreateInstance(itemType);
-                Items.Add(item);
+                AllItems.Add(item);
             }
 
-            foreach (ItemBase item in Items)
+            foreach (ItemBase item in AllItems)
             {
                 if (ValidateItem(item, new()))
                 {
+                    EnabledItems.Add(item);
                     item.Init();
                 }
             }
@@ -220,8 +224,9 @@ namespace Sandswept
             foreach (var equipmentType in EquipmentTypes)
             {
                 EquipmentBase equipment = (EquipmentBase)Activator.CreateInstance(equipmentType);
-                if (ValidateEquipment(equipment, Equipments))
+                if (ValidateEquipment(equipment, AllEquipment))
                 {
+                    EnabledEquipment.Add(equipment);
                     equipment.Init(Config);
                 }
             }
@@ -276,6 +281,7 @@ namespace Sandswept
 
             CursedConfig.Init();
             // ObjectiveSystem.Init();
+            SwepSwep.Init();
 
             On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
 
@@ -285,9 +291,9 @@ namespace Sandswept
 
         private void ContagiousItemManager_Init(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
         {
-            for (int i = 0; i < Items.Count; i++)
+            for (int i = 0; i < AllItems.Count; i++)
             {
-                var itemBase = Items[i];
+                var itemBase = AllItems[i];
                 var itemToCorrupt = itemBase.ItemToCorrupt;
                 if (itemToCorrupt == null)
                 {

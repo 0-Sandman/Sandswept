@@ -4,7 +4,7 @@ using RoR2.UI;
 using System.Collections;
 using System.Linq;
 
-namespace Sandswept.Items.Whites
+namespace Sandswept.Items.Lunars
 {
     [ConfigSection("Items :: Hallowed Ichor")]
     public class HallowedIchor : ItemBase<HallowedIchor>

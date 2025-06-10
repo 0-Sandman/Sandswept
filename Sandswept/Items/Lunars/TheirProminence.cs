@@ -1,7 +1,7 @@
 ﻿using LookingGlass.ItemStatsNameSpace;
 using System.Linq;
 
-namespace Sandswept.Items.Whites
+namespace Sandswept.Items.Lunars
 {
     [ConfigSection("Items :: Their Prominence")]
     public class TheirProminence : ItemBase<TheirProminence>

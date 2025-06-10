@@ -22,7 +22,6 @@ namespace Sandswept.Items.Greens
         <style=cMono>
         //--AUTO-TRANSCRIPTION FROM LOADING BAY 4 OF THE UES [Redacted] --//
         </style>
-        
         "That's everything, right?"
 
         "Not quite. We're supposed to load those mean-looking missile salvos over there, too."

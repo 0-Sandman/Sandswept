@@ -23,8 +23,19 @@ namespace Sandswept.Enemies.DeltaConstruct
             prefab = Main.Assets.LoadAsset<GameObject>("DeltaConstructBody.prefab");
             prefab.GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
             prefabMaster = Main.Assets.LoadAsset<GameObject>("DeltaConstructMaster.prefab");
-            LanguageAPI.Add(prefab.GetComponent<CharacterBody>().baseNameToken.Replace("_NAME", "_LORE"), "\"Brother, watch as I create my own guardian.\"\r\n\"First, I will take mass, shape it into pyramids, as you taught me with the Alpha Constructs. Eight pyramids, to be exact.\"\r\n\"Next, I will imbue these with blood and soul. Blood, for heat, and soul, for compassion and empathy.\"\r\n \"No. These ratios are improper. They are supposed to be loyal, not emotional. There is too much soul in these creations.\"\r\n\"Brother? Why is soul unnecessary?\"\r\n \"Watch as I fill this knurl with excess soul. Its form becomes gold, a poor material for endurance.\"\r\n\"Is that it?\"\r\n \"No, brother, that is not all. If I were to hit it, it would want to retaliate. Soul brings life to our constructs. It is unstable, unreliable, and it dampens the other compounds, offsetting the ratios.\" \r\n\"If we were to treat our constructs properly, wouldn't giving them life be a good thing?\"\r\n \"Giving something soul gives it free will; the free will to decide we are not the construct’s supreme creators. Our constructs do not need to make that decision, only us.\"\r\n");
-
+            LanguageAPI.Add(prefab.GetComponent<CharacterBody>().baseNameToken.Replace("_NAME", "_LORE"),
+            """
+            Brother, watch as I create my own guardian.
+            First, I will take mass, shape it into pyramids, as you taught me with the Alpha Constructs. Eight pyramids, to be exact.
+            Next, I will imbue these with blood and soul. Blood, for heat, and soul, for compassion and empathy.
+             - No. These ratios are improper. They are supposed to be loyal, not emotional. There is too much soul in these creations.
+            Brother? Why is soul unnecessary? 
+             - Watch as I fill this knurl with excess soul. Its form becomes gold, a poor material for endurance.
+            Is that it?
+             - No, brother, that is not all. If I were to hit it, it would want to retaliate. Soul brings life to our constructs. It is unstable, unreliable, and it dampens the other compounds, offsetting the ratios. 
+            If we were to treat our constructs properly, wouldn't giving them life be a good thing? 
+             - Giving something soul gives it free will; the free will to decide we are not the construct's supreme creators. Our constructs do not need to make that decision, only us.
+            """);
             bolt = Paths.GameObject.MinorConstructProjectile;
             muzzleFlash = Paths.GameObject.MuzzleflashMinorConstruct;
 

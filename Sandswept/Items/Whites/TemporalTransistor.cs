@@ -22,7 +22,6 @@ namespace Sandswept.Items.Whites
         <style=cMono>
         //--AUTO-TRANSCRIPTION FROM LOADING BAY 3 OF THE UES [Redacted] --//
         </style>
-        
         "I've got a pretty weird shipment here. Come check it out, I know you love this stuff."
 
         "One sec, I gotta finish packing this. Just describe it to me."
@@ -33,8 +32,7 @@ namespace Sandswept.Items.Whites
 
         "Input log just says 'transistor.' I guess I can see it, with the shape and everything, but it's an awfully big one. Figures, with what it does, I suppose. I wonder what it'll be used for."
 
-        "What do you mean, it's a ‘transistor'?"
-
+        "What do you mean, it's a 'transistor'?"
 
         "Oh. Y'know, the things that make computers work."
 

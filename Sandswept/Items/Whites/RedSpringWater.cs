@@ -18,7 +18,6 @@ namespace Sandswept.Items.Whites
         <style=cMono>
         //--AUTO-TRANSCRIPTION FROM UES [Redacted] --//
         </style>
-
         "I don't know if you should be drinking that."
 
         "Why not? I feel amazing!"
@@ -32,7 +31,6 @@ namespace Sandswept.Items.Whites
         "Well, unlike Kyle, I'm not sick. Probably because of this stuff, too, with how much faster my wounds are healing."
 
         "It's your funeral."
-
         """;
         public override ItemTier Tier => ItemTier.Tier1;
 

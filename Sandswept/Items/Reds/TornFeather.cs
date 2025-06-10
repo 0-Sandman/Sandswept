@@ -18,7 +18,6 @@ namespace Sandswept.Items.Reds
         <style=cMono>
         //--AUTO-TRANSCRIPTION FROM LOADING BAY 6 OF THE UES [Redacted] --//
         </style>
-
         "Whoa..."
 
         "Quite something, eh?"

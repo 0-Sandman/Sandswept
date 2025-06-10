@@ -12,7 +12,7 @@ using UnityEngine.VFX;
 namespace Sandswept.Equipment.Lunar
 {
     [ConfigSection("Equipment :: Corrupted Catalyst")]
-    public class CorruptedCatalyst : EquipmentBase
+    public class CorruptedCatalyst : EquipmentBase<CorruptedCatalyst>
     {
         public override string EquipmentName => "Corrupted Catalyst";
 
