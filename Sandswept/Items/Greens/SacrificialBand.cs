@@ -191,12 +191,10 @@
 
     public class SacrificialBandController : CharacterBody.ItemBehavior
     {
-        public CharacterBody body;
         public bool shouldRun = false;
 
         public void Start()
         {
-            body = GetComponent<CharacterBody>();
             if (!body.HasBuff(SacrificialBand.readyBuff) && stack > 0)
             {
                 body.AddBuff(SacrificialBand.readyBuff);
