@@ -5,7 +5,6 @@
 - 2 Elites
 - 5 Interactables
 - 22 Items
-- A new twisted scavenger
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
