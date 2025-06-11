@@ -10,8 +10,9 @@ using MonoMod.Cil;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Debug = UnityEngine.Debug;
+using LookingGlass.ItemStatsNameSpace;
 
-namespace Sandswept.Items.Whites
+namespace Sandswept.Items.Greens
 {
     [ConfigSection("Item: Makeshift Plate")]
     public class MakeshiftPlate : ItemBase<MakeshiftPlate>
@@ -98,6 +99,25 @@ namespace Sandswept.Items.Whites
             }
         }
 
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Plating: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Armor);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.calculateValuesNew = (luck, stack, procChance) =>
+            {
+                List<float> values = new()
+                {
+                    (basePercentPlatingGain + stackPercentPlatingGain * (stack - 1)) / 100f
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
+        }
+
         private void UpdateHealthBar(ILContext il)
         {
             ILCursor c = new(il);
@@ -133,8 +153,10 @@ namespace Sandswept.Items.Whites
             c.Emit(OpCodes.Ldarg, 0);
             c.Emit(OpCodes.Ldloc, 3);
             c.Emit(OpCodes.Ldarg, 0);
-            c.EmitDelegate<Func<float, HealthBar, float>>((orig, self) => {
-                if (self.source && self.source.TryGetComponent<PlatingManager>(out var p)) {
+            c.EmitDelegate<Func<float, HealthBar, float>>((orig, self) =>
+            {
+                if (self.source && self.source.TryGetComponent<PlatingManager>(out var p))
+                {
                     return orig + p.CurrentPlating;
                 }
 
@@ -243,6 +265,7 @@ namespace Sandswept.Items.Whites
 
         private void UpdatePlatingUI(ILContext il)
         {
+            // NRE at IL_0007 in <UpdatePlatingUI>b__29_2
             ILCursor c = new(il);
 
             MethodReference handleBar = null;
@@ -259,7 +282,8 @@ namespace Sandswept.Items.Whites
             c.Index = 0;
 
             c.Emit(OpCodes.Ldarg_0);
-            c.EmitDelegate<Func<HealthBar, HealthBar.BarInfo>>((bar) => {
+            c.EmitDelegate<Func<HealthBar, HealthBar.BarInfo>>((bar) =>
+            {
                 PlatingManager manager = bar.source.GetComponent<PlatingManager>();
                 HealthBar.BarInfo info = new() {
                     enabled = manager && manager.CurrentPlating > 0,
@@ -271,7 +295,8 @@ namespace Sandswept.Items.Whites
                     normalizedXMin = 0f
                 };
 
-                if (info.enabled) {
+                if (info.enabled)
+                {
                     float hp = manager.CurrentPlating / manager.MaxPlating;
                     float max = 1f;
 
@@ -285,8 +310,10 @@ namespace Sandswept.Items.Whites
 
             c.TryGotoNext(MoveType.After, x => x.MatchCallOrCallvirt<HealthBar.BarInfoCollection>(nameof(HealthBar.BarInfoCollection.GetActiveCount)));
             c.Emit(OpCodes.Ldloca, platingInfo);
-            c.EmitDelegate((int count, in HealthBar.BarInfo info) => {
-                if (info.enabled) {
+            c.EmitDelegate((int count, in HealthBar.BarInfo info) =>
+            {
+                if (info.enabled)
+                {
                     count++;
                 }
 

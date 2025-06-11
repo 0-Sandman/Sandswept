@@ -179,5 +179,17 @@ namespace Sandswept.Items.Greens
                 }
             }
         }
+
+        public void OnDisable()
+        {
+            if (body.HasBuff(DriftingPerception.ready))
+            {
+                body.RemoveBuff(DriftingPerception.ready);
+            }
+            if (body.HasBuff(DriftingPerception.cooldown))
+            {
+                body.RemoveBuff(DriftingPerception.cooldown);
+            }
+        }
     }
 }

@@ -89,7 +89,7 @@ namespace Sandswept.Survivors.Ranger
 
                     if (selfDamageTimer >= selfDamageInterval)
                     {
-                        TakeDamage(fullHeatTimer * 0.2f);
+                        TakeDamage(fullHeatTimer * 0.15f);
                         selfDamageTimer = 0f;
                     }
                 }

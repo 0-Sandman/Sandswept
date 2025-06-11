@@ -74,13 +74,19 @@ namespace Sandswept.Items.Whites
         public override object GetItemStatsDef()
         {
             ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Extra Jump Chance: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
             itemStatsDef.descriptions.Add("Max Extra Jumps: ");
             itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Utility);
             itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Number);
+            itemStatsDef.hasChance = true;
+            itemStatsDef.chanceScaling = ItemStatsDef.ChanceScaling.DoesNotScale;
             itemStatsDef.calculateValuesNew = (luck, stack, procChance) =>
             {
                 List<float> values = new()
                 {
+                    LookingGlass.Utils.CalculateChanceWithLuck(chance * procChance * 0.01f, luck),
                     baseMaxJumps + stackMaxJumps * (stack - 1)
                 };
 
