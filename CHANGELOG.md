@@ -8,6 +8,7 @@
   - Fixed description
 - Items
   - Added LookingGlass Support to Makeshift Plate
+  - Fixed LookingGlass Support with Temporal Transistor
   - Fixed Makeshift Plate UI NRE
 
 ## 1.2.1 Patch Notes
