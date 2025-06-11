@@ -63,6 +63,5 @@
 <br>
 <img src="https://i.postimg.cc/FKfyBPPS/megarex.png"/>
 <br>
-Do not click on her icon too many times.
 
 </details>
