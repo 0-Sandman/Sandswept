@@ -1,3 +1,13 @@
+## 1.2.2 Patch Notes
+- General
+  - Added Support
+  - Fixed readme
+- VOL-T
+  - Fixed description
+
+## 1.2.1 Patch Notes
+- Deleted unnecessary files that were included by accident
+
 # 1.2.0 Patch Notes
 - General
   - Added LookingGlass Support
@@ -8,17 +18,17 @@
   - Fixed Loadout bugs
   - Removed jumpscare easter egg
 - VOL-T
+  - Completely re-animated courtesy of Synodii! (the goat)
+  - Changed Galvanic Bolt - tick rate is now doubled and damage is halved
   - Updated log (fuck Google Docs)
   - Fixed her broken variant spawning on the host's side
   - Fixed her broken variant spawning while unlocked already
   - Fixed most instances of infinite procs on her broken variant
   - Fixed pressing Interact while in Static Snare teleporting you instantly (NONE OF Y'ALL KNEW OF THIS 6+ MONTH OLD BUG!!!)
-  - Completely re-animated courtesy of Synodii! (the goat)
-  - Galvanic Bolt tick rate doubled and damage halved. (feels better to use)
 - Enemies
   - Added SwepSwep the Sandy
   - Updated all logs (fuck Google Docs)
-  - Fixed Theta Construct visual effects not appearing on clients.
+  - Fixed Theta Construct VFX not appearing on clients
 - Items/Equipment
   - Added Glacial Plasma
   - Added Makeshift Plate

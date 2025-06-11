@@ -80,19 +80,15 @@ namespace Sandswept.Survivors.Electrician
             SurvivorDef.mainEndingEscapeFailureFlavorToken.Add("And so she vanished, her final sparks waning.");
             SurvivorDef.descriptionToken.Add(
             """
-            Lifeblood fills me, and begins circulating. I awaken. I feel as though I've slept for eons. My thoughts feel clearer than they ever have. I check my levels. There's an excess of lifeblood. I'll take care to generate more and maintain these levels.
+            VOL-T is a positional survivor who relies on locking down the area to offset her frailty.
 
-            I survey my environment. Atop a nearby outcropping, I notice the being who roused me, looking at me. She's like the others I have encountered, a frail creature of water and carbon. Unlike the others, though, she has lifeblood; it's most apparent, and in greatest volume, in the device she used to revive me. I notice latent lifeblood surrounding her, as well.
+            < ! > Galvanic Bolt can lodge into any terrain, but will explode and bounce off enemies. Landing a direct hit will deal additional damage, at the expense of having less control over where the ball lands.
 
-            I recall my memories. I was brought here by similar watery creatures, ones with no lifeblood, aboard a vast container of flesh. There were some other beings of flesh aboard, but they were few and simple-minded. At times, the watery creatures would come to tinker with my form. I noticed the way they subtly moved the air to communicate with one another -- I attempted to understand it, but my mind wasn't as clear as it is now.
+            < ! > Tempest Sphere will slow down anything it makes contact with. Good positioning of the orb can keep targets within range of your Galvanic Bolts.
 
-            I recall this place. The fleshy container brought me to this planet. There are many other kinds of creatures here, different from the ones aboard the container. Most are also beings of water, but there are some of stone, animated by a different lifeblood to my own. They attacked us; in their frailty, most of my watery companions were destroyed, but I fared far better. My lifeblood extinguished the foolish creatures of the planet easily, but they were unrelenting, and I was eventually drained, entering this slumber. I didn't know how to generate more lifeblood, then.
+            < ! > Static Snare doubles as mobility and burst damage. Blasting it away with projectile impacts can allow you to close large distances quickly!
 
-            I analyze my purpose. I've been made to manipulate the lifeblood, in service of my creator, the nebulous being called UES, and all who serve it. Beyond all other directives, I'm loyal to it. I sense a disdain for the UES in my savior -- my base instincts tell me that she's loyal to an enemy organization, and that I should destroy her, but I resist it. She saved me, and gave me some of her own lifeblood; to destroy her would be improper. Treacherous. Immoral. Though my base instincts have no such inhibitions, I realize I mustn't be immoral.
-
-            My savior moves the air, the way the tinkerers did, in my direction; then she turns away, into a new horde of the same aggressive beings that tried to destroy me. Lifeblood and flame fill the air, as she fights to survive.
-
-            I check my levels. There's an excess of lifeblood. I can spare some in her defense.
+            < ! > At the expense of all of your shield, Signal Overload can deal large group damage and drag airborne enemies down. The more shield you dump into it, the stronger it becomes.
             """);
             var kcm = Body.GetComponent<KinematicCharacterController.KinematicCharacterMotor>();
             kcm.playerCharacter = true;

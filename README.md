@@ -4,7 +4,7 @@
 - 4 Enemies
 - 2 Elites
 - 5 Interactables
-- 22 Items
+- 23 Items
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
