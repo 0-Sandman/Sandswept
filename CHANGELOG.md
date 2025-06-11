@@ -2,11 +2,16 @@
 - General
   - Added Support
   - Fixed readme
+- Ranger
+  - Slightly reduced self damage while in heat
 - VOL-T
   - Fixed description
+- Items
+  - Added LookingGlass Support to Makeshift Plate
+  - Fixed Makeshift Plate UI NRE
 
 ## 1.2.1 Patch Notes
-- Deleted unnecessary files that were included by accident
+- ![](https://postimg.cc/hQW8Wp8T)
 
 # 1.2.0 Patch Notes
 - General
