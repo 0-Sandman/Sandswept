@@ -1,3 +1,14 @@
+# 1.2.2 Patch Notes
+- Items
+  - Fixed incompatibility that caused Makeshift Plate to break.
+  - Fixed Makeshift Plate causing the healthbar to display a negative current health at times.
+  - Makeshift Plate now grants plating upon pickup aswell as stage entry.
+  - Makeshift Plate no longer persists its plating for the stage duration if you lose all stacks of it.
+
+# 1.2.1 Patch Notes
+- General
+  - Removed a single file from the mod zip.
+
 # 1.2.0 Patch Notes
 - General
   - Added LookingGlass Support
