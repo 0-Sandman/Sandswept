@@ -19,7 +19,7 @@
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 ![](https://i.postimg.cc/X7kbbH2h/EliteUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/htCRJJR1/Interactable-UI.png)
+![](https://i.postimg.cc/FHZPYRhQ/Interactable-UI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 ![](https://i.postimg.cc/gjLT0SF7/ItemUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
