@@ -1,10 +1,10 @@
 # <a href="https://discord.gg/zcQnUUPdpW"><img src="https://i.postimg.cc/Qxwf7yLw/booook-1.gif" width="1100"/></a>
 ### <img src="https://i.postimg.cc/T3FJSHfy/sandsw-ept-Icon.png" width="32"/> Sandswept is a content expansion mod that aims to add a variety of content including:
 - 2 Survivors
-- 4 Enemies
+- 5 Enemies
 - 2 Elites
-- 4 Interactables
-- 21 Items
+- 5 Interactables
+- 22 Items
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 

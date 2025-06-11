@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 378104806
+CRC: 1260667590
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: f3b88d7a41c3666094373b67db22f0d5
+    Hash: 27bd8ba5bccd7d53cf8f26b076b5f3c8
   TypeTreeHash:
     serializedVersion: 2
-    Hash: d43e3017b60c1dbb902f9e67377599ac
+    Hash: dee691ea5795fee4f9bd1bc067d88e89
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -96,6 +96,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 1024779430, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: 1246913829, guid: ca6fb10b837101520834a90b90b15080, type: 3}
+- Class: 114
   Script: {fileID: 1777312123, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1985007777, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
@@ -103,8 +105,6 @@ ClassTypes:
   Script: {fileID: -1568778350, guid: 050936fea8909af15a3fd3b64da1ff83, type: 3}
 - Class: 114
   Script: {fileID: 337599609, guid: ca6fb10b837101520834a90b90b15080, type: 3}
-- Class: 114
-  Script: {fileID: -1184577237, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
   Script: {fileID: 1340332627, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
@@ -278,7 +278,7 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 105922711, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 1246913829, guid: ca6fb10b837101520834a90b90b15080, type: 3}
+  Script: {fileID: -724012104, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 120
@@ -420,6 +420,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/CannonJelly/CannonJellyBody.prefab
 - Assets/Sandswept/Base/Characters/Ranger/skills/Dash.png
 - Assets/Sandswept/Base/Characters/Ranger/Skindefault.asset
+- Assets/Sandswept/Base/Items/MakeshiftPlate/texIconPlate.png
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherBlue.mat
 - Assets/Sandswept/Base/Characters/ThetaConstruct/ThetaConstructBody.prefab
 - Assets/Sandswept/Base/Items/TornFeather/matFeatherParticle.mat

@@ -21,8 +21,6 @@ namespace Sandswept.Survivors.Electrician.States
 
             characterBody.SetSpreadBloom(12f, true);
 
-            // base.StartAimMode(duration * 0.5f);
-
             PlayAnimation("Gesture, Override", "ShootLeft", "Generic.playbackRate", duration / 3f);
 
             // Util.PlaySound("Play_loader_R_shock", base.gameObject);

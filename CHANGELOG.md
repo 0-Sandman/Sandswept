@@ -13,12 +13,15 @@
   - Fixed her broken variant spawning while unlocked already
   - Fixed most instances of infinite procs on her broken variant
   - Fixed pressing Interact while in Static Snare teleporting you instantly (NONE OF Y'ALL KNEW OF THIS 6+ MONTH OLD BUG!!!)
+  - Completely re-animated courtesy of Synodii! (the goat)
+  - Galvanic Bolt tick rate doubled and damage halved. (feels better to use)
 - Enemies
   - Added SwepSwep the Sandy
   - Updated all logs (fuck Google Docs)
   - Fixed Theta Construct visual effects not appearing on clients.
 - Items/Equipment
   - Added Glacial Plasma
+  - Added Makeshift Plate
   - Added proper logs to Festering Hunger and Millenium (please check the logbooks they are really cool)
   - Added proper buff icons to Drifting Perception
   - Added SFX to Temporal Transistor

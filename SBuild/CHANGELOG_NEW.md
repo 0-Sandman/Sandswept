@@ -1,4 +1,4 @@
-## 1.2.0 Patch Notes
+## 1.3.0 Patch Notes
 - General
   - Added LookingGlass Support
 - Enemies

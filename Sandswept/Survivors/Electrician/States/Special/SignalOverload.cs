@@ -23,6 +23,7 @@ namespace Sandswept.Survivors.Electrician.States
             FindModelChild("Tethers").gameObject.SetActive(true);
 
             PlayAnimation("Gesture, Override", "StartOverload", "Generic.playbackRate", baseDuration * 2f);
+            PlayAnimation("ChestSpin", "Winding", "Generic.playbackRate", baseDuration * 2f);
 
             // base.characterMotor.walkSpeedPenaltyCoefficient = 0.1f;
             // Util.PlaySound("Play_ui_obj_nullWard_charge_loop", gameObject);

@@ -11,9 +11,9 @@
 # Content
 
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/B65DP2b7/RangerUI.png)
+![](https://i.postimg.cc/QxQrktwy/RangerUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/D00xQ7DX/VOLTUI.png)
+![](https://i.postimg.cc/zfX5frdP/VOLTUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 ![](https://i.postimg.cc/g2cPkVQ0/EnemyUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
@@ -21,7 +21,7 @@
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 ![](https://i.postimg.cc/htCRJJR1/Interactable-UI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/W35W2yFN/ItemUI.png)
+![](https://i.postimg.cc/gjLT0SF7/ItemUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 
 # Credits
