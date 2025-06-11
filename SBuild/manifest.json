@@ -1,6 +1,6 @@
 {
     "name": "Sandswept",
-    "version_number": "1.2.0",
+    "version_number": "1.2.1",
     "website_url": "https://github.com/0-Sandman/Sandswept/",
     "description": "A content expansion that adds a variety of unique and high quality content including survivors, enemies, interactables, and more.",
     "dependencies": [
@@ -18,6 +18,7 @@
 		"RiskofThunder-R2API_Director-2.3.5",
 		"RiskofThunder-R2API_ProcType-1.0.2",
 		"RiskOfBrainrot-MoreStats-1.2.5",
-		"pseudopulse-SoundFixer-1.0.0"
+		"pseudopulse-SoundFixer-1.0.0",
+		"RiskofThunder-R2API_Skills-1.0.2"
     ]
 }

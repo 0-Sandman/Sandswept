@@ -1,7 +1,7 @@
 # <a href="https://discord.gg/zcQnUUPdpW"><img src="https://i.postimg.cc/Qxwf7yLw/booook-1.gif" width="1100"/></a>
 ### <img src="https://i.postimg.cc/T3FJSHfy/sandsw-ept-Icon.png" width="32"/> Sandswept is a content expansion mod that aims to add a variety of content including:
 - 2 Survivors
-- 5 Enemies
+- 4 Enemies
 - 2 Elites
 - 5 Interactables
 - 22 Items
@@ -11,17 +11,17 @@
 # Content
 
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/B65DP2b7/RangerUI.png)
+![](https://i.postimg.cc/QxQrktwy/RangerUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/D00xQ7DX/VOLTUI.png)
+![](https://i.postimg.cc/zfX5frdP/VOLTUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 ![](https://i.postimg.cc/g2cPkVQ0/EnemyUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 ![](https://i.postimg.cc/X7kbbH2h/EliteUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/htCRJJR1/Interactable-UI.png)
+![](https://i.postimg.cc/FHZPYRhQ/Interactable-UI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/W35W2yFN/ItemUI.png)
+![](https://i.postimg.cc/gjLT0SF7/ItemUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 
 # Credits
@@ -63,6 +63,5 @@
 <br>
 <img src="https://i.postimg.cc/FKfyBPPS/megarex.png"/>
 <br>
-Do not click on her icon too many times.
 
 </details>
