@@ -11,7 +11,7 @@
   - Fixed Makeshift Plate UI NRE
 
 ## 1.2.1 Patch Notes
-- ![](https://postimg.cc/hQW8Wp8T)
+- ![](https://i.postimg.cc/vTD0nKcq/eyebrow2.png)
 
 # 1.2.0 Patch Notes
 - General
