@@ -1,3 +1,7 @@
+# 1.2.3 Patch Notes
+- Items
+  - Fixed Makeshift Plate bombarding your log with NREs.
+
 # 1.2.2 Patch Notes
 - General
   - Adjustments to the README images.

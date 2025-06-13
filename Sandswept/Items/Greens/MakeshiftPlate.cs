@@ -284,7 +284,7 @@ namespace Sandswept.Items.Greens
             c.Emit(OpCodes.Ldarg_0);
             c.EmitDelegate<Func<HealthBar, HealthBar.BarInfo>>((bar) =>
             {
-                PlatingManager manager = bar.source.GetComponent<PlatingManager>();
+                PlatingManager manager = bar.source ? bar.source.GetComponent<PlatingManager>() : null;
                 HealthBar.BarInfo info = new() {
                     enabled = manager && manager.CurrentPlating > 0,
                     color = Color.grey,
