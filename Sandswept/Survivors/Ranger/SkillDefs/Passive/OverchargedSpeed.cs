@@ -9,7 +9,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
         public override Type ActivationStateType => typeof(GenericCharacterMain);
         public override string ActivationMachineName => "Body";
         public override float Cooldown => 0f;
-        public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("Dash.png");
+        public override Sprite Icon => Main.assets.LoadAsset<Sprite>("Dash.png");
         public override int StockToConsume => 0;
         public override InterruptPriority InterruptPriority => InterruptPriority.Skill;
 

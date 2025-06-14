@@ -27,5 +27,7 @@
         {
             skillDef = ScriptableObject.CreateInstance<RangerUtilityDef>();
         }
+
+        public override float GetProcCoefficientData() => 1f;
     }
 }

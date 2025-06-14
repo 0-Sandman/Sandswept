@@ -43,7 +43,7 @@ namespace Sandswept.Survivors.Ranger
         {
             base.LoadAssets();
 
-            Body = Main.Assets.LoadAsset<GameObject>("RangerBody.prefab");
+            Body = Main.assets.LoadAsset<GameObject>("RangerBody.prefab");
             var characterBody = Body.GetComponent<CharacterBody>();
             characterBody.portraitIcon = Main.hifuSandswept.LoadAsset<Texture2D>("texRangerIcon.png");
             characterBody.bodyColor = new Color32(54, 215, 169, 255);
@@ -64,9 +64,9 @@ namespace Sandswept.Survivors.Ranger
 
             Body.GetComponent<CameraTargetParams>().cameraParams = Paths.CharacterCameraParams.ccpStandard;
 
-            ContentAddition.AddMaster(Main.Assets.LoadAsset<GameObject>("RangerMonsterMaster.prefab"));
+            ContentAddition.AddMaster(Main.assets.LoadAsset<GameObject>("RangerMonsterMaster.prefab"));
 
-            var crosshair = Main.Assets.LoadAsset<GameObject>("Assets/Sandswept/Base/Characters/Ranger/CrosshairRanger.prefab");
+            var crosshair = Main.assets.LoadAsset<GameObject>("Assets/Sandswept/Base/Characters/Ranger/CrosshairRanger.prefab");
 
             /*var innerSight = crosshair.transform.GetChild(1);
             var rectTransform = innerSight.GetComponent<RectTransform>();
@@ -91,7 +91,7 @@ namespace Sandswept.Survivors.Ranger
 
             cb.GetComponent<KinematicCharacterMotor>().playerCharacter = true;
 
-            SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdRanger.asset");
+            SurvivorDef = Main.assets.LoadAsset<SurvivorDef>("sdRanger.asset");
             SurvivorDef.cachedName = "Ranger"; // for eclipse fix
 
             if (Electrician.Electrician.instance != null)
@@ -223,8 +223,8 @@ namespace Sandswept.Survivors.Ranger
 
         public void AddSkins()
         {
-            defaultDef = Main.Assets.LoadAsset<SkinDef>("Skindefault.asset");
-            masteryDef = Main.Assets.LoadAsset<SkinDef>("sdRangerMastery.asset");
+            defaultDef = Main.assets.LoadAsset<SkinDef>("Skindefault.asset");
+            masteryDef = Main.assets.LoadAsset<SkinDef>("sdRangerMastery.asset");
 
             var scarfAndPantsColor = new Color32(88, 161, 142, 255);
             var helmetColor = new Color32(0, 255, 169, 255);
@@ -292,7 +292,7 @@ namespace Sandswept.Survivors.Ranger
             clickCount++;
             if (clickCount >= 25 || (Main.cursedConfig.Value && clickCount >= 2))
             {
-                GameObject.Instantiate(Main.Assets.LoadAsset<GameObject>("EggPrefab.prefab"), canvas.transform).GetComponent<EggController>().velocity = Random.insideUnitCircle.normalized * 50f;
+                GameObject.Instantiate(Main.assets.LoadAsset<GameObject>("EggPrefab.prefab"), canvas.transform).GetComponent<EggController>().velocity = Random.insideUnitCircle.normalized * 50f;
                 clickCount = 0;
             }
         }
@@ -327,7 +327,7 @@ namespace Sandswept.Survivors.Ranger
             var armorColor = mainTex.GetPixel(41, 390);
             var suitColor = mainTex.GetPixel(453, 465);
 
-            var newMat = new Material(Main.Assets.LoadAsset<Material>("matRanger.mat"));
+            var newMat = new Material(Main.assets.LoadAsset<Material>("matRanger.mat"));
 
             newMat.SetTexture("_MainTex", mainTex);
             newMat.SetTexture("_EmTex", emTex);

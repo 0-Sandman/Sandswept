@@ -30,7 +30,7 @@ namespace Sandswept.Equipment.Lunar
 
         Perhaps you should oversee the project. It would be fitting, for it to be your first. Increase the intensity, and focus its effects -- it needn't have more than a single purpose. An addition of tetrafoil should do nicely. As always, do not settle for less than perfection.
         """;
-        public override GameObject EquipmentModel => Main.Assets.LoadAsset<GameObject>("PickupLunarCatalyst.prefab");
+        public override GameObject EquipmentModel => Main.assets.LoadAsset<GameObject>("PickupLunarCatalyst.prefab");
         public override bool IsLunar => true;
         public override Sprite EquipmentIcon => Main.hifuSandswept.LoadAsset<Sprite>("texCorruptedCatalyst.png");
         public override float Cooldown => 35f;
@@ -57,18 +57,13 @@ namespace Sandswept.Equipment.Lunar
             return new ItemDisplayRuleDict();
         }
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
-            CreateConfig(config);
-            CreateLang();
-            LoadAssets();
-
-            CreateEquipment();
-            //SetupBuffDefLists();
-            Hooks();
+            base.Init();
+            SetUpPrefab();
         }
 
-        private void LoadAssets()
+        private void SetUpPrefab()
         {
             wardReference = Main.dgoslingAssets.LoadAsset<GameObject>("MushroomLunarWard");
             wardReference.GetComponentInChildren<Renderer>().AddComponent<MaterialControllerComponents.HGIntersectionController>();
@@ -102,7 +97,6 @@ namespace Sandswept.Equipment.Lunar
                 RoR2Content.Buffs.Warbanner,
                 RoR2Content.Buffs.CloakSpeed,
                 RoR2Content.Buffs.FullCrit,
-                RoR2Content.Buffs.AffixPoison,
                 RoR2Content.Buffs.WarCryBuff,
                 RoR2Content.Buffs.Energized,
                 RoR2Content.Buffs.AffixRed,
@@ -113,7 +107,6 @@ namespace Sandswept.Equipment.Lunar
                 RoR2Content.Buffs.Pulverized, // get fucked
                 RoR2Content.Buffs.WhipBoost,
                 RoR2Content.Buffs.DeathMark,
-                RoR2Content.Buffs.CrocoRegen,
                 RoR2Content.Buffs.LifeSteal,
                 RoR2Content.Buffs.PowerBuff,
                 RoR2Content.Buffs.LunarShell,

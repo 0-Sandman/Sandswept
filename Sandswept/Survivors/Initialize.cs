@@ -25,7 +25,7 @@ namespace Sandswept.Survivors
             ChargeGain.Init();
             // Based.Init();
 
-            Material matRanger = Main.Assets.LoadAsset<Material>("matRanger.mat");
+            Material matRanger = Main.assets.LoadAsset<Material>("matRanger.mat");
             matRanger.shader = Utils.Assets.Shader.HGStandard;
             matRanger.SetColor("_EmColor", Color.white);
             matRanger.SetFloat("_EmPower", 2.5f);

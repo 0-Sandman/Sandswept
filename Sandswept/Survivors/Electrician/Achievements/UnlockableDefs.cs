@@ -30,7 +30,7 @@
 
             LanguageAPI.Add("SANDSWEPT_BROKENELEC_NAME", "Damaged Robot");
 
-            Sprite elecSprite = Main.Assets.LoadAsset<Sprite>("texElectricianIcon2.png");
+            Sprite elecSprite = Main.assets.LoadAsset<Sprite>("texElectricianIcon2.png");
             charUnlock.achievementIcon = TotallyNotStolenUtils.AddItemIconBackgroundToSprite(elecSprite, TotallyNotStolenUtils.ItemIconBackgroundType.Survivor);
 
             ContentAddition.AddUnlockableDef(charUnlock);

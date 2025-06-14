@@ -12,35 +12,20 @@ using Sandswept.Elites;
 using static R2API.DamageAPI;
 using R2API.ContentManagement;
 using R2API.Networking;
-using Sandswept.Survivors.Ranger.VFX;
-using Sandswept.Survivors.Ranger.Projectiles;
-using Sandswept.Survivors.Ranger.Hooks;
-using Sandswept.Survivors.Ranger.Crosshairs;
-
-// using Sandswept.WIP_Content;
-using Sandswept.Survivors.Ranger.Pod;
 using HarmonyLib;
 using Sandswept.Enemies;
-using Sandswept.Elites.VFX;
 using RoR2.ExpansionManagement;
 using Sandswept.Interactables;
 using Sandswept.DoTs;
 using Sandswept.Drones;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.IO;
 using MonoMod.Cil;
 using Sandswept.Enemies.SwepSwepTheSandy;
-
-// using Sandswept.Components;
-
-// using Sandswept.Survivors.Ranger.ItemDisplays;
 
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
 
 namespace Sandswept
 {
-    [BepInPlugin(ModGuid, ModName, ModVer)]
+    [BepInPlugin(ModGuid, ModName, ModVersion)]
     [BepInDependency(Skins.PluginGUID, Skins.PluginVersion)]
     [BepInDependency(DotAPI.PluginGUID, DotAPI.PluginVersion)]
     [BepInDependency(ItemAPI.PluginGUID, ItemAPI.PluginVersion)]
@@ -62,10 +47,10 @@ namespace Sandswept
     {
         public const string ModGuid = "com.TeamSandswept.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVer = "1.2.2";
+        public const string ModVersion = "1.2.2";
 
-        public static AssetBundle MainAssets;
-        public static AssetBundle Assets;
+        public static AssetBundle mainAssets;
+        public static AssetBundle assets;
         public static AssetBundle prodAssets;
         public static AssetBundle hifuSandswept;
         public static AssetBundle dgoslingAssets;
@@ -74,16 +59,6 @@ namespace Sandswept
 
         public static ExpansionDef SOTV;
         public static ExpansionDef SandsweptExpansionDef;
-
-        public static Dictionary<string, string> ShaderLookup = new()
-    {
-        { "StubbedShader/deferred/hgstandard", "shaders/deferred/hgstandard" },
-        { "stubbed hopoo games/fx/hgcloud intersection remap", "shaders/fx/hgintersectioncloudremap" },
-        { "stubbed hopoo games/fx/hgcloud remap", "shaders/fx/hgcloudremap" },
-        { "stubbed hopoo games/fx/hgdistortion", "shaders/fx/hgdistortion" },
-        { "stubbed hopoo games/deferred/hgsnow topped", "shaders/deferred/hgsnowtopped" },
-        { "stubbed hopoo games/fx/hgsolid parallax", "shaders/fx/hgsolidparallax" }
-    };
 
         public static List<ArtifactBase> Artifacts = new();
         public static List<ItemBase> AllItems = new();
@@ -97,9 +72,6 @@ namespace Sandswept
 
         public static Dictionary<BuffBase, bool> BuffStatusDictionary = new();
 
-        //public static List<Material> SwappedMaterials = new List<Material>();
-
-        //Provides a direct access to this plugin's logger for use in any of your other classes.
         public static BepInEx.Logging.ManualLogSource ModLogger;
 
         public static ConfigFile config;
@@ -115,6 +87,8 @@ namespace Sandswept
 
         public static bool LookingGlassLoaded = false;
 
+        public static bool CustomEmotesAPILoaded = false;
+
         private void Awake()
         {
             Instance = this;
@@ -123,84 +97,82 @@ namespace Sandswept
 
             LookingGlassLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("droppod.lookingglass");
 
+            CustomEmotesAPILoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.weliveinasociety.CustomEmotesAPI");
+
             SOTV = Utils.Assets.ExpansionDef.DLC1;
 
             ModLogger = Logger;
 
+            SetUpConfig();
+            SetUpAssets();
+            SetUpContent();
+            SetUpHooks();
+
+            ModLogger.LogDebug("#SANDSWEEP");
+            ModLogger.LogDebug("Initialized mod in " + stopwatch.ElapsedMilliseconds + "ms");
+        }
+
+        public void SetUpConfig()
+        {
             config = Config;
             backupConfig = new ConfigFile(BepInEx.Paths.ConfigPath + "\\com.TeamSandswept.Sandswept.Backup.cfg", true);
             backupConfig.Bind(": DO NOT MODIFY THIS FILES CONTENTS :", ": DO NOT MODIFY THIS FILES CONTENTS :", ": DO NOT MODIFY THIS FILES CONTENTS :", ": DO NOT MODIFY THIS FILES CONTENTS :");
             enableAutoConfig = config.Bind("Config", "Enable Auto Config Sync", true, "Disabling this would stop Sandswept from syncing config whenever a new version is found.");
             bool _preVersioning = !((Dictionary<ConfigDefinition, string>)AccessTools.DeclaredPropertyGetter(typeof(ConfigFile), "OrphanedEntries").Invoke(config, null)).Keys.Any(x => x.Key == "Latest Version");
-            latestVersion = config.Bind("Config", "Latest Version", ModVer, "DO NOT CHANGE THIS");
+            latestVersion = config.Bind("Config", "Latest Version", ModVersion, "DO NOT CHANGE THIS");
 
             cursedConfig = config.Bind("Config", "Enable Cursed Config?", false, "just dumb shit");
 
-            if (enableAutoConfig.Value && (_preVersioning || (latestVersion.Value != ModVer)))
+            if (enableAutoConfig.Value && (_preVersioning || (latestVersion.Value != ModVersion)))
             {
-                latestVersion.Value = ModVer;
+                latestVersion.Value = ModVersion;
                 ConfigManager.VersionChanged = true;
                 ModLogger.LogInfo("Config Autosync Enabled.");
             }
 
-            Assets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweptassets2"));
-            prodAssets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "sandsweep3")); // MFS I SAID MERGE INTO OTHER ASSETS // nuh uh :3c
-            hifuSandswept = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "hifusandswept"));
-            dgoslingAssets = AssetBundle.LoadFromFile(Assembly.GetExecutingAssembly().Location.Replace("Sandswept.dll", "dgoslingstuff"));
-
-            Survivors.SelfDamageHook.Init();
-
-            // Based.Init();
-
-            Sandswept.Utils.Keywords.SetupKeywords();
-
-            Decay.Init();
-
-            GenerateExpensionDef();
-
             AutoRunCollector.HandleAutoRun();
             ConfigManager.HandleConfigAttributes(Assembly.GetExecutingAssembly(), Config);
+        }
 
-            // config doesnt work pseudopulse ! ! nre @ L63 utils/config.cs
-            // now it does, explode
+        public void SetUpAssets()
+        {
+            assets = LoadAssetBundle("sandsweptassets2"); // psudło assets
+            prodAssets = LoadAssetBundle("sandsweep3"); // MFS I SAID MERGE INTO OTHER ASSETS // nuh uh :3c
+            hifuSandswept = LoadAssetBundle("hifusandswept");
+            dgoslingAssets = LoadAssetBundle("dgoslingstuff");
 
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Sandswept.sandsweptassets"))
             {
-                MainAssets = AssetBundle.LoadFromStream(stream);
+                mainAssets = AssetBundle.LoadFromStream(stream);
             }
+            // sandman assets?
 
+            SwapShaders(mainAssets);
+            SwapShaders(assets);
+            SwapShaders(prodAssets);
+            SwapShaders(hifuSandswept);
+            SwapShaders(dgoslingAssets);
+        }
+
+        public void SetUpContent()
+        {
+            Survivors.SelfDamageHook.Init();
+            Sandswept.Utils.Keywords.SetupKeywords();
+            Decay.Init();
+            GenerateExpensionDef();
             Survivors.Initialize.Init();
-
-            if (Utils.CustomEmoteAPICheck.enabled)
-            {
-                On.RoR2.SurvivorCatalog.Init += CustomEmoteAPICheck.SurvivorCatalog_Init;
-            }
-
-            SwapAllShaders(MainAssets);
-            SwapAllShaders(Assets);
-
-            SwapAllShaders(prodAssets);
-            SwapAllShaders(hifuSandswept);
-            SwapAllShaders(dgoslingAssets);
-            //Material matMushLun = dgoslingAssets.LoadAsset<Material>("matLunarMInd.mat");
-            //matMushLun.shader = LegacyShaderAPI.Find("Hopoo Games/FX/Cloud Intersection Remap");
             DamageColourHelper.Init();
-
-            SandsweptTemporaryEffects.ApplyHooks();
-
-            //This section automatically scans the project for all artifacts
             var ArtifactTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(ArtifactBase)));
 
             foreach (var artifactType in ArtifactTypes)
             {
                 ArtifactBase artifact = (ArtifactBase)Activator.CreateInstance(artifactType);
-                if (ValidateArtifact(artifact, Artifacts))
+                if (LoadArtifact(artifact, Artifacts))
                 {
                     artifact.Init(Config);
                 }
             }
 
-            //This section automatically scans the project for all items
             var ItemTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(ItemBase)));
 
             foreach (var itemType in ItemTypes)
@@ -211,33 +183,31 @@ namespace Sandswept
 
             foreach (ItemBase item in AllItems)
             {
-                if (ValidateItem(item, new()))
+                if (LoadItem(item, new()))
                 {
                     EnabledItems.Add(item);
                     item.Init();
                 }
             }
 
-            //this section automatically scans the project for all equipment
             var EquipmentTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(EquipmentBase)));
 
             foreach (var equipmentType in EquipmentTypes)
             {
                 EquipmentBase equipment = (EquipmentBase)Activator.CreateInstance(equipmentType);
-                if (ValidateEquipment(equipment, AllEquipment))
+                if (LoadEquipment(equipment, AllEquipment))
                 {
                     EnabledEquipment.Add(equipment);
-                    equipment.Init(Config);
+                    equipment.Init();
                 }
             }
 
-            //this section automatically scans the project for all elite equipment
             var EliteEquipmentTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(EliteEquipmentBase)));
 
             foreach (var eliteEquipmentType in EliteEquipmentTypes)
             {
                 EliteEquipmentBase eliteEquipment = (EliteEquipmentBase)Activator.CreateInstance(eliteEquipmentType);
-                if (ValidateEliteEquipment(eliteEquipment, EliteEquipments))
+                if (LoadEliteEquipment(eliteEquipment, EliteEquipments))
                 {
                     eliteEquipment.Init(Config);
                 }
@@ -248,7 +218,7 @@ namespace Sandswept
             foreach (var buffType in BuffTypes)
             {
                 BuffBase buff = (BuffBase)Activator.CreateInstance(buffType);
-                if (ValidateBuff(buff, Buffs))
+                if (LoadBuff(buff, Buffs))
                 {
                     buff.Init();
                 }
@@ -259,7 +229,7 @@ namespace Sandswept
             ScanTypes<EnemyBase>((x) => x.Create());
             ScanTypes<InteractableBase>((x) =>
             {
-                if (ValidateInteractable(x, new()))
+                if (LoadInteractable(x, new()))
                 {
                     x.Init();
                 }
@@ -271,57 +241,27 @@ namespace Sandswept
             });
             new ContentPacks().Initialize();
 
-            NetworkingAPI.RegisterMessageType<CallNetworkedMethod>();
-
-            // On.RoR2.Networking.NetworkManagerSystemSteam.OnClientConnect += (s, u, t) => { }; // for having multiple instances of the game at once - mp testing, make sure to comment out before release
-
-            On.RoR2.RoR2Content.Init += OnWwiseInit;
-
-            IL.EntityStates.Drone.DeathState.OnImpactServer += DroneDropFix;
-
             CursedConfig.Init();
-            // ObjectiveSystem.Init();
             SwepSwepTheSandy.Init();
-
-            On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
-
-            ModLogger.LogDebug("#SANDSWEEP");
-            ModLogger.LogDebug("Initialized mod in " + stopwatch.ElapsedMilliseconds + "ms");
+            NetworkingAPI.RegisterMessageType<CallNetworkedMethod>();
         }
 
-        private void ContagiousItemManager_Init(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
+        public void SetUpHooks()
         {
-            for (int i = 0; i < AllItems.Count; i++)
+            if (Utils.CustomEmoteAPICheck.enabled)
             {
-                var itemBase = AllItems[i];
-                var itemToCorrupt = itemBase.ItemToCorrupt;
-                if (itemToCorrupt == null)
-                {
-                    continue;
-                }
-
-                var itemDef = itemBase.ItemDef;
-
-                ItemDef.Pair transformation = new()
-                {
-                    itemDef2 = itemDef,
-                    itemDef1 = itemToCorrupt
-                };
-
-                // Main.ModLogger.LogError("itemdef pair transformation itemdef2 is " + transformation.itemDef2);
-                // Main.ModLogger.LogError("itemdef pair transformation itemdef1 is " + transformation.itemDef1);
-
-                ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].AddToArray(transformation);
+                On.RoR2.SurvivorCatalog.Init += CustomEmoteAPICheck.SurvivorCatalog_Init;
             }
-
-            orig();
+            SandsweptTemporaryEffects.ApplyHooks();
+            On.RoR2.RoR2Content.Init += OnWwiseInit;
+            IL.EntityStates.Drone.DeathState.OnImpactServer += DroneDropFix;
+            On.RoR2.Items.ContagiousItemManager.Init += CorruptItems;
         }
 
-        private void DroneDropFix(ILContext il)
+        public AssetBundle LoadAssetBundle(string assetBundleName)
         {
-            ILCursor c = new(il);
-            c.TryGotoNext(MoveType.After, x => x.MatchStloc(1));
-            c.Prev.Operand = typeof(Main).GetMethod(nameof(GetDroneCard), BindingFlags.NonPublic | BindingFlags.Static);
+            var assetBundle = AssetBundle.LoadFromFile(System.IO.Path.Combine(System.IO.Path.GetDirectoryName(Instance.Info.Location), assetBundleName));
+            return assetBundle;
         }
 
         private static SpawnCard GetDroneCard(string str)
@@ -330,6 +270,9 @@ namespace Sandswept
             {
                 case "SpawnCards/InteractableSpawnCard/iscBrokenInfernoDrone":
                     return Drones.Inferno.InfernoDrone.Instance.iscBroken;
+
+                case "SpawnCards/InteractableSpawnCard/iscBrokenVoltaicDrone":
+                    return Drones.Voltaic.VoltaicDrone.Instance.iscBroken;
 
                 default:
                     return LegacyResourcesAPI.Load<SpawnCard>(str);
@@ -377,12 +320,7 @@ namespace Sandswept
             }
         }
 
-        /// <summary>
-        /// A helper to easily set up and initialize an artifact from your artifact classes if the user has it enabled in their configuration files.
-        /// </summary>
-        /// <param name="artifact">A new instance of an ArtifactBase class."</param>
-        /// <param name="artifactList">The list you would like to add this to if it passes the config check.</param>
-        public bool ValidateArtifact(ArtifactBase artifact, List<ArtifactBase> artifactList)
+        public bool LoadArtifact(ArtifactBase artifact, List<ArtifactBase> artifactList)
         {
             var enabled = ArtifactBase.DefaultEnabledCallback(artifact);
 
@@ -393,13 +331,7 @@ namespace Sandswept
             return enabled;
         }
 
-        /// <summary>
-        /// A helper to easily set up and initialize an item from your item classes if the user has it enabled in their configuration files.
-        /// <para>Additionally, it generates a configuration for each item to allow blacklisting it from AI.</para>
-        /// </summary>
-        /// <param name="item">A new instance of an ItemBase class."</param>
-        /// <param name="itemList">The list you would like to add this to if it passes the config check.</param>
-        public bool ValidateItem(ItemBase item, List<ItemBase> itemList)
+        public bool LoadItem(ItemBase item, List<ItemBase> itemList)
         {
             var enabled = ItemBase.DefaultEnabledCallback(item);
             if (enabled)
@@ -409,12 +341,7 @@ namespace Sandswept
             return enabled;
         }
 
-        /// <summary>
-        /// A helper to easily set up and initialize an equipment from your equipment classes if the user has it enabled in their configuration files.
-        /// </summary>
-        /// <param name="equipment">A new instance of an EquipmentBase class."</param>
-        /// <param name="equipmentList">The list you would like to add this to if it passes the config check.</param>
-        public bool ValidateEquipment(EquipmentBase equipment, List<EquipmentBase> equipmentList)
+        public bool LoadEquipment(EquipmentBase equipment, List<EquipmentBase> equipmentList)
         {
             if (EquipmentBase.DefaultEnabledCallback(equipment))
             {
@@ -424,13 +351,7 @@ namespace Sandswept
             return false;
         }
 
-        /// <summary>
-        /// A helper to easily set up and initialize an elite equipment from your elite equipment classes if the user has it enabled in their configuration files.
-        /// </summary>
-        /// <param name="eliteEquipment">A new instance of an EliteEquipmentBase class.</param>
-        /// <param name="eliteEquipmentList">The list you would like to add this to if it passes the config check.</param>
-        /// <returns></returns>
-        public bool ValidateEliteEquipment(EliteEquipmentBase eliteEquipment, List<EliteEquipmentBase> eliteEquipmentList)
+        public bool LoadEliteEquipment(EliteEquipmentBase eliteEquipment, List<EliteEquipmentBase> eliteEquipmentList)
         {
             var enabled = EliteEquipmentBase.DefaultEnabledCallback(eliteEquipment);
 
@@ -442,7 +363,7 @@ namespace Sandswept
             return false;
         }
 
-        public bool ValidateBuff(BuffBase buff, List<BuffBase> buffList)
+        public bool LoadBuff(BuffBase buff, List<BuffBase> buffList)
         {
             BuffStatusDictionary.Add(buff, true);
 
@@ -451,7 +372,7 @@ namespace Sandswept
             return true;
         }
 
-        public bool ValidateInteractable(InteractableBase interactable, List<InteractableBase> interactableList)
+        public bool LoadInteractable(InteractableBase interactable, List<InteractableBase> interactableList)
         {
             var enabled = InteractableBase.DefaultEnabledCallback(interactable);
 
@@ -463,7 +384,7 @@ namespace Sandswept
             return false;
         }
 
-        public void SwapAllShaders(AssetBundle bundle)
+        public void SwapShaders(AssetBundle bundle)
         {
             Material[] array = bundle.LoadAllAssets<Material>();
             foreach (Material val in array)
@@ -527,6 +448,41 @@ namespace Sandswept
                         break;
                 }
             }
+        }
+
+        private void CorruptItems(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
+        {
+            for (int i = 0; i < AllItems.Count; i++)
+            {
+                var itemBase = AllItems[i];
+                var itemToCorrupt = itemBase.ItemToCorrupt;
+                if (itemToCorrupt == null)
+                {
+                    continue;
+                }
+
+                var itemDef = itemBase.ItemDef;
+
+                ItemDef.Pair transformation = new()
+                {
+                    itemDef2 = itemDef,
+                    itemDef1 = itemToCorrupt
+                };
+
+                // Main.ModLogger.LogError("itemdef pair transformation itemdef2 is " + transformation.itemDef2);
+                // Main.ModLogger.LogError("itemdef pair transformation itemdef1 is " + transformation.itemDef1);
+
+                ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].AddToArray(transformation);
+            }
+
+            orig();
+        }
+
+        private void DroneDropFix(ILContext il)
+        {
+            ILCursor c = new(il);
+            c.TryGotoNext(MoveType.After, x => x.MatchStloc(1));
+            c.Prev.Operand = typeof(Main).GetMethod(nameof(GetDroneCard), BindingFlags.NonPublic | BindingFlags.Static);
         }
     }
 }

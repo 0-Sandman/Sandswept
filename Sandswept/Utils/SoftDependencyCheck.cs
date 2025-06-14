@@ -13,7 +13,7 @@ namespace Sandswept.Utils
     {
         private static bool? _enabled;
         private static string bonemapperName;
-        
+
 
         public static bool enabled
         {
@@ -32,30 +32,16 @@ namespace Sandswept.Utils
         public static void SurvivorCatalog_Init(On.RoR2.SurvivorCatalog.orig_Init orig)
         {
             orig();
-            // var ranger = RoR2.SurvivorCatalog.FindSurvivorDef("RangerBody");
 
             var skele = Main.dgoslingAssets.LoadAsset<GameObject>("mdlRangerEmote");
             EmotesAPI.CustomEmotesAPI.ImportArmature(Ranger.instance.Body, skele);
-           // var skele2 = Main.dgoslingAssets.LoadAsset<GameObject>("ElecEmote");
-           // EmotesAPI.CustomEmotesAPI.ImportArmature(Electrician.instance.Body,skele2 ,jank:true);
+
             var boneMapper = skele.GetComponentInChildren<BoneMapper>();
             boneMapper.scale = 0.9f;
-         
+
             bonemapperName = boneMapper.name;
-            
+
             EmotesAPI.CustomEmotesAPI.animChanged += CustomEmoteAPICheck.CustomEmotesAPI_animChanged;
-            /*
-            foreach(var item in RoR2.SurvivorCatalog.allSurvivorDefs)
-            {
-                if(item.bodyPrefab.name == "RangerBody")
-                {
-                    var skele = Main.dgoslingAssets.LoadAsset<GameObject>("mdlRangerEmote");
-                    EmotesAPI.CustomEmotesAPI.ImportArmature(Main.Assets.LoadAsset<GameObject>("RangerBody.prefab"), skele);
-                    skele.GetComponentInChildren<BoneMapper>().scale = 0.9f;
-                    bonemapperName = skele.GetComponentInChildren<BoneMapper>().name;
-                }
-            }
-            */
         }
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
@@ -71,7 +57,7 @@ namespace Sandswept.Utils
                 else
                     gun.SetActive(true);
             }
-            
+
         }
     }
 }

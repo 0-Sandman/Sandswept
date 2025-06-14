@@ -26,5 +26,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Secondary
         {
             skillDef = ScriptableObject.CreateInstance<RangerSecondaryDef>();
         }
+
+        public override float GetProcCoefficientData() => 0.7f;
     }
 }

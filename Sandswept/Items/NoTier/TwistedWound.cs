@@ -14,7 +14,7 @@ namespace Sandswept.Items.NoTier
 
         public override ItemTier Tier => ItemTier.NoTier;
 
-        public override GameObject ItemModel => Main.Assets.LoadAsset<GameObject>("PickupTheirProminence.prefab");
+        public override GameObject ItemModel => Main.assets.LoadAsset<GameObject>("PickupTheirProminence.prefab");
 
         public override Sprite ItemIcon => null;
 

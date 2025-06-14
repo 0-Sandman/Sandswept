@@ -7,9 +7,9 @@ namespace Sandswept.Drones.Voltaic
     [ConfigSection("Interactables :: Voltaic Drone")]
     public class VoltaicDrone : DroneBase<VoltaicDrone>
     {
-        public override GameObject DroneBody => Main.Assets.LoadAsset<GameObject>("VoltaicDroneBody.prefab");
+        public override GameObject DroneBody => Main.assets.LoadAsset<GameObject>("VoltaicDroneBody.prefab");
 
-        public override GameObject DroneMaster => Main.Assets.LoadAsset<GameObject>("VoltaicDroneMaster.prefab");
+        public override GameObject DroneMaster => Main.assets.LoadAsset<GameObject>("VoltaicDroneMaster.prefab");
 
         public override Dictionary<string, string> Tokens =>
         new() {
@@ -20,7 +20,7 @@ namespace Sandswept.Drones.Voltaic
 
         public override string ConfigName => "Voltaic Drone";
 
-        public override GameObject DroneBroken => Main.Assets.LoadAsset<GameObject>("VoltaicDroneBroken.prefab");
+        public override GameObject DroneBroken => Main.assets.LoadAsset<GameObject>("VoltaicDroneBroken.prefab");
 
         [ConfigField("Director Credit Cost", "", 35)]
         public static int directorCreditCost;
@@ -44,7 +44,7 @@ namespace Sandswept.Drones.Voltaic
         {
             base.Setup();
 
-            SpikeProjectile = Main.Assets.LoadAsset<GameObject>("VoltaicSpikeProjectile.prefab");
+            SpikeProjectile = Main.assets.LoadAsset<GameObject>("VoltaicSpikeProjectile.prefab");
             ContentAddition.AddProjectile(SpikeProjectile);
 
             SkillLocator loc = DroneBody.GetComponent<SkillLocator>();

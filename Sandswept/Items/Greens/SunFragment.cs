@@ -67,7 +67,7 @@ namespace Sandswept.Items.Greens
 
         public override ItemTier Tier => ItemTier.Tier2;
 
-        public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("SunFragmentPrefab.prefab");
+        public override GameObject ItemModel => Main.mainAssets.LoadAsset<GameObject>("SunFragmentPrefab.prefab");
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texSunFragment.png");
 
@@ -112,16 +112,16 @@ namespace Sandswept.Items.Greens
 
         public void SetUpVFX()
         {
-            var sunFragment = Main.MainAssets.LoadAsset<GameObject>("SunFragmentPrefab.prefab");
+            var sunFragment = Main.mainAssets.LoadAsset<GameObject>("SunFragmentPrefab.prefab");
             var sunFragmentMat = sunFragment.transform.GetChild(0).GetComponent<MeshRenderer>().material;
             sunFragmentMat.SetFloat("_NormalStrength", 0.8263923f);
 
-            FragmentVFX = Main.MainAssets.LoadAsset<GameObject>("FragmentFXRing.prefab");
+            FragmentVFX = Main.mainAssets.LoadAsset<GameObject>("FragmentFXRing.prefab");
             var component = FragmentVFX.AddComponent<EffectComponent>();
             component.applyScale = true;
             Main.EffectPrefabs.Add(FragmentVFX);
 
-            FragmentVFXSphere = Main.MainAssets.LoadAsset<GameObject>("FragmentFXSphere.prefab");
+            FragmentVFXSphere = Main.mainAssets.LoadAsset<GameObject>("FragmentFXSphere.prefab");
             var Renderer = FragmentVFXSphere.GetComponent<ParticleSystemRenderer>();
             var val = FragmentVFXSphere.AddComponent<HGIntersectionController>();
             val.Renderer = Renderer;

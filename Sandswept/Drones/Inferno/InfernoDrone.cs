@@ -7,9 +7,9 @@ namespace Sandswept.Drones.Inferno
     [ConfigSection("Interactables :: Inferno Drone")]
     public class InfernoDrone : DroneBase<InfernoDrone>
     {
-        public override GameObject DroneBody => Main.Assets.LoadAsset<GameObject>("InfernoDroneBody.prefab");
+        public override GameObject DroneBody => Main.assets.LoadAsset<GameObject>("InfernoDroneBody.prefab");
 
-        public override GameObject DroneMaster => Main.Assets.LoadAsset<GameObject>("InfernoDroneMaster.prefab");
+        public override GameObject DroneMaster => Main.assets.LoadAsset<GameObject>("InfernoDroneMaster.prefab");
 
         public override Dictionary<string, string> Tokens =>
         new() {
@@ -20,7 +20,7 @@ namespace Sandswept.Drones.Inferno
 
         public override string ConfigName => "Inferno Drone";
 
-        public override GameObject DroneBroken => Main.Assets.LoadAsset<GameObject>("InfernoDroneBroken.prefab");
+        public override GameObject DroneBroken => Main.assets.LoadAsset<GameObject>("InfernoDroneBroken.prefab");
 
         [ConfigField("Director Credit Cost", "", 35)]
         public static int directorCreditCost;

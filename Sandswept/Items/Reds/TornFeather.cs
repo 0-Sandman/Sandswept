@@ -107,10 +107,10 @@ namespace Sandswept.Items.Reds
 
         public void SetUpVFX()
         {
-            PassiveParticleEffect = Main.Assets.LoadAsset<GameObject>("ActiveIndicatorParticles.prefab");
-            DashTrailEffect = Main.Assets.LoadAsset<GameObject>("DashTrailEffect.prefab");
-            BlueParticles = Main.Assets.LoadAsset<Material>("matFeatherBlue.mat");
-            PinkParticles = Main.Assets.LoadAsset<Material>("matFeatherPink.mat");
+            PassiveParticleEffect = Main.assets.LoadAsset<GameObject>("ActiveIndicatorParticles.prefab");
+            DashTrailEffect = Main.assets.LoadAsset<GameObject>("DashTrailEffect.prefab");
+            BlueParticles = Main.assets.LoadAsset<Material>("matFeatherBlue.mat");
+            PinkParticles = Main.assets.LoadAsset<Material>("matFeatherPink.mat");
 
             pinkOverlay = new Material(Paths.Material.matHuntressFlashExpanded);
             pinkOverlay.SetColor("_TintColor", new Color32(245, 169, 184, 150));

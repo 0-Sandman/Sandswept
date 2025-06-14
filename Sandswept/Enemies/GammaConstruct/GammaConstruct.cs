@@ -20,8 +20,8 @@ namespace Sandswept.Enemies.GammaConstruct
 
         public override void LoadPrefabs()
         {
-            prefab = Main.Assets.LoadAsset<GameObject>("GammaConstructBody.prefab");
-            prefabMaster = Main.Assets.LoadAsset<GameObject>("GammaConstructMaster.prefab");
+            prefab = Main.assets.LoadAsset<GameObject>("GammaConstructBody.prefab");
+            prefabMaster = Main.assets.LoadAsset<GameObject>("GammaConstructMaster.prefab");
             LanguageAPI.Add(prefab.GetComponent<CharacterBody>().baseNameToken.Replace("_NAME", "_LORE"),
             """
             <style=cMono>
@@ -84,8 +84,8 @@ namespace Sandswept.Enemies.GammaConstruct
             bolt = Paths.GameObject.MinorConstructProjectile;
             muzzleFlash = Paths.GameObject.MuzzleflashMinorConstruct;
 
-            beam = Main.Assets.LoadAsset<GameObject>("DeltaBeam.prefab");
-            matDeltaBeamStrong = Main.Assets.LoadAsset<Material>("matDeltaBeamStrong.mat");
+            beam = Main.assets.LoadAsset<GameObject>("DeltaBeam.prefab");
+            matDeltaBeamStrong = Main.assets.LoadAsset<Material>("matDeltaBeamStrong.mat");
 
             sigmaBlast = PrefabAPI.InstantiateClone(Paths.GameObject.ExplosionMinorConstruct, "SigmaBlast");
             sigmaBlast.RemoveComponent<ShakeEmitter>();

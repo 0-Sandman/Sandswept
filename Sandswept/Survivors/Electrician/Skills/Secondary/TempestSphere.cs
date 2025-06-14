@@ -14,5 +14,6 @@ namespace Sandswept.Survivors.Electrician.Skills
         public override int StockToConsume => 1;
         public override InterruptPriority InterruptPriority => InterruptPriority.Any;
         public override string[] Keywords => null;
+        public override float GetProcCoefficientData() => 1f;
     }
 }

@@ -1,6 +1,8 @@
+using LookingGlass.ItemStatsNameSpace;
 using RoR2.ExpansionManagement;
 using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Sandswept.Survivors
 {

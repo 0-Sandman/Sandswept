@@ -18,10 +18,10 @@ namespace Sandswept.Enemies.CannonballJellyfish
 
         public override void LoadPrefabs()
         {
-            prefab = Main.Assets.LoadAsset<GameObject>("CannonJellyBody.prefab");
-            prefabMaster = Main.Assets.LoadAsset<GameObject>("CannonJellyMaster.prefab");
+            prefab = Main.assets.LoadAsset<GameObject>("CannonJellyBody.prefab");
+            prefabMaster = Main.assets.LoadAsset<GameObject>("CannonJellyMaster.prefab");
 
-            JellyCoreProjectile = Main.Assets.LoadAsset<GameObject>("JellyCoreProjectile.prefab");
+            JellyCoreProjectile = Main.assets.LoadAsset<GameObject>("JellyCoreProjectile.prefab");
             JellyCoreProjectile.GetComponent<ProjectileImpactExplosion>().explosionEffect = Paths.GameObject.SojournExplosionVFX;
             ContentAddition.AddProjectile(JellyCoreProjectile);
         }

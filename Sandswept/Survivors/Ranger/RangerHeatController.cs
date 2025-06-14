@@ -39,7 +39,7 @@ namespace Sandswept.Survivors.Ranger
 
         public void Start()
         {
-            overlayPrefab = Main.Assets.LoadAsset<GameObject>("Assets/Sandswept/Base/Characters/Ranger/OverlayRanger.prefab");
+            overlayPrefab = Main.assets.LoadAsset<GameObject>("Assets/Sandswept/Base/Characters/Ranger/OverlayRanger.prefab");
             cb = GetComponent<CharacterBody>();
             hc = cb.healthComponent;
             anim = GetComponent<CharacterDirection>().modelAnimator;

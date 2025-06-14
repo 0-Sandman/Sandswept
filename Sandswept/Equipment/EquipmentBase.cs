@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using LookingGlass.ItemStatsNameSpace;
 
 namespace Sandswept.Equipment
 {
@@ -61,35 +63,15 @@ namespace Sandswept.Equipment
 
         public abstract ItemDisplayRuleDict CreateItemDisplayRules();
 
-        /// <summary>
-        /// This method structures your code execution of this class. An example implementation inside of it would be:
-        /// <para>CreateConfig(config);</para>
-        /// <para>CreateLang();</para>
-        /// <para>CreateEquipment();</para>
-        /// <para>Hooks();</para>
-        /// <para>This ensures that these execute in this order, one after another, and is useful for having things available to be used in later methods.</para>
-        /// <para>P.S. CreateItemDisplayRules(); does not have to be called in this, as it already gets called in CreateEquipment();</para>
-        /// </summary>
-        /// <param name="config">The config file that will be passed into this from the main class.</param>
-        public abstract void Init(ConfigFile config);
-
-        protected virtual void CreateConfig(ConfigFile config)
-        { }
+        public virtual void Init()
+        {
+            CreateEquipment();
+            Hooks();
+        }
 
         public string d(float f)
         {
             return (f * 100f).ToString() + "%";
-        }
-
-        /// <summary>
-        /// Take care to call base.CreateLang()!
-        /// </summary>
-        protected virtual void CreateLang()
-        {
-            LanguageAPI.Add("EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_NAME", EquipmentName);
-            LanguageAPI.Add("EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_PICKUP", EquipmentPickupDesc);
-            LanguageAPI.Add("EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_DESCRIPTION", EquipmentFullDescription);
-            LanguageAPI.Add("EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_LORE", EquipmentLore);
         }
 
         protected void CreateEquipment()
@@ -111,6 +93,12 @@ namespace Sandswept.Equipment
             EquipmentDef.isLunar = IsLunar;
             EquipmentDef.requiredExpansion = Main.SandsweptExpansionDef;
             EquipmentDef.colorIndex = IsLunar ? ColorCatalog.ColorIndex.LunarItem : ColorCatalog.ColorIndex.Equipment;
+
+            LanguageAPI.Add("EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_NAME", EquipmentName);
+            LanguageAPI.Add("EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_PICKUP", EquipmentPickupDesc);
+            LanguageAPI.Add("EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_DESCRIPTION", EquipmentFullDescription);
+            LanguageAPI.Add("EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_LORE", EquipmentLore);
+
 
             ItemAPI.Add(new CustomEquipment(EquipmentDef, CreateItemDisplayRules()));
             On.RoR2.EquipmentSlot.PerformEquipmentAction += PerformEquipmentAction;

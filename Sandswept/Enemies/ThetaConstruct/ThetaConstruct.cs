@@ -17,8 +17,8 @@ namespace Sandswept.Enemies.ThetaConstruct
 
         public override void LoadPrefabs()
         {
-            prefab = Main.Assets.LoadAsset<GameObject>("ThetaConstructBody.prefab");
-            prefabMaster = Main.Assets.LoadAsset<GameObject>("ThetaConstructMaster.prefab");
+            prefab = Main.assets.LoadAsset<GameObject>("ThetaConstructBody.prefab");
+            prefabMaster = Main.assets.LoadAsset<GameObject>("ThetaConstructMaster.prefab");
             LanguageAPI.Add(prefab.GetComponent<CharacterBody>().baseNameToken.Replace("_NAME", "_LORE"),
             """
             <style=cMono>
@@ -55,7 +55,7 @@ namespace Sandswept.Enemies.ThetaConstruct
             ================================
             </style>
             """);
-            ThetaShieldEffect = Main.Assets.LoadAsset<GameObject>("ThetaShieldEffect.prefab");
+            ThetaShieldEffect = Main.assets.LoadAsset<GameObject>("ThetaShieldEffect.prefab");
             ThetaShieldEffect.GetComponent<MeshRenderer>().sharedMaterial = Paths.Material.matMinorConstructShield;
             PrefabAPI.RegisterNetworkPrefab(ThetaShieldEffect);
         }

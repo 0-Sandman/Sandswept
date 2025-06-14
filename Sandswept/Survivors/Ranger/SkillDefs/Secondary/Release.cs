@@ -14,7 +14,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Secondary
 
         public override float Cooldown => 6f;
 
-        public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("Blast.png");
+        public override Sprite Icon => Main.assets.LoadAsset<Sprite>("Blast.png");
 
         public override InterruptPriority InterruptPriority => InterruptPriority.Skill;
 
@@ -26,5 +26,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Secondary
         {
             skillDef = ScriptableObject.CreateInstance<RangerSecondaryDef>();
         }
+
+        public override float GetProcCoefficientData() => 1f;
     }
 }

@@ -38,7 +38,7 @@
         Narrator: Very. Very. Very. Very. Very limited time. We're currently being sued by the Mercurian Military, and the rest of the solar system for this Ground-breaking Breakthrough in Self Defense Technology because THEY don't want you to have it. BUY NOW!
         [Screen fades to black]
         """;
-        public override GameObject EquipmentModel => Main.Assets.LoadAsset<GameObject>("PickupCellShield.prefab");
+        public override GameObject EquipmentModel => Main.assets.LoadAsset<GameObject>("PickupCellShield.prefab");
         public override float Cooldown => 20f;
         public override Sprite EquipmentIcon => Main.hifuSandswept.LoadAsset<Sprite>("texGalvanicCellShield.png");
 
@@ -69,18 +69,41 @@
                 childName = "Base",
                 localPos = new Vector3(1, -1, -0.9f),
                 localScale = new Vector3(0.5f, 0.5f, 0.5f),
-                followerPrefab = Main.Assets.LoadAsset<GameObject>("DisplayCellShield.prefab"),
+                followerPrefab = Main.assets.LoadAsset<GameObject>("DisplayCellShield.prefab"),
                 limbMask = LimbFlags.None
             });
         }
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
-            CreateConfig(config);
-            CreateLang();
+            base.Init();
+            SetUpVFX();
+        }
 
-            CreateEquipment();
-            Hooks();
+        public void SetUpVFX()
+        {
+            vfx = Paths.GameObject.EngiShield.InstantiateClone("Parry VFX", false);
+            vfx.RemoveComponent<TemporaryVisualEffect>();
+            foreach (ObjectScaleCurve item in vfx.GetComponents<ObjectScaleCurve>())
+            {
+                Object.Destroy(item);
+            }
+            vfx.RemoveComponent<Billboard>();
+            vfx.AddComponent<NetworkIdentity>();
+            var component = vfx.AddComponent<EffectComponent>();
+            // component.applyScale = true;
+            component.parentToReferencedTransform = true;
+            component.positionAtReferencedTransform = true;
+
+            //var scale = vfx.AddComponent<ObjectScaleCurve>();
+            //scale.overallCurve = Main.dgoslingAssets.LoadAsset<AnimationCurveAsset>("ACAparryVFXScale").value;
+            //scale.useOverallCurveOnly = true;
+            //scale.timeMax = 1;
+            //scale.resetOnAwake = false;
+            //scale.enabled = false;
+            vfx.GetComponent<DestroyOnTimer>().enabled = true;
+            vfx.RegisterNetworkPrefab();
+            Main.EffectPrefabs.Add(vfx);
         }
 
         public static void PulseShieldForBody(CharacterBody body)
@@ -113,33 +136,8 @@
 
         public override void Hooks()
         {
-            vfx = Paths.GameObject.EngiShield.InstantiateClone("Parry VFX", false);
-            vfx.RemoveComponent<TemporaryVisualEffect>();
-            foreach (ObjectScaleCurve item in vfx.GetComponents<ObjectScaleCurve>())
-            {
-                Object.Destroy(item);
-            }
-            vfx.RemoveComponent<Billboard>();
-            vfx.AddComponent<NetworkIdentity>();
-            var component = vfx.AddComponent<EffectComponent>();
-            // component.applyScale = true;
-            component.parentToReferencedTransform = true;
-            component.positionAtReferencedTransform = true;
-
-            //var scale = vfx.AddComponent<ObjectScaleCurve>();
-            //scale.overallCurve = Main.dgoslingAssets.LoadAsset<AnimationCurveAsset>("ACAparryVFXScale").value;
-            //scale.useOverallCurveOnly = true;
-            //scale.timeMax = 1;
-            //scale.resetOnAwake = false;
-            //scale.enabled = false;
-            vfx.GetComponent<DestroyOnTimer>().enabled = true;
-            vfx.RegisterNetworkPrefab();
-            Main.EffectPrefabs.Add(vfx);
             On.RoR2.HealthComponent.TakeDamage += HealthComponent_TakeDamage;
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
-
-            // EffectManager.SpawnEffect()
-            // ShieldEffect.GetComponent<ObjectScaleCurve>().timeMax = 0.1f;
         }
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)

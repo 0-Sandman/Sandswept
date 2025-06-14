@@ -1,5 +1,6 @@
 using System;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Sandswept.Survivors
 {
@@ -7,7 +8,8 @@ namespace Sandswept.Survivors
     {
         public static T instance;
 
-        public static implicit operator SkillDef(SkillBase<T> skill) {
+        public static implicit operator SkillDef(SkillBase<T> skill)
+        {
             return skill.skillDef;
         }
 
@@ -64,6 +66,11 @@ namespace Sandswept.Survivors
             CreateSkillDef();
             SetupSkillDef();
             CreateLang();
+
+            if (Main.LookingGlassLoaded)
+            {
+                LGWrapper();
+            }
         }
 
         public virtual void CreateSkillDef()
@@ -92,6 +99,22 @@ namespace Sandswept.Survivors
             skillDef.fullRestockOnAssign = FullRestockOnAssign;
 
             ContentAddition.AddSkillDef(skillDef);
+        }
+
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private void LGWrapper()
+        {
+            float procCoefficient = GetProcCoefficientData();
+            if (procCoefficient >= 0)
+            {
+                LookingGlass.ItemStatsNameSpace.ProcCoefficientData.skills.Add(skillDef.skillNameToken, procCoefficient);
+            }
+        }
+
+        public virtual float GetProcCoefficientData()
+        {
+            return -19.06f;
         }
 
         public virtual void CreateLang()

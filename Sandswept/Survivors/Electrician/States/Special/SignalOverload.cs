@@ -172,7 +172,7 @@ namespace Sandswept.Survivors.Electrician.States
 
             FindModelChild("Tethers").gameObject.SetActive(true);
 
-            beamEffect = Object.Instantiate(Main.Assets.LoadAsset<GameObject>("ElectricianChargeBeam.prefab"), head.position, head.rotation);
+            beamEffect = Object.Instantiate(Main.assets.LoadAsset<GameObject>("ElectricianChargeBeam.prefab"), head.position, head.rotation);
             origin = beamEffect.GetComponent<ChildLocator>().FindChild("Start");
             end = beamEffect.GetComponent<ChildLocator>().FindChild("End");
 

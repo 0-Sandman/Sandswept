@@ -24,5 +24,6 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Special
         public override bool FullRestockOnAssign => false;
 
         public override string[] Keywords => new string[] { Utils.Keywords.Agile, Utils.Keywords.Ignite };
+        public override float GetProcCoefficientData() => 1f;
     }
 }

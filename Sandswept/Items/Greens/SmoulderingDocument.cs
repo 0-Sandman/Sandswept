@@ -39,9 +39,9 @@ namespace Sandswept.Items.Greens
         """;
         public override ItemTier Tier => ItemTier.Tier2;
 
-        public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("DocumentPrefab.prefab");
+        public override GameObject ItemModel => Main.mainAssets.LoadAsset<GameObject>("DocumentPrefab.prefab");
 
-        public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("DocumentIcon.png");
+        public override Sprite ItemIcon => Main.mainAssets.LoadAsset<Sprite>("DocumentIcon.png");
 
         public override float modelPanelParametersMinDistance => 3f;
         public override float modelPanelParametersMaxDistance => 7f;

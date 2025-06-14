@@ -36,9 +36,9 @@ namespace Sandswept.Items.Greens
         """;
         public override ItemTier Tier => ItemTier.Tier2;
 
-        public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");
+        public override GameObject ItemModel => Main.mainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");
 
-        public override Sprite ItemIcon => Main.MainAssets.LoadAsset<Sprite>("UniVIPIcon.png");
+        public override Sprite ItemIcon => Main.mainAssets.LoadAsset<Sprite>("UniVIPIcon.png");
 
         [ConfigField("Base Chance", "Decimal.", 0.4f)]
         public static float baseChance;
@@ -93,7 +93,7 @@ namespace Sandswept.Items.Greens
 
         public void SetUpVFX()
         {
-            var uniVip = Main.MainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");
+            var uniVip = Main.mainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");
             var uniVipMat = uniVip.transform.GetChild(0).GetComponent<MeshRenderer>().material;
             uniVipMat.SetColor("_Color", new Color32(205, 205, 205, 249));
 

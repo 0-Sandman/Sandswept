@@ -14,10 +14,11 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Primary
 
         public override float Cooldown => 0f;
 
-        public override Sprite Icon => Main.Assets.LoadAsset<Sprite>("Pew.png");
+        public override Sprite Icon => Main.assets.LoadAsset<Sprite>("Pew.png");
         public override int StockToConsume => 0;
         public override InterruptPriority InterruptPriority => InterruptPriority.Any;
 
         public override string[] Keywords => new string[] { Utils.Keywords.OverdriveFormPrimary };
+        public override float GetProcCoefficientData() => 1f;
     }
 }

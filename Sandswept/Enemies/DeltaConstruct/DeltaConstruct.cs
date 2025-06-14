@@ -20,9 +20,9 @@ namespace Sandswept.Enemies.DeltaConstruct
 
         public override void LoadPrefabs()
         {
-            prefab = Main.Assets.LoadAsset<GameObject>("DeltaConstructBody.prefab");
+            prefab = Main.assets.LoadAsset<GameObject>("DeltaConstructBody.prefab");
             prefab.GetComponent<CharacterBody>().bodyFlags |= CharacterBody.BodyFlags.IgnoreFallDamage;
-            prefabMaster = Main.Assets.LoadAsset<GameObject>("DeltaConstructMaster.prefab");
+            prefabMaster = Main.assets.LoadAsset<GameObject>("DeltaConstructMaster.prefab");
             LanguageAPI.Add(prefab.GetComponent<CharacterBody>().baseNameToken.Replace("_NAME", "_LORE"),
             """
             Brother, watch as I create my own guardian.
@@ -39,10 +39,10 @@ namespace Sandswept.Enemies.DeltaConstruct
             bolt = Paths.GameObject.MinorConstructProjectile;
             muzzleFlash = Paths.GameObject.MuzzleflashMinorConstruct;
 
-            beam = Main.Assets.LoadAsset<GameObject>("DeltaBeam.prefab");
-            matDeltaBeamStrong = Main.Assets.LoadAsset<Material>("matDeltaBeamStrong.mat");
+            beam = Main.assets.LoadAsset<GameObject>("DeltaBeam.prefab");
+            matDeltaBeamStrong = Main.assets.LoadAsset<Material>("matDeltaBeamStrong.mat");
 
-            DeltaBurnyTrail = Main.Assets.LoadAsset<GameObject>("DeltaBurnyTrail.prefab");
+            DeltaBurnyTrail = Main.assets.LoadAsset<GameObject>("DeltaBurnyTrail.prefab");
             ContentAddition.AddNetworkedObject(DeltaBurnyTrail);
         }
 

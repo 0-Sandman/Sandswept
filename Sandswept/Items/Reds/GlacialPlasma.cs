@@ -50,7 +50,7 @@ namespace Sandswept.Items.Reds
 
         public override ItemTier Tier => ItemTier.Tier3;
 
-        public override GameObject ItemModel => Main.Assets.LoadAsset<GameObject>("PickupGlacialPlasma.prefab");
+        public override GameObject ItemModel => Main.assets.LoadAsset<GameObject>("PickupGlacialPlasma.prefab");
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texGlacialPlasma.png");
 
@@ -116,7 +116,7 @@ namespace Sandswept.Items.Reds
             projectileSimple.enableVelocityOverLifetime = true;
             projectileSimple.velocityOverLifetime = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.04f, 0f), new Keyframe(0.9f, 3f), new Keyframe(1f, 0f));
 
-            var ghost = Main.Assets.LoadAsset<GameObject>("GlacialSpearGhost.prefab");
+            var ghost = Main.assets.LoadAsset<GameObject>("GlacialSpearGhost.prefab");
             ghost.transform.localScale = Vector3.one * 4f;
 
             var mesh = ghost.transform.Find("GlacialPlasma").GetComponent<MeshFilter>();
@@ -172,7 +172,7 @@ namespace Sandswept.Items.Reds
             PrefabAPI.RegisterNetworkPrefab(javelinProjectile);
             ContentAddition.AddProjectile(javelinProjectile);
 
-            SpawnEffect = Main.Assets.LoadAsset<GameObject>("GlacialCastEffect.prefab");
+            SpawnEffect = Main.assets.LoadAsset<GameObject>("GlacialCastEffect.prefab");
             ContentAddition.AddEffect(SpawnEffect);
         }
 

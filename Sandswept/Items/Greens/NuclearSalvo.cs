@@ -97,7 +97,7 @@ namespace Sandswept.Items.Greens
 
         public void SetUpProjectiles()
         {
-            SalvoPrefab = Main.Assets.LoadAsset<GameObject>("SalvoBehaviour.prefab");
+            SalvoPrefab = Main.assets.LoadAsset<GameObject>("SalvoBehaviour.prefab");
             // Main.ModLogger.LogError(SalvoPrefab);
             /*
             SalvoMissile = Main.Assets.LoadAsset<GameObject>("Missile.prefab");

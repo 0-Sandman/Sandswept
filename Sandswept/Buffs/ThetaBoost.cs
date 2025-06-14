@@ -11,7 +11,7 @@ namespace Sandswept.Buffs
 
         public override Color Color => Color.yellow;
 
-        public override Sprite BuffIcon => Main.Assets.LoadAsset<Sprite>("texBuffThetaConstruct.png");
+        public override Sprite BuffIcon => Main.assets.LoadAsset<Sprite>("texBuffThetaConstruct.png");
 
         public override bool CanStack => true;
         public override bool IsDebuff => false;

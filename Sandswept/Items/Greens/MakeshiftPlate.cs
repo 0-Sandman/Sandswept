@@ -36,15 +36,14 @@ namespace Sandswept.Items.Greens
         Shipping Address: 707th Penthouse Suite, Earth
         Shipping Details:
 
-        A real, genuine plate of armor from the War of 2019! Somehow managed to survive what looks like gunshots, bombing runs, laser tech, and all sorts of other things. This would be a fine centerpiece to a collection I'd reckon. You paid a hefty price for this thing, hope it's worth it! 
-
+        A real, genuine plate of armor from the War of 2019, Somehow managed to survive what looks like gunshots, bombing runs, laser tech, and all sorts of other things. This thing would be a fine centerpiece to a collection I'd reckon. You paid a hefty price for this thing, hope it's worth it! 
         """;
 
         public override ItemTier Tier => ItemTier.Tier2;
 
-        public override GameObject ItemModel => Main.MainAssets.LoadAsset<GameObject>("MakeshiftPlatePrefab.prefab");
+        public override GameObject ItemModel => Main.mainAssets.LoadAsset<GameObject>("MakeshiftPlatePrefab.prefab");
 
-        public override Sprite ItemIcon => Main.Assets.LoadAsset<Sprite>("texIconPlate.png");
+        public override Sprite ItemIcon => Main.assets.LoadAsset<Sprite>("texIconPlate.png");
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.Damage };
 
@@ -214,7 +213,7 @@ namespace Sandswept.Items.Greens
             MakeshiftPlateCount.buffColor = Color.white;
             MakeshiftPlateCount.canStack = true;
             MakeshiftPlateCount.isDebuff = false;
-            MakeshiftPlateCount.iconSprite = Main.MainAssets.LoadAsset<Sprite>("MakeshiftPlateBuffIcon.png");
+            MakeshiftPlateCount.iconSprite = Main.mainAssets.LoadAsset<Sprite>("MakeshiftPlateBuffIcon.png");
             ContentAddition.AddBuffDef(MakeshiftPlateCount);
         }
 

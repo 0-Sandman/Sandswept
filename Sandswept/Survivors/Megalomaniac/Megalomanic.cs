@@ -41,7 +41,7 @@ namespace Sandswept.Survivors.Megalomaniac
         {
             base.LoadAssets();
 
-            Body = Main.Assets.LoadAsset<GameObject>("MegalomaniacBody.prefab");
+            Body = Main.assets.LoadAsset<GameObject>("MegalomaniacBody.prefab");
 
             Body.AddComponent<MegaloController>();
 
@@ -56,7 +56,7 @@ namespace Sandswept.Survivors.Megalomaniac
             var cb = Body.GetComponent<CharacterBody>();
             // cb._defaultCrosshairPrefab = Paths.GameObject.StandardCrosshair;
             // cb.preferredPodPrefab = Paths.GameObject.RoboCratePod;
-            SurvivorDef = Main.Assets.LoadAsset<SurvivorDef>("sdMegalomaniac.asset");
+            SurvivorDef = Main.assets.LoadAsset<SurvivorDef>("sdMegalomaniac.asset");
             SurvivorDef.cachedName = "Megalomaniac"; // for eclipse fix;
             SurvivorDef.outroFlavorToken.Add("sigma.");
             SurvivorDef.mainEndingEscapeFailureFlavorToken.Add("sigma.");
@@ -77,21 +77,21 @@ namespace Sandswept.Survivors.Megalomaniac
             ReplaceSkills(locator.utility, new SkillDef[] { Renegade.Skills.Charge.instance });
             ReplaceSkills(locator.special, new SkillDef[] { Skills.Expel.instance });
             locator.passiveSkill.icon = null;
-            
+
             "SANDSWEPT_MEGALO_PASSIVE_NAME".Add("???");
             "SANDSWEPT_MEGALO_PASSIVE_DESC".Add("oh my gyatt");
 
-            MegaloStickyOrb = Main.Assets.LoadAsset<GameObject>("MegaloStickyProjectile.prefab");
+            MegaloStickyOrb = Main.assets.LoadAsset<GameObject>("MegaloStickyProjectile.prefab");
             MegaloStickyOrb.GetComponent<ProjectileExplosion>().explosionEffect = Paths.GameObject.ExplosionLunarSun;
 
-            LunarCoreProjectile = Main.Assets.LoadAsset<GameObject>("LunarCoreProjectile.prefab");
+            LunarCoreProjectile = Main.assets.LoadAsset<GameObject>("LunarCoreProjectile.prefab");
 
             QuickSunderWave = PrefabAPI.InstantiateClone(Paths.GameObject.BrotherUltLineProjectileStatic, "QuickSunderWave");
             QuickSunderWave.FindComponent<HitBox>("Hitbox").transform.localScale = new(3, 201, 100);
             QuickSunderWave.RemoveComponent<StartEvent>();
             QuickSunderWave.AddComponent<StupidQSWComponent>();
 
-            MegaloHeadProjectile = Main.Assets.LoadAsset<GameObject>("MegaloHeadProjectile.prefab");
+            MegaloHeadProjectile = Main.assets.LoadAsset<GameObject>("MegaloHeadProjectile.prefab");
             MegaloHeadProjectile.GetComponent<ProjectileImpactExplosion>().explosionEffect = Paths.GameObject.ExplosionLunarSun;
 
             CreateVFX();
@@ -111,8 +111,10 @@ namespace Sandswept.Survivors.Megalomaniac
             LunarCoreProjectile.GetComponent<ProjectileController>().ghostPrefab = coreGhost;
         }
 
-        public class StupidQSWComponent : MonoBehaviour {
-            public void Start() {
+        public class StupidQSWComponent : MonoBehaviour
+        {
+            public void Start()
+            {
                 GetComponent<DelayedEvent>().Call();
             }
         }

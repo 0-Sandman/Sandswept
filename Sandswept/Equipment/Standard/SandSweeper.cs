@@ -99,15 +99,13 @@ namespace Sandswept.Equipment.Standard
 
         public static GameObject vfx;
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
-            CreateConfig(config);
-            CreateLang();
-            CreateEquipment();
-            InitVFX();
+            base.Init();
+            SetUpVFX();
         }
 
-        public void InitVFX()
+        public void SetUpVFX()
         {
             vfx = PrefabAPI.InstantiateClone(Paths.GameObject.Bandit2SmokeBomb, "Sand Sweeper VFX", false);
             var goldenSigma = new Color32(239, 181, 79, 255);
@@ -126,7 +124,6 @@ namespace Sandswept.Equipment.Standard
             {
                 Util.PlaySound("Play_Player_footstep", slot.gameObject);
             }
-
 
             EffectManager.SpawnEffect(vfx, new EffectData() { origin = slot.characterBody.footPosition }, true);
             sphereSearch.origin = slot.characterBody.corePosition;
