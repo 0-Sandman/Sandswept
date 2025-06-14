@@ -63,6 +63,39 @@ namespace Sandswept.Items.Greens
             On.RoR2.HealthComponent.TakeDamage += TakeDamage;
             IL.RoR2.UI.HealthBar.ApplyBars += UpdatePlatingUI;
             IL.RoR2.UI.HealthBar.UpdateHealthbar += UpdateHealthBar;
+            On.RoR2.Inventory.GiveItem_ItemIndex_int += GiveItem;
+            On.RoR2.CharacterBody.OnInventoryChanged += OnInventoryChanged;
+        }
+
+        private void OnInventoryChanged(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, CharacterBody self)
+        {
+            orig(self);
+
+            if (self.GetComponent<PlatingManager>() && self.inventory.GetItemCount(ItemDef) == 0) {
+                self.RemoveComponent<PlatingManager>();
+            }
+        }
+
+        private void GiveItem(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
+        {
+            orig(self, itemIndex, count);
+
+            if (itemIndex == ItemDef.itemIndex && self.TryGetComponent<CharacterMaster>(out CharacterMaster cm) && cm.bodyInstanceObject) {
+                PlatingManager manager = cm.bodyInstanceObject.GetComponent<PlatingManager>();
+
+                CharacterBody cb = cm.bodyInstanceObject.GetComponent<CharacterBody>();
+
+                float platingMult = (stackPercentPlatingGain / 100f) * self.GetItemCount(ItemDef);
+                int plating = Mathf.RoundToInt(cb.maxHealth * platingMult);
+
+                if (!manager) {
+                    manager = cm.bodyInstanceObject.AddComponent<PlatingManager>();
+                    manager.MaxPlating = plating;
+                }
+
+                manager.CurrentPlating += plating;
+                manager.CurrentPlating = Mathf.Min(manager.CurrentPlating, manager.MaxPlating);
+            }
         }
 
         public override object GetItemStatsDef()
@@ -154,9 +187,9 @@ namespace Sandswept.Items.Greens
 
         public void TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
-            if (self.body.GetComponent<PlatingManager>())
+            if (self.body.TryGetComponent<PlatingManager>(out PlatingManager pl))
             {
-                float plating = self.body.GetComponent<PlatingManager>().CurrentPlating;
+                float plating = pl.CurrentPlating;
                 float toRemove = 0;
 
                 if (plating > info.damage)
@@ -170,7 +203,8 @@ namespace Sandswept.Items.Greens
                     info.damage -= plating;
                 }
 
-                self.body.GetComponent<PlatingManager>().CurrentPlating -= toRemove;
+                pl.CurrentPlating -= toRemove;
+                pl.CurrentPlating = Mathf.Clamp(pl.CurrentPlating, 0, pl.MaxPlating);
 
                 if (plating > 0 && Util.CheckRoll(100f * info.procCoefficient))
                 {
@@ -237,7 +271,7 @@ namespace Sandswept.Items.Greens
             VariableDefinition allocator = null;
             int allocIndex = -1;
 
-            c.TryGotoNext(x => x.MatchCallOrCallvirt(out handleBar) && handleBar.Name.StartsWith("<ApplyBars>g__HandleBar|"));
+            c.TryGotoNext(x => x.MatchCallOrCallvirt(out handleBar) && handleBar != null && handleBar.Name != null && handleBar.Name.StartsWith("<ApplyBars>g__HandleBar|"));
             c.TryGotoPrev(x => x.MatchLdloca(out allocIndex));
             allocator = il.Method.Body.Variables[allocIndex];
 
@@ -249,10 +283,9 @@ namespace Sandswept.Items.Greens
             c.Emit(OpCodes.Ldarg_0);
             c.EmitDelegate<Func<HealthBar, HealthBar.BarInfo>>((bar) =>
             {
-                PlatingManager manager = bar.source.GetComponent<PlatingManager>();
-                HealthBar.BarInfo info = new()
-                {
-                    enabled = manager,
+                PlatingManager manager = bar.source ? bar.source.GetComponent<PlatingManager>() : null;
+                HealthBar.BarInfo info = new() {
+                    enabled = manager && manager.CurrentPlating > 0,
                     color = Color.grey,
                     sprite = bar.style.echoDamageStyle.sprite,
                     imageType = bar.style.shieldBarStyle.imageType,

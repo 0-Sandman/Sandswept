@@ -349,7 +349,7 @@ namespace Sandswept.Survivors.Electrician.States
     {
         public float recoilDuration = 0.8f;
         public float effectMultiplier = 1f;
-        private float damageCoeff = 4.5f;
+        private float damageCoeff = 2.8f;
         private float radius = 50f;
 
         public SignalOverloadFire(float modifier)
@@ -428,7 +428,8 @@ namespace Sandswept.Survivors.Electrician.States
                     procCoefficient = 0f,
                     target = box,
                     teamIndex = GetTeam(),
-                    damageType = DamageType.Shock5s
+                    damageType = DamageType.Shock5s,
+                    damageColorIndex = DamageColorIndex.Default
                 };
 
                 SimpleLightningStrikeOrb orb2 = new()
@@ -440,7 +441,8 @@ namespace Sandswept.Survivors.Electrician.States
                     procCoefficient = 0f,
                     target = box,
                     teamIndex = GetTeam(),
-                    damageType = DamageType.Shock5s
+                    damageType = DamageType.Shock5s,
+                    damageColorIndex = DamageColorIndex.Default
                 };
 
                 orb.damageType.damageSource = DamageSource.NoneSpecified;

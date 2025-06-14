@@ -1,16 +1,23 @@
-## 1.2.2 Patch Notes
+# 1.2.3 Patch Notes
+- Items
+  - Fixed Makeshift Plate bombarding your log with NREs.
+
+# 1.2.2 Patch Notes
 - General
-  - Added Support
-  - Fixed readme
+  - Adjustments to the README images.
+- Items
+  - Fixed incompatibility that caused Makeshift Plate to break.
+  - Fixed Makeshift Plate causing the healthbar to display a negative current health at times.
+  - Added LookingGlass Support to Makeshift Plate
+  - Fixed LookingGlass Support with Temporal Transistor
+  - Makeshift Plate now grants plating upon pickup aswell as stage entry.
+  - Makeshift Plate no longer persists its plating for the stage duration if you lose all stacks of it.
 - Ranger
   - Slightly reduced self damage while in heat
 - VOL-T
   - Fixed description
-- Items
-  - Added LookingGlass Support to Makeshift Plate
-  - Fixed LookingGlass Support with Temporal Transistor
-  - Fixed Makeshift Plate UI NRE
-
+  - Volatile Shields damage reduced to 2x280% (down from 2x450%)
+  
 ## 1.2.1 Patch Notes
 - ![](https://i.postimg.cc/vTD0nKcq/eyebrow2.png)
 

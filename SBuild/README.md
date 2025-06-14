@@ -4,24 +4,24 @@
 - 4 Enemies
 - 2 Elites
 - 5 Interactables
-- 22 Items
+- 23 Items
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
 # Content
 
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/QxQrktwy/RangerUI.png)
+![](https://i.postimg.cc/4NFL7P7J/Ranger-UI-1.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/zfX5frdP/VOLTUI.png)
+![](https://i.postimg.cc/ZKqs52q7/VOLTUI-1.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 ![](https://i.postimg.cc/g2cPkVQ0/EnemyUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 ![](https://i.postimg.cc/X7kbbH2h/EliteUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/FHZPYRhQ/Interactable-UI.png)
+![](https://i.postimg.cc/pVC1xRP5/Interactable-UI-1.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/gjLT0SF7/ItemUI.png)
+![](https://i.postimg.cc/Gt4MqT60/Item-UI-4.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 
 # Credits

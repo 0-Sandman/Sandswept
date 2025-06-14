@@ -1,3 +1,26 @@
+# 1.2.3 Patch Notes
+- Items
+  - Fixed Makeshift Plate bombarding your log with NREs.
+
+# 1.2.2 Patch Notes
+- General
+  - Adjustments to the README images.
+- Items
+  - Fixed incompatibility that caused Makeshift Plate to break.
+  - Fixed Makeshift Plate causing the healthbar to display a negative current health at times.
+  - Added LookingGlass Support to Makeshift Plate
+  - Fixed LookingGlass Support with Temporal Transistor
+  - Makeshift Plate now grants plating upon pickup aswell as stage entry.
+  - Makeshift Plate no longer persists its plating for the stage duration if you lose all stacks of it.
+- Ranger
+  - Slightly reduced self damage while in heat
+- VOL-T
+  - Fixed description
+  - Volatile Shields damage reduced to 2x280% (down from 2x450%)
+  
+## 1.2.1 Patch Notes
+- ![](https://i.postimg.cc/vTD0nKcq/eyebrow2.png)
+
 # 1.2.0 Patch Notes
 - General
   - Added LookingGlass Support
@@ -8,17 +31,17 @@
   - Fixed Loadout bugs
   - Removed jumpscare easter egg
 - VOL-T
+  - Completely re-animated courtesy of Synodii! (the goat)
+  - Changed Galvanic Bolt - tick rate is now doubled and damage is halved
   - Updated log (fuck Google Docs)
   - Fixed her broken variant spawning on the host's side
   - Fixed her broken variant spawning while unlocked already
   - Fixed most instances of infinite procs on her broken variant
   - Fixed pressing Interact while in Static Snare teleporting you instantly (NONE OF Y'ALL KNEW OF THIS 6+ MONTH OLD BUG!!!)
-  - Completely re-animated courtesy of Synodii! (the goat)
-  - Galvanic Bolt tick rate doubled and damage halved. (feels better to use)
 - Enemies
   - Added SwepSwep the Sandy
   - Updated all logs (fuck Google Docs)
-  - Fixed Theta Construct visual effects not appearing on clients.
+  - Fixed Theta Construct VFX not appearing on clients
 - Items/Equipment
   - Added Glacial Plasma
   - Added Makeshift Plate
