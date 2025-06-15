@@ -1,10 +1,10 @@
 ## 1.2.4 Patch Notes
 - Items
-  - Buffed Nuclear Salvo Base Missile Count 2 => 4
-  - Buffed Nuclear Salvo Stack Missile Count 2 => 4
+  - Buffed Nuclear Salvo Explosion Radius 9m => 16m
   - Nerfed Nuclear Salvo Damage 100% => 50%
-  - Rewrote Nuclear Salvo to use orbs instead of projectiles (shoutout to zapyourtumor :D)
-  - Fixed Makeshift Plate missing the AIBlacklist and BrotherBlacklist item tags 
+  - Rewrote Nuclear Salvo to use orbs instead of projectiles (will barely lag even with tons of it and tons of drones <img src="https://i.postimg.cc/9M9nydp7/smiling-imp.png" width="20" height="20"/>)
+  - Improved Nuclear Salvo VFX and SFX
+  - Fixed Makeshift Plate missing the AIBlacklist and BrotherBlacklist item tags
 
 ## 1.2.3 Patch Notes
 - Items
@@ -27,7 +27,7 @@
   - Volatile Shields damage reduced to 2x280% (down from 2x450%)
   
 ## 1.2.1 Patch Notes
-- ![](https://i.postimg.cc/vTD0nKcq/eyebrow2.png)
+- <img src="https://i.postimg.cc/vTD0nKcq/eyebrow2.png" width="20" height="20"/>
 
 # 1.2.0 Patch Notes
 - General

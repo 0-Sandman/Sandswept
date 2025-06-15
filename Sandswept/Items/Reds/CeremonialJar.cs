@@ -117,28 +117,31 @@ namespace Sandswept.Items.Reds
         {
             orig(self, info, victim);
 
-            GameObject attackerGO = info.attacker;
+            var attacker = info.attacker;
 
             if (!info.damageType.IsDamageSourceSkillBased)
             {
                 return;
             }
 
-            if (!attackerGO || !attackerGO.GetComponent<CharacterBody>())
+            if (!attacker)
             {
                 return;
             }
 
-            CharacterBody attacker = attackerGO.GetComponent<CharacterBody>();
-
-            if (GetCount(attacker) <= 0)
+            if (!attacker.TryGetComponent<CharacterBody>(out var attackerBody))
             {
                 return;
             }
 
-            CharacterBody victimBody = victim.GetComponent<CharacterBody>();
+            if (GetCount(attackerBody) <= 0)
+            {
+                return;
+            }
 
-            if (victimBody.HasBuff(CereJarCDBuff))
+            var victimBody = victim.GetComponent<CharacterBody>();
+
+            if (victimBody.HasBuff(CereJarCDBuff) || attackerBody == victimBody)
             {
                 // Debug.Log("returning because cd");
                 return;
@@ -166,10 +169,10 @@ namespace Sandswept.Items.Reds
 
                     DamageInfo info = new()
                     {
-                        damage = attacker.damage * (baseDamage + (stackDamage * (GetCount(attacker) - 1))),
+                        damage = attackerBody.damage * (baseDamage + (stackDamage * (GetCount(attackerBody) - 1))),
                         crit = false,
                         damageColorIndex = JarDamageColor,
-                        attacker = attacker.gameObject,
+                        attacker = attackerBody.gameObject,
                         position = x.corePosition,
                         procCoefficient = procCoefficient
                     };
