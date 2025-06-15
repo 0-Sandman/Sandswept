@@ -45,7 +45,7 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.assets.LoadAsset<Sprite>("texIconPlate.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.Damage };
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.Damage, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist };
 
         [ConfigField("Base Percent Plating Gain", "", 200f)]
         public static float basePercentPlatingGain;
@@ -71,7 +71,8 @@ namespace Sandswept.Items.Greens
         {
             orig(self);
 
-            if (self.GetComponent<PlatingManager>() && self.inventory.GetItemCount(ItemDef) == 0) {
+            if (self.GetComponent<PlatingManager>() && self.inventory.GetItemCount(ItemDef) == 0)
+            {
                 self.RemoveComponent<PlatingManager>();
             }
         }
@@ -80,7 +81,8 @@ namespace Sandswept.Items.Greens
         {
             orig(self, itemIndex, count);
 
-            if (itemIndex == ItemDef.itemIndex && self.TryGetComponent<CharacterMaster>(out CharacterMaster cm) && cm.bodyInstanceObject) {
+            if (itemIndex == ItemDef.itemIndex && self.TryGetComponent<CharacterMaster>(out CharacterMaster cm) && cm.bodyInstanceObject)
+            {
                 PlatingManager manager = cm.bodyInstanceObject.GetComponent<PlatingManager>();
 
                 CharacterBody cb = cm.bodyInstanceObject.GetComponent<CharacterBody>();
@@ -88,7 +90,8 @@ namespace Sandswept.Items.Greens
                 float platingMult = (stackPercentPlatingGain / 100f) * self.GetItemCount(ItemDef);
                 int plating = Mathf.RoundToInt(cb.maxHealth * platingMult);
 
-                if (!manager) {
+                if (!manager)
+                {
                     manager = cm.bodyInstanceObject.AddComponent<PlatingManager>();
                     manager.MaxPlating = plating;
                 }
@@ -284,7 +287,8 @@ namespace Sandswept.Items.Greens
             c.EmitDelegate<Func<HealthBar, HealthBar.BarInfo>>((bar) =>
             {
                 PlatingManager manager = bar.source ? bar.source.GetComponent<PlatingManager>() : null;
-                HealthBar.BarInfo info = new() {
+                HealthBar.BarInfo info = new()
+                {
                     enabled = manager && manager.CurrentPlating > 0,
                     color = Color.grey,
                     sprite = bar.style.echoDamageStyle.sprite,

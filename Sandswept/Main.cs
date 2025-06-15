@@ -47,11 +47,7 @@ namespace Sandswept
     {
         public const string ModGuid = "com.TeamSandswept.Sandswept";
         public const string ModName = "Sandswept";
-<<<<<<< HEAD
-        public const string ModVersion = "1.2.2";
-=======
-        public const string ModVer = "1.2.3";
->>>>>>> 5390370742fb9bc18e6f68659e01d4458b300b93
+        public const string ModVersion = "1.2.4";
 
         public static AssetBundle mainAssets;
         public static AssetBundle assets;
@@ -472,9 +468,6 @@ namespace Sandswept
                     itemDef2 = itemDef,
                     itemDef1 = itemToCorrupt
                 };
-
-                // Main.ModLogger.LogError("itemdef pair transformation itemdef2 is " + transformation.itemDef2);
-                // Main.ModLogger.LogError("itemdef pair transformation itemdef1 is " + transformation.itemDef1);
 
                 ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].AddToArray(transformation);
             }

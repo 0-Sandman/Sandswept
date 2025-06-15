@@ -1,4 +1,5 @@
 using LookingGlass.ItemStatsNameSpace;
+using RoR2.Orbs;
 using System;
 using System.Collections;
 using System.Linq;
@@ -63,17 +64,14 @@ namespace Sandswept.Items.Greens
         [ConfigField("Missile Proc Coefficient", "", 0.33f)]
         public static float missileProcCoefficient;
 
-        [ConfigField("Missile AoE", "", 9f)]
-        public static float missileAoE;
-
-        public static GameObject missilePrefab;
+        public static GameObject orbEffect;
 
         // for salvo display you can instantiate Main.hifuSandswept.LoadAsset<GameObject>("NuclearSalvoHolder.prefab");
 
         public override void Init()
         {
             base.Init();
-            SetUpProjectiles();
+            SetUpVFX();
         }
 
         public override object GetItemStatsDef()
@@ -95,37 +93,50 @@ namespace Sandswept.Items.Greens
             return itemStatsDef;
         }
 
-        public void SetUpProjectiles()
+        public void SetUpVFX()
         {
             SalvoPrefab = Main.assets.LoadAsset<GameObject>("SalvoBehaviour.prefab");
-            // Main.ModLogger.LogError(SalvoPrefab);
-            /*
-            SalvoMissile = Main.Assets.LoadAsset<GameObject>("Missile.prefab");
-            ContentAddition.AddProjectile(SalvoMissile);
-            */
+            ContentAddition.AddNetworkedObject(SalvoPrefab);
 
-            missilePrefab = PrefabAPI.InstantiateClone(Paths.GameObject.MissileProjectile, "Nuclear Salvo Missile");
+            orbEffect = PrefabAPI.InstantiateClone(Paths.GameObject.MicroMissileOrbEffect, "Nuclear Salvo Orb", false);
+            var trans = orbEffect.transform;
+            var ghost = trans.Find("MissileGhost");
 
-            var missileProjectileController = missilePrefab.GetComponent<ProjectileController>();
-            missileProjectileController.procCoefficient = missileProcCoefficient;
+            ghost.transform.localScale = Vector3.one * 3.5f;
+            ghost.transform.GetChild(1).gameObject.SetActive(false);
 
-            // var projectileSingleTargetImpact = missilePrefab.GetComponent<ProjectileSingleTargetImpact>();
-            missilePrefab.RemoveComponent<ProjectileSingleTargetImpact>();
+            var pointLight = ghost.Find("Point Light").GetComponent<Light>();
+            pointLight.color = new Color32(0, 255, 20, 255);
+            pointLight.intensity = 1000f;
 
-            var projectileImpactExplosion = missilePrefab.AddComponent<ProjectileImpactExplosion>();
-            projectileImpactExplosion.blastProcCoefficient = missileProcCoefficient;
-            projectileImpactExplosion.blastAttackerFiltering = AttackerFiltering.NeverHitSelf;
-            projectileImpactExplosion.blastDamageCoefficient = missileDamage;
-            projectileImpactExplosion.blastRadius = missileAoE;
-            projectileImpactExplosion.destroyOnEnemy = true;
-            projectileImpactExplosion.destroyOnWorld = true;
-            projectileImpactExplosion.falloffModel = BlastAttack.FalloffModel.None;
-            projectileImpactExplosion.lifetime = 30f;
-            projectileImpactExplosion.impactOnWorld = true;
-            projectileImpactExplosion.fireChildren = false;
-            projectileImpactExplosion.applyDot = false;
+            var trail = ghost.Find("Trail").GetComponent<TrailRenderer>();
+            trail.widthMultiplier = 1f;
+            trail.time = 1f;
 
-            var newImpact = PrefabAPI.InstantiateClone(Paths.GameObject.ImpVoidspikeExplosion, "Nuclear Salvo Explosion", false);
+            var newTrailMat = Object.Instantiate(Paths.Material.matMissileTrail);
+            newTrailMat.SetColor("_TintColor", new Color32(20, 255, 0, 255));
+            newTrailMat.SetFloat("_AlphaBoost", 0.66f);
+            newTrailMat.SetTexture("_RemapTex", Paths.Texture2D.texRampBeetleQueen);
+
+            trail.material = newTrailMat;
+
+            var flare = ghost.Find("Flare");
+            flare.gameObject.SetActive(false);
+
+            var missileModel = ghost.Find("missile VFX");
+            missileModel.transform.eulerAngles = new Vector3(-90f, 0f, 0f);
+            var meshRenderer = missileModel.GetComponent<MeshRenderer>();
+
+            var atgMat = Object.Instantiate(Paths.Material.matMissile);
+            // atgMat.SetColor("_Color", new Color32(224, 94, 94, 255));
+            atgMat.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("texNuclearSalvoMissile.png"));
+            atgMat.EnableKeyword("DITHER");
+            atgMat.EnableKeyword("FADECLOSE");
+            meshRenderer.sharedMaterial = atgMat;
+
+            ContentAddition.AddEffect(orbEffect);
+
+            var newImpact = PrefabAPI.InstantiateClone(Paths.GameObject.ImpVoidspikeExplosion, "Nuclear Salvo Orb Explosion", false);
             var effectComponent = newImpact.GetComponent<EffectComponent>();
             effectComponent.soundName = "Play_item_proc_missile_explo";
 
@@ -164,7 +175,7 @@ namespace Sandswept.Items.Greens
 
             var light = particles.transform.GetChild(4).GetComponent<Light>();
             light.color = new Color32(109, 255, 74, 255);
-            light.range = missileAoE;
+            light.range = 9f;
             light.intensity = 60f;
             var lightIntensityCurve = light.GetComponent<LightIntensityCurve>();
             lightIntensityCurve.timeMax = 0.6f;
@@ -174,57 +185,7 @@ namespace Sandswept.Items.Greens
 
             ContentAddition.AddEffect(newImpact);
 
-            // projectileSingleTargetImpact.impactEffect = newImpact;
-            projectileImpactExplosion.impactEffect = newImpact;
-
-            var ghost = PrefabAPI.InstantiateClone(Paths.GameObject.MissileGhost, "Nuclear Salvo Missile Ghost", false);
-            ghost.transform.localScale = Vector3.one * 2.5f;
-            ghost.transform.GetChild(1).gameObject.SetActive(false);
-
-            var pointLight = ghost.transform.GetChild(3).GetComponent<Light>();
-            pointLight.color = new Color32(0, 255, 20, 255);
-            pointLight.intensity = 1000f;
-
-            var trail = ghost.transform.GetChild(0).GetComponent<TrailRenderer>();
-            trail.widthMultiplier = 1f;
-            trail.time = 1f;
-
-            var newTrailMat = Object.Instantiate(Paths.Material.matMissileTrail);
-            newTrailMat.SetColor("_TintColor", new Color32(20, 255, 0, 255));
-            newTrailMat.SetFloat("_AlphaBoost", 0.66f);
-            newTrailMat.SetTexture("_RemapTex", Paths.Texture2D.texRampBeetleQueen);
-
-            trail.material = newTrailMat;
-
-            var flare = ghost.transform.GetChild(1);
-            flare.gameObject.SetActive(false);
-
-            var missileModel = ghost.transform.GetChild(2);
-            missileModel.transform.eulerAngles = new Vector3(-90f, 0f, 0f);
-            var meshRenderer = missileModel.GetComponent<MeshRenderer>();
-
-            var atgMat = Object.Instantiate(Paths.Material.matMissile);
-            // atgMat.SetColor("_Color", new Color32(224, 94, 94, 255));
-            atgMat.SetTexture("_MainTex", Main.hifuSandswept.LoadAsset<Texture2D>("texNuclearSalvoMissile.png"));
-            atgMat.EnableKeyword("DITHER");
-            atgMat.EnableKeyword("FADECLOSE");
-            meshRenderer.sharedMaterial = atgMat;
-
-            missileProjectileController.ghostPrefab = ghost;
-
-            var missileController = missilePrefab.GetComponent<MissileController>();
-            missileController.maxSeekDistance = 60f;
-            missileController.turbulence = 0f;
-            missileController.deathTimer = 30f;
-            missileController.giveupTimer = 30f;
-            missileController.delayTimer = 0f;
-            missileController.maxVelocity = 40f;
-            missileController.acceleration = 1.5f;
-
-            PrefabAPI.RegisterNetworkPrefab(missilePrefab);
-            ContentAddition.AddProjectile(missilePrefab);
-
-            ContentAddition.AddNetworkedObject(SalvoPrefab);
+            orbEffect.GetComponent<OrbEffect>().endEffect = newImpact;
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
@@ -423,74 +384,86 @@ namespace Sandswept.Items.Greens
                     radius = 75f,
                     queryTriggerInteraction = QueryTriggerInteraction.Ignore
                 };
+
                 sphereSearch.RefreshCandidates();
+                sphereSearch.FilterCandidatesByHurtBoxTeam(TeamMask.AllExcept(TeamIndex.Player));
                 sphereSearch.FilterCandidatesByDistinctHurtBoxEntities();
+
                 var hurtBoxes = sphereSearch.GetHurtBoxes();
-                for (int i = 0; i < hurtBoxes.Length; i++)
+                if (hurtBoxes.Length <= 0)
                 {
-                    var hurtBox = hurtBoxes[i];
-
-                    var hc = hurtBox.healthComponent;
-                    if (!hc)
-                    {
-                        continue;
-                    }
-
-                    var enemyBody = hc.body;
-                    if (!enemyBody)
-                    {
-                        continue;
-                    }
-
-                    if (!enemyBody.teamComponent)
-                    {
-                        continue;
-                    }
-
-                    if (enemyBody.teamComponent.teamIndex == TeamIndex.Player)
-                    {
-                        continue;
-                    }
-
-                    shouldFire = true;
+                    enemyCheckTimer = 0f;
+                    return;
                 }
+                var randomTarget = hurtBoxes[Run.instance.stageRng.RangeInt(0, hurtBoxes.Length)];
+
+                var enemyHealthComponent = randomTarget.healthComponent;
+                if (!enemyHealthComponent)
+                {
+                    return;
+                }
+
+                var enemyBody = enemyHealthComponent.body;
+                if (!enemyBody)
+                {
+                    return;
+                }
+
+                if (stopwatch <= 0)
+                {
+                    stopwatch = totalMissileDelay;
+
+                    StartCoroutine(FireMissiles(enemyBody, stack));
+                }
+                // adds up to +- interval random variance cause im lazy and sleepy
 
                 enemyCheckTimer = 0f;
             }
-
-            if (stopwatch <= 0 && body && shouldFire)
-            {
-                stopwatch = totalMissileDelay;
-
-                StartCoroutine(FireMissiles(stack));
-            }
         }
 
-        public IEnumerator FireMissiles(int stack)
+        public IEnumerator FireMissiles(CharacterBody enemyBody, int stack)
         {
-            // Main.ModLogger.LogError("salvo fire missiles ran");
-            var count = NuclearSalvo.baseMissileCount + NuclearSalvo.stackMissileCount * (stack - 1);
-            for (int i = 0; i < count; i++)
+            var missileCount = NuclearSalvo.baseMissileCount + NuclearSalvo.stackMissileCount * (stack - 1);
+
+            for (int i = 0; i < missileCount; i++)
             {
-                // Debug.Log("firing salvo missile");
-                FireProjectileInfo info = new()
+                var nuclearSalvoOrb = new NuclearSalvoOrb
                 {
-                    crit = false,
-                    damage = body.damage * NuclearSalvo.missileDamage,
-                    rotation = Quaternion.identity,/*Util.QuaternionSafeLookRotation(Util.ApplySpread(attachment.attachedBody.inputBank.aimDirection, -10f, 10f, 1f, 1f)),*/
-                    position = body.transform.position + new Vector3(0f, 2f, 0f),
-                    owner = body.gameObject,
-                    projectilePrefab = NuclearSalvo.missilePrefab,
-                    damageTypeOverride = DamageType.IgniteOnHit
+                    origin = body.corePosition,
+                    target = Util.FindBodyMainHurtBox(enemyBody),
+                    attacker = gameObject,
+                    isCrit = body.RollCrit(),
+                    damageType = DamageType.IgniteOnHit,
+                    damageValue = body.damage * NuclearSalvo.missileDamage,
+                    procChainMask = default,
+                    speed = 45f,
+                    teamIndex = TeamComponent.GetObjectTeam(body.gameObject),
+                    procCoefficient = NuclearSalvo.missileProcCoefficient,
+                    damageColorIndex = DamageColorIndex.Poison
                 };
 
-                // Debug.Log(attachment.attachedBody);
                 if (Util.HasEffectiveAuthority(gameObject))
-                    ProjectileManager.instance.FireProjectile(info);
+                {
+                    OrbManager.instance.AddOrb(nuclearSalvoOrb);
+                }
 
-                yield return new WaitForSeconds(1f / count);
+                yield return new WaitForSeconds(1f / missileCount);
             }
             yield return null;
+        }
+    }
+
+    public class NuclearSalvoOrb : GenericDamageOrb
+    {
+        public override void Begin()
+        {
+            speed = 45f;
+            base.Begin();
+        }
+
+        public override GameObject GetOrbEffect()
+        {
+            return NuclearSalvo.orbEffect;
         }
     }
 }

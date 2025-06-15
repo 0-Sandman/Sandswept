@@ -1,17 +1,22 @@
-# 1.2.3 Patch Notes
+## 1.2.4 Patch Notes
 - Items
-  - Fixed Makeshift Plate bombarding your log with NREs.
+  - Rewrote Nuclear Salvo to use orbs instead of projectiles (shoutout to zapyourtumor :D)
+  - Fixed Makeshift Plate missing the AIBlacklist and BrotherBlacklist item tags 
 
-# 1.2.2 Patch Notes
-- General
-  - Adjustments to the README images.
+## 1.2.3 Patch Notes
 - Items
-  - Fixed incompatibility that caused Makeshift Plate to break.
-  - Fixed Makeshift Plate causing the healthbar to display a negative current health at times.
+  - Fixed Makeshift Plate bombarding your log with NREs
+
+## 1.2.2 Patch Notes
+- General
+  - Adjustments to the README images
+- Items
+  - Fixed incompatibility that caused Makeshift Plate to break
+  - Fixed Makeshift Plate causing the healthbar to display a negative current health at times
   - Added LookingGlass Support to Makeshift Plate
   - Fixed LookingGlass Support with Temporal Transistor
-  - Makeshift Plate now grants plating upon pickup aswell as stage entry.
-  - Makeshift Plate no longer persists its plating for the stage duration if you lose all stacks of it.
+  - Makeshift Plate now grants plating upon pickup aswell as stage entry
+  - Makeshift Plate no longer persists its plating for the stage duration if you lose all stacks of it
 - Ranger
   - Slightly reduced self damage while in heat
 - VOL-T
