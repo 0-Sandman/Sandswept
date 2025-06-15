@@ -1,5 +1,8 @@
 ## 1.2.4 Patch Notes
 - Items
+  - Buffed Nuclear Salvo Base Missile Count 2 => 4
+  - Buffed Nuclear Salvo Stack Missile Count 2 => 4
+  - Nerfed Nuclear Salvo Damage 100% => 50%
   - Rewrote Nuclear Salvo to use orbs instead of projectiles (shoutout to zapyourtumor :D)
   - Fixed Makeshift Plate missing the AIBlacklist and BrotherBlacklist item tags 
 

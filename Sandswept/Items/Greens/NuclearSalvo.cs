@@ -52,17 +52,20 @@ namespace Sandswept.Items.Greens
         [ConfigField("Interval", "", 5f)]
         public static float interval;
 
-        [ConfigField("Base Missile Count", "", 2)]
+        [ConfigField("Base Missile Count", "", 4)]
         public static int baseMissileCount;
 
-        [ConfigField("Stack Missile Count", "", 2)]
+        [ConfigField("Stack Missile Count", "", 4)]
         public static int stackMissileCount;
 
-        [ConfigField("Missile Damage", "Decimal.", 1f)]
+        [ConfigField("Missile Damage", "Decimal.", 0.5f)]
         public static float missileDamage;
 
         [ConfigField("Missile Proc Coefficient", "", 0.33f)]
         public static float missileProcCoefficient;
+
+        [ConfigField("Missile Explosion Radius", "", 9f)]
+        public static float missileExplosionRadius;
 
         public static GameObject orbEffect;
 
@@ -434,7 +437,8 @@ namespace Sandswept.Items.Greens
                     attacker = gameObject,
                     isCrit = body.RollCrit(),
                     damageType = DamageType.IgniteOnHit,
-                    damageValue = body.damage * NuclearSalvo.missileDamage,
+                    // damageValue = body.damage * NuclearSalvo.missileDamage,
+                    damageValue = 0,
                     procChainMask = default,
                     speed = 45f,
                     teamIndex = TeamComponent.GetObjectTeam(body.gameObject),
@@ -455,8 +459,12 @@ namespace Sandswept.Items.Greens
 
     public class NuclearSalvoOrb : GenericDamageOrb
     {
+        public CharacterMaster master;
+        public CharacterBody body;
         public override void Begin()
         {
+            master = attacker.GetComponent<CharacterMaster>();
+            body = master.GetBody();
             speed = 45f;
             base.Begin();
         }
@@ -464,6 +472,36 @@ namespace Sandswept.Items.Greens
         public override GameObject GetOrbEffect()
         {
             return NuclearSalvo.orbEffect;
+        }
+
+        public override void OnArrival()
+        {
+            base.OnArrival();
+            if (!body)
+            {
+                return;
+            }
+
+            BlastAttack blastAttack = new()
+            {
+                baseDamage = body.damage * NuclearSalvo.missileDamage,
+                attacker = attacker,
+                inflictor = attacker,
+                falloffModel = BlastAttack.FalloffModel.None,
+                attackerFiltering = AttackerFiltering.NeverHitSelf,
+                baseForce = 0f,
+                bonusForce = Vector3.zero,
+                damageColorIndex = damageColorIndex,
+                damageType = damageType,
+                crit = isCrit,
+                procCoefficient = procCoefficient,
+                teamIndex = teamIndex,
+                radius = NuclearSalvo.missileExplosionRadius,
+                procChainMask = default
+            };
+
+            blastAttack.Fire();
+
         }
     }
 }
