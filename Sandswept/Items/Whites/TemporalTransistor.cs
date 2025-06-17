@@ -200,6 +200,7 @@ namespace Sandswept.Items.Whites
         {
             var buffCount = sender.GetBuffCount(extraJump);
             args.jumpCountAdd += buffCount;
+
         }
 
         private void GlobalEventManager_onCharacterDeathGlobal(DamageReport report)

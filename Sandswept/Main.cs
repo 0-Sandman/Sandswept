@@ -20,6 +20,8 @@ using Sandswept.DoTs;
 using Sandswept.Drones;
 using MonoMod.Cil;
 using Sandswept.Enemies.SwepSwepTheSandy;
+using System.Runtime.CompilerServices;
+using Sandswept.Survivors.Ranger;
 
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
 
@@ -88,6 +90,8 @@ namespace Sandswept
         public static bool LookingGlassLoaded = false;
 
         public static bool CustomEmotesAPILoaded = false;
+
+        private static string rangerBoneMapperName;
 
         private void Awake()
         {
@@ -248,14 +252,19 @@ namespace Sandswept
 
         public void SetUpHooks()
         {
-            if (Utils.CustomEmoteAPICheck.enabled)
-            {
-                On.RoR2.SurvivorCatalog.Init += CustomEmoteAPICheck.SurvivorCatalog_Init;
-            }
             SandsweptTemporaryEffects.ApplyHooks();
             On.RoR2.RoR2Content.Init += OnWwiseInit;
             IL.EntityStates.Drone.DeathState.OnImpactServer += DroneDropFix;
             On.RoR2.Items.ContagiousItemManager.Init += CorruptItems;
+        }
+
+        [SystemInitializer(typeof(SurvivorCatalog))]
+        public void SetUpEmotes()
+        {
+            if (CustomEmotesAPILoaded)
+            {
+                AddRangerEmotes();
+            }
         }
 
         public AssetBundle LoadAssetBundle(string assetBundleName)
@@ -473,6 +482,37 @@ namespace Sandswept
             }
 
             orig();
+        }
+
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public static void AddRangerEmotes()
+        {
+            var skele = Main.dgoslingAssets.LoadAsset<GameObject>("mdlRangerEmote");
+            EmotesAPI.CustomEmotesAPI.ImportArmature(Ranger.instance.Body, skele);
+
+            var boneMapper = skele.GetComponentInChildren<BoneMapper>();
+            boneMapper.scale = 0.9f;
+
+            rangerBoneMapperName = boneMapper.name;
+
+            EmotesAPI.CustomEmotesAPI.animChanged += CustomEmoteAPICheck.CustomEmotesAPI_animChanged;
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public static void RangerEmotesFix(string newAnimation, BoneMapper mapper)
+        {
+            if (mapper.name == rangerBoneMapperName)
+            {
+                GameObject gun = mapper.transform.parent.Find("Gun").gameObject;
+                if (newAnimation != "none")
+                {
+                    gun.SetActive(false);
+                }
+                else
+                    gun.SetActive(true);
+            }
+
         }
 
         private void DroneDropFix(ILContext il)

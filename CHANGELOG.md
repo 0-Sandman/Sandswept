@@ -1,4 +1,6 @@
 ## 1.2.4 Patch Notes
+- VOL-T
+  - Adjusted Signal Overload Self Damage Tick Amount 25 => 10 (Razorwire moment)
 - Items
   - Buffed Nuclear Salvo Explosion Radius 9m => 16m
   - Nerfed Nuclear Salvo Damage 100% => 50%

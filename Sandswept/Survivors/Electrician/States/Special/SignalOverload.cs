@@ -18,7 +18,7 @@ namespace Sandswept.Survivors.Electrician.States
 
             baseDuration /= attackSpeedStat;
 
-            delay = baseDuration / 25f;
+            delay = baseDuration / 10f;
 
             FindModelChild("Tethers").gameObject.SetActive(true);
 
