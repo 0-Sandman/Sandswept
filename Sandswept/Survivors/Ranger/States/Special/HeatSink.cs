@@ -27,6 +27,12 @@ namespace Sandswept.Survivors.Ranger.States.Special
         {
             base.OnEnter();
 
+            EntityStateMachine machine = EntityStateMachine.FindByCustomName(gameObject, "Overdrive");
+            if (machine.state is OverdriveEnter)
+            {
+                (machine.state as OverdriveEnter).Exit();
+            }
+
             if (characterMotor)
             {
                 SmallHop(characterMotor, 20f);
@@ -200,7 +206,7 @@ namespace Sandswept.Survivors.Ranger.States.Special
 
             if (fixedAge >= duration)
             {
-                outer.SetNextState(new OverdriveExitHeatSink());
+                outer.SetNextStateToMain();
             }
         }
 
@@ -213,12 +219,6 @@ namespace Sandswept.Survivors.Ranger.States.Special
                 TemporaryOverlayManager.RemoveOverlay(tempOverlayInstance1.managerIndex);
                 TemporaryOverlayManager.RemoveOverlay(tempOverlayInstance2.managerIndex);
             }
-            /*
-            if (characterMotor)
-            {
-                SmallHop(characterMotor, -10f);
-            }
-            */
         }
     }
 }

@@ -310,7 +310,6 @@ namespace Sandswept.Survivors.Ranger
             ContentAddition.AddEntityState(typeof(HeatSink), out _);
             ContentAddition.AddEntityState(typeof(OverdriveEnter), out _);
             // ContentAddition.AddEntityState(typeof(OverdriveExit), out _);
-            ContentAddition.AddEntityState(typeof(OverdriveExitHeatSink), out _);
             ContentAddition.AddEntityState(typeof(Release), out _);
             ContentAddition.AddEntityState(typeof(Sidestep), out _);
             ContentAddition.AddEntityState(typeof(Galvanize), out _);

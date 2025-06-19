@@ -1,4 +1,6 @@
 ## 1.2.4 Patch Notes
+- Ranger
+  - Overdrive exit now happens instantly upon using Heat Sink instead of at the end of it (prevents taking a few extra damage ticks)
 - VOL-T
   - Adjusted Signal Overload Self Damage Tick Amount 25 => 10 (Razorwire moment)
 - Items
