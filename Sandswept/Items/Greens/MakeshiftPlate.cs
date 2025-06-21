@@ -25,7 +25,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Gain plating on stage entry. Plating absorbs damage, but cannot be recovered.";
 
-        public override string ItemFullDescription => $"Begin each stage with $sh{basePercentPlatingGain}%$se $ss(+{stackPercentPlatingGain}% per stack)$se plating. Plating acts as $shsecondary health$se, but cannot be recovered in any way. Taking damage with plating fires $sddebris shards$se at nearby enemies for $sd2x120%$se base damage.".AutoFormat();
+        public override string ItemFullDescription => $"Begin each stage with $sh{basePercentPlatingGain}%$se $ss(+{stackPercentPlatingGain}% per stack)$se plating. Plating acts as $shsecondary health$se, but cannot be recovered in any way. Taking damage with plating fires $sddebris shards$se at nearby enemies for $sd2x{debrisShardDamage * 100f}%$se base damage.".AutoFormat();
 
         public override string ItemLore =>
         """
@@ -52,6 +52,20 @@ namespace Sandswept.Items.Greens
 
         [ConfigField("Stack Percent Plating Gain", "", 200f)]
         public static float stackPercentPlatingGain;
+
+        [ConfigField("Debris Shard Damage", "Decimal.", 1.2f)]
+        public static float debrisShardDamage;
+
+        [ConfigField("Debris Shard Amount", "", (uint)2)]
+        public static uint debrisShardAmount;
+
+        [ConfigField("Debris Shard Proc Coefficient", "", 0.2f)]
+        public static float debrisShardProcCoefficient;
+
+        [ConfigField("Debris Shard Search Radius", "", 50f)]
+        public static float debrisShardSearchRadius;
+
+        public static Sprite texPlatingBar => Main.sandsweptHIFU.LoadAsset<Sprite>("texPlatingBar.png");
 
         public override void Init()
         {
@@ -214,7 +228,7 @@ namespace Sandswept.Items.Greens
                     SphereSearch search = new()
                     {
                         origin = self.transform.position,
-                        radius = 50,
+                        radius = debrisShardSearchRadius,
                         mask = LayerIndex.entityPrecise.mask
                     };
                     search.RefreshCandidates();
@@ -225,13 +239,13 @@ namespace Sandswept.Items.Greens
                     foreach (HurtBox box in search.GetHurtBoxes())
                     {
                         BulletAttack attack = new();
-                        attack.damage = self.body.damage * 1.2f;
-                        attack.bulletCount = 2;
+                        attack.damage = self.body.damage * debrisShardDamage;
+                        attack.bulletCount = debrisShardAmount;
                         attack.maxSpread = 2;
                         attack.damageColorIndex = DamageColorIndex.Item;
                         attack.origin = self.transform.position;
                         attack.aimVector = (box.transform.position - self.transform.position).normalized;
-                        attack.procCoefficient = 0.2f;
+                        attack.procCoefficient = debrisShardProcCoefficient;
                         attack.tracerEffectPrefab = Paths.GameObject.TracerToolbotNails;
                         attack.owner = self.gameObject;
 
@@ -290,10 +304,10 @@ namespace Sandswept.Items.Greens
                 HealthBar.BarInfo info = new()
                 {
                     enabled = manager && manager.CurrentPlating > 0,
-                    color = Color.grey,
-                    sprite = bar.style.echoDamageStyle.sprite,
-                    imageType = bar.style.shieldBarStyle.imageType,
-                    sizeDelta = bar.style.shieldBarStyle.sizeDelta * 1.3f,
+                    color = Color.white,
+                    sprite = texPlatingBar,
+                    imageType = bar.style.barrierBarStyle.imageType,
+                    sizeDelta = 25f,
                     normalizedXMax = 0f,
                     normalizedXMin = 0f
                 };

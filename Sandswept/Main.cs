@@ -22,6 +22,7 @@ using MonoMod.Cil;
 using Sandswept.Enemies.SwepSwepTheSandy;
 using System.Runtime.CompilerServices;
 using Sandswept.Survivors.Ranger;
+using IL.RoR2.Items;
 
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
 
@@ -55,6 +56,7 @@ namespace Sandswept
         public static AssetBundle assets;
         public static AssetBundle prodAssets;
         public static AssetBundle hifuSandswept;
+        public static AssetBundle sandsweptHIFU;
         public static AssetBundle dgoslingAssets;
 
         public static ModdedDamageType eclipseSelfDamage = ReserveDamageType();
@@ -89,8 +91,6 @@ namespace Sandswept
 
         public static bool LookingGlassLoaded = false;
 
-        public static bool CustomEmotesAPILoaded = false;
-
         private static string rangerBoneMapperName;
 
         private void Awake()
@@ -100,8 +100,6 @@ namespace Sandswept
             var stopwatch = Stopwatch.StartNew();
 
             LookingGlassLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("droppod.lookingglass");
-
-            CustomEmotesAPILoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.weliveinasociety.CustomEmotesAPI");
 
             SOTV = Utils.Assets.ExpansionDef.DLC1;
 
@@ -143,6 +141,7 @@ namespace Sandswept
             assets = LoadAssetBundle("sandsweptassets2"); // psudło assets
             prodAssets = LoadAssetBundle("sandsweep3"); // MFS I SAID MERGE INTO OTHER ASSETS // nuh uh :3c
             hifuSandswept = LoadAssetBundle("hifusandswept");
+            sandsweptHIFU = LoadAssetBundle("sandswepthifu");
             dgoslingAssets = LoadAssetBundle("dgoslingstuff");
 
             using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Sandswept.sandsweptassets"))
@@ -155,6 +154,7 @@ namespace Sandswept
             SwapShaders(assets);
             SwapShaders(prodAssets);
             SwapShaders(hifuSandswept);
+            SwapShaders(sandsweptHIFU);
             SwapShaders(dgoslingAssets);
         }
 
@@ -163,7 +163,7 @@ namespace Sandswept
             Survivors.SelfDamageHook.Init();
             Sandswept.Utils.Keywords.SetupKeywords();
             Decay.Init();
-            GenerateExpensionDef();
+            GenerateExpansionDef();
             Survivors.Initialize.Init();
             DamageColourHelper.Init();
             var ArtifactTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(ArtifactBase)));
@@ -259,10 +259,12 @@ namespace Sandswept
         }
 
         [SystemInitializer(typeof(SurvivorCatalog))]
-        public void SetUpEmotes()
+        public static void SetUpEmotes()
         {
-            if (CustomEmotesAPILoaded)
+            // ModLogger.LogError("set up emotes ran");
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.weliveinasociety.CustomEmotesAPI"))
             {
+                // ModLogger.LogError("custom emotes api is loaded");
                 AddRangerEmotes();
             }
         }
@@ -299,7 +301,7 @@ namespace Sandswept
             AkSoundEngine.LoadBank("soundswept", out _);
         }
 
-        public void GenerateExpensionDef()
+        public void GenerateExpansionDef()
         {
             SandsweptExpansionDef = dgoslingAssets.LoadAsset<ExpansionDef>("SandSweptExpDef");
             SandsweptExpansionDef.nameToken.Add("Sandswept");
@@ -461,16 +463,20 @@ namespace Sandswept
 
         private void CorruptItems(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
         {
-            for (int i = 0; i < AllItems.Count; i++)
+            // items get iterated over in reverse order using a STANDARD for loop (e.g. Whites, then Reds, then NoTier, etc)
+            for (int i = AllItems.Count - 1; i >= 0; i--)
             {
                 var itemBase = AllItems[i];
+                var itemDef = itemBase.ItemDef;
+                // Logger.LogError("itemDef is " + Language.GetString(itemDef.nameToken));
                 var itemToCorrupt = itemBase.ItemToCorrupt;
+
                 if (itemToCorrupt == null)
                 {
                     continue;
                 }
 
-                var itemDef = itemBase.ItemDef;
+                // Logger.LogError("itemToCorrupt is " + Language.GetString(itemToCorrupt.nameToken));
 
                 ItemDef.Pair transformation = new()
                 {
@@ -496,7 +502,7 @@ namespace Sandswept
 
             rangerBoneMapperName = boneMapper.name;
 
-            EmotesAPI.CustomEmotesAPI.animChanged += CustomEmoteAPICheck.CustomEmotesAPI_animChanged;
+            EmotesAPI.CustomEmotesAPI.animChanged += RangerEmotesFix;
         }
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]

@@ -170,7 +170,6 @@ namespace Sandswept.Items.VoidGreens
         {
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
 
-            ItemToCorrupt = SunFragment.instance.ItemDef;
             // On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
         }
 

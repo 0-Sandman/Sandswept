@@ -1,14 +1,19 @@
 ## 1.2.4 Patch Notes
+- General
+  - Fixed CustomEmotesAPI jank (for the most part)
 - Ranger
-  - Overdrive exit now happens instantly upon using Heat Sink instead of at the end of it (prevents taking a few extra damage ticks)
+  - Made Overdrive exit happen instantly to prevent taking a few extra damage ticks
 - VOL-T
   - Adjusted Signal Overload Self Damage Tick Amount 25 => 10 (Razorwire moment)
 - Items
+  - Added more config options to Makeshift Plate
   - Buffed Nuclear Salvo Explosion Radius 9m => 16m
   - Nerfed Nuclear Salvo Damage 100% => 50%
-  - Rewrote Nuclear Salvo to use orbs instead of projectiles (will barely lag even with tons of it and tons of drones <img src="https://i.postimg.cc/9M9nydp7/smiling-imp.png" width="20" height="20"/>)
+  - Rewrote Nuclear Salvo to use orbs instead of projectiles (will lag much less with tons of it and tons of drones <img src="https://i.postimg.cc/9M9nydp7/smiling-imp.png" width="20" height="20"/>)
+  - Improved Makeshift Plate healthbar visuals
   - Improved Nuclear Salvo VFX and SFX
   - Fixed Makeshift Plate missing the AIBlacklist and BrotherBlacklist item tags
+  - Fixed void items not corrupting their counterparts
 
 ## 1.2.3 Patch Notes
 - Items
