@@ -53,7 +53,7 @@ namespace Sandswept.Interactables.Regular
         [ConfigField("Enemy Stats Multiplier", "", 0.5f)]
         public static float enemyStatsMultiplier;
 
-        [ConfigField("Max Stage To Spawn On", "", 11)]
+        [ConfigField("Max Stage To Spawn On", "", 8)]
         public static int maxStageToSpawnOn;
 
         public override void Init()

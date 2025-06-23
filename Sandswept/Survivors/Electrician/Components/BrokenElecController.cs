@@ -19,10 +19,12 @@ namespace Sandswept.Survivors.Electrician
         public void Start()
         {
             body = GetComponent<CharacterBody>();
+            body.bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath;
+            body.bodyFlags |= CharacterBody.BodyFlags.ImmuneToExecutes;
+            body.bodyFlags |= CharacterBody.BodyFlags.OverheatImmune;
             if (NetworkServer.active)
             {
-                body.healthComponent.TakeDamage(
-                new DamageInfo()
+                var damageInfo = new DamageInfo()
                 {
                     attacker = null,
                     damageType = DamageType.BypassArmor | DamageType.BypassBlock,
@@ -30,7 +32,10 @@ namespace Sandswept.Survivors.Electrician
                     inflictor = null,
                     procCoefficient = 0f,
                     position = transform.position
-                });
+                };
+                damageInfo.AddModdedDamageType(Electrician.bypassVoltResistance);
+                body.healthComponent.TakeDamage(damageInfo);
+                
             }
 
             // one hellelleallofallallot of a one-liner this used to be
@@ -89,6 +94,7 @@ namespace Sandswept.Survivors.Electrician
                 attack.position = base.transform.position;
                 attack.crit = true;
                 attack.canRejectForce = false;
+                attack.AddModdedDamageType(Electrician.bypassVoltResistance);
                 attack.Fire();
 
                 AkSoundEngine.PostEvent(Events.Play_drone_deathpt2, base.gameObject);

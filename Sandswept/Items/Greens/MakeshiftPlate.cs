@@ -25,7 +25,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Gain plating on stage entry. Plating absorbs damage, but cannot be recovered.";
 
-        public override string ItemFullDescription => $"Begin each stage with $sh{basePercentPlatingGain}%$se $ss(+{stackPercentPlatingGain}% per stack)$se plating. Plating acts as $shsecondary health$se, but cannot be recovered in any way. Taking damage with plating fires $sddebris shards$se at nearby enemies for $sd2x{debrisShardDamage * 100f}%$se base damage.".AutoFormat();
+        public override string ItemFullDescription => $"Begin each stage with $sh{basePercentPlatingGain}%$se $ss(+{stackPercentPlatingGain}% per stack)$se plating. Plating acts as $shsecondary health$se, but cannot be recovered in any way. Taking damage with plating fires $sddebris shards$se at nearby enemies for $sd{debrisShardAmount}x{debrisShardDamage * 100f}%$se base damage.".AutoFormat();
 
         public override string ItemLore =>
         """

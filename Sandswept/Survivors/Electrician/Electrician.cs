@@ -33,6 +33,7 @@ namespace Sandswept.Survivors.Electrician
         public static GameObject LightningZipEffect;
         public static GameObject SignalOverloadIndicator;
         public static LazyIndex ElectricianIndex = new("ElectricianBody");
+        public static LazyIndex brokenVoltBodyIndex = new("BrokenElectricianBody");
 
         //
         public static SkinDef sdElecDefault;
@@ -46,6 +47,7 @@ namespace Sandswept.Survivors.Electrician
         public static GameObject BrokenElectricianBody;
         public static DamageAPI.ModdedDamageType LIGHTNING = DamageAPI.ReserveDamageType();
         public static DamageAPI.ModdedDamageType ReallyShittyGrounding = DamageAPI.ReserveDamageType();
+        public static DamageAPI.ModdedDamageType bypassVoltResistance = DamageAPI.ReserveDamageType();
 
         public override void CreateLang()
         {
@@ -237,6 +239,11 @@ namespace Sandswept.Survivors.Electrician
                 damageInfo.AddModdedDamageType(LIGHTNING);
             }
 
+            if (self.body && self.body.bodyIndex == brokenVoltBodyIndex && !damageInfo.HasModdedDamageType(bypassVoltResistance))
+            {
+                damageInfo.damage *= 0.001f;
+            }
+
             orig(self, damageInfo);
         }
 
@@ -246,9 +253,9 @@ namespace Sandswept.Survivors.Electrician
 
             if (SceneManager.GetActiveScene().name == Scenes.SunderedGrove)
             {
-                bool isAnyonePlayingElectrician = true;
-                int currentElectricianUnlockCount = 0;
-                bool hasEveryoneUnlockedElectrician = false;
+                bool isAnyonePlayingVolt = true;
+                int currentVoltUnlockCount = 0;
+                bool hasEveryoneUnlockedVolt = false;
 
                 // Main.ModLogger.LogError("electricianindex lazyindex bitchass is " + ElectricianIndex.Value);
 
@@ -265,31 +272,31 @@ namespace Sandswept.Survivors.Electrician
                     // Main.ModLogger.LogError("master body backup index is " + master.backupBodyIndex);
                     if (master.backupBodyIndex != ElectricianIndex.Value)
                     {
-                        isAnyonePlayingElectrician = false;
+                        isAnyonePlayingVolt = false;
                     }
 
                     if (MiscUtils.HasUnlockable(playerCharacterMasterController.networkUser, UnlockableDefs.charUnlock))
                     {
                         // Main.ModLogger.LogError("found volt unlockable, incrementing current volt unlock count");
-                        currentElectricianUnlockCount++;
+                        currentVoltUnlockCount++;
                     }
                 }
 
-                if (currentElectricianUnlockCount >= Run.instance.participatingPlayerCount)
+                if (currentVoltUnlockCount >= Run.instance.participatingPlayerCount)
                 {
                     // Main.ModLogger.LogError("current volt unlock count is more than or equal to participating player count");
-                    hasEveryoneUnlockedElectrician = true;
+                    hasEveryoneUnlockedVolt = true;
                 }
 
                 // Main.ModLogger.LogError("is anyone playing volt? " + isAnyonePlayingElectrician);
                 // Main.ModLogger.LogError("has everyone unlocked volt? " + hasEveryoneUnlockedElectrician);
 
-                if (isAnyonePlayingElectrician)
+                if (isAnyonePlayingVolt)
                 {
                     yield break;
                 }
 
-                if (hasEveryoneUnlockedElectrician)
+                if (hasEveryoneUnlockedVolt)
                 {
                     yield break;
                 }

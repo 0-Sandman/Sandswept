@@ -49,7 +49,6 @@ namespace Sandswept.Enemies.DeltaConstruct
         public override void PostCreation()
         {
             base.PostCreation();
-
             List<Stage> stages = new List<DirectorAPI.Stage> {
                 Stage.SkyMeadow,
                 Stage.SkyMeadowSimulacrum,
