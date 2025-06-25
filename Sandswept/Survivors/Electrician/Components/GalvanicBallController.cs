@@ -10,16 +10,18 @@ namespace Sandswept.Survivors.Electrician
         public float radius = 13f;
         public float damage = 1f;
         private bool hasBouncedEnemy = false;
-        private ProjectileDamage pDamage;
-        private ProjectileController controller;
-        private bool hasStuck = false;
-        private CharacterBody owner;
-        private Rigidbody body;
-        private float stopwatch = 0f;
-        private float damageCoeff;
-        private float interval;
-        private float range;
-        private float maxTargets;
+        public ProjectileDamage pDamage;
+        public ProjectileController controller;
+        public bool hasStuck = false;
+        public CharacterBody owner;
+        public Rigidbody body;
+        public float stopwatch = 0f;
+        public float damageCoeff;
+        public float interval;
+        public float range;
+        public float maxTargets;
+        public Transform modelTransform;
+        public GameObject impactVFX;
 
         public void Start()
         {
@@ -27,6 +29,19 @@ namespace Sandswept.Survivors.Electrician
             controller = GetComponent<ProjectileController>();
             owner = controller.owner.GetComponent<CharacterBody>();
             body = GetComponent<Rigidbody>();
+
+            modelTransform = GetModelTransform();
+
+            if (modelTransform)
+            {
+                var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[owner.skinIndex].nameToken;
+
+                impactVFX = skinNameToken switch
+                {
+                    "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.impactCovenant,
+                    _ => VFX.GalvanicBolt.impactDefault
+                };
+            }
 
             GetComponent<ProjectileProximityBeamController>().attackInterval /= owner.attackSpeed;
 
@@ -36,6 +51,15 @@ namespace Sandswept.Survivors.Electrician
             range = p.attackRange;
             maxTargets = p.attackFireCount;
             p.enabled = false;
+        }
+
+        public Transform GetModelTransform()
+        {
+            if (!owner || !owner.modelLocator)
+            {
+                return null;
+            }
+            return owner.modelLocator.modelTransform;
         }
 
         public void FixedUpdate()
@@ -112,7 +136,7 @@ namespace Sandswept.Survivors.Electrician
                     {
                         attack.Fire();
                         Util.PlaySound("Play_loader_R_shock", base.gameObject);
-                        EffectManager.SpawnEffect(Electrician.staticSnareImpactVFX, new EffectData
+                        EffectManager.SpawnEffect(impactVFX, new EffectData
                         {
                             origin = attack.position,
                             scale = attack.radius * 2f

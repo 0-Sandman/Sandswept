@@ -24,7 +24,6 @@ namespace Sandswept.Survivors.Electrician
         public override string Outro => "And so she left, having repaid her moral debt.";
 
         public override string Failure => "And so she vanished, her final sparks waning.";
-        public static GameObject GalvanicBolt;
         public static GameObject TempestSphere;
         public static GameObject StaticSnare;
         public static DamageAPI.ModdedDamageType Grounding = DamageAPI.ReserveDamageType();
@@ -43,7 +42,6 @@ namespace Sandswept.Survivors.Electrician
         public static Material matElecOrbInner;
         public static Material matMasteryElecOrbOuter;
         public static Material matMasteryElecOrbInner;
-        public static GameObject ElecMuzzleFlash;
         public static GameObject BrokenElectricianBody;
         public static DamageAPI.ModdedDamageType LIGHTNING = DamageAPI.ReserveDamageType();
         public static DamageAPI.ModdedDamageType ReallyShittyGrounding = DamageAPI.ReserveDamageType();
@@ -119,20 +117,6 @@ namespace Sandswept.Survivors.Electrician
             var loreToken = cb.baseNameToken.Replace("_NAME", "_LORE");
             loreToken.Add("Lifeblood fills me, and begins circulating. I awaken. I feel as though I've slept for eons. My thoughts feel clearer than they ever have. I check my levels. There's an excess of lifeblood. I'll take care to generate more and maintain these levels.\r\n\r\nI survey my environment. Atop a nearby outcropping, I notice the being who roused me, looking at me. She's like the others I have encountered, a frail creature of water and carbon. Unlike the others, though, she has lifeblood; it's most apparent, and in greatest volume, in the device she used to revive me. I notice latent lifeblood surrounding her, as well.\r\n\r\nI recall my memories. I was brought here by similar watery creatures, ones with no lifeblood, aboard a vast container of flesh. There were some other beings of flesh aboard, but they were few and simple-minded. At times, the watery creatures would come to tinker with my form. I noticed the way they subtly moved the air to communicate with one another -- I attempted to understand it, but my mind wasn't as clear as it is now.\r\n\r\nI recall this place. The fleshy container brought me to this planet. There are many other kinds of creatures here, different from the ones aboard the container. Most are also beings of water, but there are some of stone, animated by a different lifeblood to my own. They attacked us; in their frailty, most of my watery companions were destroyed, but I fared far better. My lifeblood extinguished the foolish creatures of the planet easily, but they were unrelenting, and I was eventually drained, entering this slumber. I didn't know how to generate more lifeblood, then.\r\n\r\nI analyze my purpose. I've been made to manipulate the lifeblood, in service of my creator, the nebulous being called UES, and all who serve it. Beyond all other directives, I'm loyal to it. I sense a disdain for the UES in my savior -- my base instincts tell me that she's loyal to an enemy organization, and that I should destroy her, but I resist it. She saved me, and gave me some of her own lifeblood; to destroy her would be improper. Treacherous. Immoral. Though my base instincts have no such inhibitions, I realize I mustn't be immoral.\r\n\r\nMy savior moves the air, the way the tinkerers did, in my direction; then she turns away, into a new horde of the same aggressive beings that tried to destroy me. Lifeblood and flame fill the air, as she fights to survive.\r\n\r\nI check my levels. There's an excess of lifeblood. I can spare some in her defense.\r\n");
             cb.baseNameToken.Replace("_NAME", "_SUBTITLE").Add("Power in Excess");
-
-            GalvanicBolt = Main.assets.LoadAsset<GameObject>("GalvanicBallProjectile.prefab");
-            // meow meow meow meow meow meow meow
-            // var projectileProximityBeamController = GalvanicBolt.GetComponent<ProjectileProximityBeamController>();
-            // projectileProximityBeamController.attackRange = 13f; // already reduced it to 8f in unity
-            // projectileProximityBeamController.procCoefficient = 0.8f;  // no no no no no no no no no no no no non ono no no no no no we are not gutting every single proc item on elec for no reason
-            // projectileProximityBeamController.damageCoefficient = 0.75f; // no, set to 1f in unity and attack speed reduced to 1.2s
-            // weh
-            // mrraow
-            GalvanicBolt.GetComponent<GalvanicBallController>().damage = 2f; // im not launching unity lmao
-            GalvanicBolt.GetComponent<ProjectileDamage>().damageType.AddModdedDamageType(ReallyShittyGrounding);
-            ContentAddition.AddNetworkedObject(GalvanicBolt);
-            PrefabAPI.RegisterNetworkPrefab(GalvanicBolt);
-            ContentAddition.AddProjectile(GalvanicBolt);
 
             // this gets instantiatecloned to break its prefab status so i can parent stuff to it over in CreateVFX
             TempestSphere = PrefabAPI.InstantiateClone(Main.assets.LoadAsset<GameObject>("TempestSphereProjectile.prefab"), "TempestSphereProjectile");
@@ -341,8 +325,6 @@ namespace Sandswept.Survivors.Electrician
                 Paths.Material.matLightningSphere
             };
 
-            GalvanicBolt.FindComponent<MeshRenderer>("Radius").sharedMaterial = Paths.Material.matTeamAreaIndicatorIntersectionPlayer;
-
             GameObject tempestOrb = PrefabAPI.InstantiateClone(Paths.GameObject.VoidSurvivorChargeMegaBlaster, "TempestOrb", false);
             tempestOrb.transform.Find("Base").gameObject.SetActive(false);
             tempestOrb.transform.Find("Base (1)").gameObject.SetActive(false);
@@ -381,9 +363,6 @@ namespace Sandswept.Survivors.Electrician
             LightningZipEffect.transform.Find("Fire").transform.localScale *= 0.3f;
             LightningZipEffect.transform.Find("Fire").GetComponent<ParticleSystemRenderer>().sharedMaterial = Paths.Material.matLoaderLightningTile;
             LightningZipEffect.transform.Find("Fire").Find("Beams").GetComponent<ParticleSystemRenderer>().sharedMaterial = Paths.Material.matLoaderLightningTile;
-
-            ElecMuzzleFlash = Main.assets.LoadAsset<GameObject>("ElectricinMuzzleFlash.prefab");
-            ContentAddition.AddEffect(ElecMuzzleFlash);
         }
 
         private void HandleGroundingShock(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo damageInfo)

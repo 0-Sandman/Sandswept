@@ -7,16 +7,42 @@ namespace Sandswept.Survivors.Electrician.States
         public float baseDuration = 0.6f;
         public float duration;
 
+        public Transform modelTransform;
+
+        public GameObject muzzleFlash;
+        public GameObject galvanicBoltProjectile;
+
         public override void OnEnter()
         {
             base.OnEnter();
 
             duration = baseDuration / attackSpeedStat;
 
-            if (isAuthority)
+            modelTransform = GetModelTransform();
+
+            if (modelTransform)
             {
-                FireProjectileInfo info = MiscUtils.GetProjectile(Electrician.GalvanicBolt, 2f, characterBody, DamageTypeCombo.GenericPrimary);
-                ProjectileManager.instance.FireProjectile(info);
+                var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
+
+                muzzleFlash = skinNameToken switch
+                {
+                    "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.muzzleFlashCovenant,
+                    _ => VFX.GalvanicBolt.muzzleFlashDefault
+                };
+
+                galvanicBoltProjectile = skinNameToken switch
+                {
+                    "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.galvanicBoltCovenant,
+                    _ => VFX.GalvanicBolt.galvanicBoltDefault
+                };
+
+                EffectManager.SimpleMuzzleFlash(muzzleFlash, gameObject, "MuzzleCannon", false);
+
+                if (isAuthority)
+                {
+                    FireProjectileInfo info = MiscUtils.GetProjectile(galvanicBoltProjectile, 2f, characterBody, DamageTypeCombo.GenericPrimary);
+                    ProjectileManager.instance.FireProjectile(info);
+                }
             }
 
             characterBody.SetSpreadBloom(12f, true);
@@ -28,7 +54,6 @@ namespace Sandswept.Survivors.Electrician.States
 
             Util.PlaySound("Play_elec_m1_shoot", gameObject);
 
-            EffectManager.SimpleMuzzleFlash(Electrician.ElecMuzzleFlash, gameObject, "MuzzleCannon", false);
         }
 
         public override void FixedUpdate()

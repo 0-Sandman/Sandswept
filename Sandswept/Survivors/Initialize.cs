@@ -1,4 +1,5 @@
 ﻿using Sandswept.Elites.VFX;
+using Sandswept.Survivors.Electrician.VFX;
 using Sandswept.Survivors.Ranger.Hooks;
 using Sandswept.Survivors.Ranger.Pod;
 using Sandswept.Survivors.Ranger.Projectiles;
@@ -32,6 +33,8 @@ namespace Sandswept.Survivors
             matRanger.EnableKeyword("DITHER");
 
             Electrician.Hooks.ShieldOverlay.Init();
+            VoltVFX.Init();
+
         }
     }
 }
