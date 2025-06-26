@@ -39,6 +39,8 @@ namespace Sandswept.Survivors.Electrician.States
         public float damageCoeff = 3.85f;
         public float recoilTime = 0.3f;
         public bool locked = false;
+        public Transform modelTransform;
+        public GameObject tempestSphereProjectile;
 
         public override void OnEnter()
         {
@@ -46,12 +48,27 @@ namespace Sandswept.Survivors.Electrician.States
 
             recoilTime /= attackSpeedStat;
 
-            if (isAuthority)
+            modelTransform = GetModelTransform();
+
+            if (modelTransform)
             {
-                FireProjectileInfo info = MiscUtils.GetProjectile(Electrician.TempestSphere, damageCoeff, characterBody, DamageTypeCombo.GenericSecondary);
-                ProjectileManager.instance.FireProjectile(info);
-                Util.PlaySound("Play_vagrant_attack2_charge", gameObject);
+                var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
+
+                tempestSphereProjectile = skinNameToken switch
+                {
+                    "SKIN_ELEC_MASTERY" => Main.tempestSphereCovenant,
+                    _ => Main.tempestSphereDefault
+                };
+
+                if (isAuthority)
+                {
+                    FireProjectileInfo info = MiscUtils.GetProjectile(tempestSphereProjectile, damageCoeff, characterBody, DamageTypeCombo.GenericSecondary);
+                    ProjectileManager.instance.FireProjectile(info);
+
+                }
             }
+
+            Util.PlaySound("Play_vagrant_attack2_charge", gameObject);
         }
 
         public override void FixedUpdate()

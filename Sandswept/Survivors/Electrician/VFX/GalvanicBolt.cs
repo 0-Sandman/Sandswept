@@ -173,6 +173,7 @@ namespace Sandswept.Survivors.Electrician.VFX
             omniDirectionalStartColor.color = Color.white;
             */
             // nvm what a PoS that doesnt want to be recolored
+            // I bet Wayland developers made him
 
             omniDirectional.SetActive(false);
 

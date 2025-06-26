@@ -101,17 +101,20 @@ namespace Sandswept.Survivors.Electrician.States
 
                     if (NetworkServer.active)
                     {
-                        healthComponent.TakeDamage(
-                            new DamageInfo
-                            {
-                                position = transform.position,
-                                damage = shieldToDrain,
-                                procCoefficient = 0f,
-                                damageType = DamageType.NonLethal | DamageType.BypassArmor | DamageType.BypassBlock,
-                                damageColorIndex = DamageColorIndex.Luminous,
-                                attacker = null
-                            }
-                        );
+                        var damageInfo = new DamageInfo()
+                        {
+                            position = transform.position,
+                            damage = shieldToDrain,
+                            procCoefficient = 0f,
+                            damageType = DamageType.NonLethal | DamageType.BypassArmor | DamageType.BypassBlock,
+                            damageColorIndex = DamageColorIndex.Luminous,
+                            attacker = null
+                        };
+
+                        damageInfo.AddModdedDamageType(Main.eclipseSelfDamage);
+
+                        healthComponent.TakeDamage(damageInfo);
+
                     }
                 }
             }
@@ -142,6 +145,8 @@ namespace Sandswept.Survivors.Electrician.States
         public Transform origin;
         public Transform end;
         public CameraTargetParams.CameraParamsOverrideHandle handle;
+        public Transform modelTransform;
+        public GameObject signalIndicatorInstance;
         public GameObject signalIndicator;
 
         public SignalOverloadDischarge(float mult)
@@ -183,8 +188,22 @@ namespace Sandswept.Survivors.Electrician.States
                 cameraParamsData = Paths.CharacterCameraParams.ccpToolbot.data
             }, 0.3f);
 
-            signalIndicator = Object.Instantiate(Electrician.SignalOverloadIndicator, new Vector3(0, -4000, 0), Quaternion.identity);
-            signalIndicator.transform.localScale = new Vector3(radius * 2f, radius * 2f, radius * 2f);
+            modelTransform = GetModelTransform();
+
+            if (modelTransform)
+            {
+                var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
+
+                signalIndicator = skinNameToken switch
+                {
+                    "SKIN_ELEC_MASTERY" => VFX.SignalOverload.signalOverloadIndicatorCovenant,
+                    _ => VFX.SignalOverload.signalOverloadIndicatorDefault
+                };
+
+                signalIndicatorInstance = Object.Instantiate(signalIndicator, new Vector3(0, -4000, 0), Quaternion.identity);
+                signalIndicatorInstance.transform.localScale = new Vector3(radius * 2f, radius * 2f, radius * 2f);
+            }
+
         }
 
         public override void Update()
@@ -192,7 +211,7 @@ namespace Sandswept.Survivors.Electrician.States
             beamEffect.transform.position = head.transform.position;
             origin.transform.position = head.transform.position;
             end.transform.position = pos;
-            signalIndicator.transform.position = pos;
+            signalIndicatorInstance.transform.position = pos;
 
             characterBody.SetSpreadBloom(12f, true);
         }
@@ -242,9 +261,9 @@ namespace Sandswept.Survivors.Electrician.States
                 Destroy(beamEffect);
             }
 
-            if (signalIndicator)
+            if (signalIndicatorInstance)
             {
-                Destroy(signalIndicator);
+                Destroy(signalIndicatorInstance);
             }
 
             FindModelChild("Tethers").gameObject.SetActive(false);

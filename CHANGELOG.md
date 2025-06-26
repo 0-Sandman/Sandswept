@@ -5,6 +5,7 @@
   - Made Overdrive exit happen instantly to prevent taking a few extra damage ticks
 - VOL-T
   - Adjusted Signal Overload Self Damage Tick Amount 25 => 10 (Razorwire moment)
+  - Fixed Signal Overload Self Damage still counting for Eclipse 8
   - Fixed her broken variant not being immune to instant kills, void fog, executes and overheat
 - Items/Equipment
   - Added more config options to Makeshift Plate
@@ -14,7 +15,7 @@
   - Improved Makeshift Plate healthbar visuals
   - Improved Nuclear Salvo VFX and SFX
   - Fixed Makeshift Plate missing the AIBlacklist and BrotherBlacklist item tags
-  - Fixed void items not corrupting their counterparts
+  - Fixed Void Items not corrupting their counterparts
 
 ## 1.2.3 Patch Notes
 - Items/Equipment

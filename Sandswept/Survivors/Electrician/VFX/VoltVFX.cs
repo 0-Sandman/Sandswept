@@ -19,6 +19,8 @@ namespace Sandswept.Survivors.Electrician.VFX
         public static void Init()
         {
             VFX.GalvanicBolt.Init();
+            Main.ran = false;
+            VFX.SignalOverload.Init();
         }
     }
 }

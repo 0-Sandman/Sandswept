@@ -69,8 +69,8 @@ namespace Sandswept.Survivors.Electrician
 
             lr.SetPosition(0, base.transform.position);
             lr.SetPosition(1, lineOrigin.position);
-        }
 
+        }
         public void HandleBlastAuthority(Vector3 pos)
         {
             SphereSearch search = new()
