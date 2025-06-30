@@ -18,10 +18,31 @@ namespace Sandswept.Survivors.Electrician.VFX
     {
         public static GameObject signalOverloadIndicatorDefault;
         public static GameObject signalOverloadIndicatorCovenant;
+
+        public static Material matShieldBreakDefault;
+        public static Material matShieldBreakCovenant;
+
+
         public static void Init()
         {
             signalOverloadIndicatorDefault = CreateIndicatorRecolor("Default", new Color32(255, 179, 0, 255), new Color32(255, 150, 0, 255));
-            signalOverloadIndicatorDefault = CreateIndicatorRecolor("Covenant", new Color32(255, 179, 0, 255), new Color32(255, 150, 0, 255));
+            signalOverloadIndicatorCovenant = CreateIndicatorRecolor("Covenant", new Color32(255, 179, 0, 255), new Color32(255, 150, 0, 255));
+
+            matShieldBreakDefault = CreateOverlayRecolor(new Color32(0, 77, 255, 255));
+            matShieldBreakCovenant = CreateOverlayRecolor(new Color32(0, 0, 255, 255));
+        }
+
+        public static Material CreateOverlayRecolor(Color32 color)
+        {
+            var mat = Object.Instantiate(Paths.Material.matHuntressFlashExpanded);
+            mat.SetFloat("_InvFade", 1f);
+            mat.SetFloat("_Boost", 1.5f);
+            mat.SetFloat("_AlphaBoost", 2f);
+            mat.SetFloat("_AlphaBias", 0f);
+            mat.SetInt("_Cull", 0);
+            mat.SetColor("_TintColor", color);
+
+            return mat;
         }
 
         public static GameObject CreateIndicatorRecolor(string name, Color32 sphereFillColor, Color32 sphereOutlineColor)

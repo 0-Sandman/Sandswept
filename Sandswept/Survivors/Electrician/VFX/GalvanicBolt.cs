@@ -30,11 +30,11 @@ namespace Sandswept.Survivors.Electrician.VFX
             muzzleFlashDefault = CreateMuzzleFlashRecolor("Default", new Color32(255, 213, 0, 255));
             muzzleFlashCovenant = CreateMuzzleFlashRecolor("Covenant", new Color32(150, 67, 238, 255));
 
-            galvanicBoltDefault = CreateProjectileRecolor("Default", new Color32(0, 24, 109, 255), new Color32(255, 202, 23, 255), new Color32(248, 171, 0, 255));
-            galvanicBoltCovenant = CreateProjectileRecolor("Covenant", new Color32(98, 28, 113, 255), new Color32(119, 106, 230, 255), new Color32(223, 31, 208, 255));
+            galvanicBoltDefault = CreateProjectileRecolor("Default", new Color32(0, 24, 109, 255), new Color32(255, 202, 23, 255), new Color32(248, 171, 0, 255), new Color32(0, 0, 255, 255), new Color32(255, 191, 0, 255));
+            galvanicBoltCovenant = CreateProjectileRecolor("Covenant", new Color32(98, 28, 113, 255), new Color32(119, 106, 230, 255), new Color32(223, 31, 208, 255), new Color32(255, 0, 230, 255), new Color32(0, 0, 255, 255));
 
             impactDefault = CreateImpactRecolor("Default", new Color32(255, 213, 0, 255), new Color32(255, 213, 0, 255));
-            impactCovenant = CreateImpactRecolor("Default", new Color32(98, 28, 113, 255), new Color32(120, 70, 255, 255));
+            impactCovenant = CreateImpactRecolor("Covenant", new Color32(98, 28, 113, 255), new Color32(120, 70, 255, 255));
 
         }
 
@@ -67,7 +67,7 @@ namespace Sandswept.Survivors.Electrician.VFX
             return muzzleFlash;
         }
 
-        public static GameObject CreateProjectileRecolor(string name, Color32 ballColor, Color32 radiusIndicatorColor, Color32 lightningColor)
+        public static GameObject CreateProjectileRecolor(string name, Color32 ballColor, Color32 radiusIndicatorColor, Color32 lightningColor, Color32 beamStartColor, Color32 beamEndColor)
         {
             var projectile = Main.assets.LoadAsset<GameObject>("GalvanicBallProjectile.prefab").InstantiateClone("Galvanic Bolt Projectile " + name, true);
             projectile.GetComponent<GalvanicBallController>().damage = 2f; // im not launching unity lmao
@@ -126,7 +126,13 @@ namespace Sandswept.Survivors.Electrician.VFX
 
             var trail = particleHolder.Find("Trail").GetComponent<TrailRenderer>();
 
-            trail.material = newGalvanicOverlayMaterial;
+            trail.endWidth = 0.5f;
+            trail.startColor = beamStartColor;
+            trail.endColor = beamEndColor;
+            trail.material = Main.lineRendererBase;
+            trail.numCapVertices = 1;
+            trail.textureMode = LineTextureMode.Tile;
+            trail.time = 0.3f;
 
             var light = particleHolder.Find("Light").GetComponent<Light>();
             light.color = lightningColor;

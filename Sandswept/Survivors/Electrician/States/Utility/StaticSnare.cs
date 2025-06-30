@@ -8,6 +8,8 @@ namespace Sandswept.Survivors.Electrician.States
         public float duration = 0.3f;
         public bool tossedOut = false;
         public bool FUCKINGEXPLODE = true;
+        public Transform modelTransform;
+        public GameObject staticSnareProjectile;
 
         public override void OnEnter()
         {
@@ -19,20 +21,34 @@ namespace Sandswept.Survivors.Electrician.States
 
             characterBody.SetSpreadBloom(12f, true);
 
+            modelTransform = GetModelTransform();
+
             if (isAuthority && !TripwireController.ControllerMap.ContainsKey(gameObject))
             {
                 tossedOut = true;
-                FireProjectileInfo info = MiscUtils.GetProjectile(Electrician.StaticSnare, 1f, characterBody, DamageTypeCombo.GenericUtility);
-                ProjectileManager.instance.FireProjectile(info);
 
-                Util.PlaySound("Play_MULT_m2_throw", gameObject);
+                if (modelTransform)
+                {
+                    var skinNameToken = modelTransform.GetComponent<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
 
-                FUCKINGEXPLODE = false;
+                    staticSnareProjectile = skinNameToken switch
+                    {
+                        "SKIN_ELEC_MASTERY" => VFX.StaticSnare.staticSnareCovenant,
+                        _ => VFX.StaticSnare.staticSnareDefault
+                    };
+
+                    FireProjectileInfo info = MiscUtils.GetProjectile(staticSnareProjectile, 1f, characterBody, DamageTypeCombo.GenericUtility);
+                    ProjectileManager.instance.FireProjectile(info);
+
+                    Util.PlaySound("Play_MULT_m2_throw", gameObject);
+
+                    FUCKINGEXPLODE = false;
+                }
+
+                Util.PlaySound("Play_mage_m1_impact_lightning", gameObject);
+
+                skillLocator.utility.DeductStock(1);
             }
-
-            Util.PlaySound("Play_mage_m1_impact_lightning", gameObject);
-
-            skillLocator.utility.DeductStock(1);
         }
 
         public override void FixedUpdate()

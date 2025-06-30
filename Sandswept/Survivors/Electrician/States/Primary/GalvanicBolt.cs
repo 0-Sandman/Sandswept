@@ -22,7 +22,7 @@ namespace Sandswept.Survivors.Electrician.States
 
             if (modelTransform)
             {
-                var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
+                var skinNameToken = modelTransform.GetComponent<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
 
                 muzzleFlash = skinNameToken switch
                 {

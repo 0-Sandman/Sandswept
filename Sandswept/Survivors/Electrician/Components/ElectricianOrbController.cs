@@ -5,32 +5,63 @@ namespace Sandswept.Survivors.Electrician
 {
     public class ElectricianOrbController : MonoBehaviour
     {
-        private MeshRenderer target;
+        public MeshRenderer target;
         public ModelSkinController MSC;
-        private Pair[] MaterialMap;
+        public Pair[] MaterialMap;
         public SkinnedMeshRenderer VisibilityTarget;
-        private int lastSkinIndex = -1;
+        public int lastSkinIndex = -1;
+
+        public LineRenderer tether1;
+        public LineRenderer tether2;
 
         public void Start()
         {
             target = GetComponent<MeshRenderer>();
 
-            MaterialMap = new Pair[] {
-                new Pair {
+            var skinNameToken = MSC.skins[MSC.currentSkinIndex].nameToken;
+            var tetherColors = skinNameToken switch
+            {
+                "SKIN_ELEC_MASTERY" => new Color32[2] { new Color32(115, 0, 255, 255), new Color32(113, 143, 255, 255) },
+                _ => new Color32[2] { new Color32(115, 0, 255, 255), new Color32(113, 143, 255, 255) }
+            };
+
+            var tethers = target.transform.Find("Tethers");
+
+            tether1 = tethers.Find("Tether 1").GetComponent<LineRenderer>();
+            tether1.material = Main.lineRendererBase;
+            tether1.startWidth = 0.2f;
+            tether1.endWidth = 0.2f;
+            tether1.startColor = tetherColors[0];
+            tether1.endColor = tetherColors[1];
+
+            tether2 = tethers.Find("Tether 2").GetComponent<LineRenderer>();
+            tether2.material = Main.lineRendererBase;
+            tether2.startWidth = 0.2f;
+            tether2.endWidth = 0.2f;
+            tether2.startColor = tetherColors[1];
+            tether2.endColor = tetherColors[0];
+
+            MaterialMap = new Pair[]
+            {
+                new Pair
+                {
                     TargetSkin = Electrician.sdElecDefault,
-                    Materials = new Material[] {
+                    Materials = new Material[]
+                    {
                         Electrician.matElecOrbOuter,
                         Electrician.matElecOrbInner
                     }
                 },
 
-                new Pair {
+                new Pair
+                {
                     TargetSkin = Electrician.sdElecMastery,
-                    Materials = new Material[] {
+                    Materials = new Material[]
+                    {
                         Electrician.matMasteryElecOrbOuter,
                         Electrician.matMasteryElecOrbInner
                     }
-                }
+                },
             };
         }
 
@@ -50,6 +81,7 @@ namespace Sandswept.Survivors.Electrician
             SkinDef targetSkin = MSC.skins[MSC.currentSkinIndex];
             Pair pair = MaterialMap.FirstOrDefault(x => x.TargetSkin == targetSkin);
             target.sharedMaterials = pair.Materials;
+
         }
     }
 

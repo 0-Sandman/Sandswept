@@ -37,6 +37,8 @@ namespace Sandswept.Survivors.Electrician
         public Mesh mesh1;
         public Mesh mesh2;
         public bool hasDetonated = false;
+        public Transform modelTransform;
+        public GameObject lightningVFX;
 
         public void OnInteract(Interactor interactor)
         {
@@ -105,21 +107,34 @@ namespace Sandswept.Survivors.Electrician
             blast.damageType.damageSource = DamageSource.Utility;
 
             ModelLocator loc = attack.owner.GetComponent<ModelLocator>();
-            head = loc.modelTransform.GetComponent<ChildLocator>().FindChild("Head");
+            modelTransform = loc.modelTransform;
+            head = modelTransform.GetComponent<ChildLocator>().FindChild("Head");
 
-            effect = Electrician.staticSnareImpactVFX;
+            var modelSkinController = modelTransform.GetComponent<ModelSkinController>();
+
+            var skin = modelSkinController.skins[modelSkinController.currentSkinIndex];
+            var skinNameToken = skin.nameToken;
+
+            effect = skinNameToken switch
+            {
+                "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.impactCovenant,
+                _ => VFX.GalvanicBolt.impactDefault
+            };
+
+            lightningVFX = skinNameToken switch
+            {
+                "SKIN_ELEC_MASTERY" => VFX.StaticSnare.lightningVFXCovenant,
+                _ => VFX.StaticSnare.lightningVFXDefault
+            };
 
             ControllerMap.Add(controller.owner, this);
             body = controller.owner.GetComponent<CharacterBody>();
 
-            lightningEffect = GameObject.Instantiate(Electrician.LightningZipEffect, seat.seatPosition);
+            lightningEffect = GameObject.Instantiate(lightningVFX, seat.seatPosition);
             lightningEffect.transform.localPosition = Vector3.zero;
             lightningEffect.SetActive(false);
 
-            ModelSkinController msc = body.modelLocator.modelTransform.GetComponent<ModelSkinController>();
-
-            SkinDef skin = msc.skins[msc.currentSkinIndex];
-
+            // the code below swaps out VOL-T's Utility skill mesh and material based on the skin selected
             if (skin == skin1)
             {
                 mesh.sharedMesh = mesh1;

@@ -192,7 +192,7 @@ namespace Sandswept.Survivors.Electrician.States
 
             if (modelTransform)
             {
-                var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
+                var skinNameToken = modelTransform.GetComponent<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
 
                 signalIndicator = skinNameToken switch
                 {
@@ -368,8 +368,11 @@ namespace Sandswept.Survivors.Electrician.States
     {
         public float recoilDuration = 0.8f;
         public float effectMultiplier = 1f;
-        private float damageCoeff = 2.8f;
-        private float radius = 50f;
+        public float damageCoeff = 2.8f;
+        public float radius = 50f;
+        public Transform modelTransform;
+        public GameObject explosionVFX;
+        public Material overlayMat;
 
         public SignalOverloadFire(float modifier)
         {
@@ -386,6 +389,34 @@ namespace Sandswept.Survivors.Electrician.States
 
             PlayAnimation("Fullbody, Override", "Discharge", "Generic.playbackRate", recoilDuration);
 
+            modelTransform = GetModelTransform();
+
+            if (modelTransform)
+            {
+                var skinNameToken = modelTransform.GetComponent<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
+
+                explosionVFX = skinNameToken switch
+                {
+                    "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.muzzleFlashCovenant,
+                    _ => VFX.GalvanicBolt.muzzleFlashDefault
+                };
+
+                overlayMat = skinNameToken switch
+                {
+                    "SKIN_ELEC_MASTERY" => VFX.SignalOverload.matShieldBreakCovenant,
+                    _ => VFX.SignalOverload.matShieldBreakDefault
+                };
+
+                var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
+                temporaryOverlay.duration = 8f;
+                temporaryOverlay.animateShaderAlpha = true;
+                temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                temporaryOverlay.destroyComponentOnEnd = true;
+                temporaryOverlay.originalMaterial = overlayMat;
+                temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
+
+            }
+
             if (NetworkServer.active)
             {
                 characterBody.AddTimedBuff(Buffs.ShieldSpeed.instance.BuffDef, 7f);
@@ -396,7 +427,7 @@ namespace Sandswept.Survivors.Electrician.States
                 HandleBlastAuthority();
             }
 
-            EffectManager.SpawnEffect(Electrician.staticSnareImpactVFX, new EffectData
+            EffectManager.SpawnEffect(explosionVFX, new EffectData
             {
                 origin = transform.position,
                 scale = radius * 2f

@@ -9,7 +9,7 @@ namespace Sandswept.Survivors.Electrician
     {
         public float radius = 13f;
         public float damage = 1f;
-        private bool hasBouncedEnemy = false;
+        public bool hasBouncedEnemy = false;
         public ProjectileDamage pDamage;
         public ProjectileController controller;
         public bool hasStuck = false;
