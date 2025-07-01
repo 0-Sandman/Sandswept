@@ -4,50 +4,6 @@ using RoR2.Orbs;
 
 namespace Sandswept.Survivors.Electrician
 {
-    public class BigBallsInMyMouth
-    {
-        public static GameObject impactDefault;
-        public static GameObject impactCovenant;
-        public static GameObject pizdaJebanaDefault;
-        public static GameObject pizdaJebanaCovenant;
-        public static void Init()
-        {
-            pizdaJebanaDefault = CreateKurwaPizdaJebanaRecolor("Default", new Color32(255, 213, 0, 255));
-            pizdaJebanaCovenant = CreateKurwaPizdaJebanaRecolor("Covenant", new Color32(98, 28, 113, 255));
-        }
-
-        public static void CreateOrbEffectRecolors(string name)
-        {
-            var pieceOfShit = PrefabAPI.InstantiateClone(Paths.GameObject.LoaderLightningOrbEffect, "Fucking Piece of Garbage Orb Piece of Shit Fucking Impact Trash Default", false);
-
-            var fuckingPieceOfGarbage = pieceOfShit.GetComponent<OrbEffect>();
-
-            fuckingPieceOfGarbage.endEffect = pizdaJebanaDefault;
-
-            ContentAddition.AddEffect(pieceOfShit);
-
-            //
-
-            var szmataJebana = PrefabAPI.InstantiateClone(Paths.GameObject.LoaderLightningOrbEffect, "Fucking Piece of Garbage Orb Piece of Shit Fucking Impact Trash Covenant", false);
-
-            var spierdalajKurwo = szmataJebana.GetComponent<OrbEffect>();
-
-            spierdalajKurwo.endEffect = pizdaJebanaCovenant;
-
-            ContentAddition.AddEffect(szmataJebana);
-        }
-
-        public static GameObject CreateKurwaPizdaJebanaRecolor(string name, Color32 effectColor)
-        {
-            var fuckingTroglodyte = PrefabAPI.InstantiateClone(Paths.GameObject.OmniImpactVFXLightning, "Fucking Piece of Garbage KURWA PIZDA JEBANA " + name, false);
-            // FUCK THIS MOTHERFUCKER UP KILL HIM KILL HIUM FUCKING PIECE OF SHITTTT
-            VFXUtils.RecolorMaterialsAndLights(fuckingTroglodyte, effectColor, effectColor, true);
-            // CHUJU SPIERDOLONY GIŃ
-
-            return fuckingTroglodyte;
-        }
-    }
-
     public class VoltLightningOrb : LightningOrb
     {
 
@@ -83,9 +39,10 @@ namespace Sandswept.Survivors.Electrician
 
                         impactVFX = skinNameToken switch
                         {
-                            "SKIN_ELEC_MASTERY" => BigBallsInMyMouth.impactCovenant,
-                            _ => BigBallsInMyMouth.impactDefault
+                            "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.muzzleFlashCovenant,
+                            _ => VFX.GalvanicBolt.muzzleFlashDefault
                         };
+                        // wanted to recolor but it was way too garbage and made in a garbage trash piece of shit fucking kurwa jebana jego mac pizda pierdolona to robila KURWA ja pierdole kurwa co za smiecie jebane to kurwa robily wystarczy grayscale wszystko oprocz jednego koloru kurwa szmaty jebane ALE NIE KURWA TRZEBA DZIESIEC RAZY WIECEJ WORKLOAD DAC BO JESTESCIE PIZDAMI JEBANYMI I POTRAFICIE MYSLEC KURWA JA PIERDOLE
 
                         effectData.SetHurtBoxReference(target);
 
