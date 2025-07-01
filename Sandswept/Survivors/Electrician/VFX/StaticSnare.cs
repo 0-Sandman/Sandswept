@@ -25,11 +25,11 @@ namespace Sandswept.Survivors.Electrician.VFX
 
         public static void Init()
         {
-            staticSnareDefault = CreateProjectileRecolor("Default", new Color32(255, 191, 0, 255), new Color32(0, 0, 255, 255));
+            staticSnareDefault = CreateProjectileRecolor("Default", new Color32(255, 191, 0, 255), new Color32(0, 77, 255, 255));
             staticSnareCovenant = CreateProjectileRecolor("Covenant", new Color32(0, 0, 255, 255), new Color32(255, 0, 230, 255));
 
-            lightningVFXDefault = CreateZipRecolor("Default", new Color32(255, 156, 0, 255));
-            lightningVFXCovenant = CreateZipRecolor("Covenant", new Color32(223, 31, 208, 255));
+            lightningVFXDefault = CreateZipRecolor("Default", new Color32(0, 77, 255, 255), new Color32(255, 168, 0, 255), new Color32(255, 182, 0, 255));
+            lightningVFXCovenant = CreateZipRecolor("Covenant", new Color32(0, 0, 255, 255), new Color32(223, 31, 208, 255), new Color32(173, 0, 255, 255));
 
         }
 
@@ -46,16 +46,14 @@ namespace Sandswept.Survivors.Electrician.VFX
             lineRenderer.endColor = beamEndColor;
             lineRenderer.material = Main.lineRendererBase;
 
-            var seat = transform.Find("seat");
-
             ContentAddition.AddNetworkedObject(projectile);
             PrefabAPI.RegisterNetworkPrefab(projectile);
             ContentAddition.AddProjectile(projectile);
 
             return projectile;
         }
-        
-        public static GameObject CreateZipRecolor(string name, Color32 vfxColor)
+
+        public static GameObject CreateZipRecolor(string name, Color32 smallSparksColor, Color32 largeSparksColor, Color32 lightColor)
         {
             var lightningZipOrb = PrefabAPI.InstantiateClone(Paths.GameObject.BeamSphereGhost, "Lightning Zip Orb VFX " + name, false);
             lightningZipOrb.RemoveComponent<ProjectileGhostController>();
@@ -64,18 +62,18 @@ namespace Sandswept.Survivors.Electrician.VFX
 
             var pointLight = transform.Find("Point light").GetComponent<Light>();
             pointLight.GetComponent<LightIntensityCurve>().enabled = false;
-            pointLight.color = vfxColor;
+            pointLight.color = lightColor;
             pointLight.intensity = 30f;
             pointLight.range = 20f;
 
             var fire = transform.Find("Fire");
-            fire.localScale = Vector3.one * 0.5f;
+            fire.localScale = Vector3.one;
             var firePSR = fire.GetComponent<ParticleSystemRenderer>();
-
-            VFXUtils.RecolorMaterialsAndLights(fire.gameObject, vfxColor, vfxColor, true);
 
             var newFireMaterial = new Material(Paths.Material.matLoaderLightningTile);
             newFireMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone);
+            newFireMaterial.SetColor("_TintColor", smallSparksColor);
+            newFireMaterial.SetFloat("_Boost", 12f);
 
             firePSR.material = newFireMaterial;
 
@@ -83,6 +81,18 @@ namespace Sandswept.Survivors.Electrician.VFX
 
             var beams = fire.Find("Beams");
             beams.localScale = Vector3.one * 1.2f;
+
+            var beamsPSR = beams.GetComponent<ParticleSystemRenderer>();
+            var beamsMain = beams.GetComponent<ParticleSystem>().main;
+            beamsMain.startColor = new ParticleSystem.MinMaxGradient(Color.white);
+
+            var newBeamsMaterial = new Material(Paths.Material.matLoaderLightningTile);
+
+            newBeamsMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone);
+            newBeamsMaterial.SetColor("_TintColor", largeSparksColor);
+            newBeamsMaterial.SetFloat("_Boost", 6f);
+
+            beamsPSR.material = newBeamsMaterial;
 
             return lightningZipOrb;
         }

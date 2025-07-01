@@ -35,7 +35,7 @@ namespace Sandswept.Survivors.Electrician
                 };
                 damageInfo.AddModdedDamageType(Electrician.bypassVoltResistance);
                 body.healthComponent.TakeDamage(damageInfo);
-                
+
             }
 
             // one hellelleallofallallot of a one-liner this used to be
@@ -89,7 +89,7 @@ namespace Sandswept.Survivors.Electrician
                 attack.teamIndex = TeamIndex.Void;
                 attack.baseDamage = 999999f;
                 attack.damageType = DamageType.BypassArmor | DamageType.BypassBlock | DamageType.BypassOneShotProtection;
-                attack.baseForce = 900f;
+                attack.baseForce = 6000f;
                 attack.radius = 45f;
                 attack.position = base.transform.position;
                 attack.crit = true;
@@ -136,7 +136,7 @@ namespace Sandswept.Survivors.Electrician
             targetLight.intensity = targetLight.GetComponent<FlickerLight>().initialLightIntensity * 1.5f;
             targetLight.GetComponent<FlickerLight>().enabled = false;
 
-            EffectManager.SpawnEffect(Paths.GameObject.LoaderGroundSlam, new EffectData
+            EffectManager.SpawnEffect(VFX.GalvanicBolt.impactDefault, new EffectData
             {
                 origin = poweredOnOrb.transform.position,
                 scale = 0.25f

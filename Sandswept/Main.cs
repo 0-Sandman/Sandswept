@@ -548,11 +548,11 @@ namespace Sandswept
 
         public IEnumerator CreateDefaultPrefab()
         {
-            var beamStartColor = new Color32(0, 0, 255, 255);
+            var beamStartColor = new Color32(0, 77, 255, 255);
             var beamEndColor = new Color32(255, 191, 0, 255);
             var sphereFillColor = new Color32(255, 165, 0, 255);
             var sphereOutlineColor = new Color32(158, 93, 0, 255);
-            var smallSphereFillColor = new Color32(0, 5, 76, 255);
+            var smallSphereFillColor = new Color32(0, 42, 255, 255);
 
             tempestSphereDefault = PrefabAPI.InstantiateClone(Main.assets.LoadAsset<GameObject>("TempestSphereProjectile.prefab"), "Tempest Sphere Projectile " + "Default");
 
@@ -715,8 +715,8 @@ namespace Sandswept
             detachAndCollapse.collapseTime = 0.4f;
             detachAndCollapse.target = sphereVFX.transform;
 
-            ContentAddition.AddEffect(tempestSphereIndicator);
-            ContentAddition.AddEffect(tempestOrb);
+            // ContentAddition.AddEffect(tempestSphereIndicator);
+            // ContentAddition.AddEffect(tempestOrb);
         }
 
         public static Material lineRendererBase => CreateLineRenderer();
@@ -890,8 +890,8 @@ namespace Sandswept
             detachAndCollapse.collapseTime = 0.4f;
             detachAndCollapse.target = sphereVFX.transform;
 
-            ContentAddition.AddEffect(tempestSphereIndicator);
-            ContentAddition.AddEffect(tempestOrb);
+            // ContentAddition.AddEffect(tempestSphereIndicator);
+            // ContentAddition.AddEffect(tempestOrb);
         }
 
         public static Material CreateLineRenderer()

@@ -148,6 +148,7 @@ namespace Sandswept.Survivors.Electrician.States
         public Transform modelTransform;
         public GameObject signalIndicatorInstance;
         public GameObject signalIndicator;
+        public GameObject beamVFX;
 
         public SignalOverloadDischarge(float mult)
         {
@@ -165,8 +166,6 @@ namespace Sandswept.Survivors.Electrician.States
             animator = GetModelAnimator();
             animator.SetBool("discharging", true);
 
-            effect = Paths.GameObject.LoaderGroundSlam;
-
             // Util.PlaySound("Play_roboBall_attack2_mini_active_loop", gameObject);
             // Util.PlaySound("Play_ui_obj_nullWard_charge_loop", gameObject);
             // Util.PlaySound("Play_captain_m1_shotgun_charge_loop", gameObject);
@@ -176,12 +175,6 @@ namespace Sandswept.Survivors.Electrician.States
             head = FindModelChild("Head");
 
             FindModelChild("Tethers").gameObject.SetActive(true);
-
-            beamEffect = Object.Instantiate(Main.assets.LoadAsset<GameObject>("ElectricianChargeBeam.prefab"), head.position, head.rotation);
-            origin = beamEffect.GetComponent<ChildLocator>().FindChild("Start");
-            end = beamEffect.GetComponent<ChildLocator>().FindChild("End");
-
-            lr = beamEffect.GetComponent<LineRenderer>();
 
             handle = cameraTargetParams.AddParamsOverride(new()
             {
@@ -196,14 +189,32 @@ namespace Sandswept.Survivors.Electrician.States
 
                 signalIndicator = skinNameToken switch
                 {
-                    "SKIN_ELEC_MASTERY" => VFX.SignalOverload.signalOverloadIndicatorCovenant,
-                    _ => VFX.SignalOverload.signalOverloadIndicatorDefault
+                    "SKIN_ELEC_MASTERY" => VFX.SignalOverload.indicatorCovenant,
+                    _ => VFX.SignalOverload.indicatorDefault
                 };
 
-                signalIndicatorInstance = Object.Instantiate(signalIndicator, new Vector3(0, -4000, 0), Quaternion.identity);
-                signalIndicatorInstance.transform.localScale = new Vector3(radius * 2f, radius * 2f, radius * 2f);
+                effect = skinNameToken switch
+                {
+                    "SKIN_ELEC_MASTERY" => VFX.SignalOverload.impactCovenant,
+                    _ => VFX.SignalOverload.impactDefault
+                };
+
+                beamVFX = skinNameToken switch
+                {
+                    "SKIN_ELEC_MASTERY" => VFX.SignalOverload.beamCovenant,
+                    _ => VFX.SignalOverload.beamDefault
+                };
+
             }
 
+            signalIndicatorInstance = Object.Instantiate(signalIndicator, new Vector3(0, -4000, 0), Quaternion.identity);
+            signalIndicatorInstance.transform.localScale = new Vector3(radius * 2f, radius * 2f, radius * 2f);
+
+            beamEffect = Object.Instantiate(beamVFX, head.position, head.rotation);
+            origin = beamEffect.GetComponent<ChildLocator>().FindChild("Start");
+            end = beamEffect.GetComponent<ChildLocator>().FindChild("End");
+
+            lr = beamEffect.GetComponent<LineRenderer>();
         }
 
         public override void Update()
@@ -315,7 +326,7 @@ namespace Sandswept.Survivors.Electrician.States
             EffectManager.SpawnEffect(effect, new EffectData
             {
                 origin = attack.position,
-                scale = attack.radius * 2f
+                scale = attack.radius * 3f
             }, true);
 
             foreach (HurtBox box in search.GetHurtBoxes())
@@ -325,18 +336,17 @@ namespace Sandswept.Survivors.Electrician.States
                     continue;
                 }
 
-                LightningOrb orb = new()
+                VoltLightningOrb orb = new()
                 {
                     attacker = gameObject,
                     damageValue = damageStat * coeff,
-                    bouncesRemaining = 0,
                     isCrit = RollCrit(),
-                    lightningType = LightningOrb.LightningType.Loader,
                     origin = position,
                     procCoefficient = 1f - Util.Remap(Vector3.Distance(base.transform.position, box.transform.position), 0f, 60f, 0f, 0.8f),
                     target = box,
                     teamIndex = GetTeam()
                 };
+
                 orb.AddModdedDamageType(Electrician.Grounding);
 
                 if (box.healthComponent)
@@ -467,7 +477,7 @@ namespace Sandswept.Survivors.Electrician.States
 
             foreach (HurtBox box in search.GetHurtBoxes())
             {
-                LightningOrb orb = new()
+                VoltLightningOrb orb = new()
                 {
                     attacker = gameObject,
                     damageValue = damageStat * damageCoeff,

@@ -32,8 +32,8 @@ namespace Sandswept.Survivors.Electrician.States
 
                 galvanicBoltProjectile = skinNameToken switch
                 {
-                    "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.galvanicBoltCovenant,
-                    _ => VFX.GalvanicBolt.galvanicBoltDefault
+                    "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.projectileCovenant,
+                    _ => VFX.GalvanicBolt.projectileDefault
                 };
 
                 EffectManager.SimpleMuzzleFlash(muzzleFlash, gameObject, "MuzzleCannon", false);

@@ -14,32 +14,11 @@ namespace Sandswept.Survivors.Electrician
         public LineRenderer tether1;
         public LineRenderer tether2;
 
+        public bool ran = false;
+
         public void Start()
         {
             target = GetComponent<MeshRenderer>();
-
-            var skinNameToken = MSC.skins[MSC.currentSkinIndex].nameToken;
-            var tetherColors = skinNameToken switch
-            {
-                "SKIN_ELEC_MASTERY" => new Color32[2] { new Color32(115, 0, 255, 255), new Color32(113, 143, 255, 255) },
-                _ => new Color32[2] { new Color32(115, 0, 255, 255), new Color32(113, 143, 255, 255) }
-            };
-
-            var tethers = target.transform.Find("Tethers");
-
-            tether1 = tethers.Find("Tether 1").GetComponent<LineRenderer>();
-            tether1.material = Main.lineRendererBase;
-            tether1.startWidth = 0.2f;
-            tether1.endWidth = 0.2f;
-            tether1.startColor = tetherColors[0];
-            tether1.endColor = tetherColors[1];
-
-            tether2 = tethers.Find("Tether 2").GetComponent<LineRenderer>();
-            tether2.material = Main.lineRendererBase;
-            tether2.startWidth = 0.2f;
-            tether2.endWidth = 0.2f;
-            tether2.startColor = tetherColors[1];
-            tether2.endColor = tetherColors[0];
 
             MaterialMap = new Pair[]
             {
@@ -73,6 +52,7 @@ namespace Sandswept.Survivors.Electrician
             }
 
             target.enabled = VisibilityTarget.enabled;
+
         }
 
         public void RefreshOrb()
@@ -82,6 +62,40 @@ namespace Sandswept.Survivors.Electrician
             Pair pair = MaterialMap.FirstOrDefault(x => x.TargetSkin == targetSkin);
             target.sharedMaterials = pair.Materials;
 
+            if (ran)
+            {
+                return;
+            }
+
+            var skinNameToken = MSC.skins[MSC.currentSkinIndex].nameToken;
+            var tetherColors = skinNameToken switch
+            {
+                "SKIN_ELEC_MASTERY" => new Color32[2] { new Color32(115, 0, 255, 255), new Color32(113, 143, 255, 255) },
+                _ => new Color32[2] { new Color32(0, 77, 255, 255), new Color32(0, 42, 255, 255) }
+            };
+
+            var tethers = target.transform.Find("Tethers");
+
+            if (!tethers)
+            {
+                return;
+            }
+
+            tether1 = tethers.Find("Tether 1").GetComponent<LineRenderer>();
+            tether1.material = Main.lineRendererBase;
+            tether1.startWidth = 0.2f;
+            tether1.endWidth = 0.2f;
+            tether1.startColor = tetherColors[0];
+            tether1.endColor = tetherColors[1];
+
+            tether2 = tethers.Find("Tether 2").GetComponent<LineRenderer>();
+            tether2.material = Main.lineRendererBase;
+            tether2.startWidth = 0.2f;
+            tether2.endWidth = 0.2f;
+            tether2.startColor = tetherColors[1];
+            tether2.endColor = tetherColors[0];
+
+            ran = true;
         }
     }
 

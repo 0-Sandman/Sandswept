@@ -23,32 +23,32 @@ namespace Sandswept.Survivors.Electrician.States
 
             modelTransform = GetModelTransform();
 
+            if (modelTransform)
+            {
+                var skinNameToken = modelTransform.GetComponent<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
+
+                staticSnareProjectile = skinNameToken switch
+                {
+                    "SKIN_ELEC_MASTERY" => VFX.StaticSnare.staticSnareCovenant,
+                    _ => VFX.StaticSnare.staticSnareDefault
+                };
+            }
+
             if (isAuthority && !TripwireController.ControllerMap.ContainsKey(gameObject))
             {
                 tossedOut = true;
 
-                if (modelTransform)
-                {
-                    var skinNameToken = modelTransform.GetComponent<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
+                FireProjectileInfo info = MiscUtils.GetProjectile(staticSnareProjectile, 1f, characterBody, DamageTypeCombo.GenericUtility);
+                ProjectileManager.instance.FireProjectile(info);
 
-                    staticSnareProjectile = skinNameToken switch
-                    {
-                        "SKIN_ELEC_MASTERY" => VFX.StaticSnare.staticSnareCovenant,
-                        _ => VFX.StaticSnare.staticSnareDefault
-                    };
+                Util.PlaySound("Play_MULT_m2_throw", gameObject);
 
-                    FireProjectileInfo info = MiscUtils.GetProjectile(staticSnareProjectile, 1f, characterBody, DamageTypeCombo.GenericUtility);
-                    ProjectileManager.instance.FireProjectile(info);
-
-                    Util.PlaySound("Play_MULT_m2_throw", gameObject);
-
-                    FUCKINGEXPLODE = false;
-                }
-
-                Util.PlaySound("Play_mage_m1_impact_lightning", gameObject);
-
-                skillLocator.utility.DeductStock(1);
+                FUCKINGEXPLODE = false;
             }
+
+            Util.PlaySound("Play_mage_m1_impact_lightning", gameObject);
+
+            skillLocator.utility.DeductStock(1);
         }
 
         public override void FixedUpdate()

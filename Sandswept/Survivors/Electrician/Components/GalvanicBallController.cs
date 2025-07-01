@@ -51,6 +51,7 @@ namespace Sandswept.Survivors.Electrician
             range = p.attackRange;
             maxTargets = p.attackFireCount;
             p.enabled = false;
+            // what is the point ? ? ?
         }
 
         public Transform GetModelTransform()
@@ -87,12 +88,10 @@ namespace Sandswept.Survivors.Electrician
 
                 if (box && !alreadyStruck.Contains(box.healthComponent) && box.healthComponent.body.teamComponent.teamIndex != team)
                 {
-                    LightningOrb orb = new()
+                    VoltLightningOrb orb = new()
                     {
                         procCoefficient = 1,
                         damageValue = pDamage.damage * damageCoeff,
-                        bouncesRemaining = 0,
-                        lightningType = LightningOrb.LightningType.Loader,
                         attacker = controller.owner,
                         origin = base.transform.position,
                         target = box,

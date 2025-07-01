@@ -19,8 +19,8 @@ namespace Sandswept.Survivors.Electrician.VFX
         public static GameObject muzzleFlashDefault;
         public static GameObject muzzleFlashCovenant;
 
-        public static GameObject galvanicBoltDefault;
-        public static GameObject galvanicBoltCovenant;
+        public static GameObject projectileDefault;
+        public static GameObject projectileCovenant;
 
         public static GameObject impactDefault;
         public static GameObject impactCovenant;
@@ -30,8 +30,8 @@ namespace Sandswept.Survivors.Electrician.VFX
             muzzleFlashDefault = CreateMuzzleFlashRecolor("Default", new Color32(255, 213, 0, 255));
             muzzleFlashCovenant = CreateMuzzleFlashRecolor("Covenant", new Color32(150, 67, 238, 255));
 
-            galvanicBoltDefault = CreateProjectileRecolor("Default", new Color32(0, 24, 109, 255), new Color32(255, 202, 23, 255), new Color32(248, 171, 0, 255), new Color32(0, 0, 255, 255), new Color32(255, 191, 0, 255));
-            galvanicBoltCovenant = CreateProjectileRecolor("Covenant", new Color32(98, 28, 113, 255), new Color32(119, 106, 230, 255), new Color32(223, 31, 208, 255), new Color32(255, 0, 230, 255), new Color32(0, 0, 255, 255));
+            projectileDefault = CreateProjectileRecolor("Default", new Color32(0, 77, 255, 255), new Color32(255, 202, 23, 255), new Color32(248, 171, 0, 255), new Color32(0, 77, 255, 255), new Color32(255, 191, 0, 255));
+            projectileCovenant = CreateProjectileRecolor("Covenant", new Color32(98, 28, 113, 255), new Color32(119, 106, 230, 255), new Color32(223, 31, 208, 255), new Color32(255, 0, 230, 255), new Color32(0, 0, 255, 255));
 
             impactDefault = CreateImpactRecolor("Default", new Color32(255, 213, 0, 255), new Color32(255, 213, 0, 255));
             impactCovenant = CreateImpactRecolor("Covenant", new Color32(98, 28, 113, 255), new Color32(120, 70, 255, 255));

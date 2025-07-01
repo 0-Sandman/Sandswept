@@ -16,20 +16,84 @@ namespace Sandswept.Survivors.Electrician.VFX
 {
     public class SignalOverload
     {
-        public static GameObject signalOverloadIndicatorDefault;
-        public static GameObject signalOverloadIndicatorCovenant;
+        public static GameObject indicatorDefault;
+        public static GameObject indicatorCovenant;
 
         public static Material matShieldBreakDefault;
         public static Material matShieldBreakCovenant;
 
+        public static GameObject beamDefault;
+        public static GameObject beamCovenant;
+
+        public static GameObject impactDefault;
+        public static GameObject impactCovenant;
 
         public static void Init()
         {
-            signalOverloadIndicatorDefault = CreateIndicatorRecolor("Default", new Color32(255, 179, 0, 255), new Color32(255, 150, 0, 255));
-            signalOverloadIndicatorCovenant = CreateIndicatorRecolor("Covenant", new Color32(255, 179, 0, 255), new Color32(255, 150, 0, 255));
+            indicatorDefault = CreateIndicatorRecolor("Default", new Color32(0, 77, 255, 255), new Color32(0, 42, 255, 255), new Color32(0, 22, 134, 255), new Color32(0, 77, 255, 255));
+            indicatorCovenant = CreateIndicatorRecolor("Covenant", new Color32(255, 179, 0, 255), new Color32(255, 150, 0, 255), new Color32(13, 0, 42, 255), new Color32(0, 0, 255, 255));
 
             matShieldBreakDefault = CreateOverlayRecolor(new Color32(0, 77, 255, 255));
             matShieldBreakCovenant = CreateOverlayRecolor(new Color32(0, 0, 255, 255));
+
+            beamDefault = CreateBeamRecolor("Default", new Color32(0, 42, 255, 255), new Color32(0, 77, 255, 255));
+            beamCovenant = CreateBeamRecolor("Covenant", new Color32(82, 0, 255, 255), new Color32(141, 87, 255, 255));
+
+            impactDefault = VFX.GalvanicBolt.CreateImpactRecolor("Signal Overload Version Default", new Color32(0, 77, 255, 255), new Color32(0, 42, 255, 255));
+            impactCovenant = VFX.GalvanicBolt.CreateImpactRecolor("Signal Overload Version Covenant", new Color32(141, 87, 255, 255), new Color32(82, 0, 255, 255));
+        }
+
+        public static GameObject CreateBeamRecolor(string name, Color32 beamColor, Color32 sparksColor)
+        {
+            var beam = PrefabAPI.InstantiateClone(Main.assets.LoadAsset<GameObject>("ElectricianChargeBeam.prefab"), "Signal Overload Beam VFX " + name, false);
+
+            var beamLR = beam.GetComponent<LineRenderer>();
+            beamLR.material = Main.lineRendererBase;
+            beamLR.startColor = beamColor;
+            beamLR.endColor = beamColor;
+
+            var transform = beam.transform;
+
+            var laser = transform.Find("LaserTitan 3 (1)");
+            var flare = laser.Find("Start/Flare (1)");
+            var flarePSR = flare.GetComponent<ParticleSystemRenderer>();
+
+            var newFlareMaterial = new Material(flarePSR.material);
+            newFlareMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone);
+            newFlareMaterial.SetFloat("_AlphaBias", 0.1f);
+            newFlareMaterial.SetFloat("_AlphaBoost", 5f);
+            newFlareMaterial.SetColor("_TintColor", beamColor);
+
+            flarePSR.material = newFlareMaterial;
+
+            var flare2 = flare.Find("Flare (3)").GetComponent<ParticleSystemRenderer>();
+
+            var newFlare2Material = new Material(flare2.sharedMaterials[0]);
+            newFlare2Material.SetColor("_TintColor", sparksColor);
+            newFlare2Material.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone);
+            newFlare2Material.SetFloat("_Boost", 1.21542f);
+            newFlare2Material.SetFloat("_AlphaBoost", 0.7732428f);
+            newFlare2Material.SetFloat("_AlphaBias", 0f);
+
+            var newFlare2Materials = new Material[2] { newFlare2Material, newFlare2Material };
+
+            flare2.sharedMaterials = newFlare2Materials;
+
+            var sparksWiggly1 = flare.Find("Sparks,Wiggly").GetComponent<ParticleSystemRenderer>();
+            sparksWiggly1.material = newFlare2Material;
+
+            var fire = laser.Find("End/EndEffect/Particles/Fire");
+            var firePSR = fire.GetComponent<ParticleSystemRenderer>();
+
+            firePSR.material = newFlareMaterial;
+
+            var fireElectric = fire.Find("Fire, Electric").GetComponent<ParticleSystemRenderer>();
+            fireElectric.material = newFlareMaterial;
+
+            var sparksWiggly2 = fire.Find("Sparks,Wiggly").GetComponent<ParticleSystemRenderer>();
+            sparksWiggly2.material = newFlare2Material;
+
+            return beam;
         }
 
         public static Material CreateOverlayRecolor(Color32 color)
@@ -45,9 +109,9 @@ namespace Sandswept.Survivors.Electrician.VFX
             return mat;
         }
 
-        public static GameObject CreateIndicatorRecolor(string name, Color32 sphereFillColor, Color32 sphereOutlineColor)
+        public static GameObject CreateIndicatorRecolor(string name, Color32 sphereFillColor, Color32 sphereOutlineColor, Color32 hugeSphereColor, Color32 lightColor)
         {
-            var tempestSphereIndicator = PrefabAPI.InstantiateClone(Paths.GameObject.VagrantNovaAreaIndicator, "Signal Overload Base Indicator", false);
+            var tempestSphereIndicator = PrefabAPI.InstantiateClone(Paths.GameObject.VagrantNovaAreaIndicator, "Signal Overload Base Indicator " + name, false);
             // tempestSphereIndicator.GetComponentInChildren<ParticleSystemRenderer>().gameObject.SetActive(false);
             tempestSphereIndicator.transform.Find("Particle System").gameObject.SetActive(false);
 
@@ -92,13 +156,34 @@ namespace Sandswept.Survivors.Electrician.VFX
             // tempestSphereIndicator.RemoveComponent<AnimateShaderAlpha>();
             tempestSphereIndicator.GetComponent<AnimateShaderAlpha>().enabled = false;
 
-            var signalOverloadIndicator = PrefabAPI.InstantiateClone(tempestSphereIndicator, "Signal Overload Indicator " + name, false);
-            signalOverloadIndicator.GetComponent<MeshRenderer>().sharedMaterials = new Material[]
-            {
-                Paths.Material.matLightningSphere
-            };
+            var signalOverloadIndicator = PrefabAPI.InstantiateClone(tempestSphereIndicator, "Signal Overload Huge Indicator " + name, false);
 
-            ContentAddition.AddEffect(signalOverloadIndicator);
+            var newIndicatorMaterial = new Material(Paths.Material.matLightningSphere);
+            newIndicatorMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone3);
+            newIndicatorMaterial.SetFloat("_InvFade", 1f);
+            newIndicatorMaterial.SetFloat("_SoftPower", 0.85f);
+            newIndicatorMaterial.SetFloat("_Boost", 1.718147f);
+            newIndicatorMaterial.SetFloat("_RimPower", 8.398069f);
+            newIndicatorMaterial.SetFloat("_RimStrength", 5f);
+            newIndicatorMaterial.SetFloat("_AlphaBoost", 1f);
+            newIndicatorMaterial.SetFloat("_IntersectionStrength", 20f);
+            newIndicatorMaterial.SetTexture("_Cloud1Tex", Paths.Texture2D.texCloudWaterFoam1);
+            newIndicatorMaterial.SetTextureScale("_Cloud1Tex", Vector2.one * 2f);
+            newIndicatorMaterial.SetColor("_TintColor", hugeSphereColor);
+
+            var hugeIndicatorMaterials = new Material[2] { newIndicatorMaterial, newIndicatorMaterial };
+
+            var hugeIndicatorMeshRenderer = signalOverloadIndicator.GetComponent<MeshRenderer>();
+            hugeIndicatorMeshRenderer.sharedMaterials = hugeIndicatorMaterials;
+
+            var indicatorPointLight = tempestSphereIndicator.transform.Find("Point Light").GetComponent<Light>();
+            indicatorPointLight.color = lightColor;
+            indicatorPointLight.intensity = 200f;
+            indicatorPointLight.GetComponent<LightIntensityCurve>().enabled = false;
+            indicatorPointLight.GetComponent<LightScaleFromParent>().enabled = false;
+            indicatorPointLight.range = 20f;
+
+            // ContentAddition.AddEffect(signalOverloadIndicator);
 
             return signalOverloadIndicator;
         }

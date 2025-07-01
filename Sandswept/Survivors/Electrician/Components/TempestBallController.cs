@@ -85,13 +85,11 @@ namespace Sandswept.Survivors.Electrician
 
             foreach (HurtBox box in search.GetHurtBoxes())
             {
-                LightningOrb orb = new()
+                VoltLightningOrb orb = new()
                 {
                     attacker = body.gameObject,
                     damageValue = damagePerTick,
-                    bouncesRemaining = 0,
                     isCrit = damage.crit,
-                    lightningType = LightningOrb.LightningType.Loader,
                     origin = base.transform.position,
                     procCoefficient = Mathf.Clamp(1f - Util.Remap(Vector3.Distance(box.transform.position, base.transform.position), 3f, 15f, 0, 0.45f), 0.55f, 1f),
                     target = box,
