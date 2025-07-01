@@ -18,7 +18,6 @@ namespace Sandswept.Survivors.Electrician.VFX
     {
         public static void Init()
         {
-            BigBallsInMyMouth.Init();
             VFX.GalvanicBolt.Init();
             Main.ran = false; // this is tempest sphere, temporary jank for unlinking prefab to modify it -- can't use static coroutines or workarounds
             VFX.StaticSnare.Init(); // tripwirecontroller also has static snare vfx -- it reuses galvanic bolt vfx

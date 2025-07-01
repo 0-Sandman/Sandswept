@@ -63,6 +63,12 @@ namespace Sandswept.Survivors.Electrician.VFX
 
             flashes.material = newFlashesMaterial;
 
+            // god what a fucking piece of shit unity is, imagine having to do this thing that should be fucking default
+            var sparksMain = sparks.GetComponent<ParticleSystem>().main;
+            sparksMain.scalingMode = ParticleSystemScalingMode.Hierarchy;
+            var flashesMain = flashes.GetComponent<ParticleSystem>().main;
+            flashesMain.scalingMode = ParticleSystemScalingMode.Hierarchy;
+
             ContentAddition.AddEffect(muzzleFlash);
             return muzzleFlash;
         }

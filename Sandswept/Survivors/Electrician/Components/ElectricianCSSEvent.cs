@@ -6,17 +6,39 @@ namespace Sandswept.Survivors.Electrician
     {
         public Transform pivot;
         public GameObject effect;
+        public ModelSkinController modelSkinController;
 
         public void Start()
         {
-            effect = Paths.GameObject.OmniImpactVFXLoaderLightning;
+            modelSkinController = GetComponent<ModelSkinController>();
+
+            if (modelSkinController.skins.Length <= 1)
+            {
+                return;
+            }
+
+            var skinNameToken = modelSkinController.skins[modelSkinController.currentSkinIndex].nameToken;
+
+            effect = skinNameToken switch
+            {
+                "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.muzzleFlashCovenant,
+                _ => VFX.GalvanicBolt.muzzleFlashDefault
+            };
         }
 
         public void ElecBlast()
         {
+            var skinNameToken = modelSkinController.skins[modelSkinController.currentSkinIndex].nameToken;
+
+            effect = skinNameToken switch
+            {
+                "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.muzzleFlashCovenant,
+                _ => VFX.GalvanicBolt.muzzleFlashDefault
+            };
+
             EffectManager.SpawnEffect(effect, new EffectData
             {
-                origin = pivot.transform.position,
+                origin = pivot.position,
                 scale = 0.5f
             }, false);
 

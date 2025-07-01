@@ -20,21 +20,13 @@ namespace Sandswept.Survivors.Electrician
             attackerBody = attacker.GetComponent<CharacterBody>();
             if (attackerBody)
             {
-                Main.ModLogger.LogError("kurwa 1");
                 var modelLocator = attackerBody.GetComponent<ModelLocator>();
                 if (modelLocator)
                 {
-                    Main.ModLogger.LogError("kurwa mac 1");
                     var modelTransform = modelLocator.modelTransform;
-                    EffectData effectData = new()
-                    {
-                        origin = origin,
-                        genericFloat = duration
-                    };
 
                     if (modelTransform)
                     {
-                        Main.ModLogger.LogError("kurwa jego jebana mac 1");
                         var skinNameToken = modelTransform.GetComponent<ModelSkinController>().skins[attackerBody.skinIndex].nameToken;
 
                         impactVFX = skinNameToken switch
@@ -42,16 +34,12 @@ namespace Sandswept.Survivors.Electrician
                             "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.muzzleFlashCovenant,
                             _ => VFX.GalvanicBolt.muzzleFlashDefault
                         };
-                        // wanted to recolor but it was way too garbage and made in a garbage trash piece of shit fucking kurwa jebana jego mac pizda pierdolona to robila KURWA ja pierdole kurwa co za smiecie jebane to kurwa robily wystarczy grayscale wszystko oprocz jednego koloru kurwa szmaty jebane ALE NIE KURWA TRZEBA DZIESIEC RAZY WIECEJ WORKLOAD DAC BO JESTESCIE PIZDAMI JEBANYMI I POTRAFICIE MYSLEC KURWA JA PIERDOLE
+                        // wanted to recolor but it was way too garbage and made in a garbage trash piece of shit fucking kurwa jebana jego mac pizda pierdolona to robila KURWA ja pierdole kurwa co za smiecie jebane to kurwa robily wystarczy grayscale wszystko oprocz jednego koloru kurwa szmaty jebane ALE NIE KURWA TRZEBA DZIESIEC RAZY WIECEJ WORKLOAD DAC BO JESTESCIE PIZDAMI JEBANYMI I NIE POTRAFICIE MYSLEC KURWA JA PIERDOLE
 
-                        effectData.SetHurtBoxReference(target);
-
-                        EffectManager.SpawnEffect(impactVFX, effectData, transmit: true);
+                        EffectManager.SimpleEffect(impactVFX, target.transform.position, Quaternion.identity, transmit: true);
                     }
                 }
-
             }
-
         }
 
         public override void OnArrival()
