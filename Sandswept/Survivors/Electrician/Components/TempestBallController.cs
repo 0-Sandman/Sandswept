@@ -83,8 +83,22 @@ namespace Sandswept.Survivors.Electrician
             search.FilterCandidatesByDistinctHurtBoxEntities();
             search.FilterCandidatesByHurtBoxTeam(TeamMask.GetUnprotectedTeams(TeamIndex.Player));
 
-            foreach (HurtBox box in search.GetHurtBoxes())
+            var hurtBoxes = search.GetHurtBoxes();
+
+            foreach (HurtBox box in hurtBoxes)
             {
+                var boxHealthComponent = box.healthComponent;
+                if (!boxHealthComponent)
+                {
+                    continue;
+                }
+
+                var enemyBody = boxHealthComponent.body;
+                if (!enemyBody)
+                {
+                    continue;
+                }
+
                 VoltLightningOrb orb = new()
                 {
                     attacker = body.gameObject,
@@ -94,7 +108,9 @@ namespace Sandswept.Survivors.Electrician
                     procCoefficient = Mathf.Clamp(1f - Util.Remap(Vector3.Distance(box.transform.position, base.transform.position), 3f, 15f, 0, 0.45f), 0.55f, 1f),
                     target = box,
                     teamIndex = TeamIndex.Player,
-                    damageType = DamageType.SlowOnHit
+                    damageType = DamageType.SlowOnHit,
+                    attackerBody = body,
+                    victimBody = enemyBody
                 };
 
                 OrbManager.instance.AddOrb(orb);

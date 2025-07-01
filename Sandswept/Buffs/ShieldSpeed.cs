@@ -8,7 +8,7 @@ namespace Sandswept.Buffs
     {
         public override string BuffName => "VOL-T Shield Break Movement Speed Bonus";
 
-        public override Color Color => new Color32(0, 42, 255, 255);
+        public override Color Color => new Color32(0, 77, 255, 255);
 
         public override Sprite BuffIcon => Utils.Assets.BuffDef.bdCloakSpeed.iconSprite;
 

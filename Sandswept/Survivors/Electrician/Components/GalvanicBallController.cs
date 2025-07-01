@@ -85,8 +85,24 @@ namespace Sandswept.Survivors.Electrician
             for (int i = 0; i < colliders.Count(); i++)
             {
                 HurtBox box = colliders.ElementAt(i).GetComponent<HurtBox>();
+                if (!box)
+                {
+                    continue;
+                }
 
-                if (box && !alreadyStruck.Contains(box.healthComponent) && box.healthComponent.body.teamComponent.teamIndex != team)
+                var boxHealthComponent = box.healthComponent;
+                if (!boxHealthComponent)
+                {
+                    continue;
+                }
+
+                var enemyBody = boxHealthComponent.body;
+                if (!enemyBody)
+                {
+                    continue;
+                }
+
+                if (box && !alreadyStruck.Contains(boxHealthComponent) && enemyBody.teamComponent.teamIndex != team)
                 {
                     VoltLightningOrb orb = new()
                     {
@@ -96,7 +112,9 @@ namespace Sandswept.Survivors.Electrician
                         origin = base.transform.position,
                         target = box,
                         isCrit = pDamage.crit,
-                        teamIndex = team
+                        teamIndex = team,
+                        attackerBody = owner,
+                        victimBody = enemyBody
                     };
 
                     OrbManager.instance.AddOrb(orb);

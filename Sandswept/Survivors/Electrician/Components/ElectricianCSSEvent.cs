@@ -12,18 +12,9 @@ namespace Sandswept.Survivors.Electrician
         {
             modelSkinController = GetComponent<ModelSkinController>();
 
-            if (modelSkinController.skins.Length <= 1)
-            {
-                return;
-            }
+            effect = VFX.GalvanicBolt.muzzleFlashDefault;
 
-            var skinNameToken = modelSkinController.skins[modelSkinController.currentSkinIndex].nameToken;
-
-            effect = skinNameToken switch
-            {
-                "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.muzzleFlashCovenant,
-                _ => VFX.GalvanicBolt.muzzleFlashDefault
-            };
+            // kurwa pizda jebana nie dzialala kurwa i index outside POMIMO length checka zjebane chujstwo pierdolone
         }
 
         public void ElecBlast()

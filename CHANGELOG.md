@@ -4,6 +4,8 @@
 - Ranger
   - Made Overdrive exit happen instantly to prevent taking a few extra damage ticks
 - VOL-T
+  - Added Mastery Recolor VFX
+  - Improved all VFX
   - Adjusted Signal Overload Self Damage Tick Amount 25 => 10 (Razorwire moment)
   - Fixed Signal Overload Self Damage still counting for Eclipse 8
   - Fixed her broken variant not being immune to instant kills, void fog, executes and overheat

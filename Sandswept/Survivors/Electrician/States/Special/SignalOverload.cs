@@ -336,6 +336,18 @@ namespace Sandswept.Survivors.Electrician.States
                     continue;
                 }
 
+                var boxHealthComponent = box.healthComponent;
+                if (!boxHealthComponent)
+                {
+                    continue;
+                }
+
+                var enemyBody = boxHealthComponent.body;
+                if (!enemyBody)
+                {
+                    continue;
+                }
+
                 VoltLightningOrb orb = new()
                 {
                     attacker = gameObject,
@@ -344,29 +356,28 @@ namespace Sandswept.Survivors.Electrician.States
                     origin = position,
                     procCoefficient = 1f - Util.Remap(Vector3.Distance(base.transform.position, box.transform.position), 0f, 60f, 0f, 0.8f),
                     target = box,
-                    teamIndex = GetTeam()
+                    teamIndex = GetTeam(),
+                    attackerBody = characterBody,
+                    victimBody = enemyBody
                 };
 
                 orb.AddModdedDamageType(Electrician.Grounding);
 
-                if (box.healthComponent)
+                CharacterMotor motor = box.healthComponent.GetComponent<CharacterMotor>();
+                RigidbodyMotor motor2 = box.healthComponent.GetComponent<RigidbodyMotor>();
+
+                if (motor)
                 {
-                    CharacterMotor motor = box.healthComponent.GetComponent<CharacterMotor>();
-                    RigidbodyMotor motor2 = box.healthComponent.GetComponent<RigidbodyMotor>();
+                    motor.Motor.ForceUnground();
+                    motor.velocity += (position - motor.transform.position).normalized * (14.5f * delay);
+                }
 
-                    if (motor)
-                    {
-                        motor.Motor.ForceUnground();
-                        motor.velocity += (position - motor.transform.position).normalized * (14.5f * delay);
-                    }
-
-                    if (motor2)
-                    {
-                        PhysForceInfo info = new();
-                        info.massIsOne = true;
-                        info.force = (position - motor2.transform.position).normalized * (2.5f * delay);
-                        motor2.ApplyForceImpulse(in info);
-                    }
+                if (motor2)
+                {
+                    PhysForceInfo info = new();
+                    info.massIsOne = true;
+                    info.force = (position - motor2.transform.position).normalized * (2.5f * delay);
+                    motor2.ApplyForceImpulse(in info);
                 }
 
                 OrbManager.instance.AddOrb(orb);
@@ -381,7 +392,6 @@ namespace Sandswept.Survivors.Electrician.States
         public float damageCoeff = 2.8f;
         public float radius = 50f;
         public Transform modelTransform;
-        public GameObject explosionVFX;
         public Material overlayMat;
 
         public SignalOverloadFire(float modifier)
@@ -405,12 +415,6 @@ namespace Sandswept.Survivors.Electrician.States
             {
                 var skinNameToken = modelTransform.GetComponent<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
 
-                explosionVFX = skinNameToken switch
-                {
-                    "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.muzzleFlashCovenant,
-                    _ => VFX.GalvanicBolt.muzzleFlashDefault
-                };
-
                 overlayMat = skinNameToken switch
                 {
                     "SKIN_ELEC_MASTERY" => VFX.SignalOverload.matShieldBreakCovenant,
@@ -424,7 +428,6 @@ namespace Sandswept.Survivors.Electrician.States
                 temporaryOverlay.destroyComponentOnEnd = true;
                 temporaryOverlay.originalMaterial = overlayMat;
                 temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
-
             }
 
             if (NetworkServer.active)
@@ -436,12 +439,6 @@ namespace Sandswept.Survivors.Electrician.States
             {
                 HandleBlastAuthority();
             }
-
-            EffectManager.SpawnEffect(explosionVFX, new EffectData
-            {
-                origin = transform.position,
-                scale = radius * 2f
-            }, true);
         }
 
         public override void FixedUpdate()
@@ -475,8 +472,22 @@ namespace Sandswept.Survivors.Electrician.States
 
             Util.PlaySound("Play_loader_R_variant_slam", base.gameObject);
 
-            foreach (HurtBox box in search.GetHurtBoxes())
+            var hurtBoxes = search.GetHurtBoxes();
+
+            foreach (HurtBox box in hurtBoxes)
             {
+                var boxHealthComponent = box.healthComponent;
+                if (!boxHealthComponent)
+                {
+                    continue;
+                }
+
+                var enemyBody = boxHealthComponent.body;
+                if (!enemyBody)
+                {
+                    continue;
+                }
+
                 VoltLightningOrb orb = new()
                 {
                     attacker = gameObject,
@@ -489,10 +500,12 @@ namespace Sandswept.Survivors.Electrician.States
                     target = box,
                     teamIndex = GetTeam(),
                     damageType = DamageType.Shock5s,
-                    damageColorIndex = DamageColorIndex.Default
+                    damageColorIndex = DamageColorIndex.Default,
+                    attackerBody = characterBody,
+                    victimBody = enemyBody
                 };
 
-                SimpleLightningStrikeOrb orb2 = new()
+                VoltLightningOrb orb2 = new()
                 {
                     attacker = gameObject,
                     damageValue = damageStat * damageCoeff,
@@ -502,7 +515,9 @@ namespace Sandswept.Survivors.Electrician.States
                     target = box,
                     teamIndex = GetTeam(),
                     damageType = DamageType.Shock5s,
-                    damageColorIndex = DamageColorIndex.Default
+                    damageColorIndex = DamageColorIndex.Default,
+                    attackerBody = characterBody,
+                    victimBody = enemyBody
                 };
 
                 orb.damageType.damageSource = DamageSource.NoneSpecified;

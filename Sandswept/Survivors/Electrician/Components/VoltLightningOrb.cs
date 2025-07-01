@@ -10,34 +10,34 @@ namespace Sandswept.Survivors.Electrician
         public Transform modelTransform;
         public GameObject impactVFX;
         public CharacterBody attackerBody;
+        public CharacterBody victimBody;
 
         public override void Begin()
         {
             // base.Begin();
-            // fuck you
+            // fuck you, bitch.
 
             duration = 0.1f;
-            attackerBody = attacker.GetComponent<CharacterBody>();
-            if (attackerBody)
+            var effectData = new EffectData();
+            effectData.origin = victimBody.corePosition;
+            effectData.scale = victimBody.radius * 1.25f;
+            var modelLocator = attackerBody.GetComponent<ModelLocator>();
+            if (modelLocator)
             {
-                var modelLocator = attackerBody.GetComponent<ModelLocator>();
-                if (modelLocator)
+                var modelTransform = modelLocator.modelTransform;
+
+                if (modelTransform)
                 {
-                    var modelTransform = modelLocator.modelTransform;
+                    var skinNameToken = modelTransform.GetComponent<ModelSkinController>().skins[attackerBody.skinIndex].nameToken;
 
-                    if (modelTransform)
+                    impactVFX = skinNameToken switch
                     {
-                        var skinNameToken = modelTransform.GetComponent<ModelSkinController>().skins[attackerBody.skinIndex].nameToken;
+                        "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.muzzleFlashCovenant,
+                        _ => VFX.GalvanicBolt.muzzleFlashDefault
+                    };
+                    // wanted to recolor but it was way too garbage and made in a garbage trash piece of shit fucking kurwa jebana jego mac pizda pierdolona to robila KURWA ja pierdole kurwa co za smiecie jebane to kurwa robily wystarczy grayscale wszystko oprocz jednego koloru kurwa szmaty jebane ALE NIE KURWA TRZEBA DZIESIEC RAZY WIECEJ WORKLOAD DAC BO JESTESCIE PIZDAMI JEBANYMI I NIE POTRAFICIE MYSLEC KURWA JA PIERDOLE
 
-                        impactVFX = skinNameToken switch
-                        {
-                            "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.muzzleFlashCovenant,
-                            _ => VFX.GalvanicBolt.muzzleFlashDefault
-                        };
-                        // wanted to recolor but it was way too garbage and made in a garbage trash piece of shit fucking kurwa jebana jego mac pizda pierdolona to robila KURWA ja pierdole kurwa co za smiecie jebane to kurwa robily wystarczy grayscale wszystko oprocz jednego koloru kurwa szmaty jebane ALE NIE KURWA TRZEBA DZIESIEC RAZY WIECEJ WORKLOAD DAC BO JESTESCIE PIZDAMI JEBANYMI I NIE POTRAFICIE MYSLEC KURWA JA PIERDOLE
-
-                        EffectManager.SimpleEffect(impactVFX, target.transform.position, Quaternion.identity, transmit: true);
-                    }
+                    EffectManager.SpawnEffect(impactVFX, effectData, transmit: true);
                 }
             }
         }
@@ -48,6 +48,13 @@ namespace Sandswept.Survivors.Electrician
             {
                 return;
             }
+
+            var effectData = new EffectData();
+            effectData.origin = victimBody.corePosition;
+            effectData.scale = victimBody.radius * 2f;
+
+            EffectManager.SpawnEffect(impactVFX, effectData, transmit: true);
+
             HealthComponent healthComponent = target.healthComponent;
             if ((bool)healthComponent)
             {
@@ -62,7 +69,8 @@ namespace Sandswept.Survivors.Electrician
                     procCoefficient = procCoefficient,
                     position = target.transform.position,
                     damageColorIndex = damageColorIndex,
-                    damageType = damageType
+                    damageType = damageType,
+
                 };
 
                 healthComponent.TakeDamage(damageInfo);
