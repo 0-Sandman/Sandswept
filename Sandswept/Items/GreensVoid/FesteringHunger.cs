@@ -137,17 +137,19 @@ namespace Sandswept.Items.VoidGreens
 
         public static DamageColorIndex milleniumColor = DamageColourHelper.RegisterDamageColor(new Color32(75, 27, 174, 255));
 
+        public override ItemDef ItemToCorrupt => SmoulderingDocument.instance.ItemDef;
+
         public static GameObject vfx;
 
         public override void Init()
         {
             base.Init();
+            /*
             if (!ItemBase.DefaultEnabledCallback(SmoulderingDocument.instance))
             {
                 return;
             }
-
-            ItemToCorrupt = SmoulderingDocument.instance.ItemDef;
+            */
 
             SetUpBuff();
         }

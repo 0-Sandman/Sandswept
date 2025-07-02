@@ -53,15 +53,17 @@ namespace Sandswept.Items.VoidGreens
         public override float modelPanelParametersMinDistance => 5f;
         public override float modelPanelParametersMaxDistance => 12f;
 
+        public override ItemDef ItemToCorrupt => SunFragment.instance.ItemDef;
+
         public override void Init()
         {
             base.Init();
+            /*
             if (!ItemBase.DefaultEnabledCallback(SunFragment.instance))
             {
                 return;
             }
-
-            ItemToCorrupt = SunFragment.instance.ItemDef;
+            */
 
             SetUpMaterial();
             SetUpVFX();

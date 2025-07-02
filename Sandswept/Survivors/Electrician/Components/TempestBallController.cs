@@ -9,18 +9,18 @@ namespace Sandswept.Survivors.Electrician
         public float ticksPerSecond = 4;
         public SphereCollider sphere;
         public LineRenderer lr;
-        private float stopwatch = 0f;
-        private float delay;
-        private ProjectileController controller;
-        private ProjectileDamage damage;
-        private BlastAttack attack;
+        public float stopwatch = 0f;
+        public float delay;
+        public ProjectileController controller;
+        public ProjectileDamage damage;
+        public BlastAttack attack;
         public static Dictionary<CharacterBody, List<TempestBallController>> orbs = new();
-        private ProjectileSimple simple;
-        private bool locked = false;
-        private CharacterBody body;
-        private float damagePerTick;
-        private Transform lineOrigin;
-        private float sigma;
+        public ProjectileSimple simple;
+        public bool locked = false;
+        public CharacterBody body;
+        public float damagePerTick;
+        public Transform lineOrigin;
+        public float sigma;
 
         public void Start()
         {

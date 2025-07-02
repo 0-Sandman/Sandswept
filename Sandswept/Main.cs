@@ -467,14 +467,14 @@ namespace Sandswept
         private void CorruptItems(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
         {
             // items get iterated over in reverse order using a STANDARD for loop (e.g. Whites, then Reds, then NoTier, etc)
-            for (int i = AllItems.Count - 1; i >= 0; i--)
+            for (int i = EnabledItems.Count - 1; i >= 0; i--)
             {
                 var itemBase = AllItems[i];
                 var itemDef = itemBase.ItemDef;
                 // Logger.LogError("itemDef is " + Language.GetString(itemDef.nameToken));
                 var itemToCorrupt = itemBase.ItemToCorrupt;
 
-                if (itemToCorrupt == null)
+                if (itemToCorrupt == null || !ItemBase.DefaultEnabledCallback(itemBase))
                 {
                     continue;
                 }

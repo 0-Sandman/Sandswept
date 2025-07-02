@@ -10,7 +10,7 @@ namespace Sandswept.Survivors.Ranger
     {
         public Animator anim;
         public CharacterBody cb;
-        private HealthComponent hc;
+        public HealthComponent hc;
 
         public GameObject overlayPrefab;
         public GameObject overlayInstance;
@@ -35,7 +35,7 @@ namespace Sandswept.Survivors.Ranger
 
         public int lastHealingReductionCount;
 
-        internal EntityStateMachine esm;
+        public EntityStateMachine esm;
 
         public void Start()
         {

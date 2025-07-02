@@ -6,13 +6,13 @@ namespace Sandswept.Survivors.Electrician
 {
     public class ElectricianCrosshair : MonoBehaviour
     {
-        private Animator anim;
-        private HudElement hud;
-        private float rotSpeedInner = 60f;
-        private float rotSpeedOuter = -20f;
+        public Animator anim;
+        public HudElement hud;
+        public float rotSpeedInner = 60f;
+        public float rotSpeedOuter = -20f;
         public RectTransform outer;
         public RectTransform inner;
-        private bool sigma = false;
+        public bool sigma = false;
 
         public void Start()
         {

@@ -7,7 +7,7 @@ namespace Sandswept.Survivors.Electrician
     {
         public static event Action<CharacterBody> OnUserUnlock;
 
-        private bool activatable = true;
+        public bool activatable = true;
         public GameObject poweredOffOrb;
         public GameObject poweredOnOrb;
         public GameObject[] particlesToDisable;
