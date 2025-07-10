@@ -30,7 +30,7 @@ namespace Sandswept.Survivors.Electrician.VFX
 
         public static void Init()
         {
-            indicatorDefault = CreateIndicatorRecolor("Default", new Color32(0, 77, 255, 255), new Color32(0, 42, 255, 255), new Color32(0, 22, 134, 255), new Color32(0, 77, 255, 255));
+            indicatorDefault = CreateIndicatorRecolor("Default", new Color32(0, 77, 255, 255), new Color32(0, 42, 255, 255), new Color32(0, 54, 140, 255), new Color32(0, 77, 255, 255));
             indicatorCovenant = CreateIndicatorRecolor("Covenant", new Color32(255, 179, 0, 255), new Color32(255, 150, 0, 255), new Color32(13, 0, 42, 255), new Color32(0, 0, 255, 255));
 
             matShieldBreakDefault = CreateOverlayRecolor(new Color32(0, 77, 255, 255));

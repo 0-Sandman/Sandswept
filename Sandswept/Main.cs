@@ -686,7 +686,7 @@ namespace Sandswept
             var objectScaleCurve = orbCore.AddComponent<ObjectScaleCurve>();
             objectScaleCurve.useOverallCurveOnly = true;
             objectScaleCurve.timeMax = 10f;
-            objectScaleCurve.overallCurve = new AnimationCurve(new Keyframe(0f, 0.5f), new Keyframe(0.03f, 1f), new Keyframe(1f, 4.5f)); // 0.5x => 2.25x scale gives us a 4.5x increase, just perfect enough to line up with the outer sphere fill area
+            objectScaleCurve.overallCurve = new AnimationCurve(new Keyframe(0f, 0.5f), new Keyframe(0.03f, 1f), new Keyframe(1f, 4f)); // 0.5x => 2.25x scale gives us a 4.5x increase, just perfect enough to line up with the outer sphere fill area (nevermind, the mesh isn't 1x scale in blender)
 
             // new Material[] { Paths.Material.matLoaderLightningTile, Paths.Material.matJellyfishLightningSphere };
             tempestOrb.transform.RemoveComponent<ObjectScaleCurve>();
