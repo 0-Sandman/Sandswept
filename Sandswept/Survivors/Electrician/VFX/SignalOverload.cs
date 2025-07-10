@@ -51,6 +51,7 @@ namespace Sandswept.Survivors.Electrician.VFX
             beamLR.material = Main.lineRendererBase;
             beamLR.startColor = beamColor;
             beamLR.endColor = beamColor;
+            beamLR.textureMode = LineTextureMode.Tile;
 
             var transform = beam.transform;
 
@@ -159,7 +160,7 @@ namespace Sandswept.Survivors.Electrician.VFX
             var signalOverloadIndicator = PrefabAPI.InstantiateClone(tempestSphereIndicator, "Signal Overload Huge Indicator " + name, false);
 
             var newIndicatorMaterial = new Material(Paths.Material.matLightningSphere);
-            newIndicatorMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone3);
+            newIndicatorMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampTritoneSmoothed);
             newIndicatorMaterial.SetFloat("_InvFade", 1f);
             newIndicatorMaterial.SetFloat("_SoftPower", 0.85f);
             newIndicatorMaterial.SetFloat("_Boost", 1.718147f);
