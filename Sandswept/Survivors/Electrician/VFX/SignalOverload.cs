@@ -177,9 +177,9 @@ namespace Sandswept.Survivors.Electrician.VFX
             var hugeIndicatorMeshRenderer = signalOverloadIndicator.GetComponent<MeshRenderer>();
             hugeIndicatorMeshRenderer.sharedMaterials = hugeIndicatorMaterials;
 
-            var indicatorPointLight = tempestSphereIndicator.transform.Find("Point Light").GetComponent<Light>();
+            var indicatorPointLight = signalOverloadIndicator.transform.Find("Point Light").GetComponent<Light>();
             indicatorPointLight.color = lightColor;
-            indicatorPointLight.intensity = 200f;
+            indicatorPointLight.intensity = 30f;
             indicatorPointLight.GetComponent<LightIntensityCurve>().enabled = false;
             indicatorPointLight.GetComponent<LightScaleFromParent>().enabled = false;
             indicatorPointLight.range = 20f;
