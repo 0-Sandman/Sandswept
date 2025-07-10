@@ -117,7 +117,7 @@ namespace Sandswept.Survivors.Electrician.VFX
             tempestSphereIndicator.transform.Find("Particle System").gameObject.SetActive(false);
 
             var pointLight = tempestSphereIndicator.transform.Find("Point Light").GetComponent<Light>();
-            pointLight.color = sphereOutlineColor;
+            pointLight.color = lightColor;
             pointLight.intensity = 100f;
             pointLight.GetComponent<LightIntensityCurve>().enabled = false;
             pointLight.GetComponent<LightScaleFromParent>().enabled = false;
@@ -178,10 +178,10 @@ namespace Sandswept.Survivors.Electrician.VFX
             hugeIndicatorMeshRenderer.sharedMaterials = hugeIndicatorMaterials;
 
             var indicatorPointLight = signalOverloadIndicator.transform.Find("Point Light").GetComponent<Light>();
-            indicatorPointLight.color = lightColor;
-            indicatorPointLight.intensity = 30f;
             indicatorPointLight.GetComponent<LightIntensityCurve>().enabled = false;
             indicatorPointLight.GetComponent<LightScaleFromParent>().enabled = false;
+            indicatorPointLight.color = lightColor;
+            indicatorPointLight.intensity = 30f;
             indicatorPointLight.range = 20f;
 
             // ContentAddition.AddEffect(signalOverloadIndicator);
