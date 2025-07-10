@@ -173,34 +173,20 @@ namespace Sandswept.Items.Whites
         public override void Hooks()
         {
             GlobalEventManager.onCharacterDeathGlobal += GlobalEventManager_onCharacterDeathGlobal;
-            StatHooks.GetMoreStatCoefficients += StatHooks_GetMoreStatCoefficients;
-            OnJump.OnJumpEvent += OnJump_OnJumpEvent;
+            On.EntityStates.GenericCharacterMain.ProcessJump_bool += ProcessJump;
         }
 
-        private void OnJump_OnJumpEvent(CharacterMotor sender, CharacterBody body, ref float verticalBonus)
+        private void ProcessJump(On.EntityStates.GenericCharacterMain.orig_ProcessJump_bool orig, EntityStates.GenericCharacterMain self, bool ignoreRequirements)
         {
-            var extraJumps = body.GetBuffCount(extraJump);
+            var extraJumps = self.characterBody.GetBuffCount(extraJump);
 
-            var stack = GetCount(body);
-            if (stack <= 0)
-            {
-                body.SetBuffCount(extraJump.buffIndex, 0);
-                return;
+            if (self.jumpInputReceived && extraJumps > 0 && self.characterMotor && self.characterMotor.jumpCount >= self.characterBody.maxJumpCount) {
+                self.characterBody.SetBuffCount(extraJump.buffIndex, extraJumps - 1);
+                Util.PlaySound("Play_transistor_jump", self.gameObject);
+                ignoreRequirements = true;
             }
 
-            if (extraJumps > 0 && !OnJump.IsBaseJump(sender, body))
-            {
-                body.SetBuffCount(extraJump.buffIndex, extraJumps - 1);
-                sender.jumpCount--;
-                Util.PlaySound("Play_transistor_jump", body.gameObject);
-            }
-        }
-
-        private void StatHooks_GetMoreStatCoefficients(CharacterBody sender, MoreStatHookEventArgs args)
-        {
-            var buffCount = sender.GetBuffCount(extraJump);
-            args.jumpCountAdd += buffCount;
-
+            orig(self, ignoreRequirements);
         }
 
         private void GlobalEventManager_onCharacterDeathGlobal(DamageReport report)

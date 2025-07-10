@@ -1,24 +1,38 @@
 ## 1.2.4 Patch Notes
+- General
+  - Fixed CustomEmotesAPI jank (for the most part)
+- Ranger
+  - Made Overdrive exit happen instantly to prevent taking a few extra damage ticks
 - VOL-T
+  - Added Mastery Recolor VFX
+  - Improved all VFX
   - Adjusted Signal Overload Self Damage Tick Amount 25 => 10 (Razorwire moment)
-- Items
+  - Fixed Signal Overload Self Damage still counting for Eclipse 8
+  - Fixed her broken variant not being immune to instant kills, void fog, executes and overheat
+  - Restored footsteps.
+  - Reduced the speed of sprint animation.
+  - Galvanic Bolt now has aim assist towards pylons.
+- Items/Equipment
+  - Added more config options to Makeshift Plate
   - Buffed Nuclear Salvo Explosion Radius 9m => 16m
   - Nerfed Nuclear Salvo Damage 100% => 50%
-  - Rewrote Nuclear Salvo to use orbs instead of projectiles (will barely lag even with tons of it and tons of drones <img src="https://i.postimg.cc/9M9nydp7/smiling-imp.png" width="20" height="20"/>)
+  - Rewrote Nuclear Salvo to use orbs instead of projectiles (will lag much less with tons of it and tons of drones <img src="https://i.postimg.cc/9M9nydp7/smiling-imp.png" width="20" height="20"/>)
+  - Improved Makeshift Plate healthbar visuals
   - Improved Nuclear Salvo VFX and SFX
   - Fixed Makeshift Plate missing the AIBlacklist and BrotherBlacklist item tags
+  - Fixed Void Items not corrupting their counterparts
 
 ## 1.2.3 Patch Notes
-- Items
+- Items/Equipment
   - Fixed Makeshift Plate bombarding your log with NREs
 
 ## 1.2.2 Patch Notes
 - General
   - Adjustments to the README images
-- Items
+- Items/Equipment
+  - Added LookingGlass Support to Makeshift Plate
   - Fixed incompatibility that caused Makeshift Plate to break
   - Fixed Makeshift Plate causing the healthbar to display a negative current health at times
-  - Added LookingGlass Support to Makeshift Plate
   - Fixed LookingGlass Support with Temporal Transistor
   - Makeshift Plate now grants plating upon pickup aswell as stage entry
   - Makeshift Plate no longer persists its plating for the stage duration if you lose all stacks of it
@@ -75,13 +89,14 @@
 
 ## 1.1.2 Patch Notes
 - General
-  - Remade readme with cool images
+  - Updated for most recent SOTS patch
+  - Remade README with cool images
 - Ranger
   - Added keyword for the Heat mechanic
   - Improved some descriptions
   - Fixed some inconsistencies with formatting
   - Now has a charge indicator on the crosshair
-- Items
+- Items/Equipment
   - Added Universal VIP Pass VFX
   - Reworked Universal VIP Pass to have a 40% (+40% per stack, hyperbolic) chance of dropping 1 extra item.
   - Made Ceremonial Jar only trigger with skill damage
@@ -93,8 +108,6 @@
   - Changed some descriptions to be clearer and less confusing
 - Interactables
  - Fixed Shrine of Ruin not corrupting Abyssal Depths properly sometimes
-- General
- - Updated for most recent SOTS patch
 
 ## 1.1.1 Patch Notes
 - Interactables
@@ -500,8 +513,8 @@
 
 ## 0.7.1 Patch Notes
 - Ranger
-  - Nerfed Enflame Damage from 120% to 100%
   - Buffed Exhaust Damage from 8x160% to 8x200%
+  - Nerfed Enflame Damage from 120% to 100%
   - Nerfed Charge Loss Rate from 2 per 5s to 2 per 6s
   - Fixed Heat Signature Networking
   - Fixed Heat Signature description
@@ -540,6 +553,8 @@
   - Changed Motivating aura
 
 # 0.6.0 Patch Notes
+- General
+  - Obligaytory README update
 - Ranger
   - Added sound cue and overlay flash at Max Charge
   - Buffed Enflame Damage from 110% to 120%
@@ -556,15 +571,13 @@
   - Updated Skin Icon colors
   - Fixed Exhaust description
   - Fixed Heat Sink description
-- Readme
-  - Fixed wrong descriptions
 
 # 0.5.0 Patch Notes
 - Ranger
   - Added
 - Elites
   - Added Motivating
-- Items
+- Items/Equipment
   - Added Amber Knife
   - Added Bleeding Witness
   - Added Ceremonial Jar

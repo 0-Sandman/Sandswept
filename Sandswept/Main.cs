@@ -26,6 +26,9 @@ using IL.RoR2.Items;
 using System.Collections;
 using Sandswept.Utils.Components;
 using Rewired.ComponentControls.Effects;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.IO;
 
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
 
@@ -252,7 +255,6 @@ namespace Sandswept
             SwepSwepTheSandy.Init();
             NetworkingAPI.RegisterMessageType<CallNetworkedMethod>();
         }
-
         public void SetUpHooks()
         {
             SandsweptTemporaryEffects.ApplyHooks();

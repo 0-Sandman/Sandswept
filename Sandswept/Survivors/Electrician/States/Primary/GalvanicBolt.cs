@@ -41,6 +41,12 @@ namespace Sandswept.Survivors.Electrician.States
                 if (isAuthority)
                 {
                     FireProjectileInfo info = MiscUtils.GetProjectile(galvanicBoltProjectile, 2f, characterBody, DamageTypeCombo.GenericPrimary);
+
+                    GameObject pylon = SearchPylon();
+                    if (pylon) {
+                        info.rotation = Util.QuaternionSafeLookRotation((pylon.transform.position - info.position).normalized);
+                    }
+
                     ProjectileManager.instance.FireProjectile(info);
                 }
             }
@@ -54,6 +60,20 @@ namespace Sandswept.Survivors.Electrician.States
 
             Util.PlaySound("Play_elec_m1_shoot", gameObject);
 
+        }
+
+        public GameObject SearchPylon() {
+            RaycastHit[] hits = Physics.SphereCastAll(base.inputBank.aimOrigin, 2.4f, base.inputBank.aimDirection, 400f, LayerIndex.debris.mask, QueryTriggerInteraction.Ignore);
+
+            for (int i = 0; i < hits.Length; i++) {
+                RaycastHit hit = hits[i];
+                
+                if (hit.collider && hit.collider.GetComponent<TripwireController>()) {
+                    return hit.collider.gameObject;
+                }
+            }
+
+            return null;
         }
 
         public override void FixedUpdate()
