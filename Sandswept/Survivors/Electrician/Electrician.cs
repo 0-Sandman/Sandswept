@@ -208,9 +208,14 @@ namespace Sandswept.Survivors.Electrician
                 damageInfo.AddModdedDamageType(LIGHTNING);
             }
 
-            if (self.body && self.body.bodyIndex == brokenVoltBodyIndex && !damageInfo.HasModdedDamageType(bypassVoltResistance))
+            if (self.body && self.body.bodyIndex == brokenVoltBodyIndex)
             {
-                damageInfo.damage *= 0.001f;
+                BrokenElecController ctrl = self.body.GetComponent<BrokenElecController>();
+                if (ctrl) {
+                    ctrl.OnTakeDamageServer(damageInfo);
+                }
+                damageInfo = new DamageInfo();
+                damageInfo.rejected = true;
             }
 
             orig(self, damageInfo);

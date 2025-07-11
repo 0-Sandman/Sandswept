@@ -117,7 +117,7 @@ namespace Sandswept.Elites
                 localPos = new Vector3(0F, 1.06064F, 0.06114F),
                 localAngles = new Vector3(309.1414F, 0F, 270F),
                 localScale = new Vector3(0.5F, 0.5F, 0.5F),
-                followerPrefab = crownModel,
+                followerPrefab = crownModel, followerPrefabAddress = new("useless"),
                 limbMask = LimbFlags.None
             });
 
@@ -132,7 +132,7 @@ namespace Sandswept.Elites
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
 
             childName = "Head",
 localPos = new Vector3(0F, 0.43946F, 0.19302F),
@@ -145,7 +145,7 @@ localScale = new Vector3(0.15F, 0.15F, 0.15F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(-0.00158F, 0.44266F, 0.03309F),
 localAngles = new Vector3(283.7986F, 185.5439F, 261.9359F),
@@ -157,7 +157,7 @@ localScale = new Vector3(0.125F, 0.125F, 0.125F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "HeadCenter",
 localPos = new Vector3(0.0817F, 2.00278F, 1.21422F),
 localAngles = new Vector3(350.1546F, 2.09847F, 272.2529F),
@@ -169,7 +169,7 @@ localScale = new Vector3(0.8F, 0.8F, 0.8F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "FlowerBase",
 localPos = new Vector3(0.0322F, 1.54428F, 0.75568F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -182,7 +182,7 @@ localScale = new Vector3(0.7F, 0.7F, 0.7F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "HeadCenter",
 localPos = new Vector3(0F, 0.17388F, 0.1733F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -194,7 +194,7 @@ localScale = new Vector3(0.1F, 0.1F, 0.1F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0F, 0.17269F, 0.12011F),
 localAngles = new Vector3(272.3778F, 180.0004F, 269.9996F),
@@ -206,7 +206,7 @@ localScale = new Vector3(0.075F, 0.075F, 0.075F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0F, 0.25684F, 0.18109F),
 localAngles = new Vector3(273F, 0F, 90F),
@@ -218,7 +218,7 @@ localScale = new Vector3(0.1F, 0.1F, 0.1F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0F, 0.27065F, 0.15073F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -230,7 +230,7 @@ localScale = new Vector3(0.1F, 0.1F, 0.1F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0.00001F, 1.98247F, 2.39918F),
 localAngles = new Vector3(0F, 0F, 270F),
@@ -242,7 +242,7 @@ localScale = new Vector3(1F, 1F, 1F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0F, 0.29509F, 0.1712F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -254,7 +254,7 @@ localScale = new Vector3(0.12F, 0.12F, 0.12F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Hat",
 localPos = new Vector3(-0.00006F, 0.18337F, 0.1098F),
 localAngles = new Vector3(299.3236F, 180F, 270F),
@@ -270,7 +270,7 @@ localScale = new Vector3(0.125F, 0.125F, 0.125F)
             //new ItemDisplayRule()
             //{
             //  ruleType = ItemDisplayRuleType.ParentedPrefab,
-            //  followerPrefab = crownModel,
+            //  followerPrefab = crownModel, followerPrefabAddress = new("useless"),
             //  childName = "HeadCenter",
             //  localPos = new Vector3(),
             //  localAngles = new Vector3(),
@@ -282,7 +282,7 @@ localScale = new Vector3(0.125F, 0.125F, 0.125F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
           localPos = new Vector3(),
           localAngles = new Vector3(),
@@ -294,7 +294,7 @@ localScale = new Vector3(0.125F, 0.125F, 0.125F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0F, 0.17331F, 0.14733F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -306,7 +306,7 @@ localScale = new Vector3(0.075F, 0.075F, 0.075F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0.00001F, 0.23621F, 0.14362F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -318,7 +318,7 @@ localScale = new Vector3(0.08F, 0.08F, 0.08F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0.00429F, 0.52612F, 0.21166F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -330,7 +330,7 @@ localScale = new Vector3(0.2F, 0.2F, 0.2F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(-0.44373F, 0.22475F, -0.00004F),
 localAngles = new Vector3(0F, 270F, 270F),
@@ -342,7 +342,7 @@ localScale = new Vector3(0.15F, 0.15F, 0.15F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0.01794F, 0.23586F, 0.20082F),
 localAngles = new Vector3(279.4937F, 90F, 0F),
@@ -354,7 +354,7 @@ localScale = new Vector3(0.08F, 0.08F, 0.08F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0.00001F, 0.13581F, 0.2011F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -366,7 +366,7 @@ localScale = new Vector3(0.125F, 0.125F, 0.125F)
             //new ItemDisplayRule()
             //{
             //  ruleType = ItemDisplayRuleType.ParentedPrefab,
-            //  followerPrefab = crownModel,
+            //  followerPrefab = crownModel, followerPrefabAddress = new("useless"),
             //  childName = "Head",
             //  localPos = new Vector3(),
             //  localAngles = new Vector3(),
@@ -379,7 +379,7 @@ localScale = new Vector3(0.125F, 0.125F, 0.125F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "BodyBase",
 localPos = new Vector3(0F, 5.31923F, 0.92007F),
 localAngles = new Vector3(284.4718F, 180F, 270F),
@@ -391,7 +391,7 @@ localScale = new Vector3(1F, 1F, 1F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0F, 0.15591F, 1.68506F),
 localAngles = new Vector3(38.77916F, 0F, 270F),
@@ -403,7 +403,7 @@ localScale = new Vector3(0.6F, 0.6F, 0.6F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0.00003F, 3.98681F, -0.70338F),
 localAngles = new Vector3(325.5302F, 0F, 270F),
@@ -415,7 +415,7 @@ localScale = new Vector3(2.1F, 2.1F, 2.1F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Chain",
 localPos = new Vector3(-1.365F, -0.1481F, -0.85294F),
 localAngles = new Vector3(90F, 328F, 0F),
@@ -427,7 +427,7 @@ localScale = new Vector3(1.1F, 1.1F, 1.1F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(-0.00001F, 0.26844F, 0.75293F),
 localAngles = new Vector3(5F, 0F, 270F),
@@ -439,7 +439,7 @@ localScale = new Vector3(0.2F, 0.2F, 0.2F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0.00003F, 0.30442F, 0.27633F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -451,7 +451,7 @@ localScale = new Vector3(0.2F, 0.2F, 0.2F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "PotLidTop",
 localPos = new Vector3(0F, 1.14754F, 2.75167F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -463,7 +463,7 @@ localScale = new Vector3(1F, 1F, 1F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(-0.00003F, 0.49679F, 0.35615F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -475,7 +475,7 @@ localScale = new Vector3(0.2F, 0.2F, 0.2F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Torso",
 localPos = new Vector3(0.02096F, 0.45886F, 0.32552F),
 localAngles = new Vector3(273F, 90F, 0F),
@@ -487,7 +487,7 @@ localScale = new Vector3(0.2F, 0.2F, 0.2F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "LowerJaw",
 localPos = new Vector3(0F, 1.05185F, 1.23493F),
 localAngles = new Vector3(0F, 0F, 270F),
@@ -499,7 +499,7 @@ localScale = new Vector3(1F, 1F, 1F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Body",
 localPos = new Vector3(0F, 1.36907F, 0.90859F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -511,7 +511,7 @@ localScale = new Vector3(0.6F, 0.6F, 0.6F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0F, 1.273F, 0.46027F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -523,7 +523,7 @@ localScale = new Vector3(0.4F, 0.4F, 0.4F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0.00001F, 7.50781F, 0.41562F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -535,7 +535,7 @@ localScale = new Vector3(4F, 4F, 4F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0.00023F, 4.91397F, 2.60214F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -547,7 +547,7 @@ localScale = new Vector3(2F, 2F, 2F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "MaskBase",
 localPos = new Vector3(0F, 1.17681F, 0.87427F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -559,7 +559,7 @@ localScale = new Vector3(0.7F, 0.7F, 0.7F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "MainBody2",
 localPos = new Vector3(0F, 1.15732F, 0.69748F),
 localAngles = new Vector3(298.3305F, 180F, 270F),
@@ -571,7 +571,7 @@ localScale = new Vector3(0.7F, 0.7F, 0.7F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Base",
 localPos = new Vector3(-0.13612F, 1.34704F, 0.3413F),
 localAngles = new Vector3(270F, 68.25634F, 0F),
@@ -583,7 +583,7 @@ localScale = new Vector3(0.4F, 0.4F, 0.4F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Neck",
 localPos = new Vector3(0F, 0.16215F, -0.20313F),
 localAngles = new Vector3(270F, 270F, 0F),
@@ -595,7 +595,7 @@ localScale = new Vector3(0.2F, 0.2F, 0.2F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Neck",
 localPos = new Vector3(0F, 0.77942F, -0.7296F),
 localAngles = new Vector3(283.7287F, 0F, 270F),
@@ -607,7 +607,7 @@ localScale = new Vector3(1F, 1F, 1F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Hull2",
 localPos = new Vector3(0.01242F, 0.97758F, 1.17747F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -619,7 +619,7 @@ localScale = new Vector3(0.8F, 0.8F, 0.8F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(-0.00002F, 1.67104F, -2.85597F),
 localAngles = new Vector3(0F, 180F, 270F),
@@ -631,7 +631,7 @@ localScale = new Vector3(1.5F, 1.5F, 1.5F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0.00002F, 0.48007F, 0.26979F),
 localAngles = new Vector3(270.3357F, 179.9988F, 270.0012F),
@@ -643,7 +643,7 @@ localScale = new Vector3(0.15F, 0.15F, 0.15F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0F, 2.81765F, 2.14676F),
 localAngles = new Vector3(0F, 0F, 270F),
@@ -655,7 +655,7 @@ localScale = new Vector3(1.5F, 1.5F, 1.5F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(-0.50541F, -1.21665F, 0.00092F),
 localAngles = new Vector3(0F, 270F, 90F),
@@ -667,7 +667,7 @@ localScale = new Vector3(0.6F, 0.6F, 0.6F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "CapTop",
 localPos = new Vector3(0F, 1.04299F, 0.34622F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -679,7 +679,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Muzzle",
 localPos = new Vector3(0F, 1.0435F, 2.37762F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -691,7 +691,7 @@ localScale = new Vector3(1F, 1F, 1F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(-36.3644F, 158.6059F, -0.00013F),
 localAngles = new Vector3(320.7383F, 270F, 270F),
@@ -703,7 +703,7 @@ localScale = new Vector3(30F, 30F, 30F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Center",
 localPos = new Vector3(0F, 1.11979F, 0.91924F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -715,7 +715,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Root",
 localPos = new Vector3(0F, 1.11968F, 0.88305F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -727,7 +727,7 @@ localScale = new Vector3(0.6F, 0.6F, 0.6F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(-0.77904F, -1.59193F, -13.17959F),
 localAngles = new Vector3(23.34232F, 180F, 270F),
@@ -739,7 +739,7 @@ localScale = new Vector3(4.5F, 4.5F, 4.5F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0.16215F, 0.83455F, 0.012F),
 localAngles = new Vector3(278.2771F, 270F, 270F),
@@ -751,7 +751,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(-0.00001F, 6.28477F, 2.34205F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -763,7 +763,7 @@ localScale = new Vector3(2F, 2F, 2F)
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    followerPrefab = crownModel,
+                    followerPrefab = crownModel, followerPrefabAddress = new("useless"),
                     childName = "Head",
 localPos = new Vector3(0.00001F, 5.25809F, 2.07683F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -775,7 +775,7 @@ localScale = new Vector3(2.5F, 2.5F, 2.5F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Hull",
 localPos = new Vector3(0.00014F, 1.47516F, 1.49021F),
 localAngles = new Vector3(274.0579F, 180F, 270F),
@@ -787,7 +787,7 @@ localScale = new Vector3(1F, 1F, 1F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(-0.03629F, -0.45339F, -0.50791F),
 localAngles = new Vector3(84.59605F, 0F, 90F),
@@ -799,7 +799,7 @@ localScale = new Vector3(0.6F, 0.6F, 0.6F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(-0.59149F, -0.00004F, -1.0096F),
 localAngles = new Vector3(0F, 180F, 180F),
@@ -811,7 +811,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(-0.97354F, 0F, 0.26005F),
 localAngles = new Vector3(0.00001F, 248.7224F, 180F),
@@ -823,7 +823,7 @@ localScale = new Vector3(0.3F, 0.3F, 0.3F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "BodyBase",
 localPos = new Vector3(0F, 10.15379F, 4.9236F),
 localAngles = new Vector3(270F, 90F, 0F),
@@ -835,7 +835,7 @@ localScale = new Vector3(4F, 4F, 4F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(-0.00013F, 2.07661F, -2.41388F),
 localAngles = new Vector3(0F, 180F, 270F),
@@ -847,7 +847,7 @@ localScale = new Vector3(1.5F, 1.5F, 1.5F)
         new ItemDisplayRule()
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
-          followerPrefab = crownModel,
+          followerPrefab = crownModel, followerPrefabAddress = new("useless"),
           childName = "Head",
 localPos = new Vector3(0F, 0.62259F, 0.44798F),
 localAngles = new Vector3(0F, 0F, 270F),
