@@ -45,6 +45,7 @@ namespace Sandswept.Survivors.Electrician.VFX
             lineRenderer.startColor = beamStartColor;
             lineRenderer.endColor = beamEndColor;
             lineRenderer.material = Main.lineRendererBase;
+            lineRenderer.textureMode = LineTextureMode.Tile;
 
             ContentAddition.AddNetworkedObject(projectile);
             PrefabAPI.RegisterNetworkPrefab(projectile);

@@ -688,7 +688,7 @@ namespace Sandswept
             var objectScaleCurve = orbCore.AddComponent<ObjectScaleCurve>();
             objectScaleCurve.useOverallCurveOnly = true;
             objectScaleCurve.timeMax = 10f;
-            objectScaleCurve.overallCurve = new AnimationCurve(new Keyframe(0f, 0.5f), new Keyframe(0.03f, 1f), new Keyframe(1f, 4.5f)); // 0.5x => 2.25x scale gives us a 4.5x increase, just perfect enough to line up with the outer sphere fill area
+            objectScaleCurve.overallCurve = new AnimationCurve(new Keyframe(0f, 0.5f), new Keyframe(0.03f, 1f), new Keyframe(1f, 4.19f)); // 0.5x => 2.25x scale gives us a 4.5x increase, just perfect enough to line up with the outer sphere fill area (nevermind, the mesh isn't 1x scale in blender)
 
             // new Material[] { Paths.Material.matLoaderLightningTile, Paths.Material.matJellyfishLightningSphere };
             tempestOrb.transform.RemoveComponent<ObjectScaleCurve>();
@@ -863,7 +863,7 @@ namespace Sandswept
             var objectScaleCurve = orbCore.AddComponent<ObjectScaleCurve>();
             objectScaleCurve.useOverallCurveOnly = true;
             objectScaleCurve.timeMax = 10f;
-            objectScaleCurve.overallCurve = new AnimationCurve(new Keyframe(0f, 0.5f), new Keyframe(0.03f, 1f), new Keyframe(1f, 4.5f)); // 0.5x => 2.25x scale gives us a 4.5x increase, just perfect enough to line up with the outer sphere fill area
+            objectScaleCurve.overallCurve = new AnimationCurve(new Keyframe(0f, 0.5f), new Keyframe(0.03f, 1f), new Keyframe(1f, 4.19f)); // 0.5x => 2.25x scale gives us a 4.5x increase, just perfect enough to line up with the outer sphere fill area
 
             // new Material[] { Paths.Material.matLoaderLightningTile, Paths.Material.matJellyfishLightningSphere };
             tempestOrb.transform.RemoveComponent<ObjectScaleCurve>();
@@ -906,9 +906,14 @@ namespace Sandswept
             newLineMaterial.SetFloat("_InvFade", 1f);
             newLineMaterial.SetFloat("_Boost", 2f);
             newLineMaterial.SetFloat("_AlphaBoost", 1f);
-            newLineMaterial.SetFloat("_AlphaBias", 0f);
+            // newLineMaterial.SetFloat("_AlphaBias", 0f);
             newLineMaterial.SetTextureScale("_MainTex", new Vector2(0.02f, 1f));
             newLineMaterial.SetTextureOffset("_MainTex", Vector2.zero);
+
+            newLineMaterial.SetFloat("_AlphaBias", 0.1f);
+            newLineMaterial.SetTexture("_Cloud1Tex", Paths.Texture2D.texCloudLightning1);
+            newLineMaterial.SetTextureScale("_Cloud1Tex", new Vector2(0.2f, 1f));
+            newLineMaterial.SetColor("_CutoffScroll", new Color(50f, 25f, 180f, 0f));
 
             return newLineMaterial;
         }

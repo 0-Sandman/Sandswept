@@ -43,7 +43,8 @@ namespace Sandswept.Survivors.Electrician.States
                     FireProjectileInfo info = MiscUtils.GetProjectile(galvanicBoltProjectile, 2f, characterBody, DamageTypeCombo.GenericPrimary);
 
                     GameObject pylon = SearchPylon();
-                    if (pylon) {
+                    if (pylon)
+                    {
                         info.rotation = Util.QuaternionSafeLookRotation((pylon.transform.position - info.position).normalized);
                     }
 
@@ -62,13 +63,16 @@ namespace Sandswept.Survivors.Electrician.States
 
         }
 
-        public GameObject SearchPylon() {
-            RaycastHit[] hits = Physics.SphereCastAll(base.inputBank.aimOrigin, 2.4f, base.inputBank.aimDirection, 400f, LayerIndex.debris.mask, QueryTriggerInteraction.Ignore);
-
-            for (int i = 0; i < hits.Length; i++) {
+        public GameObject SearchPylon()
+        {
+            RaycastHit[] hits = Physics.SphereCastAll(base.inputBank.aimOrigin, 1.5f, base.inputBank.aimDirection, 2000f, LayerIndex.debris.mask, QueryTriggerInteraction.Ignore);
+            // 2000f cause epic pillar skip
+            for (int i = 0; i < hits.Length; i++)
+            {
                 RaycastHit hit = hits[i];
-                
-                if (hit.collider && hit.collider.GetComponent<TripwireController>()) {
+
+                if (hit.collider && hit.collider.GetComponent<TripwireController>())
+                {
                     return hit.collider.gameObject;
                 }
             }

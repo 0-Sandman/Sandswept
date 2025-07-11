@@ -30,7 +30,7 @@ namespace Sandswept.Survivors.Electrician.VFX
 
         public static void Init()
         {
-            indicatorDefault = CreateIndicatorRecolor("Default", new Color32(0, 77, 255, 255), new Color32(0, 42, 255, 255), new Color32(0, 22, 134, 255), new Color32(0, 77, 255, 255));
+            indicatorDefault = CreateIndicatorRecolor("Default", new Color32(0, 77, 255, 255), new Color32(0, 42, 255, 255), new Color32(0, 54, 140, 255), new Color32(0, 77, 255, 255));
             indicatorCovenant = CreateIndicatorRecolor("Covenant", new Color32(255, 179, 0, 255), new Color32(255, 150, 0, 255), new Color32(13, 0, 42, 255), new Color32(0, 0, 255, 255));
 
             matShieldBreakDefault = CreateOverlayRecolor(new Color32(0, 77, 255, 255));
@@ -51,6 +51,7 @@ namespace Sandswept.Survivors.Electrician.VFX
             beamLR.material = Main.lineRendererBase;
             beamLR.startColor = beamColor;
             beamLR.endColor = beamColor;
+            beamLR.textureMode = LineTextureMode.Tile;
 
             var transform = beam.transform;
 
@@ -116,7 +117,7 @@ namespace Sandswept.Survivors.Electrician.VFX
             tempestSphereIndicator.transform.Find("Particle System").gameObject.SetActive(false);
 
             var pointLight = tempestSphereIndicator.transform.Find("Point Light").GetComponent<Light>();
-            pointLight.color = sphereOutlineColor;
+            pointLight.color = lightColor;
             pointLight.intensity = 100f;
             pointLight.GetComponent<LightIntensityCurve>().enabled = false;
             pointLight.GetComponent<LightScaleFromParent>().enabled = false;
@@ -159,7 +160,7 @@ namespace Sandswept.Survivors.Electrician.VFX
             var signalOverloadIndicator = PrefabAPI.InstantiateClone(tempestSphereIndicator, "Signal Overload Huge Indicator " + name, false);
 
             var newIndicatorMaterial = new Material(Paths.Material.matLightningSphere);
-            newIndicatorMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone3);
+            newIndicatorMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampTritoneSmoothed);
             newIndicatorMaterial.SetFloat("_InvFade", 1f);
             newIndicatorMaterial.SetFloat("_SoftPower", 0.85f);
             newIndicatorMaterial.SetFloat("_Boost", 1.718147f);
@@ -176,11 +177,11 @@ namespace Sandswept.Survivors.Electrician.VFX
             var hugeIndicatorMeshRenderer = signalOverloadIndicator.GetComponent<MeshRenderer>();
             hugeIndicatorMeshRenderer.sharedMaterials = hugeIndicatorMaterials;
 
-            var indicatorPointLight = tempestSphereIndicator.transform.Find("Point Light").GetComponent<Light>();
-            indicatorPointLight.color = lightColor;
-            indicatorPointLight.intensity = 200f;
+            var indicatorPointLight = signalOverloadIndicator.transform.Find("Point Light").GetComponent<Light>();
             indicatorPointLight.GetComponent<LightIntensityCurve>().enabled = false;
             indicatorPointLight.GetComponent<LightScaleFromParent>().enabled = false;
+            indicatorPointLight.color = lightColor;
+            indicatorPointLight.intensity = 30f;
             indicatorPointLight.range = 20f;
 
             // ContentAddition.AddEffect(signalOverloadIndicator);
