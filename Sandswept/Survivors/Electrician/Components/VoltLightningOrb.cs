@@ -18,9 +18,9 @@ namespace Sandswept.Survivors.Electrician
             // fuck you, bitch.
 
             duration = 0.1f;
-            var effectData = new EffectData();
-            effectData.origin = victimBody.corePosition;
-            effectData.scale = victimBody.radius * 1.25f;
+            // var effectData = new EffectData();
+            // effectData.origin = victimBody.corePosition;
+            // effectData.scale = Mathf.Sqrt(victimBody.radius * 9f);
             var modelLocator = attackerBody.GetComponent<ModelLocator>();
             if (modelLocator)
             {
@@ -37,7 +37,8 @@ namespace Sandswept.Survivors.Electrician
                     };
                     // wanted to recolor but it was way too garbage and made in a garbage trash piece of shit fucking kurwa jebana jego mac pizda pierdolona to robila KURWA ja pierdole kurwa co za smiecie jebane to kurwa robily wystarczy grayscale wszystko oprocz jednego koloru kurwa szmaty jebane ALE NIE KURWA TRZEBA DZIESIEC RAZY WIECEJ WORKLOAD DAC BO JESTESCIE PIZDAMI JEBANYMI I NIE POTRAFICIE MYSLEC KURWA JA PIERDOLE
 
-                    EffectManager.SpawnEffect(impactVFX, effectData, transmit: true);
+                    // EffectManager.SpawnEffect(impactVFX, effectData, transmit: true);
+                    // Util.PlayAttackSpeedSound("Play_mage_m1_cast_lightning", victimBody.gameObject, 2f);
                 }
             }
         }
@@ -51,9 +52,10 @@ namespace Sandswept.Survivors.Electrician
 
             var effectData = new EffectData();
             effectData.origin = victimBody.corePosition;
-            effectData.scale = victimBody.radius * 2f;
+            effectData.scale = Mathf.Sqrt(victimBody.radius * 9f);
 
             EffectManager.SpawnEffect(impactVFX, effectData, transmit: true);
+            Util.PlayAttackSpeedSound("Play_mage_m1_cast_lightning", victimBody.gameObject, 2f);
 
             HealthComponent healthComponent = target.healthComponent;
             if ((bool)healthComponent)

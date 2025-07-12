@@ -47,6 +47,9 @@ namespace Sandswept.Survivors.Electrician
             simple.updateAfterFiring = true;
 
             damagePerTick = damage.damage / ticksPerSecond;
+
+            Util.PlayAttackSpeedSound("Play_env_moon_shuttle_engineIdle_loop", gameObject, 3f);
+            Util.PlayAttackSpeedSound("Play_loader_R_active_loop", gameObject, 2f);
         }
 
         public void FixedUpdate()
@@ -154,6 +157,9 @@ namespace Sandswept.Survivors.Electrician
                     orbs[body].Remove(this);
                 }
             }
+
+            Util.PlaySound("Stop_env_moon_shuttle_engineIdle_loop", gameObject);
+            Util.PlaySound("Stop_loader_R_active_loop", gameObject);
         }
     }
 }
