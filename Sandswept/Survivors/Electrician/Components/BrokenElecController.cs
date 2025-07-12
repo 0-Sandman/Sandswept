@@ -3,7 +3,7 @@ using Sandswept.Survivors.Electrician.Achievements;
 
 namespace Sandswept.Survivors.Electrician
 {
-    public class BrokenElecController : MonoBehaviour, IOnTakeDamageServerReceiver
+    public class BrokenElecController : MonoBehaviour
     {
         public static event Action<CharacterBody> OnUserUnlock;
 
@@ -22,36 +22,20 @@ namespace Sandswept.Survivors.Electrician
             body.bodyFlags |= CharacterBody.BodyFlags.ImmuneToVoidDeath;
             body.bodyFlags |= CharacterBody.BodyFlags.ImmuneToExecutes;
             body.bodyFlags |= CharacterBody.BodyFlags.OverheatImmune;
-            if (NetworkServer.active)
-            {
-                var damageInfo = new DamageInfo()
-                {
-                    attacker = null,
-                    damageType = DamageType.BypassArmor | DamageType.BypassBlock,
-                    damage = 4f,
-                    inflictor = null,
-                    procCoefficient = 0f,
-                    position = transform.position
-                };
-                damageInfo.AddModdedDamageType(Electrician.bypassVoltResistance);
-                body.healthComponent.TakeDamage(damageInfo);
-
-            }
 
             // one hellelleallofallallot of a one-liner this used to be
         }
-
-        public void OnTakeDamageServer(DamageReport damageReport)
+        public void OnTakeDamageServer(DamageInfo damageInfo)
         {
             if (!activatable) return;
 
             bool didAnyoneUnlock = false;
 
-            if (damageReport.damageInfo.HasModdedDamageType(Electrician.LIGHTNING) && damageReport.damageInfo.procCoefficient > 0)
+            if (damageInfo.HasModdedDamageType(Electrician.LIGHTNING) && damageInfo.procCoefficient > 0)
             {
                 foreach (PlayerCharacterMasterController pcmc in PlayerCharacterMasterController.instances)
                 {
-                    if (pcmc.body && ((Vector3.Distance(pcmc.body.corePosition, base.transform.position) < 40f) || damageReport.attackerBody == pcmc.body))
+                    if (pcmc.body && ((Vector3.Distance(pcmc.body.corePosition, base.transform.position) < 40f) || damageInfo.attacker.GetComponent<CharacterBody>() == pcmc.body))
                     {
                         OnUserUnlock?.Invoke(pcmc.body);
                         didAnyoneUnlock = true;

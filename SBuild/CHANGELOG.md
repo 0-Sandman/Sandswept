@@ -1,6 +1,7 @@
 ## 1.2.4 Patch Notes
 - General
   - Fixed CustomEmotesAPI jank (for the most part)
+  - Fixed re-occurance of the enemy swarm bug.
 - Ranger
   - Made Overdrive exit happen instantly to prevent taking a few extra damage ticks
 - VOL-T
@@ -21,6 +22,8 @@
   - Improved Nuclear Salvo VFX and SFX
   - Fixed Makeshift Plate missing the AIBlacklist and BrotherBlacklist item tags
   - Fixed Void Items not corrupting their counterparts
+  - Temporal Transistor jumps are now only used if you have exhausted all other jumps (if you have hopoo feather you'll consume feather jumps first)
+  - Temporal Transistor jumps can now be chained midair (you can use them consecutively midair and can keep using them if you get more jumps while still airborne)
 
 ## 1.2.3 Patch Notes
 - Items/Equipment
