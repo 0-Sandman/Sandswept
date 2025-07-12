@@ -274,7 +274,7 @@ namespace Sandswept.Items.Reds
                 if (inputBank.skill1.down && body.HasBuff(javelinReady))
                 {
                     body.RemoveBuff(javelinReady);
-                    body.AddTimedBuff(javelinCooldown, cooldown);
+                    body.AddTimedBuffAuthority(javelinCooldown.buffIndex, cooldown);
                     FireJavelin();
                 }
             }
