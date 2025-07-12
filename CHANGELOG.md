@@ -21,9 +21,10 @@
   - Improved Makeshift Plate healthbar visuals
   - Improved Nuclear Salvo VFX and SFX
   - Made Temporal Transistor jumps chainable mid-air with kills
-  - Fixed Makeshift Plate missing the AIBlacklist and BrotherBlacklist item tags
-  - Fixed Void Items not corrupting their counterparts
   - Fixed Temporal Transistor jumps consuming Hopoo Feather jumps
+  - Fixed Makeshift Plate missing the AIBlacklist, BrotherBlacklist and CannotCopy item tags
+  - Fixed Void Items not corrupting their counterparts
+  - (Hopefully) Fixed Glacial Plasma projectile spam as client
   
 ## 1.2.3 Patch Notes
 - Items/Equipment
