@@ -137,8 +137,8 @@ namespace Sandswept.Survivors.Electrician.VFX
             trail.endColor = beamEndColor;
             trail.material = Main.lineRendererBase;
             trail.numCapVertices = 1;
-            trail.textureMode = LineTextureMode.Tile;
-            // trail.time = 0.3f;
+            // trail.textureMode = LineTextureMode.Tile;
+            trail.time = 0.15f;
 
             var light = particleHolder.Find("Light").GetComponent<Light>();
             light.color = lightningColor;

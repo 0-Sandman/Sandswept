@@ -51,7 +51,7 @@ namespace Sandswept.Survivors.Electrician.VFX
             beamLR.material = Main.lineRendererBase;
             beamLR.startColor = beamColor;
             beamLR.endColor = beamColor;
-            beamLR.textureMode = LineTextureMode.Tile;
+            // beamLR.textureMode = LineTextureMode.Tile;
 
             var transform = beam.transform;
 

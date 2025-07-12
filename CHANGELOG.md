@@ -1,17 +1,18 @@
 ## 1.2.4 Patch Notes
 - General
   - Fixed CustomEmotesAPI jank on Ranger (for the most part)
-  - Fixed reoccurrence of the enemy swarm bug
+  - Fixed reoccurrences of the enemy swarm bug
 - Ranger
   - Made Overdrive exit happen instantly to prevent taking a few extra damage ticks
 - VOL-T
   - Added Mastery Recolor VFX
-  - Added slight homing to Galvanic Bolt towards pylons
+  - Added slight aim assist to Galvanic Bolt towards pylons
   - Improved all VFX
   - Adjusted Signal Overload Self Damage Tick Amount 25 => 10 (Razorwire moment)
   - Reduced the speed of sprint animation
   - Fixed Signal Overload Self Damage still counting for Eclipse 8
   - Fixed her broken variant not being immune to instant kills, void fog, executes and overheat
+  - Broken robot no longer procs Voidsent Flame.
   - Fixed footstep sounds not working for all you freaks out there
 - Items/Equipment
   - Added more config options to Makeshift Plate
@@ -21,9 +22,10 @@
   - Improved Makeshift Plate healthbar visuals
   - Improved Nuclear Salvo VFX and SFX
   - Made Temporal Transistor jumps chainable mid-air with kills
+  - Made Temporal Transistor jumps used up last (Hopoo Feather will be consumed first before dipping into Transistor)
   - Fixed Makeshift Plate missing the AIBlacklist and BrotherBlacklist item tags
+  - Added Makeshift Plate to the turret blacklist.
   - Fixed Void Items not corrupting their counterparts
-  - Fixed Temporal Transistor jumps consuming Hopoo Feather jumps
   
 ## 1.2.3 Patch Notes
 - Items/Equipment
