@@ -26,6 +26,7 @@
   - Fixed Makeshift Plate missing the AIBlacklist and BrotherBlacklist item tags
   - Added Makeshift Plate to the turret blacklist.
   - Fixed Void Items not corrupting their counterparts
+  - (Hopefully) Fixed Glacial Plasma projectile spam as client
   
 ## 1.2.3 Patch Notes
 - Items/Equipment
