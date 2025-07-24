@@ -83,7 +83,7 @@ namespace Sandswept.Survivors.Electrician.States
                 var percent = healthComponent.fullHealth * baseMax;
 
                 outer.SetNextState(new SignalOverloadDischarge(Util.Remap(shieldDrained, 0f, percent, 1f, 2f),
-                                                               Util.Remap(shieldDrained, 0f, percent, 1f, 1.6f)));
+                                                               Util.Remap(shieldDrained, 0f, percent, 1f, 1.611f)));
             }
 
             stopwatch += Time.fixedDeltaTime;
