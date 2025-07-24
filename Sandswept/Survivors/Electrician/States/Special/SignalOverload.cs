@@ -10,7 +10,7 @@ namespace Sandswept.Survivors.Electrician.States
         public float stopwatch = 0f;
         public float delay = 0.7f / 10;
         public float drainAmount;
-        public float baseMax = 0.3f;
+        public float baseMax = 0.4f;
 
         public override void OnEnter()
         {
