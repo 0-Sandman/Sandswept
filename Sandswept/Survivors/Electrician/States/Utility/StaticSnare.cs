@@ -15,7 +15,7 @@ namespace Sandswept.Survivors.Electrician.States
         {
             base.OnEnter();
 
-            duration = Mathf.Min(0.15f, duration / attackSpeedStat);
+            // duration /= attackSpeedStat;
 
             PlayAnimation("Gesture, Override", "Throw", "Generic.playbackRate", duration);
 
