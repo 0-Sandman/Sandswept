@@ -67,6 +67,11 @@ namespace Sandswept.Survivors.Electrician
                 Rigidbody rb = GetComponent<Rigidbody>();
                 base.GetComponent<ProjectileSimple>().updateAfterFiring = false;
                 rb.velocity = (base.transform.position - body.transform.position).normalized * 150f;
+
+                if (indicatorInstance)
+                {
+                    indicatorInstance.GetComponent<PositionIndicator>().insideViewObject.transform.GetChild(0).GetComponent<ObjectScaleCurve>().Reset(); // lmao
+                }
             }
         }
 

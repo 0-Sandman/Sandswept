@@ -156,8 +156,8 @@ namespace Sandswept.Survivors.Electrician.States
 
         public SignalOverloadDischarge(float radiusMult, float damageMult)
         {
-            multiplier = Mathf.Min(radiusMult, 2f);
-            damageMultiplier = Mathf.Min(damageMult, 1.6f);
+            multiplier = Mathf.Min(radiusMult, 2f); // second value is the max "overshoot" value (consuming above 40% shield, for synergy with psg, trans, etc)
+            damageMultiplier = Mathf.Min(damageMult, 2.4165f); // 1.611 * 1.5 => 2.4165, so up to lots more damage :smirk: | second value is the max "overshoot" value (consuming above 40% shield, for synergy with psg, trans, etc)
         }
 
         public override void OnEnter()
