@@ -41,6 +41,7 @@ namespace Sandswept.Survivors.Electrician
                     orbs[body].Add(this);
 
                     lineOrigin = body.GetComponent<ModelLocator>().modelTransform.GetComponent<ChildLocator>().FindChild("MuzzleOrb");
+                    delay = 1f / ticksPerSecond / body.attackSpeed;
                 }
             }
 

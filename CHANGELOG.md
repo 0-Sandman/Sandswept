@@ -1,8 +1,30 @@
+## 1.2.6 Patch Notes
+- VOL-T
+  - Added an indicator to Static Snare
+  - Buffed Static Snare Line Damage Per Second from 200% to 300%
+  - Buffed Static Snare Line Radius from 0.2784882m to 0.8m
+  - Buffed Static Snare Passive Explosion Radius from 3m to 5m
+  - Buffed Static Snare Eject Explosion Radius from 6m to 9m
+  - Nerfed Tempest Sphere Damage Per Second from 385% to 330%
+  - Nerfed Signal Overload Radius from 18m-45m to 18m-36m
+  - Nerfed Volatile Shields Damage from 2x280% to 2x250%
+  - Nerfed Volatile Shields Radius from 50m to 36m
+  - Made Static Snare Line Tick Rate scale with Attack Speed and Zip Speed with Movement Speed
+  - Made Static Snare Zip Speed slower at first, but accelerate over time
+  - Made Signal Overload Duration scale with Attack Speed
+  - Made Hit Impact VFX larger
+  - Fixed Tempest Sphere Tick Rate not scaling with Attack Speed
+  - Fixed many bugs with Static Snare with high Attack Speed and or Cooldown Reduction
+  - Fixed Signal Overload description being wrong
+  - Fixed mismatched VFX scales
+- Items/Equipment
+  - Buffed Amber Knife Chance from 10% to 15%
+
 ## 1.2.5 Patch Notes
 - VOL-T
   - Added Galvanic Bolt, Tempest Sphere and Signal Overload hit impact SFX
   - Added Tempest Sphere looping SFX
-  - Scaled up hit impact VFX
+  - Made Hit Impact VFX larger
 
 ## 1.2.4 Patch Notes
 - General
@@ -14,7 +36,7 @@
   - Added Mastery Recolor VFX
   - Added slight aim assist to Galvanic Bolt towards pylons
   - Improved all VFX
-  - Adjusted Signal Overload Self Damage Tick Amount 25 => 10 (Razorwire moment)
+  - Adjusted Signal Overload Self Damage Tick Amount from 25 to 10 (Razorwire moment)
   - Reduced the speed of sprint animation
   - Fixed Signal Overload Self Damage still counting for Eclipse 8
   - Fixed her broken variant not being immune to instant kills, void fog, executes and overheat
@@ -22,8 +44,8 @@
   - Fixed footstep sounds not working for all you freaks out there
 - Items/Equipment
   - Added more config options to Makeshift Plate
-  - Buffed Nuclear Salvo Explosion Radius 9m => 16m
-  - Nerfed Nuclear Salvo Damage 100% => 50%
+  - Buffed Nuclear Salvo Explosion Radius from 9m to 16m
+  - Nerfed Nuclear Salvo Damage from 100% to 50%
   - Rewrote Nuclear Salvo to use orbs instead of projectiles (will lag much less with tons of it and tons of drones <img src="https://i.postimg.cc/9M9nydp7/smiling-imp.png" width="20" height="20"/>)
   - Improved Makeshift Plate healthbar visuals
   - Improved Nuclear Salvo VFX and SFX
@@ -51,7 +73,7 @@
   - Slightly reduced self damage while in heat
 - VOL-T
   - Fixed description
-  - Volatile Shields damage reduced to 2x280% (down from 2x450%)
+  - Nerfed Volatile Shields Damage from 2x450% to 2x280%
   
 ## 1.2.1 Patch Notes
 - <img src="https://i.postimg.cc/vTD0nKcq/eyebrow2.png" width="20" height="20"/>

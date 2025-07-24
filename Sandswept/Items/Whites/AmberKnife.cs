@@ -54,7 +54,7 @@ namespace Sandswept.Items.Whites
         public override float modelPanelParametersMinDistance => 4f;
         public override float modelPanelParametersMaxDistance => 12f;
 
-        [ConfigField("Chance", "", 10f)]
+        [ConfigField("Chance", "", 15f)]
         public static float chance;
 
         [ConfigField("Base Damage", "Decimal.", 1.5f)]

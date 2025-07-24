@@ -16,7 +16,7 @@ namespace Sandswept.Survivors.Electrician.States
         {
             base.OnEnter();
 
-            baseDuration /= attackSpeedStat;
+            // baseDuration /= attackSpeedStat;
 
             delay = baseDuration / 10f;
 
@@ -80,7 +80,10 @@ namespace Sandswept.Survivors.Electrician.States
                     }
                 }
 
-                outer.SetNextState(new SignalOverloadDischarge(Util.Remap(shieldDrained, 0f, healthComponent.fullHealth * baseMax, 0.6f, 1f)));
+                var percent = healthComponent.fullHealth * baseMax;
+
+                outer.SetNextState(new SignalOverloadDischarge(Util.Remap(shieldDrained, 0f, percent, 1f, 2f),
+                                                               Util.Remap(shieldDrained, 0f, percent, 1f, 1.6f)));
             }
 
             stopwatch += Time.fixedDeltaTime;
@@ -129,13 +132,14 @@ namespace Sandswept.Survivors.Electrician.States
     public class SignalOverloadDischarge : BaseSkillState
     {
         public float duration = 3f;
-        public float totalDamageCoef = 16f;
+        public float totalDamageCoef = 9.9f; // used to be 16f and scale down to 0.6x with no shield drained, and stay 16x with full shield - now it's 1x to 1.6x of this value depending on shield drained
         public int totalHits = 10;
-        public float delay => duration / totalHits;
-        public float coeff => totalDamageCoef / totalHits;
-        public float radius = 30f;
+        public float delay;
+        public float coeff;
+        public float radius = 16f;
         public float stopwatch = 0f;
-        public float multiplier = 1f;
+        public float multiplier = 1f; // radius multiplier
+        public float damageMultiplier = 1f;
         public Animator animator;
         public GameObject effect;
         public LineRenderer lr;
@@ -150,16 +154,21 @@ namespace Sandswept.Survivors.Electrician.States
         public GameObject signalIndicator;
         public GameObject beamVFX;
 
-        public SignalOverloadDischarge(float mult)
+        public SignalOverloadDischarge(float radiusMult, float damageMult)
         {
-            multiplier = Mathf.Min(mult, 1.5f);
+            multiplier = Mathf.Min(radiusMult, 2f);
+            damageMultiplier = Mathf.Min(damageMult, 1.6f);
         }
 
         public override void OnEnter()
         {
             base.OnEnter();
 
-            totalDamageCoef *= multiplier;
+            totalHits = Mathf.FloorToInt(10 * attackSpeedStat);
+            delay = duration / totalHits;
+            totalDamageCoef *= damageMultiplier;
+            coeff = totalDamageCoef / 10f;
+
             radius *= multiplier;
 
             PlayAnimation("Gesture, Override", "OverloadLoop", "Generic.playbackRate", 0.5f);
@@ -208,7 +217,7 @@ namespace Sandswept.Survivors.Electrician.States
             }
 
             signalIndicatorInstance = Object.Instantiate(signalIndicator, new Vector3(0, -4000, 0), Quaternion.identity);
-            signalIndicatorInstance.transform.localScale = new Vector3(radius * 2f, radius * 2f, radius * 2f);
+            signalIndicatorInstance.transform.localScale = Vector3.one * radius * 2f;
 
             beamEffect = Object.Instantiate(beamVFX, head.position, head.rotation);
             origin = beamEffect.GetComponent<ChildLocator>().FindChild("Start");
@@ -303,8 +312,8 @@ namespace Sandswept.Survivors.Electrician.States
 
             BlastAttack attack = new()
             {
-                radius = radius * 0.10f,
-                baseDamage = damageStat * coeff * 1.8f,
+                radius = radius * 0.125f, // used to be radius * 0.1f - 1.8m to 4.5m aoe, now it is 2.25m to 4.5m
+                baseDamage = damageStat * coeff * 1.5f, // used to be 1.8f, but with the damage coeff changes I had to balance it back
                 damageType = DamageType.Stun1s | DamageType.Shock5s,
                 crit = RollCrit(),
                 attacker = gameObject,
@@ -354,7 +363,7 @@ namespace Sandswept.Survivors.Electrician.States
                     damageValue = damageStat * coeff,
                     isCrit = RollCrit(),
                     origin = position,
-                    procCoefficient = 1f - Util.Remap(Vector3.Distance(base.transform.position, box.transform.position), 0f, 60f, 0f, 0.8f),
+                    procCoefficient = 1f - Util.Remap(Vector3.Distance(base.transform.position, box.transform.position), 0f, 48f, 0f, 0.8f), // used to be 60f at a maximum radius of, 45m - 75%/133%, so now it is 48f to 36m max radius, still 75%/133%
                     target = box,
                     teamIndex = GetTeam(),
                     attackerBody = characterBody,
@@ -385,12 +394,14 @@ namespace Sandswept.Survivors.Electrician.States
         }
     }
 
+    // please rename this and put it in its own class, it's so confusing and unnecessarily here
+    // also maybe gradually rename all files related electrician to vol-t? pls.. 1:1 naming is so readable and clearcut and peak and based
     public class SignalOverloadFire : BaseSkillState
     {
         public float recoilDuration = 0.8f;
         public float effectMultiplier = 1f;
-        public float damageCoeff = 2.8f;
-        public float radius = 50f;
+        public float damageCoeff = 2.5f;
+        public float radius = 36f;
         public Transform modelTransform;
         public Material overlayMat;
 

@@ -39,12 +39,14 @@ namespace Sandswept.Survivors.Electrician
         public bool hasDetonated = false;
         public Transform modelTransform;
         public GameObject lightningVFX;
+        public GameObject indicatorPrefab;
+        public GameObject indicatorInstance;
 
         public void OnInteract(Interactor interactor)
         {
             blast.position = explo.position;
-            blast.radius *= 2f;
-            blast.baseDamage *= 2f;
+            blast.radius = 9f; // stop fucking using *= :sob:
+            blast.baseDamage *= 2f; // stop fucking using *= :sob:
             blast.damageType.damageSource = DamageSource.Utility;
             blast.Fire();
 
@@ -75,12 +77,10 @@ namespace Sandswept.Survivors.Electrician
 
             seat.passengerAssignmentCooldown = float.MaxValue;
 
-            delay = 1f / hitRate;
-
             attack = new()
             {
-                damage = pDamage.damage * 2f * delay,
-                radius = lineRenderer.startWidth,
+                damage = pDamage.damage * 3f / hitRate,
+                radius = 0.8f,
                 isCrit = pDamage.crit,
                 owner = controller.owner,
                 procCoefficient = 0.4f,
@@ -93,7 +93,7 @@ namespace Sandswept.Survivors.Electrician
 
             blast = new()
             {
-                radius = 3f,
+                radius = 5f,
                 attacker = attack.owner,
                 crit = pDamage.crit,
                 losType = BlastAttack.LoSType.None,
@@ -127,8 +127,20 @@ namespace Sandswept.Survivors.Electrician
                 _ => VFX.StaticSnare.lightningVFXDefault
             };
 
+            indicatorPrefab = skinNameToken switch
+            {
+                "SKIN_ELEC_MASTERY" => VFX.StaticSnare.staticSnareIndicatorCovenant,
+                _ => VFX.StaticSnare.staticSnareIndicatorDefault
+            };
+
             ControllerMap.Add(controller.owner, this);
             body = controller.owner.GetComponent<CharacterBody>();
+
+            delay = 1f / hitRate / body.attackSpeed;
+
+            var constantBodySpeed = body.isSprinting ? body.moveSpeed / body.sprintingSpeedMultiplier : body.moveSpeed;
+
+            speed = constantBodySpeed * 5f; // 7f * 27f = 189f, but I'm slowing it down initially to accelerate it later for a cool effect ! !
 
             lightningEffect = GameObject.Instantiate(lightningVFX, seat.seatPosition);
             lightningEffect.transform.localPosition = Vector3.zero;
@@ -145,15 +157,20 @@ namespace Sandswept.Survivors.Electrician
                 mesh.sharedMesh = mesh2;
                 mesh.sharedMaterial = mat2;
             }
+
+            indicatorInstance = UnityEngine.Object.Instantiate(indicatorPrefab, base.transform);
+            indicatorInstance.GetComponent<PositionIndicator>().targetTransform = transform;
         }
 
         public void KABOOM()
         {
+            // also wtf is this? this is the bulletattack being used and fired here for some reason ? ?
+            // ok nvm this is just extremely misleading, this happens when CANCELLING the utility
             attack.origin = explo.position;
             attack.aimVector = (head.position - explo.position).normalized;
             attack.maxDistance = Vector3.Distance(explo.position, head.position);
-            attack.radius *= 5f;
-            attack.damage = pDamage.damage * 10f;
+            attack.radius = 0.8f; // stop fucking using *= :sob:
+            attack.damage = pDamage.damage * 8f; // radius like passive explosion, but damage like the ejection explosion, something in between for ease of use and not having to go through it?
             attack.damageType |= DamageType.Shock5s;
 
             attack.Fire();
@@ -161,7 +178,7 @@ namespace Sandswept.Survivors.Electrician
             EffectManager.SpawnEffect(effect, new EffectData
             {
                 origin = blast.position,
-                scale = blast.radius * 2
+                scale = blast.radius
             }, true);
 
             Util.PlaySound("Play_elec_pylon_blast", base.gameObject);
@@ -232,6 +249,8 @@ namespace Sandswept.Survivors.Electrician
                     return;
                 }
 
+                speed += speed * 4f * Time.fixedDeltaTime; // acceelerateeeeeeee
+
                 startPosition = Vector3.MoveTowards(startPosition, base.transform.position, speed * Time.fixedDeltaTime);
                 seat.seatPosition.position = startPosition;
                 // seat.UpdatePassengerPosition();
@@ -239,7 +258,7 @@ namespace Sandswept.Survivors.Electrician
                 if (Vector3.Distance(startPosition, base.transform.position) < 0.5f && !hasDetonated && NetworkServer.active)
                 {
                     blast.position = explo.position;
-                    blast.radius *= 2f;
+                    blast.radius = 9f; // stop fucking using *= :sob:
                     blast.baseDamage = pDamage.damage * 8f;
                     blast.Fire();
 
@@ -250,7 +269,7 @@ namespace Sandswept.Survivors.Electrician
                     EffectManager.SpawnEffect(effect, new EffectData
                     {
                         origin = blast.position,
-                        scale = blast.radius * 2
+                        scale = blast.radius
                     }, true);
 
                     if (head)
@@ -297,7 +316,7 @@ namespace Sandswept.Survivors.Electrician
                 EffectManager.SpawnEffect(effect, new EffectData
                 {
                     origin = blast.position,
-                    scale = blast.radius * 2
+                    scale = blast.radius
                 }, true);
 
                 pylonAnim.Play("Pulse", pylonAnim.GetLayerIndex("Base"));
@@ -316,6 +335,15 @@ namespace Sandswept.Survivors.Electrician
             if (head)
             {
                 head.gameObject.SetActive(true);
+            }
+        }
+
+        public void OnDestroy()
+        {
+            if (indicatorInstance)
+            {
+                Object.Destroy(indicatorInstance);
+                indicatorInstance = null;
             }
         }
     }

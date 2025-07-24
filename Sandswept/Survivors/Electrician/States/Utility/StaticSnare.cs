@@ -15,7 +15,7 @@ namespace Sandswept.Survivors.Electrician.States
         {
             base.OnEnter();
 
-            duration /= attackSpeedStat;
+            duration = Mathf.Min(0.15f, duration / attackSpeedStat);
 
             PlayAnimation("Gesture, Override", "Throw", "Generic.playbackRate", duration);
 
@@ -32,6 +32,7 @@ namespace Sandswept.Survivors.Electrician.States
                     "SKIN_ELEC_MASTERY" => VFX.StaticSnare.staticSnareCovenant,
                     _ => VFX.StaticSnare.staticSnareDefault
                 };
+
             }
 
             if (isAuthority && !TripwireController.ControllerMap.ContainsKey(gameObject))
@@ -82,6 +83,7 @@ namespace Sandswept.Survivors.Electrician.States
             {
                 float cd = skillLocator.utility.baseRechargeInterval * 0.75f;
                 skillLocator.utility.RunRecharge(cd);
+
             }
 
             if (FUCKINGEXPLODE && base.isAuthority)
