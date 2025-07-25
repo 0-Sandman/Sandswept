@@ -52,7 +52,7 @@ namespace Sandswept.Survivors.Electrician
 
             var effectData = new EffectData();
             effectData.origin = victimBody.corePosition;
-            effectData.scale = Mathf.Sqrt(victimBody.radius * 9f);
+            effectData.scale = 0.3f + Mathf.Sqrt(victimBody.bestFitActualRadius * 12f);
 
             EffectManager.SpawnEffect(impactVFX, effectData, transmit: true);
             Util.PlayAttackSpeedSound("Play_mage_m1_cast_lightning", victimBody.gameObject, 2f);

@@ -406,7 +406,7 @@ namespace Sandswept.Items.Greens
                     enemyCheckTimer = 0f;
                     return;
                 }
-                var randomTarget = hurtBoxes[Run.instance.stageRng.RangeInt(0, hurtBoxes.Length)];
+                var randomTarget = hurtBoxes[UnityEngine.Random.RandomRangeInt(0, hurtBoxes.Length)];
 
                 var enemyHealthComponent = randomTarget.healthComponent;
                 if (!enemyHealthComponent)
@@ -481,7 +481,6 @@ namespace Sandswept.Items.Greens
             speed = 45f;
             // duration = Mathf.Min(1f / 60f, duration);
 
-
             duration = Time.fixedDeltaTime + (distanceToTarget / speed);
             var effectData = new EffectData
             {
@@ -494,7 +493,6 @@ namespace Sandswept.Items.Greens
 
         }
         // code below mimicks the aoe behavior of the original, but is much laggier
-
 
         /*
         public override GameObject GetOrbEffect()

@@ -23,6 +23,9 @@ namespace Sandswept.Survivors.Electrician.VFX
         public static GameObject lightningVFXDefault;
         public static GameObject lightningVFXCovenant;
 
+        public static GameObject staticSnareIndicatorDefault;
+        public static GameObject staticSnareIndicatorCovenant;
+
         public static void Init()
         {
             staticSnareDefault = CreateProjectileRecolor("Default", new Color32(255, 191, 0, 255), new Color32(0, 77, 255, 255));
@@ -31,6 +34,39 @@ namespace Sandswept.Survivors.Electrician.VFX
             lightningVFXDefault = CreateZipRecolor("Default", new Color32(0, 77, 255, 255), new Color32(255, 168, 0, 255), new Color32(255, 182, 0, 255));
             lightningVFXCovenant = CreateZipRecolor("Covenant", new Color32(0, 0, 255, 255), new Color32(223, 31, 208, 255), new Color32(173, 0, 255, 255));
 
+            staticSnareIndicatorDefault = CreateIndicatorRecolor("Default", new Color32(255, 214, 0, 255));
+            staticSnareIndicatorCovenant = CreateIndicatorRecolor("Covenant", new Color32(255, 217, 251, 255));
+        }
+
+        public static GameObject CreateIndicatorRecolor(string name, Color32 indicatorColor)
+        {
+            var indicator = PrefabAPI.InstantiateClone(Paths.GameObject.BossPositionIndicator, "Static Snare Indicator " + name, false);
+
+            var newSprite = Main.sandsweptHIFU.LoadAsset<Sprite>("texVoltIndicator" + name + ".png");
+
+            var transform = indicator.transform;
+            transform.localScale = Vector3.one * 0.1f;
+            var outsideFrameArrow = transform.Find("OutsideFrameArrow");
+            outsideFrameArrow.localScale = Vector3.one;
+
+            var outsideSprite = outsideFrameArrow.Find("Sprite").GetComponent<SpriteRenderer>();
+
+            outsideSprite.color = indicatorColor;
+            outsideSprite.sprite = newSprite;
+            outsideSprite.sortingOrder = -999;
+            outsideSprite.transform.localScale = Vector3.one;
+
+            outsideSprite.transform.GetChild(0).gameObject.SetActive(false); // fuck the second arrow
+
+            var insideFrameMarker = transform.Find("InsideFrameMarker");
+            var insideSprite = insideFrameMarker.Find("Sprite").GetComponent<SpriteRenderer>();
+            insideSprite.transform.localScale = Vector3.one;
+            insideSprite.color = indicatorColor;
+            insideSprite.sprite = newSprite;
+            insideSprite.sortingOrder = -999;
+            insideSprite.GetComponent<ObjectScaleCurve>().timeMax = 1.5f;
+
+            return indicator;
         }
 
         public static GameObject CreateProjectileRecolor(string name, Color32 beamStartColor, Color32 beamEndColor)
