@@ -56,7 +56,7 @@ namespace Sandswept
     {
         public const string ModGuid = "com.TeamSandswept.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVersion = "1.2.4";
+        public const string ModVersion = "1.2.5";
 
         public static AssetBundle mainAssets;
         public static AssetBundle assets;
@@ -249,6 +249,9 @@ namespace Sandswept
             {
                 ContentAddition.AddEntityState(x, out _);
             });
+
+            CorruptItems();
+
             new ContentPacks().Initialize();
 
             CursedConfig.Init();
@@ -260,7 +263,7 @@ namespace Sandswept
             SandsweptTemporaryEffects.ApplyHooks();
             On.RoR2.RoR2Content.Init += OnWwiseInit;
             IL.EntityStates.Drone.DeathState.OnImpactServer += DroneDropFix;
-            On.RoR2.Items.ContagiousItemManager.Init += CorruptItems;
+            // On.RoR2.Items.ContagiousItemManager.Init += CorruptItems;
         }
 
         [SystemInitializer(typeof(SurvivorCatalog))]
@@ -466,9 +469,14 @@ namespace Sandswept
             }
         }
 
-        private void CorruptItems(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
+        private void CorruptItems()
         {
-            // items get iterated over in reverse order using a STANDARD for loop (e.g. Whites, then Reds, then NoTier, etc)
+            var itemRelationshipProvider = ScriptableObject.CreateInstance<ItemRelationshipProvider>();
+            itemRelationshipProvider.name = "SANDSWEPT_VOID_ITEM_RELATIONSHIP_PROVIDER";
+            itemRelationshipProvider.relationshipType = Paths.ItemRelationshipType.ContagiousItem;
+
+            List<ItemDef.Pair> itemRelationships = new();
+
             for (int i = EnabledItems.Count - 1; i >= 0; i--)
             {
                 var itemBase = AllItems[i];
@@ -489,10 +497,12 @@ namespace Sandswept
                     itemDef1 = itemToCorrupt
                 };
 
-                ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].AddToArray(transformation);
+                itemRelationships.Add(transformation);
             }
 
-            orig();
+            itemRelationshipProvider.relationships = itemRelationships.ToArray();
+
+            ContentAddition.AddItemRelationshipProvider(itemRelationshipProvider);
         }
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]

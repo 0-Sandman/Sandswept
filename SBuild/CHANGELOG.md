@@ -1,3 +1,14 @@
+## 1.2.5 Patch Notes
+- VOL-T
+  - Added Galvanic Bolt, Tempest Sphere and Signal Overload hit impact SFX
+  - Added Tempest Sphere looping SFX
+  - Scaled up hit impact VFX
+- Items/Equipment
+  - Fixed Makeshift Plate giving you the full stack worth of plating when getting another Makeshift Plate.
+  - Fixed Makeshift Plate networking issues.
+- Enemies
+  - Fixed Cannonball Jellyfish wandering off into the skybox.
+
 ## 1.2.4 Patch Notes
 - General
   - Fixed CustomEmotesAPI jank on Ranger (for the most part)
@@ -12,7 +23,7 @@
   - Reduced the speed of sprint animation
   - Fixed Signal Overload Self Damage still counting for Eclipse 8
   - Fixed her broken variant not being immune to instant kills, void fog, executes and overheat
-  - Broken robot no longer procs Voidsent Flame.
+  - Fixed her broken variant (infinitely) proccing Voidsent Flame aand Crowbar
   - Fixed footstep sounds not working for all you freaks out there
 - Items/Equipment
   - Added more config options to Makeshift Plate

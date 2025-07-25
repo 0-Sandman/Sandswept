@@ -11,6 +11,8 @@ using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Debug = UnityEngine.Debug;
 using LookingGlass.ItemStatsNameSpace;
+using R2API.Networking.Interfaces;
+using R2API.Networking;
 
 namespace Sandswept.Items.Greens
 {
@@ -70,6 +72,8 @@ namespace Sandswept.Items.Greens
         public override void Init()
         {
             base.Init();
+
+            NetworkingAPI.RegisterMessageType<MakeshiftPlateAddSync>();
         }
         public override void Hooks()
         {
@@ -87,7 +91,7 @@ namespace Sandswept.Items.Greens
 
             if (self.GetComponent<PlatingManager>() && self.inventory.GetItemCount(ItemDef) == 0)
             {
-                self.RemoveComponent<PlatingManager>();
+                new MakeshiftPlateAddSync(self.gameObject, 0f, 0f, true).Send(NetworkDestination.Clients);
             }
         }
 
@@ -101,13 +105,13 @@ namespace Sandswept.Items.Greens
 
                 CharacterBody cb = cm.bodyInstanceObject.GetComponent<CharacterBody>();
 
-                float platingMult = (stackPercentPlatingGain / 100f) * self.GetItemCount(ItemDef);
+                float platingMult = (stackPercentPlatingGain / 100f) * count;
                 int plating = Mathf.RoundToInt(cb.maxHealth * platingMult);
 
                 if (!manager)
                 {
-                    manager = cm.bodyInstanceObject.AddComponent<PlatingManager>();
-                    manager.MaxPlating = plating;
+                    new MakeshiftPlateAddSync(cb.gameObject, plating, plating, false).Send(NetworkDestination.Clients);
+                    return;
                 }
 
                 manager.CurrentPlating += plating;
@@ -196,9 +200,7 @@ namespace Sandswept.Items.Greens
                     return;
                 }
 
-                PlatingManager pm = self.AddComponent<PlatingManager>();
-                pm.CurrentPlating = plating;
-                pm.MaxPlating = plating;
+                new MakeshiftPlateAddSync(self.gameObject, plating, plating, false).Send(NetworkDestination.Clients);
             }
         }
 
@@ -277,6 +279,62 @@ namespace Sandswept.Items.Greens
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
+        }
+
+        public class MakeshiftPlateAddSync : INetMessage
+        {
+            public GameObject target;
+            public float plating;
+            public float maxPlating;
+            public bool remove;
+            public bool alreadyApplied = false;
+            public void Deserialize(NetworkReader reader)
+            {
+                target = reader.ReadGameObject();
+                plating = reader.ReadSingle();
+                maxPlating = reader.ReadSingle();
+                remove = reader.ReadBoolean();
+            }
+
+            public void OnReceived()
+            {
+                if (!alreadyApplied) {
+                    Process();
+                }
+            }
+
+            public MakeshiftPlateAddSync() {
+
+            }
+
+            public MakeshiftPlateAddSync(GameObject target, float plating, float maxPlating, bool remove) {
+                this.target = target;
+                this.plating = plating;
+                this.maxPlating = maxPlating;
+                this.remove = remove;
+
+                Process();
+            }
+
+            public void Serialize(NetworkWriter writer)
+            {
+                writer.Write(target);
+                writer.Write(plating);
+                writer.Write(maxPlating);
+                writer.Write(remove);
+            }
+
+            public void Process() {
+                alreadyApplied = true;
+                if (remove) {
+                    target.RemoveComponent<PlatingManager>();
+                }
+                else {
+                    PlatingManager manager = target.AddComponent<PlatingManager>();
+                    manager.MaxPlating = maxPlating;
+                    manager.CurrentPlating = plating;
+                }
+            }
         }
 
         private void UpdatePlatingUI(ILContext il)

@@ -1,4 +1,3 @@
-using System;
 using RoR2.Orbs;
 
 namespace Sandswept.Survivors.Electrician.States
