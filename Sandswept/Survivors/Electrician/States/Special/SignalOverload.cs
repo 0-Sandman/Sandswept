@@ -136,7 +136,7 @@ namespace Sandswept.Survivors.Electrician.States
         public int totalHits = 10;
         public float delay;
         public float coeff;
-        public float radius = 16f;
+        public float radius = 18f;
         public float stopwatch = 0f;
         public float multiplier = 1f; // radius multiplier
         public float damageMultiplier = 1f;
@@ -363,7 +363,7 @@ namespace Sandswept.Survivors.Electrician.States
                     damageValue = damageStat * coeff,
                     isCrit = RollCrit(),
                     origin = position,
-                    procCoefficient = 1f - Util.Remap(Vector3.Distance(base.transform.position, box.transform.position), 0f, 48f, 0f, 0.8f), // used to be 60f at a maximum radius of, 45m - 75%/133%, so now it is 48f to 36m max radius, still 75%/133%
+                    procCoefficient = 1f - Util.Remap(Vector3.Distance(base.transform.position, box.transform.position), 0f, 42.66f, 0f, 0.8f), // used to be 60f at a maximum radius of, 45m - 75%/133%, so now it is 42.66f to 32m max radius, still 75%/133%
                     target = box,
                     teamIndex = GetTeam(),
                     attackerBody = characterBody,

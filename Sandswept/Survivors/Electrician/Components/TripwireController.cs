@@ -41,12 +41,19 @@ namespace Sandswept.Survivors.Electrician
         public GameObject lightningVFX;
         public GameObject indicatorPrefab;
         public GameObject indicatorInstance;
+        public float passiveExplosionRadius = 13f;
+        public float passiveExplosionDamage = 2f;
+        public float ejectExplosionRadius = 18f;
+        public float ejectExplosionDamage = 6f;
+        public float lineRadius = 1f;
+        public float lineDamage = 2f;
+        public float newInterval = 2f;
 
         public void OnInteract(Interactor interactor)
         {
             blast.position = explo.position;
-            blast.radius = 9f; // stop fucking using *= :sob:
-            blast.baseDamage *= 2f; // stop fucking using *= :sob:
+            blast.radius = ejectExplosionRadius; // stop fucking using *= :sob:
+            blast.baseDamage = ejectExplosionDamage; // stop fucking using *= :sob:
             blast.damageType.damageSource = DamageSource.Utility;
             blast.Fire();
 
@@ -77,6 +84,7 @@ namespace Sandswept.Survivors.Electrician
 
         public void Start()
         {
+
             controller = GetComponent<ProjectileController>();
             pDamage = GetComponent<ProjectileDamage>();
 
@@ -84,8 +92,8 @@ namespace Sandswept.Survivors.Electrician
 
             attack = new()
             {
-                damage = pDamage.damage * 3f / hitRate,
-                radius = 0.8f,
+                damage = pDamage.damage * lineDamage / hitRate,
+                radius = lineRadius,
                 isCrit = pDamage.crit,
                 owner = controller.owner,
                 procCoefficient = 0.4f,
@@ -98,7 +106,7 @@ namespace Sandswept.Survivors.Electrician
 
             blast = new()
             {
-                radius = 5f,
+                radius = passiveExplosionRadius,
                 attacker = attack.owner,
                 crit = pDamage.crit,
                 losType = BlastAttack.LoSType.None,
@@ -106,7 +114,7 @@ namespace Sandswept.Survivors.Electrician
                 damageType = DamageType.Shock5s,
                 teamIndex = controller.teamFilter.teamIndex,
                 procCoefficient = 1f,
-                baseDamage = pDamage.damage * 3f
+                baseDamage = pDamage.damage * passiveExplosionDamage
             };
 
             blast.damageType.damageSource = DamageSource.Utility;
@@ -142,6 +150,8 @@ namespace Sandswept.Survivors.Electrician
             body = controller.owner.GetComponent<CharacterBody>();
 
             delay = 1f / hitRate / body.attackSpeed;
+            interval = newInterval / body.attackSpeed;
+            // normally, the interval is 1f
 
             var constantBodySpeed = body.isSprinting ? body.moveSpeed / body.sprintingSpeedMultiplier : body.moveSpeed;
 
@@ -174,8 +184,8 @@ namespace Sandswept.Survivors.Electrician
             attack.origin = explo.position;
             attack.aimVector = (head.position - explo.position).normalized;
             attack.maxDistance = Vector3.Distance(explo.position, head.position);
-            attack.radius = 0.8f; // stop fucking using *= :sob:
-            attack.damage = pDamage.damage * 8f; // radius like passive explosion, but damage like the ejection explosion, something in between for ease of use and not having to go through it?
+            attack.radius = lineRadius; // stop fucking using *= :sob:
+            attack.damage = pDamage.damage * ejectExplosionRadius; // radius like passive explosion, but damage like the ejection explosion, something in between for ease of use and not having to go through it?
             attack.damageType |= DamageType.Shock5s;
 
             attack.Fire();
@@ -263,8 +273,8 @@ namespace Sandswept.Survivors.Electrician
                 if (Vector3.Distance(startPosition, base.transform.position) < 0.5f && !hasDetonated && NetworkServer.active)
                 {
                     blast.position = explo.position;
-                    blast.radius = 9f; // stop fucking using *= :sob:
-                    blast.baseDamage = pDamage.damage * 8f;
+                    blast.radius = ejectExplosionRadius; // stop fucking using *= :sob:
+                    blast.baseDamage = pDamage.damage * ejectExplosionDamage;
                     blast.Fire();
 
                     hasDetonated = true;
@@ -301,6 +311,8 @@ namespace Sandswept.Survivors.Electrician
                 {
                     stopwatchBeam = 0f;
 
+                    delay = 1f / hitRate / body.attackSpeed;
+
                     attack.origin = explo.position;
                     attack.aimVector = (head.position - explo.position).normalized;
                     attack.maxDistance = Vector3.Distance(explo.position, head.position);
@@ -314,6 +326,8 @@ namespace Sandswept.Survivors.Electrician
             if (stopwatch >= interval && init)
             {
                 stopwatch = 0f;
+
+                interval = newInterval / body.attackSpeed;
 
                 blast.position = explo.position;
                 blast.Fire();

@@ -1,21 +1,24 @@
 ## 1.2.6 Patch Notes
 - VOL-T
   - Added an indicator to Static Snare
-  - Buffed Static Snare Line Damage Per Second from 200% to 300%
-  - Buffed Static Snare Line Radius from 0.2784882m to 0.8m
-  - Buffed Static Snare Passive Explosion Radius from 3m to 5m
-  - Buffed Static Snare Eject Explosion Radius from 6m to 9m
-  - Nerfed Tempest Sphere Damage Per Second from 385% to 330%
-  - Nerfed Signal Overload Radius from 18m-45m to 18m-36m
+  - Buffed Static Snare Line Radius from 0.2784882m to 1m
+  - Buffed Static Snare Passive Explosion Radius from 3m to 13m
+  - Buffed Static Snare Eject Explosion Radius from 6m to 18m
   - Nerfed Volatile Shields Damage from 2x280% to 2x250%
   - Nerfed Volatile Shields Radius from 50m to 36m
-  - Made Static Snare Line Tick Rate scale with Attack Speed and Zip Speed with Movement Speed
+  - Nerfed Tempest Sphere Damage Per Second from 385% to 300%
+  - Nerfed Static Snare Passive Explosion Rate from 1/s to 0.5/s
+  - Nerfed Static Snare Passive Explosion Damage from 300% to 200%
+  - Nerfed Static Snare Eject Explosion Damage from 800% to 600%
+  - Nerfed Signal Overload Radius from 18m-45m to 18m-36m
+  - Made Static Snare Passive Explosion Rate scale with Attack Speed
+  - Made Static Snare Line Tick Rate scale with Attack Speed
+  - Made Static Snare Zip Speed scale with Movement Speed
   - Made Static Snare Zip Speed slower at first, but accelerate over time
-  - Made Signal Overload Duration scale with Attack Speed
+  - Made Signal Overload Hit Count scale with Attack Speed
   - Made Hit Impact VFX larger
   - Fixed Tempest Sphere Tick Rate not scaling with Attack Speed
   - Fixed many bugs with Static Snare with high Attack Speed and or Cooldown Reduction
-  - Fixed Signal Overload description being wrong
   - Fixed mismatched VFX scales
 - Items/Equipment
   - Buffed Amber Knife Chance from 10% to 15%
@@ -423,7 +426,7 @@
 - Items
   - Added item log to Crown's Diamond, Sacrificial Band, Universal VIP Pass and Torn Feather
   - Added buff icons to Sacrificial Band
-  - Buffed Crown's Diamond Barrier Gain 15% => 20%
+  - Buffed Crown's Diamond Barrier Gain from 15% to 20%
   - Nerfed Universal VIP Pass Chance from 75% to 66%
   - Updated all logs
   - Fixed Smouldering Document throwing another NRE, hopefully (I love when NULLABLE values need a value)
