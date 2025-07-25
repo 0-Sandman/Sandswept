@@ -393,13 +393,13 @@ namespace Sandswept.Interactables.Regular
             PickupPickerController.Option white = new()
             {
                 available = true,
-                pickupIndex = Run.instance.availableTier1DropList[Run.instance.treasureRng.RangeInt(0, Run.instance.availableTier1DropList.Count - 1)]
+                pickupIndex = Run.instance.availableTier1DropList[Run.instance.treasureRng.RangeInt(0, Run.instance.availableTier1DropList.Count)]
             };
 
             PickupPickerController.Option green = new()
             {
                 available = true,
-                pickupIndex = Run.instance.availableTier2DropList[Run.instance.treasureRng.RangeInt(0, Run.instance.availableTier2DropList.Count - 1)]
+                pickupIndex = Run.instance.availableTier2DropList[Run.instance.treasureRng.RangeInt(0, Run.instance.availableTier2DropList.Count)]
             };
 
             return new PickupPickerController.Option[] { white, green };

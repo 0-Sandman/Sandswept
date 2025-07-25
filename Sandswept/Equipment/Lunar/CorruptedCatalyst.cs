@@ -166,7 +166,7 @@ namespace Sandswept.Equipment.Lunar
                 return false;
             }
 
-            BuffDef randomBuff = availableBuffs[Run.instance.spawnRng.RangeInt(0, availableBuffs.Count - 1)];
+            BuffDef randomBuff = availableBuffs[Run.instance.spawnRng.RangeInt(0, availableBuffs.Count)];
 
             if (slot.characterBody.TryGetComponent<CorruptedCatalystController>(out var CorruptedCatalystController))
             {
