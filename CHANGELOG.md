@@ -20,9 +20,10 @@
   - Fixed Tempest Sphere Tick Rate not scaling with Attack Speed
   - Fixed many bugs with Static Snare with high Attack Speed and or Cooldown Reduction
   - Fixed mismatched VFX scales
+  - Fixed a bunch of NREs when dead
 - Items/Equipment
   - Buffed Amber Knife Chance from 10% to 15%
-  - Fixed Nuclear Salvo spamming NREs on clients (OH MY GOD ANOTHER SALVO FIX IM LOSING MY MIND)
+  - Fixed Nuclear Salvo spamming NREs on clients
 
 ## 1.2.5 Patch Notes
 - VOL-T

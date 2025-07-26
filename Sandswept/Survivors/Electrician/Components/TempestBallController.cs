@@ -55,6 +55,11 @@ namespace Sandswept.Survivors.Electrician
 
         public void FixedUpdate()
         {
+            if (!body)
+            {
+                return;
+            }
+
             if (NetworkServer.active)
             {
                 stopwatch += Time.fixedDeltaTime;
@@ -77,6 +82,7 @@ namespace Sandswept.Survivors.Electrician
         }
         public void HandleBlastAuthority(Vector3 pos)
         {
+
             SphereSearch search = new()
             {
                 radius = sphere.radius,
