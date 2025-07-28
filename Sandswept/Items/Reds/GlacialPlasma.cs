@@ -262,21 +262,22 @@ namespace Sandswept.Items.Reds
             {
                 inputBank = body.inputBank;
                 skillLocator = body.skillLocator;
+                body.onSkillActivatedServer += OnSkillActivated;
             }
 
-            public void FixedUpdate()
+            public void OnSkillActivated(GenericSkill skill)
             {
-                if (!body.HasBuff(javelinCooldown) && !body.HasBuff(javelinReady))
+                if (skill != skillLocator.primary)
                 {
-                    body.AddBuff(javelinReady);
+                    return;
                 }
 
-                if (inputBank.skill1.down && body.HasBuff(javelinReady))
+                if (body.HasBuff(javelinCooldown))
                 {
-                    body.RemoveBuff(javelinReady);
-                    body.AddTimedBuffAuthority(javelinCooldown.buffIndex, cooldown);
-                    FireJavelin();
+                    return;
                 }
+
+                FireJavelin();
             }
 
             public void FireJavelin()
@@ -304,12 +305,19 @@ namespace Sandswept.Items.Reds
                     rotation = fpi.rotation
                 }, false);
 
-                if (Util.HasEffectiveAuthority(gameObject))
+                // if (Util.HasEffectiveAuthority(gameObject))
                 {
                     ProjectileManager.instance.FireProjectile(fpi);
                 }
 
                 Util.PlaySound("Play_mage_shift_wall_build", gameObject);
+
+                body.AddTimedBuffAuthority(javelinCooldown.buffIndex, cooldown);
+            }
+
+            public void OnDestroy()
+            {
+                body.onSkillActivatedServer -= OnSkillActivated;
             }
         }
     }

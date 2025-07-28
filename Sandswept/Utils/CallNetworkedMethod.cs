@@ -1,13 +1,15 @@
 using R2API.Networking;
 using R2API.Networking.Interfaces;
 
-namespace Sandswept.Utils {
+namespace Sandswept.Utils
+{
     public class CallNetworkedMethod : INetMessage
     {
         private GameObject obj;
         private string method;
         private uint id;
-        public CallNetworkedMethod(GameObject obj, string method) {
+        public CallNetworkedMethod(GameObject obj, string method)
+        {
             this.obj = obj;
             this.method = method;
             this.id = obj.GetComponent<NetworkIdentity>().netId.Value;
@@ -28,10 +30,15 @@ namespace Sandswept.Utils {
         {
             obj = Util.FindNetworkObject(new NetworkInstanceId(id));
 
-            obj.SendMessage(method, SendMessageOptions.DontRequireReceiver);
+            if (obj)
+            {
+                obj.SendMessage(method, SendMessageOptions.DontRequireReceiver);
+            }
+
         }
 
-        public CallNetworkedMethod() {
+        public CallNetworkedMethod()
+        {
 
         }
     }
