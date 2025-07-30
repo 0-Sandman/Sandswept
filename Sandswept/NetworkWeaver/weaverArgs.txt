@@ -1,0 +1,23 @@
+unityEngine : C:\Program Files\Unity\Editor\Data\Managed/UnityEngine/UnityEngine.CoreModule.dll
+
+unetDLL : C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll
+
+outputDirectory : Temp
+
+assemblies : 
+assembly : Temp\Assembly-CSharp.dll
+
+extraAssemblyPaths : 
+extraAssemblyPath : C:\Program Files\Unity\Editor\Data\Managed\UnityEngine
+extraAssemblyPath : C:\Program Files\Unity\Editor\Data\Managed
+extraAssemblyPath : Library\ScriptAssemblies
+extraAssemblyPath : C:\Program Files\Unity\Editor\Data\UnityExtensions\Unity\GUISystem
+extraAssemblyPath : C:\Program Files\Unity\Editor\Data\UnityExtensions\Unity\Timeline\RuntimeEditor
+extraAssemblyPath : C:\Program Files\Unity\Editor\Data\UnityExtensions\Unity\Networking
+extraAssemblyPath : C:\Program Files\Unity\Editor\Data\UnityExtensions\Unity\UnityGoogleAudioSpatializer\RuntimeEditor
+extraAssemblyPath : C:\Program Files\Unity\Editor\Data\UnityExtensions\Unity\UnitySpatialTracking\RuntimeEditor
+extraAssemblyPath : C:\Users\XXX\Desktop\ror2_modding\Unity Projects\New Unity Project (2)\Library\PackageCache\com.unity.analytics@3.2.2
+extraAssemblyPath : C:\Program Files\Unity\Editor\Data\NetStandard\ref\2.0.0
+extraAssemblyPath : C:\Program Files\Unity\Editor\Data\NetStandard\compat\2.0.0\shims\netstandard
+extraAssemblyPath : C:\Program Files\Unity\Editor\Data\NetStandard\Extensions\2.0.0
+extraAssemblyPath : C:\Program Files\Unity\Editor\Data\NetStandard\compat\2.0.0\shims\netfx

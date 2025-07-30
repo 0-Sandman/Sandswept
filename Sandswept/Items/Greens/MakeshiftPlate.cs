@@ -11,6 +11,7 @@ using Mono.Cecil;
 using Mono.Cecil.Cil;
 using Debug = UnityEngine.Debug;
 using LookingGlass.ItemStatsNameSpace;
+using Sandswept.Items.Greens;
 
 namespace Sandswept.Items.Greens
 {
@@ -267,12 +268,13 @@ namespace Sandswept.Items.Greens
             MakeshiftPlateCount.iconSprite = Main.mainAssets.LoadAsset<Sprite>("MakeshiftPlateBuffIcon.png");
             ContentAddition.AddBuffDef(MakeshiftPlateCount);
         }
-
+        /*
         public class PlatingManager : MonoBehaviour
         {
             public float CurrentPlating = 0;
             public float MaxPlating = 0;
         }
+        */
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
