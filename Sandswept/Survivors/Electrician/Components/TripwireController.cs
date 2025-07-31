@@ -53,6 +53,7 @@ namespace Sandswept.Survivors.Electrician
         public float baseSpeedMultiplier = 5f;
         public float accelerationCoefficient = 4f;
         public float decelerationCoefficient = 12f;
+        public uint zipSoundId;
 
         public void OnInteract(Interactor interactor)
         {
@@ -202,6 +203,7 @@ namespace Sandswept.Survivors.Electrician
             }, true);
 
             Util.PlaySound("Play_elec_pylon_blast", base.gameObject);
+            Util.PlaySound("Play_voidRaid_snipe_impact", gameObject);
 
             GameObject.Destroy(base.gameObject);
         }
@@ -222,6 +224,10 @@ namespace Sandswept.Survivors.Electrician
             lightningEffect.SetActive(true);
 
             new CallNetworkedMethod(base.gameObject, "StartZipClient").Send(R2API.Networking.NetworkDestination.Clients);
+
+            zipSoundId = Util.PlaySound("Play_loader_m2_travel_loop", body.gameObject);
+
+            AkSoundEngine.SetRTPCValueByPlayingID("loaderM2_grappleRemain", 5f, zipSoundId); // this is to pitch up the sound
 
             return true;
         }
@@ -308,13 +314,17 @@ namespace Sandswept.Survivors.Electrician
                                 head.gameObject.SetActive(true);
                             }
 
+                            Util.PlaySound("Play_voidRaid_snipe_impact", gameObject);
+                            Util.PlaySound("Stop_loader_m2_travel_loop", body.gameObject);
+                            AkSoundEngine.StopPlayingID(zipSoundId);
+
                             seat.EjectPassenger();
                             GameObject.Destroy(this.gameObject);
                         }
                     }
                     else
                     {
-                        ejectExplosionDelay = Mathf.Sqrt(speed) * 0.005f;
+                        ejectExplosionDelay = Mathf.Sqrt(speed) * 0.004f;
                     }
                 }
             }
@@ -362,6 +372,7 @@ namespace Sandswept.Survivors.Electrician
                 pylonAnim.Play("Pulse", pylonAnim.GetLayerIndex("Base"));
 
                 Util.PlaySound("Play_elec_pylon_blast", base.gameObject);
+                Util.PlaySound("Play_voidRaid_snipe_impact", gameObject);
             }
         }
 

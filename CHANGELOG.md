@@ -1,6 +1,8 @@
 ## 1.2.6 Patch Notes
 - VOL-T
+  - Added Crate Prefabs
   - Added an indicator to Static Snare
+  - Improved Galvanic Bolt and Static Snare SFX
   - Buffed Static Snare Line Radius from 0.2784882m to 1m
   - Buffed Static Snare Passive Explosion Radius from 3m to 13m
   - Buffed Static Snare Eject Explosion Radius from 6m to 18m
@@ -15,6 +17,7 @@
   - Made Static Snare Line Tick Rate scale with Attack Speed
   - Made Static Snare Zip Speed scale with Movement Speed
   - Made Static Snare Zip Speed slower at first, but accelerate over time
+  - Made Static Snare Eject Explosion slightly delayed based on maximum speed
   - Made Signal Overload Hit Count scale with Attack Speed
   - Made Hit Impact VFX larger
   - Fixed Tempest Sphere Tick Rate not scaling with Attack Speed
