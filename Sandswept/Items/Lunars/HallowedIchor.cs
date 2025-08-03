@@ -1,4 +1,4 @@
-﻿/*
+﻿
 using MonoMod.RuntimeDetour;
 using RoR2.UI;
 using System.Collections;
@@ -15,15 +15,15 @@ namespace Sandswept.Items.Lunars
 
         public override string ItemPickupDesc => "Chests may be reopened an additional time... <color=#FF7F7F>BUT reopening them increases time scaling permanently.</color>";
 
-        public override string ItemFullDescription => $"Chests may be $sureopened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but $sureopening$se them increases $sutime scaling$se by $su{1f + (chestReopenDifficultyCoefficientMultiplierAdd * 3f)}x$se permanently.".AutoFormat(); // this will be inaccurate no matter what but this is somewhat accurate for the first use on monsoon lmao
+        public override string ItemFullDescription => $"Chests may be $sureopened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but $sureopening$se them increases $sutime scaling$se by $su{chestReopenDifficultyCoefficientMultiplierAdd * 300f}%$se permanently.".AutoFormat(); // this will be inaccurate no matter what but this is somewhat accurate for the first use on monsoon lmao
 
         public override string ItemLore => "This will be the most potent creation I give to you, my servant. I have weaved many of these artifacts for vermin like you, but this one was far more costly than the others. It will be given only to a scarce few of my most dedicated servants. If used properly, it will be worth the price spent constructing it.\r\n\r\nIt is my blood, held in a vessel of my design. Superior blood. It grants me -- along with my treacherous brother -- the power to shape the compounds. A transfusion is sufficient to enable its effects. It cannot provide the extent of my abilities in such limited quantity, but it will allow you to create more of the trinkets you cling to so tightly.\r\n\r\nIts use will not go unnoticed, however. He will sense its presence, and send his vermin to hunt you down. Use its power to create suitable weapons and avoid encountering him in the flesh, and I do not suspect you will have any issue dispatching your pursuers.";
 
         public override ItemTier Tier => ItemTier.Lunar;
 
-        public override GameObject ItemModel => Main.Assets.LoadAsset<GameObject>("PickupTheirProminence.prefab");
+        public override GameObject ItemModel => Main.mainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texTheirProminence.png");
+        public override Sprite ItemIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texWhiteMonster.png");
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist };
 
@@ -36,7 +36,7 @@ namespace Sandswept.Items.Lunars
         [ConfigField("Chest Re-open Difficulty Coefficient Flat Add", "Adds to the current difficulty scaling value each time a chest is re-opened. This is calculated first.", 0.5f)]
         public static float chestReopenDifficultyCoefficientFlatAdd;
 
-        [ConfigField("Chest Re-open Difficulty Coefficient Multiplier Add", "Multiplies the current difficulty value by 1 + this value each time a chest is re-opened. This is calculated second to last.", 0.12f)]
+        [ConfigField("Chest Re-open Difficulty Coefficient Multiplier Add", "Multiplies the current difficulty value by 1 + this value each time a chest is re-opened. This is calculated last.", 0.12f)]
         public static float chestReopenDifficultyCoefficientMultiplierAdd;
 
         public static GameObject permanentHallowedIchorTracker;
@@ -123,10 +123,10 @@ namespace Sandswept.Items.Lunars
             if (anyoneHadHallowedIchor)
             {
                 double time = 0f;
-                var stopwatch = Run.instance.GetRunStopwatch();
 
                 if (Run.instance)
                 {
+                    var stopwatch = Run.instance.GetRunStopwatch();
                     var wobblyText = self.runStopwatchTimerTextController.GetComponent<FreakyText>();
 
                     if (isScoreboardOpen)
@@ -177,7 +177,7 @@ namespace Sandswept.Items.Lunars
         {
             var runDifficultyDef = DifficultyCatalog.GetDifficultyDef(run.selectedDifficulty);
             runDifficultyDef.scalingValue = cachedDifficultyDefScalingValue;
-            // just in case idk
+            anyoneHadHallowedIchor = false;
         }
 
         private void Run_onRunStartGlobal(Run run)
@@ -255,7 +255,7 @@ namespace Sandswept.Items.Lunars
 
         private bool IsChest(PurchaseInteraction purchaseInteraction)
         {
-            return purchaseInteraction.displayNameToken.StartsWith("CHEST") || purchaseInteraction.displayNameToken.StartsWith("CATEGORYCHEST");
+            return purchaseInteraction.displayNameToken.StartsWith("CHEST") || purchaseInteraction.displayNameToken.StartsWith("CATEGORYCHEST") || purchaseInteraction.displayNameToken.StartsWith("GOLDCHEST");
         }
 
         public IEnumerator SetRepurchaseAsAvailable(GameObject interactableObject, HallowedIchorChestController hallowedIchorChestController)
@@ -404,4 +404,3 @@ namespace Sandswept.Items.Lunars
         }
     }
 }
-*/

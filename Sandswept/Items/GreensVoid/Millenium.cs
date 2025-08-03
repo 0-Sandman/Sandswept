@@ -171,20 +171,6 @@ namespace Sandswept.Items.VoidGreens
         public override void Hooks()
         {
             GlobalEventManager.onServerDamageDealt += GlobalEventManager_onServerDamageDealt;
-
-            // On.RoR2.Items.ContagiousItemManager.Init += ContagiousItemManager_Init;
-        }
-
-        private static void ContagiousItemManager_Init(On.RoR2.Items.ContagiousItemManager.orig_Init orig)
-        {
-            ItemDef.Pair transformation = new()
-            {
-                itemDef2 = Millenium.instance.ItemDef,
-                itemDef1 = SunFragment.instance.ItemDef
-            };
-            ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem] = ItemCatalog.itemRelationships[DLC1Content.ItemRelationshipTypes.ContagiousItem].AddToArray(transformation);
-
-            orig();
         }
 
         private void GlobalEventManager_onServerDamageDealt(DamageReport report)

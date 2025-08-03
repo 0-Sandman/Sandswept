@@ -1,4 +1,5 @@
-﻿/*
+﻿using System.Xml.Serialization;
+
 using BepInEx.Configuration;
 using System.Linq;
 using UnityEngine.SceneManagement;
@@ -14,21 +15,22 @@ using RoR2.ContentManagement;
 using System.Runtime.CompilerServices;
 using MonoMod.Cil;
 using Mono.Cecil.Cil;
+using R2API.Utils;
 
 namespace Sandswept.Artifacts
 {
-    [ConfigSection("Artifacts :: Abysm")]
-    internal class ArtifactOfAbysm : ArtifactBase<ArtifactOfAbysm>
+    [ConfigSection("Artifacts :: Obscurity")]
+    internal class ArtifactOfObscurity : ArtifactBase<ArtifactOfObscurity>
     {
-        public override string ArtifactName => "Artifact of Abysm";
+        public override string ArtifactName => "Artifact of Obscurity";
 
-        public override string ArtifactLangTokenName => "ABYSM";
+        public override string ArtifactLangTokenName => "OBSCURITY";
 
         public override string ArtifactDescription => "All pickups are obscured. Lunar items appear regularly.";
 
-        public override Sprite ArtifactEnabledIcon => Main.hifuSandswept.LoadAsset<Sprite>("texArtifactOfBlindnessEnabled.png");
+        public override Sprite ArtifactEnabledIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texFlushed.png");
 
-        public override Sprite ArtifactDisabledIcon => Main.hifuSandswept.LoadAsset<Sprite>("texArtifactOfBlindnessDisabled.png");
+        public override Sprite ArtifactDisabledIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texEyebrow.png");
 
         public static List<LanguageAPI.LanguageOverlay> languageOverlays = new();
 
@@ -37,19 +39,24 @@ namespace Sandswept.Artifacts
         public static Dictionary<EquipmentDef, ColorCatalog.ColorIndex> cachedEquipmentDefColorIndices = new();
 
         public static Dictionary<ItemDef, Sprite> cachedItemDefIcons = new();
-
         public static Dictionary<ItemDef, GameObject> cachedItemDefModels = new();
-
-        // public static Dictionary<PickupDef, GameObject> cachedPickupModels = new();
 
         public static Dictionary<ItemTierDef, ItemTierDef.PickupRules> cachedItemTierDefPickupRules = new();
         public static Dictionary<ItemTierDef, ColorCatalog.ColorIndex> cachedItemTierDefColorIndices = new();
         public static Dictionary<ItemTierDef, ColorCatalog.ColorIndex> cachedItemTierDefDarkColorIndices = new();
 
+        public static Dictionary<PickupDef, Sprite> cachedPickupDefIcons = new();
+
+        public static Dictionary<PickupDef, GameObject> cachedPickupDefModels = new();
+
+        public static Dictionary<PickupDef, Color> cachedPickupDefColors = new();
+        public static Dictionary<PickupDef, Color> cachedPickupDefDarkColors = new();
+        public static Dictionary<PickupDef, GameObject> cachedPickupDefDroplets = new();
+
         public static Sprite unknownIcon = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/MiscIcons/texMysteryIcon.png").WaitForCompletion();
 
         public static GameObject unknownModel = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Mystery/PickupMystery.prefab").WaitForCompletion();
-
+        public static bool anyPlayerHasEulogy = false;
         public override void Init(ConfigFile config)
         {
             CreateLang();
@@ -62,40 +69,104 @@ namespace Sandswept.Artifacts
             Run.onRunStartGlobal += Run_onRunStartGlobal;
             Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
             On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
+            IL.RoR2.Items.RandomlyLunarUtils.CheckForLunarReplacement += SetEulogyStacksValue;
+            IL.RoR2.Items.RandomlyLunarUtils.CheckForLunarReplacementUniqueArray += SetEulogyStacksValueUniqueArray;
         }
 
-        private void PickupDisplay_RebuildModel(ILContext il)
+        private void SetEulogyStacksValue(ILContext il)
         {
             ILCursor c = new(il);
 
-            ILLabel label = null;
+            bool conditionFound = c.TryGotoNext(MoveType.Before,
+            x => x.MatchLdloc(out _),
+            x => x.MatchLdcI4(out _));
 
-            if (c.TryGotoNext(MoveType.Before,
-                x => x.MatchStloc(out _),
-                x => x.MatchLdloc(out _),
-                x => x.MatchLdcI4(out _),
-                x => x.MatchBeq(out _)))
+            if (!conditionFound)
             {
-                c.Index++;
-
-                var goMyBeetle = c.Clone();
-
-                if (goMyBeetle.TryGotoNext(MoveType.Before,
-                    x => x.MatchLdfld(typeof(PickupDisplay), nameof(PickupDisplay.lunarParticleEffect)),
-                    x => x.MatchCallOrCallvirt(out _),
-                    x => x.MatchBrfalse(out label)))
-                {
-                    c.Emit(OpCodes.Br, label);
-                }
-                else
-                {
-                    Main.ModLogger.LogError("Failed to apply Pickup Display Rebuild Model #2 hook");
-                }
+                Main.ModLogger.LogError("Failed to apply Artifact of Obscurity Eulogy Zero 1 hook");
+                return;
             }
-            else
+
+            c.Index++;
+            c.EmitDelegate<Func<int, int>>((orig) =>
             {
-                Main.ModLogger.LogError("Failed to apply Pickup Display Rebuild Model #1 hook");
+                var eulogyCount = ArtifactEnabled ? 2 : orig;
+                return eulogyCount;
+            });
+
+            SetEulogyStacksAndReplaceScalar(c, 2);
+
+        }
+
+        private void SetEulogyStacksValueUniqueArray(ILContext il)
+        {
+            ILCursor c = new(il);
+
+            bool found = c.TryGotoNext(MoveType.Before,
+            x => x.MatchLdloc(out _),
+            x => x.MatchLdcI4(out _),
+            x => x.MatchBle(out _));
+
+            if (!found)
+            {
+                Main.ModLogger.LogError("Failed to apply Artifact of Obscurity Eulogy Zero 3 hook");
+                return;
             }
+
+            c.Index++;
+            c.EmitDelegate<Func<int, int>>((orig) =>
+            {
+                var eulogyCount = ArtifactEnabled ? 2 : orig;
+                return eulogyCount;
+            });
+
+            SetEulogyStacksAndReplaceScalar(c, 4);
+        }
+
+        private void SetEulogyStacksAndReplaceScalar(ILCursor c, int hookNumber)
+        {
+            bool scalarFound = c.TryGotoNext(MoveType.Before,
+            x => x.MatchLdcR4(out _),
+            x => x.MatchLdloc(out _),
+            x => x.MatchConvR4());
+
+            if (!scalarFound)
+            {
+                Main.ModLogger.LogError($"Failed to apply Artifact of Obscurity Eulogy Zero {hookNumber} hook");
+                return;
+            }
+
+            c.Index++;
+            c.EmitDelegate<Func<float, float>>((orig) =>
+            {
+                var eulogyScalar = ArtifactEnabled ? 0.05f : orig;
+                return eulogyScalar;
+            });
+
+            c.Index++;
+            c.EmitDelegate<Func<int, int>>((orig) =>
+            {
+                var eulogyCount = ArtifactEnabled ? 2 : orig;
+                return eulogyCount;
+            });
+
+        }
+
+        private void Run_onRunStartGlobal(Run run)
+        {
+            if (ArtifactEnabled)
+            {
+                ApplyArtifactChanges();
+                On.RoR2.PickupDisplay.RebuildModel += ObscureParticleEffects;
+                // this is dumb but I don't wanna deal with EmitDelegate'ing allat
+            }
+        }
+
+        private void Run_onRunDestroyGlobal(Run run)
+        {
+            anyPlayerHasEulogy = false;
+            ApplyArtifactChanges(true);
+            On.RoR2.PickupDisplay.RebuildModel -= ObscureParticleEffects;
         }
 
         private void ClassicStageInfo_RebuildCards(On.RoR2.ClassicStageInfo.orig_RebuildCards orig, ClassicStageInfo self, DirectorCardCategorySelection forcedMonsterCategory, DirectorCardCategorySelection forcedInteractableCategory)
@@ -117,34 +188,59 @@ namespace Sandswept.Artifacts
             }
         }
 
-        private void Run_onRunStartGlobal(Run run)
+        private void ObscureParticleEffects(On.RoR2.PickupDisplay.orig_RebuildModel orig, PickupDisplay self, GameObject modelObjectOverride)
         {
-            if (ArtifactEnabled)
+            // modelObjectOverride = unknownModel;
+            // dumbass that makes models invisible somehow
+            orig(self, modelObjectOverride);
+            if (self)
             {
-                ApplyArtifactChanges();
-                IL.RoR2.PickupDisplay.RebuildModel += PickupDisplay_RebuildModel;
-                // this is dumb but I don't wanna deal with EmitDelegate'ing allat
+                if (self.tier1ParticleEffect)
+                {
+                    self.tier1ParticleEffect.SetActive(true);
+                }
+                if (self.tier2ParticleEffect)
+                {
+                    self.tier2ParticleEffect.SetActive(false);
+                }
+                if (self.tier3ParticleEffect)
+                {
+                    self.tier3ParticleEffect.SetActive(false);
+                }
+                if (self.voidParticleEffect)
+                {
+                    self.voidParticleEffect.SetActive(false);
+                }
+                if (self.equipmentParticleEffect)
+                {
+                    self.equipmentParticleEffect.SetActive(false);
+                }
+                if (self.bossParticleEffect)
+                {
+                    self.bossParticleEffect.SetActive(false);
+                }
+                if (self.lunarParticleEffect)
+                {
+                    self.lunarParticleEffect.SetActive(false);
+                }
+                // horridble
             }
-        }
-
-        private void Run_onRunDestroyGlobal(Run run)
-        {
-            ApplyArtifactChanges(true);
-            IL.RoR2.PickupDisplay.RebuildModel -= PickupDisplay_RebuildModel;
         }
 
         private void ApplyArtifactChanges(bool remove = false)
         {
-            // FuckingStupidThing(true);
-
+            FuckingStupidThing(true);
+            /*
             if (Run.instance)
             {
-                Main.ModLogger.LogError("run instance exists");
+                // Main.ModLogger.LogError("run instance exists");
 
                 Run.instance.availableTier1DropList = Run.instance.availableTier1DropList.Concat(Run.instance.availableLunarItemDropList).ToList();
                 Run.instance.availableTier2DropList = Run.instance.availableTier2DropList.Concat(Run.instance.availableLunarItemDropList).ToList();
                 Run.instance.availableEquipmentDropList = Run.instance.availableEquipmentDropList.Concat(Run.instance.availableLunarEquipmentDropList).ToList();
             }
+            */
+            // fuck this timing nightmare, gonna add eulogy zero
 
             if (!remove)
             {
@@ -255,13 +351,38 @@ namespace Sandswept.Artifacts
                     var nameTokenOverlay = LanguageAPI.AddOverlay(pickupDef.nameToken, "???");
                     languageOverlays.Add(nameTokenOverlay);
 
-                    // if (!cachedPickupModels.ContainsKey(entry))
-                    // {
-                        // cachedPickupModels.Add(entry, entry.displayPrefab);
-                    // }
+                    if (!cachedPickupDefIcons.ContainsKey(pickupDef))
+                    {
+                        cachedPickupDefIcons.Add(pickupDef, pickupDef.iconSprite);
+                    }
 
+                    if (!cachedPickupDefModels.ContainsKey(pickupDef))
+                    {
+                        cachedPickupDefModels.Add(pickupDef, pickupDef.displayPrefab);
+                    }
+
+                    if (!cachedPickupDefColors.ContainsKey(pickupDef))
+                    {
+                        cachedPickupDefColors.Add(pickupDef, pickupDef.baseColor);
+                    }
+
+                    if (!cachedPickupDefDarkColors.ContainsKey(pickupDef))
+                    {
+                        cachedPickupDefDarkColors.Add(pickupDef, pickupDef.darkColor);
+                    }
+
+                    if (!cachedPickupDefDroplets.ContainsKey(pickupDef))
+                    {
+                        cachedPickupDefDroplets.Add(pickupDef, pickupDef.dropletDisplayPrefab);
+                    }
+
+                    pickupDef.iconSprite = unknownIcon;
+                    // for pickuppickerpanel (potentials, aurelionite blessings, etc ) fix
                     pickupDef.displayPrefab = unknownModel;
+                    // for turning off artifact fix
+                    // memOPP update fixes
                     pickupDef.baseColor = ColorCatalog.GetColor(ColorCatalog.ColorIndex.Tier1Item);
+                    pickupDef.darkColor = ColorCatalog.GetColor(ColorCatalog.ColorIndex.Tier1ItemDark);
                     pickupDef.dropletDisplayPrefab = droplet;
                 }
             }
@@ -337,11 +458,93 @@ namespace Sandswept.Artifacts
 
                 cachedEquipmentDefColorIndices.Clear();
 
-                // FuckingStupidThing(false);
+                foreach (var pickupModel in cachedPickupDefModels)
+                {
+                    pickupModel.Key.displayPrefab = pickupModel.Value;
+                }
+
+                cachedPickupDefModels.Clear();
+
+                foreach (var pickupIcon in cachedPickupDefIcons)
+                {
+                    pickupIcon.Key.iconSprite = pickupIcon.Value;
+
+                }
+
+                cachedPickupDefIcons.Clear();
+
+                foreach (var pickupColor in cachedPickupDefColors)
+                {
+                    pickupColor.Key.baseColor = pickupColor.Value;
+                }
+
+                cachedPickupDefColors.Clear();
+
+                foreach (var pickupDarkColor in cachedPickupDefDarkColors)
+                {
+                    pickupDarkColor.Key.darkColor = pickupDarkColor.Value;
+                }
+
+                cachedPickupDefDarkColors.Clear();
+
+                foreach (var pickupDroplet in cachedPickupDefDroplets)
+                {
+                    pickupDroplet.Key.dropletDisplayPrefab = pickupDroplet.Value;
+                }
+
+                cachedPickupDefDroplets.Clear();
+
+                FuckingStupidThing(false);
             }
 
             Language.SetCurrentLanguage(Language.currentLanguageName);
         }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public void FuckingStupidThing(bool enable)
+        {
+            if (Main.LookingGlassLoaded)
+            {
+                // Main.ModLogger.LogError("looking glass loaded");
+                for (int i = 0; i < PlayerCharacterMasterController.instances.Count; i++)
+                {
+                    var pcmc = PlayerCharacterMasterController.instances[i];
+                    var lookingGlassDisabler = pcmc.GetComponent<LookingGlassDisabler>() ? pcmc.GetComponent<LookingGlassDisabler>() : pcmc.AddComponent<LookingGlassDisabler>();
+                    lookingGlassDisabler.shouldRun = enable;
+                }
+            }
+        }
+    }
+
+    public class LookingGlassDisabler : MonoBehaviour
+    {
+        public bool shouldRun = true;
+        public bool cachedItemStatsCalculationsValue;
+        public float timer;
+        public float interval = 0.05f;
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public void Start()
+        {
+            cachedItemStatsCalculationsValue = LookingGlass.ItemStatsNameSpace.ItemStats.itemStatsCalculations.Value;
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        public void FixedUpdate()
+        {
+            timer += Time.fixedDeltaTime;
+            if (timer >= interval)
+            {
+                if (shouldRun)
+                {
+                    LookingGlass.ItemStatsNameSpace.ItemStats.itemStatsCalculations.Value = false;
+                }
+                else
+                {
+                    LookingGlass.ItemStatsNameSpace.ItemStats.itemStatsCalculations.Value = cachedItemStatsCalculationsValue;
+                }
+                timer = 0f;
+            }
+        }
     }
 }
-*/

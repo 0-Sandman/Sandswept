@@ -224,7 +224,7 @@ namespace Sandswept.Items.Greens
                 pl.CurrentPlating -= toRemove;
                 pl.CurrentPlating = Mathf.Clamp(pl.CurrentPlating, 0, pl.MaxPlating);
 
-                if (plating > 0 && Util.CheckRoll(100f * info.procCoefficient))
+                if (plating > 0 && Util.CheckRoll(100f * Main.GetProcRateForBaseDamageProc(info) * info.procCoefficient))
                 {
                     SphereSearch search = new()
                     {

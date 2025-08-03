@@ -48,12 +48,11 @@ namespace Sandswept.Survivors.Electrician
         public float ejectExplosionDamage = 6f;
         public float ejectExplosionDelay;
         public float ejectExplosionTimer = 0f;
-        public float lineRadius = 1f;
+        public float lineRadius = 1.5f;
         public float lineDamage = 2f;
         public float baseSpeedMultiplier = 5f;
         public float accelerationCoefficient = 4f;
         public float decelerationCoefficient = 12f;
-        public uint zipSoundId;
 
         public void OnInteract(Interactor interactor)
         {
@@ -225,10 +224,6 @@ namespace Sandswept.Survivors.Electrician
 
             new CallNetworkedMethod(base.gameObject, "StartZipClient").Send(R2API.Networking.NetworkDestination.Clients);
 
-            zipSoundId = Util.PlaySound("Play_loader_m2_travel_loop", body.gameObject);
-
-            AkSoundEngine.SetRTPCValueByPlayingID("loaderM2_grappleRemain", 5f, zipSoundId); // this is to pitch up the sound
-
             return true;
         }
 
@@ -316,7 +311,6 @@ namespace Sandswept.Survivors.Electrician
 
                             Util.PlaySound("Play_voidRaid_snipe_impact", gameObject);
                             Util.PlaySound("Stop_loader_m2_travel_loop", body.gameObject);
-                            AkSoundEngine.StopPlayingID(zipSoundId);
 
                             seat.EjectPassenger();
                             GameObject.Destroy(this.gameObject);
@@ -324,7 +318,7 @@ namespace Sandswept.Survivors.Electrician
                     }
                     else
                     {
-                        ejectExplosionDelay = Mathf.Sqrt(speed) * 0.004f;
+                        ejectExplosionDelay = 0.05f + (Mathf.Sqrt(speed) * 0.003f);
                     }
                 }
             }

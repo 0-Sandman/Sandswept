@@ -3,7 +3,7 @@
   - Added Crate Prefabs
   - Added an indicator to Static Snare
   - Improved Galvanic Bolt and Static Snare SFX
-  - Buffed Static Snare Line Radius from 0.2784882m to 1m
+  - Buffed Static Snare Line Radius from 0.2784882m to 1.5m
   - Buffed Static Snare Passive Explosion Radius from 3m to 13m
   - Buffed Static Snare Eject Explosion Radius from 6m to 18m
   - Nerfed Volatile Shields Damage from 2x280% to 2x250%
@@ -24,9 +24,11 @@
   - Fixed many bugs with Static Snare with high Attack Speed and or Cooldown Reduction
   - Fixed Static Snare spamming NREs while dead
   - Fixed Signal Overload constructor error
+  - Fixed Signal Overload doing more or less damage than expected
   - Fixed Hit Impact VFX spamming NREs while dead
   - Fixed mismatched VFX scales
 - Items/Equipment
+  - Added ProcSolver Support
   - Buffed Amber Knife Chance from 10% to 15%
   - Fixed Nuclear Salvo kills not giving gold
   - Fixed Nuclear Salvo spamming NREs on clients

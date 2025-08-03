@@ -1,4 +1,4 @@
-﻿/*
+﻿
 using MonoMod.Cil;
 using System.Linq;
 using Mono.Cecil.Cil;
@@ -24,9 +24,9 @@ namespace Sandswept.Items.Lunars
 
         public override ItemTier Tier => ItemTier.Lunar;
 
-        public override GameObject ItemModel => Main.Assets.LoadAsset<GameObject>("PickupTheirProminence.prefab");
+        public override GameObject ItemModel => Main.mainAssets.LoadAsset<GameObject>("DocumentPrefab.prefab");
 
-        public override Sprite ItemIcon => null;
+        public override Sprite ItemIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texFreakyMinion.png");
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist };
 
@@ -56,10 +56,20 @@ namespace Sandswept.Items.Lunars
 
         public override void Hooks()
         {
+            Run.onRunDestroyGlobal += OnRunEnd;
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
             On.RoR2.ShrineRestackBehavior.AddShrineStack += ShrineRestackBehavior_AddShrineStack;
             IL.RoR2.Inventory.ShrineRestackInventory += Inventory_ShrineRestackInventory;
             On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
+        }
+
+        private void OnRunEnd(Run run)
+        {
+            if (sequencedFateTracker)
+            {
+                sequencedFateTracker.GetComponent<SequencedFateController>().lastItemCount = 0;
+            }
+            
         }
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
@@ -211,4 +221,3 @@ namespace Sandswept.Items.Lunars
         public int lastItemCount = 0;
     }
 }
-*/

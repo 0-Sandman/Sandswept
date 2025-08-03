@@ -13,7 +13,7 @@ namespace Sandswept.Items.Reds
 
         public override string ItemPickupDesc => "Activating your primary also conjures a freezing javelin. Chance on hit to freeze stunned enemies.";
 
-        public override string ItemFullDescription => ("Activating your $suPrimary skill$se also conjures a $sdpiercing javelin$se that deals $sd" + d(baseDamage) + "$se $ss(+" + d(stackDamage) + " per stack)$se damage and $sufreezes$se enemies. Recharges over $su10$se seconds. Your $sustuns$se have a $su" + stunToFreezeChance + "%$se chance to $sufreeze$se for $su3$se seconds.").AutoFormat();
+        public override string ItemFullDescription => ("Activating your $suPrimary skill$se also conjures a $sdpiercing javelin$se that deals $sd" + d(baseDamage) + "$se $ss(+" + d(stackDamage) + " per stack)$se damage and $sufreezes$se enemies. Recharges over $su10$se seconds. Your $sustuns$se have a $su" + stunToFreezeChance + "%$se chance to $sufreeze$se for $su" + stunToFreezeDuration + "$se seconds.").AutoFormat();
 
         public override string ItemLore =>
         """
@@ -66,6 +66,12 @@ namespace Sandswept.Items.Reds
         [ConfigField("Stunned Enemy Freeze Chance", "", 8f)]
         public static float stunToFreezeChance;
 
+        [ConfigField("Stun To Freeze Duration", "", 3f)]
+        public static float stunToFreezeDuration;
+
+        [ConfigField("Proc Coefficient", "", 1f)]
+        public static float procCoefficient;
+
         public static GameObject javelinProjectile;
 
         public static BuffDef javelinReady;
@@ -115,6 +121,9 @@ namespace Sandswept.Items.Reds
             projectileSimple.lifetime = 3f;
             projectileSimple.enableVelocityOverLifetime = true;
             projectileSimple.velocityOverLifetime = new AnimationCurve(new Keyframe(0f, 0f), new Keyframe(0.04f, 0f), new Keyframe(0.9f, 3f), new Keyframe(1f, 0f));
+
+            var projectileController = javelinProjectile.GetComponent<ProjectileController>();
+            projectileController.procCoefficient = procCoefficient;
 
             var ghost = Main.assets.LoadAsset<GameObject>("GlacialSpearGhost.prefab");
             ghost.transform.localScale = Vector3.one * 4f;

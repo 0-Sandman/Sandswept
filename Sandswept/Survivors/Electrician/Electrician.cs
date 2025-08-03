@@ -45,7 +45,7 @@ namespace Sandswept.Survivors.Electrician
         {
             base.CreateLang();
 
-            if (Random.Range(0, 100) <= 2)
+            if (Random.Range(0, 100) <= 1)
             {
                 LanguageAPI.AddOverlay(base.SurvivorDef.displayNameToken, "VOLTOMETER BOT AMP FUCKER 30000");
             }
@@ -104,7 +104,7 @@ namespace Sandswept.Survivors.Electrician
             ReplaceSkills(locator.special, new SkillDef[] { Skills.SignalOverload.instance });
             locator.passiveSkill.icon = Main.prodAssets.LoadAsset<Sprite>("Assets/Sandswept/texElectricianSkillIcon_p.png");
             "SANDSWEPT_ELECTR_PASSIVE_NAME".Add("Volatile Shields");
-            "SANDSWEPT_ELECTR_PASSIVE_DESC".Add("<style=cIsUtility>Start with innate shields</style>. When your shield <style=cDeath>breaks</style>, shock nearby targets for <style=cIsDamage>2x250% damage</style> and gain <style=cIsUtility>+40% movement speed</style> for <style=cIsDamage>7 seconds</style>.");
+            "SANDSWEPT_ELECTR_PASSIVE_DESC".Add("<style=cIsUtility>Start with innate shield</style>. When your shield <style=cDeath>breaks</style>, shock nearby targets for <style=cIsDamage>2x250% damage</style> and gain <style=cIsUtility>+40% movement speed</style> for <style=cIsDamage>7 seconds</style>.");
 
             "KEYWORD_GROUNDING".Add("<style=cKeywordName>Grounding</style>Deals <style=cIsDamage>1.5x</style> damage to flying targets, and <style=cDeath>knocks them down</style>.");
 

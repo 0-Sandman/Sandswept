@@ -56,5 +56,8 @@
 	  <Reference Include="LookingGlass">
 	    <HintPath>libs/LookingGlass-nstrip.dll</HintPath>
 	  </Reference>
+	  <Reference Include="ProcSolver">
+	    <HintPath>libs/ProcSolver.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 </Project>

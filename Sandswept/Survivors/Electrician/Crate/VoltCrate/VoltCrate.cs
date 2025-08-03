@@ -89,15 +89,15 @@ namespace Sandswept.Survivors.Electrician.Crate
 
         public void Start()
         {
-            Main.ModLogger.LogError("play sound on crate break start");
+            // Main.ModLogger.LogError("play sound on crate break start");
             vehicleSeat = GetComponent<VehicleSeat>();
             vehicleSeat.onPassengerExit += OnPassengerExit;
         }
 
         private void OnPassengerExit(GameObject passenger)
         {
-            Main.ModLogger.LogError("crate: on passenger exit called, trying to play sounds");
-            Main.ModLogger.LogError("passenger is: " + passenger);
+            // Main.ModLogger.LogError("crate: on passenger exit called, trying to play sounds");
+            // Main.ModLogger.LogError("passenger is: " + passenger);
             Util.PlaySound("Play_captain_R_impact", passenger);
             Util.PlaySound("Play_item_proc_chain_lightning", passenger);
             Util.PlaySound("Play_item_proc_chain_lightning", passenger);
@@ -107,8 +107,8 @@ namespace Sandswept.Survivors.Electrician.Crate
 
         public IEnumerator PlayActivationSound(GameObject passenger)
         {
-            Main.ModLogger.LogError("crate: couroutine called, trying to play sounds");
-            Main.ModLogger.LogError("coroutine: passenger is: " + passenger);
+            // Main.ModLogger.LogError("crate: couroutine called, trying to play sounds");
+            // Main.ModLogger.LogError("coroutine: passenger is: " + passenger);
             yield return new WaitForSeconds(0.8f);
             Util.PlaySound("Play_item_proc_chain_lightning", passenger);
             Util.PlaySound("Play_item_proc_chain_lightning", passenger);
@@ -119,7 +119,7 @@ namespace Sandswept.Survivors.Electrician.Crate
 
         public void OnDestroy()
         {
-            Main.ModLogger.LogError("on destroy called, unsubscribing from on passenger exit");
+            // Main.ModLogger.LogError("on destroy called, unsubscribing from on passenger exit");
             vehicleSeat.onPassengerExit -= OnPassengerExit;
         }
     }

@@ -29,6 +29,7 @@ using Rewired.ComponentControls.Effects;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
+using ProcSolver;
 
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
 
@@ -51,6 +52,7 @@ namespace Sandswept
     [BepInDependency(MoreStats.MoreStatsPlugin.guid, MoreStats.MoreStatsPlugin.version)]
     [BepInDependency("com.weliveinasociety.CustomEmotesAPI", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("droppod.lookingglass", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("com.RiskOfBrainrot.ProcSolver", BepInDependency.DependencyFlags.SoftDependency)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
     {
@@ -96,7 +98,7 @@ namespace Sandswept
         public static Main Instance;
 
         public static bool LookingGlassLoaded = false;
-
+        public static bool ProcSolverLoaded = false;
         private static string rangerBoneMapperName;
 
         private void Awake()
@@ -106,6 +108,7 @@ namespace Sandswept
             var stopwatch = Stopwatch.StartNew();
 
             LookingGlassLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("droppod.lookingglass");
+            ProcSolverLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.RiskOfBrainrot.ProcSolver");
 
             SOTV = Utils.Assets.ExpansionDef.DLC1;
 
@@ -540,6 +543,35 @@ namespace Sandswept
             ILCursor c = new(il);
             c.TryGotoNext(MoveType.After, x => x.MatchStloc(1));
             c.Prev.Operand = typeof(Main).GetMethod(nameof(GetDroneCard), BindingFlags.NonPublic | BindingFlags.Static);
+        }
+
+        // all DoTs without a proc coefficient => don't use these methods, only multiply by damageInfo.procCoefficient
+        // total damage procs => use GetProcRateForTotalDamageProc()
+        // base damage procs => use GetProcRateForBaseDamageProc() * damageInfo.procCoefficient
+        // amalgamations like sun fragment or millenium? WHO KNOWS :SOB:
+
+        public static float GetProcRateForTotalDamageProc(DamageInfo damageInfo)
+        {
+            if (!ProcSolverLoaded)
+            {
+                return damageInfo.procCoefficient;
+            }
+            return _GetProcRate(damageInfo);
+        }
+
+        public static float GetProcRateForBaseDamageProc(DamageInfo damageInfo)
+        {
+            if (!ProcSolverLoaded)
+            {
+                return 1f;
+            }
+            return _GetProcRate(damageInfo);
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private static float _GetProcRate(DamageInfo damageInfo)
+        {
+            return ProcSolverPlugin.GetProcRateMod(damageInfo);
         }
 
         public static GameObject tempestSphereDefault;
