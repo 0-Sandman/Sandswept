@@ -56,7 +56,6 @@ namespace Sandswept.Artifacts
         public static Sprite unknownIcon = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/MiscIcons/texMysteryIcon.png").WaitForCompletion();
 
         public static GameObject unknownModel = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Mystery/PickupMystery.prefab").WaitForCompletion();
-        public static bool anyPlayerHasEulogy = false;
         public override void Init(ConfigFile config)
         {
             CreateLang();
@@ -90,7 +89,7 @@ namespace Sandswept.Artifacts
             c.Index++;
             c.EmitDelegate<Func<int, int>>((orig) =>
             {
-                var eulogyCount = ArtifactEnabled ? 2 : orig;
+                var eulogyCount = ArtifactEnabled ? 1 : orig;
                 return eulogyCount;
             });
 
@@ -102,12 +101,12 @@ namespace Sandswept.Artifacts
         {
             ILCursor c = new(il);
 
-            bool found = c.TryGotoNext(MoveType.Before,
+            bool conditionFound = c.TryGotoNext(MoveType.Before,
             x => x.MatchLdloc(out _),
             x => x.MatchLdcI4(out _),
             x => x.MatchBle(out _));
 
-            if (!found)
+            if (!conditionFound)
             {
                 Main.ModLogger.LogError("Failed to apply Artifact of Obscurity Eulogy Zero 3 hook");
                 return;
@@ -116,7 +115,7 @@ namespace Sandswept.Artifacts
             c.Index++;
             c.EmitDelegate<Func<int, int>>((orig) =>
             {
-                var eulogyCount = ArtifactEnabled ? 2 : orig;
+                var eulogyCount = ArtifactEnabled ? 1 : orig;
                 return eulogyCount;
             });
 
@@ -146,7 +145,7 @@ namespace Sandswept.Artifacts
             c.Index++;
             c.EmitDelegate<Func<int, int>>((orig) =>
             {
-                var eulogyCount = ArtifactEnabled ? 2 : orig;
+                var eulogyCount = ArtifactEnabled ? 1 : orig;
                 return eulogyCount;
             });
 
@@ -164,7 +163,6 @@ namespace Sandswept.Artifacts
 
         private void Run_onRunDestroyGlobal(Run run)
         {
-            anyPlayerHasEulogy = false;
             ApplyArtifactChanges(true);
             On.RoR2.PickupDisplay.RebuildModel -= ObscureParticleEffects;
         }
@@ -518,7 +516,7 @@ namespace Sandswept.Artifacts
 
     public class LookingGlassDisabler : MonoBehaviour
     {
-        public bool shouldRun = true;
+        public bool shouldRun = false;
         public bool cachedItemStatsCalculationsValue;
         public float timer;
         public float interval = 0.05f;

@@ -33,6 +33,8 @@
   - Fixed Nuclear Salvo kills not giving gold
   - Fixed Nuclear Salvo spamming NREs on clients
   - Fixed Glacial Plasma firing every frame on clients
+  - Fixed Galvanic Cell Shield NRE (MemOPP update moment)
+  - Fixed Sand Sweeper NRE (MemOPP update moment)
 
 ## 1.2.5 Patch Notes
 - VOL-T

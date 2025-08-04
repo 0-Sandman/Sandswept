@@ -50,6 +50,9 @@ namespace Sandswept.Equipment.Lunar
         [ConfigField("Yellow and Void Yellow Cost Multiplier", "", 3f)]
         public static float yellowAndVoidYellowCostMultiplier;
 
+        [ConfigField("Lunar Cost Multiplier", "", 2f)]
+        public static float lunarCostMultiplier;
+
         public static GameObject DesignIndicator;
         public static LazyAddressable<GameObject> DuplicationEffect = new(() => Paths.GameObject.ExplosionLunarSun);
 
@@ -180,6 +183,10 @@ namespace Sandswept.Equipment.Lunar
                 case ItemTier.VoidBoss:
                 case ItemTier.Boss:
                     cost *= yellowAndVoidYellowCostMultiplier;
+                    break;
+
+                case ItemTier.Lunar:
+                    cost *= lunarCostMultiplier;
                     break;
 
                 default:
