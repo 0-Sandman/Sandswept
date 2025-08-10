@@ -69,7 +69,6 @@ namespace Sandswept.Items.Lunars
             {
                 sequencedFateTracker.GetComponent<SequencedFateController>().lastItemCount = 0;
             }
-            
         }
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
@@ -154,7 +153,8 @@ namespace Sandswept.Items.Lunars
         {
             orig(self, interactor);
             var interactorBody = interactor.GetComponent<CharacterBody>();
-            var stack = GetCount(interactorBody);
+            var lastItemCount = sequencedFateTracker.GetComponent<SequencedFateController>().lastItemCount;
+            var stack = itemCount > lastItemCount ? itemCount : lastItemCount;
             if (stack > 0 && interactorBody)
             {
                 var inventory = interactorBody.inventory;

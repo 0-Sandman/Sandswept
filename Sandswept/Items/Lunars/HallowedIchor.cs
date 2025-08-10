@@ -337,8 +337,8 @@ namespace Sandswept.Items.Lunars
                 return;
             }
 
-            var flatIncrease = HallowedIchor.chestReopenDifficultyCoefficientFlatAdd;
-            var multiplier = 1f + HallowedIchor.chestReopenDifficultyCoefficientMultiplierAdd;
+            var flatIncrease = HallowedIchor.chestReopenDifficultyCoefficientFlatAdd / Run.instance.participatingPlayerCount;
+            var multiplier = 1f + (HallowedIchor.chestReopenDifficultyCoefficientMultiplierAdd / Run.instance.participatingPlayerCount);
 
             Run.ambientLevelCap = int.MaxValue;
 
