@@ -1,7 +1,9 @@
 ## 1.2.6 Patch Notes
 - VOL-T
+  - Added Crate Prefabs
   - Added an indicator to Static Snare
-  - Buffed Static Snare Line Radius from 0.2784882m to 1m
+  - Improved Galvanic Bolt and Static Snare SFX
+  - Buffed Static Snare Line Radius from 0.2784882m to 1.5m
   - Buffed Static Snare Passive Explosion Radius from 3m to 13m
   - Buffed Static Snare Eject Explosion Radius from 6m to 18m
   - Nerfed Volatile Shields Damage from 2x280% to 2x250%
@@ -15,29 +17,42 @@
   - Made Static Snare Line Tick Rate scale with Attack Speed
   - Made Static Snare Zip Speed scale with Movement Speed
   - Made Static Snare Zip Speed slower at first, but accelerate over time
+  - Made Static Snare Eject Explosion slightly delayed based on maximum speed
   - Made Signal Overload Hit Count scale with Attack Speed
   - Made Hit Impact VFX larger
   - Fixed Tempest Sphere Tick Rate not scaling with Attack Speed
   - Fixed many bugs with Static Snare with high Attack Speed and or Cooldown Reduction
+  - Fixed Static Snare spamming NREs while dead
+  - Fixed Signal Overload constructor error
+  - Fixed Signal Overload doing more or less damage than expected
+  - Fixed Hit Impact VFX spamming NREs while dead
   - Fixed mismatched VFX scales
+- Ranger
+  - Direct Current travel speed 170m/s -> 240m/s
+  - Aim Origin properly added, projectiles now originate from higher.
+  - Custom gravity curve added to Direct Current, now has a short period of floatiness before gravity ramps in.
+  - Direct Current projectile size reduced from 0.5m -> 0.25m
+  - Sidestep no longer has a small hop at the end.
+  - Sidestep finishes faster (0.15s -> 0.1s)
 - Items/Equipment
+  - Added ProcSolver Support
   - Buffed Amber Knife Chance from 10% to 15%
-  - Fixed Nuclear Salvo spamming NREs on clients (OH MY GOD ANOTHER SALVO FIX IM LOSING MY MIND)
+  - Fixed Nuclear Salvo kills not giving gold
+  - Fixed Nuclear Salvo spamming NREs on clients
+  - Fixed Glacial Plasma firing every frame on clients
+  - Fixed Galvanic Cell Shield NRE (MemOPP update moment)
+  - Fixed Sand Sweeper NRE (MemOPP update moment)
 
 ## 1.2.5 Patch Notes
 - VOL-T
   - Added Galvanic Bolt, Tempest Sphere and Signal Overload hit impact SFX
   - Added Tempest Sphere looping SFX
-<<<<<<< HEAD
   - Scaled up hit impact VFX
 - Items/Equipment
   - Fixed Makeshift Plate giving you the full stack worth of plating when getting another Makeshift Plate.
   - Fixed Makeshift Plate networking issues.
 - Enemies
   - Fixed Cannonball Jellyfish wandering off into the skybox.
-=======
-  - Made Hit Impact VFX larger
->>>>>>> e97a70b31d1eee42208f29d8420209bea7b481e4
 
 ## 1.2.4 Patch Notes
 - General

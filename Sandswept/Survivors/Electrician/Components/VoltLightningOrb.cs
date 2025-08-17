@@ -21,6 +21,10 @@ namespace Sandswept.Survivors.Electrician
             // var effectData = new EffectData();
             // effectData.origin = victimBody.corePosition;
             // effectData.scale = Mathf.Sqrt(victimBody.radius * 9f);
+            if (!attackerBody)
+            {
+                return;
+            }
             var modelLocator = attackerBody.GetComponent<ModelLocator>();
             if (modelLocator)
             {
@@ -45,7 +49,7 @@ namespace Sandswept.Survivors.Electrician
 
         public override void OnArrival()
         {
-            if (!target)
+            if (!target || !victimBody || !attacker)
             {
                 return;
             }

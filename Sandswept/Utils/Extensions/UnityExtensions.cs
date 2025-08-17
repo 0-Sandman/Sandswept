@@ -3,6 +3,7 @@ using System;
 using Unity;
 using System.Linq;
 using R2API.Networking.Interfaces;
+using System.Threading.Tasks;
 
 namespace Sandswept.Utils
 {
@@ -47,6 +48,39 @@ namespace Sandswept.Utils
         public static T AddComponent<T>(this Component self) where T : Component
         {
             return self.gameObject.AddComponent<T>();
+        }
+
+        public static T AddComponent<T>(this Component self, Action<T> modification) where T : Component {
+            T x = self.gameObject.AddComponent<T>();
+            modification(x);
+            return x;
+        }
+
+        public static T GetComponent<T>(this Component self, Action<T> modification) where T : Component {
+            T x = self.gameObject.GetComponent<T>();
+            modification(x);
+            return x;
+        }
+
+        public static T AddComponent<T>(this GameObject self, Action<T> modification) where T : Component {
+            T x = self.AddComponent<T>();
+            modification(x);
+            return x;
+        }
+
+        public static T GetComponent<T>(this GameObject self, Action<T> modification) where T : Component {
+            T x = self.GetComponent<T>();
+            modification(x);
+            return x;
+        }
+
+        public static void EditComponent<T>(this Component self, Action<T> modification) where T : Component {
+            T x = self.GetComponent<T>();
+            modification(x);
+        }
+        public static void EditComponent<T>(this GameObject self, Action<T> modification) where T : Component {
+            T x = self.GetComponent<T>();
+            modification(x);
         }
 
         public static Sprite MakeSprite(this Texture2D self)

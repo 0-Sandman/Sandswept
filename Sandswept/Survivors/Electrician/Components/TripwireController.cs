@@ -43,11 +43,16 @@ namespace Sandswept.Survivors.Electrician
         public GameObject indicatorInstance;
         public float passiveExplosionRadius = 13f;
         public float passiveExplosionDamage = 2f;
+        public float passiveExplosionInterval = 2f;
         public float ejectExplosionRadius = 18f;
         public float ejectExplosionDamage = 6f;
-        public float lineRadius = 1f;
+        public float ejectExplosionDelay;
+        public float ejectExplosionTimer = 0f;
+        public float lineRadius = 1.5f;
         public float lineDamage = 2f;
-        public float newInterval = 2f;
+        public float baseSpeedMultiplier = 5f;
+        public float accelerationCoefficient = 4f;
+        public float decelerationCoefficient = 12f;
 
         public void OnInteract(Interactor interactor)
         {
@@ -150,12 +155,12 @@ namespace Sandswept.Survivors.Electrician
             body = controller.owner.GetComponent<CharacterBody>();
 
             delay = 1f / hitRate / body.attackSpeed;
-            interval = newInterval / body.attackSpeed;
+            interval = passiveExplosionInterval / body.attackSpeed;
             // normally, the interval is 1f
 
             var constantBodySpeed = body.isSprinting ? body.moveSpeed / body.sprintingSpeedMultiplier : body.moveSpeed;
 
-            speed = constantBodySpeed * 5f; // 7f * 27f = 189f, but I'm slowing it down initially to accelerate it later for a cool effect ! !
+            speed = constantBodySpeed * baseSpeedMultiplier; // 7f * 27f = 189f, but I'm slowing it down initially to accelerate it later for a cool effect ! !
 
             lightningEffect = GameObject.Instantiate(lightningVFX, seat.seatPosition);
             lightningEffect.transform.localPosition = Vector3.zero;
@@ -197,6 +202,7 @@ namespace Sandswept.Survivors.Electrician
             }, true);
 
             Util.PlaySound("Play_elec_pylon_blast", base.gameObject);
+            Util.PlaySound("Play_voidRaid_snipe_impact", gameObject);
 
             GameObject.Destroy(base.gameObject);
         }
@@ -252,10 +258,13 @@ namespace Sandswept.Survivors.Electrician
                 }
             }
 
-            lineRenderer.enabled = init && head;
+            if (lineRenderer && explo && seat && head)
+            {
+                lineRenderer.enabled = init && head;
 
-            lineRenderer.SetPosition(1, explo.position);
-            lineRenderer.SetPosition(0, isInVehicleMode ? seat.seatPosition.position : head.transform.position);
+                lineRenderer.SetPosition(1, explo.position);
+                lineRenderer.SetPosition(0, isInVehicleMode ? seat.seatPosition.position : head.transform.position);
+            }
 
             if (isInVehicleMode)
             {
@@ -264,37 +273,53 @@ namespace Sandswept.Survivors.Electrician
                     return;
                 }
 
-                speed += speed * 4f * Time.fixedDeltaTime; // acceelerateeeeeeee
-
                 startPosition = Vector3.MoveTowards(startPosition, base.transform.position, speed * Time.fixedDeltaTime);
                 seat.seatPosition.position = startPosition;
                 // seat.UpdatePassengerPosition();
 
-                if (Vector3.Distance(startPosition, base.transform.position) < 0.5f && !hasDetonated && NetworkServer.active)
+                var distance = Vector3.Distance(startPosition, base.transform.position);
+
+                speed += speed * accelerationCoefficient * Time.fixedDeltaTime; // acceelerateeeeeeee
+
+                if (NetworkServer.active)
                 {
-                    blast.position = explo.position;
-                    blast.radius = ejectExplosionRadius; // stop fucking using *= :sob:
-                    blast.baseDamage = pDamage.damage * ejectExplosionDamage;
-                    blast.Fire();
-
-                    hasDetonated = true;
-
-                    isInVehicleMode = false;
-
-                    EffectManager.SpawnEffect(effect, new EffectData
+                    if (!hasDetonated && distance < 0.5f)
                     {
-                        origin = blast.position,
-                        scale = blast.radius
-                    }, true);
+                        ejectExplosionTimer += Time.fixedDeltaTime;
+                        if (ejectExplosionTimer >= ejectExplosionDelay)
+                        {
+                            blast.position = explo.position;
+                            blast.radius = ejectExplosionRadius; // stop fucking using *= :sob:
+                            blast.baseDamage = pDamage.damage * ejectExplosionDamage;
+                            blast.Fire();
 
-                    if (head)
-                    {
-                        new CallNetworkedMethod(base.gameObject, "RestoreHeadClient").Send(R2API.Networking.NetworkDestination.Clients);
-                        head.gameObject.SetActive(true);
+                            hasDetonated = true;
+
+                            isInVehicleMode = false;
+
+                            EffectManager.SpawnEffect(effect, new EffectData
+                            {
+                                origin = blast.position,
+                                scale = blast.radius
+                            }, true);
+
+                            if (head)
+                            {
+                                new CallNetworkedMethod(base.gameObject, "RestoreHeadClient").Send(R2API.Networking.NetworkDestination.Clients);
+                                head.gameObject.SetActive(true);
+                            }
+
+                            Util.PlaySound("Play_voidRaid_snipe_impact", gameObject);
+                            Util.PlaySound("Stop_loader_m2_travel_loop", body.gameObject);
+
+                            seat.EjectPassenger();
+                            GameObject.Destroy(this.gameObject);
+                        }
                     }
-
-                    seat.EjectPassenger();
-                    GameObject.Destroy(this.gameObject);
+                    else
+                    {
+                        ejectExplosionDelay = 0.05f + (Mathf.Sqrt(speed) * 0.003f);
+                    }
                 }
             }
 
@@ -303,7 +328,7 @@ namespace Sandswept.Survivors.Electrician
                 return;
             }
 
-            if (init)
+            if (init && body && attack != null)
             {
                 stopwatchBeam += Time.fixedDeltaTime;
 
@@ -323,11 +348,11 @@ namespace Sandswept.Survivors.Electrician
 
             stopwatch += Time.fixedDeltaTime;
 
-            if (stopwatch >= interval && init)
+            if (stopwatch >= interval && init && blast != null)
             {
                 stopwatch = 0f;
 
-                interval = newInterval / body.attackSpeed;
+                interval = passiveExplosionInterval / body.attackSpeed;
 
                 blast.position = explo.position;
                 blast.Fire();
@@ -341,6 +366,7 @@ namespace Sandswept.Survivors.Electrician
                 pylonAnim.Play("Pulse", pylonAnim.GetLayerIndex("Base"));
 
                 Util.PlaySound("Play_elec_pylon_blast", base.gameObject);
+                Util.PlaySound("Play_voidRaid_snipe_impact", gameObject);
             }
         }
 
@@ -359,6 +385,13 @@ namespace Sandswept.Survivors.Electrician
 
         public void OnDestroy()
         {
+            /*
+            if (controller.owner)
+            {
+                Util.PlaySound("Play_bison_charge_attack_collide", controller.owner);
+            }
+            */
+
             if (indicatorInstance)
             {
                 Object.Destroy(indicatorInstance);

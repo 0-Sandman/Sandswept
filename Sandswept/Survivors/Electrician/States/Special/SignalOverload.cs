@@ -10,6 +10,8 @@ namespace Sandswept.Survivors.Electrician.States
         public float delay = 0.7f / 10;
         public float drainAmount;
         public float baseMax = 0.4f;
+        public float radiusMultiplierParam = 1f;
+        public float damageMultiplierParam = 1f;
 
         public override void OnEnter()
         {
@@ -81,8 +83,10 @@ namespace Sandswept.Survivors.Electrician.States
 
                 var percent = healthComponent.fullHealth * baseMax;
 
-                outer.SetNextState(new SignalOverloadDischarge(Util.Remap(shieldDrained, 0f, percent, 1f, 2f),
-                                                               Util.Remap(shieldDrained, 0f, percent, 1f, 1.611f)));
+                radiusMultiplierParam = Util.Remap(shieldDrained, 0f, percent, 1f, 2f);
+                damageMultiplierParam = Util.Remap(shieldDrained, 0f, percent, 1f, 1.611f);
+
+                outer.SetNextState(new SignalOverloadDischarge());
             }
 
             stopwatch += Time.fixedDeltaTime;
@@ -122,6 +126,17 @@ namespace Sandswept.Survivors.Electrician.States
             }
         }
 
+        public override void ModifyNextState(EntityState nextState)
+        {
+            base.ModifyNextState(nextState);
+
+            if (nextState is SignalOverloadDischarge signalOverloadDischarge)
+            {
+                signalOverloadDischarge.multiplier = Mathf.Min(radiusMultiplierParam, 2f); // second value is the max "overshoot" value (consuming above 40% shield, for synergy with psg, trans, etc)
+                signalOverloadDischarge.damageMultiplier = Mathf.Min(damageMultiplierParam, 2.4165f); // 1.611 * 1.5 => 2.4165, so up to lots more damage :smirk: | second value is the max "overshoot" value (consuming above 40% shield, for synergy with psg, trans, etc)
+            }
+        }
+
         public override InterruptPriority GetMinimumInterruptPriority()
         {
             return InterruptPriority.Frozen;
@@ -152,12 +167,6 @@ namespace Sandswept.Survivors.Electrician.States
         public GameObject signalIndicatorInstance;
         public GameObject signalIndicator;
         public GameObject beamVFX;
-
-        public SignalOverloadDischarge(float radiusMult, float damageMult)
-        {
-            multiplier = Mathf.Min(radiusMult, 2f); // second value is the max "overshoot" value (consuming above 40% shield, for synergy with psg, trans, etc)
-            damageMultiplier = Mathf.Min(damageMult, 2.4165f); // 1.611 * 1.5 => 2.4165, so up to lots more damage :smirk: | second value is the max "overshoot" value (consuming above 40% shield, for synergy with psg, trans, etc)
-        }
 
         public override void OnEnter()
         {

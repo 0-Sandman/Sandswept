@@ -1,4 +1,4 @@
-/*
+
 using IL.RoR2.Items;
 using RoR2.ContentManagement;
 using Sandswept.Items.VoidGreens;
@@ -19,17 +19,39 @@ namespace Sandswept.Equipment.Lunar
 
         public override string EquipmentLangTokenName => "FLAWLESS_DESIGN";
 
-        public override string EquipmentPickupDesc => "<style=cDeath>Permanently sacrifice maximum health</style> to <style=cIsUtility>duplicate items>/style>.";
+        public override string EquipmentPickupDesc => "Permanently sacrifice $srmaximum health$se to $suduplicate$se items.".AutoFormat();
 
-        public override string EquipmentFullDescription => $"Spend <style=cIsDeath>{BaseHealthCost}%</style> <style=cHealth>maximum health</style> <style=cDeath>PERMANENTLY</style> to <style=cIsUtility>duplicate a targeted item</style>. <style=cDeath>Health cost increases with item rarity</style>".AutoFormat();
-        public override string EquipmentLore => "your boats floated";
-        public override GameObject EquipmentModel => null;
+        public override string EquipmentFullDescription => $"$srPermanently$se sacrifice $sr{baseHealthCost}%$se of your $srmaximum health$se to $suduplicate$se a targeted item. $srHealth cost increases with item rarity$se.".AutoFormat();
+        public override string EquipmentLore =>
+        """
+        A furrified freestyle, lyrics of furry
+        My third eye make me shine like jewelry
+        You're just a rent-a-sweeper, your rhymes are minute-maid
+        I'll be here when it fades, to watch you flip like a Renegade
+        ( no lore yet )
+        """;
+        public override GameObject EquipmentModel => Main.hifuSandswept.LoadAsset<GameObject>("SacrificialBandHolder.prefab");
         public override bool IsLunar => true;
-        public override Sprite EquipmentIcon => null;
+        public override Sprite EquipmentIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texObama.png");
         public override float Cooldown => 45f;
 
         [ConfigField("Base Health Cost", "", 10)]
-        public static int BaseHealthCost;
+        public static int baseHealthCost;
+
+        [ConfigField("Equipment Cost Multiplier", "", 1.5f)]
+        public static float equipmentCostMultiplier;
+
+        [ConfigField("Green and Void Green Cost Multiplier", "", 2f)]
+        public static float greenAndVoidGreenCostMultiplier;
+
+        [ConfigField("Red and Void Red Cost Multiplier", "", 4f)]
+        public static float redAndVoidRedCostMultiplier;
+
+        [ConfigField("Yellow and Void Yellow Cost Multiplier", "", 3f)]
+        public static float yellowAndVoidYellowCostMultiplier;
+
+        [ConfigField("Lunar Cost Multiplier", "", 2f)]
+        public static float lunarCostMultiplier;
 
         public static GameObject DesignIndicator;
         public static LazyAddressable<GameObject> DuplicationEffect = new(() => Paths.GameObject.ExplosionLunarSun);
@@ -39,14 +61,15 @@ namespace Sandswept.Equipment.Lunar
             return new ItemDisplayRuleDict();
         }
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
-            CreateConfig(config);
-            CreateLang();
-            CreateEquipment();
-            Hooks();
+            base.Init();
+            SetUpIndicator();
+        }
 
-            DesignIndicator = PrefabAPI.InstantiateClone(Paths.GameObject.RecyclerIndicator, "DesignPickupIndicator");
+        public void SetUpIndicator()
+        {
+            DesignIndicator = PrefabAPI.InstantiateClone(Paths.GameObject.RecyclerIndicator, "DesignPickupIndicator", false);
         }
 
         public override void Hooks()
@@ -137,11 +160,11 @@ namespace Sandswept.Equipment.Lunar
         public static int GetCurseCostForPickup(PickupIndex index)
         {
             PickupDef def = PickupCatalog.GetPickupDef(index);
-            float cost = BaseHealthCost;
+            float cost = baseHealthCost;
 
             if (EquipmentCatalog.GetEquipmentDef(def.equipmentIndex))
             {
-                cost *= 1.5f;
+                cost *= equipmentCostMultiplier;
                 return (int)cost;
             }
 
@@ -149,17 +172,21 @@ namespace Sandswept.Equipment.Lunar
             {
                 case ItemTier.VoidTier2:
                 case ItemTier.Tier2:
-                    cost *= 2f;
+                    cost *= greenAndVoidGreenCostMultiplier;
                     break;
 
                 case ItemTier.VoidTier3:
                 case ItemTier.Tier3:
-                    cost *= 4f;
+                    cost *= redAndVoidRedCostMultiplier;
                     break;
 
                 case ItemTier.VoidBoss:
                 case ItemTier.Boss:
-                    cost *= 3f;
+                    cost *= yellowAndVoidYellowCostMultiplier;
+                    break;
+
+                case ItemTier.Lunar:
+                    cost *= lunarCostMultiplier;
                     break;
 
                 default:
@@ -195,4 +222,3 @@ namespace Sandswept.Equipment.Lunar
         }
     }
 }
-*/

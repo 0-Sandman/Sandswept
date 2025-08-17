@@ -70,7 +70,8 @@
                 localPos = new Vector3(1, -1, -0.9f),
                 localScale = new Vector3(0.5f, 0.5f, 0.5f),
                 followerPrefab = Main.assets.LoadAsset<GameObject>("DisplayCellShield.prefab"),
-                limbMask = LimbFlags.None
+                limbMask = LimbFlags.None,
+                followerPrefabAddress = new("useless"),
             });
         }
 
@@ -108,27 +109,59 @@
 
         public static void PulseShieldForBody(CharacterBody body)
         {
-            if (!body.equipmentSlot) return;
-            Transform display = body.equipmentSlot.FindActiveEquipmentDisplay();
+            if (!body)
+            {
+                return;
+            }
+
+            if (!body.equipmentSlot)
+            {
+                return;
+            }
+
+            var display = body.equipmentSlot.FindActiveEquipmentDisplay();
             if (!display || !display.GetComponent<ItemFollower>())
             {
                 return;
             }
 
-            display = display.GetComponent<ItemFollower>().followerInstance.transform;
+            var followerInstance = display.GetComponent<ItemFollower>().followerInstance;
+            if (!followerInstance)
+            {
+                return;
+            }
 
-            ChildLocator loc = display.GetComponent<ChildLocator>();
-            if (!loc) return;
+            display = followerInstance.transform;
 
-            Transform model = loc.FindChild("model");
+            var childLocator = display.GetComponent<ChildLocator>();
+            if (!childLocator)
+            {
+                return;
+            }
 
-            if (!model) return;
+            Transform model = childLocator.FindChild("model");
 
-            Animator anim = model.GetComponent<Animator>();
-            int layer = anim.GetLayerIndex("Base");
-            anim.Play("Pulse", layer);
+            if (!model)
+            {
+                return;
+            }
 
-            foreach (ParticleSystem system in model.parent.GetComponentsInChildren<ParticleSystem>())
+            var animator = model.GetComponent<Animator>();
+            if (!animator)
+            {
+                return;
+            }
+
+            int layer = animator.GetLayerIndex("Base");
+            animator.Play("Pulse", layer);
+
+            var parent = model.parent;
+            if (!parent)
+            {
+                return;
+            }
+
+            foreach (ParticleSystem system in parent.GetComponentsInChildren<ParticleSystem>())
             {
                 system.Play();
             }

@@ -298,6 +298,11 @@ namespace Sandswept.Interactables.Regular
             var eliteDef = randomPair.Keys.First();
 
             inventory.SetEquipmentIndex(equipmentIndex);
+            if (inventory.GetItemCount(RoR2Content.Items.UseAmbientLevel) <= 0)
+            {
+                inventory.GiveItem(RoR2Content.Items.UseAmbientLevel);
+            }
+            // just in case fix lol
             inventory.GiveItem(RoR2Content.Items.BoostHp, Mathf.Max(0, Mathf.RoundToInt(((eliteDef.healthBoostCoefficient * ShrineOfTheFuture.enemyStatsMultiplier) - 1f) * 10f)));
             inventory.GiveItem(RoR2Content.Items.BoostDamage, Mathf.Max(0, Mathf.RoundToInt(((eliteDef.damageBoostCoefficient * ShrineOfTheFuture.enemyStatsMultiplier) - 1f) * 10f)));
         }

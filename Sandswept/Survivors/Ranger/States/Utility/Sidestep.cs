@@ -4,7 +4,7 @@ namespace Sandswept.Survivors.Ranger.States.Utility
 {
     public class Sidestep : BaseState
     {
-        public static float Duration = 0.15f;
+        public static float Duration = 0.10f;
         public static float SpeedCoefficient = 11.3333333f;
         private Vector3 stepVector;
         private Transform modelTransform;
@@ -108,11 +108,6 @@ namespace Sandswept.Survivors.Ranger.States.Utility
                 {
                     characterBody.RemoveBuff(Buffs.SidestepCharge.instance.BuffDef);
                 }
-            }
-
-            if (characterMotor)
-            {
-                SmallHop(characterMotor, 12f);
             }
         }
     }

@@ -1296,10 +1296,7 @@ localScale = new Vector3(0.5F, 0.5F, 0.5F)
 
         public void OnDestroy()
         {
-            if (NetworkServer.active)
-            {
-                Destroy(wardInstance);
-            }
+            NetworkServer.Destroy(wardInstance);
         }
     }
 }

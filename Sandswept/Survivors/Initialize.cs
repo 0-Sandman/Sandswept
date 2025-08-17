@@ -1,4 +1,5 @@
 ﻿using Sandswept.Elites.VFX;
+using Sandswept.Survivors.Electrician.Crate;
 using Sandswept.Survivors.Electrician.VFX;
 using Sandswept.Survivors.Ranger.Hooks;
 using Sandswept.Survivors.Ranger.Pod;
@@ -32,6 +33,7 @@ namespace Sandswept.Survivors
             matRanger.SetFloat("_EmPower", 2.5f);
             matRanger.EnableKeyword("DITHER");
 
+            VoltCrate.Init();
             Electrician.Hooks.ShieldOverlay.Init();
             VoltVFX.Init();
 

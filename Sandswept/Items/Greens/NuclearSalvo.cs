@@ -530,6 +530,7 @@ namespace Sandswept.Items.Greens
             blastAttack.radius = NuclearSalvo.missileExplosionRadius;
             blastAttack.procChainMask = default;
             blastAttack.position = target.transform.position;
+            blastAttack.attacker = attacker;
 
             blastAttack.Fire();
 

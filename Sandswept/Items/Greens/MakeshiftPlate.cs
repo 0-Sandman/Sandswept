@@ -225,7 +225,7 @@ namespace Sandswept.Items.Greens
                 pl.CurrentPlating -= toRemove;
                 pl.CurrentPlating = Mathf.Clamp(pl.CurrentPlating, 0, pl.MaxPlating);
 
-                if (plating > 0 && Util.CheckRoll(100f * info.procCoefficient))
+                if (plating > 0 && Util.CheckRoll(100f * Main.GetProcRateForBaseDamageProc(info) * info.procCoefficient))
                 {
                     SphereSearch search = new()
                     {
@@ -269,12 +269,13 @@ namespace Sandswept.Items.Greens
             MakeshiftPlateCount.iconSprite = Main.mainAssets.LoadAsset<Sprite>("MakeshiftPlateBuffIcon.png");
             ContentAddition.AddBuffDef(MakeshiftPlateCount);
         }
-
+        /*
         public class PlatingManager : MonoBehaviour
         {
             public float CurrentPlating = 0;
             public float MaxPlating = 0;
         }
+        */
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {

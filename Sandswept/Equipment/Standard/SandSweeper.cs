@@ -168,6 +168,7 @@ namespace Sandswept.Equipment.Standard
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
                     followerPrefab = EquipmentModel,
+                    followerPrefabAddress = new("useless"),
                     childName = "Chest",
                     localPos = new Vector3(0, 0, -0.256f),
                     localAngles = new Vector3(0, 90, 348.7988f),
@@ -179,6 +180,7 @@ namespace Sandswept.Equipment.Standard
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
                     followerPrefab = EquipmentModel,
+                    followerPrefabAddress = new("useless"),
                     childName = "Pelvis",
                     localPos = new Vector3(-0.0183f, 0.1247f, 0.2044f),
                     localAngles = new Vector3(0, 90, 177.358f),
@@ -190,6 +192,7 @@ namespace Sandswept.Equipment.Standard
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
                     followerPrefab = EquipmentModel,
+                    followerPrefabAddress = new("useless"),
                     childName = "Chest",
                     localPos = new Vector3(0, -0.087f, -0.204f),
                     localAngles = new Vector3(0, 90, 348.7988f),
@@ -201,6 +204,7 @@ namespace Sandswept.Equipment.Standard
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
                     followerPrefab = EquipmentModel,
+                    followerPrefabAddress = new("useless"),
                     childName = "Hip",
                     localPos = new Vector3(-1.642f, 1.177f, 0),
                     localAngles = new Vector3(0, 90, 180),
@@ -212,6 +216,7 @@ namespace Sandswept.Equipment.Standard
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
                     followerPrefab = EquipmentModel,
+                    followerPrefabAddress = new("useless"),
                     childName = "CannonHeadL",
                     localPos = new Vector3(0.2037f, 0.1072f, -0.0098f),
                     localAngles = new Vector3(52.5723f, 269.3417f, 269.0913f),
@@ -223,6 +228,7 @@ namespace Sandswept.Equipment.Standard
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
                     followerPrefab = EquipmentModel,
+                    followerPrefabAddress = new("useless"),
                     childName = "Stomach",
                     localPos = new Vector3(-0.1005f, -0.076f, 0.1862f),
                     localAngles = new Vector3(0, 252.3484f, 0),
@@ -234,6 +240,7 @@ namespace Sandswept.Equipment.Standard
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
                     followerPrefab = EquipmentModel,
+                    followerPrefabAddress = new("useless"),
                     childName = "Stomach",
                     localPos = new Vector3(-0.1005f, -0.076f, 0.1862f),
                     localAngles = new Vector3(0, 252.3484f, 0),
@@ -245,6 +252,7 @@ namespace Sandswept.Equipment.Standard
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
                     followerPrefab = EquipmentModel,
+                    followerPrefabAddress = new("useless"),
                     childName = "Chest",
                     localPos = new Vector3(-0.2011f, 0.098f, -0.3147f),
                     localAngles = new Vector3(0, 117.8714f, 0),
@@ -256,6 +264,7 @@ namespace Sandswept.Equipment.Standard
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
                     followerPrefab = EquipmentModel,
+                    followerPrefabAddress = new("useless"),
                     childName = "Chest",
                     localPos = new Vector3(0, 0.201f, -0.378f),
                     localAngles = new Vector3(0, 90, 23.3119f),
@@ -267,6 +276,7 @@ namespace Sandswept.Equipment.Standard
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
                     followerPrefab = EquipmentModel,
+                    followerPrefabAddress = new("useless"),
                     childName = "FlowerBase",
                     localPos = new Vector3(-0.651f, 0.487f, -0.669f),
                     localAngles = new Vector3(0, 131.7342f, 0),
@@ -278,6 +288,7 @@ namespace Sandswept.Equipment.Standard
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
                     followerPrefab = EquipmentModel,
+                    followerPrefabAddress = new("useless"),
                     childName = "Chest",
                     localPos = new Vector3(0.2673f, 0.0405f, 0.1688f),
                     localAngles = new Vector3(0, 0, 0),
@@ -289,6 +300,7 @@ namespace Sandswept.Equipment.Standard
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
                     followerPrefab = EquipmentModel,
+                    followerPrefabAddress = new("useless"),
                     childName = "Hip",
                     localPos = new Vector3(1.98f, 2.553f, 0.541f),
                     localAngles = new Vector3(34.9679f, 126.7749f, 162.9854f),
@@ -300,6 +312,7 @@ namespace Sandswept.Equipment.Standard
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
                     followerPrefab = EquipmentModel,
+                    followerPrefabAddress = new("useless"),
                     childName = "TopRail",
                     localPos = new Vector3(-0.001f, 0.497f, 0.059f),
                     localAngles = new Vector3(90, 270, 0),
@@ -311,6 +324,7 @@ namespace Sandswept.Equipment.Standard
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
                     followerPrefab = EquipmentModel,
+                    followerPrefabAddress = new("useless"),
                     childName = "ForearmR",
                     localPos = new Vector3(0.1788f, 0.2191f, 0.1402f),
                     localAngles = new Vector3(55.8532f, 198.9949f, 166.9621f),

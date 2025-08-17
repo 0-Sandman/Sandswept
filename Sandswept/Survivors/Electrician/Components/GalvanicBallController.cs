@@ -153,6 +153,7 @@ namespace Sandswept.Survivors.Electrician
                     {
                         attack.Fire();
                         Util.PlaySound("Play_loader_R_shock", base.gameObject);
+                        Util.PlaySound("Play_mage_R_lightningBlast", gameObject);
                         EffectManager.SpawnEffect(impactVFX, new EffectData
                         {
                             origin = attack.position,

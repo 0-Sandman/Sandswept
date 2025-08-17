@@ -39,10 +39,11 @@ namespace Sandswept.Survivors.Ranger.Projectiles
 
             var sphereCollider = prefab.GetComponent<SphereCollider>();
             // sphereCollider.material = Paths.PhysicMaterial.physmatEngiGrenade;
-            sphereCollider.radius = 0.5f;
+            sphereCollider.radius = 0.25f;
             prefab.layer = LayerIndex.projectile.intVal;
 
             prefab.GetComponent<Rigidbody>().collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            prefab.GetComponent<Rigidbody>().useGravity = false;
 
             var projectileDamage = prefab.GetComponent<ProjectileDamage>();
             projectileDamage.damageType = DamageType.Generic;
@@ -52,17 +53,20 @@ namespace Sandswept.Survivors.Ranger.Projectiles
 
             var projectileImpactExplosion = prefab.GetComponent<ProjectileImpactExplosion>();
             projectileImpactExplosion.falloffModel = BlastAttack.FalloffModel.None;
-            projectileImpactExplosion.blastRadius = 2.5f; // easier to hit
+            projectileImpactExplosion.blastRadius = 4f; // easier to hit
             projectileImpactExplosion.bonusBlastForce = Vector3.zero;
             projectileImpactExplosion.lifetime = 5f;
             projectileImpactExplosion.impactEffect = impactPrefab;
 
             var projectileSimple = prefab.GetComponent<ProjectileSimple>();
             projectileSimple.lifetime = 5f;
-            projectileSimple.desiredForwardSpeed = 170f;
+            projectileSimple.desiredForwardSpeed = 240f;
 
-            var antiGravityForce = prefab.GetComponent<AntiGravityForce>();
-            antiGravityForce.antiGravityCoefficient = -0.2f;
+            prefab.RemoveComponent<AntiGravityForce>();
+            var antiGravityForce = prefab.AddComponent<CoolerAntiGravityForce>((x) => {
+                x.antiGravityCoefficient = -3.5f;
+                x.rampTime = 0.2f;
+            });
 
             var projectileController = prefab.GetComponent<ProjectileController>();
 
@@ -72,14 +76,56 @@ namespace Sandswept.Survivors.Ranger.Projectiles
             projectileController.ghostPrefab = newGhost;
 
             prefab.AddComponent<InverseFalloffProjectile>().DollarStoreConstructor(50f, 0.5f, 1.3f, 0.75f, 1.5f);
+            prefab.AddComponent<DirectImpactBoost>();
 
             prefab.RegisterNetworkPrefab();
             ContentAddition.AddProjectile(prefab);
 
             return prefab;
         }
+        public static int maxCharge = 20;
 
-        public static int maxCharge = 10;
+        public class DirectImpactBoost : MonoBehaviour {
+            public void Start() {
+                GetComponent<ProjectileExplosion>().OnProjectileExplosion += OnImpact;
+            }
+
+            public void OnImpact(BlastAttack attack, BlastAttack.Result result) {
+                HurtBox primary = null;
+                float closestDist = 999f;
+                for (int i = 0; i < result.hitPoints.Length; i++) {
+                    BlastAttack.HitPoint point = result.hitPoints[i];
+                    
+                    if (!point.hurtBox) {
+                        continue;
+                    }
+
+                    float dist = Vector3.Distance(point.hitPosition, attack.position);
+                    if (dist < (attack.radius * 0.3) && dist < closestDist) {
+                        closestDist = dist;
+                        primary = point.hurtBox;
+                    }
+                }
+                
+                if (primary && primary.healthComponent && attack.attacker) {
+                    attack.attacker.GetComponent<CharacterBody>((x) => {
+                        BuffIndex index = Buffs.Charge.instance.BuffDef.buffIndex;
+                        x.SetBuffCount(index, Math.Min(x.GetBuffCount(index) + 2, maxCharge));
+                    });
+
+                    AkSoundEngine.PostEvent(Events.Play_item_proc_chain_lightning, primary.gameObject);
+                    AkSoundEngine.PostEvent(Events.Play_merc_sword_impact, primary.gameObject);
+                    AkSoundEngine.PostEvent(Events.Play_wCrit, primary.gameObject);
+                    AkSoundEngine.PostEvent(Events.Play_mage_m1_cast_lightning, primary.gameObject);
+
+                    EffectManager.SpawnEffect(Paths.GameObject.OmniExplosionVFXRoboBallDeath, new EffectData
+                    {
+                        origin = primary.transform.position,
+                        scale = 0.5f
+                    }, false);
+                }
+            }
+        }
 
         public class InverseFalloffProjectile : MonoBehaviour {
             public Vector3 initialPosition;
