@@ -145,7 +145,8 @@
 
                             var realerDamageScalar = 1f / damageScalar;
                             var scaledSkillDamage = skillDamage * realerDamageScalar;
-                            var roundedSkillDamage = Mathf.RoundToInt(scaledSkillDamage) * stack;
+                            var stackScalar = baseBleedCount + stackBleedCount * (stack - 1);
+                            var roundedSkillDamage = Mathf.RoundToInt(scaledSkillDamage) * stackScalar;
 
                             for (int i = 0; i < roundedSkillDamage; i++)
                             {

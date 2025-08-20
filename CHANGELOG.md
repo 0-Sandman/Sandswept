@@ -42,6 +42,7 @@
   - Buffed Amber Knife Chance from 10% to 15%
   - Fixed Nuclear Salvo kills not giving gold
   - Fixed Nuclear Salvo spamming NREs on clients
+  - Fixed Sacrificial Band ignoring config
   - Fixed Glacial Plasma firing every frame on clients
   - Fixed Galvanic Cell Shield NRE (MemOPP update moment)
   - Fixed Sand Sweeper NRE (MemOPP update moment)
