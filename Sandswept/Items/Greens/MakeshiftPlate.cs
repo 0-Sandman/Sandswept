@@ -299,16 +299,19 @@ namespace Sandswept.Items.Greens
 
             public void OnReceived()
             {
-                if (!alreadyApplied) {
+                if (!alreadyApplied)
+                {
                     Process();
                 }
             }
 
-            public MakeshiftPlateAddSync() {
+            public MakeshiftPlateAddSync()
+            {
 
             }
 
-            public MakeshiftPlateAddSync(GameObject target, float plating, float maxPlating, bool remove) {
+            public MakeshiftPlateAddSync(GameObject target, float plating, float maxPlating, bool remove)
+            {
                 this.target = target;
                 this.plating = plating;
                 this.maxPlating = maxPlating;
@@ -325,12 +328,15 @@ namespace Sandswept.Items.Greens
                 writer.Write(remove);
             }
 
-            public void Process() {
+            public void Process()
+            {
                 alreadyApplied = true;
-                if (remove) {
+                if (remove)
+                {
                     target.RemoveComponent<PlatingManager>();
                 }
-                else {
+                else
+                {
                     PlatingManager manager = target.AddComponent<PlatingManager>();
                     manager.MaxPlating = maxPlating;
                     manager.CurrentPlating = plating;
