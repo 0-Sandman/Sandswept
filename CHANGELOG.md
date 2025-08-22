@@ -28,15 +28,15 @@
   - Fixed Hit Impact VFX spamming NREs while dead
   - Fixed mismatched VFX scales
 - Ranger
-  - Direct Current travel speed 170m/s -> 240m/s
-  - Aim Origin properly added, projectiles now originate from higher.
-  - Custom gravity curve added to Direct Current, now has a short period of floatiness before gravity ramps in.
-  - Direct Current projectile size reduced from 0.5m -> 0.25m
-  - Direct Current radius 2.5m -> 4m
-  - Direct Current now gives 3 charge on a direct hit.
-  - Ranger max charge capacity increased to 20 (all stuff that scaled off charge appropriately scales to be the same strength at the new max.)
-  - Sidestep no longer has a small hop at the end.
-  - Sidestep finishes faster (0.15s -> 0.1s)
+  - Added a proper Aim Origin - projectiles now originate from higher up
+  - Added a custom Gravity Curve added to Direct Current - now has a short period of floatiness before gravity ramps in
+  - Removed Sidestep's small jump at the end
+  - Buffed Direct Current Projectile Speed from 170m/s to 240m/s
+  - Buffed Direct Current Explosion Radius from 2.5m to 4m
+  - Buffed Direct Current to give 3 Charge on a direct hit
+  - Berfed Sidestep duration from 0.15s to 0.1s
+  - Nuffed Direct Current Projectile Size from 0.5m to 0.25m
+  - Nerfed Max Charge capacity from 10 to 20 (Everything that scaled with Charge is scaled appropriately to be the same at max, this is a nerf because you are now encouraged to hit direct hits with Direct Current for 150% Charge gain compared to before, otherwise it's halved)
 - Items/Equipment
   - Added ProcSolver Support
   - Buffed Amber Knife Chance from 10% to 15%
@@ -46,6 +46,9 @@
   - Fixed Glacial Plasma firing every frame on clients
   - Fixed Galvanic Cell Shield NRE (MemOPP update moment)
   - Fixed Sand Sweeper NRE (MemOPP update moment)
+- Interactables
+  - Fixed Shrine of Ruin not having VFX for clients
+  - Fixed Shrine of Ruin not properly clearing its language overlays
 
 ## 1.2.5 Patch Notes
 - VOL-T

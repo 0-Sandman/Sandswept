@@ -319,6 +319,15 @@ namespace Sandswept.Interactables.Regular
             orig(self);
             shouldReplaceDrops = false;
             shouldCorruptNextStage = false;
+            for (int i = 0; i < teleporterLanguageOverlays.Count; i++)
+            {
+                var languageOverlay = teleporterLanguageOverlays[i];
+                languageOverlay.Remove();
+            }
+
+            teleporterLanguageOverlays.Clear();
+
+            Language.SetCurrentLanguage(Language.currentLanguageName);
         }
 
         private PickupIndex OnGenerateDrop(On.RoR2.BasicPickupDropTable.orig_GenerateDropPreReplacement orig, BasicPickupDropTable self, Xoroshiro128Plus rng)
@@ -964,6 +973,8 @@ namespace Sandswept.Interactables.Regular
 
         public void AddShrineStack(Interactor interactor)
         {
+            StartCoroutine(ShrineOfRuin.CorruptTeleporter());
+
             // Main.ModLogger.LogError("trying to run add shrine stack");
             if (!NetworkServer.active)
             {
@@ -1021,8 +1032,6 @@ namespace Sandswept.Interactables.Regular
                 start = gameObject.transform.position + new Vector3(0f, 3f, 0f),
                 origin = origin.position
             }, true);
-
-            StartCoroutine(ShrineOfRuin.CorruptTeleporter());
 
             if (interactorBody)
             {
