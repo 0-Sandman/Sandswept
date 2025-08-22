@@ -85,6 +85,9 @@ namespace Sandswept.Drones.Inferno
             ContentAddition.AddProjectile(MortarProjectile);
             ContentAddition.AddProjectile(SigmaProjectile);
             ContentAddition.AddProjectile(SigmaProjectile2);
+            
+            ContentAddition.AddEntityState(typeof(InfernoPrimary), out _);
+            ContentAddition.AddEntityState(typeof(DeathState), out _);
         }
     }
 }

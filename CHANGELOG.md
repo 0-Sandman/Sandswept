@@ -39,6 +39,7 @@
   - Nerfed Max Charge capacity from 10 to 20 (Everything that scaled with Charge is scaled appropriately to be the same at max, this is a nerf because you are now encouraged to hit direct hits with Direct Current for 150% Charge gain compared to before, otherwise it's halved)
 - Items/Equipment
   - Added ProcSolver Support
+  - Added lip to the leftward border of Makeshift Plate . ,.,,.  . ,,
   - Buffed Amber Knife Chance from 10% to 15%
   - Fixed Nuclear Salvo kills not giving gold
   - Fixed Nuclear Salvo spamming NREs on clients
