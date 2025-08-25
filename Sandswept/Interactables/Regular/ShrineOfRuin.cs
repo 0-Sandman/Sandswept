@@ -1,4 +1,5 @@
-﻿using R2API.Networking.Interfaces;
+﻿using R2API.Networking;
+using R2API.Networking.Interfaces;
 using R2API.Utils;
 using RoR2.ExpansionManagement;
 using RoR2.Orbs;
@@ -649,6 +650,8 @@ namespace Sandswept.Interactables.Regular
             var kurwaRunnerKurwa = ShrineOfRuin.globalKurwaTracker.GetComponent<KurwaRunnerKurwa>();
             kurwaRunnerKurwa.StartCoroutine(kurwaRunnerKurwa.CorruptTeleporter());
 
+            new KurwaJegoJebanaKurwaMacKurwaJaPierKurwaDoleKurwaJebaneKurwaGlupieKurwaGownoPierdoloneKurwaKurwaKtoToKurwaWymyslilKurwaKurwaJakisJebanyChujKurwaPizdaPierdolonaKurwa(interactor.GetComponent<NetworkIdentity>().netId).Send(NetworkDestination.Clients);
+
             // Main.ModLogger.LogError("trying to run add shrine stack");
             if (!NetworkServer.active)
             {
@@ -1201,7 +1204,7 @@ namespace Sandswept.Interactables.Regular
                 return;
             }
 
-            var kurwaRunnerKurwa = globalKurwaTracker.GetComponent<KurwaRunnerKurwa>();
+            var kurwaRunnerKurwa = ShrineOfRuin.globalKurwaTracker.GetComponent<KurwaRunnerKurwa>();
             kurwaRunnerKurwa.StartCoroutine(kurwaRunnerKurwa.CorruptTeleporter());
 
         }
