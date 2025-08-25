@@ -1,7 +1,9 @@
-﻿using R2API.Utils;
+﻿using R2API.Networking.Interfaces;
+using R2API.Utils;
 using RoR2.ExpansionManagement;
 using RoR2.Orbs;
 using RoR2.UI;
+using Sandswept.Interactables.Regular;
 using System.Collections;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -86,9 +88,13 @@ namespace Sandswept.Interactables.Regular
 
         public static GameObject decal;
 
+        public static GameObject globalKurwaTracker;
+
         public override void Init()
         {
             base.Init();
+
+            globalKurwaTracker = new GameObject("Hallowed Ichor Tracker", typeof(SetDontDestroyOnLoad), typeof(KurwaRunnerKurwa));
 
             corruptedTeleporterFresnelMaterial = new Material(Paths.Material.matTeleporterFresnelOverlay);
             corruptedTeleporterFresnelMaterial.SetColor("_TintColor", new Color32(255, 0, 164, 255));
@@ -400,7 +406,8 @@ namespace Sandswept.Interactables.Regular
                 if (weightedSelection.choices.Length > 0)
                 {
                     self.PickNextStageScene(weightedSelection);
-                    self.StartCoroutine(CorruptTeleporter());
+                    var kurwaRunnerKurwa = globalKurwaTracker.GetComponent<KurwaRunnerKurwa>();
+                    kurwaRunnerKurwa.StartCoroutine(kurwaRunnerKurwa.CorruptTeleporter());
                     return;
                 }
             }
@@ -491,7 +498,350 @@ namespace Sandswept.Interactables.Regular
             }
         }
 
-        public static IEnumerator CorruptTeleporter()
+        public class VoidedPickupTable
+        {
+            public WeightedSelection<PickupIndex> TierSelection = new();
+            public Xoroshiro128Plus rng;
+
+            public void PopulateFromDropTable(BasicPickupDropTable table)
+            {
+                TierSelection.Clear();
+                AddToSelection(Run.instance.availableVoidTier1DropList, TierSelection, table, table.tier1Weight);
+                AddToSelection(Run.instance.availableVoidTier2DropList, TierSelection, table, table.tier2Weight);
+                AddToSelection(Run.instance.availableVoidTier3DropList, TierSelection, table, table.tier3Weight);
+                AddToSelection(Run.instance.availableVoidTier1DropList, TierSelection, table, table.voidTier1Weight);
+                AddToSelection(Run.instance.availableVoidTier2DropList, TierSelection, table, table.voidTier2Weight);
+                AddToSelection(Run.instance.availableVoidTier3DropList, TierSelection, table, table.voidTier3Weight);
+                AddToSelection(Run.instance.availableEquipmentDropList, TierSelection, table, table.equipmentWeight);
+                AddToSelection(Run.instance.availableLunarCombinedDropList, TierSelection, table, table.lunarCombinedWeight);
+                AddToSelection(Run.instance.availableVoidBossDropList, TierSelection, table, table.bossWeight);
+            }
+
+            public VoidedPickupTable(BasicPickupDropTable table, Xoroshiro128Plus rng)
+            {
+                PopulateFromDropTable(table);
+                this.rng = rng;
+            }
+
+            public PickupIndex GenerateDrop()
+            {
+                return TierSelection.Evaluate(rng.nextNormalizedFloat);
+            }
+
+            public ItemTierDef GetTierForSelection(List<PickupIndex> selection)
+            {
+                return ItemCatalog.GetItemDef(PickupCatalog.GetPickupDef(selection[0]).itemIndex)._itemTierDef;
+            }
+
+            public void AddToSelection(List<PickupIndex> indices, WeightedSelection<PickupIndex> selection, BasicPickupDropTable table, float weight)
+            {
+                foreach (PickupIndex index in indices)
+                {
+                    if (!IsFilterRequired() || PassesFilter(index))
+                    {
+                        selection.AddChoice(index, weight);
+                    }
+                }
+
+                bool IsFilterRequired()
+                {
+                    if (table.requiredItemTags.Length == 0)
+                    {
+                        return table.bannedItemTags.Length == 0;
+                    }
+
+                    return true;
+                }
+
+                bool PassesFilter(PickupIndex index)
+                {
+                    PickupDef def = PickupCatalog.GetPickupDef(index);
+                    if (def.itemIndex != ItemIndex.None)
+                    {
+                        ItemDef item = ItemCatalog.GetItemDef(def.itemIndex);
+
+                        foreach (ItemTag value in table.bannedItemTags)
+                        {
+                            if (Array.IndexOf(item.tags, value) != -1)
+                            {
+                                return false;
+                            }
+                        }
+
+                        foreach (ItemTag value in table.requiredItemTags)
+                        {
+                            if (Array.IndexOf(item.tags, value) == -1)
+                            {
+                                return false;
+                            }
+                        }
+
+                        return true;
+                    }
+                    return false;
+                }
+            }
+        }
+    }
+
+    public class UnityIsAFuckingPieceOfShit2 : MonoBehaviour
+    {
+        public PurchaseInteraction purchaseInteraction;
+        public ShrineOfRuinController shrineRuinBehavior;
+
+        public void Start()
+        {
+            shrineRuinBehavior = GetComponent<ShrineOfRuinController>();
+            purchaseInteraction = GetComponent<PurchaseInteraction>();
+            purchaseInteraction.costType = ShrineOfRuin.costTypeIndex;
+            purchaseInteraction.onPurchase.AddListener(shrineRuinBehavior.AddShrineStack);
+        }
+    }
+
+    public class ShrineOfRuinController : ShrineBehavior
+    {
+        public int faggot = 1;
+
+        public float costMultiplierPerPurchase;
+
+        public Transform symbolTransform;
+
+        private PurchaseInteraction purchaseInteraction;
+
+        private int purchaseCount;
+
+        private float refreshTimer;
+
+        private const float refreshDuration = 2f;
+
+        private bool waitingForRefresh;
+
+        public int itemCount = ShrineOfSacrifice.itemCount;
+
+        public override int GetNetworkChannel()
+        {
+            return RoR2.Networking.QosChannelIndex.defaultReliable.intVal;
+        }
+
+        private void Start()
+        {
+            // Main.ModLogger.LogError("shrine sacrifice behavior start");
+            purchaseInteraction = GetComponent<PurchaseInteraction>();
+            symbolTransform = transform.Find("Symbol");
+        }
+
+        public void FixedUpdate()
+        {
+            if (waitingForRefresh)
+            {
+                refreshTimer -= Time.fixedDeltaTime;
+                if (refreshTimer <= 0f && purchaseCount < faggot)
+                {
+                    purchaseInteraction.SetAvailable(true);
+                    purchaseInteraction.Networkcost = ShrineOfRuin.whiteItemCost;
+                    waitingForRefresh = false;
+                }
+            }
+        }
+
+        public void AddShrineStack(Interactor interactor)
+        {
+            var kurwaRunnerKurwa = ShrineOfRuin.globalKurwaTracker.GetComponent<KurwaRunnerKurwa>();
+            kurwaRunnerKurwa.StartCoroutine(kurwaRunnerKurwa.CorruptTeleporter());
+
+            // Main.ModLogger.LogError("trying to run add shrine stack");
+            if (!NetworkServer.active)
+            {
+                // Main.ModLogger.LogError("NETWORK SERVER NOT ACTRIVE EEEE ");
+                // Debug.LogWarning("[Server] function 'System.Void RoR2.ShrineBloodBehavior::AddShrineStack(RoR2.Interactor)' called on client");
+                return;
+            }
+            waitingForRefresh = true;
+
+            var interactorBody = interactor.GetComponent<CharacterBody>();
+
+            var inventory = interactorBody.inventory;
+            if (!inventory || inventory.itemAcquisitionOrder == null)
+            {
+                return;
+            }
+
+            WeightedSelection<ItemIndex> itemsToRemove = new();
+
+            int numItems = 0;
+
+            foreach (var item in inventory.itemAcquisitionOrder)
+            {
+                var def = ItemCatalog.GetItemDef(item);
+                if (def.tier != ItemTier.Tier1 /*|| def.ContainsTag(ItemTag.Scrap)*/) continue;
+                var count = inventory.GetItemCount(def);
+                itemsToRemove.AddChoice(item, count); numItems += count;
+            }
+
+            if (numItems < ShrineOfRuin.whiteItemCost)
+            {
+                return;
+            }
+
+            StartCoroutine(RemoveItems(itemsToRemove, interactorBody, inventory));
+
+            if (Run.instance)
+            {
+                ShrineOfRuin.shouldCorruptNextStage = true;
+            }
+
+            Transform origin = TeleporterInteraction.instance.transform;
+            var baseMesh = TeleporterInteraction.instance.transform.Find("BaseMesh");
+            if (baseMesh)
+            {
+                var surfaceHeight = baseMesh.Find("SurfaceHeight");
+                if (surfaceHeight)
+                {
+                    origin = surfaceHeight;
+                }
+            }
+
+            EffectManager.SpawnEffect(ShrineOfRuin.voidLink, new EffectData
+            {
+                start = gameObject.transform.position + new Vector3(0f, 3f, 0f),
+                origin = origin.position
+            }, true);
+
+            if (interactorBody)
+            {
+                Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage
+                {
+                    subjectAsCharacterBody = interactorBody,
+                    baseToken = "SANDSWEPT_SHRINE_RUIN_USE_MESSAGE",
+                });
+            }
+
+            EffectManager.SpawnEffect(ShrineOfRuin.shrineVFX, new EffectData
+            {
+                origin = base.transform.position,
+                rotation = Quaternion.identity,
+                scale = 1.5f,
+                color = new Color32(96, 20, 87, 255)
+            }, true);
+
+            Util.PlaySound("Play_deathProjectile_pulse", gameObject);
+            Util.PlaySound("Play_deathProjectile_pulse", gameObject);
+            StartCoroutine(TheVoices());
+
+            purchaseCount++;
+            refreshTimer = 2f;
+            if (purchaseCount >= faggot)
+            {
+                symbolTransform.gameObject.SetActive(false);
+                CallRpcSetPingable(false);
+                purchaseInteraction.SetAvailable(false);
+            }
+        }
+
+        public IEnumerator RemoveItems(WeightedSelection<ItemIndex> itemsToRemove, CharacterBody interactorBody, Inventory inventory)
+        {
+            for (int i = 0; i < ShrineOfRuin.whiteItemCost; i++)
+            {
+                // Main.ModLogger.LogError("runnning remove items for loop #" + i);
+
+                var idx = itemsToRemove.EvaluateToChoiceIndex(Run.instance.treasureRng.nextNormalizedFloat);
+                var choice = itemsToRemove.GetChoice(idx);
+
+                PurchaseInteraction.CreateItemTakenOrb(interactorBody.corePosition, gameObject, choice.value);
+
+                inventory.RemoveItem(ItemCatalog.GetItemDef(choice.value));
+
+                Util.PlaySound("Play_voidJailer_m1_impact", gameObject);
+
+                if (choice.weight <= 1)
+                {
+                    itemsToRemove.RemoveChoice(idx);
+                }
+                else
+                {
+                    itemsToRemove.ModifyChoiceWeight(idx, choice.weight - 1);
+                }
+                yield return new WaitForSeconds(0.5f / ShrineOfRuin.whiteItemCost);
+            }
+
+            var materialPropertyBlock = new MaterialPropertyBlock();
+
+            materialPropertyBlock.SetColor("_EmColor", new Color32(215, 0, 255, 255));
+
+            var model = gameObject.GetComponent<ModelLocator>().modelTransform;
+
+            model.GetComponent<Light>().range = 60f;
+
+            model.Find("shrineRuinInner").GetComponent<MeshRenderer>().SetPropertyBlock(materialPropertyBlock);
+
+            yield return null;
+        }
+
+        public IEnumerator TheVoices()
+        {
+            Util.PlaySound("Play_voidRaid_fog_explode", gameObject);
+
+            Util.PlaySound("Play_voidRaid_fog_affectPlayer", gameObject);
+            Util.PlaySound("Play_voidRaid_fog_affectPlayer", gameObject);
+
+            yield return new WaitForSeconds(5f);
+
+            Util.PlaySound("Stop_voidRaid_fog_affectPlayer", gameObject);
+            Util.PlaySound("Stop_voidRaid_fog_affectPlayer", gameObject);
+
+            gameObject.SetActive(false);
+        }
+
+        public static bool HasMetRequirement(CharacterBody interactorBody)
+        {
+            var inventory = interactorBody.inventory;
+            if (!inventory || inventory.itemAcquisitionOrder == null)
+            {
+                return false;
+            }
+
+            WeightedSelection<ItemIndex> itemsToRemove = new();
+
+            int numItems = 0;
+
+            foreach (var item in inventory.itemAcquisitionOrder)
+            {
+                var def = ItemCatalog.GetItemDef(item);
+                if (def.tier != ItemTier.Tier1 /*|| def.ContainsTag(ItemTag.Scrap)*/) continue;
+                var count = inventory.GetItemCount(def);
+                itemsToRemove.AddChoice(item, count); numItems += count;
+            }
+
+            if (numItems < ShrineOfRuin.whiteItemCost)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private void UNetVersion()
+        { }
+
+        public override bool OnSerialize(NetworkWriter writer, bool forceAll)
+        {
+            return base.OnSerialize(writer, forceAll);
+        }
+
+        public override void OnDeserialize(NetworkReader reader, bool initialState)
+        {
+            base.OnDeserialize(reader, initialState);
+        }
+
+        public override void PreStartClient()
+        {
+            base.PreStartClient();
+        }
+    }
+
+    public class KurwaRunnerKurwa : MonoBehaviour
+    {
+        public IEnumerator CorruptTeleporter()
         {
             if (!TeleporterInteraction.instance)
             {
@@ -818,350 +1168,47 @@ namespace Sandswept.Interactables.Regular
                 yield return new WaitForSeconds(0.1f);
                 DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampXYZOpen, directorPlacementRule, Run.instance.spawnRng));
             }
-        }
 
-        private static void HoldoutZoneController_calcColor(ref Color color)
+        }
+        private void HoldoutZoneController_calcColor(ref Color color)
         {
             color = new Color(0.25f, 0f, 1f, 1f) * 2f;
         }
-
-        public class VoidedPickupTable
-        {
-            public WeightedSelection<PickupIndex> TierSelection = new();
-            public Xoroshiro128Plus rng;
-
-            public void PopulateFromDropTable(BasicPickupDropTable table)
-            {
-                TierSelection.Clear();
-                AddToSelection(Run.instance.availableVoidTier1DropList, TierSelection, table, table.tier1Weight);
-                AddToSelection(Run.instance.availableVoidTier2DropList, TierSelection, table, table.tier2Weight);
-                AddToSelection(Run.instance.availableVoidTier3DropList, TierSelection, table, table.tier3Weight);
-                AddToSelection(Run.instance.availableVoidTier1DropList, TierSelection, table, table.voidTier1Weight);
-                AddToSelection(Run.instance.availableVoidTier2DropList, TierSelection, table, table.voidTier2Weight);
-                AddToSelection(Run.instance.availableVoidTier3DropList, TierSelection, table, table.voidTier3Weight);
-                AddToSelection(Run.instance.availableEquipmentDropList, TierSelection, table, table.equipmentWeight);
-                AddToSelection(Run.instance.availableLunarCombinedDropList, TierSelection, table, table.lunarCombinedWeight);
-                AddToSelection(Run.instance.availableVoidBossDropList, TierSelection, table, table.bossWeight);
-            }
-
-            public VoidedPickupTable(BasicPickupDropTable table, Xoroshiro128Plus rng)
-            {
-                PopulateFromDropTable(table);
-                this.rng = rng;
-            }
-
-            public PickupIndex GenerateDrop()
-            {
-                return TierSelection.Evaluate(rng.nextNormalizedFloat);
-            }
-
-            public ItemTierDef GetTierForSelection(List<PickupIndex> selection)
-            {
-                return ItemCatalog.GetItemDef(PickupCatalog.GetPickupDef(selection[0]).itemIndex)._itemTierDef;
-            }
-
-            public void AddToSelection(List<PickupIndex> indices, WeightedSelection<PickupIndex> selection, BasicPickupDropTable table, float weight)
-            {
-                foreach (PickupIndex index in indices)
-                {
-                    if (!IsFilterRequired() || PassesFilter(index))
-                    {
-                        selection.AddChoice(index, weight);
-                    }
-                }
-
-                bool IsFilterRequired()
-                {
-                    if (table.requiredItemTags.Length == 0)
-                    {
-                        return table.bannedItemTags.Length == 0;
-                    }
-
-                    return true;
-                }
-
-                bool PassesFilter(PickupIndex index)
-                {
-                    PickupDef def = PickupCatalog.GetPickupDef(index);
-                    if (def.itemIndex != ItemIndex.None)
-                    {
-                        ItemDef item = ItemCatalog.GetItemDef(def.itemIndex);
-
-                        foreach (ItemTag value in table.bannedItemTags)
-                        {
-                            if (Array.IndexOf(item.tags, value) != -1)
-                            {
-                                return false;
-                            }
-                        }
-
-                        foreach (ItemTag value in table.requiredItemTags)
-                        {
-                            if (Array.IndexOf(item.tags, value) == -1)
-                            {
-                                return false;
-                            }
-                        }
-
-                        return true;
-                    }
-                    return false;
-                }
-            }
-        }
     }
 
-    public class UnityIsAFuckingPieceOfShit2 : MonoBehaviour
+    public class KurwaJegoJebanaKurwaMacKurwaJaPierKurwaDoleKurwaJebaneKurwaGlupieKurwaGownoPierdoloneKurwaKurwaKtoToKurwaWymyslilKurwaKurwaJakisJebanyChujKurwaPizdaPierdolonaKurwa : INetMessage
     {
-        public PurchaseInteraction purchaseInteraction;
-        public ShrineOfRuinController shrineRuinBehavior;
+        public NetworkInstanceId objID;
 
-        public void Start()
+        public KurwaJegoJebanaKurwaMacKurwaJaPierKurwaDoleKurwaJebaneKurwaGlupieKurwaGownoPierdoloneKurwaKurwaKtoToKurwaWymyslilKurwaKurwaJakisJebanyChujKurwaPizdaPierdolonaKurwa()
         {
-            shrineRuinBehavior = GetComponent<ShrineOfRuinController>();
-            purchaseInteraction = GetComponent<PurchaseInteraction>();
-            purchaseInteraction.costType = ShrineOfRuin.costTypeIndex;
-            purchaseInteraction.onPurchase.AddListener(shrineRuinBehavior.AddShrineStack);
-        }
-    }
-
-    public class ShrineOfRuinController : ShrineBehavior
-    {
-        public int faggot = 1;
-
-        public float costMultiplierPerPurchase;
-
-        public Transform symbolTransform;
-
-        private PurchaseInteraction purchaseInteraction;
-
-        private int purchaseCount;
-
-        private float refreshTimer;
-
-        private const float refreshDuration = 2f;
-
-        private bool waitingForRefresh;
-
-        public int itemCount = ShrineOfSacrifice.itemCount;
-
-        public override int GetNetworkChannel()
-        {
-            return RoR2.Networking.QosChannelIndex.defaultReliable.intVal;
         }
 
-        private void Start()
+        public KurwaJegoJebanaKurwaMacKurwaJaPierKurwaDoleKurwaJebaneKurwaGlupieKurwaGownoPierdoloneKurwaKurwaKtoToKurwaWymyslilKurwaKurwaJakisJebanyChujKurwaPizdaPierdolonaKurwa(NetworkInstanceId objID)
         {
-            // Main.ModLogger.LogError("shrine sacrifice behavior start");
-            purchaseInteraction = GetComponent<PurchaseInteraction>();
-            symbolTransform = transform.Find("Symbol");
+            this.objID = objID;
         }
 
-        public void FixedUpdate()
+        public void Deserialize(NetworkReader reader)
         {
-            if (waitingForRefresh)
-            {
-                refreshTimer -= Time.fixedDeltaTime;
-                if (refreshTimer <= 0f && purchaseCount < faggot)
-                {
-                    purchaseInteraction.SetAvailable(true);
-                    purchaseInteraction.Networkcost = ShrineOfRuin.whiteItemCost;
-                    waitingForRefresh = false;
-                }
-            }
+            objID = reader.ReadNetworkId();
         }
 
-        public void AddShrineStack(Interactor interactor)
+        public void OnReceived()
         {
-            StartCoroutine(ShrineOfRuin.CorruptTeleporter());
-
-            // Main.ModLogger.LogError("trying to run add shrine stack");
-            if (!NetworkServer.active)
-            {
-                // Main.ModLogger.LogError("NETWORK SERVER NOT ACTRIVE EEEE ");
-                // Debug.LogWarning("[Server] function 'System.Void RoR2.ShrineBloodBehavior::AddShrineStack(RoR2.Interactor)' called on client");
-                return;
-            }
-            waitingForRefresh = true;
-
-            var interactorBody = interactor.GetComponent<CharacterBody>();
-
-            var inventory = interactorBody.inventory;
-            if (!inventory || inventory.itemAcquisitionOrder == null)
+            if (NetworkServer.active)
             {
                 return;
             }
 
-            WeightedSelection<ItemIndex> itemsToRemove = new();
+            var kurwaRunnerKurwa = globalKurwaTracker.GetComponent<KurwaRunnerKurwa>();
+            kurwaRunnerKurwa.StartCoroutine(kurwaRunnerKurwa.CorruptTeleporter());
 
-            int numItems = 0;
-
-            foreach (var item in inventory.itemAcquisitionOrder)
-            {
-                var def = ItemCatalog.GetItemDef(item);
-                if (def.tier != ItemTier.Tier1 /*|| def.ContainsTag(ItemTag.Scrap)*/) continue;
-                var count = inventory.GetItemCount(def);
-                itemsToRemove.AddChoice(item, count); numItems += count;
-            }
-
-            if (numItems < ShrineOfRuin.whiteItemCost)
-            {
-                return;
-            }
-
-            StartCoroutine(RemoveItems(itemsToRemove, interactorBody, inventory));
-
-            if (Run.instance)
-            {
-                ShrineOfRuin.shouldCorruptNextStage = true;
-            }
-
-            Transform origin = TeleporterInteraction.instance.transform;
-            var baseMesh = TeleporterInteraction.instance.transform.Find("BaseMesh");
-            if (baseMesh)
-            {
-                var surfaceHeight = baseMesh.Find("SurfaceHeight");
-                if (surfaceHeight)
-                {
-                    origin = surfaceHeight;
-                }
-            }
-
-            EffectManager.SpawnEffect(ShrineOfRuin.voidLink, new EffectData
-            {
-                start = gameObject.transform.position + new Vector3(0f, 3f, 0f),
-                origin = origin.position
-            }, true);
-
-            if (interactorBody)
-            {
-                Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage
-                {
-                    subjectAsCharacterBody = interactorBody,
-                    baseToken = "SANDSWEPT_SHRINE_RUIN_USE_MESSAGE",
-                });
-            }
-
-            EffectManager.SpawnEffect(ShrineOfRuin.shrineVFX, new EffectData
-            {
-                origin = base.transform.position,
-                rotation = Quaternion.identity,
-                scale = 1.5f,
-                color = new Color32(96, 20, 87, 255)
-            }, true);
-
-            Util.PlaySound("Play_deathProjectile_pulse", gameObject);
-            Util.PlaySound("Play_deathProjectile_pulse", gameObject);
-            StartCoroutine(TheVoices());
-
-            purchaseCount++;
-            refreshTimer = 2f;
-            if (purchaseCount >= faggot)
-            {
-                symbolTransform.gameObject.SetActive(false);
-                CallRpcSetPingable(false);
-                purchaseInteraction.SetAvailable(false);
-            }
         }
 
-        public IEnumerator RemoveItems(WeightedSelection<ItemIndex> itemsToRemove, CharacterBody interactorBody, Inventory inventory)
+        public void Serialize(NetworkWriter writer)
         {
-            for (int i = 0; i < ShrineOfRuin.whiteItemCost; i++)
-            {
-                // Main.ModLogger.LogError("runnning remove items for loop #" + i);
-
-                var idx = itemsToRemove.EvaluateToChoiceIndex(Run.instance.treasureRng.nextNormalizedFloat);
-                var choice = itemsToRemove.GetChoice(idx);
-
-                PurchaseInteraction.CreateItemTakenOrb(interactorBody.corePosition, gameObject, choice.value);
-
-                inventory.RemoveItem(ItemCatalog.GetItemDef(choice.value));
-
-                Util.PlaySound("Play_voidJailer_m1_impact", gameObject);
-
-                if (choice.weight <= 1)
-                {
-                    itemsToRemove.RemoveChoice(idx);
-                }
-                else
-                {
-                    itemsToRemove.ModifyChoiceWeight(idx, choice.weight - 1);
-                }
-                yield return new WaitForSeconds(0.5f / ShrineOfRuin.whiteItemCost);
-            }
-
-            var materialPropertyBlock = new MaterialPropertyBlock();
-
-            materialPropertyBlock.SetColor("_EmColor", new Color32(215, 0, 255, 255));
-
-            var model = gameObject.GetComponent<ModelLocator>().modelTransform;
-
-            model.GetComponent<Light>().range = 60f;
-
-            model.Find("shrineRuinInner").GetComponent<MeshRenderer>().SetPropertyBlock(materialPropertyBlock);
-
-            yield return null;
-        }
-
-        public IEnumerator TheVoices()
-        {
-            Util.PlaySound("Play_voidRaid_fog_explode", gameObject);
-
-            Util.PlaySound("Play_voidRaid_fog_affectPlayer", gameObject);
-            Util.PlaySound("Play_voidRaid_fog_affectPlayer", gameObject);
-
-            yield return new WaitForSeconds(5f);
-
-            Util.PlaySound("Stop_voidRaid_fog_affectPlayer", gameObject);
-            Util.PlaySound("Stop_voidRaid_fog_affectPlayer", gameObject);
-
-            gameObject.SetActive(false);
-        }
-
-        public static bool HasMetRequirement(CharacterBody interactorBody)
-        {
-            var inventory = interactorBody.inventory;
-            if (!inventory || inventory.itemAcquisitionOrder == null)
-            {
-                return false;
-            }
-
-            WeightedSelection<ItemIndex> itemsToRemove = new();
-
-            int numItems = 0;
-
-            foreach (var item in inventory.itemAcquisitionOrder)
-            {
-                var def = ItemCatalog.GetItemDef(item);
-                if (def.tier != ItemTier.Tier1 /*|| def.ContainsTag(ItemTag.Scrap)*/) continue;
-                var count = inventory.GetItemCount(def);
-                itemsToRemove.AddChoice(item, count); numItems += count;
-            }
-
-            if (numItems < ShrineOfRuin.whiteItemCost)
-            {
-                return false;
-            }
-
-            return true;
-        }
-
-        private void UNetVersion()
-        { }
-
-        public override bool OnSerialize(NetworkWriter writer, bool forceAll)
-        {
-            return base.OnSerialize(writer, forceAll);
-        }
-
-        public override void OnDeserialize(NetworkReader reader, bool initialState)
-        {
-            base.OnDeserialize(reader, initialState);
-        }
-
-        public override void PreStartClient()
-        {
-            base.PreStartClient();
+            writer.Write(objID);
         }
     }
 }
