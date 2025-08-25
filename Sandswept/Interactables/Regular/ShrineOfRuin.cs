@@ -95,7 +95,7 @@ namespace Sandswept.Interactables.Regular
         {
             base.Init();
 
-            globalKurwaTracker = new GameObject("Hallowed Ichor Tracker", typeof(SetDontDestroyOnLoad), typeof(KurwaRunnerKurwa));
+            globalKurwaTracker = new GameObject("Shrine of Ruin VFX Tracker", typeof(SetDontDestroyOnLoad), typeof(KurwaRunnerKurwa));
 
             corruptedTeleporterFresnelMaterial = new Material(Paths.Material.matTeleporterFresnelOverlay);
             corruptedTeleporterFresnelMaterial.SetColor("_TintColor", new Color32(255, 0, 164, 255));
@@ -647,9 +647,6 @@ namespace Sandswept.Interactables.Regular
 
         public void AddShrineStack(Interactor interactor)
         {
-            var kurwaRunnerKurwa = ShrineOfRuin.globalKurwaTracker.GetComponent<KurwaRunnerKurwa>();
-            kurwaRunnerKurwa.StartCoroutine(kurwaRunnerKurwa.CorruptTeleporter());
-
             new KurwaJegoJebanaKurwaMacKurwaJaPierKurwaDoleKurwaJebaneKurwaGlupieKurwaGownoPierdoloneKurwaKurwaKtoToKurwaWymyslilKurwaKurwaJakisJebanyChujKurwaPizdaPierdolonaKurwa(interactor.GetComponent<NetworkIdentity>().netId).Send(NetworkDestination.Clients);
 
             // Main.ModLogger.LogError("trying to run add shrine stack");
@@ -659,6 +656,11 @@ namespace Sandswept.Interactables.Regular
                 // Debug.LogWarning("[Server] function 'System.Void RoR2.ShrineBloodBehavior::AddShrineStack(RoR2.Interactor)' called on client");
                 return;
             }
+
+            var kurwaRunnerKurwa = ShrineOfRuin.globalKurwaTracker.GetComponent<KurwaRunnerKurwa>();
+            kurwaRunnerKurwa.StartCoroutine(kurwaRunnerKurwa.CorruptTeleporter());
+            kurwaRunnerKurwa.StartCoroutine(kurwaRunnerKurwa.SpawnProps());
+
             waitingForRefresh = true;
 
             var interactorBody = interactor.GetComponent<CharacterBody>();
@@ -847,11 +849,6 @@ namespace Sandswept.Interactables.Regular
         public IEnumerator CorruptTeleporter()
         {
             if (!TeleporterInteraction.instance)
-            {
-                yield break;
-            }
-
-            if (!DirectorCore.instance)
             {
                 yield break;
             }
@@ -1146,6 +1143,26 @@ namespace Sandswept.Interactables.Regular
                 }
             }
 
+        }
+        private void HoldoutZoneController_calcColor(ref Color color)
+        {
+            color = new Color(0.25f, 0f, 1f, 1f) * 2f;
+        }
+
+        public IEnumerator SpawnProps()
+        {
+            if (!DirectorCore.instance)
+            {
+                yield break;
+            }
+
+            if (!TeleporterInteraction.instance)
+            {
+                yield break;
+            }
+
+            yield return new WaitForSeconds(0.99f);
+
             var directorPlacementRule = new DirectorPlacementRule()
             {
                 minDistance = 16f,
@@ -1171,11 +1188,6 @@ namespace Sandswept.Interactables.Regular
                 yield return new WaitForSeconds(0.1f);
                 DirectorCore.instance.TrySpawnObject(new DirectorSpawnRequest(Paths.SpawnCard.scVoidCampXYZOpen, directorPlacementRule, Run.instance.spawnRng));
             }
-
-        }
-        private void HoldoutZoneController_calcColor(ref Color color)
-        {
-            color = new Color(0.25f, 0f, 1f, 1f) * 2f;
         }
     }
 
@@ -1206,7 +1218,6 @@ namespace Sandswept.Interactables.Regular
 
             var kurwaRunnerKurwa = ShrineOfRuin.globalKurwaTracker.GetComponent<KurwaRunnerKurwa>();
             kurwaRunnerKurwa.StartCoroutine(kurwaRunnerKurwa.CorruptTeleporter());
-
         }
 
         public void Serialize(NetworkWriter writer)
