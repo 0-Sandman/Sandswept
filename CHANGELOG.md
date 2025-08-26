@@ -32,11 +32,13 @@
   - Added a custom Gravity Curve added to Direct Current - now has a short period of floatiness before gravity ramps in
   - Removed Sidestep's small jump at the end
   - Buffed Direct Current Projectile Speed from 170m/s to 240m/s
-  - Buffed Direct Current Explosion Radius from 2.5m to 4m
+  - Buffed Direct Current Explosion Radius from 2.5m to 3m
+  - Buffed Direct Current Explosion Radius to scale over distance. Maximum is ... 4.5m? 20m? pseudopulse ! !
   - Buffed Direct Current to give 3 Charge on a direct hit
   - Berfed Sidestep duration from 0.15s to 0.1s
   - Nuffed Direct Current Projectile Size from 0.5m to 0.25m
   - Nerfed Max Charge capacity from 10 to 20 (Everything that scaled with Charge is scaled appropriately to be the same at max, this is a nerf because you are now encouraged to hit direct hits with Direct Current for 150% Charge gain compared to before, otherwise it's halved)
+  - Fixed some NREs
 - Items/Equipment
   - Added ProcSolver Support
   - Added lip to the leftward border of Makeshift Plate . ,.,,.  . ,,
@@ -48,7 +50,6 @@
   - Fixed Galvanic Cell Shield NRE (MemOPP update moment)
   - Fixed Sand Sweeper NRE (MemOPP update moment)
 - Interactables
-  - Fixed Shrine of Ruin not having VFX for clients
   - Fixed Shrine of Ruin not properly clearing its language overlays
 
 ## 1.2.5 Patch Notes

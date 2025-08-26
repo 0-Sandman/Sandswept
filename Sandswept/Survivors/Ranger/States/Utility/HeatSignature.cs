@@ -113,7 +113,8 @@ namespace Sandswept.Survivors.Ranger.States.Utility
 
             if (characterMotor && characterDirection)
             {
-                characterMotor.velocity = Vector3.zero;
+                // characterMotor.velocity = Vector3.zero;
+                characterMotor.velocity = new Vector3(characterMotor.velocity.x, 0f, characterMotor.velocity.z);
                 characterMotor.rootMotion += stepVector * (moveSpeedStat * SpeedCoefficient * Time.fixedDeltaTime);
             }
 
