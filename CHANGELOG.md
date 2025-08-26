@@ -50,7 +50,10 @@
   - Fixed Galvanic Cell Shield NRE (MemOPP update moment)
   - Fixed Sand Sweeper NRE (MemOPP update moment)
 - Interactables
+  - Fixed Shrine of Ruin not having VFX for clients
   - Fixed Shrine of Ruin not properly clearing its language overlays
+- Enemies
+  - Fixed Delta Construct Skystrike constructor error
 
 ## 1.2.5 Patch Notes
 - VOL-T
