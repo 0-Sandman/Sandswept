@@ -31,7 +31,7 @@ namespace Sandswept.Survivors.Ranger
         public float selfDamageTimer;
 
         public float chargeLossTimer = 0f;
-        public float chargeLossInterval = 6f;
+        public float chargeLossInterval = 3f;
 
         public int lastHealingReductionCount;
 
@@ -84,7 +84,7 @@ namespace Sandswept.Survivors.Ranger
 
                 if (fullHeatTimer >= 1.5f)
                 {
-                    var damageBuffGain = (3 + cb.GetBuffCount(Charge.instance.BuffDef)) * 3;
+                    var damageBuffGain = (1 + cb.GetBuffCount(Charge.instance.BuffDef)) * 1; // wow
                     cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, damageBuffGain * (int)fullHeatTimer);
 
                     if (selfDamageTimer >= selfDamageInterval)
@@ -128,22 +128,28 @@ namespace Sandswept.Survivors.Ranger
             isInOverdrive = false;
             fullHeatTimer = 0f;
             chargeLossTimer = 0f;
-            cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, 0);
-            cb.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, 0);
-            heatGainRate = 11f;
+            if (cb)
+            {
+                cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, 0);
+                cb.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, 0);
+                Invoke(nameof(RemoveHealingReduction), 2f);
+            }
 
+            heatGainRate = 11f;
             currentHeat = 0f;
-            Invoke(nameof(RemoveHealingReduction), 2f);
 
             EntityStateMachine machine = EntityStateMachine.FindByCustomName(gameObject, "Overdrive");
-            if (machine.state is OverdriveEnter)
+            if (machine && machine.state is OverdriveEnter)
             {
                 (machine.state as OverdriveEnter).Exit();
             }
 
             EntityStateMachine machine2 = EntityStateMachine.FindByCustomName(gameObject, "Weapon");
             if (machine2)
+            {
                 machine2.SetState(new Idle());
+            }
+
         }
 
         public void RemoveHealingReduction()
