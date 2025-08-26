@@ -97,6 +97,8 @@ namespace Sandswept.Interactables.Regular
 
             globalKurwaTracker = new GameObject("Shrine of Ruin VFX Tracker", typeof(SetDontDestroyOnLoad), typeof(KurwaRunnerKurwa));
 
+            NetworkingAPI.RegisterMessageType<CallVFXCoroutine>();
+
             corruptedTeleporterFresnelMaterial = new Material(Paths.Material.matTeleporterFresnelOverlay);
             corruptedTeleporterFresnelMaterial.SetColor("_TintColor", new Color32(255, 0, 164, 255));
             corruptedTeleporterFresnelMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampArtifactShellSoft);
@@ -406,9 +408,11 @@ namespace Sandswept.Interactables.Regular
 
                 if (weightedSelection.choices.Length > 0)
                 {
+                    new CallVFXCoroutine().Send(NetworkDestination.Clients);
                     self.PickNextStageScene(weightedSelection);
                     var kurwaRunnerKurwa = globalKurwaTracker.GetComponent<KurwaRunnerKurwa>();
                     kurwaRunnerKurwa.StartCoroutine(kurwaRunnerKurwa.CorruptTeleporter());
+                    kurwaRunnerKurwa.StartCoroutine(kurwaRunnerKurwa.SpawnProps());
                     return;
                 }
             }
@@ -650,19 +654,19 @@ namespace Sandswept.Interactables.Regular
             // Main.ModLogger.LogError("trying to run add shrine stack");
             if (!NetworkServer.active)
             {
-                Main.ModLogger.LogError("AddShrineStack() called on client");
+                // Main.ModLogger.LogError("AddShrineStack() called on client");
                 return;
             }
 
-            Main.ModLogger.LogError("Trying to send INetMessage to clients");
+            // Main.ModLogger.LogError("Trying to send INetMessage to clients");
             new CallVFXCoroutine(interactor.GetComponent<NetworkIdentity>().netId).Send(NetworkDestination.Clients);
 
-            Main.ModLogger.LogError("Interactor net id is " + interactor.GetComponent<NetworkIdentity>().netId);
+            // Main.ModLogger.LogError("Interactor net id is " + interactor.GetComponent<NetworkIdentity>().netId);
 
             var kurwaRunnerKurwa = ShrineOfRuin.globalKurwaTracker.GetComponent<KurwaRunnerKurwa>();
             kurwaRunnerKurwa.StartCoroutine(kurwaRunnerKurwa.CorruptTeleporter());
             kurwaRunnerKurwa.StartCoroutine(kurwaRunnerKurwa.SpawnProps());
-            Main.ModLogger.LogError("Running Coroutines on host");
+            // Main.ModLogger.LogError("Running Coroutines on host");
 
             waitingForRefresh = true;
 
@@ -851,10 +855,10 @@ namespace Sandswept.Interactables.Regular
     {
         public IEnumerator CorruptTeleporter()
         {
-            Main.ModLogger.LogError("Running CorruptTeleporter() Coroutine");
+            // Main.ModLogger.LogError("Running CorruptTeleporter() Coroutine");
             if (!TeleporterInteraction.instance)
             {
-                Main.ModLogger.LogError("Could not find TeleporterInteraction instance");
+                // Main.ModLogger.LogError("Could not find TeleporterInteraction instance");
                 yield break;
             }
 
@@ -1156,16 +1160,16 @@ namespace Sandswept.Interactables.Regular
 
         public IEnumerator SpawnProps()
         {
-            Main.ModLogger.LogError("Running SpawnProps() Coroutine");
+            // Main.ModLogger.LogError("Running SpawnProps() Coroutine");
             if (!DirectorCore.instance)
             {
-                Main.ModLogger.LogError("Could not find DirectorCore instance");
+                // Main.ModLogger.LogError("Could not find DirectorCore instance");
                 yield break;
             }
 
             if (!TeleporterInteraction.instance)
             {
-                Main.ModLogger.LogError("Could not find TeleporterInteraction instance in SpawnProps()");
+                // Main.ModLogger.LogError("Could not find TeleporterInteraction instance in SpawnProps()");
                 yield break;
             }
 
@@ -1221,11 +1225,11 @@ namespace Sandswept.Interactables.Regular
         {
             if (NetworkServer.active)
             {
-                Main.ModLogger.LogError("tried running onreceived for host");
+                // Main.ModLogger.LogError("tried running onreceived for host");
                 return;
             }
 
-            Main.ModLogger.LogError("OnReceived() called for client");
+            // Main.ModLogger.LogError("OnReceived() called for client");
 
             var kurwaRunnerKurwa = ShrineOfRuin.globalKurwaTracker.GetComponent<KurwaRunnerKurwa>();
             kurwaRunnerKurwa.StartCoroutine(kurwaRunnerKurwa.CorruptTeleporter());
