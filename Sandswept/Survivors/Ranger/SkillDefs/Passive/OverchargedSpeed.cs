@@ -5,7 +5,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
     public class OverchargedSpeed : SkillBase<OverchargedSpeed>
     {
         public override string Name => "Overcharged Speed";
-        public override string Description => "Hold up to " + Projectiles.DirectCurrent.maxCharge + " $rcCharge$ec. Each $rcCharge$ec increases $sumovement speed$se by $su2.5%$se. Consume $rc3$ec Charge to $sudouble jump$se. $rcCharge decays over time$ec.".AutoFormat();
+        public override string Description => "Hold up to " + Projectiles.DirectCurrent.maxCharge + " $rcCharge$ec. Each $rcCharge$ec increases $sumovement speed$se by $su1.25%$se. Consume $rc6$ec Charge to $sudouble jump$se. $rcCharge decays over time$ec.".AutoFormat();
         public override Type ActivationStateType => typeof(GenericCharacterMain);
         public override string ActivationMachineName => "Body";
         public override float Cooldown => 0f;
@@ -33,7 +33,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
         {
             if (body)
             {
-                args.moveSpeedMultAdd += 0.025f * body.GetBuffCount(Charge.instance.BuffDef);
+                args.moveSpeedMultAdd += 0.0125f * body.GetBuffCount(Charge.instance.BuffDef);
             }
         }
 
@@ -45,11 +45,11 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
                 return;
             }
             var buffCount = self.characterBody.GetBuffCount(Charge.instance.BuffDef);
-            if (self.characterMotor.jumpCount == self.characterBody.maxJumpCount && buffCount >= 3)
+            if (self.characterMotor.jumpCount == self.characterBody.maxJumpCount && buffCount >= 6)
             {
                 var jumpCount = self.characterBody.maxJumpCount;
 
-                self.characterBody.SetBuffCount(Charge.instance.BuffDef.buffIndex, self.characterBody.GetBuffCount(Charge.instance.BuffDef) - 3);
+                self.characterBody.SetBuffCount(Charge.instance.BuffDef.buffIndex, self.characterBody.GetBuffCount(Charge.instance.BuffDef) - 6);
                 self.characterBody.maxJumpCount += 1;
 
                 orig(self);

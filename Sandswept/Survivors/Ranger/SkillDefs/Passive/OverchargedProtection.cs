@@ -5,7 +5,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
     public class OverchargedProtection : SkillBase<OverchargedProtection>
     {
         public override string Name => "Overcharged Protection";
-        public override string Description => "Hold up to " + Projectiles.DirectCurrent.maxCharge + " $rcCharge$ec. Each $rcCharge$ec increases $shbase health regeneration$se by $sh0.25 hp/s$se and $sharmor$se by $sh1.5$se. $rcCharge decays over time$ec.".AutoFormat();
+        public override string Description => "Hold up to " + Projectiles.DirectCurrent.maxCharge + " $rcCharge$ec. Each $rcCharge$ec increases $shbase health regeneration$se by $sh0.125 hp/s$se and $sharmor$se by $sh0.75$se. $rcCharge decays over time$ec.".AutoFormat();
         public override Type ActivationStateType => typeof(GenericCharacterMain);
         public override string ActivationMachineName => "Body";
         public override float Cooldown => 0f;
@@ -31,9 +31,9 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
         {
             if (body)
             {
-                var levelScale = 0.25f * 0.2f * (body.level - 1);
-                args.baseRegenAdd += (0.25f + levelScale) * body.GetBuffCount(Charge.instance.BuffDef);
-                args.armorAdd += 1.5f * body.GetBuffCount(Charge.instance.BuffDef);
+                var levelScale = 0.125f * 0.2f * (body.level - 1);
+                args.baseRegenAdd += (0.125f + levelScale) * body.GetBuffCount(Charge.instance.BuffDef);
+                args.armorAdd += 0.75f * body.GetBuffCount(Charge.instance.BuffDef);
             }
         }
     }
