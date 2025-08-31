@@ -30,6 +30,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
 using ProcSolver;
+using Rebindables;
 
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
 
@@ -53,6 +54,7 @@ namespace Sandswept
     [BepInDependency("com.weliveinasociety.CustomEmotesAPI", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("droppod.lookingglass", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.RiskOfBrainrot.ProcSolver", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency(Rebindables.Rebindables.PluginGUID)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
     {

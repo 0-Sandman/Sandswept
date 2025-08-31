@@ -1,4 +1,5 @@
 using LookingGlass.ItemStatsNameSpace;
+using Rebindables;
 
 namespace Sandswept.Items.Reds
 {
@@ -73,6 +74,7 @@ namespace Sandswept.Items.Reds
         public static Material pinkOverlay;
         public static Material blueOverlay;
         public static Material whiteOverlay;
+        public static ModKeybind FeatherDash = RebindAPI.RegisterModKeybind(new ModKeybind("SANDSWEPT_INPUT_FEATHER".Add("Torn Feather Dash"), Rewired.KeyboardKeyCode.F, 10, "Jump"));
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
@@ -171,6 +173,10 @@ namespace Sandswept.Items.Reds
         private Vector3 dashVector;
         private int localHurtboxIntangibleCount;
         private InteractionDriver driver;
+        private bool startedAboveGround = false;
+        private bool canWavedash = false;
+        private float wavedashTimer = 0.25f;
+        private bool wavedashNextFrame = false;
 
         public void OnEnable()
         {
@@ -190,7 +196,7 @@ namespace Sandswept.Items.Reds
 
         public void Update()
         {
-            if (body.inputBank.interact.justPressed && !driver.currentInteractable && body.inputBank.moveVector != Vector3.zero)
+            if (body.inputBank.GetButtonState(TornFeather.FeatherDash).justPressed && body.inputBank.moveVector != Vector3.zero)
             {
                 PerformDash();
             }
@@ -198,6 +204,10 @@ namespace Sandswept.Items.Reds
             if (dashTrail)
             {
                 dashTrail.gameObject.transform.position = body.corePosition;
+            }
+
+            if (wavedashTimer >= 0f && startedAboveGround && body.inputBank.jump.justPressed && canWavedash) {
+                wavedashNextFrame = true;
             }
         }
 
@@ -238,23 +248,52 @@ namespace Sandswept.Items.Reds
                 {
                     dashTimer = 0f;
                     EndDash();
+                    return;
+                }
+            }
+
+            if (dashTimer <= dashDuration * 0.5f && canWavedash) {
+                wavedashTimer -= Time.fixedDeltaTime;
+
+                if (wavedashNextFrame && body.characterMotor.isGrounded) {
+                    EndDash(true);
                 }
             }
         }
 
-        public void EndDash()
+        public void EndDash(bool wavedash = false)
         {
+            dashTimer = 0f;
             body.hurtBoxGroup.hurtBoxesDeactivatorCounter -= localHurtboxIntangibleCount;
             localHurtboxIntangibleCount = 0;
             body.gameObject.layer = LayerIndex.defaultLayer.intVal;
             body.characterMotor.Motor.RebuildCollidableLayers();
+
+            wavedashNextFrame = false;
+
+            canWavedash = false;
+
+            if (!wavedash) {
+                body.characterMotor.velocity *= 0.5f;
+            }
+            else {
+                body.characterMotor.Motor.ForceUnground();
+                float speed = dashTravelDistance / dashDuration;
+                body.characterMotor.velocity = Vector3.up * body.jumpPower * 1.5f + (speed * body.characterDirection.forward * 0.5f);
+                DashesRemaining++;
+                canWavedash = true;
+            }
+
             dashTrail.Stop();
-            body.characterMotor.velocity = body.characterMotor.velocity *= 0.2f;
         }
 
         public void PerformDash()
         {
             if (DashesRemaining <= 0 || (dashTimer <= (dashDuration / 4f) && dashTimer > 0f)) return;
+
+            canWavedash = true;
+
+            wavedashTimer = 0.25f;
 
             localHurtboxIntangibleCount++;
             body.hurtBoxGroup.hurtBoxesDeactivatorCounter++;
@@ -291,30 +330,16 @@ namespace Sandswept.Items.Reds
 
             body.gameObject.layer = LayerIndex.fakeActor.intVal;
             body.characterMotor.Motor.RebuildCollidableLayers();
+            body.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, dashDuration + 0.2f);
 
             dashVector = body.inputBank.moveVector;
-            if (dashVector == Vector3.zero)
-            {
-                if (!body.inputBank.jump.down)
-                {
-                    dashVector = body.inputBank.aimDirection;
-                }
-                else
-                {
-                    dashVector = Vector3.up;
-                }
-            }
-            else
-            {
-                if (body.inputBank.jump.down)
-                {
-                    dashVector = Quaternion.AngleAxis(45f, base.transform.right) * dashVector;
-                }
-            }
 
-            dashVector.y = Mathf.Abs(dashVector.y);
+            startedAboveGround = !body.characterMotor.isGrounded;
 
-            // indicator.TriggerSubEmitter(0);
+            if (!body.inputBank.rawMoveLeft.down && !body.inputBank.rawMoveRight.down && !body.inputBank.rawMoveDown.down)
+            {
+                dashVector = body.inputBank.aimDirection;
+            }
 
             dashTrail.transform.forward = -dashVector;
 
