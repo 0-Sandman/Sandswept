@@ -1,5 +1,7 @@
 ﻿
 using MonoMod.RuntimeDetour;
+using R2API.Networking;
+using R2API.Networking.Interfaces;
 using RoR2.UI;
 using System.Collections;
 using System.Linq;
@@ -63,6 +65,7 @@ namespace Sandswept.Items.Lunars
         {
             base.Init();
             permanentHallowedIchorTracker = new GameObject("Hallowed Ichor Tracker", typeof(SetDontDestroyOnLoad), typeof(HallowedIchorController));
+            NetworkingAPI.RegisterMessageType<CallRecalculate>();
             SetUpVFX();
         }
 
@@ -222,6 +225,7 @@ namespace Sandswept.Items.Lunars
                 {
                     // Main.ModLogger.LogError("opened count is more than 1");
                     permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().Recalculate();
+                    new CallRecalculate(interactor.GetComponent<NetworkIdentity>().netId).Send(NetworkDestination.Clients);
                 }
 
                 var chestBehavior = interactableObject.GetComponent<ChestBehavior>();
@@ -337,8 +341,10 @@ namespace Sandswept.Items.Lunars
                 return;
             }
 
-            var flatIncrease = HallowedIchor.chestReopenDifficultyCoefficientFlatAdd / Run.instance.participatingPlayerCount;
-            var multiplier = 1f + (HallowedIchor.chestReopenDifficultyCoefficientMultiplierAdd / Run.instance.participatingPlayerCount);
+            var playerScalar = Mathf.Epsilon + 0.75f + (0.25f * Run.instance.participatingPlayerCount);
+
+            var flatIncrease = HallowedIchor.chestReopenDifficultyCoefficientFlatAdd / playerScalar;
+            var multiplier = 1f + (HallowedIchor.chestReopenDifficultyCoefficientMultiplierAdd / playerScalar);
 
             Run.ambientLevelCap = int.MaxValue;
 
@@ -401,6 +407,43 @@ namespace Sandswept.Items.Lunars
 
                 timer = 0f;
             }
+        }
+    }
+
+    public class CallRecalculate : INetMessage
+    {
+        public NetworkInstanceId objID;
+
+        public CallRecalculate()
+        {
+        }
+
+        public CallRecalculate(NetworkInstanceId objID)
+        {
+            this.objID = objID;
+        }
+
+        public void Deserialize(NetworkReader reader)
+        {
+            objID = reader.ReadNetworkId();
+        }
+
+        public void OnReceived()
+        {
+            if (NetworkServer.active)
+            {
+                // Main.ModLogger.LogError("tried running onreceived for host");
+                return;
+            }
+
+            // Main.ModLogger.LogError("OnReceived() called for client");
+
+            HallowedIchor.permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().Recalculate();
+        }
+
+        public void Serialize(NetworkWriter writer)
+        {
+            writer.Write(objID);
         }
     }
 }

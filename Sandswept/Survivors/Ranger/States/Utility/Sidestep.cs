@@ -5,7 +5,7 @@ namespace Sandswept.Survivors.Ranger.States.Utility
     public class Sidestep : BaseState
     {
         public static float Duration = 0.10f;
-        public static float SpeedCoefficient = 11.3333333f;
+        public static float SpeedCoefficient = 15f;
         private Vector3 stepVector;
         private Transform modelTransform;
         private Material overlayMat1;
@@ -83,6 +83,7 @@ namespace Sandswept.Survivors.Ranger.States.Utility
             if (characterMotor && characterDirection)
             {
                 // characterMotor.velocity = Vector3.zero;
+                characterMotor.velocity = new Vector3(characterMotor.velocity.x, 0f, characterMotor.velocity.z);
                 characterMotor.rootMotion += stepVector * (moveSpeedStat * SpeedCoefficient * Time.fixedDeltaTime);
             }
 

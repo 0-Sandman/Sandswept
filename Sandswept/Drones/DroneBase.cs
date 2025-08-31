@@ -41,6 +41,7 @@ namespace Sandswept.Drones
 
             ContentAddition.AddBody(DroneBody);
             ContentAddition.AddMaster(DroneMaster);
+            ContentAddition.AddNetworkedObject(DroneBroken);
 
             foreach (KeyValuePair<string, string> kvp in Tokens)
             {

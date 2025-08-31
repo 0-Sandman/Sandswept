@@ -1,3 +1,4 @@
+using Sandswept.Survivors.Ranger;
 using Sandswept.Survivors.Ranger.VFX;
 
 namespace Sandswept.Buffs
@@ -24,7 +25,7 @@ namespace Sandswept.Buffs
             var body = self.body;
             if (body.HasBuff(instance.BuffDef) && damageInfo.procCoefficient > 0f && damageInfo.attacker != null)
             {
-                body.SetBuffCount(Charge.instance.BuffDef.buffIndex, Mathf.Min(10, body.GetBuffCount(Charge.instance.BuffDef.buffIndex) + 5));
+                body.SetBuffCount(Charge.instance.BuffDef.buffIndex, Mathf.Min(Survivors.Ranger.Projectiles.DirectCurrent.maxCharge, body.GetBuffCount(Charge.instance.BuffDef.buffIndex) + 10));
                 damageInfo.rejected = true;
             }
             orig(self, damageInfo);

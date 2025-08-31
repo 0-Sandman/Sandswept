@@ -54,6 +54,8 @@ namespace Sandswept.Drones.Voltaic
                 cooldown = 6f,
                 stockToConsume = 1
             });
+
+            ContentAddition.AddEntityState(typeof(VoltaicPrimary), out _);
         }
     }
 }

@@ -193,12 +193,6 @@ namespace Sandswept.Enemies.DeltaConstruct
             return attack;
         }
 
-        public SkystrikeFire(SkystrikeLaserInfo[] lasers, Vector3 flock)
-        {
-            beams = lasers;
-            guh = flock;
-        }
-
         public override InterruptPriority GetMinimumInterruptPriority()
         {
             return InterruptPriority.Death;
@@ -271,7 +265,7 @@ namespace Sandswept.Enemies.DeltaConstruct
             if (base.fixedAge >= duration)
             {
                 wasKnockedOutOfState = false;
-                outer.SetNextState(new SkystrikeFire(skystrikeBeams, guh));
+                outer.SetNextState(new SkystrikeFire());
             }
 
             if (base.characterMotor.velocity.y < 0)
@@ -323,6 +317,18 @@ namespace Sandswept.Enemies.DeltaConstruct
 
             Util.PlaySound("Stop_majorConstruct_m1_laser_loop", gameObject);
             Util.PlaySound("Play_majorConstruct_m1_laser_end", gameObject);
+        }
+
+        public override void ModifyNextState(EntityState nextState)
+        {
+            base.ModifyNextState(nextState);
+
+            if (nextState is SkystrikeFire skystrikeFire)
+            {
+                skystrikeFire.beams = skystrikeBeams;
+                skystrikeFire.guh = guh;
+                // why would you name a variable that...
+            }
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()

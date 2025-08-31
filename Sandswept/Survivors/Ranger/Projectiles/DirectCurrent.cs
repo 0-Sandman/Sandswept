@@ -63,7 +63,8 @@ namespace Sandswept.Survivors.Ranger.Projectiles
             projectileSimple.desiredForwardSpeed = 240f;
 
             prefab.RemoveComponent<AntiGravityForce>();
-            var antiGravityForce = prefab.AddComponent<CoolerAntiGravityForce>((x) => {
+            var antiGravityForce = prefab.AddComponent<CoolerAntiGravityForce>((x) =>
+            {
                 x.antiGravityCoefficient = -3.5f;
                 x.rampTime = 0.2f;
             });
@@ -85,30 +86,38 @@ namespace Sandswept.Survivors.Ranger.Projectiles
         }
         public static int maxCharge = 20;
 
-        public class DirectImpactBoost : MonoBehaviour {
-            public void Start() {
+        public class DirectImpactBoost : MonoBehaviour
+        {
+            public void Start()
+            {
                 GetComponent<ProjectileExplosion>().OnProjectileExplosion += OnImpact;
             }
 
-            public void OnImpact(BlastAttack attack, BlastAttack.Result result) {
+            public void OnImpact(BlastAttack attack, BlastAttack.Result result)
+            {
                 HurtBox primary = null;
                 float closestDist = 999f;
-                for (int i = 0; i < result.hitPoints.Length; i++) {
+                for (int i = 0; i < result.hitPoints.Length; i++)
+                {
                     BlastAttack.HitPoint point = result.hitPoints[i];
-                    
-                    if (!point.hurtBox) {
+
+                    if (!point.hurtBox)
+                    {
                         continue;
                     }
 
                     float dist = Vector3.Distance(point.hitPosition, attack.position);
-                    if (dist < (attack.radius * 0.3) && dist < closestDist) {
+                    if (dist < (attack.radius * 0.3) && dist < closestDist)
+                    {
                         closestDist = dist;
                         primary = point.hurtBox;
                     }
                 }
-                
-                if (primary && primary.healthComponent && attack.attacker) {
-                    attack.attacker.GetComponent<CharacterBody>((x) => {
+
+                if (primary && primary.healthComponent && attack.attacker)
+                {
+                    attack.attacker.GetComponent<CharacterBody>((x) =>
+                    {
                         BuffIndex index = Buffs.Charge.instance.BuffDef.buffIndex;
                         x.SetBuffCount(index, Math.Min(x.GetBuffCount(index) + 2, maxCharge));
                     });
@@ -127,7 +136,8 @@ namespace Sandswept.Survivors.Ranger.Projectiles
             }
         }
 
-        public class InverseFalloffProjectile : MonoBehaviour {
+        public class InverseFalloffProjectile : MonoBehaviour
+        {
             public Vector3 initialPosition;
             public float baseDistance = 60f;
             public float minDamage = 0.4f;
@@ -141,12 +151,14 @@ namespace Sandswept.Survivors.Ranger.Projectiles
             public float originalRadius;
             public float[] thresholds;
 
-            public void Start() {
+            public void Start()
+            {
                 damage = GetComponent<ProjectileDamage>();
                 explosion = GetComponent<ProjectileExplosion>();
                 originalDamage = damage.damage;
 
-                if (explosion) {
+                if (explosion)
+                {
                     originalRadius = explosion.blastRadius;
                 }
 
@@ -157,7 +169,8 @@ namespace Sandswept.Survivors.Ranger.Projectiles
                 };
             }
 
-            public void DollarStoreConstructor(float dist, float minD, float maxD, float minR, float maxR) {
+            public void DollarStoreConstructor(float dist, float minD, float maxD, float minR, float maxR)
+            {
                 this.baseDistance = dist;
                 this.minDamage = minD;
                 this.maxDamage = maxD;
@@ -165,24 +178,28 @@ namespace Sandswept.Survivors.Ranger.Projectiles
                 this.maxRadius = maxR;
             }
 
-            public void FixedUpdate() {
+            public void FixedUpdate()
+            {
                 float distance = Vector3.Distance(base.transform.position, initialPosition);
 
-                if (distance < thresholds[1]) {
+                if (distance < thresholds[1])
+                {
                     stages = 1;
 
                     damage.damage = Util.Remap(distance, 0f, thresholds[1], originalDamage * minDamage, originalDamage);
                     if (explosion) explosion.blastRadius = Util.Remap(distance, 0f, thresholds[1], originalRadius * minRadius, originalRadius);
                 }
 
-                if (distance > thresholds[1]) {
+                if (distance > thresholds[1])
+                {
                     stages = 2;
 
                     damage.damage = Util.Remap(distance, thresholds[1], thresholds[2], originalDamage, originalDamage * maxDamage);
                     if (explosion) explosion.blastRadius = Util.Remap(distance, thresholds[1], thresholds[2], originalRadius, originalRadius * maxRadius);
                 }
 
-                if (distance > thresholds[2]) {
+                if (distance > thresholds[2])
+                {
                     stages = 3;
                 }
             }

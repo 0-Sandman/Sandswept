@@ -20,6 +20,8 @@ namespace Sandswept.Items.NoTier
 
         public override ItemTag[] ItemTags => new ItemTag[] { };
 
+        public override bool CanRemove => false;
+
         public override void Init()
         {
             base.Init();

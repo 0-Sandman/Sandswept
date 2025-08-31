@@ -225,7 +225,8 @@ namespace Sandswept.Survivors.Ranger.VFX
             for (int i = 0; i < impact.transform.childCount; i++)
             {
                 var trans2 = impact.transform.GetChild(i);
-                trans2.localScale *= 0.1785714285f; // 1/14 * 2.5m radius
+                // trans2.localScale *= 0.1785714285f; // 1/14 * 2.5m radius
+                trans2.localScale *= 0.21428571428f; // 1/14 * 4m radius * 0.75x min radius ramp up
             }
 
             ContentAddition.AddEffect(impact);

@@ -128,15 +128,15 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                     radius = 2f,
                     smartCollision = true,
                     stopperMask = LayerIndex.world.mask,
-                    force = 2500f + 250f * buffCount,
+                    force = 2500f + 125f * buffCount,
                     damageType = DamageType.Generic,
                 };
 
                 attack.damageType.damageSource = DamageSource.Secondary;
 
-                AddRecoil(3f + 0.3f * buffCount, 3f + 0.3f * buffCount, 0f, 0f);
+                AddRecoil(3f + 0.15f * buffCount, 3f + 0.15f * buffCount, 0f, 0f);
 
-                characterMotor?.ApplyForce((-4500f - 350f * buffCount) * aimDirection, false, false);
+                characterMotor?.ApplyForce((-4500f - 175f * buffCount) * aimDirection, false, false);
 
                 attack.Fire();
             }
