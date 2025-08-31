@@ -33,7 +33,7 @@
   - Removed Sidestep's small jump at the end
   - Buffed Direct Current Projectile Speed from 170m/s to 240m/s
   - Buffed Direct Current Explosion Radius from 2.5m to 3m
-  - Buffed Direct Current Explosion Radius to scale over distance. Maximum is ... 4.5m? 20m? pseudopulse ! !
+  - Buffed Direct Current Explosion Radius to scale over distance. Maximum is ... 4.5m? 6m? 20m? pseudopulse ! !
   - Buffed Direct Current to give 3 Charge on a direct hit
   - Berfed Sidestep duration from 0.15s to 0.1s
   - Nuffed Direct Current Projectile Size from 0.5m to 0.25m
@@ -43,6 +43,7 @@
   - Added ProcSolver Support
   - Added lip to the leftward border of Makeshift Plate . ,.,,.  . ,,
   - Buffed Amber Knife Chance from 10% to 15%
+  - Nerfed Bleeding Witness Hemorrhage Damage from 500% to 360%
   - Fixed Nuclear Salvo kills not giving gold
   - Fixed Nuclear Salvo spamming NREs on clients
   - Fixed Sacrificial Band ignoring config

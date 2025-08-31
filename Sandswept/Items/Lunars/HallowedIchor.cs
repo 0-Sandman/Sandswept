@@ -15,9 +15,9 @@ namespace Sandswept.Items.Lunars
 
         public override string ItemLangTokenName => "HALLOWED_ICHOR";
 
-        public override string ItemPickupDesc => "Chests may be reopened an additional time... <color=#FF7F7F>BUT reopening them increases time scaling permanently.</color>";
+        public override string ItemPickupDesc => "Chests may be reopened an additional time... $lcBUT reopening them increases difficulty permanently.$ec".AutoFormat();
 
-        public override string ItemFullDescription => $"Chests may be $sureopened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but $sureopening$se them increases $sutime scaling$se by $su{chestReopenDifficultyCoefficientMultiplierAdd * 300f}%$se permanently.".AutoFormat(); // this will be inaccurate no matter what but this is somewhat accurate for the first use on monsoon lmao
+        public override string ItemFullDescription => $"Chests may be $sureopened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but $sureopening$se them increases $sudifficulty$se by $su{chestReopenDifficultyCoefficientMultiplierAdd * 300f}%$se permanently.".AutoFormat(); // this will be inaccurate no matter what but this is somewhat accurate for the first use on monsoon on singleplayer lmao
 
         public override string ItemLore => "This will be the most potent creation I give to you, my servant. I have weaved many of these artifacts for vermin like you, but this one was far more costly than the others. It will be given only to a scarce few of my most dedicated servants. If used properly, it will be worth the price spent constructing it.\r\n\r\nIt is my blood, held in a vessel of my design. Superior blood. It grants me -- along with my treacherous brother -- the power to shape the compounds. A transfusion is sufficient to enable its effects. It cannot provide the extent of my abilities in such limited quantity, but it will allow you to create more of the trinkets you cling to so tightly.\r\n\r\nIts use will not go unnoticed, however. He will sense its presence, and send his vermin to hunt you down. Use its power to create suitable weapons and avoid encountering him in the flesh, and I do not suspect you will have any issue dispatching your pursuers.";
 
@@ -27,7 +27,7 @@ namespace Sandswept.Items.Lunars
 
         public override Sprite ItemIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texWhiteMonster.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist };
+        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist];
 
         [ConfigField("Base Extra Chest Interactions", "", 1)]
         public static int baseExtraChestInteractions;
@@ -51,8 +51,8 @@ namespace Sandswept.Items.Lunars
 
         public bool isScoreboardOpen = false;
 
-        private static Hook overrideHook;
-        private static Hook overrideHook2;
+        private static Hook onScoreboardOpenedHook;
+        private static Hook onScoreboardClosedHook;
 
         public static Color32 hallowedIchorBlue = new(124, 198, 255, 255);
         public static Color32 cachedTimerColor = Color.white;
@@ -83,21 +83,33 @@ namespace Sandswept.Items.Lunars
 
         public override void Hooks()
         {
-            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
-            GlobalEventManager.OnInteractionsGlobal += GlobalEventManager_OnInteractionsGlobal;
-            Run.onRunStartGlobal += Run_onRunStartGlobal;
-            Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
-            On.RoR2.UI.RunTimerUIController.Update += RunTimerUIController_Update;
-            On.RoR2.UI.RunTimerUIController.Start += RunTimerUIController_Start;
+            CharacterBody.onBodyInventoryChangedGlobal += TrackStackCount;
+            GlobalEventManager.OnInteractionsGlobal += AddChestStackAndRecalculate;
+            Run.onRunStartGlobal += CacheValues;
+            Run.onRunDestroyGlobal += UnsetValues;
+
+            On.RoR2.UI.RunTimerUIController.Update += PerformJitterUI;
+            On.RoR2.UI.RunTimerUIController.Start += AddJitterUI;
+            On.RoR2.Stage.Start += OnStageStartRecalculate;
+            // spectator still has desync I believe?
+
             var targetMethod = typeof(ScoreboardController).GetMethod(nameof(ScoreboardController.OnEnable), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             var destMethod = typeof(HallowedIchor).GetMethod(nameof(OnScoreboardOpened), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            overrideHook = new Hook(targetMethod, destMethod, this);
+            onScoreboardOpenedHook = new Hook(targetMethod, destMethod, this);
+
             targetMethod = typeof(ScoreboardController).GetMethod(nameof(ScoreboardController.OnDisable), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             destMethod = typeof(HallowedIchor).GetMethod(nameof(OnScoreboardClosed), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            overrideHook2 = new Hook(targetMethod, destMethod, this);
+            onScoreboardClosedHook = new Hook(targetMethod, destMethod, this);
         }
 
-        private void RunTimerUIController_Start(On.RoR2.UI.RunTimerUIController.orig_Start orig, RunTimerUIController self)
+        private IEnumerator OnStageStartRecalculate(On.RoR2.Stage.orig_Start orig, RoR2.Stage self)
+        {
+            yield return orig(self);
+            permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().Recalculate();
+            new CallRecalculate().Send(NetworkDestination.Clients);
+        }
+
+        private void AddJitterUI(On.RoR2.UI.RunTimerUIController.orig_Start orig, RunTimerUIController self)
         {
             orig(self);
             if (self.runStopwatchTimerTextController.TryGetComponent<HGTextMeshProUGUI>(out var hgTextMeshProUGUI))
@@ -121,7 +133,7 @@ namespace Sandswept.Items.Lunars
         }
 
         // the code may be unoptimized buuut it doesn't really take up performance
-        private void RunTimerUIController_Update(On.RoR2.UI.RunTimerUIController.orig_Update orig, RoR2.UI.RunTimerUIController self)
+        private void PerformJitterUI(On.RoR2.UI.RunTimerUIController.orig_Update orig, RoR2.UI.RunTimerUIController self)
         {
             if (anyoneHadHallowedIchor)
             {
@@ -176,30 +188,34 @@ namespace Sandswept.Items.Lunars
             }
         }
 
-        private void Run_onRunDestroyGlobal(Run run)
+        private void UnsetValues(Run run)
         {
             var runDifficultyDef = DifficultyCatalog.GetDifficultyDef(run.selectedDifficulty);
             runDifficultyDef.scalingValue = cachedDifficultyDefScalingValue;
             anyoneHadHallowedIchor = false;
         }
 
-        private void Run_onRunStartGlobal(Run run)
+        private void CacheValues(Run run)
         {
             var runDifficultyDef = DifficultyCatalog.GetDifficultyDef(run.selectedDifficulty);
             cachedDifficultyDefScalingValue = runDifficultyDef.scalingValue;
             currentDifficultyDefScalingValue = cachedDifficultyDefScalingValue;
         }
 
-        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
+        private void TrackStackCount(CharacterBody body)
         {
             itemCount = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
             if (itemCount > 0)
             {
                 anyoneHadHallowedIchor = true;
             }
+            else
+            {
+                anyoneHadHallowedIchor = false;
+            }
         }
 
-        private void GlobalEventManager_OnInteractionsGlobal(Interactor interactor, IInteractable interactable, GameObject interactableObject)
+        private void AddChestStackAndRecalculate(Interactor interactor, IInteractable interactable, GameObject interactableObject)
         {
             if (itemCount <= 0)
             {

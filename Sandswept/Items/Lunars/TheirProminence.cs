@@ -1,4 +1,5 @@
 ﻿using LookingGlass.ItemStatsNameSpace;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Sandswept.Items.Lunars
@@ -10,9 +11,9 @@ namespace Sandswept.Items.Lunars
 
         public override string ItemLangTokenName => "THEIR_PROMINENCE";
 
-        public override string ItemPickupDesc => "Using a Shrine has a chance to invite the challenge of the Mountain.";
+        public override string ItemPickupDesc => "Using a Shrine has a chance to invite the challenge of the Mountain. $lcTeleporters summon Lunar Fissures periodically.$ec".AutoFormat();
 
-        public override string ItemFullDescription => $"Using a shrine has a $su{baseChance * 100f}%$se $ss(+{stackChance * 100f}% per stack)$se chance to invite the $suchallenge of the Mountain$se.".AutoFormat();
+        public override string ItemFullDescription => $"Using a shrine has a $su{baseChance * 100f}%$se $ss(+{stackChance * 100f}% per stack)$se chance to invite the $suchallenge of the Mountain$se. Teleporters summon $srlunar fissures$se $sr{baseLunarFissureCount}$se $ss(+{stackLunarFissureCount} per challenge of the Mountain)$se times.".AutoFormat();
 
         public override string ItemLore => "\"Two brothers, standing at a well. <style=cIsVoid>Both young, both innocent.</style>\"\r\n\"A worm falls in. A new world is found. <style=cDeath>One betrayed.</style> <style=cIsUtility>One regretful.</style>\"\r\n\"Two brothers, toiling in the ambry. <style=cIsVoid>Both reverent, both powerful.</style>\"\r\n\"The [compounds] are discovered. Guardians created. <style=cIsVoid>Both amazed, both proud.</style>\"\r\n\"Two brothers, looking for a way out. <style=cIsVoid>Both hopeful. Both curious.</style>\"\r\n\"A society is found. <style=cDeath>One sympathetic.</style> <style=cIsUtility>One annoyed.</style>\"\r\n\"Two brothers, torn on ethics. <style=cDeath>One tyrannical.</style> <style=cIsUtility>One puritanical.</style>\"\r\n\"A teleporter is created. A choice is made. <style=cDeath>One regretful.</style> <style=cIsUtility>One betrayed.</style>\"\r\n\"Two brothers, separated by space. <style=cDeath>One enslaves.</style> <style=cIsUtility>One broods.</style>\"\r\n\"A shine appears in the sky. <style=cDeath>One enraged.</style> <style=cIsUtility>One hopeful.</style>\"\r\n\"Two brothers. Their times approach. <style=cDeath>One king.</style> <style=cIsUtility>One outcast.</style>\"\r\n\"A god is felled. Anarchy takes hold. <style=cDeath>One missing.</style> <style=cIsUtility>One forgotten.</style>\"\r\n\"Two brothers. <style=cIsVoid>Never... to meet again.</style>\"\r\n\r\n---------------------\r\n> Translated from a Lemurian Scribe found in the Temple of the Elders by UES personnel. Burn at leisure.";
 
@@ -22,13 +23,19 @@ namespace Sandswept.Items.Lunars
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texTheirProminence.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist };
+        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist];
 
         [ConfigField("Base Chance", "Decimal.", 0.35f)]
         public static float baseChance;
 
         [ConfigField("Stack Chance", "Decimal.", 0.15f)]
         public static float stackChance;
+
+        [ConfigField("Base Lunar Fissure Count", "", 2)]
+        public static int baseLunarFissureCount;
+
+        [ConfigField("Stack Lunar Fissure Count", "Stack is actually Mountain Shrine Stacks", 1)]
+        public static int stackLunarFissureCount;
 
         [ConfigField("Count stacks as global?", "This makes everyone able to proc Their Prominence if any player has it, and stacks add to a global counter instead.", true)]
         public static bool countStacksAsGlobal;
@@ -180,6 +187,107 @@ namespace Sandswept.Items.Lunars
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
+        }
+    }
+
+    public class TheirProminenceMainState : BaseState
+    {
+        public static GameObject lunarFissurePrefab = Paths.GameObject.BrotherUltLineProjectileStatic;
+
+        [SerializeField]
+        public float minSecondsBetweenPulses = 1f; // lepton lily has 1s
+
+        public HoldoutZoneController holdoutZone;
+
+        public TeamIndex teamIndex;
+
+        public float previousPulseFraction;
+
+        public int pulseCount;
+
+        public float secondsUntilPulseAvailable;
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+            Transform parent = base.transform.parent;
+            if ((bool)parent)
+            {
+                holdoutZone = parent.GetComponentInParent<HoldoutZoneController>();
+                previousPulseFraction = GetCurrentTeleporterChargeFraction();
+            }
+            TeamFilter component = GetComponent<TeamFilter>();
+            teamIndex = (component ? component.teamIndex : TeamIndex.None);
+        }
+
+        private float GetCurrentTeleporterChargeFraction()
+        {
+            return holdoutZone.charge;
+        }
+
+        public override void FixedUpdate()
+        {
+            if (!NetworkServer.active || !(GetDeltaTime() > 0f))
+            {
+                return;
+            }
+
+            if (!holdoutZone || holdoutZone.charge >= 1f)
+            {
+                EntityState.Destroy(outer.gameObject);
+                return;
+            }
+
+            if (secondsUntilPulseAvailable > 0f)
+            {
+                secondsUntilPulseAvailable -= GetDeltaTime();
+                return;
+            }
+
+            pulseCount = CalculatePulseCount();
+
+            float nextPulseFraction = CalculateNextPulseFraction(pulseCount, previousPulseFraction);
+            float currentTeleporterChargeFraction = GetCurrentTeleporterChargeFraction();
+            if (nextPulseFraction < currentTeleporterChargeFraction)
+            {
+                Pulse();
+                previousPulseFraction = nextPulseFraction;
+                secondsUntilPulseAvailable = minSecondsBetweenPulses;
+            }
+        }
+
+        private static int CalculatePulseCount()
+        {
+            var baseCount = TheirProminence.baseLunarFissureCount;
+            var stackCount = TheirProminence.stackLunarFissureCount;
+            if (!TeleporterInteraction.instance)
+            {
+                return baseCount;
+            }
+
+            return baseCount + (stackCount * TeleporterInteraction.instance.shrineBonusStacks);
+        }
+
+        private static float CalculateNextPulseFraction(int pulseCount, float previousPulseFraction)
+        {
+            float num = 1f / (float)(pulseCount + 1);
+            for (int i = 1; i <= pulseCount; i++)
+            {
+                float num2 = (float)i * num;
+                if (!(num2 <= previousPulseFraction))
+                {
+                    return num2;
+                }
+            }
+            return 1f;
+        }
+
+        protected void Pulse()
+        {
+            // change this to mithrix' big spinny code
+            var lunarFissure = Object.Instantiate(lunarFissurePrefab, base.transform.position, base.transform.rotation, base.transform.parent);
+            lunarFissure.GetComponent<TeamFilter>().teamIndex = teamIndex;
+            NetworkServer.Spawn(lunarFissure);
         }
     }
 }

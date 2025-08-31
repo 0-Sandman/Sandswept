@@ -159,18 +159,18 @@ namespace Sandswept.Items.Reds
 
     public class FeatherBehaviour : CharacterBody.ItemBehavior
     {
-        private int DashesRemaining = 2;
-        private const float dashCooldown = 1.4f;
-        private const float minAirborneTimer = 0.5f;
-        private const float dashTravelDistance = 15f;
-        private const float dashDuration = 0.2f;
-        private float airborneTimer = 0f;
-        private float dashCooldownTimer = 0f;
-        private float dashTimer = 0f;
-        private ParticleSystem dashTrail;
-        private Vector3 dashVector;
-        private int localHurtboxIntangibleCount;
-        private InteractionDriver driver;
+        public int DashesRemaining = 2;
+        public static float dashCooldown = 1.4f;
+        public static float minAirborneTimer = 0.5f;
+        public static float dashTravelDistance = 15f;
+        public static float dashDuration = 0.2f;
+        public float airborneTimer = 0f;
+        public float dashCooldownTimer = 0f;
+        public float dashTimer = 0f;
+        public ParticleSystem dashTrail;
+        public Vector3 dashVector;
+        public int localHurtboxIntangibleCount;
+        public InteractionDriver driver;
 
         public void OnEnable()
         {

@@ -41,6 +41,11 @@ namespace Sandswept.Equipment
 
         public virtual bool IsLunar { get; } = false;
 
+        public virtual string AchievementName { get; } = string.Empty;
+        public virtual string AchievementDesc { get; } = string.Empty;
+        public virtual Func<string> GetHowToUnlock => () => AchievementName + "\n<style=cStack>" + AchievementDesc + "</style>";
+        public virtual Func<string> GetUnlocked => () => AchievementName + "\n<style=cStack>" + AchievementDesc + "</style>";
+
         public EquipmentDef EquipmentDef;
 
         public static bool DefaultEnabledCallback(EquipmentBase self)
@@ -94,11 +99,18 @@ namespace Sandswept.Equipment
             EquipmentDef.requiredExpansion = Main.SandsweptExpansionDef;
             EquipmentDef.colorIndex = IsLunar ? ColorCatalog.ColorIndex.LunarItem : ColorCatalog.ColorIndex.Equipment;
 
+            if (AchievementName != string.Empty && AchievementDesc != string.Empty)
+            {
+                LanguageAPI.Add("ACHIEVEMENT_EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_NAME", AchievementName);
+                LanguageAPI.Add("ACHIEVEMENT_EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_DESCRIPTION", AchievementDesc);
+
+                EquipmentDef.unlockableDef = CreateUnlock();
+            }
+
             LanguageAPI.Add("EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_NAME", EquipmentName);
             LanguageAPI.Add("EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_PICKUP", EquipmentPickupDesc);
             LanguageAPI.Add("EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_DESCRIPTION", EquipmentFullDescription);
             LanguageAPI.Add("EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_LORE", EquipmentLore);
-
 
             ItemAPI.Add(new CustomEquipment(EquipmentDef, CreateItemDisplayRules()));
             On.RoR2.EquipmentSlot.PerformEquipmentAction += PerformEquipmentAction;
@@ -117,6 +129,20 @@ namespace Sandswept.Equipment
         }
 
         protected abstract bool ActivateEquipment(EquipmentSlot slot);
+
+        protected UnlockableDef CreateUnlock()
+        {
+            EquipmentDef.unlockableDef = ScriptableObject.CreateInstance<UnlockableDef>();
+            EquipmentDef.unlockableDef.cachedName = "EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName;
+            EquipmentDef.unlockableDef.nameToken = "EQUIPMENT_SANDSWEPT_" + EquipmentLangTokenName + "_NAME";
+            EquipmentDef.unlockableDef.getHowToUnlockString = GetHowToUnlock;
+            EquipmentDef.unlockableDef.getUnlockedString = GetUnlocked;
+
+            EquipmentDef.unlockableDef.achievementIcon = IsLunar ? TotallyNotStolenUtils.CreateItemIconWithBackgroundFromLunarEquipment(EquipmentDef) : TotallyNotStolenUtils.CreateItemIconWithBackgroundFromEquipment(EquipmentDef);
+            var unlockDef = EquipmentDef.unlockableDef;
+            Main.Unlocks.Add(unlockDef);
+            return unlockDef;
+        }
 
         public virtual void Hooks()
         { }
