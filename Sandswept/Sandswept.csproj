@@ -59,5 +59,8 @@
 	  <Reference Include="ProcSolver">
 	    <HintPath>libs/ProcSolver.dll</HintPath>
 	  </Reference>
+	  <Reference Include="Rebindables">
+	  	<HintPath>libs/Rebindables.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 </Project>

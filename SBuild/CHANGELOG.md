@@ -32,6 +32,9 @@
   - Aim Origin properly added, projectiles now originate from higher.
   - Custom gravity curve added to Direct Current, now has a short period of floatiness before gravity ramps in.
   - Direct Current projectile size reduced from 0.5m -> 0.25m
+  - Direct Current radius 2.5m -> 4m
+  - Direct Current now gives 3 charge on a direct hit.
+  - Ranger max charge capacity increased to 20 (all stuff that scaled off charge appropriately scales to be the same strength at the new max.)
   - Sidestep no longer has a small hop at the end.
   - Sidestep finishes faster (0.15s -> 0.1s)
 - Items/Equipment

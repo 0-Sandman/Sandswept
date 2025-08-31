@@ -10,9 +10,10 @@ namespace Sandswept.Utils
     {
         /// <summary>Adds a string-value pair to the ROR2 language strings</summary>
         /// <param name="text">the value when the string is searched</param>
-        public static void Add(this string str, string text)
+        public static string Add(this string str, string text)
         {
             LanguageAPI.Add(str, text);
+            return str;
         }
 
         /// <summary>Adds a string-value pair to the ROR2 language strings via an overlay</summary>

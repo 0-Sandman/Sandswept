@@ -1,4 +1,5 @@
 using LookingGlass.ItemStatsNameSpace;
+using Rebindables;
 
 namespace Sandswept.Items.Reds
 {
@@ -9,9 +10,9 @@ namespace Sandswept.Items.Reds
 
         public override string ItemLangTokenName => "TORN_FEATHER";
 
-        public override string ItemPickupDesc => "Tap Interact to perform an omni-directional dash. Refreshes upon landing.";
+        public override string ItemPickupDesc => $"Tap [{FeatherDash.DefaultKeyboardInput}] to perform an omni-directional dash. Refreshes upon landing.";
 
-        public override string ItemFullDescription => $"Tap $suInteract$se to perform an $suomni-directional dash$se, up to $su2 times$se before hitting the ground. Gain $su{baseMovementSpeedGain * 100f}%$se $ss(+{stackMovementSpeedGain * 100f}% per stack)$se movement speed.".AutoFormat();
+        public override string ItemFullDescription => $"Tap $su[{FeatherDash.DefaultKeyboardInput}]$se to perform an $suomni-directional dash$se, up to $su2 times$se before hitting the ground. Gain $su{baseMovementSpeedGain * 100f}%$se $ss(+{stackMovementSpeedGain * 100f}% per stack)$se movement speed.".AutoFormat();
 
         public override string ItemLore =>
         """
@@ -73,6 +74,7 @@ namespace Sandswept.Items.Reds
         public static Material pinkOverlay;
         public static Material blueOverlay;
         public static Material whiteOverlay;
+        public static ModKeybind FeatherDash = RebindAPI.RegisterModKeybind(new ModKeybind("SANDSWEPT_INPUT_FEATHER".Add("Torn Feather Dash"), Rewired.KeyboardKeyCode.F, 10, "Jump"));
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
@@ -160,10 +162,10 @@ namespace Sandswept.Items.Reds
     public class FeatherBehaviour : CharacterBody.ItemBehavior
     {
         public int DashesRemaining = 2;
-        public static float dashCooldown = 1.4f;
-        public static float minAirborneTimer = 0.5f;
-        public static float dashTravelDistance = 15f;
-        public static float dashDuration = 0.2f;
+        public const float dashCooldown = 1.4f;
+        public const float minAirborneTimer = 0.5f;
+        public const float dashTravelDistance = 15f;
+        public const float dashDuration = 0.2f;
         public float airborneTimer = 0f;
         public float dashCooldownTimer = 0f;
         public float dashTimer = 0f;
@@ -171,6 +173,11 @@ namespace Sandswept.Items.Reds
         public Vector3 dashVector;
         public int localHurtboxIntangibleCount;
         public InteractionDriver driver;
+        public bool startedAboveGround = false;
+        public bool canWavedash = false;
+        public float wavedashTimer = 0.25f;
+        public bool wavedashNextFrame = false;
+        public int vfxCycle = 3;
 
         public void OnEnable()
         {
@@ -190,7 +197,7 @@ namespace Sandswept.Items.Reds
 
         public void Update()
         {
-            if (body.inputBank.interact.justPressed && !driver.currentInteractable && body.inputBank.moveVector != Vector3.zero)
+            if (body.inputBank.GetButtonState(TornFeather.FeatherDash).justPressed && body.inputBank.moveVector != Vector3.zero)
             {
                 PerformDash();
             }
@@ -198,6 +205,11 @@ namespace Sandswept.Items.Reds
             if (dashTrail)
             {
                 dashTrail.gameObject.transform.position = body.corePosition;
+            }
+
+            if (wavedashTimer >= 0f && startedAboveGround && body.inputBank.jump.justPressed && canWavedash)
+            {
+                wavedashNextFrame = true;
             }
         }
 
@@ -238,23 +250,56 @@ namespace Sandswept.Items.Reds
                 {
                     dashTimer = 0f;
                     EndDash();
+                    return;
+                }
+            }
+
+            if (dashTimer <= dashDuration * 0.5f && canWavedash)
+            {
+                wavedashTimer -= Time.fixedDeltaTime;
+
+                if (wavedashNextFrame && body.characterMotor.isGrounded)
+                {
+                    EndDash(true);
                 }
             }
         }
 
-        public void EndDash()
+        public void EndDash(bool wavedash = false)
         {
+            dashTimer = 0f;
             body.hurtBoxGroup.hurtBoxesDeactivatorCounter -= localHurtboxIntangibleCount;
             localHurtboxIntangibleCount = 0;
             body.gameObject.layer = LayerIndex.defaultLayer.intVal;
             body.characterMotor.Motor.RebuildCollidableLayers();
+
+            wavedashNextFrame = false;
+
+            canWavedash = false;
+
+            if (!wavedash)
+            {
+                body.characterMotor.velocity *= 0.5f;
+            }
+            else
+            {
+                body.characterMotor.Motor.ForceUnground();
+                float speed = dashTravelDistance / dashDuration;
+                body.characterMotor.velocity = Vector3.up * body.jumpPower * 1.5f + (speed * body.characterDirection.forward * 0.5f);
+                DashesRemaining++;
+                canWavedash = true;
+            }
+
             dashTrail.Stop();
-            body.characterMotor.velocity = body.characterMotor.velocity *= 0.2f;
         }
 
         public void PerformDash()
         {
             if (DashesRemaining <= 0 || (dashTimer <= (dashDuration / 4f) && dashTimer > 0f)) return;
+
+            canWavedash = true;
+
+            wavedashTimer = 0.25f;
 
             localHurtboxIntangibleCount++;
             body.hurtBoxGroup.hurtBoxesDeactivatorCounter++;
@@ -267,15 +312,15 @@ namespace Sandswept.Items.Reds
 
             if (modelTransform)
             {
-                var overlayMat = DashesRemaining switch
+                var overlayMat = vfxCycle switch
                 {
-                    2 => TornFeather.blueOverlay,
-                    1 => TornFeather.pinkOverlay,
+                    3 => TornFeather.blueOverlay,
+                    2 => TornFeather.pinkOverlay,
                     _ => TornFeather.whiteOverlay
                 };
 
                 var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
-                temporaryOverlay.duration = 0.2f;
+                temporaryOverlay.duration = 0.5f;
                 temporaryOverlay.animateShaderAlpha = true;
                 temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
                 temporaryOverlay.destroyComponentOnEnd = true;
@@ -284,6 +329,7 @@ namespace Sandswept.Items.Reds
             }
 
             DashesRemaining -= 1;
+            vfxCycle--;
             dashTimer = dashDuration;
 
             airborneTimer = 0f;
@@ -291,36 +337,27 @@ namespace Sandswept.Items.Reds
 
             body.gameObject.layer = LayerIndex.fakeActor.intVal;
             body.characterMotor.Motor.RebuildCollidableLayers();
+            body.AddTimedBuff(RoR2Content.Buffs.HiddenInvincibility, dashDuration + 0.2f);
 
             dashVector = body.inputBank.moveVector;
-            if (dashVector == Vector3.zero)
-            {
-                if (!body.inputBank.jump.down)
-                {
-                    dashVector = body.inputBank.aimDirection;
-                }
-                else
-                {
-                    dashVector = Vector3.up;
-                }
-            }
-            else
-            {
-                if (body.inputBank.jump.down)
-                {
-                    dashVector = Quaternion.AngleAxis(45f, base.transform.right) * dashVector;
-                }
-            }
 
-            dashVector.y = Mathf.Abs(dashVector.y);
+            startedAboveGround = !body.characterMotor.isGrounded;
 
-            // indicator.TriggerSubEmitter(0);
+            if (!body.inputBank.rawMoveLeft.down && !body.inputBank.rawMoveRight.down && !body.inputBank.rawMoveDown.down)
+            {
+                dashVector = body.inputBank.aimDirection;
+            }
 
             dashTrail.transform.forward = -dashVector;
 
             dashTrail.Play();
 
             Util.PlaySound("Play_huntress_shift_mini_blink", base.gameObject);
+
+            if (vfxCycle <= 1)
+            {
+                vfxCycle = 3;
+            }
         }
     }
 }
