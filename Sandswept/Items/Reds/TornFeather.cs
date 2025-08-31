@@ -115,15 +115,15 @@ namespace Sandswept.Items.Reds
             PinkParticles = Main.assets.LoadAsset<Material>("matFeatherPink.mat");
 
             pinkOverlay = new Material(Paths.Material.matHuntressFlashExpanded);
-            pinkOverlay.SetColor("_TintColor", new Color32(245, 169, 184, 150));
+            pinkOverlay.SetColor("_TintColor", new Color32(255, 97, 128, 150));
             pinkOverlay.SetInt("_Cull", 1); // 0 = no cull = whole body, 1 = front = outline, 2 = back = whole body
 
             blueOverlay = new Material(Paths.Material.matHuntressFlashExpanded);
-            blueOverlay.SetColor("_TintColor", new Color32(91, 206, 250, 150));
+            blueOverlay.SetColor("_TintColor", new Color32(0, 136, 255, 150));
             blueOverlay.SetInt("_Cull", 1); // 0 = no cull = whole body, 1 = front = outline, 2 = back = whole body
 
             whiteOverlay = new Material(Paths.Material.matHuntressFlashExpanded);
-            whiteOverlay.SetColor("_TintColor", Color.white);
+            whiteOverlay.SetColor("_TintColor", new Color32(255, 255, 255, 150));
             whiteOverlay.SetInt("_Cull", 1); // 0 = no cull = whole body, 1 = front = outline, 2 = back = whole body
         }
 
