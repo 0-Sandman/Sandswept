@@ -8,12 +8,12 @@ namespace Sandswept.Unlocks
         public override void OnInstall()
         {
             base.OnInstall();
-            
+
         }
 
         public override void OnUninstall()
         {
-            On.RoR2.ShrineRestackBehavior.AddShrineStack -= OnOrderInteract;
+            // On.RoR2.ShrineRestackBehavior.AddShrineStack -= OnOrderInteract;
             base.OnUninstall();
         }
     }
