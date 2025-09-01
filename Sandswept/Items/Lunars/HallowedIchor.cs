@@ -17,7 +17,7 @@ namespace Sandswept.Items.Lunars
 
         public override string ItemPickupDesc => "Chests may be reopened an additional time... $lcBUT reopening them increases difficulty permanently.$ec".AutoFormat();
 
-        public override string ItemFullDescription => $"Chests may be $sureopened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but $sureopening$se them increases $sudifficulty$se by $su{chestReopenDifficultyCoefficientMultiplierAdd * 300f}%$se permanently.".AutoFormat(); // this will be inaccurate no matter what but this is somewhat accurate for the first use on monsoon on singleplayer lmao
+        public override string ItemFullDescription => $"Chests may be $sureopened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but $sureopening$se them increases $sudifficulty$se by $su{chestReopenDifficultyCoefficientMultiplierAdd * 300f}%$se permanently. $srDifficulty increase scales with chest tier$se.".AutoFormat(); // this will be inaccurate no matter what but this is somewhat accurate for the first use on monsoon on singleplayer lmao
 
         public override string ItemLore => "This will be the most potent creation I give to you, my servant. I have weaved many of these artifacts for vermin like you, but this one was far more costly than the others. It will be given only to a scarce few of my most dedicated servants. If used properly, it will be worth the price spent constructing it.\r\n\r\nIt is my blood, held in a vessel of my design. Superior blood. It grants me -- along with my treacherous brother -- the power to shape the compounds. A transfusion is sufficient to enable its effects. It cannot provide the extent of my abilities in such limited quantity, but it will allow you to create more of the trinkets you cling to so tightly.\r\n\r\nIts use will not go unnoticed, however. He will sense its presence, and send his vermin to hunt you down. Use its power to create suitable weapons and avoid encountering him in the flesh, and I do not suspect you will have any issue dispatching your pursuers.";
 
@@ -35,11 +35,27 @@ namespace Sandswept.Items.Lunars
         [ConfigField("Stack Extra Chest Interactions", "", 1)]
         public static int stackExtraChestInteractions;
 
-        [ConfigField("Chest Re-open Difficulty Coefficient Flat Add", "Adds to the current difficulty scaling value each time a chest is re-opened. This is calculated first.", 0.5f)]
+        [ConfigField("Chest Re-open Difficulty Coefficient Flat Add", "Just check the Formula Example.", 0.45f)]
         public static float chestReopenDifficultyCoefficientFlatAdd;
 
-        [ConfigField("Chest Re-open Difficulty Coefficient Multiplier Add", "Multiplies the current difficulty value by 1 + this value each time a chest is re-opened. This is calculated last.", 0.12f)]
+        [ConfigField("Chest Re-open Difficulty Coefficient Multiplier Add", "Just check the Formula Example..", 0.11f)]
         public static float chestReopenDifficultyCoefficientMultiplierAdd;
+
+        [ConfigField("Per Player Divisor Add", "Just check the Formula Example...", 0.25f)]
+        public static float perPlayerDivisorAdd;
+
+        [ConfigField("Chest Difficulty Coefficient Flat Add Scalar", "Multiplied by chest tier (unused for small chests, 2 for large chests, 3 for legendary chest)", 0.05f)]
+        public static float chestDifficultyCoefficientFlatAddScalar;
+
+        [ConfigField("Chest Difficulty Coefficient Multiplier Scalar", "Multiplied by chest tier (unused for small chests, 2 for large chests, 3 for legendary chest)", 0.1f)]
+        public static float chestDifficultyCoefficientMultiplierScalar;
+
+        [ConfigField("Formula Example", "For Moonsoon, where its Difficulty Def Scaling Value is 3, One small chest re-open's starting from 0 re-opens formula is as follows:\n (3 + Chest Re-open Difficulty Coefficient Multiplier Add) * Chest Re-open Difficulty Coefficient Multiplier Add. Which basically means that with unaltered config options, Monsoon suddenly goes from +50% difficulty scaling to +96%. 2 (base, Rainstorm) + 50% = 3, 2 + 96% = 3.92. For a re-open of a large chest starting from 0 re-opens with 2 players total on Monsoon:\n (Difficulty Def Scaling Value + ((Chest Re-open Difficulty Coefficient Flat Add + (Chest Re-open Difficulty Coefficient Flat Add * Chest Difficulty Coefficient Flat Add Scalar * Chest Tier)) / ((1 - Per Player Divisor Add) + (Per Player Divisor Add * Player Count)))) * (1 + (((Chest Re-open Difficulty Coefficient Multiplier Add + ((1 + Chest Re-open Difficulty Coefficient Multiplier Add) * Chest Difficulty Coefficient Multiplier Scalar * Chest Tier)))) / ((1 - Per Player Divisor Add) + (Per Player Divisor Add * Player Count))). For any subsequent re-opens, substitute Difficulty Def Scaling Value for the number you just got from this formula. Chest Tier (and therefore scalars') formulas are unused for small chests.", true)]
+        public static bool formulaExample;
+
+        public override string AchievementName => "Break Away";
+
+        public override string AchievementDesc => "Complete the Primordial Teleporter without picking up any items on the stage.";
 
         public static GameObject permanentHallowedIchorTracker;
 
@@ -66,6 +82,7 @@ namespace Sandswept.Items.Lunars
             base.Init();
             permanentHallowedIchorTracker = new GameObject("Hallowed Ichor Tracker", typeof(SetDontDestroyOnLoad), typeof(HallowedIchorController));
             NetworkingAPI.RegisterMessageType<CallRecalculate>();
+            NetworkingAPI.RegisterMessageType<CallUpdateValue>();
             SetUpVFX();
         }
 
@@ -90,7 +107,8 @@ namespace Sandswept.Items.Lunars
 
             On.RoR2.UI.RunTimerUIController.Update += PerformJitterUI;
             On.RoR2.UI.RunTimerUIController.Start += AddJitterUI;
-            On.RoR2.Stage.Start += OnStageStartRecalculate;
+            RoR2.Stage.onServerStageBegin += OnStageStartUpdateClientValues;
+            On.RoR2.PlayerCharacterMasterController.OnBodyDeath += OnBodyDeathUpdateClientValues;
             // spectator still has desync I believe?
 
             var targetMethod = typeof(ScoreboardController).GetMethod(nameof(ScoreboardController.OnEnable), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
@@ -102,11 +120,15 @@ namespace Sandswept.Items.Lunars
             onScoreboardClosedHook = new Hook(targetMethod, destMethod, this);
         }
 
-        private IEnumerator OnStageStartRecalculate(On.RoR2.Stage.orig_Start orig, RoR2.Stage self)
+        private void OnBodyDeathUpdateClientValues(On.RoR2.PlayerCharacterMasterController.orig_OnBodyDeath orig, PlayerCharacterMasterController self)
         {
-            yield return orig(self);
-            permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().Recalculate();
-            new CallRecalculate().Send(NetworkDestination.Clients);
+            orig(self);
+            new CallUpdateValue().Send(NetworkDestination.Clients);
+        }
+
+        private void OnStageStartUpdateClientValues(RoR2.Stage stage)
+        {
+            new CallUpdateValue().Send(NetworkDestination.Clients);
         }
 
         private void AddJitterUI(On.RoR2.UI.RunTimerUIController.orig_Start orig, RunTimerUIController self)
@@ -240,8 +262,9 @@ namespace Sandswept.Items.Lunars
                 if (hallowedIchorChestController.openedCount > 1)
                 {
                     // Main.ModLogger.LogError("opened count is more than 1");
-                    permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().Recalculate();
-                    new CallRecalculate(interactor.GetComponent<NetworkIdentity>().netId).Send(NetworkDestination.Clients);
+                    var chestTier = GetChestTier(purchaseInteraction);
+                    permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().Recalculate(chestTier);
+                    new CallRecalculate(interactor.GetComponent<NetworkIdentity>().netId, chestTier).Send(NetworkDestination.Clients);
                 }
 
                 var chestBehavior = interactableObject.GetComponent<ChestBehavior>();
@@ -276,6 +299,20 @@ namespace Sandswept.Items.Lunars
         private bool IsChest(PurchaseInteraction purchaseInteraction)
         {
             return purchaseInteraction.displayNameToken.StartsWith("CHEST") || purchaseInteraction.displayNameToken.StartsWith("CATEGORYCHEST") || purchaseInteraction.displayNameToken.StartsWith("GOLDCHEST");
+        }
+
+        private int GetChestTier(PurchaseInteraction purchaseInteraction)
+        {
+            int chestTier = 1;
+            if (purchaseInteraction.displayNameToken.Contains("CHEST2"))
+            {
+                chestTier = 2;
+            }
+            if (purchaseInteraction.displayNameToken.Contains("GOLDCHEST"))
+            {
+                chestTier = 3;
+            }
+            return chestTier;
         }
 
         public IEnumerator SetRepurchaseAsAvailable(GameObject interactableObject, HallowedIchorChestController hallowedIchorChestController)
@@ -350,17 +387,26 @@ namespace Sandswept.Items.Lunars
 
     public class HallowedIchorController : MonoBehaviour
     {
-        public void Recalculate()
+        public void Recalculate(int chestTier)
         {
             if (!Run.instance)
             {
                 return;
             }
 
-            var playerScalar = Mathf.Epsilon + 0.75f + (0.25f * Run.instance.participatingPlayerCount);
+            var flatIncreaseFromChestTier = 0f;
+            var multiplierIncreaseFromChestTier = 0f;
 
-            var flatIncrease = HallowedIchor.chestReopenDifficultyCoefficientFlatAdd / playerScalar;
-            var multiplier = 1f + (HallowedIchor.chestReopenDifficultyCoefficientMultiplierAdd / playerScalar);
+            if (chestTier > 1)
+            {
+                flatIncreaseFromChestTier = HallowedIchor.chestReopenDifficultyCoefficientFlatAdd * HallowedIchor.chestDifficultyCoefficientFlatAddScalar * chestTier;
+                multiplierIncreaseFromChestTier = (1f + HallowedIchor.chestReopenDifficultyCoefficientMultiplierAdd) * HallowedIchor.chestDifficultyCoefficientMultiplierScalar * chestTier;
+            }
+
+            var playerScalar = (1f - HallowedIchor.perPlayerDivisorAdd) + (HallowedIchor.perPlayerDivisorAdd * Run.instance.participatingPlayerCount);
+
+            var flatIncrease = (HallowedIchor.chestReopenDifficultyCoefficientFlatAdd + flatIncreaseFromChestTier) / playerScalar;
+            var multiplier = 1f + ((HallowedIchor.chestReopenDifficultyCoefficientMultiplierAdd + multiplierIncreaseFromChestTier) / playerScalar);
 
             Run.ambientLevelCap = int.MaxValue;
 
@@ -369,6 +415,18 @@ namespace Sandswept.Items.Lunars
             runDifficultyDef.scalingValue *= multiplier;
             HallowedIchor.currentDifficultyDefScalingValue = runDifficultyDef.scalingValue;
         }
+
+        public void UpdateValue()
+        {
+            if (!Run.instance)
+            {
+                return;
+            }
+
+            var runDifficultyDef = DifficultyCatalog.GetDifficultyDef(Run.instance.selectedDifficulty);
+            HallowedIchor.currentDifficultyDefScalingValue = runDifficultyDef.scalingValue;
+        }
+
     }
 
     public class FreakyText : MonoBehaviour
@@ -429,12 +487,53 @@ namespace Sandswept.Items.Lunars
     public class CallRecalculate : INetMessage
     {
         public NetworkInstanceId objID;
+        public int chestTier;
 
         public CallRecalculate()
         {
         }
 
-        public CallRecalculate(NetworkInstanceId objID)
+        public CallRecalculate(NetworkInstanceId objID, int chestTier)
+        {
+            this.objID = objID;
+            this.chestTier = chestTier;
+        }
+
+        public void Deserialize(NetworkReader reader)
+        {
+            objID = reader.ReadNetworkId();
+            chestTier = reader.ReadInt32();
+        }
+
+        public void OnReceived()
+        {
+            if (NetworkServer.active)
+            {
+                // Main.ModLogger.LogError("tried running onreceived for host");
+                return;
+            }
+
+            // Main.ModLogger.LogError("OnReceived() called for client");
+
+            HallowedIchor.permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().Recalculate(chestTier);
+        }
+
+        public void Serialize(NetworkWriter writer)
+        {
+            writer.Write(objID);
+            writer.Write(chestTier);
+        }
+    }
+
+    public class CallUpdateValue : INetMessage
+    {
+        public NetworkInstanceId objID;
+
+        public CallUpdateValue()
+        {
+        }
+
+        public CallUpdateValue(NetworkInstanceId objID)
         {
             this.objID = objID;
         }
@@ -454,7 +553,7 @@ namespace Sandswept.Items.Lunars
 
             // Main.ModLogger.LogError("OnReceived() called for client");
 
-            HallowedIchor.permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().Recalculate();
+            HallowedIchor.permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().UpdateValue();
         }
 
         public void Serialize(NetworkWriter writer)
