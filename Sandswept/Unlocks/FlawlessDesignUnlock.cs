@@ -36,11 +36,11 @@ namespace Sandswept.Unlocks
             var body = localUser.cachedBody;
             if (acceptableEndings.Contains(runReport.gameEnding) && body)
             {
-                Main.ModLogger.LogError("found body");
+                // Main.ModLogger.LogError("found body");
                 var inventory = body.inventory;
                 if (inventory)
                 {
-                    Main.ModLogger.LogError("found inventory");
+                    // Main.ModLogger.LogError("found inventory");
 
                     var passesListCheck = true;
 
@@ -49,7 +49,7 @@ namespace Sandswept.Unlocks
                         if (inventory.GetItemCount(scrap) <= 0)
                         {
                             passesListCheck = false;
-                            Main.ModLogger.LogError("failed to pass required scrap check");
+                            // Main.ModLogger.LogError("failed to pass required scrap check");
                         }
                     }
 
@@ -57,7 +57,7 @@ namespace Sandswept.Unlocks
 
                     if (!passesSpecialCaseCheck)
                     {
-                        Main.ModLogger.LogError("failed to pass special case scrap check");
+                        // Main.ModLogger.LogError("failed to pass special case scrap check");
                     }
 
                     return passesListCheck && passesSpecialCaseCheck;

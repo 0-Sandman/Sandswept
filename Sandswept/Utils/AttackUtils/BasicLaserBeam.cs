@@ -1,8 +1,10 @@
 using System;
 using Sandswept.Utils.Components;
 
-namespace Sandswept.Utils {
-    public class BasicLaserBeam {
+namespace Sandswept.Utils
+{
+    public class BasicLaserBeam
+    {
         public bool Active => firing;
         public float DamageCoefficient;
         public CharacterBody Owner;
@@ -19,7 +21,8 @@ namespace Sandswept.Utils {
         private Vector3 targetEndpoint;
         private float origWidth = 0f;
 
-        public BasicLaserBeam(CharacterBody owner, Transform muzzle, BasicLaserInfo info) {
+        public BasicLaserBeam(CharacterBody owner, Transform muzzle, BasicLaserInfo info)
+        {
             this.info = info;
             delay = 1f / info.TickRate;
             TargetMuzzle = muzzle;
@@ -37,8 +40,10 @@ namespace Sandswept.Utils {
             origin.transform.position = TargetMuzzle.transform.position;
         }
 
-        public void Fire() {
-            if (info.FiringMaterial) {
+        public void Fire()
+        {
+            if (info.FiringMaterial)
+            {
                 lr.material = info.FiringMaterial;
             }
 
@@ -47,23 +52,29 @@ namespace Sandswept.Utils {
             stopwatch = 0f;
         }
 
-        public void UpdateVisual(float deltaTime) {
+        public void UpdateVisual(float deltaTime)
+        {
             origin.transform.position = TargetMuzzle.transform.position;
             end.transform.position = Vector3.MoveTowards(end.transform.position, targetEndpoint, 250f * deltaTime);
         }
 
-        public void Update(float deltaTime) {
+        public void Update(float deltaTime)
+        {
             stopwatch += deltaTime;
 
-            if (stopwatch >= delay) {
+            if (stopwatch >= delay)
+            {
                 targetEndpoint = GetEndpoint(out Vector3 impact);
                 stopwatch = 0f;
 
-                if (firing && Owner.hasAuthority) {
+                if (firing && Owner.hasAuthority)
+                {
                     GetBulletAttack().Fire();
 
-                    if (info.ImpactEffect) {
-                        EffectManager.SpawnEffect(info.ImpactEffect, new EffectData {
+                    if (info.ImpactEffect)
+                    {
+                        EffectManager.SpawnEffect(info.ImpactEffect, new EffectData
+                        {
                             origin = impact,
                             scale = 1f
                         }, false);
@@ -71,18 +82,21 @@ namespace Sandswept.Utils {
                 }
             }
 
-            if (!firing) {
+            if (!firing)
+            {
                 growthStopwatch -= deltaTime;
                 lr.widthMultiplier = Mathf.Max(0f, (growthStopwatch / info.ChargeDelay));
             }
         }
 
-        public Vector3 GetEndpoint(out Vector3 unmodified) {
+        public Vector3 GetEndpoint(out Vector3 unmodified)
+        {
             Vector3 dir = (info.FiringMode == LaserFiringMode.TrackAim) ? Owner.inputBank.aimDirection : TargetMuzzle.forward;
             Vector3 pos = (info.FiringMode == LaserFiringMode.TrackAim) ? Owner.inputBank.aimOrigin : TargetMuzzle.position;
             Vector3 endpoint = new Ray(pos, dir).GetPoint(info.MaxRange);
 
-            if (Physics.Raycast(pos, dir, out RaycastHit hit, info.MaxRange, LayerIndex.world.mask)) {
+            if (Physics.Raycast(pos, dir, out RaycastHit hit, info.MaxRange, LayerIndex.world.mask))
+            {
                 endpoint = hit.point;
             }
 
@@ -92,7 +106,8 @@ namespace Sandswept.Utils {
             return endpoint;
         }
 
-        public BulletAttack GetBulletAttack() {
+        public BulletAttack GetBulletAttack()
+        {
             BulletAttack attack = new();
             attack.radius = lr.startWidth * 0.75f;
             attack.damage = Owner.damage * DamageCoefficient;
@@ -103,16 +118,18 @@ namespace Sandswept.Utils {
             attack.falloffModel = BulletAttack.FalloffModel.None;
             attack.isCrit = Util.CheckRoll(Owner.crit, Owner.master);
             attack.stopperMask = LayerIndex.world.mask;
-            
+
             return attack;
         }
 
-        public void Stop() {
+        public void Stop()
+        {
             GameObject.Destroy(effectInstance);
         }
     }
 
-    public class BasicLaserInfo {
+    public class BasicLaserInfo
+    {
         public GameObject EffectPrefab;
         public string OriginName = "Origin";
         public string EndpointName = "End";
@@ -127,7 +144,8 @@ namespace Sandswept.Utils {
         public GameObject ImpactEffect;
     }
 
-    public enum LaserFiringMode {
+    public enum LaserFiringMode
+    {
         TrackAim,
         Straight
     }
