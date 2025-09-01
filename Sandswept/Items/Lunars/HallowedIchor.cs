@@ -35,22 +35,22 @@ namespace Sandswept.Items.Lunars
         [ConfigField("Stack Extra Chest Interactions", "", 1)]
         public static int stackExtraChestInteractions;
 
-        [ConfigField("Chest Re-open Difficulty Coefficient Flat Add", "Just check the Formula Example.", 0.45f)]
+        [ConfigField("Chest Re-open Difficulty Coefficient Flat Add", "Just check the Formula Example.", 0.5f)]
         public static float chestReopenDifficultyCoefficientFlatAdd;
 
-        [ConfigField("Chest Re-open Difficulty Coefficient Multiplier Add", "Just check the Formula Example..", 0.11f)]
+        [ConfigField("Chest Re-open Difficulty Coefficient Multiplier Add", "Just check the Formula Example..", 0.1f)]
         public static float chestReopenDifficultyCoefficientMultiplierAdd;
 
         [ConfigField("Per Player Divisor Add", "Just check the Formula Example...", 0.25f)]
         public static float perPlayerDivisorAdd;
 
-        [ConfigField("Chest Difficulty Coefficient Flat Add Scalar", "Just check the Formula Example....", 0.05f)]
+        [ConfigField("Chest Difficulty Coefficient Flat Add Scalar", "Just check the Formula Example....", 0.06f)]
         public static float chestDifficultyCoefficientFlatAddScalar;
 
-        [ConfigField("Chest Difficulty Coefficient Multiplier Scalar", "Just check the Formula Example.....", 0.1f)]
+        [ConfigField("Chest Difficulty Coefficient Multiplier Scalar", "Just check the Formula Example.....", 0.08f)]
         public static float chestDifficultyCoefficientMultiplierScalar;
 
-        [ConfigField("Formula Example", "For Moonsoon, where its Difficulty Def Scaling Value is 3, One small chest re-open's starting from 0 re-opens formula is as follows:\n (3 + Chest Re-open Difficulty Coefficient Multiplier Add) * Chest Re-open Difficulty Coefficient Multiplier Add. Which basically means that with unaltered config options, Monsoon suddenly goes from +50% difficulty scaling to +91.475%. 2 (base, Rainstorm) + 50% = 3, 2 + 91.475% = 3.8295. For a re-open of a large chest starting from 0 re-opens with 2 players total on Monsoon:\n (Difficulty Def Scaling Value + ((Chest Re-open Difficulty Coefficient Flat Add + (Chest Re-open Difficulty Coefficient Flat Add * Chest Difficulty Coefficient Flat Add Scalar * Chest Tier)) / ((1 - Per Player Divisor Add) + (Per Player Divisor Add * Player Count)))) * (1 + (((Chest Re-open Difficulty Coefficient Multiplier Add + ((1 + Chest Re-open Difficulty Coefficient Multiplier Add) * Chest Difficulty Coefficient Multiplier Scalar * Chest Tier)))) / ((1 - Per Player Divisor Add) + (Per Player Divisor Add * Player Count))). For any subsequent re-opens, substitute Difficulty Def Scaling Value for the number you just got from this formula. Chest Tier (and therefore scalars') formulas are unused for small chests.", true)]
+        [ConfigField("Formula Example", "For Moonsoon, where its Difficulty Def Scaling Value is 3, One small chest re-open's starting from 0 re-opens formula is as follows:\n (3 + Chest Re-open Difficulty Coefficient Multiplier Add) * Chest Re-open Difficulty Coefficient Multiplier Add. Which basically means that with unaltered config options, Monsoon suddenly goes from +50% difficulty scaling to +92.5%. 2 (base, Rainstorm) + 50% = 3, 2 + 92.5% = 3.85. For a re-open of a large chest starting from 0 re-opens with 2 players total on Monsoon:\n (Difficulty Def Scaling Value + ((Chest Re-open Difficulty Coefficient Flat Add + (Chest Re-open Difficulty Coefficient Flat Add * Chest Difficulty Coefficient Flat Add Scalar * Chest Tier)) / ((1 - Per Player Divisor Add) + (Per Player Divisor Add * Player Count)))) * (1 + (((Chest Re-open Difficulty Coefficient Multiplier Add + ((1 + Chest Re-open Difficulty Coefficient Multiplier Add) * Chest Difficulty Coefficient Multiplier Scalar * Chest Tier)))) / ((1 - Per Player Divisor Add) + (Per Player Divisor Add * Player Count))). For any subsequent re-opens, substitute Difficulty Def Scaling Value for the number you just got from this formula. Chest Tier (and therefore scalars') formulas are unused for small chests.", true)]
         public static bool formulaExample;
 
         public override string AchievementName => "Break Away";
