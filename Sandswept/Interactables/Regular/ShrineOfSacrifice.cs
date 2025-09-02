@@ -136,24 +136,12 @@ namespace Sandswept.Interactables.Regular
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_NAME", "Shrine of Sacrifice");
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_CONTEXT", "Offer to Shrine of Sacrifice");
 
-            var inspectDef = ScriptableObject.CreateInstance<InspectDef>();
-            var inspectInfo = inspectDef.Info = new()
-            {
-                TitleToken = genericDisplayNameProvider.displayToken,
-                DescriptionToken = "SANDSWEPT_SHRINE_SACRIFICE_DESCRIPTION",
-                FlavorToken = "Lesbian Sex #Sandswept",
-                isConsumedItem = false,
-                Visual = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/MiscIcons/texShrineIconOutlined.png").WaitForCompletion(),
-                TitleColor = Color.white
-            };
-            // add this to base later tbh?
+
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_DESCRIPTION", "When activated by a survivor, the Shrine of Sacrifice consumes " + curseCost + "% of the survivors maximum health in exchange for " + itemCount + " copies of a random common item.");
 
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE_2P", "<style=cShrine>Your time has been sacrificed.</color>");
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE", "<style=cShrine>{0}'s time has been sacrificed.</color>");
 
-            prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo = Object.Instantiate(prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo);
-            prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo.Info = inspectInfo;
 
             interactableSpawnCard.prefab = prefab;
 
