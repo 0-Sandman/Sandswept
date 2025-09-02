@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using System.Reflection;
+using BepInEx;
 using RoR2.ExpansionManagement;
 using Sandswept.Utils;
 
@@ -28,6 +30,7 @@ namespace Sandswept.Drones
         public abstract int Credits { get; }
         public abstract DirectorAPI.Stage[] Stages { get; }
         public abstract string iscName { get; }
+        public abstract string inspectInfoDescription { get; }
         public InteractableSpawnCard iscBroken;
 
         public void Initialize()
@@ -64,6 +67,34 @@ namespace Sandswept.Drones
 
             var expansionRequirementComponent = DroneBroken.AddComponent<ExpansionRequirementComponent>();
             expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
+
+            var genericInspectInfoProvider = DroneBroken.AddComponent<GenericInspectInfoProvider>();
+            genericInspectInfoProvider.enabled = true;
+
+            var genericDisplayNameProvider = DroneBroken.GetComponent<GenericDisplayNameProvider>();
+
+            var descToken = Tokens.Where(x => x.Key.Contains("BROKEN")).First().Key; // gets something like SANDSWEPT_VOLTAIC_DRONE_BROKEN_NAME
+            descToken = descToken.Replace("_NAME", "_DESCRIPTION"); // changes _NAME suffix to _DESCRIPTION
+
+            descToken.Add(inspectInfoDescription);
+
+            var droneIcon = Addressables.LoadAssetAsync<Sprite>("bf6ab7be6a9954e43a786c5d88ea5585").WaitForCompletion();
+            // guid is tex drone icon outlined
+
+            var inspectDef = ScriptableObject.CreateInstance<InspectDef>();
+            inspectDef.name = DroneBroken.name + "InspectDef";
+            var inspectInfo = inspectDef.Info = new()
+            {
+                TitleToken = genericDisplayNameProvider.displayToken,
+                DescriptionToken = descToken,
+                FlavorToken = "sanswep",
+                isConsumedItem = false,
+                Visual = droneIcon,
+                TitleColor = Color.white
+            };
+
+            genericInspectInfoProvider.InspectInfo = inspectDef;
+            genericInspectInfoProvider.InspectInfo.Info = inspectInfo;
         }
 
         public static NetworkHash128 GetNetworkedObjectAssetId(GameObject gameObject)

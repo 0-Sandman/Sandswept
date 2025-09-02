@@ -38,6 +38,8 @@ namespace Sandswept.Interactables.Regular
 
         public override bool SlightlyRandomizeOrientation => false;
 
+        public override string inspectInfoDescription => $"When activated by a survivor, the Shrine of Sacrifice consumes {curseCost}% of the survivors maximum health in exchange for {itemCount} copies of a random common item.";
+
         [ConfigField("Director Credit Cost", "", 20)]
         public static int directorCreditCost;
 

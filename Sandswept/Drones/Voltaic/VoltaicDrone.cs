@@ -38,6 +38,8 @@ namespace Sandswept.Drones.Voltaic
 
         public override string iscName => "iscVoltaicDroneBroken";
 
+        public override string inspectInfoDescription => "A companion bought with gold that will follow the survivor at a close distance shooting out a bolt that zaps nearby targets.";
+
         public static GameObject SpikeProjectile;
 
         public override void Setup()

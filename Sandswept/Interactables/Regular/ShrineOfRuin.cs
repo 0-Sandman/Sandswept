@@ -51,6 +51,8 @@ namespace Sandswept.Interactables.Regular
 
         public override bool SlightlyRandomizeOrientation => false;
 
+        public override string inspectInfoDescription => $"When activated by a survivor, the Shrine of Ruin consumes {whiteItemCost} random white items from the survivor's inventory and corrupts the next stage.";
+
         [ConfigField("Director Credit Cost", "", 10)]
         public static int directorCreditCost;
 
@@ -271,24 +273,8 @@ namespace Sandswept.Interactables.Regular
             LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_NAME", "Shrine of Ruin");
             LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_CONTEXT", "Offer to Shrine of Ruin");
 
-            var inspectDef = ScriptableObject.CreateInstance<InspectDef>();
-            var inspectInfo = inspectDef.Info = new()
-            {
-                TitleToken = genericDisplayNameProvider.displayToken,
-                DescriptionToken = "SANDSWEPT_SHRINE_RUIN_DESCRIPTION",
-                FlavorToken = "Gay Sex #Sandswept",
-                isConsumedItem = false,
-                Visual = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/MiscIcons/texShrineIconOutlined.png").WaitForCompletion(),
-                TitleColor = Color.white
-            };
-            // add this to base later tbh?
-            LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_DESCRIPTION", "When activated by a survivor, the Shrine of Ruin consumes " + whiteItemCost + " random white items from the survivor's inventory and corrupts the next stage.");
-
             LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_USE_MESSAGE_2P", "<style=cShrine>The corruption spreads.</color>");
             LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_USE_MESSAGE", "<style=cShrine>The corruption spreads.</color>");
-
-            prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo = Object.Instantiate(prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo);
-            prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo.Info = inspectInfo;
 
             interactableSpawnCard.prefab = prefab;
 

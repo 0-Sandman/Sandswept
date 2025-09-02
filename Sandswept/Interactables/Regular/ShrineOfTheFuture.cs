@@ -34,6 +34,8 @@ namespace Sandswept.Interactables.Regular
         public override bool SlightlyRandomizeOrientation => false;
         public override bool OrientToFloor => false;
 
+        public override string inspectInfoDescription => $"When activated by a survivor, the Shrine of The Future spawns a random strong elite miniboss for each player, that when defeated, drops {itemCount} item potentials per player.";
+
         public GameObject prefab;
 
         public static GameObject shrineVFX;
@@ -163,24 +165,8 @@ namespace Sandswept.Interactables.Regular
             LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_NAME", "Shrine of the Future");
             LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_CONTEXT", "Offer to Shrine of The Future");
 
-            var inspectDef = ScriptableObject.CreateInstance<InspectDef>();
-            var inspectInfo = inspectDef.Info = new()
-            {
-                TitleToken = genericDisplayNameProvider.displayToken,
-                DescriptionToken = "SANDSWEPT_SHRINE_FUTURE_DESCRIPTION",
-                FlavorToken = "Nonbinary Sex #Sandswept",
-                isConsumedItem = false,
-                Visual = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/MiscIcons/texShrineIconOutlined.png").WaitForCompletion(),
-                TitleColor = Color.white
-            };
-            // add this to base later tbh?
-            LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_DESCRIPTION", "When activated by a survivor, the Shrine of The Future spawns a random strong elite miniboss for each player, that when defeated, drops " + itemCount + " item potentials per player.");
-
             LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_USE_MESSAGE_2P", "<style=cShrine>Time has shifted.</color>");
             LanguageAPI.Add("SANDSWEPT_SHRINE_FUTURE_USE_MESSAGE", "<style=cShrine>Time has warped.</color>");
-
-            prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo = Object.Instantiate(prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo);
-            prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo.Info = inspectInfo;
 
             shrineVFX = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.ShrineUseEffect, "Shrine of The Future VFX", false);
             shrineVFX.GetComponent<EffectComponent>().soundName = "Play_ui_obj_nullWard_complete";

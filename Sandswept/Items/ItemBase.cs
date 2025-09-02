@@ -155,6 +155,8 @@ namespace Sandswept.Items
                 ItemDef.unlockableDef = CreateUnlock();
             }
 
+            
+
             if (ItemModel != null)
             {
                 CreateModelPanelParameters(ItemModel);

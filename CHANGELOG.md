@@ -29,7 +29,7 @@
   - Fixed mismatched VFX scales
 - Ranger
   - Added a proper Aim Origin - projectiles now originate from higher up
-  - Added a custom Gravity Curve added to Direct Current - now has a short period of floatiness before gravity ramps in
+  - Added a custom Gravity Curve to Direct Current - now has a short period of floatiness before gravity ramps in
   - Removed Sidestep's small jump at the end
   - Buffed Direct Current Projectile Speed from 170m/s to 240m/s
   - Buffed Direct Current Explosion Radius from 2.5m to 3m
@@ -41,9 +41,10 @@
   - Fixed some NREs
 - Items/Equipment
   - Added ProcSolver Support
-  - Added lip to the leftward border of Makeshift Plate . ,.,,.  . ,,
+  - Added a lip to the leftward border of Makeshift Plate
   - Buffed Amber Knife Chance from 10% to 15%
   - Nerfed Bleeding Witness Hemorrhage Damage from 500% to 360%
+  - Made Void Items locked behind their counterparts' achievements (this is a vanilla bug that VanillaVoid fixes per my proposal)
   - Fixed Nuclear Salvo kills not giving gold
   - Fixed Nuclear Salvo spamming NREs on clients
   - Fixed Sacrificial Band ignoring config
@@ -53,6 +54,10 @@
 - Interactables
   - Fixed Shrine of Ruin not having VFX for clients
   - Fixed Shrine of Ruin not properly clearing its language overlays
+  - Fixed Inferno Drone appearing as a Gunner Drone for clients
+  - Fixed Inferno Drone missing an inspect info
+  - Fixed Voltaic Drone appearing as a Gunner Drone for clients
+  - Fixed Voltaic Drone missing an inspect info
 - Enemies
   - Fixed Delta Construct Skystrike constructor error
 
