@@ -15,9 +15,9 @@ namespace Sandswept.Items.Lunars
 
         public override string ItemLangTokenName => "HALLOWED_ICHOR";
 
-        public override string ItemPickupDesc => "Chests may be reopened an additional time... $lcBUT reopening them increases difficulty permanently.$ec".AutoFormat();
+        public override string ItemPickupDesc => "Chests may be re-opened an additional time... $lcBUT re-opening them increases difficulty permanently.$ec".AutoFormat();
 
-        public override string ItemFullDescription => $"Chests may be $sureopened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but $sureopening$se them increases $sudifficulty$se by $su{chestReopenDifficultyCoefficientMultiplierAdd * 300f}%$se permanently. $srDifficulty increase scales with chest tier$se.".AutoFormat(); // this will be inaccurate no matter what but this is somewhat accurate for the first use on monsoon on singleplayer lmao
+        public override string ItemFullDescription => $"Chests may be $sure-opened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but $sure-opening$se them increases $sudifficulty$se by $su{chestReopenDifficultyCoefficientMultiplierAdd * 300f}%$se permanently. $srDifficulty increase scales with chest tier$se.".AutoFormat(); // this will be inaccurate no matter what but this is somewhat accurate for the first use on monsoon on singleplayer lmao
 
         public override string ItemLore => "This will be the most potent creation I give to you, my servant. I have weaved many of these artifacts for vermin like you, but this one was far more costly than the others. It will be given only to a scarce few of my most dedicated servants. If used properly, it will be worth the price spent constructing it.\r\n\r\nIt is my blood, held in a vessel of my design. Superior blood. It grants me -- along with my treacherous brother -- the power to shape the compounds. A transfusion is sufficient to enable its effects. It cannot provide the extent of my abilities in such limited quantity, but it will allow you to create more of the trinkets you cling to so tightly.\r\n\r\nIts use will not go unnoticed, however. He will sense its presence, and send his vermin to hunt you down. Use its power to create suitable weapons and avoid encountering him in the flesh, and I do not suspect you will have any issue dispatching your pursuers.";
 
@@ -35,22 +35,22 @@ namespace Sandswept.Items.Lunars
         [ConfigField("Stack Extra Chest Interactions", "", 1)]
         public static int stackExtraChestInteractions;
 
-        [ConfigField("Chest Re-open Difficulty Coefficient Flat Add", "Just check the Formula Example.", 0.5f)]
+        [ConfigField("Chest Reopen Difficulty Coefficient Flat Add", "Just check the Formula Example.", 0.5f)]
         public static float chestReopenDifficultyCoefficientFlatAdd;
 
-        [ConfigField("Chest Re-open Difficulty Coefficient Multiplier Add", "Just check the Formula Example..", 0.1f)]
+        [ConfigField("Chest Reopen Difficulty Coefficient Multiplier Add", "Just check the Formula Example..", 0.1f)]
         public static float chestReopenDifficultyCoefficientMultiplierAdd;
 
         [ConfigField("Per Player Divisor Add", "Just check the Formula Example...", 0.25f)]
         public static float perPlayerDivisorAdd;
 
-        [ConfigField("Chest Re-open Difficulty Coefficient Flat Add Scalar", "Just check the Formula Example....", 0.06f)]
+        [ConfigField("Chest Reopen Difficulty Coefficient Flat Add Scalar", "Just check the Formula Example....", 0.06f)]
         public static float chestDifficultyCoefficientFlatAddScalar;
 
-        [ConfigField("Chest Re-open Difficulty Coefficient Multiplier Scalar", "Just check the Formula Example.....", 0.08f)]
+        [ConfigField("Chest Reopen Difficulty Coefficient Multiplier Scalar", "Just check the Formula Example.....", 0.08f)]
         public static float chestDifficultyCoefficientMultiplierScalar;
 
-        [ConfigField("Formula Example", "For Moonsoon, where its Difficulty Def Scaling Value is 3, One small chest re-open's starting from 0 re-opens formula is as follows:\n (3 + Chest Re-open Difficulty Coefficient Multiplier Add) * Chest Re-open Difficulty Coefficient Multiplier Add. Which basically means that with unaltered config options, Monsoon suddenly goes from +50% difficulty scaling to +92.5%. 2 (base, Rainstorm) + 50% = 3, 2 + 92.5% = 3.85. For a re-open of a large chest starting from 0 re-opens with 2 players total on Monsoon:\n (Difficulty Def Scaling Value + ((Chest Re-open Difficulty Coefficient Flat Add + (Chest Re-open Difficulty Coefficient Flat Add * Chest Re-open Difficulty Coefficient Flat Add Scalar * Chest Tier)) / ((1 - Per Player Divisor Add) + (Per Player Divisor Add * Player Count)))) * (1 + (((Chest Re-open Difficulty Coefficient Multiplier Add + ((1 + Chest Re-open Difficulty Coefficient Multiplier Add) * Chest Re-open Difficulty Coefficient Multiplier Scalar * Chest Tier)))) / ((1 - Per Player Divisor Add) + (Per Player Divisor Add * Player Count))). For any subsequent re-opens, substitute Difficulty Def Scaling Value for the number you just got from this formula. Chest Tier (and therefore scalars') formulas are unused for small chests.", true)]
+        [ConfigField("Formula Example", "For Moonsoon, where its Difficulty Def Scaling Value is 3, One small chest reopen's starting from 0 re-opens formula is as follows:\n (3 + Chest Reopen Difficulty Coefficient Multiplier Add) * Chest Reopen Difficulty Coefficient Multiplier Add. Which basically means that with unaltered config options, Monsoon suddenly goes from +50% difficulty scaling to +92.5%. 2 (base, Rainstorm) + 50% = 3, 2 + 92.5% = 3.85. For a reopen of a large chest starting from 0 reopens with 2 players total on Monsoon:\n (Difficulty Def Scaling Value + ((Chest Reopen Difficulty Coefficient Flat Add + (Chest Reopen Difficulty Coefficient Flat Add * Chest Reopen Difficulty Coefficient Flat Add Scalar * Chest Tier)) / ((1 - Per Player Divisor Add) + (Per Player Divisor Add * Player Count)))) * (1 + (((Chest Reopen Difficulty Coefficient Multiplier Add + ((1 + Chest Reopen Difficulty Coefficient Multiplier Add) * Chest Reopen Difficulty Coefficient Multiplier Scalar * Chest Tier)))) / ((1 - Per Player Divisor Add) + (Per Player Divisor Add * Player Count))). For any subsequent reopens, substitute Difficulty Def Scaling Value for the number you just got from this formula. Chest Tier (and therefore scalars') formulas are unused for small chests.", true)]
         public static bool formulaExample;
 
         public override string AchievementName => "Break Away";

@@ -40,7 +40,13 @@ namespace Sandswept.Drones
             Setup();
 
             ContentAddition.AddBody(DroneBody);
+
+            var networkIdentity = DroneMaster.GetComponent<NetworkIdentity>();
+            networkIdentity.localPlayerAuthority = true;
+            networkIdentity.m_AssetId = GetNetworkedObjectAssetId(DroneMaster);
+
             ContentAddition.AddMaster(DroneMaster);
+
             ContentAddition.AddNetworkedObject(DroneBroken);
 
             foreach (KeyValuePair<string, string> kvp in Tokens)
@@ -58,6 +64,19 @@ namespace Sandswept.Drones
 
             var expansionRequirementComponent = DroneBroken.AddComponent<ExpansionRequirementComponent>();
             expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
+        }
+
+        public static NetworkHash128 GetNetworkedObjectAssetId(GameObject gameObject)
+        {
+            var prefabName = gameObject.name;
+            Hash128 hasher = Hash128.Compute(prefabName);
+            hasher.Append(Main.ModGuid);
+
+            return new NetworkHash128
+            {
+                i0_7 = hasher.u64_0,
+                i8_15 = hasher.u64_1
+            };
         }
 
         public static bool DefaultEnabledCallback(DroneBase self)
