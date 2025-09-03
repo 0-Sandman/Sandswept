@@ -58,12 +58,6 @@ namespace Sandswept.Items.VoidGreens
         public override void Init()
         {
             base.Init();
-            /*
-            if (!ItemBase.DefaultEnabledCallback(SunFragment.instance))
-            {
-                return;
-            }
-            */
 
             SetUpMaterial();
             SetUpVFX();

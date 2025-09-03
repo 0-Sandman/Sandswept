@@ -15,13 +15,6 @@ using UnityEngine.SceneManagement;
 
 namespace Sandswept.Interactables.Regular
 {
-    // destinations don't get changed properly (stage 2 would land you on stage 1 simulacrum if it worked)
-    // destinations are hardcoded to work with specific stage numbers (messing with stage count would mess with the stage order completely once you use a shrine of ruin)
-    // enemy pools don't get swapped for some reason
-    // item cost doesn't take item stacks into account
-    // also for some reason it shows the tab tooltip of shrine of sacrifice??
-    // also make a new cost type def cause I don't want shitty ass scrap working on this :beenormal:
-    // fuck scrap making this a free interactable :beenormal:
     [ConfigSection("Interactables :: Shrine of Ruin")]
     internal class ShrineOfRuin : InteractableBase<ShrineOfRuin>
     {

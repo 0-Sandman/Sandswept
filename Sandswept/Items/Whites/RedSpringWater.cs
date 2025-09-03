@@ -61,18 +61,22 @@ namespace Sandswept.Items.Whites
         public override object GetItemStatsDef()
         {
             ItemStatsDef itemStatsDef = new();
-            itemStatsDef.descriptions.Add("Healing: ");
+            itemStatsDef.descriptions.Add("Base Regen: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Healing);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.FlatHealing);
+            itemStatsDef.descriptions.Add("Level Scaled: ");
             itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Healing);
             itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.FlatHealing);
             itemStatsDef.calculateValues = (master, stack) =>
             {
-                float totalRegenGain = 0f;
+                float totalUnscaledRegenGain = 0f;
+                float totalScaledRegenGain = 0f;
                 var body = master.GetBody();
                 if (body)
                 {
                     float gainPerBuff = 0f;
                     float counter = 0.5f;
-                    totalRegenGain = baseRegen;
+                    totalUnscaledRegenGain = baseRegen;
 
                     for (BuffIndex index = (BuffIndex)0; (int)index < BuffCatalog.buffCount; index++)
                     {
@@ -84,14 +88,16 @@ namespace Sandswept.Items.Whites
                         }
                     }
 
-                    totalRegenGain += gainPerBuff;
+                    totalUnscaledRegenGain += gainPerBuff;
+                    totalScaledRegenGain = totalUnscaledRegenGain + (totalUnscaledRegenGain * 0.2f * (body.level - 1));
                 }
 
                 // dont scale value with level cause lookingglass doesnt
 
                 List<float> values = new()
                 {
-                    totalRegenGain,
+                    totalUnscaledRegenGain,
+                    totalScaledRegenGain
                 };
 
                 return values;

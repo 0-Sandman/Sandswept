@@ -179,8 +179,4 @@ namespace Sandswept.DoTs
             }
         }
     }
-
-    public class WhatTheFuck : MonoBehaviour
-    {
-    }
 }
