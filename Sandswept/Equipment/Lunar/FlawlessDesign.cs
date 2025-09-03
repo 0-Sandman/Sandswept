@@ -19,7 +19,7 @@ namespace Sandswept.Equipment.Lunar
 
         public override string EquipmentLangTokenName => "FLAWLESS_DESIGN";
 
-        public override string EquipmentPickupDesc => "Permanently sacrifice $srmaximum health$se to $suduplicate$se items.".AutoFormat();
+        public override string EquipmentPickupDesc => "Permanently sacrifice $srmaximum health$se to $duplicate items.".AutoFormat();
 
         public override string EquipmentFullDescription => $"$srPermanently$se sacrifice $sr{baseHealthCost}%$se of your $srmaximum health$se to $suduplicate$se a targeted item. $srHealth cost increases with item rarity$se.".AutoFormat();
         public override string EquipmentLore =>

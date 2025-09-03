@@ -42,7 +42,7 @@ namespace Sandswept.Items.VoidGreens
 
         public override GameObject ItemModel => Main.sandsweptHIFU.LoadAsset<GameObject>("PreservedAtollHolder.prefab");
 
-        public override Sprite ItemIcon => Main.assets.LoadAsset<Sprite>("texFesteringHunger.png");
+        public override Sprite ItemIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texPreservedAtoll.png");
 
         public override ItemTag[] ItemTags => [ItemTag.Damage, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist];
 
@@ -119,7 +119,7 @@ namespace Sandswept.Items.VoidGreens
             lineVFX = PrefabAPI.InstantiateClone(Paths.GameObject.VoidSurvivorBeamTracer, "Preserved Atoll Line VFX", false);
 
             VFXUtils.RecolorMaterialsAndLights(lineVFX, new Color32(96, 56, 177, 255), new Color32(96, 56, 177, 255), true);
-            VFXUtils.MultiplyDuration(lineVFX, 3.5f);
+            VFXUtils.MultiplyDuration(lineVFX, 6f);
 
             ContentAddition.AddEffect(lineVFX);
         }
