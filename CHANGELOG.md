@@ -37,8 +37,9 @@
   - Buffed Direct Current Explosion Radius from 2.5m to 3m
   - Buffed Direct Current Explosion Radius to scale over distance. Maximum is ... 4.5m? 6m? 20m? pseudopulse ! !
   - Buffed Direct Current to give 3 Charge on a direct hit
-  - Berfed Sidestep duration from 0.15s to 0.1s
-  - Nuffed Direct Current Projectile Size from 0.5m to 0.25m
+  - Buffed Direct Current minimum damage multiplier 0.4x -> 0.6x at close range 
+  - Buffed Sidestep duration from 0.15s to 0.1s
+  - Nerfed Direct Current Projectile Size from 0.5m to 0.25m
   - Nerfed Max Charge capacity from 10 to 20 (Everything that scaled with Charge is scaled appropriately to be the same at max, this is a nerf because you are now encouraged to hit direct hits with Direct Current for 150% Charge gain compared to before, otherwise it's halved)
   - Fixed Overdrive Exit throwing an NRE while dead
   - Fixed being in heat throwing an NRE while dead <img src="https://i.postimg.cc/vmM6hpzc/image.png" width="20" height="20"/>
@@ -50,12 +51,17 @@
   - Nerfed Bleeding Witness Hemorrhage Damage from 500% to 360%
   - Made Void Items locked behind their counterparts' achievements (this is a vanilla bug that VanillaVoid fixes per my proposal)
   - Improved Decay VFX
+  - Torn Feather can now wavedash.
+  - Torn Feather's input-based omnidash directions are gone, dash is now either move direction or aim direction depending on whether left/right are held or not.
+  - Torn Feather no longer uses Interact and can now be rebound in the game's controls menu (going along with this it no longer disables when near an interactable).
   - Fixed Nuclear Salvo kills not giving gold
   - Fixed Nuclear Salvo spamming NREs on clients
   - Fixed Sacrificial Band ignoring config
   - Fixed Glacial Plasma firing every frame on clients
   - Fixed Galvanic Cell Shield NRE (MemOPP update moment)
   - Fixed Sand Sweeper NRE (MemOPP update moment)
+  - Makeshift Plate no longer reflects damage.
+  - Makeshift Plate now gives plating based on shield too.
 - Interactables
   - Fixed Shrine of Ruin not having VFX for clients
   - Fixed Shrine of Ruin not properly clearing its language overlays

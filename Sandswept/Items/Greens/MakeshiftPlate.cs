@@ -27,7 +27,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Gain plating on stage entry. Plating absorbs damage, but cannot be recovered.";
 
-        public override string ItemFullDescription => $"Begin each stage with $sh{basePercentPlatingGain}%$se $ss(+{stackPercentPlatingGain}% per stack)$se plating. Plating acts as $shsecondary health$se, but cannot be recovered in any way. Taking damage with plating fires $sddebris shards$se at nearby enemies for $sd{debrisShardAmount}x{debrisShardDamage * 100f}%$se base damage.".AutoFormat();
+        public override string ItemFullDescription => $"Begin each stage with $sh{basePercentPlatingGain}%$se $ss(+{stackPercentPlatingGain}% per stack)$se plating. Plating acts as $shsecondary health$se, but cannot be recovered in any way.".AutoFormat();
 
         public override string ItemLore =>
         """
@@ -47,25 +47,13 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.assets.LoadAsset<Sprite>("texIconPlate.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.Damage, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist, ItemTag.CannotCopy, ItemTag.DevotionBlacklist };
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist, ItemTag.CannotCopy, ItemTag.DevotionBlacklist };
 
         [ConfigField("Base Percent Plating Gain", "", 200f)]
         public static float basePercentPlatingGain;
 
         [ConfigField("Stack Percent Plating Gain", "", 200f)]
         public static float stackPercentPlatingGain;
-
-        [ConfigField("Debris Shard Damage", "Decimal.", 1.2f)]
-        public static float debrisShardDamage;
-
-        [ConfigField("Debris Shard Amount", "", (uint)2)]
-        public static uint debrisShardAmount;
-
-        [ConfigField("Debris Shard Proc Coefficient", "", 0.2f)]
-        public static float debrisShardProcCoefficient;
-
-        [ConfigField("Debris Shard Search Radius", "", 50f)]
-        public static float debrisShardSearchRadius;
 
         public static Sprite texPlatingBar => Main.sandsweptHIFU.LoadAsset<Sprite>("texPlatingBar.png");
 
@@ -106,7 +94,7 @@ namespace Sandswept.Items.Greens
                 CharacterBody cb = cm.bodyInstanceObject.GetComponent<CharacterBody>();
 
                 float platingMult = (stackPercentPlatingGain / 100f) * count;
-                int plating = Mathf.RoundToInt(cb.maxHealth * platingMult);
+                int plating = Mathf.RoundToInt((cb.maxHealth + cb.maxShield) * platingMult);
 
                 if (!manager)
                 {
@@ -193,7 +181,7 @@ namespace Sandswept.Items.Greens
             {
                 float platingMult = (stackPercentPlatingGain / 100f) * self.inventory.GetItemCount(ItemDef);
 
-                int plating = Mathf.RoundToInt(self.maxHealth * platingMult);
+                int plating = Mathf.RoundToInt((self.maxHealth + self.maxShield) * platingMult);
 
                 if (plating == 0)
                 {
@@ -224,36 +212,6 @@ namespace Sandswept.Items.Greens
 
                 pl.CurrentPlating -= toRemove;
                 pl.CurrentPlating = Mathf.Clamp(pl.CurrentPlating, 0, pl.MaxPlating);
-
-                if (plating > 0 && Util.CheckRoll(100f * Main.GetProcRateForBaseDamageProc(info) * info.procCoefficient))
-                {
-                    SphereSearch search = new()
-                    {
-                        origin = self.transform.position,
-                        radius = debrisShardSearchRadius,
-                        mask = LayerIndex.entityPrecise.mask
-                    };
-                    search.RefreshCandidates();
-                    search.OrderCandidatesByDistance();
-                    search.FilterCandidatesByDistinctHurtBoxEntities();
-                    search.FilterCandidatesByHurtBoxTeam(TeamMask.GetUnprotectedTeams(self.body.teamComponent.teamIndex));
-
-                    foreach (HurtBox box in search.GetHurtBoxes())
-                    {
-                        BulletAttack attack = new();
-                        attack.damage = self.body.damage * debrisShardDamage;
-                        attack.bulletCount = debrisShardAmount;
-                        attack.maxSpread = 2;
-                        attack.damageColorIndex = DamageColorIndex.Item;
-                        attack.origin = self.transform.position;
-                        attack.aimVector = (box.transform.position - self.transform.position).normalized;
-                        attack.procCoefficient = debrisShardProcCoefficient;
-                        attack.tracerEffectPrefab = Paths.GameObject.TracerToolbotNails;
-                        attack.owner = self.gameObject;
-
-                        attack.Fire();
-                    }
-                }
             }
 
             orig(self, info);

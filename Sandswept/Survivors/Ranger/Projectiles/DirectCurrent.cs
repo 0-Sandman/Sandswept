@@ -140,7 +140,7 @@ namespace Sandswept.Survivors.Ranger.Projectiles
         {
             public Vector3 initialPosition;
             public float baseDistance = 60f;
-            public float minDamage = 0.4f;
+            public float minDamage = 0.6f;
             public float minRadius = 0.75f;
             public float maxDamage = 1.4f;
             public float maxRadius = 1.4f;
@@ -180,7 +180,7 @@ namespace Sandswept.Survivors.Ranger.Projectiles
 
             public void FixedUpdate()
             {
-                float distance = Vector3.Distance(base.transform.position, initialPosition);
+                float distance = Mathf.Clamp(Vector3.Distance(base.transform.position, initialPosition), 0f, thresholds[2]);
 
                 if (distance < thresholds[1])
                 {
