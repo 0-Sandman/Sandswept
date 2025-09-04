@@ -179,8 +179,8 @@ namespace Sandswept.Items
             GameObject camera = new("Camera");
             MeshRenderer biggestRenderer = model.GetComponentsInChildren<MeshRenderer>().ToList().OrderByDescending(x => ToFloat(x.bounds.size)).First();
             float mult = ToFloat(biggestRenderer.bounds.size) / 3f;
-            float min = 2f * mult;
-            float max = 10f * mult;
+            float min = mult;
+            float max = 3f * mult;
             focus.transform.parent = model.transform;
             camera.transform.parent = model.transform;
             focus.transform.position = biggestRenderer.bounds.center;

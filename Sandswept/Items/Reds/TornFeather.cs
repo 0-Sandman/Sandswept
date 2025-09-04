@@ -10,9 +10,9 @@ namespace Sandswept.Items.Reds
 
         public override string ItemLangTokenName => "TORN_FEATHER";
 
-        public override string ItemPickupDesc => "Tap Interact to perform an omni-directional dash. Refreshes upon landing.";
+        public override string ItemPickupDesc => $"Tap [{FeatherDash.DefaultKeyboardInput}] to perform an omni-directional dash. Refreshes upon landing.";
 
-        public override string ItemFullDescription => $"Tap $suInteract$se to perform an $suomni-directional dash$se, up to $su2 times$se before hitting the ground. Gain $su{baseMovementSpeedGain * 100f}%$se $ss(+{stackMovementSpeedGain * 100f}% per stack)$se movement speed.".AutoFormat();
+        public override string ItemFullDescription => $"Tap $su[{FeatherDash.DefaultKeyboardInput}]$se to perform an $suomni-directional dash$se, up to $su2 times$se before hitting the ground. Gain $su{baseMovementSpeedGain * 100f}%$se $ss(+{stackMovementSpeedGain * 100f}% per stack)$se movement speed.".AutoFormat();
 
         public override string ItemLore =>
         """
@@ -115,15 +115,15 @@ namespace Sandswept.Items.Reds
             PinkParticles = Main.assets.LoadAsset<Material>("matFeatherPink.mat");
 
             pinkOverlay = new Material(Paths.Material.matHuntressFlashExpanded);
-            pinkOverlay.SetColor("_TintColor", new Color32(245, 169, 184, 150));
+            pinkOverlay.SetColor("_TintColor", new Color32(255, 97, 128, 150));
             pinkOverlay.SetInt("_Cull", 1); // 0 = no cull = whole body, 1 = front = outline, 2 = back = whole body
 
             blueOverlay = new Material(Paths.Material.matHuntressFlashExpanded);
-            blueOverlay.SetColor("_TintColor", new Color32(91, 206, 250, 150));
+            blueOverlay.SetColor("_TintColor", new Color32(0, 136, 255, 150));
             blueOverlay.SetInt("_Cull", 1); // 0 = no cull = whole body, 1 = front = outline, 2 = back = whole body
 
             whiteOverlay = new Material(Paths.Material.matHuntressFlashExpanded);
-            whiteOverlay.SetColor("_TintColor", Color.white);
+            whiteOverlay.SetColor("_TintColor", new Color32(255, 255, 255, 150));
             whiteOverlay.SetInt("_Cull", 1); // 0 = no cull = whole body, 1 = front = outline, 2 = back = whole body
         }
 
@@ -161,22 +161,23 @@ namespace Sandswept.Items.Reds
 
     public class FeatherBehaviour : CharacterBody.ItemBehavior
     {
-        private int DashesRemaining = 2;
-        private const float dashCooldown = 1.4f;
-        private const float minAirborneTimer = 0.5f;
-        private const float dashTravelDistance = 15f;
-        private const float dashDuration = 0.2f;
-        private float airborneTimer = 0f;
-        private float dashCooldownTimer = 0f;
-        private float dashTimer = 0f;
-        private ParticleSystem dashTrail;
-        private Vector3 dashVector;
-        private int localHurtboxIntangibleCount;
-        private InteractionDriver driver;
-        private bool startedAboveGround = false;
-        private bool canWavedash = false;
-        private float wavedashTimer = 0.25f;
-        private bool wavedashNextFrame = false;
+        public int DashesRemaining = 2;
+        public const float dashCooldown = 1.4f;
+        public const float minAirborneTimer = 0.5f;
+        public const float dashTravelDistance = 15f;
+        public const float dashDuration = 0.2f;
+        public float airborneTimer = 0f;
+        public float dashCooldownTimer = 0f;
+        public float dashTimer = 0f;
+        public ParticleSystem dashTrail;
+        public Vector3 dashVector;
+        public int localHurtboxIntangibleCount;
+        public InteractionDriver driver;
+        public bool startedAboveGround = false;
+        public bool canWavedash = false;
+        public float wavedashTimer = 0.25f;
+        public bool wavedashNextFrame = false;
+        public int vfxCycle = 3;
 
         public void OnEnable()
         {
@@ -206,7 +207,8 @@ namespace Sandswept.Items.Reds
                 dashTrail.gameObject.transform.position = body.corePosition;
             }
 
-            if (wavedashTimer >= 0f && startedAboveGround && body.inputBank.jump.justPressed && canWavedash) {
+            if (wavedashTimer >= 0f && startedAboveGround && body.inputBank.jump.justPressed && canWavedash)
+            {
                 wavedashNextFrame = true;
             }
         }
@@ -252,10 +254,12 @@ namespace Sandswept.Items.Reds
                 }
             }
 
-            if (dashTimer <= dashDuration * 0.5f && canWavedash) {
+            if (dashTimer <= dashDuration * 0.5f && canWavedash)
+            {
                 wavedashTimer -= Time.fixedDeltaTime;
 
-                if (wavedashNextFrame && body.characterMotor.isGrounded) {
+                if (wavedashNextFrame && body.characterMotor.isGrounded)
+                {
                     EndDash(true);
                 }
             }
@@ -273,10 +277,12 @@ namespace Sandswept.Items.Reds
 
             canWavedash = false;
 
-            if (!wavedash) {
+            if (!wavedash)
+            {
                 body.characterMotor.velocity *= 0.5f;
             }
-            else {
+            else
+            {
                 body.characterMotor.Motor.ForceUnground();
                 float speed = dashTravelDistance / dashDuration;
                 body.characterMotor.velocity = Vector3.up * body.jumpPower * 1.5f + (speed * body.characterDirection.forward * 0.5f);
@@ -306,15 +312,15 @@ namespace Sandswept.Items.Reds
 
             if (modelTransform)
             {
-                var overlayMat = DashesRemaining switch
+                var overlayMat = vfxCycle switch
                 {
-                    2 => TornFeather.blueOverlay,
-                    1 => TornFeather.pinkOverlay,
+                    3 => TornFeather.blueOverlay,
+                    2 => TornFeather.pinkOverlay,
                     _ => TornFeather.whiteOverlay
                 };
 
                 var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
-                temporaryOverlay.duration = 0.2f;
+                temporaryOverlay.duration = 0.5f;
                 temporaryOverlay.animateShaderAlpha = true;
                 temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
                 temporaryOverlay.destroyComponentOnEnd = true;
@@ -323,6 +329,7 @@ namespace Sandswept.Items.Reds
             }
 
             DashesRemaining -= 1;
+            vfxCycle--;
             dashTimer = dashDuration;
 
             airborneTimer = 0f;
@@ -358,6 +365,11 @@ namespace Sandswept.Items.Reds
             dashTrail.Play();
 
             Util.PlaySound("Play_huntress_shift_mini_blink", base.gameObject);
+
+            if (vfxCycle <= 1)
+            {
+                vfxCycle = 3;
+            }
         }
     }
 }

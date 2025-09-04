@@ -65,7 +65,7 @@ namespace Sandswept.Items.Reds
         [ConfigField("Hemorrhage Chance", "", 8f)]
         public static float hemorrhageChance;
 
-        [ConfigField("Hemorrhage Damage", "Decimal.", 5f)]
+        [ConfigField("Hemorrhage Damage", "Decimal.", 3.6f)]
         public static float hemorrhageDamage;
 
         [ConfigField("Hemorrhage Duration", "", 3f)]

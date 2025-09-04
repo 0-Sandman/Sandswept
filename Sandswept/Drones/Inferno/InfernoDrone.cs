@@ -38,6 +38,8 @@ namespace Sandswept.Drones.Inferno
 
         public override string iscName => "iscInfernoDroneBroken";
 
+        public override string inspectInfoDescription => "A companion bought with gold that will follow the survivor at a close distance shooting out molotov cocktails.";
+
         public static GameObject MortarProjectile;
         private static GameObject SigmaProjectile;
         private static GameObject SigmaProjectile2;

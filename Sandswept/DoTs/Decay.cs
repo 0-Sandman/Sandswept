@@ -17,22 +17,31 @@ namespace Sandswept.DoTs
 
         [ConfigField("Scale Damage with Player Missing Health and Enemy Missing Health?", "Scales decay's base damage up to 300% of its damage value linearly with the player's and enemy's missing health.", true)]
         public static bool scaleDamage;
+        public static Color32 decayColor = new Color32(96, 56, 177, 255);
 
-        public static DamageColorIndex decayColor = DamageColourHelper.RegisterDamageColor(new Color32(96, 56, 177, 255));
+        public static DamageColorIndex decayColorIndex = DamageColourHelper.RegisterDamageColor(decayColor);
 
         public static BurnEffectController.EffectParams decayEffect;
 
         public static void Init()
         {
+            var decayRamp = Main.sandsweptHIFU.LoadAsset<Texture2D>("texRampGrandparent.png");
+
             var decayMat = new Material(Paths.Material.matBlighted);
-            decayMat.SetColor("_TintColor", new Color(0.49888185f, 0.20220098f, 1.0991436f, 1f)); // hdr color (with intensity), hence why a value is above 1
-            decayMat.SetTexture("_RemapTex", Paths.Texture2D.texRampVoidSurvivorBase1);
+            decayMat.SetColor("_TintColor", new Color32(52, 0, 138, 255));
+            decayMat.SetTexture("_RemapTex", decayRamp);
+            decayMat.SetFloat("_Boost", 1f);
+            decayMat.SetFloat("_AlphaBoost", 20f);
+            decayMat.SetFloat("_AlphaBias", 1f);
+            decayMat.name = "matDecaying";
 
             var decayVFX = PrefabAPI.InstantiateClone(Paths.GameObject.BlightEffect, "DecayEffect", false);
             var particleSystemRenderer = decayVFX.GetComponent<ParticleSystemRenderer>();
             var decayVFXMat = new Material(Paths.Material.matCrocoBlightBillboard);
-            decayVFXMat.SetTexture("_RemapTex", Paths.Texture2D.texRampVoidSurvivorBase1);
+            // decayVFXMat.SetTexture("_RemapTex", Paths.Texture2D.texRampVoidSurvivorBase1);
+            decayVFXMat.SetTexture("_RemapTex", decayRamp);
             decayVFXMat.SetTexture("_MainTex", Paths.Texture2D.texBandit2BackstabMask);
+            decayVFXMat.name = "matDecayingVFX";
 
             particleSystemRenderer.material = decayVFXMat;
 
@@ -45,7 +54,8 @@ namespace Sandswept.DoTs
             var decayVFXBurstMat = new Material(Paths.Material.matCrocoGooLarge);
             decayVFXBurstMat.SetColor("_TintColor", new Color32(78, 21, 176, 255));
             decayVFXBurstMat.SetColor("_EmColor", new Color32(50, 10, 120, 255));
-            decayVFXBurstMat.SetTexture("_RemapTex", Paths.Texture2D.texRampVoidSurvivorBase1);
+            // decayVFXBurstMat.SetTexture("_RemapTex", Paths.Texture2D.texRampVoidSurvivorBase1);
+            decayVFXBurstMat.SetTexture("_RemapTex", decayRamp);
 
             decayVFXBurstPSR.material = decayVFXBurstMat;
 
@@ -69,7 +79,7 @@ namespace Sandswept.DoTs
                 associatedBuff = decayBuff,
                 resetTimerOnAdd = false,
                 interval = 0.2f,
-                damageColorIndex = decayColor,
+                damageColorIndex = decayColorIndex,
                 damageCoefficient = 1f / baseDamage
             };
 
@@ -170,7 +180,7 @@ namespace Sandswept.DoTs
                     Util.PlaySound("Play_voidRaid_step", victim.gameObject);
                     Util.PlaySound("Play_item_proc_scrapGoop_consume", victim.gameObject);
 
-                    decayEffectController.fireParticleSize = 5f + (victim.radius * 2f);
+                    decayEffectController.fireParticleSize = 7f + (victim.radius * 3f);
                 }
             }
             else if (decayController != default)
@@ -178,9 +188,5 @@ namespace Sandswept.DoTs
                 Object.Destroy(decayController);
             }
         }
-    }
-
-    public class WhatTheFuck : MonoBehaviour
-    {
     }
 }

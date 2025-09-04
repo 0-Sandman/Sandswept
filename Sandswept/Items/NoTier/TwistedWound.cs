@@ -18,7 +18,7 @@ namespace Sandswept.Items.NoTier
 
         public override Sprite ItemIcon => null;
 
-        public override ItemTag[] ItemTags => new ItemTag[] { };
+        public override ItemTag[] ItemTags => [];
 
         public override bool CanRemove => false;
 

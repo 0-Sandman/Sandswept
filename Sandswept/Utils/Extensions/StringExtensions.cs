@@ -137,6 +137,11 @@ namespace Sandswept.Utils
             {
                 match = "$sv",
                 expanded = "<style=cIsVoid>"
+            },
+            new Format
+            {
+                match = "$lc",
+                expanded = "<color=#FF7F7F>"
             }
         };
 

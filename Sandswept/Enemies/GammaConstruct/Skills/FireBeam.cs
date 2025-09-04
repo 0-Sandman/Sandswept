@@ -42,14 +42,14 @@ namespace Sandswept.Enemies.GammaConstruct
                     OriginIsBase = true,
                     EndpointName = "End",
                     DamageCoefficient = singleLaserDamage,
-                    FiringWidthMultiplier = 5f,
+                    FiringWidthMultiplier = 5.5f,
                     MaxRange = 190f,
                     FiringMaterial = GammaConstruct.matDeltaBeamStrong,
                     ChargeDelay = duration * 0.25f,
                     EffectPrefab = GammaConstruct.beam,
                     FiringMode = LaserFiringMode.TrackAim,
                     ImpactEffect = GammaConstruct.sigmaBlast,
-                    TickRate = 10f
+                    TickRate = 30f
                 }
             );
 

@@ -133,5 +133,14 @@ namespace Sandswept.Utils
             }
             return null;
         }
+
+        public static Sprite CreateItemIconWithBackgroundFromLunarEquipment(EquipmentDef equipmentDef)
+        {
+            if (equipmentDef && equipmentDef.pickupIconSprite)
+            {
+                return AddItemIconBackgroundToSprite(equipmentDef.pickupIconSprite, ItemIconBackgroundType.Lunar);
+            }
+            return null;
+        }
     }
 }

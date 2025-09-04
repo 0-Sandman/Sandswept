@@ -494,6 +494,8 @@ namespace Sandswept
                     continue;
                 }
 
+                itemDef.unlockableDef = itemToCorrupt.unlockableDef;
+
                 // Logger.LogError("itemToCorrupt is " + Language.GetString(itemToCorrupt.nameToken));
 
                 ItemDef.Pair transformation = new()

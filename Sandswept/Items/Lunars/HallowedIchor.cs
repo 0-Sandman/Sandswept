@@ -15,9 +15,9 @@ namespace Sandswept.Items.Lunars
 
         public override string ItemLangTokenName => "HALLOWED_ICHOR";
 
-        public override string ItemPickupDesc => "Chests may be reopened an additional time... <color=#FF7F7F>BUT reopening them increases time scaling permanently.</color>";
+        public override string ItemPickupDesc => "Chests may be re-opened an additional time... $lcBUT re-opening them increases difficulty permanently.$ec".AutoFormat();
 
-        public override string ItemFullDescription => $"Chests may be $sureopened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but $sureopening$se them increases $sutime scaling$se by $su{chestReopenDifficultyCoefficientMultiplierAdd * 300f}%$se permanently.".AutoFormat(); // this will be inaccurate no matter what but this is somewhat accurate for the first use on monsoon lmao
+        public override string ItemFullDescription => $"Chests may be $sure-opened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but $sure-opening$se them increases $sudifficulty$se by $su{chestReopenDifficultyCoefficientMultiplierAdd * 300f}%$se permanently. $srDifficulty increase scales with chest tier$se.".AutoFormat(); // this will be inaccurate no matter what but this is somewhat accurate for the first use on monsoon on singleplayer lmao
 
         public override string ItemLore => "This will be the most potent creation I give to you, my servant. I have weaved many of these artifacts for vermin like you, but this one was far more costly than the others. It will be given only to a scarce few of my most dedicated servants. If used properly, it will be worth the price spent constructing it.\r\n\r\nIt is my blood, held in a vessel of my design. Superior blood. It grants me -- along with my treacherous brother -- the power to shape the compounds. A transfusion is sufficient to enable its effects. It cannot provide the extent of my abilities in such limited quantity, but it will allow you to create more of the trinkets you cling to so tightly.\r\n\r\nIts use will not go unnoticed, however. He will sense its presence, and send his vermin to hunt you down. Use its power to create suitable weapons and avoid encountering him in the flesh, and I do not suspect you will have any issue dispatching your pursuers.";
 
@@ -27,7 +27,7 @@ namespace Sandswept.Items.Lunars
 
         public override Sprite ItemIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texWhiteMonster.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist };
+        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist];
 
         [ConfigField("Base Extra Chest Interactions", "", 1)]
         public static int baseExtraChestInteractions;
@@ -35,11 +35,27 @@ namespace Sandswept.Items.Lunars
         [ConfigField("Stack Extra Chest Interactions", "", 1)]
         public static int stackExtraChestInteractions;
 
-        [ConfigField("Chest Re-open Difficulty Coefficient Flat Add", "Adds to the current difficulty scaling value each time a chest is re-opened. This is calculated first.", 0.5f)]
+        [ConfigField("Chest Reopen Difficulty Coefficient Flat Add", "Just check the Formula Example.", 0.5f)]
         public static float chestReopenDifficultyCoefficientFlatAdd;
 
-        [ConfigField("Chest Re-open Difficulty Coefficient Multiplier Add", "Multiplies the current difficulty value by 1 + this value each time a chest is re-opened. This is calculated last.", 0.12f)]
+        [ConfigField("Chest Reopen Difficulty Coefficient Multiplier Add", "Just check the Formula Example..", 0.1f)]
         public static float chestReopenDifficultyCoefficientMultiplierAdd;
+
+        [ConfigField("Per Player Divisor Add", "Just check the Formula Example...", 0.25f)]
+        public static float perPlayerDivisorAdd;
+
+        [ConfigField("Chest Reopen Difficulty Coefficient Flat Add Scalar", "Just check the Formula Example....", 0.06f)]
+        public static float chestDifficultyCoefficientFlatAddScalar;
+
+        [ConfigField("Chest Reopen Difficulty Coefficient Multiplier Scalar", "Just check the Formula Example.....", 0.08f)]
+        public static float chestDifficultyCoefficientMultiplierScalar;
+
+        [ConfigField("Formula Example", "For Moonsoon, where its Difficulty Def Scaling Value is 3, One small chest reopen's starting from 0 re-opens formula is as follows:\n (3 + Chest Reopen Difficulty Coefficient Multiplier Add) * Chest Reopen Difficulty Coefficient Multiplier Add. Which basically means that with unaltered config options, Monsoon suddenly goes from +50% difficulty scaling to +92.5%. 2 (base, Rainstorm) + 50% = 3, 2 + 92.5% = 3.85. For a reopen of a large chest starting from 0 reopens with 2 players total on Monsoon:\n (Difficulty Def Scaling Value + ((Chest Reopen Difficulty Coefficient Flat Add + (Chest Reopen Difficulty Coefficient Flat Add * Chest Reopen Difficulty Coefficient Flat Add Scalar * Chest Tier)) / ((1 - Per Player Divisor Add) + (Per Player Divisor Add * Player Count)))) * (1 + (((Chest Reopen Difficulty Coefficient Multiplier Add + ((1 + Chest Reopen Difficulty Coefficient Multiplier Add) * Chest Reopen Difficulty Coefficient Multiplier Scalar * Chest Tier)))) / ((1 - Per Player Divisor Add) + (Per Player Divisor Add * Player Count))). For any subsequent reopens, substitute Difficulty Def Scaling Value for the number you just got from this formula. Chest Tier (and therefore scalars') formulas are unused for small chests.", true)]
+        public static bool formulaExample;
+
+        public override string AchievementName => "Break Away";
+
+        public override string AchievementDesc => "Complete the Primordial Teleporter without picking up any items on the stage.";
 
         public static GameObject permanentHallowedIchorTracker;
 
@@ -51,8 +67,8 @@ namespace Sandswept.Items.Lunars
 
         public bool isScoreboardOpen = false;
 
-        private static Hook overrideHook;
-        private static Hook overrideHook2;
+        private static Hook onScoreboardOpenedHook;
+        private static Hook onScoreboardClosedHook;
 
         public static Color32 hallowedIchorBlue = new(124, 198, 255, 255);
         public static Color32 cachedTimerColor = Color.white;
@@ -66,6 +82,7 @@ namespace Sandswept.Items.Lunars
             base.Init();
             permanentHallowedIchorTracker = new GameObject("Hallowed Ichor Tracker", typeof(SetDontDestroyOnLoad), typeof(HallowedIchorController));
             NetworkingAPI.RegisterMessageType<CallRecalculate>();
+            NetworkingAPI.RegisterMessageType<CallUpdateValue>();
             SetUpVFX();
         }
 
@@ -83,21 +100,38 @@ namespace Sandswept.Items.Lunars
 
         public override void Hooks()
         {
-            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
-            GlobalEventManager.OnInteractionsGlobal += GlobalEventManager_OnInteractionsGlobal;
-            Run.onRunStartGlobal += Run_onRunStartGlobal;
-            Run.onRunDestroyGlobal += Run_onRunDestroyGlobal;
-            On.RoR2.UI.RunTimerUIController.Update += RunTimerUIController_Update;
-            On.RoR2.UI.RunTimerUIController.Start += RunTimerUIController_Start;
+            CharacterBody.onBodyInventoryChangedGlobal += TrackStackCount;
+            GlobalEventManager.OnInteractionsGlobal += AddChestStackAndRecalculate;
+            Run.onRunStartGlobal += CacheValues;
+            Run.onRunDestroyGlobal += UnsetValues;
+
+            On.RoR2.UI.RunTimerUIController.Update += PerformJitterUI;
+            On.RoR2.UI.RunTimerUIController.Start += AddJitterUI;
+            RoR2.Stage.onServerStageBegin += OnStageStartUpdateClientValues;
+            On.RoR2.PlayerCharacterMasterController.OnBodyDeath += OnBodyDeathUpdateClientValues;
+            // spectator still has desync I believe?
+
             var targetMethod = typeof(ScoreboardController).GetMethod(nameof(ScoreboardController.OnEnable), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             var destMethod = typeof(HallowedIchor).GetMethod(nameof(OnScoreboardOpened), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            overrideHook = new Hook(targetMethod, destMethod, this);
+            onScoreboardOpenedHook = new Hook(targetMethod, destMethod, this);
+
             targetMethod = typeof(ScoreboardController).GetMethod(nameof(ScoreboardController.OnDisable), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             destMethod = typeof(HallowedIchor).GetMethod(nameof(OnScoreboardClosed), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-            overrideHook2 = new Hook(targetMethod, destMethod, this);
+            onScoreboardClosedHook = new Hook(targetMethod, destMethod, this);
         }
 
-        private void RunTimerUIController_Start(On.RoR2.UI.RunTimerUIController.orig_Start orig, RunTimerUIController self)
+        private void OnBodyDeathUpdateClientValues(On.RoR2.PlayerCharacterMasterController.orig_OnBodyDeath orig, PlayerCharacterMasterController self)
+        {
+            orig(self);
+            new CallUpdateValue().Send(NetworkDestination.Clients);
+        }
+
+        private void OnStageStartUpdateClientValues(RoR2.Stage stage)
+        {
+            new CallUpdateValue().Send(NetworkDestination.Clients);
+        }
+
+        private void AddJitterUI(On.RoR2.UI.RunTimerUIController.orig_Start orig, RunTimerUIController self)
         {
             orig(self);
             if (self.runStopwatchTimerTextController.TryGetComponent<HGTextMeshProUGUI>(out var hgTextMeshProUGUI))
@@ -121,7 +155,7 @@ namespace Sandswept.Items.Lunars
         }
 
         // the code may be unoptimized buuut it doesn't really take up performance
-        private void RunTimerUIController_Update(On.RoR2.UI.RunTimerUIController.orig_Update orig, RoR2.UI.RunTimerUIController self)
+        private void PerformJitterUI(On.RoR2.UI.RunTimerUIController.orig_Update orig, RoR2.UI.RunTimerUIController self)
         {
             if (anyoneHadHallowedIchor)
             {
@@ -176,30 +210,34 @@ namespace Sandswept.Items.Lunars
             }
         }
 
-        private void Run_onRunDestroyGlobal(Run run)
+        private void UnsetValues(Run run)
         {
             var runDifficultyDef = DifficultyCatalog.GetDifficultyDef(run.selectedDifficulty);
             runDifficultyDef.scalingValue = cachedDifficultyDefScalingValue;
             anyoneHadHallowedIchor = false;
         }
 
-        private void Run_onRunStartGlobal(Run run)
+        private void CacheValues(Run run)
         {
             var runDifficultyDef = DifficultyCatalog.GetDifficultyDef(run.selectedDifficulty);
             cachedDifficultyDefScalingValue = runDifficultyDef.scalingValue;
             currentDifficultyDefScalingValue = cachedDifficultyDefScalingValue;
         }
 
-        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
+        private void TrackStackCount(CharacterBody body)
         {
             itemCount = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
             if (itemCount > 0)
             {
                 anyoneHadHallowedIchor = true;
             }
+            else
+            {
+                anyoneHadHallowedIchor = false;
+            }
         }
 
-        private void GlobalEventManager_OnInteractionsGlobal(Interactor interactor, IInteractable interactable, GameObject interactableObject)
+        private void AddChestStackAndRecalculate(Interactor interactor, IInteractable interactable, GameObject interactableObject)
         {
             if (itemCount <= 0)
             {
@@ -224,8 +262,9 @@ namespace Sandswept.Items.Lunars
                 if (hallowedIchorChestController.openedCount > 1)
                 {
                     // Main.ModLogger.LogError("opened count is more than 1");
-                    permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().Recalculate();
-                    new CallRecalculate(interactor.GetComponent<NetworkIdentity>().netId).Send(NetworkDestination.Clients);
+                    var chestTier = GetChestTier(purchaseInteraction);
+                    permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().Recalculate(chestTier);
+                    new CallRecalculate(interactor.GetComponent<NetworkIdentity>().netId, chestTier).Send(NetworkDestination.Clients);
                 }
 
                 var chestBehavior = interactableObject.GetComponent<ChestBehavior>();
@@ -260,6 +299,20 @@ namespace Sandswept.Items.Lunars
         private bool IsChest(PurchaseInteraction purchaseInteraction)
         {
             return purchaseInteraction.displayNameToken.StartsWith("CHEST") || purchaseInteraction.displayNameToken.StartsWith("CATEGORYCHEST") || purchaseInteraction.displayNameToken.StartsWith("GOLDCHEST");
+        }
+
+        private int GetChestTier(PurchaseInteraction purchaseInteraction)
+        {
+            int chestTier = 1;
+            if (purchaseInteraction.displayNameToken.Contains("CHEST2"))
+            {
+                chestTier = 2;
+            }
+            if (purchaseInteraction.displayNameToken.Contains("GOLDCHEST"))
+            {
+                chestTier = 3;
+            }
+            return chestTier;
         }
 
         public IEnumerator SetRepurchaseAsAvailable(GameObject interactableObject, HallowedIchorChestController hallowedIchorChestController)
@@ -334,17 +387,26 @@ namespace Sandswept.Items.Lunars
 
     public class HallowedIchorController : MonoBehaviour
     {
-        public void Recalculate()
+        public void Recalculate(int chestTier)
         {
             if (!Run.instance)
             {
                 return;
             }
 
-            var playerScalar = Mathf.Epsilon + 0.75f + (0.25f * Run.instance.participatingPlayerCount);
+            var flatIncreaseFromChestTier = 0f;
+            var multiplierIncreaseFromChestTier = 0f;
 
-            var flatIncrease = HallowedIchor.chestReopenDifficultyCoefficientFlatAdd / playerScalar;
-            var multiplier = 1f + (HallowedIchor.chestReopenDifficultyCoefficientMultiplierAdd / playerScalar);
+            if (chestTier > 1)
+            {
+                flatIncreaseFromChestTier = HallowedIchor.chestReopenDifficultyCoefficientFlatAdd * HallowedIchor.chestDifficultyCoefficientFlatAddScalar * chestTier;
+                multiplierIncreaseFromChestTier = (1f + HallowedIchor.chestReopenDifficultyCoefficientMultiplierAdd) * HallowedIchor.chestDifficultyCoefficientMultiplierScalar * chestTier;
+            }
+
+            var playerScalar = (1f - HallowedIchor.perPlayerDivisorAdd) + (HallowedIchor.perPlayerDivisorAdd * Run.instance.participatingPlayerCount);
+
+            var flatIncrease = (HallowedIchor.chestReopenDifficultyCoefficientFlatAdd + flatIncreaseFromChestTier) / playerScalar;
+            var multiplier = 1f + ((HallowedIchor.chestReopenDifficultyCoefficientMultiplierAdd + multiplierIncreaseFromChestTier) / playerScalar);
 
             Run.ambientLevelCap = int.MaxValue;
 
@@ -353,6 +415,18 @@ namespace Sandswept.Items.Lunars
             runDifficultyDef.scalingValue *= multiplier;
             HallowedIchor.currentDifficultyDefScalingValue = runDifficultyDef.scalingValue;
         }
+
+        public void UpdateValue()
+        {
+            if (!Run.instance)
+            {
+                return;
+            }
+
+            var runDifficultyDef = DifficultyCatalog.GetDifficultyDef(Run.instance.selectedDifficulty);
+            HallowedIchor.currentDifficultyDefScalingValue = runDifficultyDef.scalingValue;
+        }
+
     }
 
     public class FreakyText : MonoBehaviour
@@ -413,12 +487,53 @@ namespace Sandswept.Items.Lunars
     public class CallRecalculate : INetMessage
     {
         public NetworkInstanceId objID;
+        public int chestTier;
 
         public CallRecalculate()
         {
         }
 
-        public CallRecalculate(NetworkInstanceId objID)
+        public CallRecalculate(NetworkInstanceId objID, int chestTier)
+        {
+            this.objID = objID;
+            this.chestTier = chestTier;
+        }
+
+        public void Deserialize(NetworkReader reader)
+        {
+            objID = reader.ReadNetworkId();
+            chestTier = reader.ReadInt32();
+        }
+
+        public void OnReceived()
+        {
+            if (NetworkServer.active)
+            {
+                // Main.ModLogger.LogError("tried running onreceived for host");
+                return;
+            }
+
+            // Main.ModLogger.LogError("OnReceived() called for client");
+
+            HallowedIchor.permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().Recalculate(chestTier);
+        }
+
+        public void Serialize(NetworkWriter writer)
+        {
+            writer.Write(objID);
+            writer.Write(chestTier);
+        }
+    }
+
+    public class CallUpdateValue : INetMessage
+    {
+        public NetworkInstanceId objID;
+
+        public CallUpdateValue()
+        {
+        }
+
+        public CallUpdateValue(NetworkInstanceId objID)
         {
             this.objID = objID;
         }
@@ -438,7 +553,7 @@ namespace Sandswept.Items.Lunars
 
             // Main.ModLogger.LogError("OnReceived() called for client");
 
-            HallowedIchor.permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().Recalculate();
+            HallowedIchor.permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().UpdateValue();
         }
 
         public void Serialize(NetworkWriter writer)

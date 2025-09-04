@@ -27,6 +27,7 @@ namespace Sandswept.Interactables
         public abstract HullClassification Size { get; }
         public abstract int MinimumStageToAppearOn { get; }
         public abstract int SpawnWeight { get; }
+        public abstract string inspectInfoDescription { get; }
         public virtual List<Stage> Stages { get; } = new() { Stage.DistantRoost, Stage.TitanicPlains, Stage.SiphonedForest, Stage.VerdantFalls, Stage.ViscousFalls, Stage.ShatteredAbodes, Stage.DisturbedImpact, Stage.AbandonedAqueduct, Stage.WetlandAspect, Stage.AphelianSanctuary, Stage.ReformedAltar, Stage.RallypointDelta, Stage.ScorchedAcres, Stage.SulfurPools, Stage.TreebornColony, Stage.GoldenDieback, Stage.AbyssalDepths, Stage.SirensCall, Stage.SunderedGrove, Stage.SkyMeadow, Stage.HelminthHatchery };
         public virtual bool SpawnInSimulacrum { get; } = false;
         public virtual bool SpawnInVoid { get; } = false;
@@ -90,6 +91,42 @@ namespace Sandswept.Interactables
 
             var expansionRequirementComponent = interactableSpawnCard.prefab.AddComponent<ExpansionRequirementComponent>();
             expansionRequirementComponent.requiredExpansion = Main.SandsweptExpansionDef;
+
+            var prefab = interactableSpawnCard.prefab;
+
+            if (prefab.GetComponent<GenericInspectInfoProvider>() != null)
+            {
+                GameObject.DestroyImmediate(prefab.GetComponent<GenericInspectInfoProvider>());
+            }
+
+            var genericInspectInfoProvider = prefab.AddComponent<GenericInspectInfoProvider>();
+            genericInspectInfoProvider.enabled = true;
+
+            var genericDisplayNameProvider = prefab.GetComponent<GenericDisplayNameProvider>();
+
+            var descToken = "SANDSWEPT_" + Name.ToUpper();
+            descToken = descToken.Replace(" ", "_") + "_DESCRIPTION";
+            // Shrine of The Future becomes SANDSWEPT_SHRINE_OF_THE_FUTURE_DESCRIPTION (per dronebase)
+
+            descToken.Add(inspectInfoDescription);
+
+            var shrineIcon = Addressables.LoadAssetAsync<Sprite>("13b0407e61597f24497f3832ad9231d8").WaitForCompletion();
+            // guid is tex shrine icon outlined
+
+            var inspectDef = ScriptableObject.CreateInstance<InspectDef>();
+            inspectDef.name = prefab.name + "InspectDef";
+            var inspectInfo = inspectDef.Info = new()
+            {
+                TitleToken = genericDisplayNameProvider.displayToken,
+                DescriptionToken = descToken,
+                FlavorToken = "sanswepp",
+                isConsumedItem = false,
+                Visual = shrineIcon,
+                TitleColor = Color.white
+            };
+
+            genericInspectInfoProvider.InspectInfo = inspectDef;
+            genericInspectInfoProvider.InspectInfo.Info = inspectInfo;
         }
 
         public static bool DefaultEnabledCallback(InteractableBase self)

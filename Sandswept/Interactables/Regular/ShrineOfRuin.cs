@@ -15,13 +15,6 @@ using UnityEngine.SceneManagement;
 
 namespace Sandswept.Interactables.Regular
 {
-    // destinations don't get changed properly (stage 2 would land you on stage 1 simulacrum if it worked)
-    // destinations are hardcoded to work with specific stage numbers (messing with stage count would mess with the stage order completely once you use a shrine of ruin)
-    // enemy pools don't get swapped for some reason
-    // item cost doesn't take item stacks into account
-    // also for some reason it shows the tab tooltip of shrine of sacrifice??
-    // also make a new cost type def cause I don't want shitty ass scrap working on this :beenormal:
-    // fuck scrap making this a free interactable :beenormal:
     [ConfigSection("Interactables :: Shrine of Ruin")]
     internal class ShrineOfRuin : InteractableBase<ShrineOfRuin>
     {
@@ -50,6 +43,8 @@ namespace Sandswept.Interactables.Regular
         public override bool SpawnInSimulacrum => false;
 
         public override bool SlightlyRandomizeOrientation => false;
+
+        public override string inspectInfoDescription => $"When activated by a survivor, the Shrine of Ruin consumes {whiteItemCost} random white items from the survivor's inventory and corrupts the next stage.";
 
         [ConfigField("Director Credit Cost", "", 10)]
         public static int directorCreditCost;
@@ -271,24 +266,8 @@ namespace Sandswept.Interactables.Regular
             LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_NAME", "Shrine of Ruin");
             LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_CONTEXT", "Offer to Shrine of Ruin");
 
-            var inspectDef = ScriptableObject.CreateInstance<InspectDef>();
-            var inspectInfo = inspectDef.Info = new()
-            {
-                TitleToken = genericDisplayNameProvider.displayToken,
-                DescriptionToken = "SANDSWEPT_SHRINE_RUIN_DESCRIPTION",
-                FlavorToken = "Gay Sex #Sandswept",
-                isConsumedItem = false,
-                Visual = Addressables.LoadAssetAsync<Sprite>("RoR2/Base/Common/MiscIcons/texShrineIconOutlined.png").WaitForCompletion(),
-                TitleColor = Color.white
-            };
-            // add this to base later tbh?
-            LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_DESCRIPTION", "When activated by a survivor, the Shrine of Ruin consumes " + whiteItemCost + " random white items from the survivor's inventory and corrupts the next stage.");
-
             LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_USE_MESSAGE_2P", "<style=cShrine>The corruption spreads.</color>");
             LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_USE_MESSAGE", "<style=cShrine>The corruption spreads.</color>");
-
-            prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo = Object.Instantiate(prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo);
-            prefab.GetComponent<GenericInspectInfoProvider>().InspectInfo.Info = inspectInfo;
 
             interactableSpawnCard.prefab = prefab;
 
