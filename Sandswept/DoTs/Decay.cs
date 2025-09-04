@@ -17,8 +17,9 @@ namespace Sandswept.DoTs
 
         [ConfigField("Scale Damage with Player Missing Health and Enemy Missing Health?", "Scales decay's base damage up to 300% of its damage value linearly with the player's and enemy's missing health.", true)]
         public static bool scaleDamage;
+        public static Color32 decayColor = new Color32(96, 56, 177, 255);
 
-        public static DamageColorIndex decayColor = DamageColourHelper.RegisterDamageColor(new Color32(96, 56, 177, 255));
+        public static DamageColorIndex decayColorIndex = DamageColourHelper.RegisterDamageColor(decayColor);
 
         public static BurnEffectController.EffectParams decayEffect;
 
@@ -69,7 +70,7 @@ namespace Sandswept.DoTs
                 associatedBuff = decayBuff,
                 resetTimerOnAdd = false,
                 interval = 0.2f,
-                damageColorIndex = decayColor,
+                damageColorIndex = decayColorIndex,
                 damageCoefficient = 1f / baseDamage
             };
 

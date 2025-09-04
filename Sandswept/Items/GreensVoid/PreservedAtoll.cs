@@ -24,13 +24,13 @@ namespace Sandswept.Items.VoidGreens
         No lore yet [...]
         """;
 
-        [ConfigField("Radius", "", 20f)]
+        [ConfigField("Radius", "", 24f)]
         public static float radius;
 
-        [ConfigField("Base Health Divisor", "Divides the Maximum Health (standard health + shield) by this value to get the damage taken thresholds for each decay stack to inflict, for example, this value being equal to 4 makes the item inflict up to 4 decay at 100% maximum health lost (100 / 4 = 25) and 1 decay at 25% maximum health lost.", 4f)]
+        [ConfigField("Base Health Divisor", "Divides the Maximum Health (standard health + shield) by this value to get the damage taken thresholds for each decay stack to inflict, for example, this value being equal to 4 makes the item inflict up to 5 decay at 100% maximum health lost (100 / 5 = 20) and 1 decay at 20% maximum health lost. Uses banker's rounding.", 5f)]
         public static float baseHealthDivisor;
 
-        [ConfigField("Stack Health Divisor", "Adds to the Base Health Divisor based on stack count. Total Health Divisor = Base Health Divisor + this value * (Preserved Atoll - 1). When Base Health Divisor = 4 and this value = 2, with 2 stacks of the item, it makes each 16.66% of maximum health lost inflict one stack of decay, since 100 / 6 = 16.66, and up to 6 stacks at 100% maximum health lost,", 2f)]
+        [ConfigField("Stack Health Divisor", "Adds to the Base Health Divisor based on stack count. Total Health Divisor = Base Health Divisor + this value * (Preserved Atoll - 1). When Base Health Divisor = 5 and this value = 2, with 2 stacks of the item, it makes each 14.29% of maximum health lost inflict one stack of decay, since 100 / 7 = 14.29, and up to 7 stacks at 100% maximum health lost. Uses banker's rounding.", 2f)]
         public static float stackHealthDivisor;
 
         [ConfigField("Cooldown", "", 10f)]
@@ -51,6 +51,7 @@ namespace Sandswept.Items.VoidGreens
         public static BuffDef readyBuff;
         public static BuffDef cooldownBuff;
         public static GameObject lineVFX;
+        public static GameObject missVFX;
 
         public override void Init()
         {
@@ -96,8 +97,8 @@ namespace Sandswept.Items.VoidGreens
             readyBuff.canStack = false;
             readyBuff.isHidden = false;
             readyBuff.isCooldown = false;
-            readyBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffSacrificialBandReady.png");
-            readyBuff.buffColor = new Color32(96, 56, 177, 255);
+            readyBuff.iconSprite = Main.sandsweptHIFU.LoadAsset<Sprite>("texBuffPreservedAtollReady.png");
+            readyBuff.buffColor = DoTs.Decay.decayColor;
             readyBuff.name = "Preserved Atoll Ready";
 
             ContentAddition.AddBuffDef(readyBuff);
@@ -107,8 +108,8 @@ namespace Sandswept.Items.VoidGreens
             cooldownBuff.isDebuff = false;
             cooldownBuff.isHidden = false;
             cooldownBuff.isCooldown = true;
-            cooldownBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texBuffSacrificialBandCooldown.png");
-            cooldownBuff.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1f);
+            cooldownBuff.iconSprite = Main.sandsweptHIFU.LoadAsset<Sprite>("texBuffPreservedAtollCooldown.png");
+            cooldownBuff.buffColor = new Color(0.4151f, 0.4014f, 0.4014f, 1f); // wolfo consistency
             cooldownBuff.name = "Preserved Atoll Cooldown";
 
             ContentAddition.AddBuffDef(cooldownBuff);
@@ -117,11 +118,37 @@ namespace Sandswept.Items.VoidGreens
         public void SetUpVFX()
         {
             lineVFX = PrefabAPI.InstantiateClone(Paths.GameObject.VoidSurvivorBeamTracer, "Preserved Atoll Line VFX", false);
+            VFXUtils.AddLight(lineVFX, DoTs.Decay.decayColor, 200f, radius, 1.5f);
 
-            VFXUtils.RecolorMaterialsAndLights(lineVFX, new Color32(96, 56, 177, 255), new Color32(96, 56, 177, 255), true);
-            VFXUtils.MultiplyDuration(lineVFX, 6f);
+            // lineVFX.transform.GetChild(1).gameObject.SetActive(false);
+
+            var lineRenderer = lineVFX.GetComponent<LineRenderer>();
+            lineRenderer.widthMultiplier = 0.15f;
+            lineRenderer.numCapVertices = 10;
+
+            var newLineMaterial = new Material(Paths.Material.matVoidSurvivorBeamTrail);
+            newLineMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampWhiteAlphaOnly);
+            newLineMaterial.SetColor("_TintColor", Color.white);
+
+            lineRenderer.material = newLineMaterial;
+            lineRenderer.endColor = DoTs.Decay.decayColor;
+            lineRenderer.startColor = new Color32(150, 219, 235, 255);
+
+            var animateShaderAlpha = lineVFX.GetComponent<AnimateShaderAlpha>();
+            animateShaderAlpha.timeMax = 0.7f;
 
             ContentAddition.AddEffect(lineVFX);
+
+            missVFX = PrefabAPI.InstantiateClone(Paths.GameObject.IgniteExplosionVFX, "Preserved Atoll Miss VFX", false);
+
+            var effectComponent = missVFX.GetComponent<EffectComponent>();
+            effectComponent.soundName = "";
+
+            VFXUtils.RecolorMaterialsAndLights(missVFX, DoTs.Decay.decayColor, DoTs.Decay.decayColor, true);
+            VFXUtils.MultiplyDuration(missVFX, 1.5f);
+            VFXUtils.AddLight(missVFX, DoTs.Decay.decayColor, 50f, radius, 1f);
+
+            ContentAddition.AddEffect(missVFX);
         }
 
         private void OnTakeDamage(On.RoR2.HealthComponent.orig_TakeDamageProcess orig, HealthComponent self, DamageInfo damageInfo)
@@ -249,16 +276,14 @@ namespace Sandswept.Items.VoidGreens
                     continue;
                 }
 
-                var mainHurtBox = victimBody.mainHurtBox;
-
                 EffectData effectData = new()
                 {
                     origin = body.corePosition,
-                    start = victimBody.corePosition,
-                    scale = 2f
+                    start = victimBody.corePosition
                 };
-                // effectData.SetHurtBoxReference(mainHurtBox);
                 EffectManager.SpawnEffect(PreservedAtoll.lineVFX, effectData, transmit: true);
+                // of course this shit doesn't work
+                // why? I DOBT FJUCKSDIU FJMSG DRE#WEWMT
 
                 // maybe just have inflictdot in the loop, but not sure
                 for (int j = 0; j < decayStacks; j++)
@@ -280,10 +305,37 @@ namespace Sandswept.Items.VoidGreens
 
             if (result.hitPoints.Length > 0)
             {
+                // this is dumb as shit
                 for (int i = 0; i < 20; i++)
                 {
                     Util.PlaySound("Play_voidDevastator_step", gameObject);
                 }
+
+                Util.PlaySound("Play_voidRaid_gauntlet_platform_move_start", gameObject);
+                Util.PlaySound("Play_voidDevastator_m2_secondary_explo", gameObject);
+                Util.PlaySound("Play_voidJailer_m1_shoot", gameObject);
+
+                EffectData effectData = new()
+                {
+                    origin = body.corePosition,
+                    scale = PreservedAtoll.radius
+                };
+
+                EffectData effectData2 = new()
+                {
+                    origin = body.corePosition,
+                    scale = PreservedAtoll.radius / 1.35f
+                };
+
+                EffectData effectData3 = new()
+                {
+                    origin = body.corePosition,
+                    scale = PreservedAtoll.radius / 2f
+                };
+
+                EffectManager.SpawnEffect(PreservedAtoll.missVFX, effectData, transmit: true);
+                EffectManager.SpawnEffect(PreservedAtoll.missVFX, effectData2, transmit: true);
+                EffectManager.SpawnEffect(PreservedAtoll.missVFX, effectData3, transmit: true);
 
                 if (body.HasBuff(PreservedAtoll.readyBuff))
                 {
@@ -293,6 +345,18 @@ namespace Sandswept.Items.VoidGreens
                         body.AddTimedBuff(PreservedAtoll.cooldownBuff, j);
                     }
                 }
+            }
+            else
+            {
+                // show vfx on miss to help with distance/range/depth
+                EffectData effectData = new()
+                {
+                    origin = body.corePosition,
+                    scale = PreservedAtoll.radius
+                };
+                EffectManager.SpawnEffect(PreservedAtoll.missVFX, effectData, transmit: true);
+
+                Util.PlaySound("Play_voidRaid_snipe_pool_damage", gameObject);
             }
         }
 

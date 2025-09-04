@@ -74,6 +74,7 @@ namespace Sandswept.Drones
             var genericDisplayNameProvider = DroneBroken.GetComponent<GenericDisplayNameProvider>();
 
             var descToken = Tokens.Where(x => x.Key.Contains("BROKEN")).First().Key; // gets something like SANDSWEPT_VOLTAIC_DRONE_BROKEN_NAME
+            genericDisplayNameProvider.displayToken = descToken; // pseudopulse ! ! voltaic had inferno's name token
             descToken = descToken.Replace("_NAME", "_DESCRIPTION"); // changes _NAME suffix to _DESCRIPTION
 
             descToken.Add(inspectInfoDescription);
