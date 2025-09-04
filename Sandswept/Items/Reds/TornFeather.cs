@@ -1,5 +1,6 @@
 using LookingGlass.ItemStatsNameSpace;
 using Rebindables;
+using Rewired;
 
 namespace Sandswept.Items.Reds
 {
@@ -74,7 +75,7 @@ namespace Sandswept.Items.Reds
         public static Material pinkOverlay;
         public static Material blueOverlay;
         public static Material whiteOverlay;
-        public static ModKeybind FeatherDash = RebindAPI.RegisterModKeybind(new ModKeybind("SANDSWEPT_INPUT_FEATHER".Add("Torn Feather Dash"), Rewired.KeyboardKeyCode.F, 10, "Jump"));
+        public static ModKeybind FeatherDash = RebindAPI.RegisterModKeybind(new ModKeybind("SANDSWEPT_INPUT_FEATHER".Add("Torn Feather Dash"), KeyCode.F, 10, "Jump"));
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
