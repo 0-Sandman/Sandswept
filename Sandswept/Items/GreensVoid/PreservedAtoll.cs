@@ -119,23 +119,21 @@ namespace Sandswept.Items.VoidGreens
         {
             lineVFX = PrefabAPI.InstantiateClone(Paths.GameObject.VoidSurvivorBeamTracer, "Preserved Atoll Line VFX", false);
             VFXUtils.AddLight(lineVFX, DoTs.Decay.decayColor, 200f, radius, 1.5f);
+            VFXUtils.RecolorMaterialsAndLights(lineVFX, DoTs.Decay.decayColor, DoTs.Decay.decayColor, true);
+
+            lineVFX.AddComponent<TracerComponentSucks>();
 
             // lineVFX.transform.GetChild(1).gameObject.SetActive(false);
 
             var lineRenderer = lineVFX.GetComponent<LineRenderer>();
-            lineRenderer.widthMultiplier = 0.15f;
+            lineRenderer.widthMultiplier = 1.25f;
             lineRenderer.numCapVertices = 10;
 
-            var newLineMaterial = new Material(Paths.Material.matVoidSurvivorBeamTrail);
-            newLineMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampWhiteAlphaOnly);
-            newLineMaterial.SetColor("_TintColor", Color.white);
-
-            lineRenderer.material = newLineMaterial;
             lineRenderer.endColor = DoTs.Decay.decayColor;
             lineRenderer.startColor = new Color32(150, 219, 235, 255);
 
             var animateShaderAlpha = lineVFX.GetComponent<AnimateShaderAlpha>();
-            animateShaderAlpha.timeMax = 0.7f;
+            animateShaderAlpha.timeMax = 2f;
 
             ContentAddition.AddEffect(lineVFX);
 
@@ -146,7 +144,7 @@ namespace Sandswept.Items.VoidGreens
 
             VFXUtils.RecolorMaterialsAndLights(missVFX, DoTs.Decay.decayColor, DoTs.Decay.decayColor, true);
             VFXUtils.MultiplyDuration(missVFX, 1.5f);
-            VFXUtils.AddLight(missVFX, DoTs.Decay.decayColor, 50f, radius, 1f);
+            VFXUtils.AddLight(missVFX, DoTs.Decay.decayColor, 30f, radius, 1f);
 
             ContentAddition.AddEffect(missVFX);
         }

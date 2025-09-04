@@ -49,6 +49,7 @@
   - Buffed Amber Knife Chance from 10% to 15%
   - Nerfed Bleeding Witness Hemorrhage Damage from 500% to 360%
   - Made Void Items locked behind their counterparts' achievements (this is a vanilla bug that VanillaVoid fixes per my proposal)
+  - Improved Decay VFX
   - Fixed Nuclear Salvo kills not giving gold
   - Fixed Nuclear Salvo spamming NREs on clients
   - Fixed Sacrificial Band ignoring config
