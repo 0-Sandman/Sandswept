@@ -25,19 +25,23 @@ namespace Sandswept.DoTs
 
         public static void Init()
         {
-            var decayRamp = Main.sandsweptHIFU.LoadAsset<Texture2D>("texGrandparent.png");
+            var decayRamp = Main.sandsweptHIFU.LoadAsset<Texture2D>("texRampGrandparent.png");
 
             var decayMat = new Material(Paths.Material.matBlighted);
-            decayMat.SetColor("_TintColor", new Color(0.49888185f, 0.20220098f, 1.0991436f, 1f)); // hdr color (with intensity), hence why a value is above 1
+            decayMat.SetColor("_TintColor", new Color32(52, 0, 138, 255));
             decayMat.SetTexture("_RemapTex", decayRamp);
+            decayMat.SetFloat("_Boost", 1f);
+            decayMat.SetFloat("_AlphaBoost", 20f);
+            decayMat.SetFloat("_AlphaBias", 1f);
             decayMat.name = "matDecaying";
 
             var decayVFX = PrefabAPI.InstantiateClone(Paths.GameObject.BlightEffect, "DecayEffect", false);
             var particleSystemRenderer = decayVFX.GetComponent<ParticleSystemRenderer>();
             var decayVFXMat = new Material(Paths.Material.matCrocoBlightBillboard);
-            decayVFXMat.SetTexture("_RemapTex", Paths.Texture2D.texRampVoidSurvivorBase1);
+            // decayVFXMat.SetTexture("_RemapTex", Paths.Texture2D.texRampVoidSurvivorBase1);
+            decayVFXMat.SetTexture("_RemapTex", decayRamp);
             decayVFXMat.SetTexture("_MainTex", Paths.Texture2D.texBandit2BackstabMask);
-            decayVFXMat.name = "mat"
+            decayVFXMat.name = "matDecayingVFX";
 
             particleSystemRenderer.material = decayVFXMat;
 
@@ -50,7 +54,8 @@ namespace Sandswept.DoTs
             var decayVFXBurstMat = new Material(Paths.Material.matCrocoGooLarge);
             decayVFXBurstMat.SetColor("_TintColor", new Color32(78, 21, 176, 255));
             decayVFXBurstMat.SetColor("_EmColor", new Color32(50, 10, 120, 255));
-            decayVFXBurstMat.SetTexture("_RemapTex", Paths.Texture2D.texRampVoidSurvivorBase1);
+            // decayVFXBurstMat.SetTexture("_RemapTex", Paths.Texture2D.texRampVoidSurvivorBase1);
+            decayVFXBurstMat.SetTexture("_RemapTex", decayRamp);
 
             decayVFXBurstPSR.material = decayVFXBurstMat;
 

@@ -129,11 +129,17 @@ namespace Sandswept.Items.VoidGreens
             lineRenderer.widthMultiplier = 1.25f;
             lineRenderer.numCapVertices = 10;
 
-            lineRenderer.endColor = DoTs.Decay.decayColor;
-            lineRenderer.startColor = new Color32(150, 219, 235, 255);
+            lineRenderer.material.SetFloat("_InvFade", 2f);
+            lineRenderer.material.SetFloat("_Boost", 1f);
+            lineRenderer.material.SetFloat("_AlphaBoost", 10f);
+            lineRenderer.material.SetFloat("_AlphaBias", 0f);
+
+            lineRenderer.endColor = new Color32(84, 0, 255, 255);
+            lineRenderer.startColor = new Color32(255, 0, 131, 255);
+            lineRenderer.textureMode = LineTextureMode.Tile;
 
             var animateShaderAlpha = lineVFX.GetComponent<AnimateShaderAlpha>();
-            animateShaderAlpha.timeMax = 2f;
+            animateShaderAlpha.timeMax = 1.5f;
 
             ContentAddition.AddEffect(lineVFX);
 
@@ -244,7 +250,7 @@ namespace Sandswept.Items.VoidGreens
                 baseDamage = 0, // dont ask
                 procCoefficient = 0,
                 crit = body.RollCrit(),
-                attackerFiltering = AttackerFiltering.NeverHitSelf,
+                attackerFiltering = AttackerFiltering.NeverHitSelf, // I tried to make it work with self damage and wasn't able to WHAT ETH UFSADJUJDFGIUJD GF
                 falloffModel = BlastAttack.FalloffModel.None,
                 attacker = body.gameObject,
                 teamIndex = body.teamComponent.teamIndex,
@@ -279,11 +285,11 @@ namespace Sandswept.Items.VoidGreens
                     origin = body.corePosition,
                     start = victimBody.corePosition
                 };
-                EffectManager.SpawnEffect(PreservedAtoll.lineVFX, effectData, transmit: true);
-                // of course this shit doesn't work
-                // why? I DOBT FJUCKSDIU FJMSG DRE#WEWMT
 
-                // maybe just have inflictdot in the loop, but not sure
+                EffectManager.SpawnEffect(PreservedAtoll.lineVFX, effectData, transmit: true);
+
+                // OF COURSE I CANT MAKE THE LINERENRDENRSD MOVE WITH EVERYONE
+
                 for (int j = 0; j < decayStacks; j++)
                 {
                     InflictDotInfo inflictDotInfo = new()
