@@ -341,6 +341,18 @@ namespace Sandswept.Items.Reds
                 dashVector = body.inputBank.aimDirection;
             }
 
+            /* makes A/D inputs while W is held cause a perfect 90* horizontal dash, which imo feels like shit so its commented out
+            else {
+                if (body.inputBank.rawMoveLeft.down && !body.inputBank.rawMoveRight.down) {
+                    dashVector = Quaternion.AngleAxis(-90f, Vector3.up) * body.inputBank.aimDirection.Nullify(y: true);
+                }
+
+                if (!body.inputBank.rawMoveLeft.down && body.inputBank.rawMoveRight.down) {
+                    dashVector = Quaternion.AngleAxis(90f, Vector3.up) * body.inputBank.aimDirection.Nullify(y: true);
+                }
+            }
+            */
+
             dashTrail.transform.forward = -dashVector;
 
             dashTrail.Play();

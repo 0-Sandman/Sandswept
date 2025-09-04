@@ -87,5 +87,9 @@ namespace Sandswept.Utils
         {
             return Sprite.Create(new(0, 0, 512, 512), new(512 / 2, 512 / 2), 1, self);
         }
+
+        public static Vector3 Nullify(this Vector3 v, bool x = false, bool y = false, bool z = false) {
+            return new Vector3(x ? 0f : v.x, y ? 0f : v.y, z ? 0f : v.z);
+        }
     }
 }
