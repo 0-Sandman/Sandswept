@@ -56,7 +56,7 @@ namespace Sandswept.Enemies.ThetaConstruct
             </style>
             """);
             ThetaShieldEffect = Main.assets.LoadAsset<GameObject>("ThetaShieldEffect.prefab");
-            ThetaShieldEffect.GetComponent<MeshRenderer>().sharedMaterial = Paths.Material.matMinorConstructShield;
+            // ThetaShieldEffect.GetComponent<MeshRenderer>().sharedMaterial = Paths.Material.matMinorConstructShield;
             PrefabAPI.RegisterNetworkPrefab(ThetaShieldEffect);
         }
 

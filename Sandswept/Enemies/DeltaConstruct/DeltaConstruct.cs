@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using RoR2.Navigation;
 
 namespace Sandswept.Enemies.DeltaConstruct
@@ -36,11 +37,27 @@ namespace Sandswept.Enemies.DeltaConstruct
             If we were to treat our constructs properly, wouldn't giving them life be a good thing? 
              - Giving something soul gives it free will; the free will to decide we are not the construct's supreme creators. Our constructs do not need to make that decision, only us.
             """);
-            bolt = Paths.GameObject.MinorConstructProjectile;
+            matDeltaBeamStrong = Main.assets.LoadAsset<Material>("matDeltaBeamStrong.mat");
+
+            bolt = PrefabAPI.InstantiateClone(Paths.GameObject.MinorConstructProjectile, "DeltaBoltProjectile");
+            GameObject boltGhost = PrefabAPI.InstantiateClone(Paths.GameObject.MinorConstructProjectileGhost, "DeltaBoltGhost");
+            Renderer[] renderers = boltGhost.GetComponentsInChildren<Renderer>(true);
+            foreach (Renderer renderer in renderers) {
+                if (!renderer.sharedMaterial.shader.name.Contains("Cloud Remap")) continue;
+                Material mat = Object.Instantiate(renderer.sharedMaterial);
+                mat.SetTexture("_RemapTex", matDeltaBeamStrong.GetTexture("_RemapTex"));
+                mat.SetColor("_TintColor", Color.red);
+                mat.SetFloat("_Boost", mat.GetFloat("_Boost") * 7f);
+                mat.SetFloat("_AlphaBias", mat.GetFloat("_AlphaBias") * 3f);
+                renderer.material = mat;
+                renderer.sharedMaterial = mat;
+            }
+            bolt.GetComponent<ProjectileController>().ghostPrefab = boltGhost;
+            ContentAddition.AddProjectile(bolt);
+
             muzzleFlash = Paths.GameObject.MuzzleflashMinorConstruct;
 
             beam = Main.assets.LoadAsset<GameObject>("DeltaBeam.prefab");
-            matDeltaBeamStrong = Main.assets.LoadAsset<Material>("matDeltaBeamStrong.mat");
 
             DeltaBurnyTrail = Main.assets.LoadAsset<GameObject>("DeltaBurnyTrail.prefab");
             ContentAddition.AddNetworkedObject(DeltaBurnyTrail);

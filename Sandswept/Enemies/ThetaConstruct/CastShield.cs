@@ -60,6 +60,8 @@ namespace Sandswept.Enemies.ThetaConstruct
             }
 
             base.skillLocator.primary.DeductStock(1);
+
+            base.GetModelAnimator().SetBool("isShielding", true);
         }
 
         public void DoYuriBlast()
@@ -115,6 +117,8 @@ namespace Sandswept.Enemies.ThetaConstruct
         public override void OnExit()
         {
             base.OnExit();
+
+            base.GetModelAnimator().SetBool("isShielding", false);
 
             if (base.isAuthority && shieldInstance)
             {

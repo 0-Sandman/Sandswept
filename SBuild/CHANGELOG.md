@@ -71,6 +71,10 @@
   - Fixed Voltaic Drone missing an inspect info
 - Enemies
   - Fixed Delta Construct Skystrike constructor error
+  - Fixed Theta Construct's idle animation having a very egregious looping issue
+  - Fixed Theta Constructs breaking down and absolutely fucking nothing at all if they are the only enemy alive
+  - Theta Construct is now green!! !
+  - Delta Construct is now red! !!1!
 
 ## 1.2.5 Patch Notes
 - VOL-T
