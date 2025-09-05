@@ -98,7 +98,7 @@ namespace Sandswept.Items.VoidGreens
             readyBuff.isHidden = false;
             readyBuff.isCooldown = false;
             readyBuff.iconSprite = Main.sandsweptHIFU.LoadAsset<Sprite>("texBuffPreservedAtollReady.png");
-            readyBuff.buffColor = DoTs.Decay.decayColor;
+            readyBuff.buffColor = new Color32(59, 148, 70, 255);
             readyBuff.name = "Preserved Atoll Ready";
 
             ContentAddition.AddBuffDef(readyBuff);

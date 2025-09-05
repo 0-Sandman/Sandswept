@@ -45,6 +45,7 @@
   - Fixed being in heat throwing an NRE while dead <img src="https://i.postimg.cc/vmM6hpzc/image.png" width="20" height="20"/>
 - Items/Equipment
   - Added Preserved Atoll
+  - Added Flawless Design
   - Added ProcSolver Support
   - Added a lip to the leftward border of Makeshift Plate
   - Buffed Amber Knife Chance from 10% to 15%
@@ -57,6 +58,7 @@
   - Made Torn Feather use a custom rebindable keybind (F by default) instead of the Interact key
   - Made Torn Feather work while near interactables (due to the change above)
   - Made Torn Feather use a different input to dash system - now moves in your move direction or aim direction depending on whether directional keys are held or not
+  - Updated Corrupted Catalyst model
   - Fixed Nuclear Salvo activating while in The Bazaar
   - Fixed Nuclear Salvo kills not giving gold
   - Fixed Nuclear Salvo spamming NREs on clients

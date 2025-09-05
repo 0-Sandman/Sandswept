@@ -30,9 +30,9 @@ namespace Sandswept.Equipment.Lunar
 
         Perhaps you should oversee the project. It would be fitting, for it to be your first. Increase the intensity, and focus its effects -- it needn't have more than a single purpose. An addition of tetrafoil should do nicely. As always, do not settle for less than perfection.
         """;
-        public override GameObject EquipmentModel => Main.assets.LoadAsset<GameObject>("PickupLunarCatalyst.prefab");
+        public override GameObject EquipmentModel => Main.sandsweptHIFU.LoadAsset<GameObject>("CorruptedCatalystHolder.prefab");
         public override bool IsLunar => true;
-        public override Sprite EquipmentIcon => Main.hifuSandswept.LoadAsset<Sprite>("texCorruptedCatalyst.png");
+        public override Sprite EquipmentIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texCorruptedCatalyst.png");
         public override float Cooldown => 35f;
 
         [ConfigField("Buff Duration", "", 15f)]

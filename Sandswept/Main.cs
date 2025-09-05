@@ -470,6 +470,10 @@ namespace Sandswept
                     case "StubbedRoR2/Base/Shaders/HGIntersectionCloudRemap":
                         val.shader = LegacyShaderAPI.Find("Hopoo Games/FX/Cloud Intersection Remap");
                         break;
+
+                    case "StubbedDecalicious/Decalicious/DeferredDecal":
+                        val.shader = Utils.Assets.Shader.DecaliciousDeferredDecal;
+                        break;
                 }
             }
         }

@@ -8,7 +8,15 @@ namespace Sandswept.Unlocks
         public override void OnInstall()
         {
             base.OnInstall();
+            TeleporterInteraction.onTeleporterChargedGlobal += OnTeleporterCharged;
 
+        }
+        private void OnTeleporterCharged(TeleporterInteraction interaction)
+        {
+            if (RoR2.Stage.instance && RoR2.Stage.instance.sceneDef.cachedName == "skymeadow")
+            {
+                // shizo stuff I don't wanna implement rn
+            }
         }
 
         public override void OnUninstall()

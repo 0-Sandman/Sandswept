@@ -43,9 +43,9 @@ namespace Sandswept.Equipment.Lunar
         In that moment, you may ask for my forgiveness, but I will not grant it. Such is a grace given only by brothers.
 
         """;
-        public override GameObject EquipmentModel => Main.hifuSandswept.LoadAsset<GameObject>("SacrificialBandHolder.prefab");
+        public override GameObject EquipmentModel => Main.sandsweptHIFU.LoadAsset<GameObject>("FlawlessDesignHolder.prefab");
         public override bool IsLunar => true;
-        public override Sprite EquipmentIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texObama.png");
+        public override Sprite EquipmentIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texFlawlessDesign.png");
         public override float Cooldown => 45f;
 
         [ConfigField("Base Health Cost", "", 10)]
