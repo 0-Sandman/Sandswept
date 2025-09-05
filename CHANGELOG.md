@@ -59,6 +59,8 @@
   - Made Torn Feather work while near interactables (due to the change above)
   - Made Torn Feather use a different input to dash system - now moves in your move direction or aim direction depending on whether directional keys are held or not
   - Updated Corrupted Catalyst model
+  - Fixed Equipment having bad/wrong logbook scales
+  - Fixed Equipment not showing up in the logbook 
   - Fixed Nuclear Salvo activating while in The Bazaar
   - Fixed Nuclear Salvo kills not giving gold
   - Fixed Nuclear Salvo spamming NREs on clients
