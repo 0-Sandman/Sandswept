@@ -48,20 +48,23 @@
   - Added ProcSolver Support
   - Added a lip to the leftward border of Makeshift Plate
   - Buffed Amber Knife Chance from 10% to 15%
+  - Buffed Makeshift Plate to also give plating based on shield
+  - Buffed Torn Feather to be able to wavedash
+  - Nerfed Makeshift Plate to no longer retaliate upon taking damage
   - Nerfed Bleeding Witness Hemorrhage Damage from 500% to 360%
-  - Made Void Items locked behind their counterparts' achievements (this is a vanilla bug that VanillaVoid fixes per my proposal)
   - Improved Decay VFX
-  - Torn Feather can now wavedash.
-  - Torn Feather's input-based omnidash directions are gone, dash is now either move direction or aim direction depending on whether left/right are held or not.
-  - Torn Feather no longer uses Interact and can now be rebound in the game's controls menu (going along with this it no longer disables when near an interactable).
+  - Made Void Items locked behind their counterparts' achievements (this is a vanilla bug that VanillaVoid fixed per my proposal)
+  - Made Torn Feather use a custom rebindable keybind (F by default) instead of the Interact key
+  - Made Torn Feather work while near interactables (due to the change above)
+  - Made Torn Feather use a different input to dash system - now moves in your move direction or aim direction depending on whether directional keys are held or not
+  - Fixed Nuclear Salvo activating while in The Bazaar
   - Fixed Nuclear Salvo kills not giving gold
   - Fixed Nuclear Salvo spamming NREs on clients
   - Fixed Sacrificial Band ignoring config
-  - Fixed Glacial Plasma firing every frame on clients
+  - Fixed Glacial Plasma spam firing for clients
+  - Fixed Glacial Plasma spam firing with Visions of Heresy
   - Fixed Galvanic Cell Shield NRE (MemOPP update moment)
   - Fixed Sand Sweeper NRE (MemOPP update moment)
-  - Makeshift Plate no longer reflects damage.
-  - Makeshift Plate now gives plating based on shield too.
 - Interactables
   - Fixed Shrine of Ruin not having VFX for clients
   - Fixed Shrine of Ruin not properly clearing its language overlays
@@ -70,13 +73,13 @@
   - Fixed Voltaic Drone appearing as a Gunner Drone for clients
   - Fixed Voltaic Drone missing an inspect info
 - Enemies
+  - Made Theta Construct green
+  - Made Theta Construct use a different idle animation when shielding an enemy to maintain the same visual size (its hitbox didnt change but it looked smaller before)
+  - Made Delta Construct red
   - Fixed Delta Construct Skystrike constructor error
   - Fixed Theta Construct's idle animation having a very egregious looping issue
   - Fixed Theta Constructs breaking down and absolutely fucking nothing at all if they are the only enemy alive
-  - Theta Construct now uses a different idle animation when shielding an enemy to maintain the same visual size (its hitbox didnt change but it looked smaller before)
-  - Theta Construct is now green!! !
-  - Delta Construct is now red! !!1!
-
+  
 ## 1.2.5 Patch Notes
 - VOL-T
   - Added Galvanic Bolt, Tempest Sphere and Signal Overload hit impact SFX
@@ -84,9 +87,9 @@
   - Scaled up hit impact VFX
 - Items/Equipment
   - Fixed Makeshift Plate giving you the full stack worth of plating when getting another Makeshift Plate.
-  - Fixed Makeshift Plate networking issues.
+  - Fixed Makeshift Plate networking issues
 - Enemies
-  - Fixed Cannonball Jellyfish wandering off into the skybox.
+  - Fixed Cannonball Jellyfish wandering off into the skybox
 
 ## 1.2.4 Patch Notes
 - General

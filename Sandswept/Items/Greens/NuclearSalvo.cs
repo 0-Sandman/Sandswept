@@ -68,6 +68,8 @@ namespace Sandswept.Items.Greens
         [ConfigField("Missile Explosion Radius", "", 16f)]
         public static float missileExplosionRadius;
 
+        public static List<string> stageBlacklist = new();
+
         // uncomment for aoe
 
         public static GameObject orbEffect;
@@ -77,6 +79,7 @@ namespace Sandswept.Items.Greens
         public override void Init()
         {
             base.Init();
+            stageBlacklist.Add("bazaar");
             SetUpVFX();
         }
 
@@ -237,12 +240,15 @@ namespace Sandswept.Items.Greens
         {
             body = GetComponent<CharacterBody>();
             master = body.master;
-            body.onInventoryChanged += Body_onInventoryChanged;
+            if (RoR2.Stage.instance && !NuclearSalvo.stageBlacklist.Contains(RoR2.Stage.instance.sceneDef.cachedName))
+            {
+                body.onInventoryChanged += Body_onInventoryChanged;
+            }
         }
 
         public void OnEnable()
         {
-            if (NetworkServer.active)
+            if (NetworkServer.active && RoR2.Stage.instance && !NuclearSalvo.stageBlacklist.Contains(RoR2.Stage.instance.sceneDef.cachedName))
             {
                 // Main.ModLogger.LogError("subscribinbingign to master summon");
                 onServerMasterSummonGlobal += MasterSummon_onServerMasterSummonGlobal;

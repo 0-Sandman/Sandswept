@@ -15,9 +15,9 @@ namespace Sandswept.Items.VoidGreens
 
         public override string ItemLangTokenName => "PRESERVED_ATOLL";
 
-        public override string ItemPickupDesc => $"Retaliate with decay on taking damage. $svCorrupts all Sacrificial Bands$se.".AutoFormat();
+        public override string ItemPickupDesc => $"The void retaliates on taking damage, inflicting permanent decay. Recharges over time. $svCorrupts all Sacrificial Bands$se.".AutoFormat();
 
-        public override string ItemFullDescription => $"Getting hit causes the void to inflict $sdpermanent decay$se for $sd{DoTs.Decay.baseDamage * 100f}%$se base damage to all enemies in a $sd{radius}m$se radius $sdonce$se for each $sh{Mathf.Round(100f / baseHealthDivisor)}%$se $ss(-{Mathf.Round((1f - 100f / (baseHealthDivisor + stackHealthDivisor) / (100f / baseHealthDivisor)) * 100f)}% per stack)$se of $shmaximum health$se lost. Simulates every $su{cooldown}$se seconds. $svCorrupts all Sacrificial Bands$se.".AutoFormat();
+        public override string ItemFullDescription => $"Getting hit causes you to implode, inflicting up to $sd{baseHealthDivisor}$se $ss(+{stackHealthDivisor} per stack) $sdpermanent decay$se for $sd{DoTs.Decay.baseDamage * 100f}%$se base damage to all targets in a $sd{radius}m$se radius based on $shhealth lost$se. Recharges every $su{cooldown}$se seconds. $svCorrupts all Sacrificial Bands$se.".AutoFormat();
 
         public override string ItemLore =>
         """
@@ -27,7 +27,7 @@ namespace Sandswept.Items.VoidGreens
         [ConfigField("Radius", "", 24f)]
         public static float radius;
 
-        [ConfigField("Base Health Divisor", "Divides the Maximum Health (standard health + shield) by this value to get the damage taken thresholds for each decay stack to inflict, for example, this value being equal to 4 makes the item inflict up to 5 decay at 100% maximum health lost (100 / 5 = 20) and 1 decay at 20% maximum health lost. Uses banker's rounding.", 5f)]
+        [ConfigField("Base Health Divisor", "Divides the Maximum Health (standard health + shield) by this value to get the damage taken thresholds for each decay stack to inflict, for example, this value being equal to 5 makes the item inflict up to 5 decay at 100% maximum health lost (100 / 5 = 20) and 1 decay at 20% maximum health lost. Uses banker's rounding.", 5f)]
         public static float baseHealthDivisor;
 
         [ConfigField("Stack Health Divisor", "Adds to the Base Health Divisor based on stack count. Total Health Divisor = Base Health Divisor + this value * (Preserved Atoll - 1). When Base Health Divisor = 5 and this value = 2, with 2 stacks of the item, it makes each 14.29% of maximum health lost inflict one stack of decay, since 100 / 7 = 14.29, and up to 7 stacks at 100% maximum health lost. Uses banker's rounding.", 2f)]
