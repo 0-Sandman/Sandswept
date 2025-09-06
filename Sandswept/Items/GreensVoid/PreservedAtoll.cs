@@ -17,7 +17,7 @@ namespace Sandswept.Items.VoidGreens
 
         public override string ItemPickupDesc => $"The void retaliates on taking damage, inflicting permanent decay. Recharges over time. $svCorrupts all Sacrificial Bands$se.".AutoFormat();
 
-        public override string ItemFullDescription => $"Getting hit causes you to implode, inflicting up to $sd{baseHealthDivisor}$se $ss(+{stackHealthDivisor} per stack) $sdpermanent decay$se for $sd{DoTs.Decay.baseDamage * 100f}%$se base damage to all targets in a $sd{radius}m$se radius based on $shhealth lost$se. Recharges every $su{cooldown}$se seconds. $svCorrupts all Sacrificial Bands$se.".AutoFormat();
+        public override string ItemFullDescription => $"Getting hit causes you to implode, inflicting up to $sd{baseHealthDivisor}$se $ss(+{stackHealthDivisor} per stack)$se $sdpermanent decay$se for $sd{DoTs.Decay.baseDamage * 100f}%$se base damage to all targets in a $sd{radius}m$se radius based on $shhealth lost$se. Recharges every $su{cooldown}$se seconds. $svCorrupts all Sacrificial Bands$se.".AutoFormat();
 
         public override string ItemLore =>
         """

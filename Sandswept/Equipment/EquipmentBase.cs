@@ -72,6 +72,25 @@ namespace Sandswept.Equipment
         {
             CreateEquipment();
             Hooks();
+
+            if (Main.LookingGlassLoaded)
+            {
+                LGWrapper();
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
+        private void LGWrapper()
+        {
+            ItemStatsDef def = GetItemStatsDef() as ItemStatsDef;
+
+            if (def != null)
+            {
+                ItemCatalog.availability.CallWhenAvailable(() =>
+                {
+                    LookingGlass.ItemStatsNameSpace.ItemDefinitions.allEquipmentDefinitions.Add((int)EquipmentDef.equipmentIndex, def);
+                });
+            }
         }
 
         public string d(float f)
@@ -317,5 +336,10 @@ namespace Sandswept.Equipment
         }
 
         #endregion Targeting Setup
+
+        public virtual object GetItemStatsDef()
+        {
+            return null;
+        }
     }
 }

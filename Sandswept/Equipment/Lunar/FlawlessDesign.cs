@@ -1,5 +1,6 @@
 
 using IL.RoR2.Items;
+using LookingGlass.ItemStatsNameSpace;
 using RoR2.ContentManagement;
 using RoR2BepInExPack.GameAssetPaths;
 using Sandswept.Items.VoidGreens;
@@ -20,7 +21,7 @@ namespace Sandswept.Equipment.Lunar
 
         public override string EquipmentLangTokenName => "FLAWLESS_DESIGN";
 
-        public override string EquipmentPickupDesc => "Permanently sacrifice $srmaximum health$se to $duplicate items.".AutoFormat();
+        public override string EquipmentPickupDesc => "Permanently sacrifice $srmaximum health$se to duplicate items.".AutoFormat();
 
         public override string EquipmentFullDescription => $"$srPermanently$se sacrifice $sr{baseHealthCost}%$se of your $srmaximum health$se to $suduplicate$se a targeted item. $srHealth cost increases with item rarity$se.".AutoFormat();
         public override string EquipmentLore =>
@@ -95,6 +96,33 @@ namespace Sandswept.Equipment.Lunar
             base.Hooks();
             On.RoR2.GenericPickupController.CreatePickup += OnCreatePickup;
             On.RoR2.CharacterMaster.OnInventoryChanged += OnInventoryChanged;
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Curse Amount: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Death);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+
+            itemStatsDef.calculateValues = (master, useless) =>
+            {
+                List<float> values = new();
+                var body = master?.GetBody();
+                if (body)
+                {
+                    var inventory = body.inventory;
+                    if (inventory)
+                    {
+                        var stack = inventory.GetItemCount(Items.NoTier.TwistedWound.instance.ItemDef);
+                        values.Add((100 * stack) / (100 + stack) * 0.01f);
+                    }
+                }
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         private void OnInventoryChanged(On.RoR2.CharacterMaster.orig_OnInventoryChanged orig, CharacterMaster self)

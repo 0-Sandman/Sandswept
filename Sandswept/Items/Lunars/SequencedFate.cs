@@ -6,6 +6,7 @@ using UnityEngine;
 using static Rewired.Utils.Classes.Utility.ObjectInstanceTracker;
 using RoR2.Orbs;
 using R2API;
+using LookingGlass.ItemStatsNameSpace;
 
 namespace Sandswept.Items.Lunars
 {
@@ -65,6 +66,26 @@ namespace Sandswept.Items.Lunars
             On.RoR2.ShrineRestackBehavior.AddShrineStack += ShrineRestackBehavior_AddShrineStack;
             IL.RoR2.Inventory.ShrineRestackInventory += Inventory_ShrineRestackInventory;
             On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Extra Item Count: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Utility);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Number);
+
+            itemStatsDef.calculateValues = (master, stack) =>
+            {
+                List<float> values = new()
+                {
+                    baseExtraItemsCount + stackExtraItemsCount * (stack - 1)
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         private void OnRunEnd(Run run)

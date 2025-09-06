@@ -1,4 +1,5 @@
 ﻿
+using LookingGlass.ItemStatsNameSpace;
 using MonoMod.RuntimeDetour;
 using R2API.Networking;
 using R2API.Networking.Interfaces;
@@ -60,6 +61,7 @@ namespace Sandswept.Items.Lunars
         public static GameObject permanentHallowedIchorTracker;
 
         public static float cachedDifficultyDefScalingValue = -1f;
+        public static float rainstormScalingValue = 2;
 
         public static int itemCount = 0;
 
@@ -74,6 +76,8 @@ namespace Sandswept.Items.Lunars
         public static Color32 cachedTimerColor = Color.white;
 
         public static bool anyoneHadHallowedIchor = false;
+
+        public static int globalReopenCount = 0;
 
         public static GameObject vfx;
 
@@ -118,6 +122,38 @@ namespace Sandswept.Items.Lunars
             targetMethod = typeof(ScoreboardController).GetMethod(nameof(ScoreboardController.OnDisable), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             destMethod = typeof(HallowedIchor).GetMethod(nameof(OnScoreboardClosed), System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
             onScoreboardClosedHook = new Hook(targetMethod, destMethod, this);
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Overall Chest Reopen Count: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Utility);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Number);
+            itemStatsDef.descriptions.Add("Maximum Chest Reopen Count Per Chest: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Utility);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Number);
+            itemStatsDef.descriptions.Add("Difficulty Increase vs Rainstorm: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Death);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+            itemStatsDef.descriptions.Add("Difficulty Increase vs Selected Difficulty: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Death);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+
+            itemStatsDef.calculateValues = (master, stack) =>
+            {
+                List<float> values = new()
+                {
+                    globalReopenCount,
+                    baseExtraChestInteractions + stackExtraChestInteractions * (stack - 1),
+                    (currentDifficultyDefScalingValue / rainstormScalingValue) - 1,
+                    (currentDifficultyDefScalingValue / cachedDifficultyDefScalingValue) - 1
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         private void OnBodyDeathUpdateClientValues(On.RoR2.PlayerCharacterMasterController.orig_OnBodyDeath orig, PlayerCharacterMasterController self)
@@ -215,13 +251,16 @@ namespace Sandswept.Items.Lunars
             var runDifficultyDef = DifficultyCatalog.GetDifficultyDef(run.selectedDifficulty);
             runDifficultyDef.scalingValue = cachedDifficultyDefScalingValue;
             anyoneHadHallowedIchor = false;
+            globalReopenCount = 0;
         }
 
         private void CacheValues(Run run)
         {
             var runDifficultyDef = DifficultyCatalog.GetDifficultyDef(run.selectedDifficulty);
+            rainstormScalingValue = DifficultyCatalog.GetDifficultyDef(DifficultyIndex.Normal).scalingValue;
             cachedDifficultyDefScalingValue = runDifficultyDef.scalingValue;
             currentDifficultyDefScalingValue = cachedDifficultyDefScalingValue;
+
         }
 
         private void TrackStackCount(CharacterBody body)
@@ -265,6 +304,7 @@ namespace Sandswept.Items.Lunars
                     var chestTier = GetChestTier(purchaseInteraction);
                     permanentHallowedIchorTracker.GetComponent<HallowedIchorController>().Recalculate(chestTier);
                     new CallRecalculate(interactor.GetComponent<NetworkIdentity>().netId, chestTier).Send(NetworkDestination.Clients);
+                    globalReopenCount++;
                 }
 
                 var chestBehavior = interactableObject.GetComponent<ChestBehavior>();

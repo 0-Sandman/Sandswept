@@ -1,3 +1,5 @@
+using LookingGlass.ItemStatsNameSpace;
+
 namespace Sandswept.Items.NoTier
 {
     internal class TwistedWound : ItemBase<TwistedWound>
@@ -41,6 +43,26 @@ namespace Sandswept.Items.NoTier
             {
                 args.baseCurseAdd += 0.01f * c;
             }
+        }
+
+        public override object GetItemStatsDef()
+        {
+            ItemStatsDef itemStatsDef = new();
+            itemStatsDef.descriptions.Add("Curse Amount: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Death);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Percentage);
+
+            itemStatsDef.calculateValues = (master, stack) =>
+            {
+                List<float> values = new()
+                {
+                    (100 * stack) / (100 + stack) * 0.01f
+                };
+
+                return values;
+            };
+
+            return itemStatsDef;
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
