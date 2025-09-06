@@ -13,7 +13,7 @@ using UnityEngine.VFX;
 namespace Sandswept.Equipment.Lunar
 {
     [ConfigSection("Equipment :: Flawless Design")]
-    public class FlawlessDesign : EquipmentBase
+    public class FlawlessDesign : EquipmentBase<FlawlessDesign>
     {
         public override string EquipmentName => "Flawless Design";
 

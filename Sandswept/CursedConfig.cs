@@ -1,4 +1,6 @@
 ﻿using R2API.Utils;
+using Sandswept.Equipment;
+using Sandswept.Items;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -29,10 +31,11 @@ namespace Sandswept
                 LanguageAPI.AddOverlay("ITEM_SANDSWEPT_TEMPORAL_TRANSISTOR_NAME", "hrt install");
                 LanguageAPI.AddOverlay("ITEM_SANDSWEPT_CEREMONIAL_JAR_NAME", "The Nefarious Jar");
                 LanguageAPI.AddOverlay("ITEM_SANDSWEPT_TORN_FEATHER_NAME", "Respect");
-                if (Items.ItemBase.DefaultEnabledCallback(Items.Reds.TornFeather.instance))
-                {
-                    Items.Reds.TornFeather.instance.ItemDef.pickupIconSprite = Main.hifuSandswept.LoadAsset<Sprite>("respectPNG.png");
-                }
+
+                SwapIcon(Items.Reds.TornFeather.instance, "respectPNG.png");
+                SwapIcon(Items.NoTier.TwistedWound.instance, "texItemTemp.png");
+                SwapIcon(Equipment.Lunar.FlawlessDesign.instance, "texObama.png");
+
                 LanguageAPI.AddOverlay("ITEM_SANDSWEPT_THEIR_PROMINENCE_NAME", "must take bruh :pray:");
                 LanguageAPI.AddOverlay("ITEM_SANDSWEPT_HALLOWED_ICHOR_NAME", "yet another terraria reference (borbo would be proud)");
 
@@ -45,7 +48,7 @@ namespace Sandswept
                 LanguageAPI.AddOverlay("ACHIEVEMENT_RANGERCLEARGAMEMONSOON_DESCRIPTION", "As [CHEESE PUFF], beat the game or obliterate on Monsoon.");
 
                 LanguageAPI.AddOverlay("SANDSWEPT_ELECTR_NAME", "(WOKE DEI WARNING!) gay robot [CHEESE PUFF] girl");
-                LanguageAPI.AddOverlay("SKIN_ELEC_MASTERY", "Covenant (hifu when the skin name is a music reference OMG WOJAK RAISING HANDS JPEG) https://www.youtube.com/watch?v=tjcUCwe4yaY");
+                LanguageAPI.AddOverlay("SKIN_ELEC_MASTERY", "Covenant (hifu when the <content type> name is a music reference OMG WOJAK RAISING HANDS JPEG) https://www.youtube.com/watch?v=tjcUCwe4yaY");
                 LanguageAPI.AddOverlay("ACHIEVEMENT_ELECTRICIANCLEARGAMEMONSOON_NAME", "(WOKE DEI WARNING!) gay robot [CHEESE PUFF] girl: Mastery");
 
                 LanguageAPI.AddOverlay("SANDSWEPT_CANNONJELLY_NAME", "[CHEESE PUFF]");
@@ -67,6 +70,22 @@ namespace Sandswept
 
                 On.RoR2.Inventory.GiveItem_ItemIndex_int += Inventory_GiveItem_ItemIndex_int;
                 GlobalEventManager.onCharacterDeathGlobal += GlobalEventManager_onCharacterDeathGlobal;
+            }
+        }
+
+        private static void SwapIcon(ItemBase instance, string path)
+        {
+            if (Items.ItemBase.DefaultEnabledCallback(instance))
+            {
+                instance.ItemDef.pickupIconSprite = Main.hifuSandswept.LoadAsset<Sprite>(path);
+            }
+        }
+
+        private static void SwapIcon(EquipmentBase instance, string path)
+        {
+            if (Equipment.EquipmentBase.DefaultEnabledCallback(instance))
+            {
+                instance.EquipmentDef.pickupIconSprite = Main.hifuSandswept.LoadAsset<Sprite>(path);
             }
         }
 
