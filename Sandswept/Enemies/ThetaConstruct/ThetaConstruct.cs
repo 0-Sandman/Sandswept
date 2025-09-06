@@ -102,7 +102,7 @@ namespace Sandswept.Enemies.ThetaConstruct
             base.Modify();
 
             body.baseNameToken.Add("Theta Construct");
-            body.portraitIcon = Main.hifuSandswept.LoadAsset<Texture2D>("texThetaConstruct.png");
+            body.portraitIcon = Main.sandsweptHIFU.LoadAsset<Texture2D>("texThetaConstruct.png");
 
             SkillLocator loc = body.GetComponent<SkillLocator>();
 

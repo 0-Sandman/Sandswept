@@ -110,7 +110,7 @@ namespace Sandswept.Enemies.DeltaConstruct
             master.bodyPrefab = prefab;
 
             body.baseNameToken.Add("Delta Construct");
-            body.portraitIcon = Main.hifuSandswept.LoadAsset<Texture>("texDeltaConstruct.png");
+            body.portraitIcon = Main.sandsweptHIFU.LoadAsset<Texture>("texDeltaConstruct.png");
 
             SkillLocator loc = body.GetComponent<SkillLocator>();
 
