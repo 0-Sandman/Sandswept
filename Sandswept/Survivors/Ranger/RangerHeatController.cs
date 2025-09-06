@@ -242,7 +242,7 @@ namespace Sandswept.Survivors.Ranger
             ChargePips[2].color = new Color32(0, 0, 0, 0);
             ChargePips[3].color = Color.white;
 
-            if (charge >= 10)
+            if (charge >= 20)
             {
                 ChargePips[3].color = ChargeColor;
             }
@@ -258,14 +258,14 @@ namespace Sandswept.Survivors.Ranger
                     return;
                 }
 
-                if (charge >= 3)
+                if (charge >= 6)
                 {
                     image.color = ChargeColor;
-                    charge -= 3;
+                    charge -= 6;
                     return;
                 }
 
-                float mult = (float)charge / 3f;
+                float mult = (float)charge / 6f;
                 image.color = new Color32((byte)(ChargeColor.r * mult), (byte)(ChargeColor.g * mult), (byte)(ChargeColor.b * mult), (byte)(ChargeColor.a * mult));
                 charge -= charge;
             }

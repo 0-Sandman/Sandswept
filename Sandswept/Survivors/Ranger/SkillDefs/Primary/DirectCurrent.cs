@@ -6,7 +6,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Primary
     {
         public override string Name => "Direct Current";
 
-        public override string Description => "Fire an arcing electric current for $sd140-350% damage$se. Hitting enemies generates $rc1 Charge$ec. <style=cIsUtility>Damage and blast radius ramp up with distance.</style>".AutoFormat();
+        public override string Description => "Fire an arcing electric current for $sd140%-350% damage$se. Hitting enemies generates $rc1 Charge$ec. <style=cIsUtility>Damage and blast radius ramp up with distance.</style>".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Primary.DirectCurrent);
 

@@ -93,6 +93,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var effectComponent = impact.GetComponent<EffectComponent>();
             effectComponent.soundName = "Play_engi_M1_explo";
+            effectComponent.applyScale = true;
 
             var trans = impact.transform;
 
@@ -193,11 +194,12 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var pointLight = trans.GetChild(11).GetComponent<Light>();
             pointLight.color = saturatedBlueEquivalent5;
-            pointLight.range = 5f;
+            pointLight.range = 1.667f;
 
             var matrixBillboard = trans.GetChild(12);
-            var matrixBPS = matrixBillboard.GetComponent<ParticleSystem>().main.startColor;
-            matrixBPS.color = saturatedBlueEquivalent3;
+            var matrixMain = matrixBillboard.GetComponent<ParticleSystem>().main;
+            var matrixStartColor = matrixMain.startColor;
+            matrixStartColor.color = saturatedBlueEquivalent3;
 
             var matrixBPSR = matrixBillboard.GetComponent<ParticleSystemRenderer>();
 
@@ -208,8 +210,9 @@ namespace Sandswept.Survivors.Ranger.VFX
             matrixBPSR.material = newMat3;
 
             var sphereExpanding = impact.transform.Find("Sphere, Expanding");
-            var sphereExpandingPS = sphereExpanding.GetComponent<ParticleSystem>().main.startColor;
-            sphereExpandingPS.color = lightAquaEquivalent;
+            var sphereExpandingMain = sphereExpanding.GetComponent<ParticleSystem>().main;
+            var sphereExpandingStartColor = sphereExpandingMain.startColor;
+            sphereExpandingStartColor.color = lightAquaEquivalent;
 
             var sphereExpandingPSR = sphereExpanding.GetComponent<ParticleSystemRenderer>();
 
@@ -225,9 +228,19 @@ namespace Sandswept.Survivors.Ranger.VFX
             for (int i = 0; i < impact.transform.childCount; i++)
             {
                 var trans2 = impact.transform.GetChild(i);
-                // trans2.localScale *= 0.1785714285f; // 1/14 * 2.5m radius
-                trans2.localScale *= 0.21428571428f; // 1/14 * 4m radius * 0.75x min radius ramp up
+                if (i >= 12)
+                {
+                    continue;
+                }
+                trans2.localScale *= 0.33f;
             }
+
+            matrixBillboard.localScale = Vector3.one;
+            matrixMain.scalingMode = ParticleSystemScalingMode.Hierarchy; // dont use other garbage or I will kill you
+            sphereExpanding.localScale = Vector3.one;
+            sphereExpandingMain.scalingMode = ParticleSystemScalingMode.Hierarchy;
+
+            // so the scaling is very much fucked and garbage, but I fixed it
 
             ContentAddition.AddEffect(impact);
             return impact;

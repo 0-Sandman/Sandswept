@@ -1,6 +1,7 @@
 
 using IL.RoR2.Items;
 using RoR2.ContentManagement;
+using RoR2BepInExPack.GameAssetPaths;
 using Sandswept.Items.VoidGreens;
 using Sandswept.Utils.Components;
 using System;
@@ -166,6 +167,15 @@ namespace Sandswept.Equipment.Lunar
                     origin = pickup.transform.position,
                     scale = 3f
                 }, true);
+
+                EffectManager.SpawnEffect(Paths.GameObject.OmniImpactVFXLunarSpikes, new EffectData
+                {
+                    origin = pickup.transform.position,
+                    scale = 1f
+                }, true);
+
+                Util.PlaySound("Play_lunar_wisp_attack1_shoot_bullet", pickup.gameObject);
+                Util.PlaySound("Play_lunar_wisp_attack1_shoot_bullet", pickup.gameObject);
 
                 slot.characterBody.inventory.GiveItem(Items.NoTier.TwistedWound.instance.ItemDef, cost);
                 CharacterMasterNotificationQueue.PushPickupNotification(slot.characterBody.master, PickupCatalog.FindPickupIndex(Items.NoTier.TwistedWound.instance.ItemDef.itemIndex));
