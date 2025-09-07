@@ -80,6 +80,7 @@ namespace Sandswept.Enemies.CannonballJellyfish
             master.GetComponent<BaseAI>().aimVectorMaxSpeed = 40000f;
             master.GetComponent<BaseAI>().aimVectorDampTime = 0.1f;
 
+            EntityStateMachine.FindByCustomName(prefab, "Body").initialStateType = new(typeof(SpawnState));
             body.GetComponent<CharacterDeathBehavior>().deathState = new(typeof(JellyDeath));
         }
 

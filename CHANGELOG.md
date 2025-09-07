@@ -79,12 +79,22 @@
   - Fixed Voltaic Drone appearing as a Gunner Drone for clients
   - Fixed Voltaic Drone missing an inspect info
 - Enemies
-  - Made Theta Construct green
-  - Made Theta Construct use a different idle animation when shielding an enemy to maintain the same visual size (its hitbox didnt change but it looked smaller before)
+  - Added a spawn state to Cannonball Jellyfish
+  - Added sounds to Theta Construct's Shield Cast
+  - Improved Theta Construct Shield Cast VFX
   - Made Delta Construct red
+  - Made Delta Construct use a different spawn and death sound
+  - Made Delta Construct use a different skystrike soar sound
+  - Made Delta Construct have custom spawn and death VFX
+  - Made Gamma Construct use a different spawn and death sound
+  - Made Gamma Construct have custom spawn and death VFX
+  - Made Theta Construct green
+  - Made Theta Construct use a different spawn and death sound
+  - Made Theta Construct have custom spawn and death VFX
+  - Made Theta Construct use a different idle animation for Shield Cast to maintain the same visual size (its hitbox didnt change but it looked smaller before)
   - Fixed Delta Construct Skystrike constructor error
   - Fixed Theta Construct's idle animation having a very egregious looping issue
-  - Fixed Theta Constructs breaking down and absolutely fucking nothing at all if they are the only enemy alive
+  - Fixed Theta Constructs breaking down and doing absolutely fucking nothing at all if they are the only enemy alive
   
 ## 1.2.5 Patch Notes
 - VOL-T

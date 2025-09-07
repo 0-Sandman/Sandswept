@@ -56,6 +56,25 @@ namespace Sandswept.Enemies.ThetaConstruct
             </style>
             """);
             ThetaShieldEffect = Main.assets.LoadAsset<GameObject>("ThetaShieldEffect.prefab");
+            var meshRenderer = ThetaShieldEffect.GetComponent<MeshRenderer>();
+            var outerMaterial = meshRenderer.materials[0];
+            outerMaterial.SetColor("_TintColor", new Color32(34, 74, 46, 255));
+            outerMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone);
+            outerMaterial.SetFloat("_InvFade", 0.1f);
+            outerMaterial.SetFloat("_Boost", 1f);
+            outerMaterial.SetFloat("_AlphaBoost", 1f);
+            outerMaterial.SetFloat("_AlphaBias", 0f);
+
+            var innerMaterial = meshRenderer.materials[1];
+            innerMaterial.SetColor("_TintColor", new Color32(53, 178, 44, 255));
+            innerMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone);
+            innerMaterial.SetFloat("_InvFade", 1f);
+            innerMaterial.SetFloat("_Boost", 1f);
+            innerMaterial.SetFloat("_AlphaBoost", 0f);
+            innerMaterial.SetFloat("_AlphaBias", 0.397f);
+
+            VFXUtils.AddLight(ThetaShieldEffect, new Color32(14, 255, 0, 255), 12f, 16f);
+
             // ThetaShieldEffect.GetComponent<MeshRenderer>().sharedMaterial = Paths.Material.matMinorConstructShield;
             PrefabAPI.RegisterNetworkPrefab(ThetaShieldEffect);
         }
@@ -108,8 +127,8 @@ namespace Sandswept.Enemies.ThetaConstruct
 
             ReplaceSkill(loc.primary, CastShieldSkill.instance.skillDef);
 
-            prefab.GetComponent<CharacterDeathBehavior>().deathState = new(typeof(BaseConstructDeath));
-            EntityStateMachine.FindByCustomName(prefab, "Body").initialStateType = new(typeof(BaseConstructSpawn));
+            prefab.GetComponent<CharacterDeathBehavior>().deathState = new(typeof(DeathState));
+            EntityStateMachine.FindByCustomName(prefab, "Body").initialStateType = new(typeof(SpawnState));
         }
 
         public override void SetupIDRS()
@@ -264,6 +283,8 @@ namespace Sandswept.Enemies.ThetaConstruct
             p2t = loc.FindChild("PrismR");
             p3t = loc.FindChild("PrismT");
 
+            Util.PlaySound("Play_loader_R_active_loop", gameObject);
+
             if (owner)
             {
                 ownerBody = owner.GetComponent<CharacterBody>();
@@ -275,6 +296,8 @@ namespace Sandswept.Enemies.ThetaConstruct
                 p1 = loc2.FindChild("PrismL");
                 p2 = loc2.FindChild("PrismR");
                 p3 = loc2.FindChild("PrismT");
+
+                Util.PlaySound("Play_loader_R_active_loop", owner);
             }
 
             if (target)
@@ -359,6 +382,13 @@ namespace Sandswept.Enemies.ThetaConstruct
 
                 targetBody.SetBuffCount(Buffs.ThetaBoost.instance.BuffDef.buffIndex, targetBody.GetBuffCount(Buffs.ThetaBoost.instance.BuffDef) - 1);
             }
+
+            if (owner)
+            {
+                Util.PlaySound("Stop_loader_R_active_loop", owner);
+            }
+
+            Util.PlaySound("Stop_loader_R_active_loop", gameObject);
         }
     }
 }

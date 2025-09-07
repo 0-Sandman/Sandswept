@@ -61,6 +61,9 @@ namespace Sandswept.Enemies.ThetaConstruct
 
             base.skillLocator.primary.DeductStock(1);
 
+            Util.PlaySound("Play_treeBot_m1_impact", gameObject);
+            Util.PlaySound("Play_engi_R_walkingTurret_laser_end", buddy);
+
             base.GetModelAnimator().SetBool("isShielding", true);
         }
 
@@ -128,7 +131,10 @@ namespace Sandswept.Enemies.ThetaConstruct
             if (base.isAuthority && buddy)
             {
                 buddy.gameObject.GetComponent<CharacterBody>().RemoveBuff(RoR2Content.Buffs.Immune);
+                Util.PlaySound("Play_loader_R_expire", buddy);
             }
+
+            Util.PlaySound("Play_loader_R_expire", gameObject);
         }
     }
 

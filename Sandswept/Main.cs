@@ -177,6 +177,7 @@ namespace Sandswept
             GenerateExpansionDef();
             Survivors.Initialize.Init();
             DamageColourHelper.Init();
+            Enemies.SpawnAndDeath.Init();
             var ArtifactTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(ArtifactBase)));
 
             foreach (var artifactType in ArtifactTypes)

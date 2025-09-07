@@ -141,6 +141,8 @@ namespace Sandswept.Equipment.Standard
             overlayMat.SetFloat("_AlphaBoost", 1.06f);
             overlayMat.SetFloat("_AlphaBias", 0f);
             overlayMat.SetInt("_Src", 7);
+
+            VFXUtils.MultiplyDuration(vfx, 1.5f);
         }
 
         protected override bool ActivateEquipment(EquipmentSlot slot)
@@ -218,7 +220,7 @@ namespace Sandswept.Equipment.Standard
                 }
 
                 var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
-                temporaryOverlay.duration = damageCoeff;
+                temporaryOverlay.duration = damageCoeff * 2f;
                 temporaryOverlay.animateShaderAlpha = true;
                 temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
                 temporaryOverlay.destroyComponentOnEnd = true;

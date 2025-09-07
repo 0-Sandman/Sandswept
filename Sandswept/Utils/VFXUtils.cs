@@ -222,6 +222,20 @@ namespace Sandswept.Utils
 
             return light;
         }
+
+        public static Light AddLight(GameObject gameObject, Color32 color, float intensity, float range)
+        {
+            // Main.ModLogger.LogError("gameobject is " + gameObject);
+            var light = gameObject.AddComponent<Light>();
+            // gameObject.GetComponent<Light>();
+            // Main.ModLogger.LogError("light is " + light);
+            light.type = LightType.Point;
+            light.color = color;
+            light.intensity = intensity;
+            light.range = range;
+
+            return light;
+        }
     }
 
     public class TracerComponentSucks : MonoBehaviour

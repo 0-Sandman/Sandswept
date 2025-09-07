@@ -33,8 +33,6 @@ namespace Sandswept.Enemies.DeltaConstruct
             initDelay = duration * 0.3f;
             secondDelay = (duration - initDelay) * 0.3f;
 
-            Util.PlaySound("Play_minorConstruct_attack_chargeUp", base.gameObject);
-
             back = new Transform[] { FindModelChild("Muzzle1"), FindModelChild("Muzzle2") };
             front = new Transform[] { FindModelChild("Muzzle3"), FindModelChild("Muzzle4") };
 
@@ -87,6 +85,9 @@ namespace Sandswept.Enemies.DeltaConstruct
 
         public void ShowTelegraph(float duration)
         {
+            Util.PlaySound("Play_minorConstruct_attack_chargeUp", base.gameObject);
+            Util.PlaySound("Play_minorConstruct_attack_chargeUp", base.gameObject);
+
             if (modelTransform)
             {
                 var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
@@ -94,7 +95,7 @@ namespace Sandswept.Enemies.DeltaConstruct
                 temporaryOverlay.animateShaderAlpha = true;
                 temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
                 temporaryOverlay.destroyComponentOnEnd = true;
-                temporaryOverlay.originalMaterial = Survivors.Ranger.VFX.SidestepVFX.dashMat2Sandswept;
+                temporaryOverlay.originalMaterial = Survivors.Ranger.VFX.SidestepVFX.dashMat2MileZero;
                 temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
             }
         }

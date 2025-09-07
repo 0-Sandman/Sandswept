@@ -28,7 +28,8 @@ namespace Sandswept.Enemies.DeltaConstruct
             base.characterMotor.ApplyForce(Vector3.up * base.characterMotor.mass * 40f, true, true);
 
             Util.PlaySound("Play_moonBrother_phaseJump_kneel", base.gameObject);
-            Util.PlaySound("Play_moonBrother_phaseJump_jumpAway", base.gameObject);
+            // Util.PlaySound("Play_moonBrother_phaseJump_jumpAway", base.gameObject);
+            Util.PlaySound("Play_majorConstruct_shift_raise", gameObject);
         }
 
         public override void FixedUpdate()
@@ -239,7 +240,7 @@ namespace Sandswept.Enemies.DeltaConstruct
 
             Util.PlaySound("Play_majorConstruct_m1_laser_chargeShoot", base.gameObject);
             Util.PlaySound("Play_majorConstruct_m1_laser_chargeShoot", base.gameObject);
-            Util.PlaySound("Play_majorConstruct_m1_laser_chargeShoot", base.gameObject);
+            // Util.PlaySound("Play_majorConstruct_m1_laser_chargeShoot", base.gameObject);
         }
 
         public Vector3 GetEndpoint(Vector3 inp)

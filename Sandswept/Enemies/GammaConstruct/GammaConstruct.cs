@@ -145,8 +145,8 @@ namespace Sandswept.Enemies.GammaConstruct
             ReplaceSkill(loc.primary, FireBeamSkill.instance.skillDef);
             ReplaceSkill(loc.secondary, FireTwinBeamSkill.instance.skillDef);
 
-            prefab.GetComponent<CharacterDeathBehavior>().deathState = new(typeof(BaseConstructDeath));
-            EntityStateMachine.FindByCustomName(prefab, "Body").initialStateType = new(typeof(BaseConstructSpawn));
+            prefab.GetComponent<CharacterDeathBehavior>().deathState = new(typeof(DeathState));
+            EntityStateMachine.FindByCustomName(prefab, "Body").initialStateType = new(typeof(SpawnState));
         }
 
         public override void SetupIDRS()

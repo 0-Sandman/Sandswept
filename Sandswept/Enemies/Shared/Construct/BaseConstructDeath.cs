@@ -15,7 +15,8 @@ namespace Sandswept.Enemies
             cachedModelTransform.parent = null;
 
             var boxes = cachedModelTransform.GetComponentsInChildren<HurtBox>(true);
-            for (int i = 0; i < boxes.Length; i++) {
+            for (int i = 0; i < boxes.Length; i++)
+            {
                 boxes[i].enabled = false;
                 boxes[i].gameObject.SetActive(false);
             }

@@ -42,7 +42,8 @@ namespace Sandswept.Enemies.DeltaConstruct
             bolt = PrefabAPI.InstantiateClone(Paths.GameObject.MinorConstructProjectile, "DeltaBoltProjectile");
             GameObject boltGhost = PrefabAPI.InstantiateClone(Paths.GameObject.MinorConstructProjectileGhost, "DeltaBoltGhost");
             Renderer[] renderers = boltGhost.GetComponentsInChildren<Renderer>(true);
-            foreach (Renderer renderer in renderers) {
+            foreach (Renderer renderer in renderers)
+            {
                 if (!renderer.sharedMaterial.shader.name.Contains("Cloud Remap")) continue;
                 Material mat = Object.Instantiate(renderer.sharedMaterial);
                 mat.SetTexture("_RemapTex", matDeltaBeamStrong.GetTexture("_RemapTex"));
@@ -117,8 +118,8 @@ namespace Sandswept.Enemies.DeltaConstruct
             ReplaceSkill(loc.primary, FireBoltsSkill.instance.skillDef);
             ReplaceSkill(loc.secondary, SkystrikeSkill.instance.skillDef);
 
-            prefab.GetComponent<CharacterDeathBehavior>().deathState = new(typeof(BaseConstructDeath));
-            EntityStateMachine.FindByCustomName(prefab, "Body").initialStateType = new(typeof(BaseConstructSpawn));
+            prefab.GetComponent<CharacterDeathBehavior>().deathState = new(typeof(DeathState));
+            EntityStateMachine.FindByCustomName(prefab, "Body").initialStateType = new(typeof(SpawnState));
         }
 
         public override void SetupIDRS()
