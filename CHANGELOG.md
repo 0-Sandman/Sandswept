@@ -45,15 +45,20 @@
   - Fixed being in heat throwing an NRE while dead <img src="https://i.postimg.cc/vmM6hpzc/image.png" width="20" height="20"/>
 - Items/Equipment
   - Added Preserved Atoll
+  - Added Hallowed Ichor
+  - Added Sequenced Fate
   - Added Flawless Design
   - Added ProcSolver Support
   - Added a lip to the leftward border of Makeshift Plate
+  - Added a new downside to Their Prominence
   - Buffed Amber Knife Chance from 10% to 15%
   - Buffed Makeshift Plate to also give plating based on shield
   - Buffed Torn Feather to be able to wavedash
   - Nerfed Makeshift Plate to no longer retaliate upon taking damage
   - Nerfed Bleeding Witness Hemorrhage Damage from 500% to 360%
   - Improved Decay VFX
+  - Improved Ceremonial Jar VFX
+  - Improved Torn Feather VFX
   - Improved The Sand Sweeper VFX
   - Made Void Items locked behind their counterparts' achievements (this is a vanilla bug that VanillaVoid fixed per my proposal)
   - Made Torn Feather use a custom rebindable keybind (F by default) instead of the Interact key
@@ -97,6 +102,8 @@
   - Fixed Delta Construct Skystrike constructor error
   - Fixed Theta Construct's idle animation having a very egregious looping issue
   - Fixed Theta Constructs breaking down and doing absolutely fucking nothing at all if they are the only enemy alive
+- Note
+  - I (HIFU) crammed everything I could that wasn't on me. Pseudopulse is currently AFK due to Silksong. Huge thanks to Synodii for quickly making the models that were due 10-12 months ago.
   
 ## 1.2.5 Patch Notes
 - VOL-T
