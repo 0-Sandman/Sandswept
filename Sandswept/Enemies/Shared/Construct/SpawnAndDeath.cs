@@ -22,6 +22,8 @@ namespace Sandswept.Enemies
 
             ContentAddition.AddEffect(cannonballJellyfishSpawnVFX);
 
+            ContentAddition.AddEntityState(typeof(CannonballJellyfish.SpawnState), out _);
+
             ContentAddition.AddEntityState(typeof(DeltaConstruct.SpawnState), out _);
             ContentAddition.AddEntityState(typeof(DeltaConstruct.DeathState), out _);
 
@@ -30,6 +32,7 @@ namespace Sandswept.Enemies
 
             ContentAddition.AddEntityState(typeof(ThetaConstruct.SpawnState), out _);
             ContentAddition.AddEntityState(typeof(ThetaConstruct.DeathState), out _);
+
         }
 
         public static GameObject CreateSpawnAndDeathRecolor(string name, Color32 color)
