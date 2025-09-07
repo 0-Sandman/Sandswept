@@ -6,11 +6,11 @@ namespace Sandswept.Enemies.DeltaConstruct
     {
         public CharacterBody owner;
         public float damagePerSecond;
-        private int ticksPerSecond = 5;
-        private float delay => 1f / ticksPerSecond;
-        private float stopwatch = 0f;
-        private float damage => damagePerSecond / ticksPerSecond;
-        private OverlapAttack attack;
+        public int ticksPerSecond = 5;
+        public float delay => 1f / ticksPerSecond;
+        public float stopwatch = 0f;
+        public float damage => damagePerSecond / ticksPerSecond;
+        public OverlapAttack attack;
 
         public void Start()
         {

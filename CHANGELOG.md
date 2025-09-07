@@ -79,8 +79,10 @@
   - Fixed Voltaic Drone appearing as a Gunner Drone for clients
   - Fixed Voltaic Drone missing an inspect info
 - Enemies
-  - Added a spawn state to Cannonball Jellyfish
+  - Added a spawn state to Cannonball Jellyfish's Dash
+  - Added a charge sound to Cannonball Jellyfish
   - Added sounds to Theta Construct's Shield Cast
+  - Buffed Delta Construct Fire Trail Duration from 2.5s to 5s
   - Improved Theta Construct Shield Cast VFX
   - Made Delta Construct red
   - Made Delta Construct use a different spawn and death sound

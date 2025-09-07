@@ -19,11 +19,14 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
 
         private float durationToTelegraph;
 
+        private float durationToPlayWarnSound;
+
         private OverlapAttack attack;
         private float duration;
         private float baseDurationToAttack = 1.5f;
         private bool dashedAlready = false;
         private bool showedTelegraph = false;
+        private bool playedWarnSound = false;
         private BaseAI ai;
         private Vector3 lockVector;
         private Transform modelTransform;
@@ -33,6 +36,7 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
             base.OnEnter();
             durationToAttack = baseDurationToAttack / attackSpeedStat;
             durationToTelegraph = 0.75f * durationToAttack;
+            durationToPlayWarnSound = 0.5f * durationToAttack;
 
             if (base.characterBody.master)
             {
@@ -52,8 +56,6 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
 
             FlipComponents();
 
-            Util.PlaySound("Play_mage_m2_zap", gameObject);
-            Util.PlaySound("Play_mage_m2_zap", gameObject);
         }
 
         public void SetDir()
@@ -65,6 +67,12 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+
+            if (fixedAge >= durationToPlayWarnSound && !playedWarnSound)
+            {
+                Util.PlayAttackSpeedSound("Play_clayboss_m2_shoot", gameObject, 1.5f);
+                playedWarnSound = true;
+            }
 
             if (fixedAge >= durationToTelegraph && !showedTelegraph)
             {

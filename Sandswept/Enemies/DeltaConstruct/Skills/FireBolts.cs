@@ -62,9 +62,14 @@ namespace Sandswept.Enemies.DeltaConstruct
 
         public IEnumerator HandleBolts()
         {
+            Util.PlaySound("Play_minorConstruct_attack_chargeUp", base.gameObject);
+            Util.PlaySound("Play_minorConstruct_attack_chargeUp", base.gameObject);
+
+            yield return new WaitForSeconds(0.15f);
+
             ShowTelegraph(initDelay);
 
-            yield return new WaitForSeconds(initDelay);
+            yield return new WaitForSeconds(initDelay - 0.15f);
 
             PlayAnimation("Gesture, Override", "Fire Cannons", "Generic.playbackRate", secondDelay);
 
@@ -85,8 +90,6 @@ namespace Sandswept.Enemies.DeltaConstruct
 
         public void ShowTelegraph(float duration)
         {
-            Util.PlaySound("Play_minorConstruct_attack_chargeUp", base.gameObject);
-            Util.PlaySound("Play_minorConstruct_attack_chargeUp", base.gameObject);
 
             if (modelTransform)
             {

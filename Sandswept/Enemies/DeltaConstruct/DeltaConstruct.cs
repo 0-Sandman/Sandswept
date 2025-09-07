@@ -61,6 +61,12 @@ namespace Sandswept.Enemies.DeltaConstruct
             beam = Main.assets.LoadAsset<GameObject>("DeltaBeam.prefab");
 
             DeltaBurnyTrail = Main.assets.LoadAsset<GameObject>("DeltaBurnyTrail.prefab");
+            var destroyOnTimer = DeltaBurnyTrail.GetComponent<DestroyOnTimer>();
+            destroyOnTimer.duration = 10f;
+            var particleSystemMain = DeltaBurnyTrail.GetComponent<ParticleSystem>().main;
+            particleSystemMain.duration = 10f;
+            particleSystemMain.startLifetime = 10f;
+            // how the fuck does increasing all this to 10s make it last 5s???
             ContentAddition.AddNetworkedObject(DeltaBurnyTrail);
         }
 
