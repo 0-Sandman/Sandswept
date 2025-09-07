@@ -190,15 +190,17 @@ namespace Sandswept.Equipment.Lunar
 
                 PickupDropletController.CreatePickupDroplet(info, info.position, Random.onUnitSphere * 15f);
 
+                var aboutOnPickup = pickup.transform.position + new Vector3(0f, 1f, 0f);
+
                 EffectManager.SpawnEffect(DuplicationEffect, new EffectData
                 {
-                    origin = pickup.transform.position,
+                    origin = aboutOnPickup,
                     scale = 3f
                 }, true);
 
                 EffectManager.SpawnEffect(Paths.GameObject.OmniImpactVFXLunarSpikes, new EffectData
                 {
-                    origin = pickup.transform.position,
+                    origin = aboutOnPickup,
                     scale = 1f
                 }, true);
 

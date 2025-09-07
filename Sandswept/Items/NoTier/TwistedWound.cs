@@ -16,9 +16,9 @@ namespace Sandswept.Items.NoTier
 
         public override ItemTier Tier => ItemTier.NoTier;
 
-        public override GameObject ItemModel => Main.assets.LoadAsset<GameObject>("PickupTheirProminence.prefab");
+        public override GameObject ItemModel => Paths.GameObject.DisplayEliteBeadSpike;
 
-        public override Sprite ItemIcon => null;
+        public override Sprite ItemIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texTwistedWound.png");
 
         public override ItemTag[] ItemTags => [];
 

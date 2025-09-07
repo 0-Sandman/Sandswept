@@ -4,7 +4,7 @@
 - 4 Enemies
 - 2 Elites
 - 5 Interactables
-- 23 Items
+- 27 Items
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
@@ -29,8 +29,8 @@
 ### Support us on KOFI! https://linktr.ee/SandsweptTeam
 
 - Code: HIFU, pseudopulse, Sandman, prod, dgosling
-- Models: Smxrez, Sandman, GEMO, Bog, pseudopulse, prod, HIFU
-- Animations: IcieTea, unmatchedpowerofthesun, Bog, Synodii
+- Models: Smxrez, Sandman, Synodii, GEMO, Bog, pseudopulse, prod, HIFU
+- Animations: IcieTea, Bog, Synodii, unmatchedpowerofthesun
 - VFX: HIFU, Sandman, prod
 - SFX: HIFU, pseudopulse
 - Skill Icons: prod, HIFU
