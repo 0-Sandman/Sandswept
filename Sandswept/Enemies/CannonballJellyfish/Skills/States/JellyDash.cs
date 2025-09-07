@@ -51,6 +51,9 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
             };
 
             FlipComponents();
+
+            Util.PlaySound("Play_mage_m2_zap", gameObject);
+            Util.PlaySound("Play_mage_m2_zap", gameObject);
         }
 
         public void SetDir()
