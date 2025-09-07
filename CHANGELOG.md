@@ -54,6 +54,7 @@
   - Nerfed Makeshift Plate to no longer retaliate upon taking damage
   - Nerfed Bleeding Witness Hemorrhage Damage from 500% to 360%
   - Improved Decay VFX
+  - Improved The Sand Sweeper VFX
   - Made Void Items locked behind their counterparts' achievements (this is a vanilla bug that VanillaVoid fixed per my proposal)
   - Made Torn Feather use a custom rebindable keybind (F by default) instead of the Interact key
   - Made Torn Feather work while near interactables (due to the change above)

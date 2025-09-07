@@ -5,15 +5,15 @@ namespace Sandswept.Utils
 {
     public class VFXUtils
     {
-        public static void RecolorMaterialsAndLights(GameObject gameObject, Color32 primaryColor, Color32 emissionAndLightColor, bool convertRampsToGrayscale)
+        public static void RecolorMaterialsAndLights(GameObject gameObject, Color32 primaryColor, Color32 emissionAndLightColor, bool convertRampsToGrayscale, bool emissionColorToPrimaryColor = false)
         {
             // for itself
-            RecolorMaterialsAndLightsInternal(gameObject, primaryColor, emissionAndLightColor, convertRampsToGrayscale);
+            RecolorMaterialsAndLightsInternal(gameObject, primaryColor, emissionAndLightColor, convertRampsToGrayscale, emissionColorToPrimaryColor);
 
             // and for all children recursively
             foreach (Transform child in gameObject.transform.GetComponentsInChildren<Transform>())
             {
-                RecolorMaterialsAndLightsInternal(child.gameObject, primaryColor, emissionAndLightColor, convertRampsToGrayscale);
+                RecolorMaterialsAndLightsInternal(child.gameObject, primaryColor, emissionAndLightColor, convertRampsToGrayscale, emissionColorToPrimaryColor);
             }
         }
 
@@ -73,7 +73,7 @@ namespace Sandswept.Utils
             */
         }
 
-        private static void RecolorMaterialsAndLightsInternal(GameObject gameObject, Color32 primaryColor, Color32 emissionAndLightColor, bool convertRampsToGrayscale)
+        private static void RecolorMaterialsAndLightsInternal(GameObject gameObject, Color32 primaryColor, Color32 emissionAndLightColor, bool convertRampsToGrayscale, bool emissionColorToPrimaryColor = false)
         {
             foreach (ParticleSystem particleSystem in gameObject.GetComponents<ParticleSystem>())
             {
@@ -106,7 +106,7 @@ namespace Sandswept.Utils
                         case "Hopoo Games/FX/Opaque Cloud Remap":
                         case "Hopoo Games/FX/Cloud Intersection Remap":
                             material.SetColor("_TintColor", primaryColor);
-                            material.SetColor("_EmissionColor", emissionAndLightColor);
+                            material.SetColor("_EmissionColor", emissionColorToPrimaryColor ? primaryColor : emissionAndLightColor);
                             if (convertRampsToGrayscale)
                             {
                                 material.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone);
@@ -115,7 +115,7 @@ namespace Sandswept.Utils
 
                         case "Hopoo Games/Deferred/Standard":
                             material.SetColor("_Color", primaryColor);
-                            material.SetColor("_EmColor", emissionAndLightColor);
+                            material.SetColor("_EmColor", emissionColorToPrimaryColor ? primaryColor : emissionAndLightColor);
                             break;
                     }
                 }

@@ -4,7 +4,7 @@ using static Sandswept.Main;
 namespace Sandswept.Equipment.Standard
 {
     [ConfigSection("Equipment :: The Sand Sweeper")]
-    public class SandSweeper : EquipmentBase<SandSweeper>
+    public class TheSandSweeper : EquipmentBase<TheSandSweeper>
     {
         public override string EquipmentName => "The Sand Sweeper";
 
@@ -99,6 +99,8 @@ namespace Sandswept.Equipment.Standard
 
         public static GameObject vfx;
 
+        public static Material overlayMat;
+
         public override void Init()
         {
             base.Init();
@@ -107,50 +109,121 @@ namespace Sandswept.Equipment.Standard
 
         public void SetUpVFX()
         {
-            vfx = PrefabAPI.InstantiateClone(Paths.GameObject.Bandit2SmokeBomb, "Sand Sweeper VFX", false);
-            var goldenSigma = new Color32(239, 181, 79, 255);
-            VFXUtils.RecolorMaterialsAndLights(vfx, goldenSigma, goldenSigma, true);
-            VFXUtils.AddLight(vfx, goldenSigma, 5f, range, 1f);
+            vfx = PrefabAPI.InstantiateClone(Paths.GameObject.Bandit2SmokeBomb, "The Sand Sweeper VFX", false);
+            var lightColor = new Color32(239, 181, 79, 255);
+            var sandColor = new Color32(113, 84, 32, 255);
+            VFXUtils.RecolorMaterialsAndLights(vfx, sandColor, lightColor, true, true);
+            VFXUtils.AddLight(vfx, lightColor, 15f, range, 1f);
+
+            var transform = vfx.transform.Find("Core");
+
+            var sparks = transform.Find("Sparks");
+            var sparksPS = sparks.GetComponent<ParticleSystem>();
+            var sparksMain = sparksPS.main;
+            sparksMain.maxParticles = 200;
+            var sparksEmission = sparksPS.emission;
+            var burst = new ParticleSystem.Burst(0f, 200, 200, 1, 0.01f);
+            burst.probability = 1f;
+            sparksEmission.SetBurst(0, burst);
+
+            var sparksPSR = sparks.GetComponent<ParticleSystemRenderer>();
+            sparksPSR.material.SetTexture("_MainTex", Paths.Texture2D.texGlowPaintMask);
 
             ContentAddition.AddEffect(vfx);
+
+            overlayMat = new Material(Paths.Material.matHuntressFlashBright);
+
+            overlayMat.SetColor("_TintColor", Color.white);
+            overlayMat.SetTexture("_MainTex", null);
+            overlayMat.SetTexture("_RemapTex", Main.hifuSandswept.LoadAsset<Texture2D>("texRampDirectCurrentSandswept.png"));
+            overlayMat.SetFloat("_InvFade", 0f);
+            overlayMat.SetFloat("_Boost", 1f);
+            overlayMat.SetFloat("_AlphaBoost", 1.06f);
+            overlayMat.SetFloat("_AlphaBias", 0f);
+            overlayMat.SetInt("_Src", 7);
         }
 
         protected override bool ActivateEquipment(EquipmentSlot slot)
         {
-            if (slot.characterBody == null) return false;
+            if (slot.characterBody == null)
+            {
+                return false;
+            }
+
             Util.PlaySound("Play_bison_charge_attack_end_skid", slot.gameObject);
             EffectManager.SimpleSoundEffect(EntityStates.Croco.BaseLeap.landingSound.index, slot.characterBody.footPosition, transmit: true); // sandleep! BRUH LMFAO
             for (int i = 0; i < 4; i++)
             {
                 Util.PlaySound("Play_Player_footstep", slot.gameObject);
+                Util.PlaySound("Play_beetle_guard_impact", slot.gameObject);
             }
-
             EffectManager.SpawnEffect(vfx, new EffectData() { origin = slot.characterBody.footPosition }, true);
+
             sphereSearch.origin = slot.characterBody.corePosition;
             sphereSearch.mask = LayerIndex.entityPrecise.mask;
             sphereSearch.radius = range;
             sphereSearch.RefreshCandidates();
             sphereSearch.FilterCandidatesByHurtBoxTeam(TeamMask.GetEnemyTeams(slot.teamComponent.teamIndex));
             sphereSearch.FilterCandidatesByDistinctHurtBoxEntities();
+
             List<HurtBox> dests = new();
             sphereSearch.GetHurtBoxes(dests);
             sphereSearch.ClearCandidates();
             foreach (HurtBox dest in dests)
             {
-                CharacterBody body = dest?.healthComponent?.body;
-                float dist = Vector3.Distance(slot.characterBody.corePosition, body.corePosition);
-                Vector3 temp = body.corePosition - slot.characterBody.corePosition;
-                temp.y = 0;
+                var healthComponent = dest.healthComponent;
+                if (!healthComponent)
+                {
+                    continue;
+                }
+
+                var body = healthComponent.body;
+                if (!body)
+                {
+                    continue;
+                }
+
+                var distanceToTarget = Vector3.Distance(slot.characterBody.corePosition, body.corePosition);
+
+                var heightIgnoredDistance = body.corePosition - slot.characterBody.corePosition;
+                heightIgnoredDistance.y = 0;
+
+                var damageCoeff = Mathf.Lerp(maxDamage, minDamage, distanceToTarget / range);
+
                 body.healthComponent.TakeDamage(new DamageInfo()
                 {
                     attacker = slot.gameObject,
                     inflictor = slot.gameObject,
-                    damage = slot.characterBody.damage * Mathf.Lerp(maxDamage, minDamage, dist / range),
+                    damage = slot.characterBody.damage * damageCoeff,
                     damageColorIndex = DamageColorIndex.Item,
-                    force = ((range - dist) * Vector3.Normalize(temp) + Vector3.up * Mathf.Lerp(10, 5, dist / range)) * force,
+                    force = ((range - distanceToTarget) * Vector3.Normalize(heightIgnoredDistance) + Vector3.up * Mathf.Lerp(10, 5, distanceToTarget / range)) * force,
                     procCoefficient = procCoefficient
                 });
-                body.healthComponent.GetComponent<SetStateOnHurt>()?.SetStun(Mathf.Lerp(maxStun, minStun, dist / range));
+
+                if (body.TryGetComponent<SetStateOnHurt>(out var setStateOnHurt))
+                {
+                    setStateOnHurt.SetStun(Mathf.Lerp(maxStun, minStun, distanceToTarget / range));
+                }
+
+                var modelLocator = body.modelLocator;
+                if (!modelLocator)
+                {
+                    continue;
+                }
+
+                var modelTransform = modelLocator.modelTransform;
+                if (!modelTransform)
+                {
+                    continue;
+                }
+
+                var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
+                temporaryOverlay.duration = damageCoeff;
+                temporaryOverlay.animateShaderAlpha = true;
+                temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                temporaryOverlay.destroyComponentOnEnd = true;
+                temporaryOverlay.originalMaterial = overlayMat;
+                temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
             }
             if (slot.characterBody.characterMotor)
             {
