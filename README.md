@@ -15,7 +15,7 @@
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 ![](https://i.postimg.cc/mDBftCzX/VOLTUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/KYnhGJz3/EnemyUI.png)
+![](https://i.postimg.cc/1X0K4VFH/EnemyUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 ![](https://i.postimg.cc/X7kbbH2h/EliteUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
