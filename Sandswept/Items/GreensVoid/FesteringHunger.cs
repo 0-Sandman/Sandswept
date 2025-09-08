@@ -56,7 +56,7 @@ namespace Sandswept.Items.VoidGreens
         They're calling it a pressure abnormality. They aren't worried. I don't fully share that, but they're probably right. After being in what we're now calling the void, I'm probably just paranoid.
 
         Day 1
-        I woke up feeling a terrible empti?ness. Nothing has quenched it. It's made it hard to be cordial. Every time I talk to someone, I have to push down anger that wells up just from the time wasted on the words -- especially with the way they talk about the void, as if it were some hellscape. 
+        I woke up feeling a terrible empti?ness. Nothing has quenched it. It's made it hard to be cordial. Every time I talk to someone, I have to push down anger that wells up just from the time wasted on the words -- especially with the way they talk about the [void], as if it were some hellscape. 
 
         They've never been there. Only I have. Cowards. They tell me I didn't say it was majestic before, that they're just repeating my wor?ds back to me, but I know my own memories.
 
@@ -92,7 +92,7 @@ namespace Sandswept.Items.VoidGreens
         Day 9
         I could feel the [reavers] arriving. Screams from outside, followed by gunfire. The gunfire gradually faded, but the screams didn't. Eventually, the last bullet was shot, and now only the screams fill the silence, along with the [reavers'] songs.
 
-        Their songs brought tears to my eyes. They're even more beautiful than the screams. They sing of how the ship will be taken and sequenced. How the crew will be [touched] to serve [the one beyond], and sent across the galaxy. Of my valor, and how my essence will finally return to the [void]. The songs drove away the emptiness.
+        Their songs brought tears to my eyes. They're even more beautiful than the screams. They sing of how the ship will be taken and sequenced. How the crew will be [touched] to serve [the one beyond], and sent across the galaxy. Of my valor, and how my essence will finally return to the [void]. The songs drive away the emptiness.
 
         I open the doors. The crew is disarmed, bound to the floor by the [reavers]. They gaze upon me in horror, but they don't matter. The [reavers'] gaze is the one that matters. I feel enormous pride. I've served the [void] well.
 

@@ -64,7 +64,9 @@
   - Made Torn Feather use a custom rebindable keybind (F by default) instead of the Interact key
   - Made Torn Feather work while near interactables (due to the change above)
   - Made Torn Feather use a different input to dash system - now moves in your move direction or aim direction depending on whether directional keys are held or not
+  - Updated Festering Hunger log (fuck Google Docs)
   - Updated Corrupted Catalyst model
+  - Updated Corrupted Catalyst log (fuck Google Docs)
   - Fixed All Items and Equipment not letting you zoom in too much or being too far away from the start
   - Fixed Equipment having bad/wrong logbook scales
   - Fixed Equipment not showing up in the logbook
@@ -72,6 +74,7 @@
   - Fixed Nuclear Salvo kills not giving gold
   - Fixed Nuclear Salvo spamming NREs on clients
   - Fixed Sacrificial Band ignoring config
+  - Fixed Ceremonial Jar not being able to crit
   - Fixed Glacial Plasma spam firing for clients
   - Fixed Glacial Plasma spam firing with Visions of Heresy
   - Fixed Galvanic Cell Shield NRE (MemOPP update moment)

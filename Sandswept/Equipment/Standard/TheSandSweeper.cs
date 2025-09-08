@@ -8,7 +8,7 @@ namespace Sandswept.Equipment.Standard
     {
         public override string EquipmentName => "The Sand Sweeper";
 
-        public override string EquipmentLangTokenName => "SAND_SWEEPER";
+        public override string EquipmentLangTokenName => "THE_SAND_SWEEPER";
 
         public override string EquipmentPickupDesc => "Sweeps sand around you.";
 
@@ -110,19 +110,25 @@ namespace Sandswept.Equipment.Standard
         public void SetUpVFX()
         {
             vfx = PrefabAPI.InstantiateClone(Paths.GameObject.Bandit2SmokeBomb, "The Sand Sweeper VFX", false);
+
+            vfx.GetComponent<EffectComponent>().applyScale = true;
+            VFXUtils.OdpizdzijPierdoloneGownoKurwaCoZaJebanyKurwaSmiecToKurwaDodalPizdaKurwaJebanaKurwa(vfx);
+
             var lightColor = new Color32(239, 181, 79, 255);
             var sandColor = new Color32(113, 84, 32, 255);
             VFXUtils.RecolorMaterialsAndLights(vfx, sandColor, lightColor, true, true);
             VFXUtils.AddLight(vfx, lightColor, 15f, range, 1f);
 
             var transform = vfx.transform.Find("Core");
+            transform.localScale = Vector3.one / 12f;// base radius at 1 scale is 12m according to bandit's util value
+            transform.localPosition = Vector3.zero;
 
             var sparks = transform.Find("Sparks");
             var sparksPS = sparks.GetComponent<ParticleSystem>();
             var sparksMain = sparksPS.main;
-            sparksMain.maxParticles = 200;
+            sparksMain.maxParticles = 400;
             var sparksEmission = sparksPS.emission;
-            var burst = new ParticleSystem.Burst(0f, 200, 200, 1, 0.01f);
+            var burst = new ParticleSystem.Burst(0f, 400, 400, 1, 0.01f);
             burst.probability = 1f;
             sparksEmission.SetBurst(0, burst);
 
@@ -130,6 +136,8 @@ namespace Sandswept.Equipment.Standard
             sparksPSR.material.SetTexture("_MainTex", Paths.Texture2D.texGlowPaintMask);
 
             ContentAddition.AddEffect(vfx);
+
+            VFXUtils.MultiplyDuration(vfx, 2.5f);
 
             overlayMat = new Material(Paths.Material.matHuntressFlashBright);
 
@@ -140,9 +148,7 @@ namespace Sandswept.Equipment.Standard
             overlayMat.SetFloat("_Boost", 1f);
             overlayMat.SetFloat("_AlphaBoost", 1.06f);
             overlayMat.SetFloat("_AlphaBias", 0f);
-            overlayMat.SetInt("_Src", 7);
-
-            VFXUtils.MultiplyDuration(vfx, 1.5f);
+            overlayMat.SetInt("_SrcBlend", 7);
         }
 
         protected override bool ActivateEquipment(EquipmentSlot slot)
@@ -159,7 +165,7 @@ namespace Sandswept.Equipment.Standard
                 Util.PlaySound("Play_Player_footstep", slot.gameObject);
                 Util.PlaySound("Play_beetle_guard_impact", slot.gameObject);
             }
-            EffectManager.SpawnEffect(vfx, new EffectData() { origin = slot.characterBody.footPosition }, true);
+            EffectManager.SpawnEffect(vfx, new EffectData() { scale = range, origin = slot.characterBody.footPosition }, true);
 
             sphereSearch.origin = slot.characterBody.corePosition;
             sphereSearch.mask = LayerIndex.entityPrecise.mask;

@@ -24,9 +24,9 @@ namespace Sandswept.Equipment.Lunar
 
         public override string EquipmentLore =>
         """
-        This is a curious construction. It is simple, with simple ratios, but elegant. It requires a strong sense of design to create something so potent with such basic materials. Well done.
+        This is a curious construction. A natural design, with simple ratios, but elegant. It requires strong design to create something so potent with such basic materials. Well done.
 
-        It is chaotic, however. Too chaotic. Without my expertise, this is inevitable, given the constraints of your materials. No matter. It will be improved, under my watch, into a perfected form. It should be valuable to my arsenal.
+        It is chaotic, however. Too chaotic. Without my expertise, this is inevitable. It will be improved, with my help, into a perfected form. It should be valuable to my arsenal.
 
         Perhaps you should oversee the project. It would be fitting, for it to be your first. Increase the intensity, and focus its effects -- it needn't have more than a single purpose. An addition of tetrafoil should do nicely. As always, do not settle for less than perfection.
         """;

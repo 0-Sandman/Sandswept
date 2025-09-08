@@ -13,7 +13,7 @@ namespace Sandswept.Items.Lunars
 
         public override string ItemPickupDesc => "Using a Shrine has a chance to invite the challenge of the Mountain. $lcTeleporters summon Lunar Fissures periodically.$ec".AutoFormat();
 
-        public override string ItemFullDescription => $"Using a shrine has a $su{baseChance * 100f}%$se $ss(+{stackChance * 100f}% per stack)$se chance to invite the $suchallenge of the Mountain$se. Teleporters summon $srlunar fissures$se $sr{baseLunarFissureCount}$se $ss(+{stackLunarFissureCount} per challenge of the Mountain)$se times.".AutoFormat();
+        public override string ItemFullDescription => $"Using a Shrine has a $su{baseChance * 100f}%$se $ss(+{stackChance * 100f}% per stack)$se chance to invite the $suchallenge of the Mountain$se. Teleporters summon $srlunar fissures$se $sr{baseLunarFissureCount}$se $ss(+{stackLunarFissureCount} per challenge of the Mountain)$se times.".AutoFormat();
 
         public override string ItemLore => "\"Two brothers, standing at a well. <style=cIsVoid>Both young, both innocent.</style>\"\r\n\"A worm falls in. A new world is found. <style=cDeath>One betrayed.</style> <style=cIsUtility>One regretful.</style>\"\r\n\"Two brothers, toiling in the ambry. <style=cIsVoid>Both reverent, both powerful.</style>\"\r\n\"The [compounds] are discovered. Guardians created. <style=cIsVoid>Both amazed, both proud.</style>\"\r\n\"Two brothers, looking for a way out. <style=cIsVoid>Both hopeful. Both curious.</style>\"\r\n\"A society is found. <style=cDeath>One sympathetic.</style> <style=cIsUtility>One annoyed.</style>\"\r\n\"Two brothers, torn on ethics. <style=cDeath>One tyrannical.</style> <style=cIsUtility>One puritanical.</style>\"\r\n\"A teleporter is created. A choice is made. <style=cDeath>One regretful.</style> <style=cIsUtility>One betrayed.</style>\"\r\n\"Two brothers, separated by space. <style=cDeath>One enslaves.</style> <style=cIsUtility>One broods.</style>\"\r\n\"A shine appears in the sky. <style=cDeath>One enraged.</style> <style=cIsUtility>One hopeful.</style>\"\r\n\"Two brothers. Their times approach. <style=cDeath>One king.</style> <style=cIsUtility>One outcast.</style>\"\r\n\"A god is felled. Anarchy takes hold. <style=cDeath>One missing.</style> <style=cIsUtility>One forgotten.</style>\"\r\n\"Two brothers. <style=cIsVoid>Never... to meet again.</style>\"\r\n\r\n---------------------\r\n> Translated from a Lemurian Scribe found in the Temple of the Elders by UES personnel. Burn at leisure.";
 
@@ -31,7 +31,7 @@ namespace Sandswept.Items.Lunars
         [ConfigField("Stack Chance", "Decimal.", 0.15f)]
         public static float stackChance;
 
-        [ConfigField("Base Lunar Fissure Count", "", 2)]
+        [ConfigField("Base Lunar Fissure Count", "", 1)]
         public static int baseLunarFissureCount;
 
         [ConfigField("Stack Lunar Fissure Count", "Stack is actually Mountain Shrine Stacks", 1)]

@@ -1,4 +1,5 @@
-﻿using System.Xml.Serialization;
+﻿/*
+using System.Xml.Serialization;
 
 using BepInEx.Configuration;
 using System.Linq;
@@ -228,17 +229,6 @@ namespace Sandswept.Artifacts
         private void ApplyArtifactChanges(bool remove = false)
         {
             FuckingStupidThing(true);
-            /*
-            if (Run.instance)
-            {
-                // Main.ModLogger.LogError("run instance exists");
-
-                Run.instance.availableTier1DropList = Run.instance.availableTier1DropList.Concat(Run.instance.availableLunarItemDropList).ToList();
-                Run.instance.availableTier2DropList = Run.instance.availableTier2DropList.Concat(Run.instance.availableLunarItemDropList).ToList();
-                Run.instance.availableEquipmentDropList = Run.instance.availableEquipmentDropList.Concat(Run.instance.availableLunarEquipmentDropList).ToList();
-            }
-            */
-            // fuck this timing nightmare, gonna add eulogy zero
 
             if (!remove)
             {
@@ -546,3 +536,4 @@ namespace Sandswept.Artifacts
         }
     }
 }
+*/

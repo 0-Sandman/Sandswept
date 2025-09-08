@@ -17,17 +17,29 @@ namespace Sandswept.Items.Lunars
 
         public override string ItemLangTokenName => "SEQUENCED_FATE";
 
-        public override string ItemPickupDesc => "Shrines of order appear more often and grant extra items.";
+        public override string ItemPickupDesc => "Shrines of Order appear more often and grant extra items.";
 
-        public override string ItemFullDescription => $"Using a shrine of order grants $su{baseExtraItemsCount}$se $ss(+{stackExtraItemsCount} per stack)$se extra items. $suShrines of order appear more frequently$se.".AutoFormat();
+        public override string ItemFullDescription => $"Using a Shrine of Order grants $su{baseExtraItemsCount}$se $ss(+{stackExtraItemsCount} per stack)$se extra items. $suShrines of order appear more frequently$se.".AutoFormat();
 
-        public override string ItemLore => "What is this? Some kind of document?\r\n\r\nI see. This is not one of my designs, but it is nevertheless a competent one. Though it was not required of you, you have made something of your own. Very good. You learn quickly.\r\n\r\nWhat you propose is...interesting. Such a construction would create perfect order, as you say, but there is no use for that on this ivory rock. There is nothing of value to sequence besides my own trinkets. As you note, the effects are only useful when greater variety is present.\r\n\r\nMore curious, however, is the format; you know methods of my designs, for you have worked with them -- but this is arranged differently. The capacity to design this proves you are not so foolish as to create a written defiance of me and place it into my hands. Explain the reason for this.\r\n\r\nFascinating. In my hatred of them, I had not considered using the vermin of the planet for my purposes. I suppose you are proof of their competence. The idea suits me; it would be the ultimate revenge. These blueprints are a simple thing, but I -- we -- could create far greater gifts for them. Bind them to my will, and turn them against him. Creating more copies will be trivial. It is nothing but parchment, after all, yet within it lies the seeds of this ploy, and my brother's beloved pets will sow them.\r\n\r\nAlready, you have proven yourself a worthy investment. I will allow you to create the first construction for the planet -- you've proven your designs to be as valuable as your constructions. The other vultures are in your service to realize it, and you are free to use the pillars' pure compounds as you see fit.\r\n";
+        public override string ItemLore =>
+        """
+        What is this? Some kind of interface?
 
+        I see. This is not one of my designs, but it is nevertheless a competent one. Though it was not required of you, you have yet again made something of your own. Very good. You learn quickly.
+
+        What you propose is...interesting. Such a construction would create perfect order, as you say, but there is no use for that on this ivory rock. There is nothing of value to sequence besides my own trinkets. As you note, the effects are only useful when greater variety is present. Nevertheless, you may create one here as a test, if you wish.
+
+        What is most curious, however, is the structure; you know the methods of my designs, for you have worked with them -- but this is arranged differently. The capacity to design this proves you are not so foolish as to create a sculpted defiance of my teachings into my hands. Explain the reason for your deviation.
+
+        Fascinating. In my hatred of them, I had not considered using the vermin of the planet for my purposes. I suppose you are proof of their competence. The idea suits me; it would be the ultimate revenge. This shrine is a simple thing, but I -- we -- could create far greater gifts for them. Bind them to my will, and turn them against him. Creating more copies will be trivial. It is nothing but stone, after all, yet within it lies the seeds of this ploy, and my brother's beloved pets will sow them.
+
+        Already, you have shown yourself to be a worthy investment. I invite you to oversee the next construction completely -- with the tincture, you proved your capacity to create, and with this, your capacity to design is proven in turn.
+        """;
         public override ItemTier Tier => ItemTier.Lunar;
 
         public override GameObject ItemModel => Main.sandsweptHIFU.LoadAsset<GameObject>("SequencedFateHolder.prefab");
 
-        public override Sprite ItemIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texFreakyMinion.png");
+        public override Sprite ItemIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texSequencedFate.png");
 
         public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist];
 
@@ -94,6 +106,7 @@ namespace Sandswept.Items.Lunars
             {
                 sequencedFateTracker.GetComponent<SequencedFateController>().lastItemCount = 0;
             }
+            itemCount = 0;
         }
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)

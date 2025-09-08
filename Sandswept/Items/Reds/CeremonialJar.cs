@@ -37,10 +37,9 @@ namespace Sandswept.Items.Reds
 
         public override ItemTag[] ItemTags => [ItemTag.Damage, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist];
 
-        public static BuffDef CereJarLinkedBuff;
-        public static BuffDef CereJarCDBuff;
-        public static DamageColorIndex JarDamageColor = DamageColourHelper.RegisterDamageColor(new Color32(0, 255, 204, 255));
-        public static GameObject JarVFX;
+        public static BuffDef linkedBuff;
+        public static BuffDef cooldownBuff;
+        public static DamageColorIndex JarDamageColor = DamageColourHelper.RegisterDamageColor(new Color32(74, 63, 58, 255));
 
         [ConfigField("Linked Enemies Requirement", "", 3)]
         public static int linkedEnemiesRequirement;
@@ -57,6 +56,9 @@ namespace Sandswept.Items.Reds
         [ConfigField("Proc Coefficient", "", 0.33f)]
         public static float procCoefficient;
 
+        public static Material matCeremonialJarTar;
+        public static GameObject vfx;
+
         public override float modelPanelParametersMinDistance => 5f;
         public override float modelPanelParametersMaxDistance => 12f;
 
@@ -68,24 +70,74 @@ namespace Sandswept.Items.Reds
         public override void Init()
         {
             base.Init();
-            SetupVFX();
-            SetupBuffs();
+            SetUpVFX();
+            SetUpBuffs();
         }
 
-        public void SetupBuffs()
+        public void SetUpVFX()
         {
-            CereJarLinkedBuff = ScriptableObject.CreateInstance<BuffDef>();
-            CereJarLinkedBuff.name = "Ceremonial Jar Link";
-            CereJarLinkedBuff.canStack = false;
-            CereJarLinkedBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texGaySex.png");
+            vfx = PrefabAPI.InstantiateClone(Paths.GameObject.Bandit2SmokeBomb, "Ceremonial Jar VFX", false);
 
-            CereJarCDBuff = ScriptableObject.CreateInstance<BuffDef>();
-            CereJarCDBuff.name = "Ceremonial Jar Cooldown";
-            CereJarCDBuff.canStack = false;
-            CereJarCDBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texLesbianFurry.png");
+            vfx.GetComponent<EffectComponent>().applyScale = true;
+            VFXUtils.OdpizdzijPierdoloneGownoKurwaCoZaJebanyKurwaSmiecToKurwaDodalPizdaKurwaJebanaKurwa(vfx);
 
-            ContentAddition.AddBuffDef(CereJarLinkedBuff);
-            ContentAddition.AddBuffDef(CereJarCDBuff);
+            var tarColor = new Color32(64, 45, 35, 255);
+            VFXUtils.RecolorMaterialsAndLights(vfx, tarColor, tarColor, true, true);
+
+            var transform = vfx.transform.Find("Core");
+            transform.localScale = Vector3.one / 12f;// base radius at 1 scale is 12m according to bandit's util value
+            transform.localPosition = Vector3.zero;
+
+            var sparks = transform.Find("Sparks");
+            var sparksPS = sparks.GetComponent<ParticleSystem>();
+            var sparksMain = sparksPS.main;
+            sparksMain.maxParticles = 400;
+            var sparksEmission = sparksPS.emission;
+            var burst = new ParticleSystem.Burst(0f, 400, 400, 1, 0.01f);
+            burst.probability = 1f;
+            sparksEmission.SetBurst(0, burst);
+
+            var sparksPSR = sparks.GetComponent<ParticleSystemRenderer>();
+            sparksPSR.material.SetTexture("_MainTex", Paths.Texture2D.texGlowSkullMask);
+
+            var pointLight = transform.Find("Point Light").GetComponent<Light>();
+            var lightColor = new Color(-0.09f, -0.075f, -0.066f, 1);
+            pointLight.color = lightColor;
+            // pointLight.range = 20f;
+
+            ContentAddition.AddEffect(vfx);
+
+            VFXUtils.MultiplyDuration(vfx, 2f);
+
+            matCeremonialJarTar = new Material(Paths.Material.matHuntressFlashBright);
+
+            matCeremonialJarTar.SetColor("_TintColor", new Color32(52, 27, 9, 183));
+            matCeremonialJarTar.SetTexture("_MainTex", null);
+            matCeremonialJarTar.SetTexture("_RemapTex", Paths.Texture2D.texRampClaySwordSwing);
+            matCeremonialJarTar.SetFloat("_InvFade", 0f);
+            matCeremonialJarTar.SetFloat("_Boost", 1f);
+            matCeremonialJarTar.SetFloat("_AlphaBoost", 0f);
+            matCeremonialJarTar.SetFloat("_AlphaBias", 1f);
+            matCeremonialJarTar.SetInt("_Cull", 1);
+            matCeremonialJarTar.SetInt("_DstBlend", 5);
+            matCeremonialJarTar.SetInt("_VertexOffsetOn", 1);
+            matCeremonialJarTar.SetFloat("_OffsetAmount", 0.3f);
+        }
+
+        public void SetUpBuffs()
+        {
+            linkedBuff = ScriptableObject.CreateInstance<BuffDef>();
+            linkedBuff.name = "Ceremonial Jar Link";
+            linkedBuff.canStack = false;
+            linkedBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texGaySex.png");
+
+            cooldownBuff = ScriptableObject.CreateInstance<BuffDef>();
+            cooldownBuff.name = "Ceremonial Jar Cooldown";
+            cooldownBuff.canStack = false;
+            cooldownBuff.iconSprite = Main.hifuSandswept.LoadAsset<Sprite>("texLesbianFurry.png");
+
+            ContentAddition.AddBuffDef(linkedBuff);
+            ContentAddition.AddBuffDef(cooldownBuff);
         }
 
         public override void Hooks()
@@ -117,6 +169,11 @@ namespace Sandswept.Items.Reds
         {
             orig(self, info, victim);
 
+            if (!victim)
+            {
+                return;
+            }
+
             var attacker = info.attacker;
 
             if (!info.damageType.IsDamageSourceSkillBased)
@@ -139,139 +196,81 @@ namespace Sandswept.Items.Reds
                 return;
             }
 
-            var victimBody = victim.GetComponent<CharacterBody>();
+            if (!victim.TryGetComponent<CharacterBody>(out var victimBody))
+            {
+                return;
+            }
 
-            if (victimBody.HasBuff(CereJarCDBuff) || attackerBody == victimBody)
+            if (victimBody.HasBuff(cooldownBuff) || attackerBody == victimBody)
             {
                 // Debug.Log("returning because cd");
                 return;
             }
 
-            victimBody.SetBuffCount(CereJarLinkedBuff.buffIndex, 1);
+            victimBody.SetBuffCount(linkedBuff.buffIndex, 1);
+            victimBody.SetBuffCount(RoR2Content.Buffs.ClayGoo.buffIndex, 1);
             // Debug.Log("adding buff");
 
-            List<CharacterBody> bodies = new();
+            List<CharacterBody> linkedVictimBodies = new();
 
             for (int i = 0; i < CharacterBody.readOnlyInstancesList.Count; i++)
             {
-                if (CharacterBody.readOnlyInstancesList[i].HasBuff(CereJarLinkedBuff))
+                var body = CharacterBody.readOnlyInstancesList[i];
+                if (body.HasBuff(linkedBuff))
                 {
-                    bodies.Add(CharacterBody.readOnlyInstancesList[i]);
+                    linkedVictimBodies.Add(CharacterBody.readOnlyInstancesList[i]);
                 }
             }
 
-            if (bodies.Count >= linkedEnemiesRequirement)
+            if (linkedVictimBodies.Count >= linkedEnemiesRequirement)
             {
-                bodies.ForEach(x =>
+                linkedVictimBodies.ForEach(linkedVictimBody =>
                 {
-                    x.SetBuffCount(CereJarLinkedBuff.buffIndex, 0);
-                    x.AddTimedBuff(CereJarCDBuff, linkedEnemyCooldown);
+                    linkedVictimBody.SetBuffCount(linkedBuff.buffIndex, 0);
+                    linkedVictimBody.AddTimedBuff(cooldownBuff, linkedEnemyCooldown);
 
                     DamageInfo info = new()
                     {
                         damage = attackerBody.damage * (baseDamage + (stackDamage * (GetCount(attackerBody) - 1))),
-                        crit = false,
+                        crit = attackerBody.RollCrit(),
                         damageColorIndex = JarDamageColor,
                         attacker = attackerBody.gameObject,
-                        position = x.corePosition,
+                        position = linkedVictimBody.corePosition,
                         procCoefficient = procCoefficient
                     };
 
-                    x.healthComponent.TakeDamage(info);
+                    linkedVictimBody.healthComponent.TakeDamage(info);
 
-                    EffectManager.SpawnEffect(Paths.GameObject.IgniteExplosionVFX, new EffectData
+                    EffectManager.SpawnEffect(vfx, new EffectData() { scale = linkedVictimBody.radius * 2.5f, origin = linkedVictimBody.corePosition }, true);
+
+                    Util.PlaySound("Play_bison_headbutt_attack_hit", linkedVictimBody.gameObject);
+                    Util.PlaySound("Play_bison_headbutt_attack_hit", linkedVictimBody.gameObject);
+                    Util.PlaySound("Play_clayGrenadier_impact", linkedVictimBody.gameObject);
+                    Util.PlaySound("Play_clayGrenadier_impact", linkedVictimBody.gameObject);
+                    Util.PlaySound("Play_clayGrenadier_impact", linkedVictimBody.gameObject);
+                    Util.PlaySound("Play_clayGrenadier_impact", linkedVictimBody.gameObject);
+                    Util.PlaySound("Play_arenaCrab_swim_stroke", attackerBody.gameObject);
+                    Util.PlaySound("Play_arenaCrab_swim_stroke", attackerBody.gameObject);
+                    Util.PlaySound("Play_arenaCrab_swim_stroke", attackerBody.gameObject);
+                    Util.PlaySound("Play_arenaCrab_swim_stroke", attackerBody.gameObject);
+                    Util.PlaySound("Play_arenaCrab_swim_stroke", attackerBody.gameObject);
+
+                    var modelLocator = linkedVictimBody.modelLocator;
+                    if (modelLocator)
                     {
-                        scale = 2f,
-                        origin = x.corePosition
-                    }, true);
+                        var modelTransform = modelLocator.modelTransform;
+                        if (modelTransform)
+                        {
+                            var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
+                            temporaryOverlay.duration = 5f;
+                            temporaryOverlay.animateShaderAlpha = true;
+                            temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                            temporaryOverlay.destroyComponentOnEnd = true;
+                            temporaryOverlay.originalMaterial = matCeremonialJarTar;
+                            temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
+                        }
+                    }
                 });
-            }
-        }
-
-        public void SetupVFX()
-        {
-            JarVFX = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Nullifier/NullifyStack3Effect.prefab").WaitForCompletion().InstantiateClone("CeremonialJarEffect", false);
-            JarVFX.name = "CeremonialJarEffect";
-
-            Object.Destroy(JarVFX.transform.Find("Visual").Find("Stack 2").gameObject);
-
-            Object.Destroy(JarVFX.transform.Find("Visual").Find("Stack 3").gameObject);
-
-            GameObject stack = JarVFX.transform.Find("Visual").Find("Stack 1").gameObject;
-            stack.name = "Donuts";
-            stack.GetComponent<MeshFilter>().mesh = Main.prodAssets.LoadAsset<Mesh>("assets/jardonuts.obj");
-
-            ObjectScaleCurve osc = stack.AddComponent<ObjectScaleCurve>();
-            osc.enabled = false;
-
-            AnimationCurve curve = new();
-            curve.AddKey(0, 1);
-            curve.keys[0].inTangent = 4;
-            curve.keys[0].outTangent = 4;
-            curve.AddKey(0.5f, 4);
-            curve.keys[1].inTangent = 0;
-            curve.keys[1].outTangent = 0;
-            osc.curveX = curve;
-            osc.curveY = curve;
-            osc.curveZ = curve;
-            osc.overallCurve = curve;
-
-            Object.Destroy(stack.GetComponent<AnimateShaderAlpha>());
-
-            GuhAlpha guh = stack.AddComponent<GuhAlpha>();
-
-            AnimationCurve curve2 = new();
-            curve2.AddKey(0, 1);
-            curve2.AddKey(0.5f, 0);
-
-            guh.alphaCurve = curve2;
-            guh.timeMax = 0.5f;
-            guh.destroyOnEnd = true;
-            guh.enabled = false;
-
-            Material mat = Object.Instantiate(stack.GetComponent<MeshRenderer>().material);
-            mat.name = "matJarDonuts";
-            mat.SetTexture("_RemapTex", Main.prodAssets.LoadAsset<Texture2D>("assets/jarramp.png"));
-            stack.GetComponent<MeshRenderer>().material = mat;
-
-            GameObject parts = Object.Instantiate(Addressables.LoadAssetAsync<GameObject>("RoR2/Base/Common/VFX/LevelUpEffect.prefab").WaitForCompletion().transform.Find("Dust Explosion").gameObject);
-            parts.name = "Particles";
-            Color c_sandsweep = new Color(0.1333f, 1f, 0.5f, 1f);
-            ParticleSystem ps = parts.GetComponent<ParticleSystem>();
-            ps.colorOverLifetime.color.gradient.colorKeys[0].color = c_sandsweep;
-            ps.colorOverLifetime.color.gradientMax.colorKeys[0].color = c_sandsweep;
-            ps.loop = true;
-            ps.gravityModifier = 0.2f;
-            ps.emissionRate = 20;
-            ps.maxParticles = 20;
-            parts.transform.localScale *= 0.75f;
-            parts.transform.Translate(0f, 0f, -2f);
-            parts.transform.parent = JarVFX.transform;
-
-            // JarVFX.AddComponent<EffectComponent>().applyScale = true;
-            // Main.EffectPrefabs.Add(JarVFX);
-        }
-    }
-
-    public class GuhAlpha : AnimateShaderAlpha
-    {
-        private void Update()
-        {
-            if (!pauseTime) time = Mathf.Min(timeMax, time + Time.deltaTime);
-            float num = alphaCurve.Evaluate(time / timeMax);
-            Material[] array = materials;
-            for (int i = 0; i < array.Length; i++)
-            {
-                _ = array[i];
-                _propBlock = new MaterialPropertyBlock();
-                targetRenderer.GetPropertyBlock(_propBlock);
-                _propBlock.SetColor("_TintColor", Color.white.AlphaMultiplied(num));
-                targetRenderer.SetPropertyBlock(_propBlock);
-            }
-            if (time >= timeMax)
-            {
-                if (disableOnEnd) enabled = false;
-                if (destroyOnEnd) Destroy(gameObject);
             }
         }
     }

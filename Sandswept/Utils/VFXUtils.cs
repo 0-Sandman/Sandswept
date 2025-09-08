@@ -236,6 +236,29 @@ namespace Sandswept.Utils
 
             return light;
         }
+
+        public static void OdpizdzijPierdoloneGownoKurwaCoZaJebanyKurwaSmiecToKurwaDodalPizdaKurwaJebanaKurwa(GameObject gameObject)
+        {
+            KurwaJebanaKurwaSzmataKurwaPierdolnaKurwaDziwkaKurwaInternal(gameObject);
+
+            // and for all children recursively
+            foreach (Transform child in gameObject.transform.GetComponentsInChildren<Transform>())
+            {
+                KurwaJebanaKurwaSzmataKurwaPierdolnaKurwaDziwkaKurwaInternal(child.gameObject);
+            }
+        }
+
+        private static void KurwaJebanaKurwaSzmataKurwaPierdolnaKurwaDziwkaKurwaInternal(GameObject gameObject)
+        {
+            var particleSystem = gameObject.GetComponent<ParticleSystem>();
+            if (!particleSystem)
+            {
+                return;
+            }
+
+            var main = particleSystem.main;
+            main.scalingMode = ParticleSystemScalingMode.Hierarchy;
+        }
     }
 
     public class TracerComponentSucks : MonoBehaviour

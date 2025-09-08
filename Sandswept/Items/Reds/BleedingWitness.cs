@@ -12,7 +12,7 @@ namespace Sandswept.Items.Reds
 
         public override string ItemPickupDesc => "Your damage over time ticks heal all allies.";
 
-        public override string ItemFullDescription => $"$sd{hemorrhageChance}%$se chance to $sdhemorrhage$se enemies for $sd{hemorrhageDamage * 100f}%$se base damage. Your $sddamage over time ticks$se $shheal$se all allies for $sh{baseDoTHealing * 100f}%$se $ss(+{stackDoTHealing * 100f}% per stack)$se of their $shmaximum health$se.".AutoFormat();
+        public override string ItemFullDescription => $"$sd{hemorrhageChance}%$se chance on hit to $sdhemorrhage$se enemies for $sd{hemorrhageDamage * 100f}%$se base damage. Your $sddamage over time ticks$se $shheal$se all allies for $sh{baseDoTHealing * 100f}%$se $ss(+{stackDoTHealing * 100f}% per stack)$se of their $shmaximum health$se.".AutoFormat();
 
         public override string ItemLore =>
         """

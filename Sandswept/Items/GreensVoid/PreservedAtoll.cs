@@ -21,7 +21,7 @@ namespace Sandswept.Items.VoidGreens
 
         public override string ItemLore =>
         """
-        No lore yet [...]
+        A memory... Lost to time, records of it wiped from the archives. Pictures of it went missing. Paintings, gone. Stories, removed. A famed atoll, after the incident... Not a soul could remember its name. Nothing, only this one memento remains...
         """;
 
         [ConfigField("Radius", "", 24f)]
@@ -30,7 +30,7 @@ namespace Sandswept.Items.VoidGreens
         [ConfigField("Base Health Divisor", "Divides the Maximum Health (standard health + shield) by this value to get the damage taken thresholds for each decay stack to inflict, for example, this value being equal to 5 makes the item inflict up to 5 decay at 100% maximum health lost (100 / 5 = 20) and 1 decay at 20% maximum health lost. Uses banker's rounding.", 5f)]
         public static float baseHealthDivisor;
 
-        [ConfigField("Stack Health Divisor", "Adds to the Base Health Divisor based on stack count. Total Health Divisor = Base Health Divisor + this value * (Preserved Atoll - 1). When Base Health Divisor = 5 and this value = 2, with 2 stacks of the item, it makes each 14.29% of maximum health lost inflict one stack of decay, since 100 / 7 = 14.29, and up to 7 stacks at 100% maximum health lost. Uses banker's rounding.", 2f)]
+        [ConfigField("Stack Health Divisor", "Adds to the Base Health Divisor based on stack count. Total Health Divisor = Base Health Divisor + this value * (Preserved Atoll - 1). When Base Health Divisor = 5 and this value = 3, with 2 stacks of the item, it makes each 12.5% of maximum health lost inflict one stack of decay, since 100 / 8 = 12.5, and up to 8 stacks at 100% maximum health lost. Uses banker's rounding.", 3f)]
         public static float stackHealthDivisor;
 
         [ConfigField("Cooldown", "", 10f)]
