@@ -21,7 +21,8 @@
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 ![](https://i.postimg.cc/pVC1xRP5/Interactable-UI-1.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/Gt4MqT60/Item-UI-4.png)
+![](https://i.postimg.cc/QxK5mdjC/Item-UI-top.png)
+![](https://i.postimg.cc/XvnbjLL5/Item-UI-bottom.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 
 # Credits
