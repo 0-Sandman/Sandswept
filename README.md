@@ -11,11 +11,11 @@
 # Content
 
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/4NFL7P7J/Ranger-UI-1.png)
+![](https://i.postimg.cc/C17yD5bF/RangerUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/ZKqs52q7/VOLTUI-1.png)
+![](https://i.postimg.cc/mDBftCzX/VOLTUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/g2cPkVQ0/EnemyUI.png)
+![](https://i.postimg.cc/KYnhGJz3/EnemyUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 ![](https://i.postimg.cc/X7kbbH2h/EliteUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
