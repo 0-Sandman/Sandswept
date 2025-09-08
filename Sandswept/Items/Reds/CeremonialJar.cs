@@ -248,18 +248,15 @@ namespace Sandswept.Items.Reds
                         origin = linkedVictimBody.corePosition
                     }, true);
 
-                    for (int j = 0; j < 5; j++)
-                    {
-                        Util.PlaySound("Play_arenaCrab_swim_stroke", attackerBody.gameObject);
-                    }
-
-                    for (int i = 0; i < 5; i++)
+                    for (int i = 0; i < 3; i++)
                     {
                         Util.PlaySound("Play_bison_headbutt_attack_hit", linkedVictimBody.gameObject);
-                        // Util.PlaySound("Play_clayGrenadier_impact", linkedVictimBody.gameObject);
+                        Util.PlaySound("Play_clayGrenadier_impact", linkedVictimBody.gameObject);
                     }
 
                     Util.PlaySound("Play_bison_headbutt_attack_hit", attackerBody.gameObject);
+                    Util.PlaySound("Play_clayGrenadier_impact", attackerBody.gameObject);
+                    Util.PlaySound("Play_arenaCrab_swim_stroke", attackerBody.gameObject);
                 });
             }
         }

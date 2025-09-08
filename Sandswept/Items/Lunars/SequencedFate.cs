@@ -209,6 +209,9 @@ namespace Sandswept.Items.Lunars
 
                     AkSoundEngine.PostEvent(Events.Play_UI_3D_printer_selectItem, self.gameObject);
                     Util.PlaySound("Play_moonBrother_phase4_step", self.gameObject);
+                    Util.PlaySound("Play_huntress_R_rain_start", self.gameObject);
+                    Util.PlaySound("Play_engi_seekerMissile_shoot", self.gameObject);
+                    Util.PlaySound("Play_engi_seekerMissile_shoot", self.gameObject);
                 }
             }
         }

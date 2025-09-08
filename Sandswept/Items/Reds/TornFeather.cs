@@ -77,6 +77,8 @@ namespace Sandswept.Items.Reds
         public static Material whiteOverlay;
         public static ModKeybind FeatherDash = RebindAPI.RegisterModKeybind(new ModKeybind("SANDSWEPT_INPUT_FEATHER".Add("Torn Feather Dash"), KeyCode.F, 10, "Jump"));
 
+        public static GameObject particles;
+
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
@@ -126,6 +128,45 @@ namespace Sandswept.Items.Reds
             whiteOverlay = new Material(Paths.Material.matHuntressFlashExpanded);
             whiteOverlay.SetColor("_TintColor", new Color32(255, 255, 255, 150));
             whiteOverlay.SetInt("_Cull", 1); // 0 = no cull = whole body, 1 = front = outline, 2 = back = whole body
+
+            particles = PrefabAPI.InstantiateClone(Paths.GameObject.Bandit2SmokeBomb, "Torn Feather VFX", false);
+
+            particles.GetComponent<EffectComponent>().applyScale = true;
+            VFXUtils.OdpizdzijPierdoloneGownoKurwaCoZaJebanyKurwaSmiecToKurwaDodalPizdaKurwaJebanaKurwa(particles);
+
+            VFXUtils.RecolorMaterialsAndLights(particles, Color.white, Color.white, true, true);
+
+            var transform = particles.transform.Find("Core");
+            transform.localScale = Vector3.one / 12f;// base radius at 1 scale is 12m according to bandit's util value
+            transform.localPosition = Vector3.zero;
+
+            var sparks = transform.Find("Sparks");
+            var sparksPS = sparks.GetComponent<ParticleSystem>();
+            var sparksMain = sparksPS.main;
+            sparksMain.maxParticles = 100;
+            var sparksEmission = sparksPS.emission;
+            var burst = new ParticleSystem.Burst(0f, 100, 100, 1, 0.01f);
+            burst.probability = 1f;
+            sparksEmission.SetBurst(0, burst);
+
+            var sparksPSR = sparks.GetComponent<ParticleSystemRenderer>();
+            sparksPSR.material.SetTexture("_MainTex", Paths.Texture2D.texGlowPaintMask);
+
+            transform.Find("Smoke, Edge Circle").gameObject.SetActive(false);
+            transform.Find("Dust, CenterSphere").gameObject.SetActive(false);
+            transform.Find("Dust, CenterTube").gameObject.SetActive(false);
+
+            var pointLight = transform.Find("Point Light");
+
+            var light = pointLight.GetComponent<Light>();
+            light.intensity = 12.5f;
+            light.range = 13f;
+
+            ContentAddition.AddEffect(particles);
+
+            VFXUtils.MultiplyDuration(particles, 2f);
+
+            pointLight.GetComponent<LightIntensityCurve>().timeMax = 0.4f;
         }
 
         public override void Hooks()
@@ -365,12 +406,15 @@ namespace Sandswept.Items.Reds
 
             dashTrail.Play();
 
+            // Util.PlaySound("Play_arenaCrab_swim_stroke", base.gameObject);
             Util.PlaySound("Play_huntress_shift_mini_blink", base.gameObject);
 
             if (vfxCycle <= 1)
             {
                 vfxCycle = 3;
             }
+
+            EffectManager.SpawnEffect(TornFeather.particles, new EffectData() { scale = 16f, origin = body.corePosition }, true);
         }
     }
 }
