@@ -35,9 +35,9 @@
   - Removed Sidestep's small jump at the end
   - Buffed Direct Current Projectile Speed from 170m/s to 240m/s
   - Buffed Direct Current Explosion Radius from 2.5m to 3m
-  - Buffed Direct Current Explosion Radius to scale over distance. Maximum is ... 4.5m? 6m? 20m? pseudopulse ! !
+  - Buffed Direct Current Explosion Radius to scale over distance. Maximum is 4.5m
+  - Buffed Direct Current Minimum Damage Multiplier from 40% to 60% at close range
   - Buffed Direct Current to give 3 Charge on a direct hit
-  - Buffed Direct Current minimum damage multiplier 0.4x -> 0.6x at close range 
   - Buffed Sidestep duration from 0.15s to 0.1s
   - Nerfed Direct Current Projectile Size from 0.5m to 0.25m
   - Nerfed Max Charge capacity from 10 to 20 (Everything that scaled with Charge is scaled appropriately to be the same at max, this is a nerf because you are now encouraged to hit direct hits with Direct Current for 150% Charge gain compared to before, otherwise it's halved)
@@ -106,7 +106,7 @@
   - Fixed Theta Construct's idle animation having a very egregious looping issue
   - Fixed Theta Constructs breaking down and doing absolutely fucking nothing at all if they are the only enemy alive
 - Note
-  - I (HIFU) crammed everything I could that wasn't on me. Pseudopulse is currently MIA due to Silksong, but would've done up to 25 bugfixes on top of all this. Huge thanks to Synodii for quickly making the models that were due 10-12 months ago.
+  - I (HIFU) crammed everything I could that wasn't on me. Pseudopulse is currently MIA due to Silksong, but would've done up to 30 bugfixes on top of all this. Huge thanks to Synodii for quickly making the models that were due 10-12 months ago.
   
 ## 1.2.5 Patch Notes
 - VOL-T
