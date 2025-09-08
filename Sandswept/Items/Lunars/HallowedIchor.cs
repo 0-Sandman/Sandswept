@@ -24,9 +24,9 @@ namespace Sandswept.Items.Lunars
 
         public override ItemTier Tier => ItemTier.Lunar;
 
-        public override GameObject ItemModel => Main.mainAssets.LoadAsset<GameObject>("UniVIPPrefab.prefab");
+        public override GameObject ItemModel => Main.sandsweptHIFU.LoadAsset<GameObject>("HallowedIchorHolder.prefab");
 
-        public override Sprite ItemIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texWhiteMonster.png");
+        public override Sprite ItemIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texHallowedIchor.png");
 
         public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist];
 

@@ -48,7 +48,7 @@ namespace Sandswept.Equipment.Lunar
         public override GameObject EquipmentModel => Main.sandsweptHIFU.LoadAsset<GameObject>("FlawlessDesignHolder.prefab");
         public override bool IsLunar => true;
         public override Sprite EquipmentIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texFlawlessDesign.png");
-        public override float Cooldown => 45f;
+        public override float Cooldown => 60f;
 
         [ConfigField("Base Health Cost", "", 10)]
         public static int baseHealthCost;

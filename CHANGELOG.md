@@ -103,7 +103,7 @@
   - Fixed Theta Construct's idle animation having a very egregious looping issue
   - Fixed Theta Constructs breaking down and doing absolutely fucking nothing at all if they are the only enemy alive
 - Note
-  - I (HIFU) crammed everything I could that wasn't on me. Pseudopulse is currently AFK due to Silksong. Huge thanks to Synodii for quickly making the models that were due 10-12 months ago.
+  - I (HIFU) crammed everything I could that wasn't on me. Pseudopulse is currently MIA due to Silksong, but would've done up to 25 bugfixes on top of all this. Huge thanks to Synodii for quickly making the models that were due 10-12 months ago.
   
 ## 1.2.5 Patch Notes
 - VOL-T

@@ -25,7 +25,7 @@ namespace Sandswept.Items.Lunars
 
         public override ItemTier Tier => ItemTier.Lunar;
 
-        public override GameObject ItemModel => Main.mainAssets.LoadAsset<GameObject>("DocumentPrefab.prefab");
+        public override GameObject ItemModel => Main.sandsweptHIFU.LoadAsset<GameObject>("SequencedFateHolder.prefab");
 
         public override Sprite ItemIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texFreakyMinion.png");
 
