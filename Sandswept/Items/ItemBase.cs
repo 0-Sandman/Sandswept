@@ -50,6 +50,8 @@ namespace Sandswept.Items
         public UnlockableDef UnlockableDef;
 
         public virtual ItemDef ItemToCorrupt { get; set; } = null;
+        public virtual Dictionary<string, Func<string>> LangReplacements { get; set; } = null;
+        private bool firstApplication = true;
 
         public static bool DefaultEnabledCallback(ItemBase self)
         {
@@ -142,10 +144,7 @@ namespace Sandswept.Items
                 ItemDef.tags = ItemTags;
             }
 
-            LanguageAPI.Add("ITEM_SANDSWEPT_" + ItemLangTokenName + "_NAME", ItemName);
-            LanguageAPI.Add("ITEM_SANDSWEPT_" + ItemLangTokenName + "_PICKUP", ItemPickupDesc);
-            LanguageAPI.Add("ITEM_SANDSWEPT_" + ItemLangTokenName + "_DESCRIPTION", ItemFullDescription);
-            LanguageAPI.Add("ITEM_SANDSWEPT_" + ItemLangTokenName + "_LORE", ItemLore);
+            ApplyLanguage();
 
             if (AchievementName != string.Empty && AchievementDesc != string.Empty)
             {
@@ -165,6 +164,34 @@ namespace Sandswept.Items
             }
 
             ItemAPI.Add(new CustomItem(ItemDef, CreateItemDisplayRules()));
+        }
+
+        protected void ApplyLanguage() {
+            Apply("ITEM_SANDSWEPT_" + ItemLangTokenName + "_NAME", Modify(ItemName));
+            Apply("ITEM_SANDSWEPT_" + ItemLangTokenName + "_PICKUP", Modify(ItemPickupDesc));
+            Apply("ITEM_SANDSWEPT_" + ItemLangTokenName + "_DESCRIPTION", Modify(ItemFullDescription));
+            Apply("ITEM_SANDSWEPT_" + ItemLangTokenName + "_LORE", Modify(ItemLore));
+
+            firstApplication = false;
+
+            void Apply(string s1, string s2) {
+                if (firstApplication) {
+                    LanguageAPI.Add(s1, s2);
+                }
+                else {
+                    LanguageAPI.AddOverlay(s1, s2);
+                }
+            }
+
+            string Modify(string input) {
+                string output = input;
+                if (LangReplacements != null) {
+                    foreach (KeyValuePair<string, Func<string>> kvp in LangReplacements) {
+                        output = output.Replace(kvp.Key, kvp.Value());
+                    }
+                }
+                return output;
+            }
         }
 
         private void CreateModelPanelParameters(GameObject itemModel)

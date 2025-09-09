@@ -1,6 +1,7 @@
 using LookingGlass.ItemStatsNameSpace;
 using Rebindables;
 using Rewired;
+using UnityEngine.TextCore;
 
 namespace Sandswept.Items.Reds
 {
@@ -11,9 +12,9 @@ namespace Sandswept.Items.Reds
 
         public override string ItemLangTokenName => "TORN_FEATHER";
 
-        public override string ItemPickupDesc => $"Tap [{FeatherDash.DefaultKeyboardInput}] to perform an omni-directional dash. Refreshes upon landing.";
+        public override string ItemPickupDesc => $"Tap $su%FEATHERKEY%$se to perform an omni-directional dash. Refreshes upon landing.".AutoFormat();
 
-        public override string ItemFullDescription => $"Tap $su[{FeatherDash.DefaultKeyboardInput}]$se to perform an $suomni-directional dash$se, up to $su2 times$se before hitting the ground. Gain $su{baseMovementSpeedGain * 100f}%$se $ss(+{stackMovementSpeedGain * 100f}% per stack)$se movement speed.".AutoFormat();
+        public override string ItemFullDescription => $"Tap $su%FEATHERKEY%$se to perform an $suomni-directional dash$se, up to $su2 times$se before hitting the ground. Gain $su{baseMovementSpeedGain * 100f}%$se $ss(+{stackMovementSpeedGain * 100f}% per stack)$se movement speed.".AutoFormat();
 
         public override string ItemLore =>
         """
@@ -78,6 +79,12 @@ namespace Sandswept.Items.Reds
         public static ModKeybind FeatherDash = RebindAPI.RegisterModKeybind(new ModKeybind("SANDSWEPT_INPUT_FEATHER".Add("Torn Feather Dash"), KeyCode.F, 10, "Jump"));
 
         public static GameObject particles;
+        public override Dictionary<string, Func<string>> LangReplacements => new Dictionary<string, Func<string>>()
+        {
+            {"%FEATHERKEY%", () => {
+                return Main.input ? Glyphs.GetGlyphString(Main.input.eventSystem, RebindAPI.KeybindActions[FeatherDash].name, FeatherDash.AxisRange) : FeatherDash.DefaultKeyboardInput.ToString();
+            }}
+        };
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
@@ -88,6 +95,21 @@ namespace Sandswept.Items.Reds
         {
             base.Init();
             SetUpVFX();
+
+            Main.onInputAvailable += Refresh;
+            On.RoR2.InputMapperHelper.InputMapperOnInputMappedEvent += OnInputMapped;
+        }
+
+        private void OnInputMapped(On.RoR2.InputMapperHelper.orig_InputMapperOnInputMappedEvent orig, InputMapperHelper self, InputMapper.InputMappedEventData inputMappedEventData)
+        {
+            orig(self, inputMappedEventData);
+            Refresh();
+        }
+
+        private void Refresh()
+        {
+            Debug.Log("torn feather applying lang replacement to: " + Glyphs.GetGlyphString(Main.input.eventSystem, RebindAPI.KeybindActions[FeatherDash].name, FeatherDash.AxisRange));
+            ApplyLanguage();
         }
 
         public override object GetItemStatsDef()

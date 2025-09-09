@@ -31,6 +31,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using ProcSolver;
 using Rebindables;
+using RoR2.UI;
 
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
 
@@ -102,6 +103,8 @@ namespace Sandswept
         public static bool LookingGlassLoaded = false;
         public static bool ProcSolverLoaded = false;
         private static string rangerBoneMapperName;
+        public static MPInput input;
+        public static event Action onInputAvailable;
 
         private void Awake()
         {
@@ -123,6 +126,12 @@ namespace Sandswept
 
             ModLogger.LogDebug("#SANDSWEEP");
             ModLogger.LogDebug("Initialized mod in " + stopwatch.ElapsedMilliseconds + "ms");
+
+            RoR2Application.onLoad += () =>
+            {
+                input = GameObject.Find("MPEventSystem Player0").GetComponent<RoR2.UI.MPInput>();
+                onInputAvailable?.Invoke();
+            };
         }
 
         public void SetUpConfig()
