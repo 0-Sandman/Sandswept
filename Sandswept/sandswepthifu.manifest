@@ -1,0 +1,123 @@
+ManifestFileVersion: 0
+CRC: 3013549804
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: dd8a658f9824961145ed85f757056ddb
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: a7a21288fe2bd6ae3724c7054e7a1302
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
+Assets:
+- Assets/Items/SequencedFate/texSequencedFateEmission.png
+- Assets/Items/PreservedAtoll/texBuffPreservedAtollReady.png
+- Assets/Items/PreservedAtoll/texCloudOrganic1.png
+- Assets/Items/Temp/texWhiteMonster.png
+- Assets/Items/HallowedIchor/matHallowedIchorIchor.mat
+- Assets/Items/PreservedAtoll/matNoKurwaMacPizdaJebanaKurwa.mat
+- Assets/Items/PreservedAtoll/matPreservedAtollOuterWater.mat
+- Assets/Items/PreservedAtoll/texPreservedAtollMetalNormal.png
+- Assets/Items/SequencedFate/matSequencedFateSphere.mat
+- Assets/Equipment/FlawlessDesign/matArtifact.mat
+- Assets/Items/PreservedAtoll/matPreservedAtollIsland.mat
+- Assets/Enemies/DeltaConstruct/texDeltaConstruct.png
+- Assets/Equipment/FlawlessDesign/texRampDefault.png
+- Assets/Items/PreservedAtoll/texGrandparentDetailGNormal.png
+- Assets/Items/HallowedIchor/texArtifactCompoundCircleNormal.png
+- Assets/Equipment/CorruptedCatalyst/texCorruptedCatalystDiffuse.png
+- Assets/Equipment/CorruptedCatalyst/matCorruptedCatalyst.mat
+- Assets/Items/PreservedAtoll/texGrandparentDetailGDiffuse.png
+- Assets/Items/Temp/texFreakyMinion.png
+- Assets/Equipment/CorruptedCatalyst/texCorruptedCatalystEmission.png
+- Assets/Equipment/FlawlessDesign/texFlawlessDesignDiffuse.png
+- Assets/Items/HallowedIchor/texHallowedIchorFresnelMask.png
+- Assets/Items/MakeshiftPlate/texPlatingBar.png
+- Assets/Equipment/FlawlessDesign/matArtifactFlashSquare.mat
+- Assets/Items/HallowedIchor/HallowedIchorHolder.prefab
+- Assets/Equipment/FlawlessDesign/FlawlessDesign.fbx
+- Assets/Equipment/CorruptedCatalyst/CorruptedCatalyst.fbx
+- Assets/Items/PreservedAtoll/texRampCloverVoidOffset.png
+- Assets/Equipment/FlawlessDesign/texFlawlessDesign.png
+- Assets/Items/Temp/texFlushed.png
+- Assets/Items/HallowedIchor/HallowedIchor.fbx
+- Assets/Equipment/CorruptedCatalyst/CorruptedCatalystHolder.prefab
+- Assets/Survivors/VOL-T/texVoltIndicatorCovenant.png
+- Assets/Items/PreservedAtoll/texPreservedAtollAtollDiffuse.png
+- Assets/Survivors/VOL-T/texVoltIndicatorDefault.png
+- Assets/Items/PreservedAtoll/texPreservedAtollLiquidEmission.png
+- Assets/Items/PreservedAtoll/texRampPreservedAtollGlass.png
+- Assets/Items/PreservedAtoll/texRampGrandparent.png
+- Assets/Items/Temp/texEyebrow.png
+- Assets/Items/HallowedIchor/texHallowedIchorNormal.png
+- Assets/Items/SequencedFate/texRampLunarInfection.png
+- Assets/Items/PreservedAtoll/texRampBirdHeart.png
+- Assets/Items/SequencedFate/texRampLightning.png
+- Assets/Items/HallowedIchor/texRampTritone2.png
+- Assets/Items/SequencedFate/matSequencedFateOrder.mat
+- Assets/Equipment/FlawlessDesign/texFlawlessDesignNormal.png
+- Assets/Items/PreservedAtoll/matPreservedAtollGlassOutline.mat
+- Assets/Equipment/FlawlessDesign/texRampGolem.png
+- Assets/Items/PreservedAtoll/matKurwaJegoJebanaMac.mat
+- Assets/Items/HallowedIchor/texHallowedIchorFlowVector.png
+- Assets/Items/Temp/texObama.png
+- Assets/Equipment/CorruptedCatalyst/texCorruptedCatalystNormal.png
+- Assets/Equipment/FlawlessDesign/matArtifactFlashCircle.mat
+- Assets/Items/PreservedAtoll/texPreservedAtollAtollEmission.png
+- Assets/Items/HallowedIchor/texHallowedIchor.png
+- Assets/Items/HallowedIchor/matHallowedIchorFlower.mat
+- Assets/Equipment/FlawlessDesign/texTrimSheetConcreteNormal.png
+- Assets/Equipment/FlawlessDesign/matArtifactFlashTriangle.mat
+- Assets/Items/SequencedFate/texMSSandNormal.png
+- Assets/Items/PreservedAtoll/matPreservedAtollGlassCloud.mat
+- Assets/Items/SequencedFate/texSequencedFateDiffuse.png
+- Assets/Items/HallowedIchor/texHallowedIchorEmission.png
+- Assets/Items/PreservedAtoll/texCloudOrganicNormal.png
+- Assets/Items/PreservedAtoll/texCloudCaustic3.png
+- Assets/Items/PreservedAtoll/texBlackHoleMask.png
+- Assets/Items/HallowedIchor/texRampHallowedIchorFresnel.png
+- Assets/Items/PreservedAtoll/texPreservedAtollSmallLiquidDiffuse.png
+- Assets/Items/SequencedFate/SequencedFate.fbx
+- Assets/Items/PreservedAtoll/texPreservedAtoll.png
+- Assets/Equipment/CorruptedCatalyst/texCorruptedCatalyst.png
+- Assets/Items/PreservedAtoll/texPreservedAtollLiquidNormal.png
+- Assets/Items/TwistedWound/texTwistedWound.png
+- Assets/Items/HallowedIchor/texHallowedIchorDiffuse.png
+- Assets/Items/SequencedFate/SequencedFateHolder.prefab
+- Assets/Items/PreservedAtoll/texGrandparentDetailBDiffuse.png
+- Assets/Items/PreservedAtoll/PreservedAtollHolder.prefab
+- Assets/Equipment/FlawlessDesign/matFlawlessDesignDiffuse.mat
+- Assets/Items/SequencedFate/texSequencedFate.png
+- Assets/Items/PreservedAtoll/texGrandparentDetailBNormal.png
+- Assets/Items/PreservedAtoll/texPreservedAtollLargeLiquidDiffuse.png
+- Assets/Items/PreservedAtoll/PreservedAtoll.fbx
+- Assets/Items/SequencedFate/texSequencedFateNormal.png
+- Assets/Items/PreservedAtoll/texCloudOrganic2.png
+- Assets/Equipment/FlawlessDesign/texRampNullifierOffset.png
+- Assets/Items/PreservedAtoll/matPreservedAtollInnerWater.mat
+- Assets/Equipment/FlawlessDesign/texRampWhite.png
+- Assets/Equipment/FlawlessDesign/texTrimSheetArtifactDiffuse 1.png
+- Assets/Enemies/ThetaConstruct/texThetaConstruct.png
+- Assets/Items/PreservedAtoll/texBuffPreservedAtollCooldown.png
+- Assets/Items/PreservedAtoll/matPreservedAtollMetal.mat
+- Assets/Equipment/FlawlessDesign/FlawlessDesignHolder.prefab
+Dependencies: []

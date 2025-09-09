@@ -227,6 +227,7 @@ namespace Sandswept.Items.Reds
                 linkedVictimBodies.ForEach(linkedVictimBody =>
                 {
                     linkedVictimBody.SetBuffCount(linkedBuff.buffIndex, 0);
+                    linkedVictimBody.SetBuffCount(RoR2Content.Buffs.ClayGoo.buffIndex, 0);
                     linkedVictimBody.AddTimedBuff(cooldownBuff, linkedEnemyCooldown);
 
                     DamageInfo info = new()
@@ -241,35 +242,21 @@ namespace Sandswept.Items.Reds
 
                     linkedVictimBody.healthComponent.TakeDamage(info);
 
-                    EffectManager.SpawnEffect(vfx, new EffectData() { scale = linkedVictimBody.radius * 2.5f, origin = linkedVictimBody.corePosition }, true);
-
-                    Util.PlaySound("Play_bison_headbutt_attack_hit", linkedVictimBody.gameObject);
-                    Util.PlaySound("Play_bison_headbutt_attack_hit", linkedVictimBody.gameObject);
-                    Util.PlaySound("Play_clayGrenadier_impact", linkedVictimBody.gameObject);
-                    Util.PlaySound("Play_clayGrenadier_impact", linkedVictimBody.gameObject);
-                    Util.PlaySound("Play_clayGrenadier_impact", linkedVictimBody.gameObject);
-                    Util.PlaySound("Play_clayGrenadier_impact", linkedVictimBody.gameObject);
-                    Util.PlaySound("Play_arenaCrab_swim_stroke", attackerBody.gameObject);
-                    Util.PlaySound("Play_arenaCrab_swim_stroke", attackerBody.gameObject);
-                    Util.PlaySound("Play_arenaCrab_swim_stroke", attackerBody.gameObject);
-                    Util.PlaySound("Play_arenaCrab_swim_stroke", attackerBody.gameObject);
-                    Util.PlaySound("Play_arenaCrab_swim_stroke", attackerBody.gameObject);
-
-                    var modelLocator = linkedVictimBody.modelLocator;
-                    if (modelLocator)
+                    EffectManager.SpawnEffect(vfx, new EffectData()
                     {
-                        var modelTransform = modelLocator.modelTransform;
-                        if (modelTransform)
-                        {
-                            var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
-                            temporaryOverlay.duration = 5f;
-                            temporaryOverlay.animateShaderAlpha = true;
-                            temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
-                            temporaryOverlay.destroyComponentOnEnd = true;
-                            temporaryOverlay.originalMaterial = matCeremonialJarTar;
-                            temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
-                        }
+                        scale = linkedVictimBody.bestFitActualRadius * 8f,
+                        origin = linkedVictimBody.corePosition
+                    }, true);
+
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Util.PlaySound("Play_bison_headbutt_attack_hit", linkedVictimBody.gameObject);
+                        Util.PlaySound("Play_clayGrenadier_impact", linkedVictimBody.gameObject);
                     }
+
+                    Util.PlaySound("Play_bison_headbutt_attack_hit", attackerBody.gameObject);
+                    Util.PlaySound("Play_clayGrenadier_impact", attackerBody.gameObject);
+                    Util.PlaySound("Play_arenaCrab_swim_stroke", attackerBody.gameObject);
                 });
             }
         }
