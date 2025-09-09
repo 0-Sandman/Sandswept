@@ -67,6 +67,9 @@
   - Made Void Items locked behind their counterparts' achievements (this is a vanilla bug that VanillaVoid fixed per my proposal)
   - Made Torn Feather use a custom rebindable keybind (F by default) instead of the Interact key
   - Made Torn Feather work while near interactables (due to the change above)
+  - Made Torn Feather use a different input to dash system - now moves in your move direction or aim direction depending on whether directional keys are held or not
+  - Torn Feather now lets you wavedash :3
+  - Made Torn Feather flash white to indicate when your dashes refresh
   - Updated Festering Hunger log (fuck Google Docs)
   - Updated Corrupted Catalyst model
   - Updated Corrupted Catalyst log (fuck Google Docs)
@@ -90,7 +93,7 @@
   - Fixed Voltaic Drone appearing as a Gunner Drone for clients
   - Fixed Voltaic Drone missing an inspect info
 - Enemies
-  - Added a spawn state to Cannonball Jellyfish
+  - Added a spawn state to Cannonball Jellyfish's Dash
   - Added a charge sound to Cannonball Jellyfish
   - Added sounds to Theta Construct's Shield Cast
   - Buffed Delta Construct Fire Trail Duration from 2.5s to 5s

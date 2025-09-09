@@ -108,7 +108,7 @@ namespace Sandswept.Items.Reds
 
         private void Refresh()
         {
-            Debug.Log("torn feather applying lang replacement to: " + Glyphs.GetGlyphString(Main.input.eventSystem, RebindAPI.KeybindActions[FeatherDash].name, FeatherDash.AxisRange));
+            // Debug.Log("torn feather applying lang replacement to: " + Glyphs.GetGlyphString(Main.input.eventSystem, RebindAPI.KeybindActions[FeatherDash].name, FeatherDash.AxisRange));
             ApplyLanguage();
         }
 
@@ -239,7 +239,7 @@ namespace Sandswept.Items.Reds
         public InteractionDriver driver;
         public bool startedAboveGround = false;
         public bool canWavedash = false;
-        public float wavedashTimer = 0.25f;
+        public float wavedashTimer = 0.45f;
         public bool wavedashNextFrame = false;
         public int vfxCycle = 3;
 
@@ -271,7 +271,7 @@ namespace Sandswept.Items.Reds
                 dashTrail.gameObject.transform.position = body.corePosition;
             }
 
-            if (wavedashTimer >= 0f && startedAboveGround && body.inputBank.jump.justPressed && canWavedash)
+            if (wavedashTimer > 0f && startedAboveGround && body.inputBank.jump.justPressed && canWavedash)
             {
                 wavedashNextFrame = true;
             }
@@ -297,6 +297,20 @@ namespace Sandswept.Items.Reds
 
                 if (dashCooldownTimer >= dashCooldown && body.characterMotor.isGrounded)
                 {
+                    Transform modelTransform = null;
+                    if (body.modelLocator)
+                    {
+                        modelTransform = body.modelLocator.modelTransform;
+                    }
+
+                    var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
+                    temporaryOverlay.duration = 0.3f;
+                    temporaryOverlay.animateShaderAlpha = true;
+                    temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                    temporaryOverlay.destroyComponentOnEnd = true;
+                    temporaryOverlay.originalMaterial = TornFeather.whiteOverlay;
+                    temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
+
                     DashesRemaining = 2;
                     airborneTimer = 0f;
                     dashCooldownTimer = 0f;
@@ -322,7 +336,7 @@ namespace Sandswept.Items.Reds
             {
                 wavedashTimer -= Time.fixedDeltaTime;
 
-                if (wavedashNextFrame && body.characterMotor.isGrounded)
+                if (body.inputBank.jump.down && body.characterMotor.isGrounded)
                 {
                     EndDash(true);
                 }
@@ -349,7 +363,7 @@ namespace Sandswept.Items.Reds
             {
                 body.characterMotor.Motor.ForceUnground();
                 float speed = dashTravelDistance / dashDuration;
-                body.characterMotor.velocity = Vector3.up * body.jumpPower * 1.5f + (speed * body.characterDirection.forward * 0.5f);
+                body.characterMotor.velocity = Vector3.up * (body.jumpPower * 0.35f) * 2f + (speed * body.characterDirection.forward * 0.5f);
                 DashesRemaining++;
                 canWavedash = true;
             }
@@ -363,7 +377,7 @@ namespace Sandswept.Items.Reds
 
             canWavedash = true;
 
-            wavedashTimer = 0.25f;
+            wavedashTimer = 0.45f;
 
             localHurtboxIntangibleCount++;
             body.hurtBoxGroup.hurtBoxesDeactivatorCounter++;
