@@ -122,7 +122,8 @@ namespace Sandswept.Items.Lunars
             orig(self);
             int stacks = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
 
-            if (stacks > 0 && !self.GetComponent<TheirProminenceController>()) {
+            if (stacks > 0 && !self.GetComponent<TheirProminenceController>())
+            {
                 self.gameObject.AddComponent<TheirProminenceController>();
             }
         }
@@ -202,13 +203,16 @@ namespace Sandswept.Items.Lunars
         }
     }
 
-    public class ForceMonster : MonoBehaviour {
-        public void Start() {
+    public class ForceMonster : MonoBehaviour
+    {
+        public void Start()
+        {
             GetComponent<TeamFilter>().teamIndex = TeamIndex.Monster;
         }
     }
 
-    public class TheirProminenceController : MonoBehaviour {
+    public class TheirProminenceController : MonoBehaviour
+    {
         public static LazyAddressable<GameObject> fissureL = new(() => Paths.GameObject.BrotherUltLineProjectileRotateLeft);
         public static LazyAddressable<GameObject> fissureR = new(() => Paths.GameObject.BrotherUltLineProjectileRotateRight);
         [SerializeField]
@@ -225,11 +229,13 @@ namespace Sandswept.Items.Lunars
         public float secondsUntilPulseAvailable;
         private static bool modifiedTheSigma = false;
 
-        public void Start() {
+        public void Start()
+        {
             holdoutZone = GetComponentInParent<HoldoutZoneController>();
             previousPulseFraction = 0f;
 
-            if (!modifiedTheSigma) {
+            if (!modifiedTheSigma)
+            {
                 modifiedTheSigma = true;
                 fissureL.Asset.AddComponent<ForceMonster>();
                 fissureR.Asset.AddComponent<ForceMonster>();

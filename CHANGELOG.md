@@ -1,4 +1,8 @@
 ## 1.3.0 Patch Notes
+- General
+  - Updated mod icon
+  - Fixed README scaling
+  - Fixed outdated README entries
 - VOL-T
   - Added Crate Prefabs
   - Added an indicator to Static Snare

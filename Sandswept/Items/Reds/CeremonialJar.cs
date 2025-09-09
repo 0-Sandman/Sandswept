@@ -244,13 +244,14 @@ namespace Sandswept.Items.Reds
 
                     EffectManager.SpawnEffect(vfx, new EffectData()
                     {
-                        scale = linkedVictimBody.bestFitActualRadius * 8f,
+                        scale = 8f + linkedVictimBody.bestFitActualRadius * 4f,
                         origin = linkedVictimBody.corePosition
                     }, true);
 
+                    Util.PlaySound("Play_bison_headbutt_attack_hit", linkedVictimBody.gameObject);
+
                     for (int i = 0; i < 3; i++)
                     {
-                        Util.PlaySound("Play_bison_headbutt_attack_hit", linkedVictimBody.gameObject);
                         Util.PlaySound("Play_clayGrenadier_impact", linkedVictimBody.gameObject);
                     }
 

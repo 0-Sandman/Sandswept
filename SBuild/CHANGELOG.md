@@ -1,4 +1,8 @@
 ## 1.3.0 Patch Notes
+- General
+  - Updated mod icon
+  - Fixed README scaling
+  - Fixed outdated README entries
 - VOL-T
   - Added Crate Prefabs
   - Added an indicator to Static Snare
@@ -37,7 +41,7 @@
   - Buffed Direct Current Explosion Radius from 2.5m to 3m
   - Buffed Direct Current Explosion Radius to scale over distance. Maximum is ... 4.5m? 6m? 20m? pseudopulse ! !
   - Buffed Direct Current to give 3 Charge on a direct hit
-  - Buffed Direct Current minimum damage multiplier 0.4x -> 0.6x at close range 
+  - Buffed Direct Current minimum damage multiplier from 40% to 60% at close range 
   - Buffed Sidestep duration from 0.15s to 0.1s
   - Nerfed Direct Current Projectile Size from 0.5m to 0.25m
   - Nerfed Max Charge capacity from 10 to 20 (Everything that scaled with Charge is scaled appropriately to be the same at max, this is a nerf because you are now encouraged to hit direct hits with Direct Current for 150% Charge gain compared to before, otherwise it's halved)
@@ -63,7 +67,6 @@
   - Made Void Items locked behind their counterparts' achievements (this is a vanilla bug that VanillaVoid fixed per my proposal)
   - Made Torn Feather use a custom rebindable keybind (F by default) instead of the Interact key
   - Made Torn Feather work while near interactables (due to the change above)
-  - Made Torn Feather use a different input to dash system - now moves in your move direction or aim direction depending on whether directional keys are held or not
   - Updated Festering Hunger log (fuck Google Docs)
   - Updated Corrupted Catalyst model
   - Updated Corrupted Catalyst log (fuck Google Docs)
@@ -87,7 +90,7 @@
   - Fixed Voltaic Drone appearing as a Gunner Drone for clients
   - Fixed Voltaic Drone missing an inspect info
 - Enemies
-  - Added a spawn state to Cannonball Jellyfish's Dash
+  - Added a spawn state to Cannonball Jellyfish
   - Added a charge sound to Cannonball Jellyfish
   - Added sounds to Theta Construct's Shield Cast
   - Buffed Delta Construct Fire Trail Duration from 2.5s to 5s
@@ -106,7 +109,7 @@
   - Fixed Theta Construct's idle animation having a very egregious looping issue
   - Fixed Theta Constructs breaking down and doing absolutely fucking nothing at all if they are the only enemy alive
 - Note
-  - I (HIFU) crammed everything I could that wasn't on me. Pseudopulse is currently MIA due to Silksong, but would've done up to 25 bugfixes on top of all this. Huge thanks to Synodii for quickly making the models that were due 10-12 months ago.
+  - I (HIFU) crammed everything I could that wasn't on me. Pseudopulse is currently MIA due to Silksong, but would've done up to 30 bugfixes on top of all this. Huge thanks to Synodii for quickly making the models that were due 10-12 months ago.
   
 ## 1.2.5 Patch Notes
 - VOL-T
