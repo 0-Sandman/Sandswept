@@ -4,24 +4,25 @@
 - 4 Enemies
 - 2 Elites
 - 5 Interactables
-- 23 Items
+- 27 Items
 
 ### Feedback? Join the discord: (discord.gg/zcQnUUPdpW)
 
 # Content
 
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/4NFL7P7J/Ranger-UI-1.png)
+![](https://i.postimg.cc/C17yD5bF/RangerUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/ZKqs52q7/VOLTUI-1.png)
+![](https://i.postimg.cc/mDBftCzX/VOLTUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/g2cPkVQ0/EnemyUI.png)
+![](https://i.postimg.cc/1X0K4VFH/EnemyUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 ![](https://i.postimg.cc/X7kbbH2h/EliteUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 ![](https://i.postimg.cc/pVC1xRP5/Interactable-UI-1.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/Gt4MqT60/Item-UI-4.png)
+![](https://i.postimg.cc/QxK5mdjC/Item-UI-top.png)
+![](https://i.postimg.cc/XvnbjLL5/Item-UI-bottom.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 
 # Credits
@@ -29,8 +30,8 @@
 ### Support us on KOFI! https://linktr.ee/SandsweptTeam
 
 - Code: HIFU, pseudopulse, Sandman, prod, dgosling
-- Models: Smxrez, Sandman, GEMO, Bog, pseudopulse, prod, HIFU
-- Animations: IcieTea, unmatchedpowerofthesun, Bog, Synodii
+- Models: Smxrez, Sandman, Synodii, GEMO, Bog, pseudopulse, prod, HIFU
+- Animations: IcieTea, Bog, Synodii, unmatchedpowerofthesun
 - VFX: HIFU, Sandman, prod
 - SFX: HIFU, pseudopulse
 - Skill Icons: prod, HIFU

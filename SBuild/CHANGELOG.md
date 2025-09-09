@@ -45,23 +45,40 @@
   - Fixed being in heat throwing an NRE while dead <img src="https://i.postimg.cc/vmM6hpzc/image.png" width="20" height="20"/>
 - Items/Equipment
   - Added Preserved Atoll
+  - Added Hallowed Ichor
+  - Added Sequenced Fate
+  - Added Flawless Design
   - Added ProcSolver Support
   - Added a lip to the leftward border of Makeshift Plate
+  - Added a new downside to Their Prominence
   - Buffed Amber Knife Chance from 10% to 15%
+  - Buffed Makeshift Plate to also give plating based on shield
+  - Buffed Torn Feather to be able to wavedash
+  - Nerfed Makeshift Plate to no longer retaliate upon taking damage
   - Nerfed Bleeding Witness Hemorrhage Damage from 500% to 360%
-  - Made Void Items locked behind their counterparts' achievements (this is a vanilla bug that VanillaVoid fixes per my proposal)
   - Improved Decay VFX
-  - Torn Feather can now wavedash.
-  - Torn Feather's input-based omnidash directions are gone, dash is now either move direction or aim direction depending on whether left/right are held or not.
-  - Torn Feather no longer uses Interact and can now be rebound in the game's controls menu (going along with this it no longer disables when near an interactable).
+  - Improved Ceremonial Jar VFX
+  - Improved Torn Feather VFX
+  - Improved The Sand Sweeper VFX
+  - Made Void Items locked behind their counterparts' achievements (this is a vanilla bug that VanillaVoid fixed per my proposal)
+  - Made Torn Feather use a custom rebindable keybind (F by default) instead of the Interact key
+  - Made Torn Feather work while near interactables (due to the change above)
+  - Made Torn Feather use a different input to dash system - now moves in your move direction or aim direction depending on whether directional keys are held or not
+  - Updated Festering Hunger log (fuck Google Docs)
+  - Updated Corrupted Catalyst model
+  - Updated Corrupted Catalyst log (fuck Google Docs)
+  - Fixed All Items and Equipment not letting you zoom in too much or being too far away from the start
+  - Fixed Equipment having bad/wrong logbook scales
+  - Fixed Equipment not showing up in the logbook
+  - Fixed Nuclear Salvo activating while in The Bazaar
   - Fixed Nuclear Salvo kills not giving gold
   - Fixed Nuclear Salvo spamming NREs on clients
   - Fixed Sacrificial Band ignoring config
-  - Fixed Glacial Plasma firing every frame on clients
+  - Fixed Ceremonial Jar not being able to crit
+  - Fixed Glacial Plasma spam firing for clients
+  - Fixed Glacial Plasma spam firing with Visions of Heresy
   - Fixed Galvanic Cell Shield NRE (MemOPP update moment)
   - Fixed Sand Sweeper NRE (MemOPP update moment)
-  - Makeshift Plate no longer reflects damage.
-  - Makeshift Plate now gives plating based on shield too.
 - Interactables
   - Fixed Shrine of Ruin not having VFX for clients
   - Fixed Shrine of Ruin not properly clearing its language overlays
@@ -70,12 +87,27 @@
   - Fixed Voltaic Drone appearing as a Gunner Drone for clients
   - Fixed Voltaic Drone missing an inspect info
 - Enemies
+  - Added a spawn state to Cannonball Jellyfish's Dash
+  - Added a charge sound to Cannonball Jellyfish
+  - Added sounds to Theta Construct's Shield Cast
+  - Buffed Delta Construct Fire Trail Duration from 2.5s to 5s
+  - Improved Theta Construct Shield Cast VFX
+  - Made Delta Construct red
+  - Made Delta Construct use a different spawn and death sound
+  - Made Delta Construct use a different skystrike soar sound
+  - Made Delta Construct have custom spawn and death VFX
+  - Made Gamma Construct use a different spawn and death sound
+  - Made Gamma Construct have custom spawn and death VFX
+  - Made Theta Construct green
+  - Made Theta Construct use a different spawn and death sound
+  - Made Theta Construct have custom spawn and death VFX
+  - Made Theta Construct use a different idle animation for Shield Cast to maintain the same visual size (its hitbox didnt change but it looked smaller before)
   - Fixed Delta Construct Skystrike constructor error
   - Fixed Theta Construct's idle animation having a very egregious looping issue
-  - Fixed Theta Constructs breaking down and absolutely fucking nothing at all if they are the only enemy alive
-  - Theta Construct is now green!! !
-  - Delta Construct is now red! !!1!
-
+  - Fixed Theta Constructs breaking down and doing absolutely fucking nothing at all if they are the only enemy alive
+- Note
+  - I (HIFU) crammed everything I could that wasn't on me. Pseudopulse is currently MIA due to Silksong, but would've done up to 25 bugfixes on top of all this. Huge thanks to Synodii for quickly making the models that were due 10-12 months ago.
+  
 ## 1.2.5 Patch Notes
 - VOL-T
   - Added Galvanic Bolt, Tempest Sphere and Signal Overload hit impact SFX
@@ -83,9 +115,9 @@
   - Scaled up hit impact VFX
 - Items/Equipment
   - Fixed Makeshift Plate giving you the full stack worth of plating when getting another Makeshift Plate.
-  - Fixed Makeshift Plate networking issues.
+  - Fixed Makeshift Plate networking issues
 - Enemies
-  - Fixed Cannonball Jellyfish wandering off into the skybox.
+  - Fixed Cannonball Jellyfish wandering off into the skybox
 
 ## 1.2.4 Patch Notes
 - General

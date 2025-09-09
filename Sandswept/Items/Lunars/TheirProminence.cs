@@ -113,6 +113,18 @@ namespace Sandswept.Items.Lunars
             }
 
             GlobalEventManager.OnInteractionsGlobal += GlobalEventManager_OnInteractionsGlobal;
+
+            On.RoR2.TeleporterInteraction.IdleToChargingState.OnEnter += OnTPBegin;
+        }
+
+        private void OnTPBegin(On.RoR2.TeleporterInteraction.IdleToChargingState.orig_OnEnter orig, TeleporterInteraction.IdleToChargingState self)
+        {
+            orig(self);
+            int stacks = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
+
+            if (stacks > 0 && !self.GetComponent<TheirProminenceController>()) {
+                self.gameObject.AddComponent<TheirProminenceController>();
+            }
         }
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
@@ -190,10 +202,15 @@ namespace Sandswept.Items.Lunars
         }
     }
 
-    public class TheirProminenceMainState : BaseState
-    {
-        public static GameObject lunarFissurePrefab = Paths.GameObject.BrotherUltLineProjectileStatic;
+    public class ForceMonster : MonoBehaviour {
+        public void Start() {
+            GetComponent<TeamFilter>().teamIndex = TeamIndex.Monster;
+        }
+    }
 
+    public class TheirProminenceController : MonoBehaviour {
+        public static LazyAddressable<GameObject> fissureL = new(() => Paths.GameObject.BrotherUltLineProjectileRotateLeft);
+        public static LazyAddressable<GameObject> fissureR = new(() => Paths.GameObject.BrotherUltLineProjectileRotateRight);
         [SerializeField]
         public float minSecondsBetweenPulses = 1f; // lepton lily has 1s
 
@@ -206,18 +223,17 @@ namespace Sandswept.Items.Lunars
         public int pulseCount;
 
         public float secondsUntilPulseAvailable;
+        private static bool modifiedTheSigma = false;
 
-        public override void OnEnter()
-        {
-            base.OnEnter();
-            Transform parent = base.transform.parent;
-            if ((bool)parent)
-            {
-                holdoutZone = parent.GetComponentInParent<HoldoutZoneController>();
-                previousPulseFraction = GetCurrentTeleporterChargeFraction();
+        public void Start() {
+            holdoutZone = GetComponentInParent<HoldoutZoneController>();
+            previousPulseFraction = 0f;
+
+            if (!modifiedTheSigma) {
+                modifiedTheSigma = true;
+                fissureL.Asset.AddComponent<ForceMonster>();
+                fissureR.Asset.AddComponent<ForceMonster>();
             }
-            TeamFilter component = GetComponent<TeamFilter>();
-            teamIndex = (component ? component.teamIndex : TeamIndex.None);
         }
 
         private float GetCurrentTeleporterChargeFraction()
@@ -225,22 +241,21 @@ namespace Sandswept.Items.Lunars
             return holdoutZone.charge;
         }
 
-        public override void FixedUpdate()
+        public void FixedUpdate()
         {
-            if (!NetworkServer.active || !(GetDeltaTime() > 0f))
+            if (!NetworkServer.active)
             {
                 return;
             }
 
             if (!holdoutZone || holdoutZone.charge >= 1f)
             {
-                EntityState.Destroy(outer.gameObject);
                 return;
             }
 
             if (secondsUntilPulseAvailable > 0f)
             {
-                secondsUntilPulseAvailable -= GetDeltaTime();
+                secondsUntilPulseAvailable -= Time.fixedDeltaTime;
                 return;
             }
 
@@ -284,10 +299,24 @@ namespace Sandswept.Items.Lunars
 
         protected void Pulse()
         {
-            // change this to mithrix' big spinny code
-            var lunarFissure = Object.Instantiate(lunarFissurePrefab, base.transform.position, base.transform.rotation, base.transform.parent);
-            lunarFissure.GetComponent<TeamFilter>().teamIndex = teamIndex;
-            NetworkServer.Spawn(lunarFissure);
+            float num = 360f / 8;
+            Vector3 norm = Vector3.ProjectOnPlane(Random.onUnitSphere, Vector3.up).normalized;
+            Vector3 pos = base.transform.position;
+            GameObject prefab = Random.value <= 0.5f ? fissureL : fissureR;
+
+            for (int i = 0; i < 8; i++)
+            {
+                Vector3 forward = Quaternion.AngleAxis(num * i, Vector3.up) * norm;
+
+                FireProjectileInfo info = new();
+                info.owner = null;
+                info.damage = (5f + (1.4f * Run.instance.ambientLevel)) * 5f;
+                info.position = pos;
+                info.rotation = Util.QuaternionSafeLookRotation(forward);
+                info.projectilePrefab = prefab;
+
+                ProjectileManager.instance.FireProjectile(info);
+            }
         }
     }
 }
