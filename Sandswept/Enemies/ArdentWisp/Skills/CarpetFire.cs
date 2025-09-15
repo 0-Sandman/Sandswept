@@ -1,0 +1,187 @@
+using System;
+using System.Collections;
+using System.Linq;
+using RoR2.CharacterAI;
+using Sandswept.Survivors;
+using Sandswept.Utils.Components;
+
+namespace Sandswept.Enemies.ArdentWisp.States
+{
+    [ConfigSection("Enemies :: Ardent Wisp")]
+    public class CarpetFireStart : BaseSkillState
+    {
+        public float duration = 0.6f;
+
+        public override void OnEnter()
+        {
+            base.OnEnter();
+
+            PlayAnimation("Fullbody, Override", "Carpet Fire, Start", "Generic.playbackRate", duration);
+        }
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+
+            if (base.fixedAge >= duration)
+            {
+                outer.SetNextState(new CarpetFire());
+            }
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+        }
+
+        public override InterruptPriority GetMinimumInterruptPriority()
+        {
+            return InterruptPriority.Stun;
+        }
+    }
+
+    [ConfigSection("Enemies :: Ardent Wisp")]
+    public class CarpetFire : BaseSkillState
+    {
+        public static int shotsPerVolley = 3;
+        public static int totalVolleys = 8;
+        public static float duration = 5f;
+        public static float warningTime = 1f;
+        public static float blastRadius = 6f;
+        public static float attackRadius = 18f;
+        public static float damageCoefficient = 2f;
+        public static GameObject explosion => ArdentWisp.ArdentExplosion;
+        public float delay;
+        public float stopwatch;
+        public BaseAI ai;
+        public int totalFired = 0;
+        public override void OnEnter()
+        {
+            base.OnEnter();
+
+            delay = duration / (float)totalVolleys;
+
+            GetModelAnimator().SetBool("isRaining", true);
+
+            ai = base.characterBody.master.GetComponent<BaseAI>();
+        }
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+
+            base.StartAimMode(0.2f);
+
+            if (!base.isAuthority) {
+                return;
+            }
+
+            stopwatch += Time.fixedDeltaTime;
+
+            if (stopwatch > delay && totalFired < totalVolleys) {
+                stopwatch = 0f;
+
+                if (!ai.currentEnemy.gameObject) {
+                    return;
+                }
+
+                ChildLocator loc = base.GetModelChildLocator();
+
+                int[] usedNums = new int[3];
+                List<Vector3> struckPoints = new();
+                for (int i = 0; i < 3f; i++) {
+                    int counter = 0;
+                    ret:
+                    Vector3 point = ai.currentEnemy.gameObject.transform.position + (Random.onUnitSphere * attackRadius);
+                    point.y = ai.currentEnemy.gameObject.transform.position.y + 15f;
+
+                    Vector3? grounded = MiscUtils.GroundPoint(point);
+
+                    if (!grounded.HasValue || (grounded.HasValue && !struckPoints.All(x => Vector3.Distance(grounded.Value, x) > blastRadius * 2.5f))) {
+                        counter++;
+                        if (counter > 15) {
+                            continue;
+                        }
+                        goto ret;
+                    }
+
+                    int index = 0;
+                    while (true) {
+                        index = Random.Range(0, 7);
+                        
+                        if (usedNums[0] != index && usedNums[1] != index && usedNums[2] != index) {
+                            usedNums[i] = index;
+                            break;
+                        }
+                    }
+
+                    EffectManager.SpawnEffect(ArdentWisp.ArdentChargeLine, new EffectData
+                    {
+                        origin = grounded.Value,
+                        genericFloat = warningTime,
+                        scale = blastRadius * 2f,
+                        modelChildIndex = (short)index,
+                        rootObject = base.gameObject
+                    }, true);
+
+                    base.characterBody.StartCoroutine(CarpetFireAuthority(warningTime, grounded.Value));
+                }
+
+                totalFired++;
+            }
+
+            if (base.fixedAge >= duration + warningTime) {
+                outer.SetNextStateToMain();
+            }
+        }
+
+        public override void OnExit()
+        {
+            base.OnExit();
+
+            GetModelAnimator().SetBool("isRaining", false);
+        }
+
+        public IEnumerator CarpetFireAuthority(float delay, Vector3 target) {
+            yield return new WaitForSeconds(delay);
+
+            BlastAttack attack = new();
+            attack.position = target;
+            attack.radius = blastRadius;
+            attack.attacker = base.gameObject;
+            attack.baseDamage = base.damageStat * 2f;
+            attack.crit = base.RollCrit();
+            attack.procCoefficient = 1f;
+            attack.teamIndex = base.GetTeam();
+
+            attack.Fire();
+
+            EffectManager.SpawnEffect(explosion, new EffectData
+            {
+                origin = target,
+                scale = blastRadius * 2f,
+            }, true);
+        }
+
+        public override InterruptPriority GetMinimumInterruptPriority()
+        {
+            return InterruptPriority.Stun;
+        }
+    }
+    public class CarpetFireSkill : SkillBase<CarpetFireSkill>
+    {
+        public override string Name => "omg hiii";
+
+        public override string Description => "<3 :3 :3 <3 UwU >w< >_< >_> OwO :3 <3";
+
+        public override Type ActivationStateType => typeof(CarpetFireStart);
+
+        public override string ActivationMachineName => "Body";
+
+        public override float Cooldown => 10f;
+
+        public override Sprite Icon => null;
+        public override bool BeginCooldownOnSkillEnd => true;
+        public override bool CanceledFromSprinting => false;
+    }
+}

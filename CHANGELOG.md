@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ## 1.3.2
 - Ranger
   - Fixed Direct Current not having the lightning damage type (for Broken VOL-T)
@@ -7,6 +8,11 @@
   - Improved Their Prominence description wording
   - Nerfed Hallowed Ichor Per Player Divisor Add from 0.25 to 0.2 (slightly less difficulty scaling on multiplayer)
   - Fixed Hallowed Ichor not showing scaled timer whenever the last player holding Hallowed Ichor died
+=======
+## 1.3.1 Patch Notes
+- Enemies
+  - Fixed Gamma Construct lasers being **red**
+>>>>>>> 8681d8c001b532c0bdbc0a0bcfc34efea99e1c7b
 
 ## 1.3.0 Patch Notes
 - General

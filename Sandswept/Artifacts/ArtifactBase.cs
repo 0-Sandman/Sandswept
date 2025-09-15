@@ -29,13 +29,18 @@ namespace Sandswept.Artifacts
         public abstract Sprite ArtifactEnabledIcon { get; }
 
         public abstract Sprite ArtifactDisabledIcon { get; }
+        public virtual GameObject PickupModelPrefab { get; } = null;
 
         public ArtifactDef ArtifactDef;
 
         //For use only after the run has started.
         public bool ArtifactEnabled => RunArtifactManager.instance.IsArtifactEnabled(ArtifactDef);
 
-        public abstract void Init(ConfigFile config);
+        public virtual void Init(ConfigFile config) {
+            CreateLang();
+            CreateArtifact();
+            Hooks();
+        }
 
         public static bool DefaultEnabledCallback(ArtifactBase self)
         {
@@ -70,6 +75,7 @@ namespace Sandswept.Artifacts
             ArtifactDef.smallIconSelectedSprite = ArtifactEnabledIcon;
             ArtifactDef.smallIconDeselectedSprite = ArtifactDisabledIcon;
             ArtifactDef.requiredExpansion = Main.SandsweptExpansionDef;
+            ArtifactDef.pickupModelPrefab = PickupModelPrefab;
 
             ContentAddition.AddArtifactDef(ArtifactDef);
         }

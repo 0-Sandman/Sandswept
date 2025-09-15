@@ -1,3 +1,7 @@
+## 1.3.1 Patch Notes
+- Enemies
+  - Fixed Gamma Construct lasers being **red**
+
 ## 1.3.0 Patch Notes
 - General
   - Updated mod icon

@@ -32,6 +32,7 @@ using System.IO;
 using ProcSolver;
 using Rebindables;
 using RoR2.UI;
+using Sandswept.Mechanics;
 
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
 
@@ -132,6 +133,8 @@ namespace Sandswept
                 input = GameObject.Find("MPEventSystem Player0").GetComponent<RoR2.UI.MPInput>();
                 onInputAvailable?.Invoke();
             };
+
+            // NewtReflection.Initialize();
         }
 
         public void SetUpConfig()
