@@ -82,7 +82,5 @@ namespace Sandswept.Survivors.Ranger.Projectiles
 
             return prefab;
         }
-
-        public static int maxCharge = 10;
     }
 }

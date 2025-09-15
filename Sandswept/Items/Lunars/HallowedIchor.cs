@@ -42,7 +42,7 @@ namespace Sandswept.Items.Lunars
         [ConfigField("Chest Reopen Difficulty Coefficient Multiplier Add", "Just check the Formula Example..", 0.1f)]
         public static float chestReopenDifficultyCoefficientMultiplierAdd;
 
-        [ConfigField("Per Player Divisor Add", "Just check the Formula Example...", 0.25f)]
+        [ConfigField("Per Player Divisor Add", "Just check the Formula Example...", 0.2f)]
         public static float perPlayerDivisorAdd;
 
         [ConfigField("Chest Reopen Difficulty Coefficient Flat Add Scalar", "Just check the Formula Example....", 0.06f)]
@@ -76,6 +76,7 @@ namespace Sandswept.Items.Lunars
         public static Color32 cachedTimerColor = Color.white;
 
         public static bool anyoneHadHallowedIchor = false;
+        public static bool anyoneHadHallowedIchorEver = false;
 
         public static int globalReopenCount = 0;
 
@@ -193,7 +194,7 @@ namespace Sandswept.Items.Lunars
         // the code may be unoptimized buuut it doesn't really take up performance
         private void PerformJitterUI(On.RoR2.UI.RunTimerUIController.orig_Update orig, RoR2.UI.RunTimerUIController self)
         {
-            if (anyoneHadHallowedIchor)
+            if (anyoneHadHallowedIchorEver)
             {
                 double time = 0f;
 
@@ -251,6 +252,7 @@ namespace Sandswept.Items.Lunars
             var runDifficultyDef = DifficultyCatalog.GetDifficultyDef(run.selectedDifficulty);
             runDifficultyDef.scalingValue = cachedDifficultyDefScalingValue;
             anyoneHadHallowedIchor = false;
+            anyoneHadHallowedIchorEver = false;
             globalReopenCount = 0;
         }
 
@@ -269,6 +271,7 @@ namespace Sandswept.Items.Lunars
             if (itemCount > 0)
             {
                 anyoneHadHallowedIchor = true;
+                anyoneHadHallowedIchorEver = true;
             }
             else
             {

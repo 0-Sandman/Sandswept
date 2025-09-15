@@ -1,3 +1,13 @@
+## 1.3.2
+- Ranger
+  - Fixed Direct Current not having the lightning damage type (for Broken VOL-T)
+  - Fixed Release not having the lightning damage type (for Broken VOL-T)
+  - Fixed Galvanize not having the lightning damage type (for Broken VOL-T)
+- Items/Equipment
+  - Improved Their Prominence description wording
+  - Nerfed Hallowed Ichor Per Player Divisor Add from 0.25 to 0.2 (slightly less difficulty scaling on multiplayer)
+  - Fixed Hallowed Ichor not showing scaled timer whenever the last player holding Hallowed Ichor died
+
 ## 1.3.0 Patch Notes
 - General
   - Updated mod icon

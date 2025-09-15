@@ -50,6 +50,7 @@ namespace Sandswept.Survivors.Ranger.Projectiles
 
             var holder = prefab.AddComponent<ModdedDamageTypeHolderComponent>();
             holder.Add(chargeOnHit);
+            holder.Add(Electrician.Electrician.LIGHTNING);
 
             var projectileImpactExplosion = prefab.GetComponent<ProjectileImpactExplosion>();
             projectileImpactExplosion.falloffModel = BlastAttack.FalloffModel.None;
