@@ -84,8 +84,8 @@ namespace Sandswept.Enemies.GammaConstruct
             bolt = Paths.GameObject.MinorConstructProjectile;
             muzzleFlash = Paths.GameObject.MuzzleflashMinorConstruct;
 
-            beam = Main.assets.LoadAsset<GameObject>("DeltaBeam.prefab");
-            matDeltaBeamStrong = Main.assets.LoadAsset<Material>("matDeltaBeamStrong.mat");
+            beam = Main.assets.LoadAsset<GameObject>("GammaBeam.prefab");
+            matDeltaBeamStrong = Main.assets.LoadAsset<Material>("matGammaBeam.mat");
 
             sigmaBlast = PrefabAPI.InstantiateClone(Paths.GameObject.ExplosionMinorConstruct, "SigmaBlast");
             sigmaBlast.RemoveComponent<ShakeEmitter>();

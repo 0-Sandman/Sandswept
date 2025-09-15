@@ -42,7 +42,7 @@ namespace Sandswept.Enemies.GammaConstruct
                     OriginIsBase = true,
                     EndpointName = "End",
                     DamageCoefficient = singleLaserDamage,
-                    FiringWidthMultiplier = 5.5f,
+                    FiringWidthMultiplier = 3.5f,
                     MaxRange = 190f,
                     FiringMaterial = GammaConstruct.matDeltaBeamStrong,
                     ChargeDelay = duration * 0.25f,

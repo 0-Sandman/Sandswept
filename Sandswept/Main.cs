@@ -32,6 +32,7 @@ using System.IO;
 using ProcSolver;
 using Rebindables;
 using RoR2.UI;
+using Sandswept.Mechanics;
 
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
 
@@ -61,7 +62,7 @@ namespace Sandswept
     {
         public const string ModGuid = "com.TeamSandswept.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVersion = "1.3.0";
+        public const string ModVersion = "1.3.1";
 
         public static AssetBundle mainAssets;
         public static AssetBundle assets;
@@ -132,6 +133,8 @@ namespace Sandswept
                 input = GameObject.Find("MPEventSystem Player0").GetComponent<RoR2.UI.MPInput>();
                 onInputAvailable?.Invoke();
             };
+
+            // NewtReflection.Initialize();
         }
 
         public void SetUpConfig()

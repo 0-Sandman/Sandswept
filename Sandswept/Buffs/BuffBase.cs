@@ -21,11 +21,40 @@
         public abstract Sprite BuffIcon { get; }
 
         public BuffDef BuffDef;
+        public static Dictionary<BuffDef, BuffBase> BuffMap = new();
+        private static bool appliedHooks = false;
 
         public virtual void Init()
         {
             CreateBuff();
             Hooks();
+
+            BuffMap.Add(BuffDef, this);
+
+            if (!appliedHooks) {
+                appliedHooks = true;
+
+                On.RoR2.CharacterBody.OnBuffFirstStackGained += OnBuffFirstStackGained;
+                On.RoR2.CharacterBody.OnBuffFinalStackLost += OnBuffFinalStackLost;
+            }
+        }
+
+        private static void OnBuffFinalStackLost(On.RoR2.CharacterBody.orig_OnBuffFinalStackLost orig, CharacterBody self, BuffDef buffDef)
+        {
+            orig(self, buffDef);
+
+            if (BuffMap.ContainsKey(buffDef)) {
+                BuffMap[buffDef].OnBuffExpired(self);
+            }
+        }
+
+        private static void OnBuffFirstStackGained(On.RoR2.CharacterBody.orig_OnBuffFirstStackGained orig, CharacterBody self, BuffDef buffDef)
+        {
+            orig(self, buffDef);
+
+            if (BuffMap.ContainsKey(buffDef)) {
+                BuffMap[buffDef].OnBuffApplied(self);
+            }
         }
 
         public void CreateBuff()
@@ -43,6 +72,14 @@
 
         public virtual void Hooks()
         {
+        }
+
+        public virtual void OnBuffApplied(CharacterBody body) {
+
+        }
+
+        public virtual void OnBuffExpired(CharacterBody body) {
+
         }
     }
 }
