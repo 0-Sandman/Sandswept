@@ -42,7 +42,7 @@ namespace Sandswept.Items.Lunars
         [ConfigField("Chest Reopen Difficulty Coefficient Multiplier Add", "Just check the Formula Example..", 0.1f)]
         public static float chestReopenDifficultyCoefficientMultiplierAdd;
 
-        [ConfigField("Per Player Divisor Add", "Just check the Formula Example...", 0.2f)]
+        [ConfigField("Per Player Divisor Add", "Just check the Formula Example...", 0.175f)]
         public static float perPlayerDivisorAdd;
 
         [ConfigField("Chest Reopen Difficulty Coefficient Flat Add Scalar", "Just check the Formula Example....", 0.06f)]
