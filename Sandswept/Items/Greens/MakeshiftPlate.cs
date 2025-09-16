@@ -49,10 +49,10 @@ namespace Sandswept.Items.Greens
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist, ItemTag.CannotCopy, ItemTag.DevotionBlacklist };
 
-        [ConfigField("Base Percent Plating Gain", "", 200f)]
+        [ConfigField("Base Percent Plating Gain", "", 150f)]
         public static float basePercentPlatingGain;
 
-        [ConfigField("Stack Percent Plating Gain", "", 200f)]
+        [ConfigField("Stack Percent Plating Gain", "", 150f)]
         public static float stackPercentPlatingGain;
 
         public static Sprite texPlatingBar => Main.sandsweptHIFU.LoadAsset<Sprite>("texPlatingBar.png");

@@ -59,10 +59,10 @@ namespace Sandswept.Items.Lunars
             sequencedFateTracker = new GameObject("Sequenced Fate Tracker", typeof(SetDontDestroyOnLoad), typeof(SequencedFateController));
         }
 
-        [ConfigField("Base Extra Items Count", "", 6)]
+        [ConfigField("Base Extra Items Count", "", 5)]
         public static int baseExtraItemsCount;
 
-        [ConfigField("Stack Extra Items Count", "", 3)]
+        [ConfigField("Stack Extra Items Count", "", 1)]
         public static int stackExtraItemsCount;
 
         [ConfigField("Base Shrine Of Order Category Average Selection Weight Percentage", "Decimal.", 0.3f)]
