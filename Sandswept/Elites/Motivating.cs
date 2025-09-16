@@ -136,7 +136,8 @@ namespace Sandswept.Elites
                 localPos = new Vector3(0F, 0.32926F, 0.6006F),
                 localAngles = new Vector3(326.3988F, 180F, 0F),
                 localScale = new Vector3(2.5F, 2.5F, 2.5F),
-                followerPrefab = Crown, followerPrefabAddress = new("useless"),
+                followerPrefab = Crown,
+                followerPrefabAddress = new("useless"),
                 limbMask = LimbFlags.None
             });
 
@@ -591,7 +592,7 @@ localScale = new Vector3(1.5F, 1.5F, 1.5F)
         {
           ruleType = ItemDisplayRuleType.ParentedPrefab,
           followerPrefab = Crown, followerPrefabAddress = new("useless"),
-          childName = "Base",
+          childName = "Head",
 localPos = new Vector3(0F, 1.82328F, 0F),
 localAngles = new Vector3(0F, 328.9559F, 0F),
 localScale = new Vector3(1.5F, 1.5F, 1.5F)

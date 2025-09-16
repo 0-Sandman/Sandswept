@@ -32,7 +32,7 @@ using System.IO;
 using ProcSolver;
 using Rebindables;
 using RoR2.UI;
-using Sandswept.Mechanics;
+// using Sandswept.Mechanics;
 
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
 

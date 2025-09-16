@@ -157,7 +157,7 @@ namespace Sandswept.DoTs
                 }
             };
 
-            decayIndex = RegisterDotDef(decayDef, behavior);
+            decayIndex = RegisterDotDef(decayDef, behavior, null);
         }
 
         private static void DotController_UpdateDotVisuals(On.RoR2.DotController.orig_UpdateDotVisuals orig, DotController self)
