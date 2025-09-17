@@ -357,5 +357,153 @@ namespace Sandswept.Survivors.Electrician
                 machine.SetNextState(new SignalOverloadFire(0.65f));
             }
         }
+
+        public override void SetUpIDRS()
+        {
+            AddDisplayRule(Paths.EquipmentDef.EliteFireEquipment, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Head",
+                localPos = new Vector3(-0.00169F, 0.26817F, -0.01414F),
+                localAngles = new Vector3(340.1616F, 181.5028F, 0.48644F),
+                localScale = new Vector3(0.95987F, 0.95987F, 0.95987F),
+                followerPrefab = Paths.GameObject.DisplayEliteHorn,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.EquipmentDef.EliteIceEquipment, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Head",
+                localPos = new Vector3(-0.00157F, 0.12259F, -0.01931F),
+                localAngles = new Vector3(274.1474F, 184.8704F, 355.4697F),
+                localScale = new Vector3(0.07106F, 0.07106F, 0.07106F),
+                followerPrefab = Paths.GameObject.DisplayEliteIceCrown,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.EquipmentDef.EliteAurelioniteEquipment, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Head",
+                localPos = new Vector3(0.00464F, -0.02292F, 0.20342F),
+                localAngles = new Vector3(357.5067F, 355.5899F, 0.28962F),
+                localScale = new Vector3(0.61315F, 0.61315F, 0.61315F),
+                followerPrefab = Paths.GameObject.DisplayEliteAurelioniteEquipment,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.EquipmentDef.ElitePoisonEquipment, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Head",
+                localPos = new Vector3(-0.00157F, 0.12259F, -0.01931F),
+                localAngles = new Vector3(274.1474F, 184.8704F, 355.4697F),
+                localScale = new Vector3(0.07106F, 0.07106F, 0.07106F),
+                followerPrefab = Paths.GameObject.DisplayEliteUrchinCrown,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.EquipmentDef.EliteHauntedEquipment, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Head",
+                localPos = new Vector3(-0.01879F, 0.09421F, 0.0312F),
+                localAngles = new Vector3(317.3474F, 271.5199F, 262.8486F),
+                localScale = new Vector3(0.10436F, 0.10436F, 0.10436F),
+                followerPrefab = Paths.GameObject.DisplayEliteStealthCrown,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.EquipmentDef.EliteLunarEquipment, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Head",
+                localPos = new Vector3(0.00412F, 0.12228F, -0.24139F),
+                localAngles = new Vector3(358.4215F, 2.26561F, 0F),
+                localScale = new Vector3(0.37098F, 0.37026F, 0.37098F),
+                followerPrefab = Paths.GameObject.DisplayEliteLunarEye,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.EquipmentDef.EliteLightningEquipment, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Head",
+                localPos = new Vector3(-0.16882F, 0.14272F, -0.02344F),
+                localAngles = new Vector3(61.59446F, 65.21429F, 166.8794F),
+                localScale = new Vector3(0.14094F, 0.14094F, 0.14094F),
+                limbMask = LimbFlags.None,
+                followerPrefab = Paths.GameObject.DisplayEliteHorn
+            });
+
+            AddDisplayRule(Paths.EquipmentDef.EliteBeadEquipment, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Head",
+                localPos = new Vector3(0.00438F, 0.17946F, -0.02627F),
+                localAngles = new Vector3(17.54483F, 147.7092F, 351.5205F),
+                localScale = new Vector3(0.02559F, 0.02559F, 0.02559F),
+                followerPrefab = Paths.GameObject.DisplayEliteBeadSpike,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.EquipmentDef.EliteEarthEquipment, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Head",
+                localPos = new Vector3(-0.00169F, 0.26817F, -0.01414F),
+                localAngles = new Vector3(340.1616F, 181.5028F, 0.48644F),
+                localScale = new Vector3(0.95987F, 0.95987F, 0.95987F),
+                followerPrefab = Paths.GameObject.DisplayEliteMendingAntlers,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Elites.Osmium.Instance.EliteEquipmentDef, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Head",
+                localPos = new Vector3(-0.00276F, 0.2543F, -0.15331F),
+                localAngles = new Vector3(88.43302F, 166.817F, 255.5621F),
+                localScale = new Vector3(0.23207F, 0.23207F, 0.23207F),
+                followerPrefab = Elites.Osmium.crownModel,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Elites.Motivating.Instance.EliteEquipmentDef, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Head",
+                localPos = new Vector3(0.00069F, 0.21535F, -0.02629F),
+                localAngles = new Vector3(0.17021F, 173.9592F, 359.9677F),
+                localScale = new Vector3(1.0493F, 1.0493F, 1.0493F),
+                followerPrefab = Elites.Motivating.Crown,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.Missile, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleCannon",
+                localPos = new Vector3(0.44203F, 0.00705F, -0.10548F),
+                localAngles = new Vector3(359.879F, 355.2826F, 269.6059F),
+                localScale = new Vector3(0.15058F, 0.15058F, 0.15058F),
+                followerPrefab = Paths.GameObject.DisplayMissileLauncher,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.MissileVoid, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleCannon",
+                localPos = new Vector3(-0.02395F, 0.42053F, -0.16782F),
+                localAngles = new Vector3(0.89037F, 353.2066F, 359.0491F),
+                localScale = new Vector3(0.13981F, 0.13981F, 0.13981F),
+                followerPrefab = Paths.GameObject.DisplayMissileLauncherVoid,
+                limbMask = LimbFlags.None
+            });
+
+            CollapseIDRS();
+        }
     }
 }

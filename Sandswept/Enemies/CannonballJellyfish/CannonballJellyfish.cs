@@ -52,7 +52,7 @@ namespace Sandswept.Enemies.CannonballJellyfish
             Complete!
             </style>
             UES incident report: Incident 193442
-            Two personnel reported seeing a Petrichorpus Scyphozoa inside a cabin of the Safe Travels rescue ship. After 'terminating' it, it was identified as a new species Petrichorpus, unrelated to Petrichorpus Scyphozoa entirely. 
+            Two personnel reported seeing a Petrichorpus Scyphozoa inside a cabin of the Safe Travels rescue ship. After 'terminating' it, it was identified as a new species Petrichorpus, unrelated to Petrichorpus Scyphozoa entirely.
             Begin Transcript...
 
             "W-why is there a [redacted] jellyfish, in the [redacted] CABIN?!"
@@ -69,7 +69,7 @@ namespace Sandswept.Enemies.CannonballJellyfish
 
             [Sound of an m335 laser rifle being shot, and rock hitting the ground]
 
-            "What the hell even... is it? I- I can't even tell what kingdom this thing should be in, certainly not an animal, or macrobacteria..." 
+            "What the hell even... is it? I- I can't even tell what kingdom this thing should be in, certainly not an animal, or macrobacteria..."
 
             "I dunno, you're the [redacted] xenobiologist."
             """);
@@ -104,7 +104,7 @@ namespace Sandswept.Enemies.CannonballJellyfish
             csc.name = "cscCannonballJellyfish";
         }
 
-        public override void SetupIDRS()
+        public override void SetUpIDRS()
         {
             AddDisplayRule(Paths.EquipmentDef.EliteFireEquipment, new()
             {

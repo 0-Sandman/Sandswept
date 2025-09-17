@@ -290,24 +290,9 @@ namespace Sandswept.Items.Whites
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
-            var itemDisplayPrefab = PrefabAPI.InstantiateClone(Main.hifuSandswept.LoadAsset<GameObject>("AmberKnifeHolder.prefab"), ItemName.Replace(" ", "") + "IDRS", false);
-            var itemDisplay = itemDisplayPrefab.AddComponent<ItemDisplay>();
-            List<Renderer> rendererList = [.. itemDisplayPrefab.GetComponentsInChildren<Renderer>()];
-            Array.Resize(ref itemDisplay.rendererInfos, rendererList.Count);
-            for (int j = 0; j < rendererList.Count; j++)
-            {
-                var renderer = rendererList[j];
-                var defaultMaterial = renderer.material;
-                itemDisplay.rendererInfos[j] = new CharacterModel.RendererInfo()
-                {
-                    renderer = renderer,
-                    defaultMaterial = defaultMaterial,
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false,
-                    hideOnDeath = false,
-                    ignoresMaterialOverrides = false
-                };
-            }
+            return new ItemDisplayRuleDict();
+            /*
+            var itemDisplay = SetUpIDRS();
 
             ItemDisplayRuleDict i = new();
 
@@ -323,7 +308,7 @@ namespace Sandswept.Items.Whites
                     localAngles = new Vector3(84.61184F, 220.3867F, 47.41245F),
                     localScale = new Vector3(0.14531F, 0.14659F, 0.14531F),
 
-                    followerPrefab = itemDisplayPrefab,
+                    followerPrefab = itemDisplay,
                     limbMask = LimbFlags.None,
                     followerPrefabAddress = new AssetReferenceGameObject("")
                 }
@@ -340,7 +325,7 @@ namespace Sandswept.Items.Whites
                     localAngles = new Vector3(85.0407F, 197.8464F, 22.78797F),
                     localScale = new Vector3(0.12683F, 0.11843F, 0.11843F),
 
-                    followerPrefab = itemDisplayPrefab,
+                    followerPrefab = itemDisplay,
                     limbMask = LimbFlags.None,
                     followerPrefabAddress = new AssetReferenceGameObject("")
                 }
@@ -350,6 +335,7 @@ namespace Sandswept.Items.Whites
             #endregion
 
             return i;
+            */
         }
 
         public class AmberKnifeProjectile : NetworkBehaviour, IProjectileImpactBehavior

@@ -210,7 +210,7 @@ namespace Sandswept.Items.Greens
             ItemDisplayRuleDict i = new();
 
             #region Sandswept Survivors
-
+            /*
             i.Add("RangerBody",
 
                 new ItemDisplayRule()
@@ -227,16 +227,17 @@ namespace Sandswept.Items.Greens
                 }
 
             );
+            */
 
             i.Add("ElectricianBody",
 
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Head",
-                    localPos = new Vector3(-0.01041F, 0.08162F, -0.00924F),
-                    localAngles = new Vector3(85.0407F, 197.8464F, 22.78797F),
-                    localScale = new Vector3(0.12683F, 0.11843F, 0.11843F),
+                    childName = "MuzzleCannon",
+                    localPos = new Vector3(-0.21825F, 0.01201F, -0.50626F),
+                    localAngles = new Vector3(0.70196F, 352.6952F, 269.1494F),
+                    localScale = new Vector3(0.20667F, 0.19298F, 0.19298F),
 
                     followerPrefab = itemDisplay,
                     limbMask = LimbFlags.None,

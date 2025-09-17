@@ -200,6 +200,8 @@ namespace Sandswept.Items.Greens
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
+            return new ItemDisplayRuleDict();
+            /*
             var itemDisplay = SetUpIDRS();
 
             ItemDisplayRuleDict i = new();
@@ -243,6 +245,7 @@ namespace Sandswept.Items.Greens
             #endregion
 
             return i;
+            */
         }
     }
 }

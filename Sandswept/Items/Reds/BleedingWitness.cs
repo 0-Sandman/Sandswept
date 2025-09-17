@@ -178,6 +178,8 @@ namespace Sandswept.Items.Reds
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
+            return new ItemDisplayRuleDict();
+            /*
             var itemDisplay = SetUpIDRS();
 
             ItemDisplayRuleDict i = new();
@@ -221,6 +223,7 @@ namespace Sandswept.Items.Reds
             #endregion
 
             return i;
+            */
         }
     }
 }

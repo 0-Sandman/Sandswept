@@ -254,6 +254,8 @@ namespace Sandswept.Items.Lunars
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
+            return new ItemDisplayRuleDict();
+            /*
             var itemDisplay = SetUpIDRS();
 
             ItemDisplayRuleDict i = new();
@@ -297,6 +299,7 @@ namespace Sandswept.Items.Lunars
             #endregion
 
             return i;
+            */
         }
     }
 

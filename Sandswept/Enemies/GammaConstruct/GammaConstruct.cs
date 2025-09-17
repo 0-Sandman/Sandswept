@@ -149,7 +149,7 @@ namespace Sandswept.Enemies.GammaConstruct
             EntityStateMachine.FindByCustomName(prefab, "Body").initialStateType = new(typeof(SpawnState));
         }
 
-        public override void SetupIDRS()
+        public override void SetUpIDRS()
         {
             AddDisplayRule(Paths.EquipmentDef.EliteFireEquipment, new()
             {

@@ -225,6 +225,8 @@ namespace Sandswept.Items.Whites
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
+            return new ItemDisplayRuleDict();
+            /*
             var itemDisplay = SetUpIDRS();
 
             ItemDisplayRuleDict i = new();
@@ -268,6 +270,7 @@ namespace Sandswept.Items.Whites
             #endregion
 
             return i;
+            */
         }
     }
 

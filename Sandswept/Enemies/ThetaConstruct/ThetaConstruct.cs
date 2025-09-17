@@ -36,16 +36,16 @@ namespace Sandswept.Enemies.ThetaConstruct
             </style>
             Please, gather around children. Let me tell you the story of why I created you: the story of an attack on [CITY]
 
-            Three lemurians are walking through the bustling city, the buildings with eccentric shapes all around them. Small pyramids, pillars, and spheres. There, two young hatchlings, clutching their dolls, accompanied by their mother, walking the streets. One of the hatchlings has been mortified after their bigger sibling told them a scary story. 
+            Three lemurians are walking through the bustling city, the buildings with eccentric shapes all around them. Small pyramids, pillars, and spheres. There, two young hatchlings, clutching their dolls, accompanied by their mother, walking the streets. One of the hatchlings has been mortified after their bigger sibling told them a scary story.
 
             "Mother! Mother! W-what if the big scary red guys attack?!" the hatchling asks their mother, tears in their eyes. " 'Scary red things'? Oh! Do you mean the Imps? This city is a holy ground, sweetie, the imps can't hurt us here!"
             Suddenly, a massive portal appears in the market, a looming blackness accented by red. Imps pour out, the overlord watching as havoc is wreaked upon [CITY].
 
             But--! before any lives are claimed, yellow spheres surround lemurians, and a barrage of small orbs falls upon the invading imps. The sculptures that seemed mere decoration are constructs -- like you -- and come to [CITY]'s aid.
 
-            The mother grabs her children and covers their eyes. One with her hands, the other with her tail. She shushes their cries, and ensuring they remain in the construct's bubble as they flee. Countless imp bodies are strewn about [CITY]. The portal to the [RED PLANE] is completely closed off. 
+            The mother grabs her children and covers their eyes. One with her hands, the other with her tail. She shushes their cries, and ensuring they remain in the construct's bubble as they flee. Countless imp bodies are strewn about [CITY]. The portal to the [RED PLANE] is completely closed off.
 
-            "F-follow me dearies, I-it'll be OK... T-this is a holy land. This is a holy land!" 
+            "F-follow me dearies, I-it'll be OK... T-this is a holy land. This is a holy land!"
 
             And indeed, it is not long before the constructs purge the city of imps, and the overlord's skull displayed as a centerpiece of the town. Good prevails over evil.
             That is why you, my children, must protect those below -- those innocents who cannot defend themselves.
@@ -131,7 +131,7 @@ namespace Sandswept.Enemies.ThetaConstruct
             EntityStateMachine.FindByCustomName(prefab, "Body").initialStateType = new(typeof(SpawnState));
         }
 
-        public override void SetupIDRS()
+        public override void SetUpIDRS()
         {
             AddDisplayRule(Paths.EquipmentDef.EliteFireEquipment, new()
             {
@@ -203,9 +203,9 @@ namespace Sandswept.Enemies.ThetaConstruct
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Core",
-                localPos = new Vector3(-0.64928F, -0.21754F, 0.09451F),
-                localAngles = new Vector3(7.34771F, 278.5818F, 11.69831F),
-                localScale = new Vector3(2.13336F, 2.13336F, 2.13336F),
+                localPos = new Vector3(-0.10183F, -0.2142F, -0.81232F),
+                localAngles = new Vector3(353.1712F, 278.42F, 90.78405F),
+                localScale = new Vector3(0.79894F, 0.79894F, 0.79894F),
                 limbMask = LimbFlags.None,
                 followerPrefab = Paths.GameObject.DisplayEliteHorn
             });

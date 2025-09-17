@@ -209,6 +209,8 @@ namespace Sandswept.Items.VoidGreens
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
+            return new ItemDisplayRuleDict();
+            /*
             var itemDisplay = SetUpIDRS();
 
             ItemDisplayRuleDict i = new();
@@ -252,6 +254,7 @@ namespace Sandswept.Items.VoidGreens
             #endregion
 
             return i;
+            */
         }
     }
 
