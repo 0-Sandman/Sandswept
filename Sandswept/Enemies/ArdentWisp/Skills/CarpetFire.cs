@@ -47,7 +47,7 @@ namespace Sandswept.Enemies.ArdentWisp.States
         public static int totalVolleys = 8;
         public static float duration = 5f;
         public static float warningTime = 1f;
-        public static float blastRadius = 6f;
+        public static float blastRadius = 7f;
         public static float attackRadius = 18f;
         public static float damageCoefficient = 2f;
         public static GameObject explosion => ArdentWisp.ArdentExplosion;
@@ -115,16 +115,30 @@ namespace Sandswept.Enemies.ArdentWisp.States
                         }
                     }
 
+                    byte id = GetComboNumber();
+
                     EffectManager.SpawnEffect(ArdentWisp.ArdentChargeLine, new EffectData
                     {
                         origin = grounded.Value,
                         genericFloat = warningTime,
                         scale = blastRadius * 2f,
                         modelChildIndex = (short)index,
-                        rootObject = base.gameObject
+                        rootObject = base.gameObject,
+                        genericUInt = id
                     }, true);
 
                     base.characterBody.StartCoroutine(CarpetFireAuthority(warningTime, grounded.Value));
+
+                    FireProjectileInfo info = new();
+                    info.position = loc.FindChild(index).transform.position;
+                    info.rotation = Quaternion.identity;
+                    info.damage = base.damageStat * damageCoefficient;
+                    info.crit = base.RollCrit();
+                    info.owner = base.gameObject;
+                    info.comboNumber = id;
+                    info.projectilePrefab = ArdentWisp.ArdentFireball;
+
+                    ProjectileManager.instance.FireProjectile(info);
                 }
 
                 totalFired++;
@@ -142,6 +156,19 @@ namespace Sandswept.Enemies.ArdentWisp.States
             GetModelAnimator().SetBool("isRaining", false);
         }
 
+        public byte GetComboNumber() {
+            for (int i = 0; i < 50; i++) {
+                byte val = (byte)Random.Range(byte.MinValue, byte.MaxValue + 1);
+                
+                if (!ArdentFlareCharge.BZMap.ContainsKey(val)) {
+                    ArdentFlareCharge.BZMap.Add(val, null);
+                    return val;
+                }
+            }
+
+            return 0;
+        }
+
         public IEnumerator CarpetFireAuthority(float delay, Vector3 target) {
             yield return new WaitForSeconds(delay);
 
@@ -149,7 +176,7 @@ namespace Sandswept.Enemies.ArdentWisp.States
             attack.position = target;
             attack.radius = blastRadius;
             attack.attacker = base.gameObject;
-            attack.baseDamage = base.damageStat * 2f;
+            attack.baseDamage = base.damageStat * damageCoefficient;
             attack.crit = base.RollCrit();
             attack.procCoefficient = 1f;
             attack.teamIndex = base.GetTeam();
@@ -159,7 +186,7 @@ namespace Sandswept.Enemies.ArdentWisp.States
             EffectManager.SpawnEffect(explosion, new EffectData
             {
                 origin = target,
-                scale = blastRadius * 2f,
+                scale = blastRadius,
             }, true);
         }
 
