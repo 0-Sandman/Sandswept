@@ -19,6 +19,7 @@ namespace Sandswept.Enemies.ArdentWisp
 
         public static GameObject ArdentChargeLine;
         public static GameObject ArdentExplosion;
+        public static GameObject ArdentFireball;
 
         public override void LoadPrefabs()
         {
@@ -35,10 +36,13 @@ namespace Sandswept.Enemies.ArdentWisp
 
             ContentAddition.AddEffect(ArdentChargeLine);
 
-            ArdentExplosion = Main.assets.LoadAsset<GameObject>("ArdentExplosion.prefab");
+            ArdentExplosion = Main.assets.LoadAsset<GameObject>("ArdentExplosionEffect.prefab");
             ArdentExplosion.GetComponent<VFXAttributes>().DoNotPool = true;
 
             ContentAddition.AddEffect(ArdentExplosion);
+
+            ArdentFireball = Main.assets.LoadAsset<GameObject>("ArdentFlameProjectile.prefab");
+            ContentAddition.AddEffect(ArdentFireball);
         }
 
         public override void PostCreation()
