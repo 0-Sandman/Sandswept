@@ -1,3 +1,17 @@
+## 1.3.2
+- Ranger
+  - Fixed Direct Current not having the lightning damage type (for Broken VOL-T)
+  - Fixed Release not having the lightning damage type (for Broken VOL-T)
+  - Fixed Galvanize not having the lightning damage type (for Broken VOL-T)
+- Items/Equipment
+  - Improved Their Prominence description wording
+  - Nerfed Makeshift Plate Base Percent Plating Gain from 200 to 150
+  - Nerfed Makeshift Plate Stack Percent Plating Gain from 200 to 150
+  - Nerfed Hallowed Ichor Per Player Divisor Add from 0.25 to 0.175 (slightly less difficulty scaling on multiplayer)
+  - Nerfed Sequenced Fate Base Extra Items Count from 6 to 5
+  - Nerfed Sequenced Fate Stack Extra Items Count from 3 to 1
+  - Fixed Hallowed Ichor not showing scaled timer whenever the last player holding Hallowed Ichor died
+
 ## 1.3.1 Patch Notes
 - Enemies
   - Fixed Gamma Construct lasers being **red**

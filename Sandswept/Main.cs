@@ -32,7 +32,7 @@ using System.IO;
 using ProcSolver;
 using Rebindables;
 using RoR2.UI;
-using Sandswept.Mechanics;
+// using Sandswept.Mechanics;
 
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
 
@@ -62,7 +62,7 @@ namespace Sandswept
     {
         public const string ModGuid = "com.TeamSandswept.Sandswept";
         public const string ModName = "Sandswept";
-        public const string ModVersion = "1.3.1";
+        public const string ModVersion = "1.3.2";
 
         public static AssetBundle mainAssets;
         public static AssetBundle assets;

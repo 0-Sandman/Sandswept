@@ -13,7 +13,7 @@ namespace Sandswept.Items.Lunars
 
         public override string ItemPickupDesc => "Using a Shrine has a chance to invite the challenge of the Mountain. $lcTeleporters summon Lunar Fissures periodically.$ec".AutoFormat();
 
-        public override string ItemFullDescription => $"Using a Shrine has a $su{baseChance * 100f}%$se $ss(+{stackChance * 100f}% per stack)$se chance to invite the $suchallenge of the Mountain$se. Teleporters summon $srlunar fissures$se $sr{baseLunarFissureCount}$se $ss(+{stackLunarFissureCount} per challenge of the Mountain)$se times.".AutoFormat();
+        public override string ItemFullDescription => $"Using a Shrine has a $su{baseChance * 100f}%$se $ss(+{stackChance * 100f}% per stack)$se chance to invite the $suchallenge of the Mountain$se. Teleporters summon $sr{baseLunarFissureCount}$se $ss(+{stackLunarFissureCount} per challenge of the Mountain)$se $srlunar fissures$se.".AutoFormat();
 
         public override string ItemLore => "\"Two brothers, standing at a well. <style=cIsVoid>Both young, both innocent.</style>\"\r\n\"A worm falls in. A new world is found. <style=cDeath>One betrayed.</style> <style=cIsUtility>One regretful.</style>\"\r\n\"Two brothers, toiling in the ambry. <style=cIsVoid>Both reverent, both powerful.</style>\"\r\n\"The [compounds] are discovered. Guardians created. <style=cIsVoid>Both amazed, both proud.</style>\"\r\n\"Two brothers, looking for a way out. <style=cIsVoid>Both hopeful. Both curious.</style>\"\r\n\"A society is found. <style=cDeath>One sympathetic.</style> <style=cIsUtility>One annoyed.</style>\"\r\n\"Two brothers, torn on ethics. <style=cDeath>One tyrannical.</style> <style=cIsUtility>One puritanical.</style>\"\r\n\"A teleporter is created. A choice is made. <style=cDeath>One regretful.</style> <style=cIsUtility>One betrayed.</style>\"\r\n\"Two brothers, separated by space. <style=cDeath>One enslaves.</style> <style=cIsUtility>One broods.</style>\"\r\n\"A shine appears in the sky. <style=cDeath>One enraged.</style> <style=cIsUtility>One hopeful.</style>\"\r\n\"Two brothers. Their times approach. <style=cDeath>One king.</style> <style=cIsUtility>One outcast.</style>\"\r\n\"A god is felled. Anarchy takes hold. <style=cDeath>One missing.</style> <style=cIsUtility>One forgotten.</style>\"\r\n\"Two brothers. <style=cIsVoid>Never... to meet again.</style>\"\r\n\r\n---------------------\r\n> Translated from a Lemurian Scribe found in the Temple of the Elders by UES personnel. Burn at leisure.";
 
@@ -199,7 +199,49 @@ namespace Sandswept.Items.Lunars
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
-            return new ItemDisplayRuleDict();
+            var itemDisplay = SetUpIDRS();
+
+            ItemDisplayRuleDict i = new();
+
+            #region Sandswept Survivors
+
+            i.Add("RangerBody",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Chest",
+                    localPos = new Vector3(-0.00387F, 0.11857F, 0.01629F),
+                    localAngles = new Vector3(84.61184F, 220.3867F, 47.41245F),
+                    localScale = new Vector3(0.14531F, 0.14659F, 0.14531F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("ElectricianBody",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Head",
+                    localPos = new Vector3(-0.01041F, 0.08162F, -0.00924F),
+                    localAngles = new Vector3(85.0407F, 197.8464F, 22.78797F),
+                    localScale = new Vector3(0.12683F, 0.11843F, 0.11843F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            #endregion
+
+            return i;
         }
     }
 

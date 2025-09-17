@@ -59,10 +59,10 @@ namespace Sandswept.Items.Lunars
             sequencedFateTracker = new GameObject("Sequenced Fate Tracker", typeof(SetDontDestroyOnLoad), typeof(SequencedFateController));
         }
 
-        [ConfigField("Base Extra Items Count", "", 6)]
+        [ConfigField("Base Extra Items Count", "", 5)]
         public static int baseExtraItemsCount;
 
-        [ConfigField("Stack Extra Items Count", "", 3)]
+        [ConfigField("Stack Extra Items Count", "", 1)]
         public static int stackExtraItemsCount;
 
         [ConfigField("Base Shrine Of Order Category Average Selection Weight Percentage", "Decimal.", 0.3f)]
@@ -254,7 +254,49 @@ namespace Sandswept.Items.Lunars
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
-            return new ItemDisplayRuleDict();
+            var itemDisplay = SetUpIDRS();
+
+            ItemDisplayRuleDict i = new();
+
+            #region Sandswept Survivors
+
+            i.Add("RangerBody",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Chest",
+                    localPos = new Vector3(-0.00387F, 0.11857F, 0.01629F),
+                    localAngles = new Vector3(84.61184F, 220.3867F, 47.41245F),
+                    localScale = new Vector3(0.14531F, 0.14659F, 0.14531F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("ElectricianBody",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Head",
+                    localPos = new Vector3(-0.01041F, 0.08162F, -0.00924F),
+                    localAngles = new Vector3(85.0407F, 197.8464F, 22.78797F),
+                    localScale = new Vector3(0.12683F, 0.11843F, 0.11843F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            #endregion
+
+            return i;
         }
     }
 

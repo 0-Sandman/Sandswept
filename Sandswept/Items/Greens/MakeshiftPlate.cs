@@ -38,7 +38,7 @@ namespace Sandswept.Items.Greens
         Shipping Address: 707th Penthouse Suite, Earth
         Shipping Details:
 
-        A real, genuine plate of armor from the War of 2019, Somehow managed to survive what looks like gunshots, bombing runs, laser tech, and all sorts of other things. This thing would be a fine centerpiece to a collection I'd reckon. You paid a hefty price for this thing, hope it's worth it! 
+        A real, genuine plate of armor from the War of 2019, Somehow managed to survive what looks like gunshots, bombing runs, laser tech, and all sorts of other things. This thing would be a fine centerpiece to a collection I'd reckon. You paid a hefty price for this thing, hope it's worth it!
         """;
 
         public override ItemTier Tier => ItemTier.Tier2;
@@ -49,10 +49,10 @@ namespace Sandswept.Items.Greens
 
         public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist, ItemTag.CannotCopy, ItemTag.DevotionBlacklist };
 
-        [ConfigField("Base Percent Plating Gain", "", 200f)]
+        [ConfigField("Base Percent Plating Gain", "", 150f)]
         public static float basePercentPlatingGain;
 
-        [ConfigField("Stack Percent Plating Gain", "", 200f)]
+        [ConfigField("Stack Percent Plating Gain", "", 150f)]
         public static float stackPercentPlatingGain;
 
         public static Sprite texPlatingBar => Main.sandsweptHIFU.LoadAsset<Sprite>("texPlatingBar.png");
@@ -237,7 +237,49 @@ namespace Sandswept.Items.Greens
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
-            return new ItemDisplayRuleDict();
+            var itemDisplay = SetUpIDRS();
+
+            ItemDisplayRuleDict i = new();
+
+            #region Sandswept Survivors
+
+            i.Add("RangerBody",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Chest",
+                    localPos = new Vector3(-0.00387F, 0.11857F, 0.01629F),
+                    localAngles = new Vector3(84.61184F, 220.3867F, 47.41245F),
+                    localScale = new Vector3(0.14531F, 0.14659F, 0.14531F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("ElectricianBody",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Head",
+                    localPos = new Vector3(-0.01041F, 0.08162F, -0.00924F),
+                    localAngles = new Vector3(85.0407F, 197.8464F, 22.78797F),
+                    localScale = new Vector3(0.12683F, 0.11843F, 0.11843F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            #endregion
+
+            return i;
         }
 
         public class MakeshiftPlateAddSync : INetMessage

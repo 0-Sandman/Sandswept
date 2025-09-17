@@ -37,9 +37,12 @@ namespace Sandswept.Survivors.Ranger.Projectiles
             projectileProximityBeamController.damageCoefficient = 0.5f;
             projectileProximityBeamController.attackRange = 20f;
 
+            var holder = prefabDefault.AddComponent<R2API.DamageAPI.ModdedDamageTypeHolderComponent>();
+            holder.Add(Electrician.Electrician.LIGHTNING);
+
             PrefabAPI.RegisterNetworkPrefab(prefabDefault);
             ContentAddition.AddProjectile(prefabDefault);
-            
+
             SigmaProjectile = PrefabAPI.InstantiateClone(Paths.GameObject.ToolbotGrenadeLauncherProjectile, "BIG FUCKING LAVA BALL !!!");
             SigmaProjectile2 = PrefabAPI.InstantiateClone(Paths.GameObject.MolotovSingleProjectile, "joe sigma");
             SigmaProjectile2.GetComponent<ProjectileController>().ghostPrefab = Paths.GameObject.FireballGhost;

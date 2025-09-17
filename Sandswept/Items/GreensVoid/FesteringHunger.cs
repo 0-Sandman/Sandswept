@@ -56,7 +56,7 @@ namespace Sandswept.Items.VoidGreens
         They're calling it a pressure abnormality. They aren't worried. I don't fully share that, but they're probably right. After being in what we're now calling the void, I'm probably just paranoid.
 
         Day 1
-        I woke up feeling a terrible empti?ness. Nothing has quenched it. It's made it hard to be cordial. Every time I talk to someone, I have to push down anger that wells up just from the time wasted on the words -- especially with the way they talk about the [void], as if it were some hellscape. 
+        I woke up feeling a terrible empti?ness. Nothing has quenched it. It's made it hard to be cordial. Every time I talk to someone, I have to push down anger that wells up just from the time wasted on the words -- especially with the way they talk about the [void], as if it were some hellscape.
 
         They've never been there. Only I have. Cowards. They tell me I didn't say it was majestic before, that they're just repeating my wor?ds back to me, but I know my own memories.
 
@@ -267,7 +267,49 @@ namespace Sandswept.Items.VoidGreens
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
-            return new ItemDisplayRuleDict();
+            var itemDisplay = SetUpIDRS();
+
+            ItemDisplayRuleDict i = new();
+
+            #region Sandswept Survivors
+
+            i.Add("RangerBody",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Chest",
+                    localPos = new Vector3(-0.00387F, 0.11857F, 0.01629F),
+                    localAngles = new Vector3(84.61184F, 220.3867F, 47.41245F),
+                    localScale = new Vector3(0.14531F, 0.14659F, 0.14531F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("ElectricianBody",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Head",
+                    localPos = new Vector3(-0.01041F, 0.08162F, -0.00924F),
+                    localAngles = new Vector3(85.0407F, 197.8464F, 22.78797F),
+                    localScale = new Vector3(0.12683F, 0.11843F, 0.11843F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            #endregion
+
+            return i;
         }
     }
 

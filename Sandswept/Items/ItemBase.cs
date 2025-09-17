@@ -166,7 +166,8 @@ namespace Sandswept.Items
             ItemAPI.Add(new CustomItem(ItemDef, CreateItemDisplayRules()));
         }
 
-        protected void ApplyLanguage() {
+        protected void ApplyLanguage()
+        {
             Apply("ITEM_SANDSWEPT_" + ItemLangTokenName + "_NAME", Modify(ItemName));
             Apply("ITEM_SANDSWEPT_" + ItemLangTokenName + "_PICKUP", Modify(ItemPickupDesc));
             Apply("ITEM_SANDSWEPT_" + ItemLangTokenName + "_DESCRIPTION", Modify(ItemFullDescription));
@@ -174,19 +175,25 @@ namespace Sandswept.Items
 
             firstApplication = false;
 
-            void Apply(string s1, string s2) {
-                if (firstApplication) {
+            void Apply(string s1, string s2)
+            {
+                if (firstApplication)
+                {
                     LanguageAPI.Add(s1, s2);
                 }
-                else {
+                else
+                {
                     LanguageAPI.AddOverlay(s1, s2);
                 }
             }
 
-            string Modify(string input) {
+            string Modify(string input)
+            {
                 string output = input;
-                if (LangReplacements != null) {
-                    foreach (KeyValuePair<string, Func<string>> kvp in LangReplacements) {
+                if (LangReplacements != null)
+                {
+                    foreach (KeyValuePair<string, Func<string>> kvp in LangReplacements)
+                    {
                         output = output.Replace(kvp.Key, kvp.Value());
                     }
                 }
@@ -267,6 +274,29 @@ namespace Sandswept.Items
             if (!body || !body.inventory) { return 0; }
 
             return body.inventory.GetItemCount(itemDef);
+        }
+
+        public GameObject SetUpIDRS()
+        {
+            var idrsPrefab = PrefabAPI.InstantiateClone(ItemModel, ItemName.Replace(" ", "") + "IDRS", false);
+            var itemDisplay = idrsPrefab.AddComponent<ItemDisplay>();
+            List<Renderer> rendererList = [.. idrsPrefab.GetComponentsInChildren<Renderer>()];
+            Array.Resize(ref itemDisplay.rendererInfos, rendererList.Count);
+            for (int j = 0; j < rendererList.Count; j++)
+            {
+                var renderer = rendererList[j];
+                var defaultMaterial = renderer.material;
+                itemDisplay.rendererInfos[j] = new CharacterModel.RendererInfo()
+                {
+                    renderer = renderer,
+                    defaultMaterial = defaultMaterial,
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false,
+                    hideOnDeath = false,
+                    ignoresMaterialOverrides = false
+                };
+            }
+            return idrsPrefab;
         }
 
         public string d(float f)

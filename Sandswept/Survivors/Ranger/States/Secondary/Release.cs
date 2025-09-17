@@ -133,6 +133,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                 };
 
                 attack.damageType.damageSource = DamageSource.Secondary;
+                attack.damageType.AddModdedDamageType(Electrician.Electrician.LIGHTNING);
 
                 AddRecoil(3f + 0.15f * buffCount, 3f + 0.15f * buffCount, 0f, 0f);
 
