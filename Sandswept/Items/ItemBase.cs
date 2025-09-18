@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using LookingGlass.ItemStatsNameSpace;
+using Rewired.ComponentControls.Effects;
 using RoR2.Items;
 using Sandswept.Items.Greens;
 using Sandswept.Items.VoidGreens;
@@ -299,18 +300,52 @@ namespace Sandswept.Items
             return idrsPrefab;
         }
 
-        public GameObject SetUpFollowerIDRS(float dampTime = 0.2f, float maxSpeed = 30f)
+        public GameObject SetUpFollowerIDRS(float followerDampTime = 0.2f, float followerMaxSpeed = 30f, bool rotateX = true, float xRotationSpeed = 25f, bool rotateY = true, float yRotationSpeed = 15f, bool rotateZ = true, float zRotationSpeed = 10f)
         {
+            // issues:
+            // two copies of an item display follow the player
+            // they are shown in scenes
             var followerHolder = new GameObject(ItemName.Replace(" ", "") + "FollowerIDRS", typeof(SetDontDestroyOnLoad));
             var followerTransform = followerHolder.transform;
 
             followerTransform.localScale = Vector3.one;
             followerTransform.localEulerAngles = Vector3.zero;
             followerTransform.localPosition = Vector3.zero;
+            // tried localpos of 999999 to make them not show up in scenes, but that just hid the display
 
             var prefabForFollower = PrefabAPI.InstantiateClone(ItemModel, ItemName.Replace(" ", "") + "ForFollower", false);
 
             prefabForFollower.transform.SetParent(followerTransform);
+
+            if (rotateX)
+            {
+                var rotateAroundX = prefabForFollower.AddComponent<RotateAroundAxis>();
+                rotateAroundX.speed = RotateAroundAxis.Speed.Fast;
+                rotateAroundX.slowRotationSpeed = xRotationSpeed;
+                rotateAroundX.rotateAroundAxis = RotateAroundAxis.RotationAxis.X;
+                rotateAroundX.relativeTo = Space.Self;
+                rotateAroundX.reverse = false;
+            }
+
+            if (rotateY)
+            {
+                var rotateAroundY = prefabForFollower.AddComponent<RotateAroundAxis>();
+                rotateAroundY.speed = RotateAroundAxis.Speed.Fast;
+                rotateAroundY.slowRotationSpeed = yRotationSpeed;
+                rotateAroundY.rotateAroundAxis = RotateAroundAxis.RotationAxis.Y;
+                rotateAroundY.relativeTo = Space.Self;
+                rotateAroundY.reverse = false;
+            }
+
+            if (rotateZ)
+            {
+                var rotateAroundZ = prefabForFollower.AddComponent<RotateAroundAxis>();
+                rotateAroundZ.speed = RotateAroundAxis.Speed.Fast;
+                rotateAroundZ.slowRotationSpeed = zRotationSpeed;
+                rotateAroundZ.rotateAroundAxis = RotateAroundAxis.RotationAxis.Z;
+                rotateAroundZ.relativeTo = Space.Self;
+                rotateAroundZ.reverse = false;
+            }
 
             var childLocator = followerHolder.AddComponent<ChildLocator>();
             foreach (Transform child in followerTransform.GetComponentsInChildren<Transform>())
@@ -318,35 +353,24 @@ namespace Sandswept.Items
                 childLocator.AddChild(child.name, child);
             }
 
-            var idrsPrefab = PrefabAPI.InstantiateClone(ItemModel, ItemName.Replace(" ", "") + "IDRS", false);
-            /*
-            var itemDisplay = idrsPrefab.AddComponent<ItemDisplay>();
-            List<Renderer> rendererList = [.. idrsPrefab.GetComponentsInChildren<Renderer>()];
-            Array.Resize(ref itemDisplay.rendererInfos, rendererList.Count);
-            for (int j = 0; j < rendererList.Count; j++)
-            {
-                var renderer = rendererList[j];
-                var defaultMaterial = renderer.material;
-                itemDisplay.rendererInfos[j] = new CharacterModel.RendererInfo()
-                {
-                    renderer = renderer,
-                    defaultMaterial = defaultMaterial,
-                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
-                    ignoreOverlays = false,
-                    hideOnDeath = false,
-                    ignoresMaterialOverrides = false
-                };
-            }
-            */
-            // don't render because follower already renders -- no need to have 2 displays lol
+            var idrsPrefab = new GameObject(ItemName.Replace(" ", "") + "IDRS", typeof(SetDontDestroyOnLoad));
+            var idrsTransform = idrsPrefab.transform;
+
+            followerTransform.localScale = Vector3.one;
+            followerTransform.localEulerAngles = Vector3.zero;
+            followerTransform.localPosition = Vector3.zero;
 
             var itemFollower = idrsPrefab.AddComponent<ItemFollower>();
             itemFollower.followerPrefab = followerHolder;
             itemFollower.targetObject = idrsPrefab;
             itemFollower.followerCurve = null;
             itemFollower.followerLineRenderer = null;
-            itemFollower.distanceDampTime = dampTime;
-            itemFollower.distanceMaxSpeed = maxSpeed;
+            itemFollower.distanceDampTime = followerDampTime;
+            itemFollower.distanceMaxSpeed = followerMaxSpeed;
+
+            // followerHolder.SetActive(false);
+            // idrsPrefab.SetActive(false);
+            // makes them not show up
 
             return idrsPrefab;
         }

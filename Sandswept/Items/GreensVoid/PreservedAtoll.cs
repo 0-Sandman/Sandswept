@@ -215,8 +215,8 @@ namespace Sandswept.Items.VoidGreens
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Head",
-                localPos = new Vector3(-1f, 0.8f, 0.4f),
-                localScale = new Vector3(0.18f, 0.18f, 0.18f),
+                localPos = new Vector3(-1f, 1.8f, 0.4f),
+                localScale = new Vector3(0.125f, 0.125f, 0.125f),
 
                 followerPrefab = itemDisplay,
                 limbMask = LimbFlags.None,

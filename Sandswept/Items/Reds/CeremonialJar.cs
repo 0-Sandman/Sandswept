@@ -265,8 +265,8 @@ namespace Sandswept.Items.Reds
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Head",
-                localPos = new Vector3(1f, 0.5f, 1.5f),
-                localScale = new Vector3(0.35f, 0.35f, 0.35f),
+                localPos = new Vector3(-1f, 1f, 1.5f),
+                localScale = new Vector3(0.25f, 0.25f, 0.25f),
 
                 followerPrefab = itemDisplay,
                 limbMask = LimbFlags.None,

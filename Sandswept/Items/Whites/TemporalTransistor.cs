@@ -232,7 +232,7 @@ namespace Sandswept.Items.Whites
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Head",
                 localPos = new Vector3(-1.5f, 0.5f, 1.5f),
-                localScale = new Vector3(0.275f, 0.275f, 0.275f),
+                localScale = new Vector3(1.25f, 1.25f, 1.25f),
 
                 followerPrefab = itemDisplay,
                 limbMask = LimbFlags.None,
