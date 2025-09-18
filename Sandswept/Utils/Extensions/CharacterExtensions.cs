@@ -78,5 +78,13 @@ namespace Sandswept.Utils
                 body.inventory.RemoveItem(item, body.inventory.GetItemCount(item));
             }
         }
+
+        public static void StartParticles(this ChildLocator loc, string system, bool withChildren = true) {
+            loc.FindChild(system).GetComponent<ParticleSystem>().Play(withChildren);
+        }
+
+        public static void StopParticles(this ChildLocator loc, string system, bool withChildren = true) {
+            loc.FindChild(system).GetComponent<ParticleSystem>().Stop(withChildren);
+        }
     }
 }

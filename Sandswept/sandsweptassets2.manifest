@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 4130218851
+CRC: 268505389
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 3f427b21d61a559f262100e9a26bf9e7
+    Hash: c8b08e16deaf4198c020c37b108ce812
   TypeTreeHash:
     serializedVersion: 2
-    Hash: e40222a7fa91459978e5cd23274c9979
+    Hash: 01034aec698a990193d67d7ae934eada
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -105,6 +105,8 @@ ClassTypes:
   Script: {fileID: 1985007777, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1568778350, guid: 050936fea8909af15a3fd3b64da1ff83, type: 3}
+- Class: 114
+  Script: {fileID: 766313180, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
   Script: {fileID: -1454195969, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
@@ -222,6 +224,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -492659515, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: 1370420181, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: -1578512655, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1699741063, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
@@ -290,7 +294,7 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 105922711, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 766313180, guid: ca6fb10b837101520834a90b90b15080, type: 3}
+  Script: {fileID: -2028682152, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 120
@@ -424,6 +428,7 @@ Assets:
 - Assets/Sandswept/Base/Characters/DeltaConstruct/mdl/matDeltaBeamStrong.mat
 - Assets/Sandswept/Base/Characters/GammaConstruct/mdl/GammaDisplay.prefab
 - Assets/Sandswept/Base/Characters/Electrician/mdl/ElecMastery.fbx
+- Assets/Sandswept/Base/Characters/ArdentWisp/fx/ArdentBombProjectile.prefab
 - Assets/Sandswept/Base/Characters/DeltaConstruct/mdl/matDeltaConstruct.mat
 - Assets/Sandswept/Base/Characters/Electrician/effects/ElectricianChargeBeam.prefab
 - Assets/Sandswept/Base/Characters/CannonJelly/CannonJellyLog.asset

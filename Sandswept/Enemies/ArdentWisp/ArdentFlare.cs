@@ -31,7 +31,10 @@ namespace Sandswept.Enemies.ArdentWisp
 
             end.transform.position = target;
 
-            if (BZMap.ContainsKey((byte)data.genericUInt)) {
+            if (!BZMap.ContainsKey((byte)data.genericUInt)) {
+                BZMap.Add((byte)data.genericUInt, this);
+            }
+            else {
                 BZMap[(byte)data.genericUInt] = this;
             }
         }
@@ -54,32 +57,25 @@ namespace Sandswept.Enemies.ArdentWisp
 
         public void FixedUpdate() {
             if (stopwatch > duration) {
-                // line.widthMultiplier = 2f;
                 inactive = true;
                 GameObject.Destroy(base.gameObject);
             }
-        }
-
-        public void OnDestroy() {
-            BZMap.Remove((byte)effectComponent.effectData.genericUInt);
         }
     }
 
     public class ArdentFlameProjectile : MonoBehaviour {
         private ProjectileController controller;
         private Rigidbody rb;
-        private BezierCurveLine bezier;
-        private ArdentFlareCharge fx;
-        private float warningTime;
-        private float stopwatch = 0f;
-        private byte id;
+        public BezierCurveLine bezier;
+        public ArdentFlareCharge fx;
+        public float warningTime;
+        public float stopwatch = 0f;
+        public byte id;
 
         public void Start() {
             controller = GetComponent<ProjectileController>();
             rb = GetComponent<Rigidbody>();
             id = controller.combo;
-
-            Debug.Log(id);
         }
 
         public void FixedUpdate() {
@@ -87,8 +83,17 @@ namespace Sandswept.Enemies.ArdentWisp
 
             stopwatch += Time.fixedDeltaTime;
 
+            if ((stopwatch >= warningTime && warningTime != 0f) || (stopwatch >= 0.2f && warningTime == 0f)) {
+                ArdentFlareCharge.BZMap.Remove(id);
+                GameObject.Destroy(base.gameObject);
+            }
+
             if (!bezier) {
                 if (ArdentFlareCharge.BZMap.ContainsKey(id)) {
+                    if (ArdentFlareCharge.BZMap[id] == null) {
+                        return;
+                    }
+
                     fx = ArdentFlareCharge.BZMap[id];
                     warningTime = fx.duration;
                     bezier = ArdentFlareCharge.BZMap[id].bezier;
@@ -103,10 +108,39 @@ namespace Sandswept.Enemies.ArdentWisp
 
                 rb.MovePosition(Vector3.Lerp(rb.position, pos, 20f));
             }
+        }
+    }
 
-            if (stopwatch >= warningTime && warningTime != 0f) {
-                GameObject.Destroy(base.gameObject);
+    [ConfigSection("Enemies :: Ardent Wisp")]
+    public class ArdentBombProjectile : MonoBehaviour {
+        public static float blastRadius = 12f;
+        public static float blastTime = 1.5f;
+        public Transform outerRadius;
+        public Transform innerRadius;
+        public ProjectileExplosion explosion;
+        public ProjectileStickOnImpact stick;
+        private float stopwatch = 0f;
+
+        public void Start() {
+            explosion.blastRadius = blastRadius;
+            outerRadius.transform.localScale = blastRadius * Vector3.one;
+            innerRadius.transform.localScale = blastRadius * Vector3.one;
+        }
+
+        public void FixedUpdate() {
+            if (stick.stuck) {
+                stopwatch += Time.fixedDeltaTime;
+
+                if (stopwatch >= blastTime && NetworkServer.active) {
+                    explosion.DetonateServer();
+                    base.enabled = false;
+                    GameObject.Destroy(base.gameObject);
+                }
             }
+        }
+
+        public void Update() {
+            innerRadius.transform.localScale = (blastRadius * (1f - Mathf.Clamp01(stopwatch / blastTime))) * Vector3.one;
         }
     }
 }

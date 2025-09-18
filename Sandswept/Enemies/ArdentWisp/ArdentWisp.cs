@@ -20,6 +20,7 @@ namespace Sandswept.Enemies.ArdentWisp
         public static GameObject ArdentChargeLine;
         public static GameObject ArdentExplosion;
         public static GameObject ArdentFireball;
+        public static GameObject ArdentBombProjectile;
 
         public override void LoadPrefabs()
         {
@@ -43,6 +44,15 @@ namespace Sandswept.Enemies.ArdentWisp
 
             ArdentFireball = Main.assets.LoadAsset<GameObject>("ArdentFlameProjectile.prefab");
             ContentAddition.AddEffect(ArdentFireball);
+
+            ArdentBombProjectile = Main.assets.LoadAsset<GameObject>("ArdentBombProjectile.prefab");
+            ArdentBombProjectile.EditComponent<ArdentBombProjectile>((x) =>
+            {
+                x.outerRadius.GetComponent<MeshRenderer>().sharedMaterial = Paths.Material.matNullBombAreaIndicator;
+                x.innerRadius.GetComponent<MeshRenderer>().sharedMaterial = Paths.Material.matNullBombAreaIndicator;
+            });
+
+            ContentAddition.AddProjectile(ArdentBombProjectile);
         }
 
         public override void PostCreation()
@@ -61,7 +71,7 @@ namespace Sandswept.Enemies.ArdentWisp
     
             var locator = body.GetComponent<SkillLocator>();
 
-            ReplaceSkill(locator.primary, States.CarpetFireSkill.instance.skillDef);
+            ReplaceSkill(locator.primary, States.ArdentBombSkill.instance.skillDef);
             ReplaceSkill(locator.secondary, States.CarpetFireSkill.instance.skillDef);
         }
 
