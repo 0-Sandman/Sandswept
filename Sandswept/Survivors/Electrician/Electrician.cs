@@ -551,9 +551,9 @@ namespace Sandswept.Survivors.Electrician
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "MuzzleOrb",
-                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
-                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
-                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                localPos = new Vector3(-0.31696F, 0.07576F, -0.21301F),
+                localAngles = new Vector3(342.8137F, 272.3962F, 270.8445F),
+                localScale = new Vector3(0.10796F, 0.10796F, 0.10796F),
                 followerPrefab = Paths.GameObject.DisplayBehemoth,
                 limbMask = LimbFlags.None
             });
@@ -561,10 +561,10 @@ namespace Sandswept.Survivors.Electrician
             AddDisplayRule(Paths.ItemDef.PermanentDebuffOnHit, new()
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
-                childName = "MuzzleOrb",
-                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
-                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
-                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                childName = "ClavicleR",
+                localPos = new Vector3(0.06684F, -0.10952F, 0.00646F),
+                localAngles = new Vector3(271.2686F, 286.3356F, 159.5639F),
+                localScale = new Vector3(0.70528F, 0.70528F, 0.70528F),
                 followerPrefab = Paths.GameObject.DisplayScorpion,
                 limbMask = LimbFlags.None
             });
@@ -576,17 +576,17 @@ namespace Sandswept.Survivors.Electrician
                 localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
                 localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
                 localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
-                followerPrefab = Paths.GameObject.DisplayWarbanner,
+                followerPrefab = Paths.GameObject.DisplayWarhammer,
                 limbMask = LimbFlags.None
             });
 
             AddDisplayRule(Paths.ItemDef.ArmorPlate, new()
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
-                childName = "MuzzleOrb",
-                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
-                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
-                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                childName = "ThighL",
+                localPos = new Vector3(0.07245F, 0.17259F, -0.07027F),
+                localAngles = new Vector3(84.00079F, 260.89F, 347.9175F),
+                localScale = new Vector3(0.54409F, 0.55068F, 0.54187F),
                 followerPrefab = Paths.GameObject.DisplayRepulsionArmorPlate,
                 limbMask = LimbFlags.None
             });
@@ -595,9 +595,9 @@ namespace Sandswept.Survivors.Electrician
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "MuzzleOrb",
-                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
-                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
-                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                localPos = new Vector3(-0.002F, -0.18357F, -0.24757F),
+                localAngles = new Vector3(341.1747F, 178.3867F, 1.47223F),
+                localScale = new Vector3(0.0824F, 0.0824F, 0.0824F),
                 followerPrefab = Paths.GameObject.DisplayDoubleMag,
                 limbMask = LimbFlags.None
             });
@@ -627,10 +627,10 @@ namespace Sandswept.Survivors.Electrician
             AddDisplayRule(Paths.ItemDef.CritGlasses, new()
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
-                childName = "MuzzleOrb",
-                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
-                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
-                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                childName = "Chest",
+                localPos = new Vector3(0.00145F, 0.27635F, -0.30563F),
+                localAngles = new Vector3(0F, 180F, 0F),
+                localScale = new Vector3(0.55757F, 0.54762F, 0.49804F),
                 followerPrefab = Paths.GameObject.DisplayGlasses,
                 limbMask = LimbFlags.None
             });
@@ -638,10 +638,10 @@ namespace Sandswept.Survivors.Electrician
             AddDisplayRule(Paths.ItemDef.CritGlassesVoid, new()
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
-                childName = "MuzzleOrb",
-                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
-                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
-                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                childName = "Chest",
+                localPos = new Vector3(0F, 0.12423F, -0.32271F),
+                localAngles = new Vector3(0F, 180F, 0F),
+                localScale = new Vector3(0.47462F, 1.26719F, 0.58078F),
                 followerPrefab = Paths.GameObject.DisplayGlassesVoid,
                 limbMask = LimbFlags.None
             });
@@ -649,10 +649,10 @@ namespace Sandswept.Survivors.Electrician
             AddDisplayRule(Paths.ItemDef.Bandolier, new()
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
-                childName = "MuzzleOrb",
-                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
-                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
-                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                childName = "Coil",
+                localPos = new Vector3(0.01471F, -0.20326F, -0.02905F),
+                localAngles = new Vector3(277.6144F, 331.5123F, 59.69401F),
+                localScale = new Vector3(0.56154F, 0.77659F, 0.49639F),
                 followerPrefab = Paths.GameObject.DisplayBandolier,
                 limbMask = LimbFlags.None
             });
