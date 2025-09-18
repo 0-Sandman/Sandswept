@@ -572,10 +572,10 @@ namespace Sandswept.Survivors.Electrician
             AddDisplayRule(Paths.ItemDef.ArmorReductionOnHit, new()
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
-                childName = "MuzzleOrb",
-                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
-                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
-                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                childName = "LegL",
+                localPos = new Vector3(-0.00609F, 0.82839F, 0.0023F),
+                localAngles = new Vector3(272.0602F, 274.6225F, 174.9532F),
+                localScale = new Vector3(0.31007F, 0.31007F, 0.31007F),
                 followerPrefab = Paths.GameObject.DisplayWarhammer,
                 limbMask = LimbFlags.None
             });

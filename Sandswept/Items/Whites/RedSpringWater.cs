@@ -184,9 +184,9 @@ namespace Sandswept.Items.Whites
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "ArmR",
-                    localPos = new Vector3(0.23269F, 0.00986F, -0.26555F),
-                    localAngles = new Vector3(0.2382F, 196.9115F, 109.3767F),
+                    childName = "ClavicleR",
+                    localPos = new Vector3(0.03164F, 0.29731F, -0.24579F),
+                    localAngles = new Vector3(338.0341F, 190.7353F, 189.2521F),
                     localScale = new Vector3(0.06921F, 0.06463F, 0.06463F),
 
                     followerPrefab = itemDisplay,
