@@ -547,6 +547,127 @@ namespace Sandswept.Survivors.Electrician
                 limbMask = LimbFlags.None
             });
 
+            AddDisplayRule(Paths.ItemDef.Behemoth, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleOrb",
+                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
+                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
+                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                followerPrefab = Paths.GameObject.DisplayBehemoth,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.PermanentDebuffOnHit, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleOrb",
+                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
+                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
+                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                followerPrefab = Paths.GameObject.DisplayScorpion,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.ArmorReductionOnHit, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleOrb",
+                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
+                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
+                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                followerPrefab = Paths.GameObject.DisplayWarbanner,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.ArmorPlate, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleOrb",
+                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
+                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
+                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                followerPrefab = Paths.GameObject.DisplayRepulsionArmorPlate,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.SecondarySkillMagazine, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleOrb",
+                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
+                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
+                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                followerPrefab = Paths.GameObject.DisplayDoubleMag,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.IncreaseDamageOnMultiKill, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleOrb",
+                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
+                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
+                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                followerPrefab = Paths.GameObject.DisplayIncreaseDamageOnMultiKill,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.SprintBonus, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Pelvis",
+                localPos = new Vector3(0.00315F, 0.06733F, -0.32271F),
+                localAngles = new Vector3(277.9451F, 191.2201F, 286.983F),
+                localScale = new Vector3(0.70239F, 0.70239F, 0.70239F),
+                followerPrefab = Paths.GameObject.DisplaySoda,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.CritGlasses, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleOrb",
+                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
+                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
+                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                followerPrefab = Paths.GameObject.DisplayGlasses,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.CritGlassesVoid, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleOrb",
+                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
+                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
+                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                followerPrefab = Paths.GameObject.DisplayGlassesVoid,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.Bandolier, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleOrb",
+                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
+                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
+                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                followerPrefab = Paths.GameObject.DisplayBandolier,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.PersonalShield, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleOrb",
+                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
+                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
+                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                followerPrefab = Paths.GameObject.DisplayShieldGenerator,
+                limbMask = LimbFlags.None
+            });
+
             CollapseIDRS();
         }
     }
