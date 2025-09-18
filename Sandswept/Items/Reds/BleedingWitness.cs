@@ -178,14 +178,13 @@ namespace Sandswept.Items.Reds
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
-            return new ItemDisplayRuleDict();
-            /*
+
             var itemDisplay = SetUpIDRS();
 
             ItemDisplayRuleDict i = new();
 
             #region Sandswept Survivors
-
+            /*
             i.Add("RangerBody",
 
                 new ItemDisplayRule()
@@ -202,6 +201,7 @@ namespace Sandswept.Items.Reds
                 }
 
             );
+            */
 
             i.Add("ElectricianBody",
 
@@ -223,7 +223,7 @@ namespace Sandswept.Items.Reds
             #endregion
 
             return i;
-            */
+
         }
     }
 }

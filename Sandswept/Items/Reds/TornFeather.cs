@@ -243,6 +243,7 @@ namespace Sandswept.Items.Reds
             );
             */
 
+            /*
             i.Add("ElectricianBody",
 
                 new ItemDisplayRule()
@@ -259,6 +260,9 @@ namespace Sandswept.Items.Reds
                 }
 
             );
+            */
+
+            // it's bad and hard to display, maybe just make it a follower?
 
             #endregion
 

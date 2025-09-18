@@ -254,14 +254,13 @@ namespace Sandswept.Items.Lunars
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
-            return new ItemDisplayRuleDict();
-            /*
+
             var itemDisplay = SetUpIDRS();
 
             ItemDisplayRuleDict i = new();
 
             #region Sandswept Survivors
-
+            /*
             i.Add("RangerBody",
 
                 new ItemDisplayRule()
@@ -278,6 +277,7 @@ namespace Sandswept.Items.Lunars
                 }
 
             );
+            */
 
             i.Add("ElectricianBody",
 
@@ -299,7 +299,7 @@ namespace Sandswept.Items.Lunars
             #endregion
 
             return i;
-            */
+
         }
     }
 

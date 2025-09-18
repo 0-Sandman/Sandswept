@@ -217,8 +217,8 @@
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
                     childName = "Head",
-                    localPos = new Vector3(0.00006F, -0.70005F, -0.00924F),
-                    localAngles = new Vector3(85.04073F, 197.8464F, 22.78798F),
+                    localPos = new Vector3(0.00006F, -0.73108F, -0.00924F),
+                    localAngles = new Vector3(85.04073F, 197.8464F, 22.78797F),
                     localScale = new Vector3(0.19069F, 0.17992F, 0.17806F),
 
                     followerPrefab = itemDisplay,

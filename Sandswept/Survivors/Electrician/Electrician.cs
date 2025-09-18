@@ -364,9 +364,9 @@ namespace Sandswept.Survivors.Electrician
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Head",
-                localPos = new Vector3(-0.00169F, 0.26817F, -0.01414F),
-                localAngles = new Vector3(340.1616F, 181.5028F, 0.48644F),
-                localScale = new Vector3(0.95987F, 0.95987F, 0.95987F),
+                localPos = new Vector3(0.15102F, 0.12445F, 0.00312F),
+                localAngles = new Vector3(299.6079F, 293.1193F, 0.83963F),
+                localScale = new Vector3(0.19198F, 0.19198F, 0.19198F),
                 followerPrefab = Paths.GameObject.DisplayEliteHorn,
                 limbMask = LimbFlags.None
             });
@@ -500,6 +500,50 @@ namespace Sandswept.Survivors.Electrician
                 localAngles = new Vector3(0.89037F, 353.2066F, 359.0491F),
                 localScale = new Vector3(0.13981F, 0.13981F, 0.13981F),
                 followerPrefab = Paths.GameObject.DisplayMissileLauncherVoid,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.IceRing, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleCannon",
+                localPos = new Vector3(0.023F, 0.31638F, -0.53858F),
+                localAngles = new Vector3(89.31158F, 150.7557F, 226.7192F),
+                localScale = new Vector3(0.46789F, 0.46789F, 0.46789F),
+                followerPrefab = Paths.GameObject.DisplayIceRing,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.FireRing, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleCannon",
+                localPos = new Vector3(0.02305F, -0.30426F, -0.53852F),
+                localAngles = new Vector3(89.31129F, 150.7551F, 226.7184F),
+                localScale = new Vector3(0.46789F, 0.46789F, 0.46789F),
+                followerPrefab = Paths.GameObject.DisplayFireRing,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.ElementalRingVoid, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleOrb",
+                localPos = new Vector3(-0.0116F, -0.0129F, 0.0133F),
+                localAngles = new Vector3(0.3398F, 359.3324F, 181.0462F),
+                localScale = new Vector3(0.89726F, 0.89726F, 0.8892F),
+                followerPrefab = Paths.GameObject.DisplayVoidRing,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.EquipmentDef.BFG, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleCannon",
+                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
+                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
+                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                followerPrefab = Paths.GameObject.DisplayBFG,
                 limbMask = LimbFlags.None
             });
 
