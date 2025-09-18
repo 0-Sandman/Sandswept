@@ -605,10 +605,10 @@ namespace Sandswept.Survivors.Electrician
             AddDisplayRule(Paths.ItemDef.IncreaseDamageOnMultiKill, new()
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
-                childName = "MuzzleOrb",
-                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
-                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
-                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                childName = "ThighR",
+                localPos = new Vector3(-0.11984F, 0.05834F, -0.05162F),
+                localAngles = new Vector3(274.9813F, 264.1147F, 6.0653F),
+                localScale = new Vector3(0.22404F, 0.22404F, 0.22404F),
                 followerPrefab = Paths.GameObject.DisplayIncreaseDamageOnMultiKill,
                 limbMask = LimbFlags.None
             });
@@ -660,9 +660,9 @@ namespace Sandswept.Survivors.Electrician
             AddDisplayRule(Paths.ItemDef.PersonalShield, new()
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
-                childName = "MuzzleOrb",
-                localPos = new Vector3(0.00315F, -0.01011F, -0.32272F),
-                localAngles = new Vector3(359.8549F, 352.9451F, 179.6131F),
+                childName = "Chest",
+                localPos = new Vector3(0.00547F, 0.11018F, 0.41647F),
+                localAngles = new Vector3(90F, 180F, 0F),
                 localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
                 followerPrefab = Paths.GameObject.DisplayShieldGenerator,
                 limbMask = LimbFlags.None
