@@ -28,6 +28,9 @@ namespace Sandswept.Survivors
         public SurvivorDef SurvivorDef;
         public SkinDef mastery;
 
+        private static ItemDisplayRuleSet idrs;
+        private static List<ItemDisplayRuleSet.KeyAssetRuleGroup> rules = new();
+
         public static bool DefaultEnabledCallback(SurvivorBase self)
         {
             ConfigSectionAttribute attribute = self.GetType().GetCustomAttribute<ConfigSectionAttribute>();
@@ -54,6 +57,14 @@ namespace Sandswept.Survivors
             ContentAddition.AddBody(Body);
             ContentAddition.AddMaster(Master);
             ContentAddition.AddSurvivorDef(SurvivorDef);
+
+            var characterModel = Body.GetComponentInChildren<CharacterModel>();
+            if (characterModel)
+            {
+                idrs = ScriptableObject.CreateInstance<ItemDisplayRuleSet>();
+                characterModel.itemDisplayRuleSet = idrs;
+                SetUpIDRS();
+            }
         }
 
         public virtual void LoadAssets()
@@ -124,6 +135,29 @@ namespace Sandswept.Survivors
         public string GetConfigName()
         {
             return Name;
+        }
+
+        public virtual void SetUpIDRS()
+        {
+        }
+
+        public void AddDisplayRule(UnityEngine.Object asset, ItemDisplayRule rule)
+        {
+            rules.Add(new ItemDisplayRuleSet.KeyAssetRuleGroup()
+            {
+                keyAsset = asset,
+                displayRuleGroup = new()
+                {
+                    rules = [
+                        rule
+                    ]
+                }
+            });
+        }
+
+        public void CollapseIDRS()
+        {
+            idrs.keyAssetRuleGroups = rules.ToArray();
         }
     }
 }

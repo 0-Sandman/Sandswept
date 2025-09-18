@@ -30,11 +30,11 @@ namespace Sandswept.Enemies.DeltaConstruct
             First, I will take mass, shape it into pyramids, as you taught me with the Alpha Constructs. Eight pyramids, to be exact.
             Next, I will imbue these with blood and soul. Blood, for heat, and soul, for compassion and empathy.
              - No. These ratios are improper. They are supposed to be loyal, not emotional. There is too much soul in these creations.
-            Brother? Why is soul unnecessary? 
+            Brother? Why is soul unnecessary?
              - Watch as I fill this knurl with excess soul. Its form becomes gold, a poor material for endurance.
             Is that it?
-             - No, brother, that is not all. If I were to hit it, it would want to retaliate. Soul brings life to our constructs. It is unstable, unreliable, and it dampens the other compounds, offsetting the ratios. 
-            If we were to treat our constructs properly, wouldn't giving them life be a good thing? 
+             - No, brother, that is not all. If I were to hit it, it would want to retaliate. Soul brings life to our constructs. It is unstable, unreliable, and it dampens the other compounds, offsetting the ratios.
+            If we were to treat our constructs properly, wouldn't giving them life be a good thing?
              - Giving something soul gives it free will; the free will to decide we are not the construct's supreme creators. Our constructs do not need to make that decision, only us.
             """);
             matDeltaBeamStrong = Main.assets.LoadAsset<Material>("matDeltaBeamStrong.mat");
@@ -128,7 +128,7 @@ namespace Sandswept.Enemies.DeltaConstruct
             EntityStateMachine.FindByCustomName(prefab, "Body").initialStateType = new(typeof(SpawnState));
         }
 
-        public override void SetupIDRS()
+        public override void SetUpIDRS()
         {
             AddDisplayRule(Paths.EquipmentDef.EliteFireEquipment, new()
             {

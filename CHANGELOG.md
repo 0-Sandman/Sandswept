@@ -1,4 +1,6 @@
-## 1.3.2
+## 1.3.2 Patch Notes
+- VOL-T
+  - Added some Item Displays
 - Ranger
   - Fixed Direct Current not having the lightning damage type (for Broken VOL-T)
   - Fixed Release not having the lightning damage type (for Broken VOL-T)
@@ -11,6 +13,8 @@
   - Nerfed Sequenced Fate Base Extra Items Count from 6 to 5
   - Nerfed Sequenced Fate Stack Extra Items Count from 3 to 1
   - Fixed Hallowed Ichor not showing scaled timer whenever the last player holding Hallowed Ichor died
+- Enemies
+  - Fixed Theta Construct Overloading Elite Item Display
 
 ## 1.3.1 Patch Notes
 - Enemies
@@ -131,7 +135,7 @@
   - Fixed Theta Constructs breaking down and doing absolutely fucking nothing at all if they are the only enemy alive
 - Note
   - I (HIFU) crammed everything I could that wasn't on me. Pseudopulse is currently MIA due to Silksong, but would've done up to 30 bugfixes on top of all this. Huge thanks to Synodii for quickly making the models that were due 10-12 months ago.
-  
+
 ## 1.2.5 Patch Notes
 - VOL-T
   - Added Galvanic Bolt, Tempest Sphere and Signal Overload hit impact SFX
@@ -172,7 +176,7 @@
   - Added Makeshift Plate to the turret blacklist.
   - Fixed Void Items not corrupting their counterparts
   - (Hopefully) Fixed Glacial Plasma projectile spam as client
-  
+
 ## 1.2.3 Patch Notes
 - Items/Equipment
   - Fixed Makeshift Plate bombarding your log with NREs
@@ -192,7 +196,7 @@
 - VOL-T
   - Fixed description
   - Nerfed Volatile Shields Damage from 2x450% to 2x280%
-  
+
 ## 1.2.1 Patch Notes
 - <img src="https://i.postimg.cc/vTD0nKcq/eyebrow2.png" width="20" height="20"/>
 
@@ -399,7 +403,7 @@
   - Fixed family event bug that fucked up their spawning on other stages
   - Delta Construct now has a weakspot for Railgunner
   - Cannonball Jellyfish got the solid rebar removed from its core to cure its lobotomization
-  
+
 ## 1.0.3 Patch Notes
 - Ranger
   - Fixed Char not using its skill icon (for real this time)
@@ -450,7 +454,7 @@
   - Updated mod icon
   - Overhauled README
   - Added LobbySkinsFix soft dependency
-  - Added ScrollableLobbyUI soft dependency 
+  - Added ScrollableLobbyUI soft dependency
 - Survivors
   - Added VOL-T
   - Ranger

@@ -237,12 +237,13 @@ namespace Sandswept.Items.Greens
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
+
             var itemDisplay = SetUpIDRS();
 
             ItemDisplayRuleDict i = new();
 
             #region Sandswept Survivors
-
+            /*
             i.Add("RangerBody",
 
                 new ItemDisplayRule()
@@ -259,16 +260,17 @@ namespace Sandswept.Items.Greens
                 }
 
             );
+            */
 
             i.Add("ElectricianBody",
 
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Head",
-                    localPos = new Vector3(-0.01041F, 0.08162F, -0.00924F),
-                    localAngles = new Vector3(85.0407F, 197.8464F, 22.78797F),
-                    localScale = new Vector3(0.12683F, 0.11843F, 0.11843F),
+                    childName = "Chest",
+                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
 
                     followerPrefab = itemDisplay,
                     limbMask = LimbFlags.None,
@@ -280,6 +282,7 @@ namespace Sandswept.Items.Greens
             #endregion
 
             return i;
+
         }
 
         public class MakeshiftPlateAddSync : INetMessage

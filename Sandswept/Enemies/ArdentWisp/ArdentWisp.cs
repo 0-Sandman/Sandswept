@@ -68,7 +68,7 @@ namespace Sandswept.Enemies.ArdentWisp
 
             master.bodyPrefab = prefab;
             body.baseNameToken.Add("Ardent Wisp");
-    
+
             var locator = body.GetComponent<SkillLocator>();
 
             ReplaceSkill(locator.primary, States.ArdentBombSkill.instance.skillDef);
@@ -95,7 +95,7 @@ namespace Sandswept.Enemies.ArdentWisp
             csc.name = "cscArdentWisp";
         }
 
-        public override void SetupIDRS()
+        public override void SetUpIDRS()
         {
             CollapseIDRS();
         }

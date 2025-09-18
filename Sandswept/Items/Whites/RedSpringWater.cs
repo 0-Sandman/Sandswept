@@ -154,12 +154,13 @@ namespace Sandswept.Items.Whites
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
+
             var itemDisplay = SetUpIDRS();
 
             ItemDisplayRuleDict i = new();
 
             #region Sandswept Survivors
-
+            /*
             i.Add("RangerBody",
 
                 new ItemDisplayRule()
@@ -176,16 +177,17 @@ namespace Sandswept.Items.Whites
                 }
 
             );
+            */
 
             i.Add("ElectricianBody",
 
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Head",
-                    localPos = new Vector3(-0.01041F, 0.08162F, -0.00924F),
-                    localAngles = new Vector3(85.0407F, 197.8464F, 22.78797F),
-                    localScale = new Vector3(0.12683F, 0.11843F, 0.11843F),
+                    childName = "ClavicleR",
+                    localPos = new Vector3(0.03164F, 0.29731F, -0.24579F),
+                    localAngles = new Vector3(338.0341F, 190.7353F, 189.2521F),
+                    localScale = new Vector3(0.06921F, 0.06463F, 0.06463F),
 
                     followerPrefab = itemDisplay,
                     limbMask = LimbFlags.None,
@@ -197,6 +199,7 @@ namespace Sandswept.Items.Whites
             #endregion
 
             return i;
+
         }
     }
 }

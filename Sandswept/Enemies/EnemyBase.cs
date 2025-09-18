@@ -71,12 +71,12 @@ namespace Sandswept.Enemies
             master = prefabMaster.GetComponent<CharacterMaster>();
             Modify();
 
-            var h = body.GetComponentInChildren<CharacterModel>();
-            if (h)
+            var characterModel = body.GetComponentInChildren<CharacterModel>();
+            if (characterModel)
             {
                 idrs = ScriptableObject.CreateInstance<ItemDisplayRuleSet>();
-                h.itemDisplayRuleSet = idrs;
-                SetupIDRS();
+                characterModel.itemDisplayRuleSet = idrs;
+                SetUpIDRS();
             }
 
             AddSpawnCard();
@@ -115,7 +115,7 @@ namespace Sandswept.Enemies
             card.spawnCard = csc;
         }
 
-        public virtual void SetupIDRS()
+        public virtual void SetUpIDRS()
         {
         }
 
