@@ -299,6 +299,58 @@ namespace Sandswept.Items
             return idrsPrefab;
         }
 
+        public GameObject SetUpFollowerIDRS(float dampTime = 0.2f, float maxSpeed = 30f)
+        {
+            var followerHolder = new GameObject(ItemName.Replace(" ", "") + "FollowerIDRS", typeof(SetDontDestroyOnLoad));
+            var followerTransform = followerHolder.transform;
+
+            followerTransform.localScale = Vector3.one;
+            followerTransform.localEulerAngles = Vector3.zero;
+            followerTransform.localPosition = Vector3.zero;
+
+            var prefabForFollower = PrefabAPI.InstantiateClone(ItemModel, ItemName.Replace(" ", "") + "ForFollower", false);
+
+            prefabForFollower.transform.SetParent(followerTransform);
+
+            var childLocator = followerHolder.AddComponent<ChildLocator>();
+            foreach (Transform child in followerTransform.GetComponentsInChildren<Transform>())
+            {
+                childLocator.AddChild(child.name, child);
+            }
+
+            var idrsPrefab = PrefabAPI.InstantiateClone(ItemModel, ItemName.Replace(" ", "") + "IDRS", false);
+            /*
+            var itemDisplay = idrsPrefab.AddComponent<ItemDisplay>();
+            List<Renderer> rendererList = [.. idrsPrefab.GetComponentsInChildren<Renderer>()];
+            Array.Resize(ref itemDisplay.rendererInfos, rendererList.Count);
+            for (int j = 0; j < rendererList.Count; j++)
+            {
+                var renderer = rendererList[j];
+                var defaultMaterial = renderer.material;
+                itemDisplay.rendererInfos[j] = new CharacterModel.RendererInfo()
+                {
+                    renderer = renderer,
+                    defaultMaterial = defaultMaterial,
+                    defaultShadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On,
+                    ignoreOverlays = false,
+                    hideOnDeath = false,
+                    ignoresMaterialOverrides = false
+                };
+            }
+            */
+            // don't render because follower already renders -- no need to have 2 displays lol
+
+            var itemFollower = idrsPrefab.AddComponent<ItemFollower>();
+            itemFollower.followerPrefab = followerHolder;
+            itemFollower.targetObject = idrsPrefab;
+            itemFollower.followerCurve = null;
+            itemFollower.followerLineRenderer = null;
+            itemFollower.distanceDampTime = dampTime;
+            itemFollower.distanceMaxSpeed = maxSpeed;
+
+            return idrsPrefab;
+        }
+
         public string d(float f)
         {
             return (f * 100f).ToString() + "%";

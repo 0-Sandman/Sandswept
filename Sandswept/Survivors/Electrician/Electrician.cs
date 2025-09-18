@@ -668,6 +668,17 @@ namespace Sandswept.Survivors.Electrician
                 limbMask = LimbFlags.None
             });
 
+            AddDisplayRule(Paths.ItemDef.FallBoots, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Chest",
+                localPos = new Vector3(0.00547F, 0.11018F, 0.41647F),
+                localAngles = new Vector3(90F, 180F, 0F),
+                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+                followerPrefab = Paths.GameObject.DisplayGravCube,
+                limbMask = LimbFlags.None
+            });
+
             CollapseIDRS();
         }
     }

@@ -219,54 +219,19 @@ namespace Sandswept.Items.Reds
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
-            var itemDisplay = SetUpIDRS();
+            var itemDisplay = SetUpFollowerIDRS(0.72f, 132f);
 
-            ItemDisplayRuleDict i = new();
+            return new ItemDisplayRuleDict(new ItemDisplayRule()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Head",
+                localPos = new Vector3(1.5f, 0.5f, 1.5f),
+                localScale = new Vector3(0.275f, 0.275f, 0.275f),
 
-            #region Sandswept Survivors
-            /*
-            i.Add("RangerBody",
-
-                new ItemDisplayRule()
-                {
-                    ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Chest",
-                    localPos = new Vector3(-0.00387F, 0.11857F, 0.01629F),
-                    localAngles = new Vector3(84.61184F, 220.3867F, 47.41245F),
-                    localScale = new Vector3(0.14531F, 0.14659F, 0.14531F),
-
-                    followerPrefab = itemDisplay,
-                    limbMask = LimbFlags.None,
-                    followerPrefabAddress = new AssetReferenceGameObject("")
-                }
-
-            );
-            */
-
-            /*
-            i.Add("ElectricianBody",
-
-                new ItemDisplayRule()
-                {
-                    ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "FootR",
-                    localPos = new Vector3(0.06349F, -0.66739F, 0.17432F),
-                    localAngles = new Vector3(326.9106F, 300.3376F, 210.627F),
-                    localScale = new Vector3(0.03853F, 0.03598F, 0.03598F),
-
-                    followerPrefab = itemDisplay,
-                    limbMask = LimbFlags.None,
-                    followerPrefabAddress = new AssetReferenceGameObject("")
-                }
-
-            );
-            */
-
-            // it's bad and hard to display, maybe just make it a follower?
-
-            #endregion
-
-            return i;
+                followerPrefab = itemDisplay,
+                limbMask = LimbFlags.None,
+                followerPrefabAddress = new AssetReferenceGameObject("")
+            });
         }
     }
 

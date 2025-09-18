@@ -16,12 +16,14 @@ namespace Sandswept.Enemies.ArdentWisp.States
         {
             base.OnEnter();
 
-            PlayAnimation("Fullbody, Override", "Carpet Fire, Start", "Generic.playbackRate", duration);
+            PlayAnimation("Body", "Carpet Fire, Start", "Generic.playbackRate", duration);
         }
 
         public override void FixedUpdate()
         {
             base.FixedUpdate();
+
+            base.StartAimMode(0.2f);
 
             if (base.fixedAge >= duration)
             {
@@ -44,12 +46,12 @@ namespace Sandswept.Enemies.ArdentWisp.States
     public class CarpetFire : BaseSkillState
     {
         public static int shotsPerVolley = 3;
-        public static int totalVolleys = 8;
+        public static int totalVolleys = 12;
         public static float duration = 5f;
         public static float warningTime = 1f;
-        public static float blastRadius = 7f;
+        public static float blastRadius = 5.5f;
         public static float attackRadius = 18f;
-        public static float damageCoefficient = 2f;
+        public static float damageCoefficient = 2.5f;
         public static GameObject explosion => ArdentWisp.ArdentExplosion;
         public float delay;
         public float stopwatch;
@@ -64,6 +66,10 @@ namespace Sandswept.Enemies.ArdentWisp.States
             GetModelAnimator().SetBool("isRaining", true);
 
             ai = base.characterBody.master.GetComponent<BaseAI>();
+
+            ChildLocator loc = GetModelChildLocator();
+            loc.StartParticles("HandFireL");
+            loc.StartParticles("HandFireR");
         }
 
         public override void FixedUpdate()
@@ -97,7 +103,7 @@ namespace Sandswept.Enemies.ArdentWisp.States
 
                     Vector3? grounded = MiscUtils.GroundPoint(point);
 
-                    if (!grounded.HasValue || (grounded.HasValue && !struckPoints.All(x => Vector3.Distance(grounded.Value, x) > blastRadius * 2.5f))) {
+                    if (!grounded.HasValue || (grounded.HasValue && !struckPoints.All(x => Vector3.Distance(grounded.Value, x) > blastRadius * 4f))) {
                         counter++;
                         if (counter > 15) {
                             continue;
@@ -153,6 +159,10 @@ namespace Sandswept.Enemies.ArdentWisp.States
         {
             base.OnExit();
 
+            ChildLocator loc = GetModelChildLocator();
+            loc.StopParticles("HandFireL");
+            loc.StopParticles("HandFireR");
+
             GetModelAnimator().SetBool("isRaining", false);
         }
 
@@ -161,7 +171,6 @@ namespace Sandswept.Enemies.ArdentWisp.States
                 byte val = (byte)Random.Range(byte.MinValue, byte.MaxValue + 1);
                 
                 if (!ArdentFlareCharge.BZMap.ContainsKey(val)) {
-                    ArdentFlareCharge.BZMap.Add(val, null);
                     return val;
                 }
             }
@@ -180,6 +189,7 @@ namespace Sandswept.Enemies.ArdentWisp.States
             attack.crit = base.RollCrit();
             attack.procCoefficient = 1f;
             attack.teamIndex = base.GetTeam();
+            attack.falloffModel = BlastAttack.FalloffModel.None;
 
             attack.Fire();
 
@@ -205,7 +215,7 @@ namespace Sandswept.Enemies.ArdentWisp.States
 
         public override string ActivationMachineName => "Body";
 
-        public override float Cooldown => 10f;
+        public override float Cooldown => 15f;
 
         public override Sprite Icon => null;
         public override bool BeginCooldownOnSkillEnd => true;
