@@ -28,7 +28,7 @@ namespace Sandswept.Items.Lunars
 
         public override Sprite ItemIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texHallowedIchor.png");
 
-        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist];
+        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist, ItemTag.CannotCopy, ItemTag.BrotherBlacklist];
 
         [ConfigField("Base Extra Chest Interactions", "", 1)]
         public static int baseExtraChestInteractions;
@@ -267,7 +267,7 @@ namespace Sandswept.Items.Lunars
 
         private void TrackStackCount(CharacterBody body)
         {
-            itemCount = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
+            itemCount = GetPlayerItemCountGlobal(instance.ItemDef.itemIndex, true);
             if (itemCount > 0)
             {
                 anyoneHadHallowedIchor = true;

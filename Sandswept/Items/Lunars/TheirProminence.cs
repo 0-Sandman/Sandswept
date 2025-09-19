@@ -23,7 +23,7 @@ namespace Sandswept.Items.Lunars
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texTheirProminence.png");
 
-        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist];
+        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist, ItemTag.CannotCopy, ItemTag.BrotherBlacklist];
 
         [ConfigField("Base Chance", "Decimal.", 0.35f)]
         public static float baseChance;
@@ -120,7 +120,7 @@ namespace Sandswept.Items.Lunars
         private void OnTPBegin(On.RoR2.TeleporterInteraction.IdleToChargingState.orig_OnEnter orig, TeleporterInteraction.IdleToChargingState self)
         {
             orig(self);
-            int stacks = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
+            int stacks = GetPlayerItemCountGlobal(instance.ItemDef.itemIndex, true);
 
             if (stacks > 0 && !self.GetComponent<TheirProminenceController>())
             {
@@ -130,7 +130,7 @@ namespace Sandswept.Items.Lunars
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
-            itemCount = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
+            itemCount = GetPlayerItemCountGlobal(instance.ItemDef.itemIndex, true);
         }
 
         private void GlobalEventManager_OnInteractionsGlobal(Interactor interactor, IInteractable interactable, GameObject interactableObject)

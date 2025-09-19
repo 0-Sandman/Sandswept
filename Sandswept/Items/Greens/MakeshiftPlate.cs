@@ -47,7 +47,7 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.assets.LoadAsset<Sprite>("texIconPlate.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist, ItemTag.CannotCopy, ItemTag.DevotionBlacklist };
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist, ItemTag.CannotCopy };
 
         [ConfigField("Base Percent Plating Gain", "", 150f)]
         public static float basePercentPlatingGain;

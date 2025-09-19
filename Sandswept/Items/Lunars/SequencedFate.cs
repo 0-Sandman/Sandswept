@@ -41,7 +41,7 @@ namespace Sandswept.Items.Lunars
 
         public override Sprite ItemIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texSequencedFate.png");
 
-        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist];
+        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist, ItemTag.CannotCopy, ItemTag.BrotherBlacklist];
 
         public override string AchievementName => "A Fool Moon [...]";
 
@@ -111,7 +111,7 @@ namespace Sandswept.Items.Lunars
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
-            itemCount = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
+            itemCount = GetPlayerItemCountGlobal(instance.ItemDef.itemIndex, true);
             if (itemCount <= 0)
             {
                 return;

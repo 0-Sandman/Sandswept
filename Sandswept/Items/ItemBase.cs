@@ -4,6 +4,7 @@ using Rewired.ComponentControls.Effects;
 using RoR2.Items;
 using Sandswept.Items.Greens;
 using Sandswept.Items.VoidGreens;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -378,6 +379,23 @@ namespace Sandswept.Items
         public string d(float f)
         {
             return (f * 100f).ToString() + "%";
+        }
+
+        public int GetPlayerItemCountGlobal(ItemIndex itemIndex, bool requiresAlive, bool requiresConnected = true)
+        {
+            int totalItemCount = 0;
+            var playerCharacterMasterControllerReadOnlyInstances = PlayerCharacterMasterController._instancesReadOnly;
+            int i = 0;
+            for (int count = playerCharacterMasterControllerReadOnlyInstances.Count; i < count; i++)
+            {
+                var playerCharacterMasterController = playerCharacterMasterControllerReadOnlyInstances[i];
+                var inventory = playerCharacterMasterController.GetComponent<Inventory>();
+                if (inventory && (!requiresAlive || playerCharacterMasterController.body) && (!requiresConnected || playerCharacterMasterController.isConnected))
+                {
+                    totalItemCount += inventory.GetItemCount(itemIndex);
+                }
+            }
+            return totalItemCount;
         }
 
         public string GetConfigName()
