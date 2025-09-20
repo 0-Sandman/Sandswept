@@ -367,11 +367,6 @@ namespace Sandswept.Items
             return idrsPrefab;
         }
 
-        public string d(float f)
-        {
-            return (f * 100f).ToString() + "%";
-        }
-
         public int GetPlayerItemCountGlobal(ItemIndex itemIndex, bool requiresAlive, bool requiresConnected = true)
         {
             int totalItemCount = 0;

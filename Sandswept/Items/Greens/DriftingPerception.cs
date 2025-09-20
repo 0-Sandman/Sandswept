@@ -14,7 +14,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Cloak upon entering combat. Being cloaked increases your 'Critical Strike' chance and 'Critical Damage'. Recharges over time.";
 
-        public override string ItemFullDescription => ("Upon entering combat, become $sucloaked$se for $su" + cloakBuffDuration + "s$se. While $sucloaked$se, increase $sdcritical chance$se by $sd" + baseCritChanceGain + "%$se and $sdcritical damage$se by $sd" + d(baseCritDamageGain) + "$se $ss(+" + d(stackCritDamageGain) + " per stack)$se. Recharges every $su" + rechargeTime + " seconds$se.").AutoFormat();
+        public override string ItemFullDescription => $"Upon entering combat, become $sucloaked$se for $su{cloakBuffDuration}s$se. While $sucloaked$se, increase $sdcritical chance$se by $sd{baseCritChanceGain}%$se and $sdcritical damage$se by $sd{baseCritDamageGain * 100f}$se $ss(+{stackCritDamageGain * 100f} per stack)$se. Recharges every $su{rechargeTime} seconds$se.".AutoFormat();
 
         public override string ItemLore =>
         """
