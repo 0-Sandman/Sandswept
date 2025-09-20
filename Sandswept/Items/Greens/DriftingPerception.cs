@@ -14,7 +14,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Cloak upon entering combat. Being cloaked increases your 'Critical Strike' chance and 'Critical Damage'. Recharges over time.";
 
-        public override string ItemFullDescription => ("Upon entering combat, become $sucloaked$se for $su" + cloakBuffDuration + "s$se. While $sucloaked$se, increase '$sdCritical Strike$se' chance by $sd" + baseCritChanceGain + "%$se and '$sdCritical Strike$se' damage by $sd" + d(baseCritDamageGain) + "$se $ss(+" + d(stackCritDamageGain) + " per stack)$se. Recharges every $su" + rechargeTime + " seconds$se.").AutoFormat();
+        public override string ItemFullDescription => ("Upon entering combat, become $sucloaked$se for $su" + cloakBuffDuration + "s$se. While $sucloaked$se, increase $sdcritical chance$se by $sd" + baseCritChanceGain + "%$se and $sdcritical damage$se by $sd" + d(baseCritDamageGain) + "$se $ss(+" + d(stackCritDamageGain) + " per stack)$se. Recharges every $su" + rechargeTime + " seconds$se.").AutoFormat();
 
         public override string ItemLore =>
         """
@@ -143,7 +143,7 @@ namespace Sandswept.Items.Greens
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Head",
                 localPos = new Vector3(1.5f, 2f, 1.4f),
-                localScale = new Vector3(0.125f, 0.125f, 0.125f),
+                localScale = new Vector3(0.1f, 0.1f, 0.1f),
 
                 followerPrefab = itemDisplay,
                 limbMask = LimbFlags.None,

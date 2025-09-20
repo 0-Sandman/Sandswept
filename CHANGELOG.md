@@ -73,12 +73,16 @@
     - The Sand Sweeper
     - Corrupted Catalyst
     - Flawless Design
+  - Improved Fractured Timepiece VFX
+  - Improved Drifting Perception description wording
   - Improved Their Prominence description wording
   - Nerfed Makeshift Plate Base Percent Plating Gain from 200 to 150
   - Nerfed Makeshift Plate Stack Percent Plating Gain from 200 to 150
   - Nerfed Hallowed Ichor Per Player Divisor Add from 0.25 to 0.175 (less difficulty scaling on multiplayer)
   - Nerfed Sequenced Fate Base Extra Items Count from 6 to 5
   - Nerfed Sequenced Fate Stack Extra Items Count from 3 to 1
+  - Made The Sand Sweeper non-lethal when used by non-allies (Scavenger instakill moment)
+  - Made Galvanic Cell Shield non-lethal when used by non-allies (Scavenger instakill moment)
   - Fixed Hallowed Ichor not showing scaled timer whenever the last player holding Hallowed Ichor died
   - Fixed Hallowed Ichor adding to global stacks with NPCs that inherit items
   - Fixed Hallowed Ichor missing the AIBlacklist and BrotherBlacklist item tags

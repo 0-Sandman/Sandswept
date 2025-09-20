@@ -303,16 +303,12 @@ namespace Sandswept.Items
 
         public GameObject SetUpFollowerIDRS(float followerDampTime = 0.2f, float followerMaxSpeed = 30f, bool rotateX = true, float xRotationSpeed = 25f, bool rotateY = true, float yRotationSpeed = 15f, bool rotateZ = true, float zRotationSpeed = 10f)
         {
-            // issues:
-            // two copies of an item display follow the player
-            // they are shown in scenes
-            var followerHolder = new GameObject(ItemName.Replace(" ", "") + "FollowerIDRS", typeof(SetDontDestroyOnLoad));
+            var followerHolder = PrefabAPI.InstantiateClone(new GameObject(""), ItemName.Replace(" ", "") + "FollowerIDRS", false);
             var followerTransform = followerHolder.transform;
 
             followerTransform.localScale = Vector3.one;
             followerTransform.localEulerAngles = Vector3.zero;
             followerTransform.localPosition = Vector3.zero;
-            // tried localpos of 999999 to make them not show up in scenes, but that just hid the display
 
             var prefabForFollower = PrefabAPI.InstantiateClone(ItemModel, ItemName.Replace(" ", "") + "ForFollower", false);
 
@@ -354,8 +350,7 @@ namespace Sandswept.Items
                 childLocator.AddChild(child.name, child);
             }
 
-            var idrsPrefab = new GameObject(ItemName.Replace(" ", "") + "IDRS", typeof(SetDontDestroyOnLoad));
-            var idrsTransform = idrsPrefab.transform;
+            var idrsPrefab = PrefabAPI.InstantiateClone(new GameObject(""), ItemName.Replace(" ", "") + "IDRS", false);
 
             followerTransform.localScale = Vector3.one;
             followerTransform.localEulerAngles = Vector3.zero;
@@ -368,10 +363,6 @@ namespace Sandswept.Items
             itemFollower.followerLineRenderer = null;
             itemFollower.distanceDampTime = followerDampTime;
             itemFollower.distanceMaxSpeed = followerMaxSpeed;
-
-            // followerHolder.SetActive(false);
-            // idrsPrefab.SetActive(false);
-            // makes them not show up
 
             return idrsPrefab;
         }

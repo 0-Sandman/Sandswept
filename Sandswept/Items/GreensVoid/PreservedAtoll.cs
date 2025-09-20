@@ -209,14 +209,14 @@ namespace Sandswept.Items.VoidGreens
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
-            var itemDisplay = SetUpFollowerIDRS(0.3f, 25f);
+            var itemDisplay = SetUpFollowerIDRS(0.3f, 25f, true, -33f, true, 20f, false, 0f);
 
             return new ItemDisplayRuleDict(new ItemDisplayRule()
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Head",
                 localPos = new Vector3(-1f, 1.8f, 0.4f),
-                localScale = new Vector3(0.125f, 0.125f, 0.125f),
+                localScale = new Vector3(0.1f, 0.1f, 0.1f),
 
                 followerPrefab = itemDisplay,
                 limbMask = LimbFlags.None,

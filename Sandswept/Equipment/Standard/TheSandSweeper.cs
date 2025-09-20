@@ -198,7 +198,7 @@ namespace Sandswept.Equipment.Standard
 
                 var damageCoeff = Mathf.Lerp(maxDamage, minDamage, distanceToTarget / range);
 
-                body.healthComponent.TakeDamage(new DamageInfo()
+                var damageInfo = new DamageInfo()
                 {
                     attacker = slot.gameObject,
                     inflictor = slot.gameObject,
@@ -206,7 +206,14 @@ namespace Sandswept.Equipment.Standard
                     damageColorIndex = DamageColorIndex.Item,
                     force = ((range - distanceToTarget) * Vector3.Normalize(heightIgnoredDistance) + Vector3.up * Mathf.Lerp(10, 5, distanceToTarget / range)) * force,
                     procCoefficient = procCoefficient
-                });
+                };
+
+                if (slot.characterBody.teamComponent && slot.characterBody.teamComponent.teamIndex != TeamIndex.Player)
+                {
+                    damageInfo.damageType = DamageType.NonLethal;
+                }
+
+                body.healthComponent.TakeDamage(damageInfo);
 
                 if (body.TryGetComponent<SetStateOnHurt>(out var setStateOnHurt))
                 {

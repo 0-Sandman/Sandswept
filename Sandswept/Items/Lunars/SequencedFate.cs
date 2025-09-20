@@ -261,7 +261,7 @@ namespace Sandswept.Items.Lunars
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Head",
                 localPos = new Vector3(0.4f, 1.25f, 1.4f),
-                localScale = new Vector3(0.4f, 0.4f, 0.4f),
+                localScale = new Vector3(0.5f, 0.5f, 0.5f),
 
                 followerPrefab = itemDisplay,
                 limbMask = LimbFlags.None,

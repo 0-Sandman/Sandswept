@@ -368,7 +368,7 @@
                     return;
                 }
 
-                attackerHc.TakeDamage(new DamageInfo
+                var retaliateInfo = new DamageInfo
                 {
                     attacker = body.gameObject,
                     damage = damageCoefficient,
@@ -379,7 +379,14 @@
                     damageColorIndex = DamageColorIndex.Default,
                     procCoefficient = 0f,
                     procChainMask = default
-                });
+                };
+
+                if (body.teamComponent && body.teamComponent.teamIndex != TeamIndex.Player)
+                {
+                    retaliateInfo.damageType |= DamageType.NonLethal;
+                }
+
+                attackerHc.TakeDamage(retaliateInfo);
                 Reset();
             }
         }

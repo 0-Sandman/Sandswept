@@ -178,14 +178,14 @@ namespace Sandswept.Items.Reds
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
-            var itemDisplay = SetUpFollowerIDRS(0.3f, 90f);
+            var itemDisplay = SetUpFollowerIDRS(0.3f, 90f, true, 10f, false, 0f, true, 5f);
 
             return new ItemDisplayRuleDict(new ItemDisplayRule()
             {
                 ruleType = ItemDisplayRuleType.ParentedPrefab,
                 childName = "Head",
-                localPos = new Vector3(-1f, 0.5f, -1.5f),
-                localScale = new Vector3(0.075f, 0.075f, 0.075f),
+                localPos = new Vector3(-1f, 2.5f, -1.5f),
+                localScale = new Vector3(0.05f, 0.05f, 0.05f),
 
                 followerPrefab = itemDisplay,
                 limbMask = LimbFlags.None,

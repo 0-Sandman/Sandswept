@@ -267,7 +267,7 @@ namespace Sandswept.Items.VoidGreens
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
-            var itemDisplay = SetUpFollowerIDRS(0.1f, 1000f);
+            var itemDisplay = SetUpFollowerIDRS(0.1f, 1000f, true, -35f, true, 25f, true, -20f);
 
             return new ItemDisplayRuleDict(new ItemDisplayRule()
             {
