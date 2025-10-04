@@ -22,7 +22,7 @@ namespace Sandswept.Enemies.ArdentWisp.States
 
             PlayAnimation("Body", "Crystal Shot", "Generic.playbackRate", duration);
 
-            Debug.Log("starting crystal shot");
+            // Main.ModLogger.LogError("starting crystal shot");
 
             anim = GetModelAnimator();
         }
@@ -31,7 +31,8 @@ namespace Sandswept.Enemies.ArdentWisp.States
         {
             base.FixedUpdate();
 
-            if (anim.GetFloat("crystalFire") > 0.5f && !hasFired) {
+            if (anim.GetFloat("crystalFire") > 0.5f && !hasFired)
+            {
                 hasFired = true;
 
                 BaseAI ai = base.characterBody.master.GetComponent<BaseAI>();
@@ -44,11 +45,13 @@ namespace Sandswept.Enemies.ArdentWisp.States
                 info.damage = base.damageStat * 5f;
                 info.projectilePrefab = ArdentWisp.ArdentBombProjectile;
 
-                if (ai && ai.currentEnemy.gameObject) {
+                if (ai && ai.currentEnemy.gameObject)
+                {
                     GameObject target = ai.currentEnemy.gameObject;
                     CharacterBody targetBody = target.GetComponent<CharacterBody>();
 
-                    if (targetBody.characterMotor) {
+                    if (targetBody.characterMotor)
+                    {
                         Vector3 vel = targetBody.characterMotor.velocity.Nullify(y: true);
                         Vector3 predicted = targetBody.footPosition + (vel * ArdentBombProjectile.blastTime);
 

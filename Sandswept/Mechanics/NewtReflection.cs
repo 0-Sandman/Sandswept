@@ -178,7 +178,7 @@ namespace Sandswept.Mechanics {
             if (NetworkServer.active) {
                 GameObject artifactPickup = GameObject.Instantiate(Paths.GameObject.GenericPickup, ArtifactPoint, Quaternion.identity);
                 // Debug.Log(PickupCatalog.FindPickupIndex(ArtifactRewind.instance.ArtifactDef.artifactIndex));
-                Debug.Log(PickupCatalog.FindPickupIndex(RoR2Content.Artifacts.Bomb.artifactIndex));
+                Main.ModLogger.LogError(PickupCatalog.FindPickupIndex(RoR2Content.Artifacts.Bomb.artifactIndex));
                 // artifactPickup.GetComponent<GenericPickupController>().NetworkpickupIndex = PickupCatalog.FindPickupIndex(ArtifactRewind.instance.ArtifactDef.artifactIndex);
                 NetworkServer.Spawn(artifactPickup);
             }

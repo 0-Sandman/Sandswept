@@ -812,6 +812,18 @@ namespace Sandswept.Survivors.Electrician
                 limbMask = LimbFlags.None
             });
 
+            AddDisplayRule(Paths.ItemDef.LunarSun, new()
+            {
+                ruleType = ItemDisplayRuleType.LimbMask,
+                childName = "Head",
+                localPos = new Vector3(0.12395F, -0.1862F, -0.09846F),
+                localAngles = new Vector3(38.79285F, 347.1523F, 133.9545F),
+                localScale = new Vector3(1.1221F, 1.1221F, 1.1221F),
+
+                followerPrefab = Paths.GameObject.DisplaySunHead,
+                limbMask = LimbFlags.Head
+            });
+
             CollapseIDRS();
         }
     }

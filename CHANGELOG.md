@@ -1,78 +1,18 @@
 ## 1.3.2 Patch Notes
 - VOL-T
-  - Added some Item Displays
-    - Red Spring Water
-    - Makeshift Plate
-    - Nuclear Salvo
-    - Pocket Plutonium
-    - Sacrificial Band
-    - Smouldering Document
-    - Universal VIP Pass
-    - Armor-Piercing Rounds
-    - Backup Magazine
-    - Bundle of Fireworks
-    - Cautious Slug
-    - Chronic Expansion
-    - Delicate Watch
-    - Energy Drink
-    - Focus Crystal
-    - Lens-Maker's Glasses
-    - Medkit
-    - Personal Shield Generator
-    - Repulsion Armor Plate
-    - AtG Missile Mk. 1
-    - Bandolier
-    - Hunter's Harpoon
-    - Luminous Shot
-    - Kjaro's Band
-    - Runald's Band
-    - Ukulele
-    - Lost Seer's Lenses
-    - Singularity Band
-    - Plasma Shrimp
-    - Polylute
-    - Brilliant Behemoth
-    - Ceremonial Dagger
-    - Shattering Justice
-    - Symbiotic Scorpion
-    - Preon Accumulator
-    - Primordial Cube
-    - Artificial Void
-    - John Hopoo
-    - Aurelionite's Blessing
-    - Her Biting Embrace
-    - His Reassurance
-    - His Spiteful Boon
-    - Ifrit's Distinction
-    - N'kuhana's Retort
-    - Shared Design
-    - Silence Between Two Strikes
-    - Spectral Circlet
   - Improved Tempest Sphere VFX
   - Improved Static Snare VFX
   - Improved Signal Overload VFX
+<details>
+  <summary>- Added some Item Displays (Click to view list)</summary>
+Red Spring Water, Makeshift Plate, Nuclear Salvo, Pocket Plutonium, Sacrificial Band, Smouldering Document, Universal VIP Pass, Armor-Piercing Rounds, Backup Magazine, Bundle of Fireworks,  Cautious Slug, Chronic Expansion, Delicate Watch, Energy Drink, Focus Crystal, Lens-Maker's Glasses, Medkit, Personal Shield Generator, Repulsion Armor Plate, AtG Missile Mk. 1, Bandolier, Hunter's Harpoon, Luminous Shot, Kjaro's Band, Runald's Band, Ukulele, Lost Seer's Lenses, Singularity Band, Plasma Shrimp, Polylute, Brilliant Behemoth, Ceremonial Dagger, Shattering Justice, Symbiotic Scorpion, Preon Accumulator, Primordial Cube, Artificial Void, John Hopoo, Aurelionite's Blessing, Her Biting Embrace, His Reassurance, His Spiteful Boon, Ifrit's Distinction, N'kuhana's Retort, Shared Design, Silence Between Two Strikes, Spectral Circlet
+</details>
+
 - Ranger
   - Fixed Direct Current not having the lightning damage type (for Broken VOL-T)
   - Fixed Release not having the lightning damage type (for Broken VOL-T)
   - Fixed Galvanize not having the lightning damage type (for Broken VOL-T)
 - Items/Equipment
-  - Added Item Display Followers to
-    - Temporal Transistor
-    - Drifting Perception
-    - Sun Fragment
-    - Festering Hunger
-    - Millenium
-    - Preserved Atoll
-    - Bleeding Witness
-    - Ceremonial Jar
-    - Glacial Plasma
-    - Torn Feather
-    - Hallowed Ichor
-    - Sequenced Fate
-    - Their Prominence
-    - The Sand Sweeper
-    - Corrupted Catalyst
-    - Flawless Design
   - Improved Fractured Timepiece VFX
   - Improved Drifting Perception description wording
   - Improved Their Prominence description wording
@@ -83,6 +23,7 @@
   - Nerfed Sequenced Fate Stack Extra Items Count from 3 to 1
   - Made The Sand Sweeper non-lethal when used by non-allies (Scavenger instakill moment)
   - Made Galvanic Cell Shield non-lethal when used by non-allies (Scavenger instakill moment)
+  - Fixed Makeshift Plate potentially throwing an NRE
   - Fixed Hallowed Ichor not showing scaled timer whenever the last player holding Hallowed Ichor died
   - Fixed Hallowed Ichor adding to global stacks with NPCs that inherit items
   - Fixed Hallowed Ichor missing the AIBlacklist and BrotherBlacklist item tags
@@ -90,8 +31,15 @@
   - Fixed Sequenced Fate missing the AIBlacklist and BrotherBlacklist item tags
   - Fixed Their Prominence adding to global stacks with NPCs that inherit items
   - Fixed Their Prominence missing the AIBlacklist and BrotherBlacklist item tags
+<details>
+  <summary>- Added Item Display Followers (Click to view list)</summary>
+Temporal Transistor, Drifting Perception, Sun Fragment, Festering Hunger, Millenium, Preserved Atoll, Bleeding Witness, Ceremonial Jar, Glacial Plasma, Torn Feather, Hallowed Ichor, Sequenced Fate, Their Prominence, The Sand Sweeper, Corrupted Catalyst, Flawless Design
+</details>
+
 - Enemies
   - Fixed Theta Construct Overloading Elite Item Display
+- Interactables
+  - Increased Shrine of Sacrifice Curse Cost from 20 to 25
 
 ## 1.3.1 Patch Notes
 - Enemies

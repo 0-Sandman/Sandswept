@@ -128,6 +128,9 @@ namespace Sandswept.Items.Lunars
 
             // Main.ModLogger.LogError("stack is " + itemCount);
             // Main.ModLogger.LogError("last stack is " + lastItemCount);
+
+            var shrineOfOrderCountBeforeApplying = GameObject.FindObjectsOfType<ShrineRestackBehavior>().Length;
+
             if (itemCount > 0 || lastItemCount > 0)
             {
                 // Main.ModLogger.LogFatal("trying to add shrine of order category and card");
@@ -162,6 +165,10 @@ namespace Sandswept.Items.Lunars
                 var newShrineOfOrderCategory = new DirectorCardCategorySelection.Category { name = "Sequenced Fate Shrine of Order", selectionWeight = finalWeight, cards = new DirectorCard[1] { shrineOfOrderCard } };
 
                 self.interactableCategories.categories[self.interactableCategories.categories.Length - 1] = newShrineOfOrderCategory;
+
+                var shrineOfOrderCountAfterApplying = GameObject.FindObjectsOfType<ShrineRestackBehavior>().Length;
+
+                Main.ModLogger.LogError($"item count: {itemCount}, last item count: {lastItemCount}, stage: {SceneCatalog.mostRecentSceneDef.cachedName}, shrine of order count: {shrineOfOrderCountAfterApplying - shrineOfOrderCountBeforeApplying}");
             }
         }
 

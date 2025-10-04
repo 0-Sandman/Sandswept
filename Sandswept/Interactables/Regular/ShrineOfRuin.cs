@@ -240,14 +240,14 @@ namespace Sandswept.Interactables.Regular
             ContentAddition.AddEffect(shrineVFX);
 
             var purchaseInteraction = prefab.GetComponent<PurchaseInteraction>();
-            purchaseInteraction.displayNameToken = "SANDSWEPT_SHRINE_RUIN_NAME";
-            purchaseInteraction.contextToken = "SANDSWEPT_SHRINE_RUIN_CONTEXT";
+            purchaseInteraction.displayNameToken = "SANDSWEPT_VOID_SHRINE_RUIN_NAME";
+            purchaseInteraction.contextToken = "SANDSWEPT_VOID_SHRINE_RUIN_CONTEXT";
             purchaseInteraction.Networkavailable = true;
             purchaseInteraction.costType = costTypeIndex;
             purchaseInteraction.cost = whiteItemCost;
 
             var genericDisplayNameProvider = prefab.GetComponent<GenericDisplayNameProvider>();
-            genericDisplayNameProvider.displayToken = "SANDSWEPT_SHRINE_RUIN_NAME";
+            genericDisplayNameProvider.displayToken = "SANDSWEPT_VOID_SHRINE_RUIN_NAME";
 
             UnityEngine.Object.DestroyImmediate(prefab.GetComponent<ShrineBloodBehavior>()); // kill yourself
 
@@ -263,11 +263,11 @@ namespace Sandswept.Interactables.Regular
 
             PrefabAPI.RegisterNetworkPrefab(prefab);
 
-            LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_NAME", "Shrine of Ruin");
-            LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_CONTEXT", "Offer to Shrine of Ruin");
+            LanguageAPI.Add("SANDSWEPT_VOID_SHRINE_RUIN_NAME", "Shrine of Ruin");
+            LanguageAPI.Add("SANDSWEPT_VOID_SHRINE_RUIN_CONTEXT", "Offer to Shrine of Ruin");
 
-            LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_USE_MESSAGE_2P", "<style=cShrine>The corruption spreads.</color>");
-            LanguageAPI.Add("SANDSWEPT_SHRINE_RUIN_USE_MESSAGE", "<style=cShrine>The corruption spreads.</color>");
+            LanguageAPI.Add("SANDSWEPT_VOID_SHRINE_RUIN_USE_MESSAGE_2P", "<style=cShrine>The corruption spreads.</color>");
+            LanguageAPI.Add("SANDSWEPT_VOID_SHRINE_RUIN_USE_MESSAGE", "<style=cShrine>The corruption spreads.</color>");
 
             interactableSpawnCard.prefab = prefab;
 
@@ -335,6 +335,7 @@ namespace Sandswept.Interactables.Regular
             if (!Run.instance)
             {
                 Debug.Log("sandswept_add_ruin_stack requires an active run!");
+                Main.ModLogger.LogError("sandswept_add_ruin_stack requires an active run!");
                 return;
             }
 
@@ -703,7 +704,7 @@ namespace Sandswept.Interactables.Regular
                 Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage
                 {
                     subjectAsCharacterBody = interactorBody,
-                    baseToken = "SANDSWEPT_SHRINE_RUIN_USE_MESSAGE",
+                    baseToken = "SANDSWEPT_VOID_SHRINE_RUIN_USE_MESSAGE",
                 });
             }
 
