@@ -60,21 +60,23 @@ namespace Sandswept.Survivors.Electrician
                 return;
             }
 
-            if (NetworkServer.active)
+            stopwatch += Time.fixedDeltaTime;
+
+            if (stopwatch >= delay)
             {
-                stopwatch += Time.fixedDeltaTime;
+                stopwatch = 0f;
 
-                if (stopwatch >= delay)
+                EffectManager.SpawnEffect(Main.assets.LoadAsset<GameObject>("GalvanicSparks.prefab"),
+                new EffectData() { rotation = Quaternion.identity, scale = 8f, origin = transform.position },
+                true);
+
+                if (NetworkServer.active)
                 {
-                    stopwatch = 0f;
-
                     HandleBlastAuthority(base.transform.position);
                 }
             }
 
             simple.desiredForwardSpeed += simple.desiredForwardSpeed * 0.5f * Time.fixedDeltaTime;
-
-            if (!body) return;
 
             lr.SetPosition(0, base.transform.position);
             lr.SetPosition(1, lineOrigin.position);
@@ -82,7 +84,6 @@ namespace Sandswept.Survivors.Electrician
         }
         public void HandleBlastAuthority(Vector3 pos)
         {
-
             SphereSearch search = new()
             {
                 radius = sphere.radius,
@@ -122,6 +123,8 @@ namespace Sandswept.Survivors.Electrician
                     attackerBody = body,
                     victimBody = enemyBody
                 };
+
+                // EffectManager.SpawnEffect(Main.GalvanicSparks.prefab)
 
                 OrbManager.instance.AddOrb(orb);
             }

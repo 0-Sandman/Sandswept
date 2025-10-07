@@ -90,6 +90,18 @@ namespace Sandswept.Items.VoidGreens
             var stack = itemCount > lastItemCount ? itemCount : lastItemCount;
             if (stack > 0)
             {
+                var modelLocator = self.GetComponent<ModelLocator>();
+
+                var mdlVoidFogEmitter = modelLocator._modelTransform;
+
+                var rangeIndicator = mdlVoidFogEmitter.Find("RangeIndicator");
+                rangeIndicator.localScale = Vector3.one * (60f + 3f * stack);
+
+                var decal = self.transform.Find("Decal");
+                decal.localScale = Vector3.one * (60f + 3f * stack) * 2.08f;
+
+                self.campMaximumRadius = 60f + 3f * stack;
+
                 // Main.ModLogger.LogError("running addcredits");
 
                 var finalCreditMultiplier = 1f + (baseVoidSeedCreditMultiplier + (stackVoidSeedCreditMultiplier * (stack - 1)));

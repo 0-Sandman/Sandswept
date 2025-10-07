@@ -259,23 +259,27 @@ namespace Sandswept.Items
         //Based on ThinkInvis' methods
         public int GetCount(CharacterBody body)
         {
-            if (!body || !body.inventory) { return 0; }
+            if (body == null || body.inventory == null)
+            {
+                return 0;
+            }
 
             return body.inventory.GetItemCount(ItemDef);
         }
 
         public int GetCount(CharacterMaster master)
         {
-            if (!master || !master.inventory) { return 0; }
+            if (master == null || master.inventory == null)
+            {
+                return 0;
+            }
 
             return master.inventory.GetItemCount(ItemDef);
         }
 
-        public int GetCountSpecific(CharacterBody body, ItemDef itemDef)
+        public int GetCount(PlayerCharacterMasterController pcmc)
         {
-            if (!body || !body.inventory) { return 0; }
-
-            return body.inventory.GetItemCount(itemDef);
+            return GetCount(pcmc.master);
         }
 
         public GameObject SetUpIDRS()
