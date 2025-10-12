@@ -151,7 +151,8 @@ namespace Sandswept.Enemies.ArdentWisp.States
             }
 
             if (base.fixedAge >= duration + warningTime) {
-                outer.SetNextStateToMain();
+                // recoil state is so we cant chain from this immediately into a rock blast
+                outer.SetNextState(new CarpetFireRecoil());
             }
         }
 
@@ -203,6 +204,18 @@ namespace Sandswept.Enemies.ArdentWisp.States
         public override InterruptPriority GetMinimumInterruptPriority()
         {
             return InterruptPriority.Stun;
+        }
+    }
+    public class CarpetFireRecoil : BaseSkillState {
+        public float duration = 1f;
+
+        public override void FixedUpdate()
+        {
+            base.FixedUpdate();
+
+            if (base.fixedAge >= duration) {
+                outer.SetNextStateToMain();
+            }
         }
     }
     public class CarpetFireSkill : SkillBase<CarpetFireSkill>
