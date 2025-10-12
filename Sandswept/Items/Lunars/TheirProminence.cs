@@ -23,7 +23,7 @@ namespace Sandswept.Items.Lunars
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texTheirProminence.png");
 
-        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist];
+        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist, ItemTag.CannotCopy, ItemTag.BrotherBlacklist];
 
         [ConfigField("Base Chance", "Decimal.", 0.35f)]
         public static float baseChance;
@@ -120,7 +120,7 @@ namespace Sandswept.Items.Lunars
         private void OnTPBegin(On.RoR2.TeleporterInteraction.IdleToChargingState.orig_OnEnter orig, TeleporterInteraction.IdleToChargingState self)
         {
             orig(self);
-            int stacks = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
+            int stacks = GetPlayerItemCountGlobal(instance.ItemDef.itemIndex, true);
 
             if (stacks > 0 && !self.GetComponent<TheirProminenceController>())
             {
@@ -130,7 +130,7 @@ namespace Sandswept.Items.Lunars
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
-            itemCount = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
+            itemCount = GetPlayerItemCountGlobal(instance.ItemDef.itemIndex, true);
         }
 
         private void GlobalEventManager_OnInteractionsGlobal(Interactor interactor, IInteractable interactable, GameObject interactableObject)
@@ -199,52 +199,19 @@ namespace Sandswept.Items.Lunars
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
+            var itemDisplay = SetUpFollowerIDRS(0.5f, 120f);
 
-            var itemDisplay = SetUpIDRS();
+            return new ItemDisplayRuleDict(new ItemDisplayRule()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Head",
+                localPos = new Vector3(-1.5f, 0.5f, -1f),
+                localScale = new Vector3(0.25f, 0.25f, 0.25f),
 
-            ItemDisplayRuleDict i = new();
-
-            #region Sandswept Survivors
-            /*
-            i.Add("RangerBody",
-
-                new ItemDisplayRule()
-                {
-                    ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Chest",
-                    localPos = new Vector3(-0.00387F, 0.11857F, 0.01629F),
-                    localAngles = new Vector3(84.61184F, 220.3867F, 47.41245F),
-                    localScale = new Vector3(0.14531F, 0.14659F, 0.14531F),
-
-                    followerPrefab = itemDisplay,
-                    limbMask = LimbFlags.None,
-                    followerPrefabAddress = new AssetReferenceGameObject("")
-                }
-
-            );
-            */
-
-            i.Add("ElectricianBody",
-
-                new ItemDisplayRule()
-                {
-                    ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Head",
-                    localPos = new Vector3(-0.01041F, 0.08162F, -0.00924F),
-                    localAngles = new Vector3(85.0407F, 197.8464F, 22.78797F),
-                    localScale = new Vector3(0.12683F, 0.11843F, 0.11843F),
-
-                    followerPrefab = itemDisplay,
-                    limbMask = LimbFlags.None,
-                    followerPrefabAddress = new AssetReferenceGameObject("")
-                }
-
-            );
-
-            #endregion
-
-            return i;
-
+                followerPrefab = itemDisplay,
+                limbMask = LimbFlags.None,
+                followerPrefabAddress = new AssetReferenceGameObject("")
+            });
         }
     }
 

@@ -14,7 +14,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Cloak upon entering combat. Being cloaked increases your 'Critical Strike' chance and 'Critical Damage'. Recharges over time.";
 
-        public override string ItemFullDescription => ("Upon entering combat, become $sucloaked$se for $su" + cloakBuffDuration + "s$se. While $sucloaked$se, increase '$sdCritical Strike$se' chance by $sd" + baseCritChanceGain + "%$se and '$sdCritical Strike$se' damage by $sd" + d(baseCritDamageGain) + "$se $ss(+" + d(stackCritDamageGain) + " per stack)$se. Recharges every $su" + rechargeTime + " seconds$se.").AutoFormat();
+        public override string ItemFullDescription => $"Upon entering combat, become $sucloaked$se for $su{cloakBuffDuration}s$se. While $sucloaked$se, increase $sdcritical chance$se by $sd{baseCritChanceGain}%$se and $sdcritical damage$se by $sd{baseCritDamageGain * 100f}$se $ss(+{stackCritDamageGain * 100f} per stack)$se. Recharges every $su{rechargeTime} seconds$se.".AutoFormat();
 
         public override string ItemLore =>
         """
@@ -136,53 +136,19 @@ namespace Sandswept.Items.Greens
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
+            var itemDisplay = SetUpFollowerIDRS(0.3f, 25f);
 
-            var itemDisplay = SetUpIDRS();
+            return new ItemDisplayRuleDict(new ItemDisplayRule()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Head",
+                localPos = new Vector3(1.5f, 2f, 1.4f),
+                localScale = new Vector3(0.1f, 0.1f, 0.1f),
 
-            ItemDisplayRuleDict i = new();
-
-            #region Sandswept Survivors
-
-            /*
-            i.Add("RangerBody",
-
-                new ItemDisplayRule()
-                {
-                    ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Chest",
-                    localPos = new Vector3(-0.00387F, 0.11857F, 0.01629F),
-                    localAngles = new Vector3(84.61184F, 220.3867F, 47.41245F),
-                    localScale = new Vector3(0.14531F, 0.14659F, 0.14531F),
-
-                    followerPrefab = itemDisplay,
-                    limbMask = LimbFlags.None,
-                    followerPrefabAddress = new AssetReferenceGameObject("")
-                }
-
-            );
-            */
-
-            i.Add("ElectricianBody",
-
-                new ItemDisplayRule()
-                {
-                    ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Head",
-                    localPos = new Vector3(-0.01041F, 0.08162F, -0.00924F),
-                    localAngles = new Vector3(85.0407F, 197.8464F, 22.78797F),
-                    localScale = new Vector3(0.12683F, 0.11843F, 0.11843F),
-
-                    followerPrefab = itemDisplay,
-                    limbMask = LimbFlags.None,
-                    followerPrefabAddress = new AssetReferenceGameObject("")
-                }
-
-            );
-
-            #endregion
-
-            return i;
-            
+                followerPrefab = itemDisplay,
+                limbMask = LimbFlags.None,
+                followerPrefabAddress = new AssetReferenceGameObject("")
+            });
         }
     }
 

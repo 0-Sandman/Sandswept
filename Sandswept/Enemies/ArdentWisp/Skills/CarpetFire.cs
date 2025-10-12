@@ -78,16 +78,19 @@ namespace Sandswept.Enemies.ArdentWisp.States
 
             base.StartAimMode(0.2f);
 
-            if (!base.isAuthority) {
+            if (!base.isAuthority)
+            {
                 return;
             }
 
             stopwatch += Time.fixedDeltaTime;
 
-            if (stopwatch > delay && totalFired < totalVolleys) {
+            if (stopwatch > delay && totalFired < totalVolleys)
+            {
                 stopwatch = 0f;
 
-                if (!ai.currentEnemy.gameObject) {
+                if (!ai.currentEnemy.gameObject)
+                {
                     return;
                 }
 
@@ -95,27 +98,32 @@ namespace Sandswept.Enemies.ArdentWisp.States
 
                 int[] usedNums = new int[3];
                 List<Vector3> struckPoints = new();
-                for (int i = 0; i < 3f; i++) {
+                for (int i = 0; i < 3f; i++)
+                {
                     int counter = 0;
-                    ret:
+                ret:
                     Vector3 point = ai.currentEnemy.gameObject.transform.position + (Random.onUnitSphere * attackRadius);
                     point.y = ai.currentEnemy.gameObject.transform.position.y + 15f;
 
                     Vector3? grounded = MiscUtils.GroundPoint(point);
 
-                    if (!grounded.HasValue || (grounded.HasValue && !struckPoints.All(x => Vector3.Distance(grounded.Value, x) > blastRadius * 4f))) {
+                    if (!grounded.HasValue || (grounded.HasValue && !struckPoints.All(x => Vector3.Distance(grounded.Value, x) > blastRadius * 4f)))
+                    {
                         counter++;
-                        if (counter > 15) {
+                        if (counter > 15)
+                        {
                             continue;
                         }
                         goto ret;
                     }
 
                     int index = 0;
-                    while (true) {
+                    while (true)
+                    {
                         index = Random.Range(0, 7);
-                        
-                        if (usedNums[0] != index && usedNums[1] != index && usedNums[2] != index) {
+
+                        if (usedNums[0] != index && usedNums[1] != index && usedNums[2] != index)
+                        {
                             usedNums[i] = index;
                             break;
                         }
@@ -150,7 +158,7 @@ namespace Sandswept.Enemies.ArdentWisp.States
                 totalFired++;
             }
 
-            if (base.fixedAge >= duration + warningTime) {
+            if (base.fixedAge >= duration) {
                 // recoil state is so we cant chain from this immediately into a rock blast
                 outer.SetNextState(new CarpetFireRecoil());
             }
@@ -167,11 +175,14 @@ namespace Sandswept.Enemies.ArdentWisp.States
             GetModelAnimator().SetBool("isRaining", false);
         }
 
-        public byte GetComboNumber() {
-            for (int i = 0; i < 50; i++) {
+        public byte GetComboNumber()
+        {
+            for (int i = 0; i < 50; i++)
+            {
                 byte val = (byte)Random.Range(byte.MinValue, byte.MaxValue + 1);
-                
-                if (!ArdentFlareCharge.BZMap.ContainsKey(val)) {
+
+                if (!ArdentFlareCharge.BZMap.ContainsKey(val))
+                {
                     return val;
                 }
             }
@@ -179,7 +190,8 @@ namespace Sandswept.Enemies.ArdentWisp.States
             return 0;
         }
 
-        public IEnumerator CarpetFireAuthority(float delay, Vector3 target) {
+        public IEnumerator CarpetFireAuthority(float delay, Vector3 target)
+        {
             yield return new WaitForSeconds(delay);
 
             BlastAttack attack = new();
@@ -207,7 +219,7 @@ namespace Sandswept.Enemies.ArdentWisp.States
         }
     }
     public class CarpetFireRecoil : BaseSkillState {
-        public float duration = 1f;
+        public float duration = 2f;
 
         public override void FixedUpdate()
         {

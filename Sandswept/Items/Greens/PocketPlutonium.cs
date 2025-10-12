@@ -371,10 +371,10 @@ namespace Sandswept.Items.Greens
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Head",
-                    localPos = new Vector3(-0.01041F, 0.08162F, -0.00924F),
-                    localAngles = new Vector3(85.0407F, 197.8464F, 22.78797F),
-                    localScale = new Vector3(0.12683F, 0.11843F, 0.11843F),
+                    childName = "FootL",
+                    localPos = new Vector3(0.0115F, -0.41669F, -0.00077F),
+                    localAngles = new Vector3(351.2338F, 359.9024F, 180.1094F),
+                    localScale = new Vector3(0.15481F, 0.14456F, 0.13524F),
 
                     followerPrefab = itemDisplay,
                     limbMask = LimbFlags.None,

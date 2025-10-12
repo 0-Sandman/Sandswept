@@ -276,8 +276,8 @@ namespace Sandswept.Enemies.DeltaConstruct
 
             public void Update()
             {
-                Debug.Log("yaw: " + anim.GetFloat("aimYawCycle"));
-                Debug.Log("pitch: " + anim.GetFloat("aimPitchCycle"));
+                Main.ModLogger.LogError("yaw: " + anim.GetFloat("aimYawCycle"));
+                Main.ModLogger.LogError("pitch: " + anim.GetFloat("aimPitchCycle"));
             }
         }
     }

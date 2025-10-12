@@ -668,7 +668,164 @@ namespace Sandswept.Survivors.Electrician
                 limbMask = LimbFlags.None
             });
 
+            AddDisplayRule(Paths.EquipmentDef.Blackhole, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleOrb",
+                localPos = new Vector3(-0.02222F, -0.06466F, 0.45125F),
+                localAngles = new Vector3(90F, 180F, 0F),
+                localScale = new Vector3(0.27092F, 0.27092F, 0.27092F),
+
+                followerPrefab = Paths.GameObject.DisplayGravCube,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.BossDamageBonus, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "ArmR",
+                localPos = new Vector3(0.0417F, 0.05364F, 0.15773F),
+                localAngles = new Vector3(84.44582F, 77.29805F, 243.7534F),
+                localScale = new Vector3(0.46712F, 0.46712F, 0.46712F),
+
+                followerPrefab = Paths.GameObject.DisplayAPRound,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.Firework, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "ThighR",
+                localPos = new Vector3(-0.10805F, 0.01304F, 0.10625F),
+                localAngles = new Vector3(90F, 180F, 0F),
+                localScale = new Vector3(0.29502F, 0.29502F, 0.29502F),
+
+                followerPrefab = Paths.GameObject.DisplayFirework,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.HealWhileSafe, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "ClavicleR",
+                localPos = new Vector3(-0.0014F, -0.10851F, 0.1159F),
+                localAngles = new Vector3(24.48458F, 77.01466F, 136.4743F),
+                localScale = new Vector3(0.05323F, 0.05323F, 0.05323F),
+
+                followerPrefab = Paths.GameObject.DisplaySnail,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.FragileDamageBonus, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "ClavicleR",
+                localPos = new Vector3(0.02753F, 0.201F, 0.00171F),
+                localAngles = new Vector3(83.11189F, 279.0676F, 189.5616F),
+                localScale = new Vector3(0.65641F, 1.28782F, 0.66928F),
+
+                followerPrefab = Paths.GameObject.DisplayDelicateWatch,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.NearbyDamageBonus, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "ClavicleL",
+                localPos = new Vector3(-0.00534F, 0.00316F, 0.00055F),
+                localAngles = new Vector3(90F, 180F, 0F),
+                localScale = new Vector3(0.28695F, 0.28695F, 0.28695F),
+
+                followerPrefab = Paths.GameObject.DisplayDiamond,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.Medkit, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleCannon",
+                localPos = new Vector3(0.15206F, -0.15915F, -0.23044F),
+                localAngles = new Vector3(70.33351F, 276.3448F, 100.0341F),
+                localScale = new Vector3(0.30933F, 0.43828F, 0.30933F),
+
+                followerPrefab = Paths.GameObject.DisplayMedkit,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.MoveSpeedOnKill, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "MuzzleCannon",
+                localPos = new Vector3(0.15206F, -0.15915F, -0.23044F),
+                localAngles = new Vector3(70.33351F, 276.3448F, 100.0341F),
+                localScale = new Vector3(0.30933F, 0.43828F, 0.30933F),
+
+                followerPrefab = Paths.GameObject.DisplayGrappleHook,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.IncreasePrimaryDamage, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Pelvis",
+                localPos = new Vector3(0.16923F, -0.02905F, 0.19832F),
+                localAngles = new Vector3(357.1011F, 69.14262F, 358.8921F),
+                localScale = new Vector3(0.70423F, 0.70423F, 0.70423F),
+
+                followerPrefab = Paths.GameObject.DisplayIncreasePrimaryDamage,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.ChainLightning, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "LegR",
+                localPos = new Vector3(-0.13869F, 0.71311F, -0.02354F),
+                localAngles = new Vector3(0.08567F, 91.38188F, 179.8218F),
+                localScale = new Vector3(1.04461F, 0.95293F, 1.04461F),
+
+                followerPrefab = Paths.GameObject.DisplayUkulele,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.ChainLightningVoid, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "LegR",
+                localPos = new Vector3(0.03046F, 0.42533F, 0.05822F),
+                localAngles = new Vector3(357.2328F, 98.62356F, 138.2117F),
+                localScale = new Vector3(1.0975F, 1.0975F, 1.0975F),
+
+                followerPrefab = Paths.GameObject.DisplayUkuleleVoid,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.Dagger, new()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "ClavicleR",
+                localPos = new Vector3(0.12395F, -0.1862F, -0.09846F),
+                localAngles = new Vector3(38.79285F, 347.1523F, 133.9545F),
+                localScale = new Vector3(1.1221F, 1.1221F, 1.1221F),
+
+                followerPrefab = Paths.GameObject.DisplayDagger,
+                limbMask = LimbFlags.None
+            });
+
+            AddDisplayRule(Paths.ItemDef.LunarSun, new()
+            {
+                ruleType = ItemDisplayRuleType.LimbMask,
+                childName = "Head",
+                localPos = new Vector3(0.12395F, -0.1862F, -0.09846F),
+                localAngles = new Vector3(38.79285F, 347.1523F, 133.9545F),
+                localScale = new Vector3(1.1221F, 1.1221F, 1.1221F),
+
+                followerPrefab = Paths.GameObject.DisplaySunHead,
+                limbMask = LimbFlags.Head
+            });
+
             CollapseIDRS();
         }
     }
 }
+//

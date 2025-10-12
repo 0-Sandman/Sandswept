@@ -9,7 +9,7 @@
 
         public override string EquipmentPickupDesc => "Evoke a shield that parries the next attack. Upon successfully parrying, shock and damage your attacker and nearby enemies.";
 
-        public override string EquipmentFullDescription => ("Evoke a $shshield$se that $shparries$se the next attack. Upon successfully parrying, $sushock$se and $sddamage$se your attacker and nearby enemies for $sd" + d(baseDamage) + " damage$se.").AutoFormat();
+        public override string EquipmentFullDescription => $"Evoke a $shshield$se that $shparries$se the next attack. Upon successfully parrying, $sushock$se and $sddamage$se your attacker and nearby enemies for $sd{baseDamage * 100f}% damage$se.".AutoFormat();
 
         public override string EquipmentLore =>
         """
@@ -368,7 +368,7 @@
                     return;
                 }
 
-                attackerHc.TakeDamage(new DamageInfo
+                var retaliateInfo = new DamageInfo
                 {
                     attacker = body.gameObject,
                     damage = damageCoefficient,
@@ -379,7 +379,14 @@
                     damageColorIndex = DamageColorIndex.Default,
                     procCoefficient = 0f,
                     procChainMask = default
-                });
+                };
+
+                if (body.teamComponent && body.teamComponent.teamIndex != TeamIndex.Player)
+                {
+                    retaliateInfo.damageType |= DamageType.NonLethal;
+                }
+
+                attackerHc.TakeDamage(retaliateInfo);
                 Reset();
             }
         }

@@ -112,8 +112,7 @@ namespace Sandswept.Items.Whites
             var effectComponent = healVFX.GetComponent<EffectComponent>();
             effectComponent.applyScale = true;
 
-            var healRamp = Paths.Texture2D.texRampArtifactShellSoft;
-            var cdrRamp = Paths.Texture2D.texRampLaserTurbine;
+            var cdrRamp = Paths.Texture2D.texRampHuntressSoft2;
 
             var trans = healVFX.transform;
 
@@ -123,20 +122,21 @@ namespace Sandswept.Items.Whites
                 child.transform.localScale = Vector3.one * 1.5f;
             }
 
-            var spinner = trans.GetChild(0).GetComponent<ParticleSystemRenderer>();
+            var healSpinner = trans.GetChild(0).GetComponent<ParticleSystemRenderer>();
 
-            var newMat = Object.Instantiate(Paths.Material.matHealTrail);
-            newMat.SetTexture("_RemapTex", healRamp);
-            newMat.SetFloat("_Boost", 9.9f);
+            var newHealSpinnerMat = new Material(Paths.Material.matHealTrail);
+            newHealSpinnerMat.SetTexture("_RemapTex", Paths.Texture2D.texRampGold);
+            newHealSpinnerMat.SetFloat("_Boost", 9.9f);
 
-            spinner.trailMaterial = newMat;
+            healSpinner.trailMaterial = newHealSpinnerMat;
 
-            var crosses = trans.GetChild(1).GetComponent<ParticleSystemRenderer>();
+            var healCrosses = trans.GetChild(1).GetComponent<ParticleSystemRenderer>();
 
-            var newMat2 = Object.Instantiate(Paths.Material.matHealingCross);
-            newMat2.SetTexture("_RemapTex", healRamp);
+            var newHealCrossesMat = new Material(Paths.Material.matHealingCross);
+            newHealCrossesMat.SetTexture("_RemapTex", Paths.Texture2D.texRampMinorConstructElectric);
+            newHealCrossesMat.SetFloat("_Boost", 5f);
 
-            crosses.material = newMat2;
+            healCrosses.material = newHealCrossesMat;
 
             ContentAddition.AddEffect(healVFX);
 
@@ -147,28 +147,34 @@ namespace Sandswept.Items.Whites
 
             var trans2 = cdrVFX.transform;
 
-            var spinner2 = trans2.GetChild(0).GetComponent<ParticleSystemRenderer>();
-            spinner2.transform.eulerAngles = new Vector3(90f, 0f, 0f);
-            var spinner2guh = spinner2.GetComponent<ParticleSystem>().main;
-            spinner2guh.startDelay = 0.2f;
+            var cdrSpinner = trans2.GetChild(0).GetComponent<ParticleSystemRenderer>();
+            cdrSpinner.transform.eulerAngles = new Vector3(90f, 0f, 0f);
+            cdrSpinner.transform.localScale = Vector3.one * 1.5f;
+            var cdrSpinnerMain = cdrSpinner.GetComponent<ParticleSystem>().main;
+            cdrSpinnerMain.startDelay = 0.1f;
+            cdrSpinnerMain.startLifetime = 0.8f;
 
-            var newMat3 = Object.Instantiate(Paths.Material.matHealTrail);
-            newMat3.SetTexture("_RemapTex", cdrRamp);
-            newMat3.SetFloat("_Boost", 4.8f);
+            var newCdrSpinnerMat = new Material(Paths.Material.matHealTrail);
+            newCdrSpinnerMat.SetTexture("_RemapTex", cdrRamp);
+            newCdrSpinnerMat.SetFloat("_Boost", 4.8f);
 
-            spinner2.trailMaterial = newMat3;
+            cdrSpinner.trailMaterial = newCdrSpinnerMat;
 
-            var crosses2 = trans2.GetChild(1).GetComponent<ParticleSystemRenderer>();
-            crosses2.transform.eulerAngles = new Vector3(90f, 0f, 0f);
+            var cdrCrosses = trans2.GetChild(1).GetComponent<ParticleSystemRenderer>();
+            cdrCrosses.transform.localScale = Vector3.one * 2f;
+            cdrCrosses.transform.eulerAngles = new Vector3(90f, 0f, 0f);
 
-            var mask = Paths.Texture2D.texGalaxy1Mask;
+            var mask = Paths.Texture2D.texVFXExplosionMask;
 
-            var newMat4 = Object.Instantiate(Paths.Material.matHealingCross);
-            newMat4.SetTexture("_RemapTex", cdrRamp);
-            newMat4.SetTexture("_MainTex", mask);
-            newMat4.SetTexture("_Cloud1Tex", mask);
+            var newCdrCrossesMat = new Material(Paths.Material.matHealingCross);
+            newCdrCrossesMat.SetTexture("_RemapTex", cdrRamp);
+            newCdrCrossesMat.SetTexture("_MainTex", mask);
+            newCdrCrossesMat.SetTexture("_Cloud1Tex", mask);
+            newCdrCrossesMat.SetFloat("_Boost", 5f);
+            newCdrCrossesMat.SetFloat("_AlphaBoost", 2.079557f);
+            newCdrCrossesMat.SetFloat("_AlphaBias", 0.2769386f);
 
-            crosses2.material = newMat4;
+            cdrCrosses.material = newCdrCrossesMat;
 
             ContentAddition.AddEffect(cdrVFX);
         }

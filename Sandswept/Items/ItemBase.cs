@@ -1,8 +1,10 @@
 ﻿using HarmonyLib;
 using LookingGlass.ItemStatsNameSpace;
+using Rewired.ComponentControls.Effects;
 using RoR2.Items;
 using Sandswept.Items.Greens;
 using Sandswept.Items.VoidGreens;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -299,9 +301,87 @@ namespace Sandswept.Items
             return idrsPrefab;
         }
 
-        public string d(float f)
+        public GameObject SetUpFollowerIDRS(float followerDampTime = 0.2f, float followerMaxSpeed = 30f, bool rotateX = true, float xRotationSpeed = 25f, bool rotateY = true, float yRotationSpeed = 15f, bool rotateZ = true, float zRotationSpeed = 10f)
         {
-            return (f * 100f).ToString() + "%";
+            var followerHolder = PrefabAPI.InstantiateClone(new GameObject(""), ItemName.Replace(" ", "") + "FollowerIDRS", false);
+            var followerTransform = followerHolder.transform;
+
+            followerTransform.localScale = Vector3.one;
+            followerTransform.localEulerAngles = Vector3.zero;
+            followerTransform.localPosition = Vector3.zero;
+
+            var prefabForFollower = PrefabAPI.InstantiateClone(ItemModel, ItemName.Replace(" ", "") + "ForFollower", false);
+
+            prefabForFollower.transform.SetParent(followerTransform);
+
+            if (rotateX)
+            {
+                var rotateAroundX = prefabForFollower.AddComponent<RotateAroundAxis>();
+                rotateAroundX.speed = RotateAroundAxis.Speed.Fast;
+                rotateAroundX.slowRotationSpeed = xRotationSpeed;
+                rotateAroundX.rotateAroundAxis = RotateAroundAxis.RotationAxis.X;
+                rotateAroundX.relativeTo = Space.Self;
+                rotateAroundX.reverse = false;
+            }
+
+            if (rotateY)
+            {
+                var rotateAroundY = prefabForFollower.AddComponent<RotateAroundAxis>();
+                rotateAroundY.speed = RotateAroundAxis.Speed.Fast;
+                rotateAroundY.slowRotationSpeed = yRotationSpeed;
+                rotateAroundY.rotateAroundAxis = RotateAroundAxis.RotationAxis.Y;
+                rotateAroundY.relativeTo = Space.Self;
+                rotateAroundY.reverse = false;
+            }
+
+            if (rotateZ)
+            {
+                var rotateAroundZ = prefabForFollower.AddComponent<RotateAroundAxis>();
+                rotateAroundZ.speed = RotateAroundAxis.Speed.Fast;
+                rotateAroundZ.slowRotationSpeed = zRotationSpeed;
+                rotateAroundZ.rotateAroundAxis = RotateAroundAxis.RotationAxis.Z;
+                rotateAroundZ.relativeTo = Space.Self;
+                rotateAroundZ.reverse = false;
+            }
+
+            var childLocator = followerHolder.AddComponent<ChildLocator>();
+            foreach (Transform child in followerTransform.GetComponentsInChildren<Transform>())
+            {
+                childLocator.AddChild(child.name, child);
+            }
+
+            var idrsPrefab = PrefabAPI.InstantiateClone(new GameObject(""), ItemName.Replace(" ", "") + "IDRS", false);
+
+            followerTransform.localScale = Vector3.one;
+            followerTransform.localEulerAngles = Vector3.zero;
+            followerTransform.localPosition = Vector3.zero;
+
+            var itemFollower = idrsPrefab.AddComponent<ItemFollower>();
+            itemFollower.followerPrefab = followerHolder;
+            itemFollower.targetObject = idrsPrefab;
+            itemFollower.followerCurve = null;
+            itemFollower.followerLineRenderer = null;
+            itemFollower.distanceDampTime = followerDampTime;
+            itemFollower.distanceMaxSpeed = followerMaxSpeed;
+
+            return idrsPrefab;
+        }
+
+        public int GetPlayerItemCountGlobal(ItemIndex itemIndex, bool requiresAlive, bool requiresConnected = true)
+        {
+            int totalItemCount = 0;
+            var playerCharacterMasterControllerReadOnlyInstances = PlayerCharacterMasterController._instancesReadOnly;
+            int i = 0;
+            for (int count = playerCharacterMasterControllerReadOnlyInstances.Count; i < count; i++)
+            {
+                var playerCharacterMasterController = playerCharacterMasterControllerReadOnlyInstances[i];
+                var inventory = playerCharacterMasterController.GetComponent<Inventory>();
+                if (inventory && (!requiresAlive || playerCharacterMasterController.body) && (!requiresConnected || playerCharacterMasterController.isConnected))
+                {
+                    totalItemCount += inventory.GetItemCount(itemIndex);
+                }
+            }
+            return totalItemCount;
         }
 
         public string GetConfigName()

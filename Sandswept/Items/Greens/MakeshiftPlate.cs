@@ -47,7 +47,7 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.assets.LoadAsset<Sprite>("texIconPlate.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist, ItemTag.CannotCopy, ItemTag.DevotionBlacklist };
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist, ItemTag.CannotCopy };
 
         [ConfigField("Base Percent Plating Gain", "", 150f)]
         public static float basePercentPlatingGain;
@@ -194,9 +194,9 @@ namespace Sandswept.Items.Greens
 
         public void TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
-            if (self.body.TryGetComponent<PlatingManager>(out PlatingManager pl))
+            if (self.body && self.body.TryGetComponent<PlatingManager>(out PlatingManager platingManager))
             {
-                float plating = pl.CurrentPlating;
+                float plating = platingManager.CurrentPlating;
                 float toRemove = 0;
 
                 if (plating > info.damage)
@@ -210,8 +210,8 @@ namespace Sandswept.Items.Greens
                     info.damage -= plating;
                 }
 
-                pl.CurrentPlating -= toRemove;
-                pl.CurrentPlating = Mathf.Clamp(pl.CurrentPlating, 0, pl.MaxPlating);
+                platingManager.CurrentPlating -= toRemove;
+                platingManager.CurrentPlating = Mathf.Clamp(platingManager.CurrentPlating, 0, platingManager.MaxPlating);
             }
 
             orig(self, info);

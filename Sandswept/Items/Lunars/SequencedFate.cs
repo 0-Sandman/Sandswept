@@ -41,7 +41,7 @@ namespace Sandswept.Items.Lunars
 
         public override Sprite ItemIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texSequencedFate.png");
 
-        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist];
+        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist, ItemTag.CannotCopy, ItemTag.BrotherBlacklist];
 
         public override string AchievementName => "A Fool Moon [...]";
 
@@ -111,7 +111,7 @@ namespace Sandswept.Items.Lunars
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
-            itemCount = Util.GetItemCountGlobal(instance.ItemDef.itemIndex, true);
+            itemCount = GetPlayerItemCountGlobal(instance.ItemDef.itemIndex, true);
             if (itemCount <= 0)
             {
                 return;
@@ -128,6 +128,9 @@ namespace Sandswept.Items.Lunars
 
             // Main.ModLogger.LogError("stack is " + itemCount);
             // Main.ModLogger.LogError("last stack is " + lastItemCount);
+
+            var shrineOfOrderCountBeforeApplying = GameObject.FindObjectsOfType<ShrineRestackBehavior>().Length;
+
             if (itemCount > 0 || lastItemCount > 0)
             {
                 // Main.ModLogger.LogFatal("trying to add shrine of order category and card");
@@ -162,6 +165,10 @@ namespace Sandswept.Items.Lunars
                 var newShrineOfOrderCategory = new DirectorCardCategorySelection.Category { name = "Sequenced Fate Shrine of Order", selectionWeight = finalWeight, cards = new DirectorCard[1] { shrineOfOrderCard } };
 
                 self.interactableCategories.categories[self.interactableCategories.categories.Length - 1] = newShrineOfOrderCategory;
+
+                var shrineOfOrderCountAfterApplying = GameObject.FindObjectsOfType<ShrineRestackBehavior>().Length;
+
+                Main.ModLogger.LogError($"item count: {itemCount}, last item count: {lastItemCount}, stage: {SceneCatalog.mostRecentSceneDef.cachedName}, shrine of order count: {shrineOfOrderCountAfterApplying - shrineOfOrderCountBeforeApplying}");
             }
         }
 
@@ -254,52 +261,19 @@ namespace Sandswept.Items.Lunars
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
+            var itemDisplay = SetUpFollowerIDRS(1f, 60f);
 
-            var itemDisplay = SetUpIDRS();
+            return new ItemDisplayRuleDict(new ItemDisplayRule()
+            {
+                ruleType = ItemDisplayRuleType.ParentedPrefab,
+                childName = "Head",
+                localPos = new Vector3(0.4f, 1.25f, 1.4f),
+                localScale = new Vector3(0.5f, 0.5f, 0.5f),
 
-            ItemDisplayRuleDict i = new();
-
-            #region Sandswept Survivors
-            /*
-            i.Add("RangerBody",
-
-                new ItemDisplayRule()
-                {
-                    ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Chest",
-                    localPos = new Vector3(-0.00387F, 0.11857F, 0.01629F),
-                    localAngles = new Vector3(84.61184F, 220.3867F, 47.41245F),
-                    localScale = new Vector3(0.14531F, 0.14659F, 0.14531F),
-
-                    followerPrefab = itemDisplay,
-                    limbMask = LimbFlags.None,
-                    followerPrefabAddress = new AssetReferenceGameObject("")
-                }
-
-            );
-            */
-
-            i.Add("ElectricianBody",
-
-                new ItemDisplayRule()
-                {
-                    ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Head",
-                    localPos = new Vector3(-0.01041F, 0.08162F, -0.00924F),
-                    localAngles = new Vector3(85.0407F, 197.8464F, 22.78797F),
-                    localScale = new Vector3(0.12683F, 0.11843F, 0.11843F),
-
-                    followerPrefab = itemDisplay,
-                    limbMask = LimbFlags.None,
-                    followerPrefabAddress = new AssetReferenceGameObject("")
-                }
-
-            );
-
-            #endregion
-
-            return i;
-
+                followerPrefab = itemDisplay,
+                limbMask = LimbFlags.None,
+                followerPrefabAddress = new AssetReferenceGameObject("")
+            });
         }
     }
 

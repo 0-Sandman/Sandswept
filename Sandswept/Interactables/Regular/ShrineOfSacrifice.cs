@@ -43,7 +43,7 @@ namespace Sandswept.Interactables.Regular
         [ConfigField("Director Credit Cost", "", 20)]
         public static int directorCreditCost;
 
-        [ConfigField("Curse Cost", "", 20)]
+        [ConfigField("Curse Cost", "", 25)]
         public static int curseCost;
 
         [ConfigField("Item Count", "", 2)]
@@ -101,8 +101,18 @@ namespace Sandswept.Interactables.Regular
             prefab = PrefabAPI.InstantiateClone(Paths.GameObject.ShrineBlood, "Shrine of Sacrifice", true);
             var mdl = prefab.transform.Find("Base/mdlShrineHealing").gameObject;
             mdl.name = "mdlShrineSacrifice";
+
             mdl.GetComponent<MeshFilter>().sharedMesh = Main.prodAssets.LoadAsset<Mesh>("assets/sandswept/shrinesacrifice.fbx");
             mdl.GetComponent<MeshRenderer>().sharedMaterial = Main.prodAssets.LoadAsset<Material>("assets/sandswept/shrinesacrifice.fbx");
+            /*
+            mdl.GetComponent<MeshFilter>().sharedMesh = Main.sandsweptHIFU.LoadAsset<Mesh>("meshNewRangerTest.fbx");
+            var mdlMeshRenderer = mdl.GetComponent<MeshRenderer>();
+
+            Material[] newMaterials = [Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyTest.mat"), Main.sandsweptHIFU.LoadAsset<Material>("matRangerGunTest.mat")];
+
+            mdlMeshRenderer.materials = newMaterials;
+            */
+
             var symbol = prefab.transform.Find("Symbol");
             symbol.localPosition = new(0, 4, 0);
             var meshRenderer = symbol.GetComponent<MeshRenderer>();
@@ -136,12 +146,10 @@ namespace Sandswept.Interactables.Regular
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_NAME", "Shrine of Sacrifice");
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_CONTEXT", "Offer to Shrine of Sacrifice");
 
-
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_DESCRIPTION", "When activated by a survivor, the Shrine of Sacrifice consumes " + curseCost + "% of the survivors maximum health in exchange for " + itemCount + " copies of a random common item.");
 
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE_2P", "<style=cShrine>Your time has been sacrificed.</color>");
             LanguageAPI.Add("SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE", "<style=cShrine>{0}'s time has been sacrificed.</color>");
-
 
             interactableSpawnCard.prefab = prefab;
 
@@ -276,6 +284,17 @@ namespace Sandswept.Interactables.Regular
                 symbolTransform.gameObject.SetActive(false);
                 CallRpcSetPingable(false);
             }
+
+            /*
+            var mdl = GetComponent<ModelLocator>().modelTransform;
+
+            mdl.GetComponent<MeshFilter>().sharedMesh = Main.sandsweptHIFU.LoadAsset<Mesh>("meshOldRangerTest.fbx");
+            var mdlMeshRenderer = mdl.GetComponent<MeshRenderer>();
+
+            var newMaterial = Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyTest.mat");
+
+            mdlMeshRenderer.material = newMaterial;
+            */
         }
 
         private void UNetVersion()

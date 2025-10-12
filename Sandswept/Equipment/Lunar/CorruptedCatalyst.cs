@@ -20,7 +20,7 @@ namespace Sandswept.Equipment.Lunar
 
         public override string EquipmentPickupDesc => "Create an aura that buffs all allies and enemies alike.";
 
-        public override string EquipmentFullDescription => ("Create a $su" + buffRadius + "m$se aura that gives all allies and enemies a $surandom buff$se for $su" + buffDuration + " seconds$se.").AutoFormat();
+        public override string EquipmentFullDescription => $"Create a $su{buffRadius}m$se aura that gives all allies and enemies a $surandom buff$se for $su{buffDuration} seconds$se.".AutoFormat();
 
         public override string EquipmentLore =>
         """
