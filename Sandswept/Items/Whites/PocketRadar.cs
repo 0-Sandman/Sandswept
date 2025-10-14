@@ -9,9 +9,9 @@ namespace Sandswept.Items.Whites
 
         public override string ItemLangTokenName => "POCKET_RADAR";
 
-        public override string ItemPickupDesc => "Cloaked chests are easier to detect and appear more frequently.";
+        public override string ItemPickupDesc => "Cloaked chests are easier to see and appear more frequently.";
 
-        public override string ItemFullDescription => $"Cloaked chests are $sueasier to detect$se and are $suguaranteed$se to spawn $su{baseExtraCloakedChests}$se $ss(+{stackExtraCloakedChests} per stack)$se times each stage.".AutoFormat();
+        public override string ItemFullDescription => $"Cloaked chests are $sueasier to see$se and are $suguaranteed$se to spawn $su{baseExtraCloakedChests}$se $ss(+{stackExtraCloakedChests} per stack)$se times each stage.".AutoFormat();
 
         public override string ItemLore =>
         """
@@ -23,15 +23,15 @@ namespace Sandswept.Items.Whites
 
         public override ItemTier Tier => ItemTier.Tier1;
 
-        public override GameObject ItemModel => Main.assets.LoadAsset<GameObject>("TransistorPickup.prefab");
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texTemporalTransistor.png");
+        public override GameObject ItemModel => null;
+        public override Sprite ItemIcon => null;
 
         public override ItemTag[] ItemTags => [ItemTag.InteractableRelated, ItemTag.Utility, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist, ItemTag.CannotCopy, ItemTag.BrotherBlacklist];
 
-        [ConfigField("Base Extra Cloaked Chests", "", 2)]
+        [ConfigField("Base Extra Cloaked Chests", "", 1)]
         public static int baseExtraCloakedChests;
 
-        [ConfigField("Stack Extra Cloaked Chests", "", 2)]
+        [ConfigField("Stack Extra Cloaked Chests", "", 1)]
         public static int stackExtraCloakedChests;
 
         public static Material newCloakedChestMaterial;
@@ -88,7 +88,7 @@ namespace Sandswept.Items.Whites
         public void SetUpVFX()
         {
             newCloakedChestMaterial = new Material(Paths.Material.matCloakedEffect);
-            newCloakedChestMaterial.SetFloat("_Magnitude", 0.15f); // up from 0.105
+            newCloakedChestMaterial.SetFloat("_Magnitude", 0.2f); // up from 0.105
             newCloakedChestMaterial.SetFloat("_InvFade", 2f); // up from 0.1
         }
 
@@ -121,7 +121,7 @@ namespace Sandswept.Items.Whites
 
             for (int j = 0; j < finalCount; j++)
             {
-                Main.ModLogger.LogError("trying to place cloaked chest");
+                // Main.ModLogger.LogError("trying to place cloaked chest");
 
                 var directorPlacementRule = new DirectorPlacementRule
                 {

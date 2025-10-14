@@ -34,9 +34,9 @@ namespace Sandswept.Items.VoidGreens
 
         public override ItemTier Tier => ItemTier.VoidTier2;
 
-        public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("MilleniumHolder.prefab");
+        public override GameObject ItemModel => null;
 
-        public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texMillenium.png");
+        public override Sprite ItemIcon => null;
 
         public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.OnStageBeginEffect, ItemTag.AIBlacklist, ItemTag.CannotCopy, ItemTag.BrotherBlacklist];
 
