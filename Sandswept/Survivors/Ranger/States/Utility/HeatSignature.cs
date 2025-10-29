@@ -37,19 +37,19 @@ namespace Sandswept.Survivors.Ranger.States.Utility
 
                 overlayMat1 = skinNameToken switch
                 {
-                    "SKINDEF_MAJOR" => HeatSignatureVFX.heatDashMat1Major,
-                    "SKINDEF_RENEGADE" => HeatSignatureVFX.heatDashMat1Renegade,
-                    "SKINDEF_MILEZERO" => HeatSignatureVFX.heatDashMat1MileZero,
-                    "SKINDEF_SANDSWEPT" => HeatSignatureVFX.heatDashMat1Sandswept,
+                    "RANGER_SKIN_MAJOR_NAME" => HeatSignatureVFX.heatDashMat1Major,
+                    "RANGER_SKIN_RENEGADE_NAME" => HeatSignatureVFX.heatDashMat1Renegade,
+                    "RANGER_SKIN_MILEZERO_NAME" => HeatSignatureVFX.heatDashMat1MileZero,
+                    "RANGER_SKIN_SANDSWEPT_NAME" => HeatSignatureVFX.heatDashMat1Sandswept,
                     _ => HeatSignatureVFX.heatDashMat1Default
                 };
 
                 overlayMat2 = skinNameToken switch
                 {
-                    "SKINDEF_MAJOR" => HeatSignatureVFX.heatDashMat2Major,
-                    "SKINDEF_RENEGADE" => HeatSignatureVFX.heatDashMat2Renegade,
-                    "SKINDEF_MILEZERO" => HeatSignatureVFX.heatDashMat2MileZero,
-                    "SKINDEF_SANDSWEPT" => HeatSignatureVFX.heatDashMat2Sandswept,
+                    "RANGER_SKIN_MAJOR_NAME" => HeatSignatureVFX.heatDashMat2Major,
+                    "RANGER_SKIN_RENEGADE_NAME" => HeatSignatureVFX.heatDashMat2Renegade,
+                    "RANGER_SKIN_MILEZERO_NAME" => HeatSignatureVFX.heatDashMat2MileZero,
+                    "RANGER_SKIN_SANDSWEPT_NAME" => HeatSignatureVFX.heatDashMat2Sandswept,
                     _ => HeatSignatureVFX.heatDashMat2Default
                 };
 

@@ -70,7 +70,7 @@ namespace Sandswept.Survivors.Electrician
             var skinNameToken = MSC.skins[MSC.currentSkinIndex].nameToken;
             var tetherColors = skinNameToken switch
             {
-                "SKIN_ELEC_MASTERY" => new Color32[2] { new Color32(115, 0, 255, 255), new Color32(113, 143, 255, 255) },
+                "VOLT_SKIN_COVENANT_NAME" => new Color32[2] { new Color32(115, 0, 255, 255), new Color32(113, 143, 255, 255) },
                 _ => new Color32[2] { new Color32(0, 157, 255, 255), new Color32(0, 216, 255, 255) }
             };
 

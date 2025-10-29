@@ -206,19 +206,19 @@ namespace Sandswept.Survivors.Electrician.States
 
                 signalIndicator = skinNameToken switch
                 {
-                    "SKIN_ELEC_MASTERY" => VFX.SignalOverload.indicatorCovenant,
+                    "VOLT_SKIN_COVENANT_NAME" => VFX.SignalOverload.indicatorCovenant,
                     _ => VFX.SignalOverload.indicatorDefault
                 };
 
                 effect = skinNameToken switch
                 {
-                    "SKIN_ELEC_MASTERY" => VFX.SignalOverload.impactCovenant,
+                    "VOLT_SKIN_COVENANT_NAME" => VFX.SignalOverload.impactCovenant,
                     _ => VFX.SignalOverload.impactDefault
                 };
 
                 beamVFX = skinNameToken switch
                 {
-                    "SKIN_ELEC_MASTERY" => VFX.SignalOverload.beamCovenant,
+                    "VOLT_SKIN_COVENANT_NAME" => VFX.SignalOverload.beamCovenant,
                     _ => VFX.SignalOverload.beamDefault
                 };
 
@@ -436,7 +436,7 @@ namespace Sandswept.Survivors.Electrician.States
 
                 overlayMat = skinNameToken switch
                 {
-                    "SKIN_ELEC_MASTERY" => VFX.SignalOverload.matShieldBreakCovenant,
+                    "VOLT_SKIN_COVENANT_NAME" => VFX.SignalOverload.matShieldBreakCovenant,
                     _ => VFX.SignalOverload.matShieldBreakDefault
                 };
 

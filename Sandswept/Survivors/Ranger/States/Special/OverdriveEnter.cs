@@ -55,10 +55,10 @@ namespace Sandswept.Survivors.Ranger.States.Special
 
                     heatMat = skinNameToken switch
                     {
-                        "SKINDEF_MAJOR" => HeatVFX.heatMatMajor,
-                        "SKINDEF_RENEGADE" => HeatVFX.heatMatRenegade,
-                        "SKINDEF_MILEZERO" => HeatVFX.heatMatMileZero,
-                        "SKINDEF_SANDSWEPT" => HeatVFX.heatMatSandswept,
+                        "RANGER_SKIN_MAJOR_NAME" => HeatVFX.heatMatMajor,
+                        "RANGER_SKIN_RENEGADE_NAME" => HeatVFX.heatMatRenegade,
+                        "RANGER_SKIN_MILEZERO_NAME" => HeatVFX.heatMatMileZero,
+                        "RANGER_SKIN_SANDSWEPT_NAME" => HeatVFX.heatMatSandswept,
                         _ => HeatVFX.heatMatDefault
                     };
                     /*

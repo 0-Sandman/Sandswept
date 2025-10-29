@@ -121,6 +121,7 @@ namespace Sandswept.Survivors.Electrician
             SurvivorDef.unlockableDef = UnlockableDefs.charUnlock;
 
             sdElecDefault = Main.assets.LoadAsset<SkinDef>("sdElecDefault.asset");
+            sdElecDefault.nameToken = "VOLT_SKIN_DEFAULT_NAME";
             sdElecDefault.icon = Skins.CreateSkinIcon(
                 new Color32(93, 79, 107, 255),
                 new Color32(76, 21, 197, 255),
@@ -129,6 +130,7 @@ namespace Sandswept.Survivors.Electrician
             );
 
             sdElecMastery = Main.assets.LoadAsset<SkinDef>("sdElecMastery.asset");
+            sdElecMastery.nameToken = "VOLT_SKIN_COVENANT_NAME";
             sdElecMastery.icon = Skins.CreateSkinIcon(
                 new Color32(162, 103, 255, 255),
                 new Color32(185, 175, 201, 255),
@@ -143,7 +145,10 @@ namespace Sandswept.Survivors.Electrician
             matMasteryElecOrbInner = Main.assets.LoadAsset<Material>("matMasteryElecOrbCenter.mat");
             matMasteryElecOrbOuter = Main.assets.LoadAsset<Material>("matMasteryElecOrbOuter.mat");
 
-            LanguageAPI.Add("SKIN_ELEC_MASTERY", "Covenant");
+            LanguageAPI.Add("VOLT_SKIN_DEFAULT_NAME", "Default");
+            LanguageAPI.Add("VOLT_SKIN_DEFAULT_DESC", "This survivor's default skin.");
+            LanguageAPI.Add("VOLT_SKIN_COVENANT_NAME", "Covenant");
+            LanguageAPI.Add("VOLT_SKIN_COVENANT_DESC", "A successful experiment. The wrath of storms, captured.");
 
             ContentAddition.AddMaster(Main.assets.LoadAsset<GameObject>("ElectricianMonsterMaster.prefab"));
 

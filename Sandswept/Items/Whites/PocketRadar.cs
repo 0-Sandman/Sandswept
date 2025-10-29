@@ -88,7 +88,7 @@ namespace Sandswept.Items.Whites
         public void SetUpVFX()
         {
             newCloakedChestMaterial = new Material(Paths.Material.matCloakedEffect);
-            newCloakedChestMaterial.SetFloat("_Magnitude", 0.2f); // up from 0.105
+            newCloakedChestMaterial.SetFloat("_Magnitude", 0.25f); // up from 0.105
             newCloakedChestMaterial.SetFloat("_InvFade", 2f); // up from 0.1
         }
 

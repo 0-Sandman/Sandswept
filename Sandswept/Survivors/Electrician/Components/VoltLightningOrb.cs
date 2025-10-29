@@ -36,7 +36,7 @@ namespace Sandswept.Survivors.Electrician
 
                     impactVFX = skinNameToken switch
                     {
-                        "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.muzzleFlashCovenant,
+                        "VOLT_SKIN_COVENANT_NAME" => VFX.GalvanicBolt.muzzleFlashCovenant,
                         _ => VFX.GalvanicBolt.muzzleFlashDefault
                     };
                     // wanted to recolor but it was way too garbage and made in a garbage trash piece of shit fucking kurwa jebana jego mac pizda pierdolona to robila KURWA ja pierdole kurwa co za smiecie jebane to kurwa robily wystarczy grayscale wszystko oprocz jednego koloru kurwa szmaty jebane ALE NIE KURWA TRZEBA DZIESIEC RAZY WIECEJ WORKLOAD DAC BO JESTESCIE PIZDAMI JEBANYMI I NIE POTRAFICIE MYSLEC KURWA JA PIERDOLE

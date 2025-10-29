@@ -225,10 +225,10 @@ namespace Sandswept.Survivors.Ranger
 
                     ChargeColor = skinNameToken switch
                     {
-                        "SKINDEF_MAJOR" => new Color32(61, 105, 198, 140),
-                        "SKINDEF_RENEGADE" => new Color32(196, 62, 174, 140),
-                        "SKINDEF_MILEZERO" => new Color32(181, 30, 30, 140),
-                        "SKINDEF_SANDSWEPT" => new Color32(196, 136, 62, 140),
+                        "RANGER_SKIN_MAJOR_NAME" => new Color32(61, 105, 198, 140),
+                        "RANGER_SKIN_RENEGADE_NAME" => new Color32(196, 62, 174, 140),
+                        "RANGER_SKIN_MILEZERO_NAME" => new Color32(181, 30, 30, 140),
+                        "RANGER_SKIN_SANDSWEPT_NAME" => new Color32(196, 136, 62, 140),
                         _ => new Color32(78, 182, 142, 140),
                     };
                 }
@@ -324,18 +324,18 @@ namespace Sandswept.Survivors.Ranger
 
                 lowHeatColor = skinNameToken switch
                 {
-                    "SKINDEF_MAJOR" => new Color32(0, 130, 224, 140),
-                    "SKINDEF_RENEGADE" => new Color32(244, 95, 197, 140),
-                    "SKINDEF_MILEZERO" => new Color32(153, 0, 23, 140),
-                    "SKINDEF_SANDSWEPT" => new Color32(214, 159, 79, 140),
+                    "RANGER_SKIN_MAJOR_NAME" => new Color32(0, 130, 224, 140),
+                    "RANGER_SKIN_RENEGADE_NAME" => new Color32(244, 95, 197, 140),
+                    "RANGER_SKIN_MILEZERO_NAME" => new Color32(153, 0, 23, 140),
+                    "RANGER_SKIN_SANDSWEPT_NAME" => new Color32(214, 159, 79, 140),
                     _ => new Color32(255, 200, 0, 140),
                 };
                 inHeatColor = skinNameToken switch
                 {
-                    "SKINDEF_MAJOR" => new Color32(60, 0, 244, 180),
-                    "SKINDEF_RENEGADE" => new Color32(114, 39, 244, 180),
-                    "SKINDEF_MILEZERO" => new Color32(226, 0, 33, 180),
-                    "SKINDEF_SANDSWEPT" => new Color32(220, 220, 220, 180),
+                    "RANGER_SKIN_MAJOR_NAME" => new Color32(60, 0, 244, 180),
+                    "RANGER_SKIN_RENEGADE_NAME" => new Color32(114, 39, 244, 180),
+                    "RANGER_SKIN_MILEZERO_NAME" => new Color32(226, 0, 33, 180),
+                    "RANGER_SKIN_SANDSWEPT_NAME" => new Color32(220, 220, 220, 180),
                     _ => new Color32(255, 70, 0, 180),
                 };
             }

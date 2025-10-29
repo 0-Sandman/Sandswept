@@ -224,7 +224,9 @@ namespace Sandswept.Survivors.Ranger
         public void AddSkins()
         {
             defaultDef = Main.assets.LoadAsset<SkinDef>("Skindefault.asset");
+            defaultDef.nameToken = "RANGER_SKIN_DEFAULT_NAME";
             masteryDef = Main.assets.LoadAsset<SkinDef>("sdRangerMastery.asset");
+            masteryDef.nameToken = "RANGER_SKIN_SANDSWEPT_NAME";
 
             var scarfAndPantsColor = new Color32(88, 161, 142, 255);
             var helmetColor = new Color32(0, 255, 169, 255);
@@ -240,7 +242,8 @@ namespace Sandswept.Survivors.Ranger
             );
             masteryDef.unlockableDef = Achievements.UnlockableDefs.masteryUnlock;
 
-            "SKIN_DEFAULT".Add("Default");
+            "RANGER_SKIN_DEFAULT_NAME".Add("Default");
+            "RANGER_SKIN_DEFAULT_DESC".Add("This survivor's default skin.");
 
             modelSkinController = mdl.GetComponent<ModelSkinController>();
 
@@ -249,12 +252,12 @@ namespace Sandswept.Survivors.Ranger
                 masteryDef
             };
 
-            majorDef = CreateRecolor("Major", 4.2f);
-            renegadeDef = CreateRecolor("Renegade", 2.5f);
-            mileZeroDef = CreateRecolor("Mile Zero", 4.2f);
+            majorDef = CreateRecolor("Major", "A uniform reserved for high-ranking devotees, indicated by its blue color. Always remembered, but never worn.", 4.2f);
+            renegadeDef = CreateRecolor("Renegade", "An alternative path of apostasy. Always imagined, but never worn.", 2.5f);
+            mileZeroDef = CreateRecolor("Mile Zero", "His colors.", 4.2f);
 
-            masteryDef.nameToken = "SKINDEF_SANDSWEPT";
-            "SKINDEF_SANDSWEPT".Add("Sandswept");
+            "RANGER_SKIN_SANDSWEPT_NAME".Add("Sandswept");
+            "RANGER_SKIN_SANDSWEPT_DESC".Add("The garb from a fateful mission that can never be rectified. Always kept, but never worn.");
 
             On.RoR2.UI.SurvivorIconController.Rebuild += SurvivorIconController_Rebuild;
         }
@@ -297,7 +300,6 @@ namespace Sandswept.Survivors.Ranger
             }
         }
 
-
         public void RegisterStuff()
         {
             ContentAddition.AddBody(Body);
@@ -315,7 +317,7 @@ namespace Sandswept.Survivors.Ranger
             ContentAddition.AddEntityState(typeof(Galvanize), out _);
         }
 
-        public SkinDef CreateRecolor(string skinName, float emissionValue = 2.5f, UnlockableDef unlockableDef = null)
+        public SkinDef CreateRecolor(string skinName, string skinDescription, float emissionValue = 2.5f, UnlockableDef unlockableDef = null)
         {
             var trimmedName = skinName.Replace(" ", "");
             var mainTex = Main.hifuSandswept.LoadAsset<Texture2D>("texRangerDiffuse" + trimmedName + ".png");
@@ -373,7 +375,7 @@ namespace Sandswept.Survivors.Ranger
             {
                 Icon = icon,
                 Name = trimmedName,
-                NameToken = "SKINDEF_" + trimmedName.ToUpper(),
+                NameToken = "RANGER_SKIN_" + trimmedName.ToUpper() + "_NAME",
                 RendererInfos = newRendererInfos,
                 RootObject = mdl.gameObject,
                 UnlockableDef = unlockableDef,
@@ -382,7 +384,8 @@ namespace Sandswept.Survivors.Ranger
 
             var skinDef = Skins.CreateNewSkinDef(newSkinDefInfo);
 
-            ("SKINDEF_" + trimmedName.ToUpper()).Add(skinName);
+            ("RANGER_SKIN_" + trimmedName.ToUpper() + "_NAME").Add(skinName);
+            ("RANGER_SKIN_" + trimmedName.ToUpper() + "_DESC").Add(skinDescription);
 
             Skins.AddSkinToCharacter(Body, skinDef);
 
