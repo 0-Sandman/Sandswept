@@ -33,7 +33,7 @@
   - Fixed Sequenced Fate missing the AIBlacklist and BrotherBlacklist item tags
   - Fixed Their Prominence adding to global stacks with NPCs that inherit items
   - Fixed Their Prominence missing the AIBlacklist and BrotherBlacklist item tags
-<details>
+  - <details>
   <summary>- Added Item Display Followers (Click to view list)</summary>
 Temporal Transistor, Drifting Perception, Sun Fragment, Festering Hunger, Millenium, Preserved Atoll, Bleeding Witness, Ceremonial Jar, Glacial Plasma, Torn Feather, Hallowed Ichor, Sequenced Fate, Their Prominence, The Sand Sweeper, Corrupted Catalyst, Flawless Design
 </details>
