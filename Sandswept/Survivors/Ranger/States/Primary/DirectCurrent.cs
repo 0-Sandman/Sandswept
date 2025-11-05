@@ -22,10 +22,10 @@ namespace Sandswept.Survivors.Ranger.States.Primary
 
                 directCurrentProjectile = skinNameToken switch
                 {
-                    "SKINDEF_MAJOR" => Projectiles.DirectCurrent.prefabMajor,
-                    "SKINDEF_RENEGADE" => Projectiles.DirectCurrent.prefabRenegade,
-                    "SKINDEF_MILEZERO" => Projectiles.DirectCurrent.prefabMileZero,
-                    "SKINDEF_SANDSWEPT" => Projectiles.DirectCurrent.prefabSandswept,
+                    "RANGER_SKIN_MAJOR_NAME" => Projectiles.DirectCurrent.prefabMajor,
+                    "RANGER_SKIN_RENEGADE_NAME" => Projectiles.DirectCurrent.prefabRenegade,
+                    "RANGER_SKIN_MILEZERO_NAME" => Projectiles.DirectCurrent.prefabMileZero,
+                    "RANGER_SKIN_SANDSWEPT_NAME" => Projectiles.DirectCurrent.prefabSandswept,
                     _ => Projectiles.DirectCurrent.prefabDefault,
                 };
             }

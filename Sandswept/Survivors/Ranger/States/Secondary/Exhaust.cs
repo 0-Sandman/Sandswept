@@ -51,19 +51,19 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 
                 tracerEffect = skinNameToken switch
                 {
-                    "SKINDEF_MAJOR" => ExhaustVFX.tracerPrefabMajor,
-                    "SKINDEF_RENEGADE" => ExhaustVFX.tracerPrefabRenegade,
-                    "SKINDEF_MILEZERO" => ExhaustVFX.tracerPrefabMileZero,
-                    "SKINDEF_SANDSWEPT" => ExhaustVFX.tracerPrefabSandswept,
+                    "RANGER_SKIN_MAJOR_NAME" => ExhaustVFX.tracerPrefabMajor,
+                    "RANGER_SKIN_RENEGADE_NAME" => ExhaustVFX.tracerPrefabRenegade,
+                    "RANGER_SKIN_MILEZERO_NAME" => ExhaustVFX.tracerPrefabMileZero,
+                    "RANGER_SKIN_SANDSWEPT_NAME" => ExhaustVFX.tracerPrefabSandswept,
                     _ => ExhaustVFX.tracerPrefabDefault
                 };
 
                 impactEffect = skinNameToken switch
                 {
-                    "SKINDEF_MAJOR" => ExhaustVFX.impactPrefabMajor,
-                    "SKINDEF_RENEGADE" => ExhaustVFX.impactPrefabRenegade,
-                    "SKINDEF_MILEZERO" => ExhaustVFX.impactPrefabMileZero,
-                    "SKINDEF_SANDSWEPT" => ExhaustVFX.impactPrefabSandswept,
+                    "RANGER_SKIN_MAJOR_NAME" => ExhaustVFX.impactPrefabMajor,
+                    "RANGER_SKIN_RENEGADE_NAME" => ExhaustVFX.impactPrefabRenegade,
+                    "RANGER_SKIN_MILEZERO_NAME" => ExhaustVFX.impactPrefabMileZero,
+                    "RANGER_SKIN_SANDSWEPT_NAME" => ExhaustVFX.impactPrefabSandswept,
                     _ => ExhaustVFX.impactPrefabDefault
                 };
 

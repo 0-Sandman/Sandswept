@@ -38,7 +38,7 @@ namespace Sandswept.Survivors.Electrician
 
                 impactVFX = skinNameToken switch
                 {
-                    "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.impactCovenant,
+                    "VOLT_SKIN_COVENANT_NAME" => VFX.GalvanicBolt.impactCovenant,
                     _ => VFX.GalvanicBolt.impactDefault
                 };
             }

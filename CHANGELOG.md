@@ -1,13 +1,15 @@
 ## 1.3.2 Patch Notes
 - VOL-T
+  - Added SkinFlavorText Support
+  - <details>
+    <summary>Added some Item Displays, click to view list</summary>
+    Red Spring Water, Makeshift Plate, Nuclear Salvo, Pocket Plutonium, Sacrificial Band, Smouldering Document, Universal VIP Pass, Armor-Piercing Rounds, Backup Magazine, Bundle of Fireworks,  Cautious Slug, Chronic Expansion, Delicate Watch, Energy Drink, Focus Crystal, Lens-Maker's Glasses, Medkit, Personal Shield Generator, Repulsion Armor Plate, AtG Missile Mk. 1, Bandolier, Hunter's Harpoon, Luminous Shot, Kjaro's Band, Runald's Band, Ukulele, Lost Seer's Lenses, Singularity Band, Plasma Shrimp, Polylute, Brilliant Behemoth, Ceremonial Dagger, Shattering Justice, Symbiotic Scorpion, Preon Accumulator, Primordial Cube, Artificial Void, John Hopoo, Aurelionite's Blessing, Her Biting Embrace, His Reassurance, His Spiteful Boon, Ifrit's Distinction, N'kuhana's Retort, Shared Design, Silence Between Two Strikes, Spectral Circlet
+    </details>
   - Improved Tempest Sphere VFX
   - Improved Static Snare VFX
   - Improved Signal Overload VFX
-<details>
-  <summary>- Added some Item Displays (Click to view list)</summary>
-Red Spring Water, Makeshift Plate, Nuclear Salvo, Pocket Plutonium, Sacrificial Band, Smouldering Document, Universal VIP Pass, Armor-Piercing Rounds, Backup Magazine, Bundle of Fireworks,  Cautious Slug, Chronic Expansion, Delicate Watch, Energy Drink, Focus Crystal, Lens-Maker's Glasses, Medkit, Personal Shield Generator, Repulsion Armor Plate, AtG Missile Mk. 1, Bandolier, Hunter's Harpoon, Luminous Shot, Kjaro's Band, Runald's Band, Ukulele, Lost Seer's Lenses, Singularity Band, Plasma Shrimp, Polylute, Brilliant Behemoth, Ceremonial Dagger, Shattering Justice, Symbiotic Scorpion, Preon Accumulator, Primordial Cube, Artificial Void, John Hopoo, Aurelionite's Blessing, Her Biting Embrace, His Reassurance, His Spiteful Boon, Ifrit's Distinction, N'kuhana's Retort, Shared Design, Silence Between Two Strikes, Spectral Circlet
-</details>
 - Ranger
+  - Added SkinFlavorText Support
   - Fixed Direct Current not having the lightning damage type (for Broken VOL-T)
   - Fixed Release not having the lightning damage type (for Broken VOL-T)
   - Fixed Galvanize not having the lightning damage type (for Broken VOL-T)

@@ -26,13 +26,13 @@ namespace Sandswept.Survivors.Electrician.States
 
                 muzzleFlash = skinNameToken switch
                 {
-                    "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.muzzleFlashCovenant,
+                    "VOLT_SKIN_COVENANT_NAME" => VFX.GalvanicBolt.muzzleFlashCovenant,
                     _ => VFX.GalvanicBolt.muzzleFlashDefault
                 };
 
                 galvanicBoltProjectile = skinNameToken switch
                 {
-                    "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.projectileCovenant,
+                    "VOLT_SKIN_COVENANT_NAME" => VFX.GalvanicBolt.projectileCovenant,
                     _ => VFX.GalvanicBolt.projectileDefault
                 };
 

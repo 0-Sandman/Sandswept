@@ -57,37 +57,37 @@ namespace Sandswept.Survivors.Ranger.States.Special
 
                 overlayMat1 = skinNameToken switch
                 {
-                    "SKINDEF_MAJOR" => HeatSinkVFX.explodeMat1Major,
-                    "SKINDEF_RENEGADE" => HeatSinkVFX.explodeMat1Renegade,
-                    "SKINDEF_MILEZERO" => HeatSinkVFX.explodeMat1MileZero,
-                    "SKINDEF_SANDSWEPT" => HeatSinkVFX.explodeMat1Sandswept,
+                    "RANGER_SKIN_MAJOR_NAME" => HeatSinkVFX.explodeMat1Major,
+                    "RANGER_SKIN_RENEGADE_NAME" => HeatSinkVFX.explodeMat1Renegade,
+                    "RANGER_SKIN_MILEZERO_NAME" => HeatSinkVFX.explodeMat1MileZero,
+                    "RANGER_SKIN_SANDSWEPT_NAME" => HeatSinkVFX.explodeMat1Sandswept,
                     _ => HeatSinkVFX.explodeMat1Default
                 };
 
                 overlayMat2 = skinNameToken switch
                 {
-                    "SKINDEF_MAJOR" => HeatSinkVFX.explodeMat2Major,
-                    "SKINDEF_RENEGADE" => HeatSinkVFX.explodeMat2Renegade,
-                    "SKINDEF_MILEZERO" => HeatSinkVFX.explodeMat2MileZero,
-                    "SKINDEF_SANDSWEPT" => HeatSinkVFX.explodeMat2Sandswept,
+                    "RANGER_SKIN_MAJOR_NAME" => HeatSinkVFX.explodeMat2Major,
+                    "RANGER_SKIN_RENEGADE_NAME" => HeatSinkVFX.explodeMat2Renegade,
+                    "RANGER_SKIN_MILEZERO_NAME" => HeatSinkVFX.explodeMat2MileZero,
+                    "RANGER_SKIN_SANDSWEPT_NAME" => HeatSinkVFX.explodeMat2Sandswept,
                     _ => HeatSinkVFX.explodeMat2Default
                 };
 
                 explosion1 = skinNameToken switch
                 {
-                    "SKINDEF_MAJOR" => HeatSinkVFX.explosion1Major,
-                    "SKINDEF_RENEGADE" => HeatSinkVFX.explosion1Renegade,
-                    "SKINDEF_MILEZERO" => HeatSinkVFX.explosion1MileZero,
-                    "SKINDEF_SANDSWEPT" => HeatSinkVFX.explosion1Sandswept,
+                    "RANGER_SKIN_MAJOR_NAME" => HeatSinkVFX.explosion1Major,
+                    "RANGER_SKIN_RENEGADE_NAME" => HeatSinkVFX.explosion1Renegade,
+                    "RANGER_SKIN_MILEZERO_NAME" => HeatSinkVFX.explosion1MileZero,
+                    "RANGER_SKIN_SANDSWEPT_NAME" => HeatSinkVFX.explosion1Sandswept,
                     _ => HeatSinkVFX.explosion1Default
                 };
 
                 explosion2 = skinNameToken switch
                 {
-                    "SKINDEF_MAJOR" => HeatSinkVFX.explosion2Major,
-                    "SKINDEF_RENEGADE" => HeatSinkVFX.explosion2Renegade,
-                    "SKINDEF_MILEZERO" => HeatSinkVFX.explosion2MileZero,
-                    "SKINDEF_SANDSWEPT" => HeatSinkVFX.explosion2Sandswept,
+                    "RANGER_SKIN_MAJOR_NAME" => HeatSinkVFX.explosion2Major,
+                    "RANGER_SKIN_RENEGADE_NAME" => HeatSinkVFX.explosion2Renegade,
+                    "RANGER_SKIN_MILEZERO_NAME" => HeatSinkVFX.explosion2MileZero,
+                    "RANGER_SKIN_SANDSWEPT_NAME" => HeatSinkVFX.explosion2Sandswept,
                     _ => HeatSinkVFX.explosion2Default
                 };
 

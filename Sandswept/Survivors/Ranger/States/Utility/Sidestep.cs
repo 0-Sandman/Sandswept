@@ -31,19 +31,19 @@ namespace Sandswept.Survivors.Ranger.States.Utility
 
                 overlayMat1 = skinNameToken switch
                 {
-                    "SKINDEF_MAJOR" => SidestepVFX.dashMat1Major,
-                    "SKINDEF_RENEGADE" => SidestepVFX.dashMat1Renegade,
-                    "SKINDEF_MILEZERO" => SidestepVFX.dashMat1MileZero,
-                    "SKINDEF_SANDSWEPT" => SidestepVFX.dashMat1Sandswept,
+                    "RANGER_SKIN_MAJOR_NAME" => SidestepVFX.dashMat1Major,
+                    "RANGER_SKIN_RENEGADE_NAME" => SidestepVFX.dashMat1Renegade,
+                    "RANGER_SKIN_MILEZERO_NAME" => SidestepVFX.dashMat1MileZero,
+                    "RANGER_SKIN_SANDSWEPT_NAME" => SidestepVFX.dashMat1Sandswept,
                     _ => SidestepVFX.dashMat1Default
                 };
 
                 overlayMat2 = skinNameToken switch
                 {
-                    "SKINDEF_MAJOR" => SidestepVFX.dashMat2Major,
-                    "SKINDEF_RENEGADE" => SidestepVFX.dashMat2Renegade,
-                    "SKINDEF_MILEZERO" => SidestepVFX.dashMat2MileZero,
-                    "SKINDEF_SANDSWEPT" => SidestepVFX.dashMat2Sandswept,
+                    "RANGER_SKIN_MAJOR_NAME" => SidestepVFX.dashMat2Major,
+                    "RANGER_SKIN_RENEGADE_NAME" => SidestepVFX.dashMat2Renegade,
+                    "RANGER_SKIN_MILEZERO_NAME" => SidestepVFX.dashMat2MileZero,
+                    "RANGER_SKIN_SANDSWEPT_NAME" => SidestepVFX.dashMat2Sandswept,
                     _ => SidestepVFX.dashMat2Default
                 };
                 var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);

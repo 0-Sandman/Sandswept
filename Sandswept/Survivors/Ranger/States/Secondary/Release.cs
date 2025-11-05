@@ -46,22 +46,22 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                         impactEffect = ReleaseVFX.impactPrefabDefault;
                         break;
 
-                    case "SKINDEF_MAJOR":
+                    case "RANGER_SKIN_MAJOR_NAME":
                         tracerEffect = ReleaseVFX.tracerPrefabMajor;
                         impactEffect = ReleaseVFX.impactPrefabMajor;
                         break;
 
-                    case "SKINDEF_RENEGADE":
+                    case "RANGER_SKIN_RENEGADE_NAME":
                         tracerEffect = ReleaseVFX.tracerPrefabRenegade;
                         impactEffect = ReleaseVFX.impactPrefabRenegade;
                         break;
 
-                    case "SKINDEF_MILEZERO":
+                    case "RANGER_SKIN_MILEZERO_NAME":
                         tracerEffect = ReleaseVFX.tracerPrefabMileZero;
                         impactEffect = ReleaseVFX.impactPrefabMileZero;
                         break;
 
-                    case "SKINDEF_SANDSWEPT":
+                    case "RANGER_SKIN_SANDSWEPT_NAME":
                         tracerEffect = ReleaseVFX.tracerPrefabSandswept;
                         impactEffect = ReleaseVFX.impactPrefabSandswept;
                         break;

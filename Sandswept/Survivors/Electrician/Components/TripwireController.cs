@@ -135,19 +135,19 @@ namespace Sandswept.Survivors.Electrician
 
             effect = skinNameToken switch
             {
-                "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.impactCovenant,
+                "VOLT_SKIN_COVENANT_NAME" => VFX.GalvanicBolt.impactCovenant,
                 _ => VFX.GalvanicBolt.impactDefault
             };
 
             lightningVFX = skinNameToken switch
             {
-                "SKIN_ELEC_MASTERY" => VFX.StaticSnare.lightningVFXCovenant,
+                "VOLT_SKIN_COVENANT_NAME" => VFX.StaticSnare.lightningVFXCovenant,
                 _ => VFX.StaticSnare.lightningVFXDefault
             };
 
             indicatorPrefab = skinNameToken switch
             {
-                "SKIN_ELEC_MASTERY" => VFX.StaticSnare.staticSnareIndicatorCovenant,
+                "VOLT_SKIN_COVENANT_NAME" => VFX.StaticSnare.staticSnareIndicatorCovenant,
                 _ => VFX.StaticSnare.staticSnareIndicatorDefault
             };
 

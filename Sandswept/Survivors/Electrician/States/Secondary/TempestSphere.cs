@@ -56,7 +56,7 @@ namespace Sandswept.Survivors.Electrician.States
 
                 tempestSphereProjectile = skinNameToken switch
                 {
-                    "SKIN_ELEC_MASTERY" => Main.tempestSphereCovenant,
+                    "VOLT_SKIN_COVENANT_NAME" => Main.tempestSphereCovenant,
                     _ => Main.tempestSphereDefault
                 };
 

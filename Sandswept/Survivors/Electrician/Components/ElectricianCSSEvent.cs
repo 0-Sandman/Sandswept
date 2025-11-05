@@ -23,7 +23,7 @@ namespace Sandswept.Survivors.Electrician
 
             effect = skinNameToken switch
             {
-                "SKIN_ELEC_MASTERY" => VFX.GalvanicBolt.muzzleFlashCovenant,
+                "VOLT_SKIN_COVENANT_NAME" => VFX.GalvanicBolt.muzzleFlashCovenant,
                 _ => VFX.GalvanicBolt.muzzleFlashDefault
             };
 

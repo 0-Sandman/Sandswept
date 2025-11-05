@@ -41,14 +41,14 @@ namespace Sandswept
 
                 LanguageAPI.AddOverlay("SS_RANGER_BODY_NAME", "gay little [CHEESE PUFF]");
                 LanguageAPI.AddOverlay("SS_RANGER_DESCRIPTION", "this is a [CHEESE PUFF]");
-                LanguageAPI.AddOverlay("SKINDEF_MAJOR", "minor");
-                LanguageAPI.AddOverlay("SKINDEF_RENEGADE", "holy shit its been more than 2 years and we still havent added renegade thagt this skin is a reference to");
-                LanguageAPI.AddOverlay("SKINDEF_MILEZERO", "literally just Periphery 2");
+                LanguageAPI.AddOverlay("RANGER_SKIN_MAJOR_NAME", "minor");
+                LanguageAPI.AddOverlay("RANGER_SKIN_RENEGADE_NAME", "holy shit its been more than 2 years and we still havent added renegade thagt this skin is a reference to");
+                LanguageAPI.AddOverlay("RANGER_SKIN_MILEZERO_NAME", "literally just Periphery 2");
                 LanguageAPI.AddOverlay("ACHIEVEMENT_RANGERCLEARGAMEMONSOON_NAME", "[CHEESE PUFF]: Mastery");
                 LanguageAPI.AddOverlay("ACHIEVEMENT_RANGERCLEARGAMEMONSOON_DESCRIPTION", "As [CHEESE PUFF], beat the game or obliterate on Monsoon.");
 
                 LanguageAPI.AddOverlay("SANDSWEPT_ELECTR_NAME", "(WOKE DEI WARNING!) gay robot [CHEESE PUFF] girl");
-                LanguageAPI.AddOverlay("SKIN_ELEC_MASTERY", "Covenant (hifu when the <content type> name is a music reference OMG WOJAK RAISING HANDS JPEG) https://www.youtube.com/watch?v=tjcUCwe4yaY");
+                LanguageAPI.AddOverlay("VOLT_SKIN_COVENANT_NAME", "Covenant (hifu when the <content type> name is a music reference OMG WOJAK RAISING HANDS JPEG) https://www.youtube.com/watch?v=tjcUCwe4yaY");
                 LanguageAPI.AddOverlay("ACHIEVEMENT_ELECTRICIANCLEARGAMEMONSOON_NAME", "(WOKE DEI WARNING!) gay robot [CHEESE PUFF] girl: Mastery");
 
                 LanguageAPI.AddOverlay("SANDSWEPT_CANNONJELLY_NAME", "[CHEESE PUFF]");

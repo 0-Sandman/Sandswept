@@ -55,19 +55,19 @@ namespace Sandswept.Survivors.Ranger.States.Primary
 
                 tracerEffect = skinNameToken switch
                 {
-                    "SKINDEF_MAJOR" => EnflameVFX.tracerPrefabMajor,
-                    "SKINDEF_RENEGADE" => EnflameVFX.tracerPrefabRenegade,
-                    "SKINDEF_MILEZERO" => EnflameVFX.tracerPrefabMileZero,
-                    "SKINDEF_SANDSWEPT" => EnflameVFX.tracerPrefabSandswept,
+                    "RANGER_SKIN_MAJOR_NAME" => EnflameVFX.tracerPrefabMajor,
+                    "RANGER_SKIN_RENEGADE_NAME" => EnflameVFX.tracerPrefabRenegade,
+                    "RANGER_SKIN_MILEZERO_NAME" => EnflameVFX.tracerPrefabMileZero,
+                    "RANGER_SKIN_SANDSWEPT_NAME" => EnflameVFX.tracerPrefabSandswept,
                     _ => EnflameVFX.tracerPrefabDefault
                 };
 
                 tracerEffectHeated = skinNameToken switch
                 {
-                    "SKINDEF_MAJOR" => EnflameVFX.tracerHeatedPrefabMajor,
-                    "SKINDEF_RENEGADE" => EnflameVFX.tracerHeatedPrefabRenegade,
-                    "SKINDEF_MILEZERO" => EnflameVFX.tracerHeatedPrefabMileZero,
-                    "SKINDEF_SANDSWEPT" => EnflameVFX.tracerHeatedPrefabSandswept,
+                    "RANGER_SKIN_MAJOR_NAME" => EnflameVFX.tracerHeatedPrefabMajor,
+                    "RANGER_SKIN_RENEGADE_NAME" => EnflameVFX.tracerHeatedPrefabRenegade,
+                    "RANGER_SKIN_MILEZERO_NAME" => EnflameVFX.tracerHeatedPrefabMileZero,
+                    "RANGER_SKIN_SANDSWEPT_NAME" => EnflameVFX.tracerHeatedPrefabSandswept,
                     _ => EnflameVFX.tracerHeatedPrefabDefault
                 };
             }

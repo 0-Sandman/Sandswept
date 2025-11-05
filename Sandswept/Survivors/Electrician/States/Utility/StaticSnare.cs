@@ -29,7 +29,7 @@ namespace Sandswept.Survivors.Electrician.States
 
                 staticSnareProjectile = skinNameToken switch
                 {
-                    "SKIN_ELEC_MASTERY" => VFX.StaticSnare.staticSnareCovenant,
+                    "VOLT_SKIN_COVENANT_NAME" => VFX.StaticSnare.staticSnareCovenant,
                     _ => VFX.StaticSnare.staticSnareDefault
                 };
 
