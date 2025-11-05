@@ -19,14 +19,11 @@ namespace Sandswept.Survivors.Ranger
 
         public static float maxHeat = 100f;
 
-        public float heatGainRate = 11f;
-
         public float currentHeat = 0f;
 
-        public float fullHeatTimer = 0f;
         public bool isInFullHeat = false;
 
-        public float selfDamage = 0.006f;
+        public float selfDamageAtMax = 0.2f;
         public float selfDamageInterval = 0.2f;
         public float selfDamageTimer;
 
@@ -54,8 +51,6 @@ namespace Sandswept.Survivors.Ranger
 
                 overlayInstance.GetComponent<RangerCrosshairManager>().target = this;
             };
-
-            heatGainRate = 11f;
         }
 
         public void FixedUpdate()
@@ -74,42 +69,13 @@ namespace Sandswept.Survivors.Ranger
 
             if (isInOverdrive)
             {
-                heatGainRate += Time.fixedDeltaTime;
-                currentHeat += heatGainRate * Time.fixedDeltaTime;
-                currentHeat = Mathf.Clamp(currentHeat, 0, maxHeat);
-                // if (currentHeat >= maxHeat)
-                // {
-                fullHeatTimer += Time.fixedDeltaTime;
-                selfDamageTimer += Time.fixedDeltaTime;
-
-                if (fullHeatTimer >= 1.5f)
+                if (selfDamageTimer >= selfDamageInterval)
                 {
-                    var damageBuffGain = (1 + cb.GetBuffCount(Charge.instance.BuffDef)) * 1; // wow
-                    cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, damageBuffGain * (int)fullHeatTimer);
+                    TakeDamage(Util.Remap(currentHeat, 0, maxHeat, 0f, selfDamageAtMax) * selfDamageInterval);
+                    selfDamageTimer = 0f;
 
-                    if (selfDamageTimer >= selfDamageInterval)
-                    {
-                        TakeDamage(fullHeatTimer * 0.15f);
-                        selfDamageTimer = 0f;
-                    }
+                    cb.SetBuffCount(HeatHealingReduction.instance.BuffDef.buffIndex, Mathf.Clamp(Mathf.RoundToInt(currentHeat / maxHeat), 0, 100));
                 }
-                // }
-                /*
-                else
-                {
-                    fullHeatTimer = 0f;
-                    cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, 0);
-                }
-                */
-
-                var reductionCount = cb.GetBuffCount(HeatHealingReduction.instance.BuffDef.buffIndex);
-
-                if (lastHealingReductionCount > reductionCount)
-                {
-                    lastHealingReductionCount = reductionCount;
-                }
-
-                cb.SetBuffCount(HeatHealingReduction.instance.BuffDef.buffIndex, Mathf.RoundToInt((currentHeat + 0.001f) / 10));
             }
 
             // anim.SetFloat("combat", Mathf.Lerp(anim.GetFloat("combat"), cb.outOfCombat ? -1f : 1f, 3f * Time.fixedDeltaTime));
@@ -126,8 +92,8 @@ namespace Sandswept.Survivors.Ranger
         public void ExitOverdrive()
         {
             isInOverdrive = false;
-            fullHeatTimer = 0f;
             chargeLossTimer = 0f;
+
             if (cb)
             {
                 cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, 0);
@@ -135,7 +101,6 @@ namespace Sandswept.Survivors.Ranger
                 Invoke(nameof(RemoveHealingReduction), 2f);
             }
 
-            heatGainRate = 11f;
             currentHeat = 0f;
 
             EntityStateMachine machine = EntityStateMachine.FindByCustomName(gameObject, "Overdrive");

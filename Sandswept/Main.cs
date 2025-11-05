@@ -120,6 +120,8 @@ namespace Sandswept
 
             ModLogger = Logger;
 
+            NetworkingUtils.RegisterMessages();
+
             SetUpConfig();
             SetUpAssets();
             SetUpContent();

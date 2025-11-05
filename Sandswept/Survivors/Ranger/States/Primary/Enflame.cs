@@ -19,12 +19,13 @@ namespace Sandswept.Survivors.Ranger.States.Primary
 
         public static int baseShotsPerSecond = 4;
         public static int extraShotsScaling = 1;
-        public static int extraShotsCap = 8;
-        public static float extraShotsTimer = 4f;
+        public static float heatPerExtraShot = 25f;
         public float finalExtraShots;
         public float finalShotsPerSecond;
         public float finalDurationPerShot;
         public float shotTimer = 0f;
+
+        public float heatPerSecond = 20f;
 
         public GameObject tracerEffect;
         public GameObject tracerEffectHeated;
@@ -38,7 +39,7 @@ namespace Sandswept.Survivors.Ranger.States.Primary
 
             rangerHeatController = GetComponent<RangerHeatController>();
 
-            finalExtraShots = Mathf.Min(extraShotsCap, extraShotsScaling * (1f / extraShotsTimer) * rangerHeatController.currentHeat / 5);
+            finalExtraShots = extraShotsScaling * (rangerHeatController.currentHeat / heatPerExtraShot);
             finalShotsPerSecond = (baseShotsPerSecond + finalExtraShots) * attackSpeedStat;
             finalDurationPerShot = 1f / finalShotsPerSecond;
 
@@ -89,6 +90,8 @@ namespace Sandswept.Survivors.Ranger.States.Primary
 
             shotTimer += Time.fixedDeltaTime;
 
+            rangerHeatController.currentHeat += heatPerSecond * Time.fixedDeltaTime;
+
             if (shotTimer >= finalDurationPerShot)
             {
                 shotTimer = 0f;
@@ -110,7 +113,7 @@ namespace Sandswept.Survivors.Ranger.States.Primary
 
             var aimDirection = GetAimRay().direction;
 
-            var isHeatedShot = Util.CheckRoll(rangerHeatController.currentHeat);
+            var isHeatedShot = Util.CheckRoll(rangerHeatController.currentHeat * 0.5f);
 
             if (isHeatedShot)
             {
@@ -146,6 +149,7 @@ namespace Sandswept.Survivors.Ranger.States.Primary
             {
                 return;
             }
+
             attack.Fire();
         }
     }

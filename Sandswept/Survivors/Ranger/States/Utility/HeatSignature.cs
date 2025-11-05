@@ -8,6 +8,9 @@ namespace Sandswept.Survivors.Ranger.States.Utility
         public float duration = 0.2f;
         public static float BuffDuration = 1f;
         public static float SpeedCoefficient = 6f;
+        public static float HeatPerExtraCoeff = 20f;
+        public static float HeatGain = 40f;
+        private float coeff;
         private Vector3 stepVector;
         private Transform modelTransform;
         private Material overlayMat1;
@@ -17,6 +20,12 @@ namespace Sandswept.Survivors.Ranger.States.Utility
         public override void OnEnter()
         {
             base.OnEnter();
+
+            RangerHeatController heat = GetComponent<RangerHeatController>();
+
+            heat.currentHeat += HeatGain;
+
+            coeff = SpeedCoefficient + (heat.currentHeat / HeatPerExtraCoeff);
 
             if (characterBody)
             {
@@ -115,7 +124,7 @@ namespace Sandswept.Survivors.Ranger.States.Utility
             {
                 // characterMotor.velocity = Vector3.zero;
                 characterMotor.velocity = new Vector3(characterMotor.velocity.x, 0f, characterMotor.velocity.z);
-                characterMotor.rootMotion += stepVector * (moveSpeedStat * SpeedCoefficient * Time.fixedDeltaTime);
+                characterMotor.rootMotion += stepVector * (moveSpeedStat * coeff * Time.fixedDeltaTime);
             }
 
             if (characterBody)

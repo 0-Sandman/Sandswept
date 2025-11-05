@@ -8,9 +8,9 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
         public static float damageCoefficient = 2f;
         public static float procCoefficient = 1f;
         public static float baseDurationPerVolley = 0.15f;
-        public static int baseVolleyCount = 2;
-        public static float heatReduction = 25f;
-        public int extraVolleyCount;
+        public static int baseVolleyCount = 3;
+        public static float heatPerExtraVolley = 20f;
+        public static float heatReduction = 0.33f;
         public int finalVolleyCount;
         public float durationPerVolley;
         public float finalDuration;
@@ -26,10 +26,12 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 
             rangerHeatController = GetComponent<RangerHeatController>();
 
+            float heatRemoved = rangerHeatController.currentHeat * heatReduction;
+            rangerHeatController.currentHeat -= heatRemoved;
+
             durationPerVolley = baseDurationPerVolley / attackSpeedStat;
 
-            extraVolleyCount = (int)Util.Remap(rangerHeatController.currentHeat, 0, 100, 0, 2);
-            finalVolleyCount = baseVolleyCount + extraVolleyCount;
+            finalVolleyCount = baseVolleyCount + Mathf.FloorToInt(heatRemoved / heatPerExtraVolley);
 
             finalDuration = durationPerVolley * finalVolleyCount;
 

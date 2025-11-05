@@ -180,9 +180,9 @@ namespace Sandswept.Items.Whites
         {
             var extraJumps = self.characterBody.GetBuffCount(extraJump);
 
-            if (self.jumpInputReceived && extraJumps > 0 && self.characterMotor && self.characterMotor.jumpCount >= self.characterBody.maxJumpCount)
+            if (self.jumpInputReceived && extraJumps > 0 && self.characterMotor && self.characterMotor.jumpCount >= self.characterBody.maxJumpCount && !ignoreRequirements)
             {
-                self.characterBody.SetBuffCount(extraJump.buffIndex, extraJumps - 1);
+                self.characterBody.SetBuffCountSynced(extraJump.buffIndex, extraJumps - 1);
                 Util.PlaySound("Play_transistor_jump", self.gameObject);
                 ignoreRequirements = true;
             }
