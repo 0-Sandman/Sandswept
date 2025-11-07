@@ -330,6 +330,8 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             trail.material = newTrailMat;
 
+            ghost.AddComponent<DetachTrailOnDestroy>().targetTrailRenderers = new TrailRenderer[] { trail };
+
             return ghost;
         }
     }

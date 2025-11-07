@@ -3,6 +3,7 @@ using RoR2.HudOverlay;
 using UnityEngine.UI;
 using Sandswept.Buffs;
 using Sandswept.Survivors.Ranger.States.Special;
+using System.Linq;
 
 namespace Sandswept.Survivors.Ranger
 {
@@ -23,7 +24,7 @@ namespace Sandswept.Survivors.Ranger
 
         public bool isInFullHeat = false;
 
-        public float selfDamageAtMax = 0.2f;
+        public float selfDamageAtMax = 0.05f;
         public float selfDamageInterval = 0.2f;
         public float selfDamageTimer;
 
@@ -69,9 +70,12 @@ namespace Sandswept.Survivors.Ranger
 
             if (isInOverdrive)
             {
+                selfDamageTimer += Time.fixedDeltaTime;
+
                 if (selfDamageTimer >= selfDamageInterval)
                 {
-                    TakeDamage(Util.Remap(currentHeat, 0, maxHeat, 0f, selfDamageAtMax) * selfDamageInterval);
+                    float self = Util.Remap(currentHeat, 0, maxHeat, 0f, selfDamageAtMax) * selfDamageInterval;
+                    TakeDamage(self);
                     selfDamageTimer = 0f;
 
                     cb.SetBuffCount(HeatHealingReduction.instance.BuffDef.buffIndex, Mathf.Clamp(Mathf.RoundToInt(currentHeat / maxHeat), 0, 100));
@@ -128,7 +132,7 @@ namespace Sandswept.Survivors.Ranger
             {
                 attacker = null,
                 procCoefficient = 0,
-                damage = hc.fullCombinedHealth * 0.01f * timeInOverheat,
+                damage = hc.fullCombinedHealth * timeInOverheat,
                 crit = false,
                 position = transform.position,
                 damageColorIndex = DamageColorIndex.Fragile,
@@ -254,6 +258,8 @@ namespace Sandswept.Survivors.Ranger
         public CharacterBody body;
         public Color32 lowHeatColor;
         public Color32 inHeatColor;
+        public Stack<Image> heatSprites = new();
+        public GameObject heatGaugeRef;
 
         public void Start()
         {
@@ -268,12 +274,18 @@ namespace Sandswept.Survivors.Ranger
 
             image = heatMeter.GetComponent<Image>();
             image.sprite = Main.hifuSandswept.LoadAsset<Sprite>("texHeatMeter.png");
+            image.fillMethod = Image.FillMethod.Radial360;
+            image.fillClockwise = true;
+            image.RemoveComponent<ImageFillController>();
+
+            heatGaugeRef = image.gameObject;
+
+            heatSprites.Push(image);
 
             backdropImage = heatMeterBackdrop.GetComponent<Image>();
             backdropImage.sprite = Main.hifuSandswept.LoadAsset<Sprite>("texHeatMeterOutline.png");
 
             element = GetComponent<HudElement>();
-            ifc = GetComponentInChildren<ImageFillController>();
 
             body = target.cb;
 
@@ -318,12 +330,32 @@ namespace Sandswept.Survivors.Ranger
             colorUpdateTimer += Time.fixedDeltaTime;
             if (colorUpdateTimer >= colorUpdateInterval)
             {
-                image.color = Color32.Lerp(lowHeatColor, inHeatColor, heatPercent);
+                // image.color = Color32.Lerp(lowHeatColor, inHeatColor, heatPercent);
                 backdropImage.color = new Color32(53, 53, 53, (byte)Mathf.Lerp(0, 190, heatPercent));
                 colorUpdateTimer = 0f;
             }
 
-            ifc.SetTValue(heatPercent);
+            int iterations = (int)Mathf.Ceil(heatPercent);
+            if (iterations > heatSprites.Count) {
+                for (int i = heatSprites.Count; i < iterations; i++)
+                {
+                    GameObject newGauge = GameObject.Instantiate(heatGaugeRef, image.transform.parent);
+                    heatSprites.Push(newGauge.GetComponent<Image>());
+                }
+            }
+            else if (heatSprites.Count > iterations && heatSprites.Peek() != image) {
+                for (int i = iterations; i < heatSprites.Count; i++) {
+                    Image gauge = heatSprites.Pop();
+                    GameObject.Destroy(gauge.gameObject);
+                }
+            }
+
+            for (int i = 0; i < iterations; i++) {
+                float perct = i < (iterations - 1) ? 1f : iterations > 1 ? heatPercent - (iterations - 1) : heatPercent;
+                Image im = heatSprites.ElementAt(i);
+                im.fillAmount = Mathf.Clamp01(perct);
+                im.color = Color.Lerp(lowHeatColor, Color.red, i / 10f);
+            }
         }
     }
 

@@ -130,7 +130,7 @@ namespace Sandswept.Survivors.Ranger.States.Primary
                 owner = gameObject,
                 muzzleName = "Muzzle",
                 origin = GetAimRay().origin,
-                tracerEffectPrefab = isHeatedShot ? tracerEffectHeated : tracerEffect,
+                tracerEffectPrefab = tracerEffectHeated,
                 procCoefficient = procCoefficient,
                 damageType = isHeatedShot ? DamageType.IgniteOnHit : DamageType.Generic,
                 minSpread = -1.5f,

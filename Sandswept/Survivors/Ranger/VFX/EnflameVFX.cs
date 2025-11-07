@@ -57,7 +57,9 @@ namespace Sandswept.Survivors.Ranger.VFX
             var effectComponent = tracer.GetComponent<EffectComponent>();
             effectComponent.soundName = "Play_wHeavyShoot1";
 
-            tracer.AddComponent<VFXAttributes>();
+            tracer.AddComponent<VFXAttributes>((x) => {
+                x.DoNotPool = true;
+            });
 
             var lineRenderer = tracer.GetComponent<LineRenderer>();
             lineRenderer.widthMultiplier = widthMultiplier;
@@ -107,6 +109,7 @@ namespace Sandswept.Survivors.Ranger.VFX
             newMat.SetFloat("_Boost", brightnessBoost);
             newMat.SetFloat("_AlphaBoost", alphaBoost);
             newMat.SetFloat("_AlphaBias", alphaBias);
+            newMat.SetFloat("_DepthOffset", -10f);
             // newMat.SetTexture("_MainTex", Paths.Texture2D.texMageLaserMask);
 
             lineRenderer.material = newMat;

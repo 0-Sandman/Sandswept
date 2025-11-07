@@ -36,15 +36,6 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
             };
         }
 
-        private void Charged_GetStatCoefficients(CharacterBody body, StatHookEventArgs args)
-        {
-            if (body && body.HasSkillEquipped(skillDef))
-            {
-                args.baseRegenAdd += GetRegenForBody(body);
-                args.armorAdd += 0.75f * body.GetBuffCount(Charge.instance.BuffDef);
-            }
-        }
-
         public static float GetRegenForBody(CharacterBody body) {
             var levelScale = 0.125f * 0.2f * (body.level - 1);
             return (0.125f + levelScale) * body.GetBuffCount(Charge.instance.BuffDef);
@@ -73,6 +64,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
                     regenAccumulator += chargeRegen * Time.fixedDeltaTime;
 
                     if (regenAccumulator >= 1f) {
+                        regenAccumulator = 0f;
                         ProcChainMask mask = new();
                         mask.AddModdedProc(OverchargeRegen);
 

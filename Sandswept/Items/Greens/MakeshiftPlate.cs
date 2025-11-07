@@ -96,11 +96,7 @@ namespace Sandswept.Items.Greens
                 float platingMult = (stackPercentPlatingGain / 100f) * count;
                 int plating = Mathf.RoundToInt((cb.maxHealth + cb.maxShield) * platingMult);
 
-                if (!manager)
-                {
-                    new MakeshiftPlateAddSync(cb.gameObject, plating, plating, false).Send(NetworkDestination.Clients);
-                    return;
-                }
+                new MakeshiftPlateAddSync(cb.gameObject, plating, plating, false).Send(NetworkDestination.Clients);
 
                 manager.CurrentPlating += plating;
                 manager.CurrentPlating = Mathf.Min(manager.CurrentPlating, manager.MaxPlating);
@@ -212,6 +208,8 @@ namespace Sandswept.Items.Greens
 
                 platingManager.CurrentPlating -= toRemove;
                 platingManager.CurrentPlating = Mathf.Clamp(platingManager.CurrentPlating, 0, platingManager.MaxPlating);
+
+                new MakeshiftPlateAddSync(self.gameObject, plating, platingManager.MaxPlating, false).Send(NetworkDestination.Clients);
             }
 
             orig(self, info);
@@ -340,7 +338,10 @@ namespace Sandswept.Items.Greens
                 }
                 else
                 {
-                    PlatingManager manager = target.AddComponent<PlatingManager>();
+                    PlatingManager manager = target.GetComponent<PlatingManager>();
+                    if (!manager) {
+                        manager = target.AddComponent<PlatingManager>();
+                    }
                     manager.MaxPlating = maxPlating;
                     manager.CurrentPlating = plating;
                 }
