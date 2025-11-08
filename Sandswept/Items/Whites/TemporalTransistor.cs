@@ -182,7 +182,10 @@ namespace Sandswept.Items.Whites
 
             if (self.jumpInputReceived && extraJumps > 0 && self.characterMotor && self.characterMotor.jumpCount >= self.characterBody.maxJumpCount && !ignoreRequirements)
             {
-                self.characterBody.SetBuffCountSynced(extraJump.buffIndex, extraJumps - 1);
+                if (self.isAuthority) {
+                    self.characterBody.SetBuffCountSynced(extraJump.buffIndex, extraJumps - 1);
+                }
+
                 Util.PlaySound("Play_transistor_jump", self.gameObject);
                 ignoreRequirements = true;
             }
@@ -225,6 +228,8 @@ namespace Sandswept.Items.Whites
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
+            return new ItemDisplayRuleDict();
+            
             var itemDisplay = SetUpFollowerIDRS(0.72f, 132f, true, 30f, false, 0f, true, 20f);
 
             return new ItemDisplayRuleDict(new ItemDisplayRule()

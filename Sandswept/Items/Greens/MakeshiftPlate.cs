@@ -90,16 +90,22 @@ namespace Sandswept.Items.Greens
             if (itemIndex == ItemDef.itemIndex && self.TryGetComponent<CharacterMaster>(out CharacterMaster cm) && cm.bodyInstanceObject)
             {
                 PlatingManager manager = cm.bodyInstanceObject.GetComponent<PlatingManager>();
+                if (!manager) {
+                    manager = cm.bodyInstanceObject.AddComponent<PlatingManager>();
+                }
 
                 CharacterBody cb = cm.bodyInstanceObject.GetComponent<CharacterBody>();
 
                 float platingMult = (stackPercentPlatingGain / 100f) * count;
                 int plating = Mathf.RoundToInt((cb.maxHealth + cb.maxShield) * platingMult);
 
-                new MakeshiftPlateAddSync(cb.gameObject, plating, plating, false).Send(NetworkDestination.Clients);
-
                 manager.CurrentPlating += plating;
+                if (manager.MaxPlating == 0) {
+                    manager.MaxPlating = plating;
+                }
                 manager.CurrentPlating = Mathf.Min(manager.CurrentPlating, manager.MaxPlating);
+
+                new MakeshiftPlateAddSync(cb.gameObject, manager.CurrentPlating, manager.MaxPlating, false).Send(NetworkDestination.Clients);
             }
         }
 
@@ -209,7 +215,7 @@ namespace Sandswept.Items.Greens
                 platingManager.CurrentPlating -= toRemove;
                 platingManager.CurrentPlating = Mathf.Clamp(platingManager.CurrentPlating, 0, platingManager.MaxPlating);
 
-                new MakeshiftPlateAddSync(self.gameObject, plating, platingManager.MaxPlating, false).Send(NetworkDestination.Clients);
+                new MakeshiftPlateAddSync(self.gameObject, platingManager.CurrentPlating, platingManager.MaxPlating, false).Send(NetworkDestination.Clients);
             }
 
             orig(self, info);
@@ -289,7 +295,6 @@ namespace Sandswept.Items.Greens
             public float plating;
             public float maxPlating;
             public bool remove;
-            public bool alreadyApplied = false;
             public void Deserialize(NetworkReader reader)
             {
                 target = reader.ReadGameObject();
@@ -300,10 +305,7 @@ namespace Sandswept.Items.Greens
 
             public void OnReceived()
             {
-                if (!alreadyApplied)
-                {
-                    Process();
-                }
+                Process();   
             }
 
             public MakeshiftPlateAddSync()
@@ -331,7 +333,6 @@ namespace Sandswept.Items.Greens
 
             public void Process()
             {
-                alreadyApplied = true;
                 if (remove)
                 {
                     target.RemoveComponent<PlatingManager>();

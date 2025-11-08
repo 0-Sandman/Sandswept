@@ -87,7 +87,9 @@ namespace Sandswept.Utils
             public float duration;
             void INetMessage.OnReceived()
             {
-                body.AddTimedBuff(index, duration);
+                if (body) {
+                    body.AddTimedBuff(index, duration);
+                }
             }
             void ISerializableObject.Deserialize(NetworkReader reader)
             {
@@ -116,7 +118,9 @@ namespace Sandswept.Utils
             public BuffIndex index;
             void INetMessage.OnReceived()
             {
-                body.AddBuff(index);
+                if (body) {
+                    body.AddBuff(index);
+                }
             }
             void ISerializableObject.Deserialize(NetworkReader reader)
             {
@@ -142,7 +146,9 @@ namespace Sandswept.Utils
             public BuffIndex index;
             void INetMessage.OnReceived()
             {
-                body.AddBuff(index);
+                if (body) {
+                    body.AddBuff(index);
+                }
             }
             void ISerializableObject.Deserialize(NetworkReader reader)
             {
@@ -169,7 +175,9 @@ namespace Sandswept.Utils
             public int count;
             void INetMessage.OnReceived()
             {
-                body.SetBuffCount(index, count);
+                if (body) {
+                    body.SetBuffCount(index, count);
+                }
             }
             void ISerializableObject.Deserialize(NetworkReader reader)
             {

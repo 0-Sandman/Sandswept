@@ -1,4 +1,4 @@
-using LookingGlass.ItemStatsNameSpace;
+/*using LookingGlass.ItemStatsNameSpace;
 
 namespace Sandswept.Items.Whites
 {
@@ -152,4 +152,4 @@ namespace Sandswept.Items.Whites
             return new ItemDisplayRuleDict();
         }
     }
-}
+}*/

@@ -43,14 +43,15 @@ namespace Sandswept.Drones
             Setup();
 
             ContentAddition.AddBody(DroneBody);
-
-            var networkIdentity = DroneMaster.GetComponent<NetworkIdentity>();
-            networkIdentity.localPlayerAuthority = true;
-            networkIdentity.m_AssetId = GetNetworkedObjectAssetId(DroneMaster);
-
             ContentAddition.AddMaster(DroneMaster);
 
+            PrefabAPI.RegisterNetworkPrefab(DroneBody);
+            PrefabAPI.RegisterNetworkPrefab(DroneMaster);
+            PrefabAPI.RegisterNetworkPrefab(DroneBroken);
+
             ContentAddition.AddNetworkedObject(DroneBroken);
+            ContentAddition.AddNetworkedObject(DroneBody);
+            ContentAddition.AddNetworkedObject(DroneMaster);
 
             foreach (KeyValuePair<string, string> kvp in Tokens)
             {

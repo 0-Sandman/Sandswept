@@ -78,7 +78,7 @@ namespace Sandswept.Survivors.Ranger
                     TakeDamage(self);
                     selfDamageTimer = 0f;
 
-                    cb.SetBuffCount(HeatHealingReduction.instance.BuffDef.buffIndex, Mathf.Clamp(Mathf.RoundToInt(currentHeat / maxHeat), 0, 100));
+                    cb.SetBuffCount(HeatHealingReduction.instance.BuffDef.buffIndex, Mathf.Clamp(Mathf.RoundToInt((currentHeat / maxHeat) * 100f), 0, 100));
                 }
             }
 
@@ -301,19 +301,19 @@ namespace Sandswept.Survivors.Ranger
 
                 lowHeatColor = skinNameToken switch
                 {
-                    "RANGER_SKIN_MAJOR_NAME" => new Color32(0, 130, 224, 140),
-                    "RANGER_SKIN_RENEGADE_NAME" => new Color32(244, 95, 197, 140),
-                    "RANGER_SKIN_MILEZERO_NAME" => new Color32(153, 0, 23, 140),
-                    "RANGER_SKIN_SANDSWEPT_NAME" => new Color32(214, 159, 79, 140),
-                    _ => new Color32(255, 200, 0, 140),
+                    "RANGER_SKIN_MAJOR_NAME" => new Color32(0, 130, 224, 255),
+                    "RANGER_SKIN_RENEGADE_NAME" => new Color32(244, 95, 197, 255),
+                    "RANGER_SKIN_MILEZERO_NAME" => new Color32(153, 0, 23, 255),
+                    "RANGER_SKIN_SANDSWEPT_NAME" => new Color32(214, 159, 79, 255),
+                    _ => new Color32(255, 200, 0, 255),
                 };
                 inHeatColor = skinNameToken switch
                 {
-                    "RANGER_SKIN_MAJOR_NAME" => new Color32(60, 0, 244, 180),
-                    "RANGER_SKIN_RENEGADE_NAME" => new Color32(114, 39, 244, 180),
-                    "RANGER_SKIN_MILEZERO_NAME" => new Color32(226, 0, 33, 180),
-                    "RANGER_SKIN_SANDSWEPT_NAME" => new Color32(220, 220, 220, 180),
-                    _ => new Color32(255, 70, 0, 180),
+                    "RANGER_SKIN_MAJOR_NAME" => new Color32(60, 0, 244, 255),
+                    "RANGER_SKIN_RENEGADE_NAME" => new Color32(114, 39, 244, 255),
+                    "RANGER_SKIN_MILEZERO_NAME" => new Color32(226, 0, 33, 255),
+                    "RANGER_SKIN_SANDSWEPT_NAME" => new Color32(220, 220, 220, 255),
+                    _ => new Color32(255, 70, 0, 255),
                 };
             }
         }
@@ -323,6 +323,13 @@ namespace Sandswept.Survivors.Ranger
             if (!target)
             {
                 return;
+            }
+
+            if (!target.isInOverdrive) {
+                image.transform.parent.gameObject.SetActive(false);
+            }
+            else {
+                image.transform.parent.gameObject.SetActive(true);
             }
 
             var heatPercent = target.currentHeat / RangerHeatController.maxHeat;
@@ -350,11 +357,12 @@ namespace Sandswept.Survivors.Ranger
                 }
             }
 
-            for (int i = 0; i < iterations; i++) {
-                float perct = i < (iterations - 1) ? 1f : iterations > 1 ? heatPercent - (iterations - 1) : heatPercent;
+            // int iterations = (int)Mathf.Ceil(heatPercent);
+            for (int i = iterations - 1; i >= 0; i--) {
+                float perct = i >= 1 ? 1f : heatPercent % 1f;
                 Image im = heatSprites.ElementAt(i);
                 im.fillAmount = Mathf.Clamp01(perct);
-                im.color = Color.Lerp(lowHeatColor, Color.red, i / 10f);
+                im.color = Color.Lerp(lowHeatColor, Color.red, (heatPercent - i) / 5f);
             }
         }
     }
