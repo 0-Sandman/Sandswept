@@ -102,8 +102,8 @@ namespace Sandswept.Interactables.Regular
             var mdl = prefab.transform.Find("Base/mdlShrineHealing").gameObject;
             mdl.name = "mdlShrineSacrifice";
 
-            // mdl.GetComponent<MeshFilter>().sharedMesh = Main.prodAssets.LoadAsset<Mesh>("assets/sandswept/shrinesacrifice.fbx");
-            // mdl.GetComponent<MeshRenderer>().sharedMaterial = Main.prodAssets.LoadAsset<Material>("assets/sandswept/shrinesacrifice.fbx");
+            mdl.GetComponent<MeshFilter>().sharedMesh = Main.prodAssets.LoadAsset<Mesh>("assets/sandswept/shrinesacrifice.fbx");
+            mdl.GetComponent<MeshRenderer>().sharedMaterial = Main.prodAssets.LoadAsset<Material>("assets/sandswept/shrinesacrifice.fbx");
             /*
             mdl.GetComponent<MeshFilter>().sharedMesh = Main.sandsweptHIFU.LoadAsset<Mesh>("meshNewRangerTest.fbx");
             var mdlMeshRenderer = mdl.GetComponent<MeshRenderer>();
@@ -111,7 +111,6 @@ namespace Sandswept.Interactables.Regular
             Material[] newMaterials = [Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyTest.mat"), Main.sandsweptHIFU.LoadAsset<Material>("matRangerGunTest.mat")];
 
             mdlMeshRenderer.materials = newMaterials;
-            */
 
             mdl.GetComponent<MeshFilter>().sharedMesh = Main.sandsweptHIFU.LoadAsset<Mesh>("meshNewRangerGunTest.fbx");
             var mdlMeshRenderer = mdl.GetComponent<MeshRenderer>();
@@ -119,6 +118,7 @@ namespace Sandswept.Interactables.Regular
             var newMaterial = Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyTest.mat");
 
             mdlMeshRenderer.material = newMaterial;
+            */
 
             var symbol = prefab.transform.Find("Symbol");
             symbol.localPosition = new(0, 4, 0);
@@ -301,7 +301,6 @@ namespace Sandswept.Interactables.Regular
             var newMaterial = Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyTest.mat");
 
             mdlMeshRenderer.material = newMaterial;
-            */
 
             var mdl = GetComponent<ModelLocator>().modelTransform;
 
@@ -311,6 +310,7 @@ namespace Sandswept.Interactables.Regular
             var newMaterial = Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyTest.mat");
 
             mdlMeshRenderer.material = newMaterial;
+            */
         }
 
         private void UNetVersion()

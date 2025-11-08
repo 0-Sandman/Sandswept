@@ -6,18 +6,18 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Secondary
     {
         public override string Name => "Exhaust";
 
-        public override string Description => "$sdIgnite$se. Fire $sdtwo$se short bursts of $srheat$se for $sd4x200% damage$se each. $sdBurst count$se increases up to $sdfour$se while in $srfull heat$se. $suReduce$se $srheat$se by $su25%$se.".AutoFormat();
+        public override string Description => "$sdIgnite$se. $suReduce current heat by 30%$se. Fire $sda burst of heat$se for $sd4x200% damage$se. $sdBurst count increases with heat spent$se.".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Secondary.Exhaust);
 
         public override string ActivationMachineName => "Weapon";
 
-        public override float Cooldown => 4f;
+        public override float Cooldown => 5f;
 
         public override Sprite Icon => Main.hifuSandswept.LoadAsset<Sprite>("texExhaust.png");
         public override InterruptPriority InterruptPriority => InterruptPriority.Skill;
 
-        public override string[] Keywords => new string[] { Utils.Keywords.Ignite };
+        public override string[] Keywords => [Utils.Keywords.Ignite];
 
         public override bool FullRestockOnAssign => true;
 

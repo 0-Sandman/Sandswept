@@ -155,6 +155,7 @@ namespace Sandswept.Survivors.Ranger
     {
         public RawImage[] ChargePips;
         public Color32 ChargeColor;
+        public Color32 fullyChargedColor;
         public CharacterBody body;
         public HudElement hud;
         public bool ranColorSwap = false;
@@ -200,6 +201,14 @@ namespace Sandswept.Survivors.Ranger
                         "RANGER_SKIN_SANDSWEPT_NAME" => new Color32(196, 136, 62, 140),
                         _ => new Color32(78, 182, 142, 140),
                     };
+                    fullyChargedColor = skinNameToken switch
+                    {
+                        "RANGER_SKIN_MAJOR_NAME" => new Color32(61, 105, 198, 255),
+                        "RANGER_SKIN_RENEGADE_NAME" => new Color32(196, 62, 174, 255),
+                        "RANGER_SKIN_MILEZERO_NAME" => new Color32(181, 30, 30, 255),
+                        "RANGER_SKIN_SANDSWEPT_NAME" => new Color32(196, 136, 62, 255),
+                        _ => new Color32(78, 182, 142, 255),
+                    };
                 }
                 ranColorSwap = true;
             }
@@ -213,7 +222,7 @@ namespace Sandswept.Survivors.Ranger
 
             if (charge >= 20)
             {
-                ChargePips[3].color = ChargeColor;
+                ChargePips[3].color = fullyChargedColor;
             }
 
             UpdateColor(ChargePips[0]);

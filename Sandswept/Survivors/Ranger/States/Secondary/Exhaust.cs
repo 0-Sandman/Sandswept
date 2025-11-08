@@ -7,10 +7,10 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
     {
         public static float damageCoefficient = 2f;
         public static float procCoefficient = 1f;
-        public static float baseDurationPerVolley = 0.15f;
-        public static int baseVolleyCount = 3;
-        public static float heatPerExtraVolley = 20f;
-        public static float heatReduction = 0.33f;
+        public static float baseDurationPerVolley = 0.3f;
+        public static int baseVolleyCount = 1;
+        public static float heatPerExtraVolley = 25f;
+        public static float heatReduction = 0.3f;
         public int finalVolleyCount;
         public float durationPerVolley;
         public float finalDuration;
@@ -100,8 +100,8 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
         {
             for (int i = 0; i < finalVolleyCount; i++)
             {
-                yield return new WaitForSeconds(durationPerVolley);
-                characterBody.SetAimTimer(0.2f);
+                yield return new WaitForSeconds(durationPerVolley / i);
+                characterBody.SetAimTimer(0.3f);
 
                 var aimDirection = GetAimRay().direction;
 

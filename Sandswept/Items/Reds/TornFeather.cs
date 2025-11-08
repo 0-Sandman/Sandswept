@@ -1,6 +1,7 @@
 using LookingGlass.ItemStatsNameSpace;
 using Rebindables;
 using Rewired;
+using RoR2.CharacterAI;
 using UnityEngine.TextCore;
 
 namespace Sandswept.Items.Reds
@@ -51,7 +52,7 @@ namespace Sandswept.Items.Reds
         """;
         public override ItemTier Tier => ItemTier.Tier3;
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility };
+        public override ItemTag[] ItemTags => [ItemTag.Utility];
 
         public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("TornFeatherHolder.prefab");
 
@@ -254,6 +255,8 @@ namespace Sandswept.Items.Reds
         public float wavedashTimer = 0.45f;
         public bool wavedashNextFrame = false;
         public int vfxCycle = 3;
+        public bool isAiControlled = false;
+        public BaseAI baseAI = null;
 
         public void OnEnable()
         {
@@ -261,6 +264,13 @@ namespace Sandswept.Items.Reds
             dashTrail = trail.GetComponent<ParticleSystem>();
 
             driver = GetComponent<InteractionDriver>();
+
+            if (body)
+            {
+                isAiControlled = !body.isPlayerControlled;
+                var master = body.master;
+                baseAI = master.GetComponent<BaseAI>();
+            }
         }
 
         public void OnDisable()
