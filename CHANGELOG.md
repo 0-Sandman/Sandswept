@@ -8,12 +8,27 @@
   - Improved Tempest Sphere VFX
   - Improved Static Snare VFX
   - Improved Signal Overload VFX
-
 - Ranger
   - Added SkinFlavorText Support
   - Fixed Direct Current not having the lightning damage type (for Broken VOL-T)
   - Fixed Release not having the lightning damage type (for Broken VOL-T)
   - Fixed Galvanize not having the lightning damage type (for Broken VOL-T)
+  - Heat no longer builds up passively during overdrive.
+  - Enflame now builds heat when fired at a rate of 20% per second.
+  - Heat can now indefinitely build past 100%.
+  - Heat gauge UI now loops around itself multiple times to represent heat, changing color for every interval above 100%
+  - Healing Reduction now scales linearly with heat, capping at -100% at 100% heat. 
+  - Healing Reduction is no longer capped to your highest reached reduction and now scales all the way down to -0% if you manage to lose all heat.
+  - Heat no longer gives a base damage bonus based on time spent at max heat.
+  - Enflame attack speed based on heat is now uncapped, and scales at 1 extra bullet/sec per 25% heat.
+  - Exhaust now clears 33% of CURRENT heat, instead of a flat amount of heat.
+  - Exhaust blast count based on heat cleared is now uncapped, and scales at 1 extra blast per 20% heat cleared
+  - Fixed networking issues with Ranger passives.
+  - Overcharged Protection now provides health regeneration which bypasses the healing reduction applied in Overdrive.
+  - Overcharged Speed's extra jumps now more reliably function.
+  - Overcharged Speed now allows using the charge jump multiple times midair.
+  - Heat Signature now increases dash distance based on heat.
+  - Heat Signature now adds 40% heat when used.
 - Items/Equipment
   - Improved Fractured Timepiece VFX
   - Improved Drifting Perception description wording
@@ -26,6 +41,7 @@
   - Made The Sand Sweeper non-lethal when used by non-allies (Scavenger instakill moment)
   - Made Galvanic Cell Shield non-lethal when used by non-allies (Scavenger instakill moment)
   - Fixed Makeshift Plate potentially throwing an NRE
+  - Fixed Makeshift Plate showing the wrong numbers to clients.
   - Fixed Hallowed Ichor not showing scaled timer whenever the last player holding Hallowed Ichor died
   - Fixed Hallowed Ichor adding to global stacks with NPCs that inherit items
   - Fixed Hallowed Ichor missing the AIBlacklist and BrotherBlacklist item tags
@@ -33,9 +49,11 @@
   - Fixed Sequenced Fate missing the AIBlacklist and BrotherBlacklist item tags
   - Fixed Their Prominence adding to global stacks with NPCs that inherit items
   - Fixed Their Prominence missing the AIBlacklist and BrotherBlacklist item tags
+- Interactables
+  - ACTUALLY fixed Voltaic Drone and Inferno Drone appearing as Gunner Drone to clients.
 <details>
   <summary>- Added Item Display Followers (Click to view list)</summary>
-Temporal Transistor, Drifting Perception, Sun Fragment, Festering Hunger, Millenium, Preserved Atoll, Bleeding Witness, Ceremonial Jar, Glacial Plasma, Torn Feather, Hallowed Ichor, Sequenced Fate, Their Prominence, The Sand Sweeper, Corrupted Catalyst, Flawless Design
+Drifting Perception, Sun Fragment, Preserved Atoll, Torn Feather
 </details>
 
 - Enemies

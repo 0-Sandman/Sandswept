@@ -1,16 +1,65 @@
-## 1.3.2
+## 1.3.2 Patch Notes
+- VOL-T
+  - Added SkinFlavorText Support
+  - <details>
+    <summary>Added some Item Displays, click to view list</summary>
+    Red Spring Water, Makeshift Plate, Nuclear Salvo, Pocket Plutonium, Sacrificial Band, Smouldering Document, Universal VIP Pass, Armor-Piercing Rounds, Backup Magazine, Bundle of Fireworks,  Cautious Slug, Chronic Expansion, Delicate Watch, Energy Drink, Focus Crystal, Lens-Maker's Glasses, Medkit, Personal Shield Generator, Repulsion Armor Plate, AtG Missile Mk. 1, Bandolier, Hunter's Harpoon, Luminous Shot, Kjaro's Band, Runald's Band, Ukulele, Lost Seer's Lenses, Singularity Band, Plasma Shrimp, Polylute, Brilliant Behemoth, Ceremonial Dagger, Shattering Justice, Symbiotic Scorpion, Preon Accumulator, Primordial Cube, Artificial Void, John Hopoo, Aurelionite's Blessing, Her Biting Embrace, His Reassurance, His Spiteful Boon, Ifrit's Distinction, N'kuhana's Retort, Shared Design, Silence Between Two Strikes, Spectral Circlet
+    </details>
+  - Improved Tempest Sphere VFX
+  - Improved Static Snare VFX
+  - Improved Signal Overload VFX
 - Ranger
+  - Added SkinFlavorText Support
   - Fixed Direct Current not having the lightning damage type (for Broken VOL-T)
   - Fixed Release not having the lightning damage type (for Broken VOL-T)
   - Fixed Galvanize not having the lightning damage type (for Broken VOL-T)
+  - Heat no longer builds up passively during overdrive.
+  - Enflame now builds heat when fired at a rate of 20% per second.
+  - Heat can now indefinitely build past 100%.
+  - Heat gauge UI now loops around itself multiple times to represent heat, changing color for every interval above 100%
+  - Healing Reduction now scales linearly with heat, capping at -100% at 100% heat. 
+  - Healing Reduction is no longer capped to your highest reached reduction and now scales all the way down to -0% if you manage to lose all heat.
+  - Heat no longer gives a base damage bonus based on time spent at max heat.
+  - Enflame attack speed based on heat is now uncapped, and scales at 1 extra bullet/sec per 25% heat.
+  - Exhaust now clears 33% of CURRENT heat, instead of a flat amount of heat.
+  - Exhaust blast count based on heat cleared is now uncapped, and scales at 1 extra blast per 20% heat cleared
+  - Fixed networking issues with Ranger passives.
+  - Overcharged Protection now provides health regeneration which bypasses the healing reduction applied in Overdrive.
+  - Overcharged Speed's extra jumps now more reliably function.
+  - Overcharged Speed now allows using the charge jump multiple times midair.
+  - Heat Signature now increases dash distance based on heat.
+  - Heat Signature now adds 40% heat when used.
 - Items/Equipment
+  - Improved Fractured Timepiece VFX
+  - Improved Drifting Perception description wording
   - Improved Their Prominence description wording
   - Nerfed Makeshift Plate Base Percent Plating Gain from 200 to 150
   - Nerfed Makeshift Plate Stack Percent Plating Gain from 200 to 150
-  - Nerfed Hallowed Ichor Per Player Divisor Add from 0.25 to 0.175 (slightly less difficulty scaling on multiplayer)
+  - Nerfed Hallowed Ichor Per Player Divisor Add from 0.25 to 0.175 (less difficulty scaling on multiplayer)
   - Nerfed Sequenced Fate Base Extra Items Count from 6 to 5
   - Nerfed Sequenced Fate Stack Extra Items Count from 3 to 1
+  - Made The Sand Sweeper non-lethal when used by non-allies (Scavenger instakill moment)
+  - Made Galvanic Cell Shield non-lethal when used by non-allies (Scavenger instakill moment)
+  - Fixed Makeshift Plate potentially throwing an NRE
+  - Fixed Makeshift Plate showing the wrong numbers to clients.
   - Fixed Hallowed Ichor not showing scaled timer whenever the last player holding Hallowed Ichor died
+  - Fixed Hallowed Ichor adding to global stacks with NPCs that inherit items
+  - Fixed Hallowed Ichor missing the AIBlacklist and BrotherBlacklist item tags
+  - Fixed Sequenced Fate adding to global stacks with NPCs that inherit items
+  - Fixed Sequenced Fate missing the AIBlacklist and BrotherBlacklist item tags
+  - Fixed Their Prominence adding to global stacks with NPCs that inherit items
+  - Fixed Their Prominence missing the AIBlacklist and BrotherBlacklist item tags
+- Interactables
+  - ACTUALLY fixed Voltaic Drone and Inferno Drone appearing as Gunner Drone to clients.
+<details>
+  <summary>- Added Item Display Followers (Click to view list)</summary>
+Drifting Perception, Sun Fragment, Preserved Atoll, Torn Feather
+</details>
+
+- Enemies
+  - Fixed Theta Construct Overloading Elite Item Display
+- Interactables
+  - Increased Shrine of Sacrifice Curse Cost from 20 to 25
 
 ## 1.3.1 Patch Notes
 - Enemies
@@ -131,7 +180,7 @@
   - Fixed Theta Constructs breaking down and doing absolutely fucking nothing at all if they are the only enemy alive
 - Note
   - I (HIFU) crammed everything I could that wasn't on me. Pseudopulse is currently MIA due to Silksong, but would've done up to 30 bugfixes on top of all this. Huge thanks to Synodii for quickly making the models that were due 10-12 months ago.
-  
+
 ## 1.2.5 Patch Notes
 - VOL-T
   - Added Galvanic Bolt, Tempest Sphere and Signal Overload hit impact SFX
@@ -172,7 +221,7 @@
   - Added Makeshift Plate to the turret blacklist.
   - Fixed Void Items not corrupting their counterparts
   - (Hopefully) Fixed Glacial Plasma projectile spam as client
-  
+
 ## 1.2.3 Patch Notes
 - Items/Equipment
   - Fixed Makeshift Plate bombarding your log with NREs
@@ -192,7 +241,7 @@
 - VOL-T
   - Fixed description
   - Nerfed Volatile Shields Damage from 2x450% to 2x280%
-  
+
 ## 1.2.1 Patch Notes
 - <img src="https://i.postimg.cc/vTD0nKcq/eyebrow2.png" width="20" height="20"/>
 
@@ -399,7 +448,7 @@
   - Fixed family event bug that fucked up their spawning on other stages
   - Delta Construct now has a weakspot for Railgunner
   - Cannonball Jellyfish got the solid rebar removed from its core to cure its lobotomization
-  
+
 ## 1.0.3 Patch Notes
 - Ranger
   - Fixed Char not using its skill icon (for real this time)
@@ -450,7 +499,7 @@
   - Updated mod icon
   - Overhauled README
   - Added LobbySkinsFix soft dependency
-  - Added ScrollableLobbyUI soft dependency 
+  - Added ScrollableLobbyUI soft dependency
 - Survivors
   - Added VOL-T
   - Ranger

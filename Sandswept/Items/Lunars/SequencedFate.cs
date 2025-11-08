@@ -261,6 +261,8 @@ namespace Sandswept.Items.Lunars
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
+            return new ItemDisplayRuleDict();
+            
             var itemDisplay = SetUpFollowerIDRS(1f, 60f);
 
             return new ItemDisplayRuleDict(new ItemDisplayRule()

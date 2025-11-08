@@ -158,7 +158,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                 yield return new WaitForSeconds(duration * 2f / projectileCount);
             }
 
-            characterBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Max(0, buffCount - DirectCurrent.maxCharge));
+            characterBody.SetBuffCountSynced(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Max(0, buffCount - DirectCurrent.maxCharge));
         }
     }
 }

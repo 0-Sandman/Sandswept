@@ -1,8 +1,10 @@
-﻿using UnityEngine.Networking;
+﻿using R2API.Networking;
+using R2API.Networking.Interfaces;
+using UnityEngine.Networking;
 
 namespace Sandswept.Utils
 {
-    public static class NetworkingHelpers
+    public static class NetworkingUtils
     {
         /// <summary>
         /// Attempts to reconstruct a network object reference from just its network id value.
@@ -33,6 +35,169 @@ namespace Sandswept.Utils
             }
 
             return default(T);
+        }
+
+        public static void SetBuffCountSynced(this CharacterBody body, BuffIndex index, int count) {
+            if (NetworkServer.active) {
+                body.SetBuffCount(index, count);
+            }
+            else {
+                new SetBuffCountMessage(body, index, count).Send(R2API.Networking.NetworkDestination.Server);
+            }
+        }
+
+        public static void AddBuffSynced(this CharacterBody body, BuffIndex index) {
+            if (NetworkServer.active) {
+                body.AddBuff(index);
+            }
+            else {
+                new AddBuffMessage(body, index).Send(R2API.Networking.NetworkDestination.Server);
+            }
+        }
+
+        public static void RemoveBuffSynced(this CharacterBody body, BuffIndex index) {
+            if (NetworkServer.active) {
+                body.RemoveBuff(index);
+            }
+            else {
+                new RemoveBuffMessage(body, index).Send(R2API.Networking.NetworkDestination.Server);
+            }
+        }
+
+        public static void AddTimedBuffSynced(this CharacterBody body, BuffIndex index, int duration) {
+            if (NetworkServer.active) {
+                body.AddTimedBuff(index, duration);
+            }
+            else {
+                new AddTimedBuffMessage(body, index, duration).Send(R2API.Networking.NetworkDestination.Server);
+            }
+        }
+
+        public static void RegisterMessages() {
+            NetworkingAPI.RegisterMessageType<SetBuffCountMessage>();
+            NetworkingAPI.RegisterMessageType<AddTimedBuffMessage>();
+            NetworkingAPI.RegisterMessageType<AddBuffMessage>();
+            NetworkingAPI.RegisterMessageType<RemoveBuffMessage>();
+        }
+
+        private class AddTimedBuffMessage : INetMessage
+        {
+            public CharacterBody body;
+            public BuffIndex index;
+            public float duration;
+            void INetMessage.OnReceived()
+            {
+                if (body) {
+                    body.AddTimedBuff(index, duration);
+                }
+            }
+            void ISerializableObject.Deserialize(NetworkReader reader)
+            {
+                body = reader.ReadGameObject()?.GetComponent<CharacterBody>() ?? null;
+                index = reader.ReadBuffIndex();
+                duration = reader.ReadSingle();
+            }
+            void ISerializableObject.Serialize(NetworkWriter writer)
+            {
+                writer.Write(body.gameObject);
+                writer.WriteBuffIndex(index);
+                writer.Write(duration);
+            }
+            
+            public AddTimedBuffMessage(CharacterBody body, BuffIndex index, float duration) {
+                this.body = body;
+                this.index = index;
+                this.duration = duration;
+            }
+            public AddTimedBuffMessage() {}
+        }
+
+        private class RemoveBuffMessage : INetMessage
+        {
+            public CharacterBody body;
+            public BuffIndex index;
+            void INetMessage.OnReceived()
+            {
+                if (body) {
+                    body.AddBuff(index);
+                }
+            }
+            void ISerializableObject.Deserialize(NetworkReader reader)
+            {
+                body = reader.ReadGameObject()?.GetComponent<CharacterBody>() ?? null;
+                index = reader.ReadBuffIndex();
+            }
+            void ISerializableObject.Serialize(NetworkWriter writer)
+            {
+                writer.Write(body.gameObject);
+                writer.WriteBuffIndex(index);
+            }
+            
+            public RemoveBuffMessage(CharacterBody body, BuffIndex index) {
+                this.body = body;
+                this.index = index;
+            }
+            public RemoveBuffMessage() {}
+        }
+
+        private class AddBuffMessage : INetMessage
+        {
+            public CharacterBody body;
+            public BuffIndex index;
+            void INetMessage.OnReceived()
+            {
+                if (body) {
+                    body.AddBuff(index);
+                }
+            }
+            void ISerializableObject.Deserialize(NetworkReader reader)
+            {
+                body = reader.ReadGameObject()?.GetComponent<CharacterBody>() ?? null;
+                index = reader.ReadBuffIndex();
+            }
+            void ISerializableObject.Serialize(NetworkWriter writer)
+            {
+                writer.Write(body.gameObject);
+                writer.WriteBuffIndex(index);
+            }
+            
+            public AddBuffMessage(CharacterBody body, BuffIndex index) {
+                this.body = body;
+                this.index = index;
+            }
+            public AddBuffMessage() {}
+        }
+
+        private class SetBuffCountMessage : INetMessage
+        {
+            public CharacterBody body;
+            public BuffIndex index;
+            public int count;
+            void INetMessage.OnReceived()
+            {
+                if (body) {
+                    body.SetBuffCount(index, count);
+                }
+            }
+            void ISerializableObject.Deserialize(NetworkReader reader)
+            {
+                body = reader.ReadGameObject()?.GetComponent<CharacterBody>() ?? null;
+                index = reader.ReadBuffIndex();
+                count = reader.ReadInt32();
+            }
+            void ISerializableObject.Serialize(NetworkWriter writer)
+            {
+                writer.Write(body.gameObject);
+                writer.WriteBuffIndex(index);
+                writer.Write(count);
+            }
+            
+            public SetBuffCountMessage(CharacterBody body, BuffIndex index, int count) {
+                this.body = body;
+                this.index = index;
+                this.count = count;
+            }
+            public SetBuffCountMessage() {}
         }
     }
 }

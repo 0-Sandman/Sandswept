@@ -17,23 +17,73 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
         {
             skillDef = ScriptableObject.CreateInstance<RangerPassiveDef>();
             var passive = (RangerPassiveDef)skillDef;
-            passive.onHook += () =>
+
+            passive.onAssigned += (slot) =>
             {
-                GetStatCoefficients += Charged_GetStatCoefficients;
+                var component = slot.AddComponent<RangerPassiveOverchargedProtection>();
+
+                return new OverchargedProtectionInstanceData()
+                {
+                    self = component
+                };
             };
-            passive.onUnhook += () =>
+
+            passive.onUnassigned += (slot) =>
             {
-                GetStatCoefficients -= Charged_GetStatCoefficients;
+                if (slot.skillInstanceData != null) {
+                    GameObject.Destroy((slot.skillInstanceData as OverchargedProtectionInstanceData).self);
+                }
             };
         }
 
-        private void Charged_GetStatCoefficients(CharacterBody body, StatHookEventArgs args)
-        {
-            if (body)
-            {
-                var levelScale = 0.125f * 0.2f * (body.level - 1);
-                args.baseRegenAdd += (0.125f + levelScale) * body.GetBuffCount(Charge.instance.BuffDef);
-                args.armorAdd += 0.75f * body.GetBuffCount(Charge.instance.BuffDef);
+        public static float GetRegenForBody(CharacterBody body) {
+            var levelScale = 0.125f * 0.2f * (body.level - 1);
+            return (0.125f + levelScale) * body.GetBuffCount(Charge.instance.BuffDef);
+        }
+
+        public class OverchargedProtectionInstanceData : SkillDef.BaseSkillInstanceData {
+            public RangerPassiveOverchargedProtection self;
+        }
+
+        public class RangerPassiveOverchargedProtection : MonoBehaviour {
+            public CharacterBody body;
+            public HealthComponent hc;
+            public float regenAccumulator;
+            public float chargeRegen;
+            public static ModdedProcType OverchargeRegen = ProcTypeAPI.ReserveProcType();
+
+            public void Start() {
+                body = GetComponent<CharacterBody>();
+                hc = GetComponent<HealthComponent>();
+
+                RecalculateStatsAPI.GetStatCoefficients += RecalculateStats;
+            }
+
+            public void FixedUpdate() {
+                if (hc) {
+                    regenAccumulator += chargeRegen * Time.fixedDeltaTime;
+
+                    if (regenAccumulator >= 1f) {
+                        regenAccumulator = 0f;
+                        ProcChainMask mask = new();
+                        mask.AddModdedProc(OverchargeRegen);
+
+                        hc.Heal(regenAccumulator, mask, false);
+                    }
+                }
+            }
+
+            public void RecalculateStats(CharacterBody body, StatHookEventArgs args) {
+                if (body == this.body) {
+                    int count = body.GetBuffCount(Charge.instance.BuffDef);
+                    float levelScale = 0.125f * 0.2f * (body.level - 1);
+                    chargeRegen = (0.125f + levelScale) * count;
+                    args.armorAdd += 0.75f * count;
+                }
+            }
+
+            public void OnDestroy() {
+                RecalculateStatsAPI.GetStatCoefficients -= RecalculateStats;
             }
         }
     }

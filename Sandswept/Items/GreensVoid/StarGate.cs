@@ -1,5 +1,5 @@
 
-using HarmonyLib;
+/*using HarmonyLib;
 using LookingGlass.ItemStatsNameSpace;
 using MonoMod.Cil;
 using RoR2.ExpansionManagement;
@@ -176,4 +176,4 @@ namespace Sandswept.Items.VoidGreens
     {
         public int lastItemCount = 0;
     }
-}
+}*/

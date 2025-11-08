@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 268505389
+CRC: 2177679131
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: c8b08e16deaf4198c020c37b108ce812
+    Hash: 9394846c5faddcb1a3da4f63e4440b80
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 01034aec698a990193d67d7ae934eada
+    Hash: 826983beb74451458e7ad72f984a5c6a
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -72,6 +72,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 1431018688, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
+  Script: {fileID: 1370420181, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: 1395413934, guid: da77c7bbf69f66ab2145560542327715, type: 3}
 - Class: 114
   Script: {fileID: 1194990610, guid: ca6fb10b837101520834a90b90b15080, type: 3}
@@ -94,6 +96,8 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
 - Class: 114
+  Script: {fileID: 664490745, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
 - Class: 114
   Script: {fileID: 1024779430, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
@@ -105,6 +109,8 @@ ClassTypes:
   Script: {fileID: 1985007777, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1568778350, guid: 050936fea8909af15a3fd3b64da1ff83, type: 3}
+- Class: 114
+  Script: {fileID: -2028682152, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
   Script: {fileID: 766313180, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
@@ -224,8 +230,6 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -492659515, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 1370420181, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
   Script: {fileID: -1578512655, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: -1699741063, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
@@ -255,8 +259,6 @@ ClassTypes:
   Script: {fileID: -1819008361, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1839950351, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: 664490745, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 717380117, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
@@ -293,8 +295,6 @@ ClassTypes:
   Script: {fileID: 52559370, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 105922711, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
-- Class: 114
-  Script: {fileID: -2028682152, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 120
@@ -537,5 +537,6 @@ Assets:
 - Assets/Sandswept/Base/Characters/GammaConstruct/GammaConstructBody.prefab
 - Assets/Sandswept/Base/Items/LunarCatalyst/matCatalystFlame.mat
 - Assets/Sandswept/Base/Characters/DeltaConstruct/mdl/matDeltaConstruct_OUTRUN.mat
+- Assets/Sandswept/Base/Characters/ArdentWisp/fx/ArdentWispDeath.prefab
 - Assets/Sandswept/Base/Items/TheirProminence/PickupTheirProminence.prefab
 Dependencies: []

@@ -113,7 +113,7 @@ namespace Sandswept.Enemies.ArdentWisp
 
     [ConfigSection("Enemies :: Ardent Wisp")]
     public class ArdentBombProjectile : MonoBehaviour {
-        public static float blastRadius = 12f;
+        public static float blastRadius = 22f;
         public static float blastTime = 1.5f;
         public Transform outerRadius;
         public Transform innerRadius;

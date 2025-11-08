@@ -4,7 +4,7 @@ namespace Sandswept.Buffs
 {
     public class HeatHealingReduction : BuffBase<HeatHealingReduction>
     {
-        public override string BuffName => "Heat Healing Reduction - 10% Per";
+        public override string BuffName => "Heat Healing Reduction";
 
         public override Color Color => new Color32(246, 119, 32, 255);
         public override bool CanStack => true;
@@ -22,11 +22,16 @@ namespace Sandswept.Buffs
             var body = self.body;
             var buffCount = body.GetBuffCount(BuffDef);
 
-            var reduction = 1f - (buffCount * 0.1f);
+            var reduction = 1f - (buffCount * 0.01f);
 
             reduction = Mathf.Max(0, reduction);
 
-            amount *= reduction;
+            if (nonRegen) {
+                amount *= reduction;
+            }
+            else {
+                
+            }
 
             return orig(self, amount, procChainMask, nonRegen);
         }

@@ -1,4 +1,5 @@
-﻿using Sandswept.Buffs;
+﻿using R2API.Networking;
+using Sandswept.Buffs;
 
 namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
 {
@@ -17,46 +18,68 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
         {
             skillDef = ScriptableObject.CreateInstance<RangerPassiveDef>();
             var passive = (RangerPassiveDef)skillDef;
-            passive.onHook += () =>
+            
+            passive.onAssigned += (slot) =>
             {
-                GetStatCoefficients += Charged_GetStatCoefficients;
-                On.EntityStates.GenericCharacterMain.ProcessJump += GenericCharacterMain_ProcessJump;
+                var component = slot.AddComponent<RangerPassiveOverchargedSpeed>();
+
+                return new OverchargedSpeedInstanceData()
+                {
+                    self = component
+                };
             };
-            passive.onUnhook += () =>
+
+            passive.onUnassigned += (slot) =>
             {
-                GetStatCoefficients -= Charged_GetStatCoefficients;
-                On.EntityStates.GenericCharacterMain.ProcessJump -= GenericCharacterMain_ProcessJump;
+                if (slot.skillInstanceData != null) {
+                    GameObject.Destroy((slot.skillInstanceData as OverchargedSpeedInstanceData).self);
+                }
             };
         }
 
-        private void Charged_GetStatCoefficients(CharacterBody body, StatHookEventArgs args)
-        {
-            if (body)
-            {
-                args.moveSpeedMultAdd += 0.0125f * body.GetBuffCount(Charge.instance.BuffDef);
-            }
+        public class OverchargedSpeedInstanceData : SkillDef.BaseSkillInstanceData {
+            public RangerPassiveOverchargedSpeed self;
         }
 
-        private void GenericCharacterMain_ProcessJump(On.EntityStates.GenericCharacterMain.orig_ProcessJump orig, GenericCharacterMain self)
-        {
-            if (!self.hasCharacterMotor || !self.jumpInputReceived)
-            {
-                orig(self);
-                return;
+        public class RangerPassiveOverchargedSpeed : MonoBehaviour {
+            public CharacterBody body;
+
+            public void Start() {
+                body = GetComponent<CharacterBody>();
+
+                RecalculateStatsAPI.GetStatCoefficients += RecalculateStats;
+                On.EntityStates.GenericCharacterMain.ProcessJump_bool += ProcessJump;
             }
-            var buffCount = self.characterBody.GetBuffCount(Charge.instance.BuffDef);
-            if (self.characterMotor.jumpCount == self.characterBody.maxJumpCount && buffCount >= 6)
-            {
-                var jumpCount = self.characterBody.maxJumpCount;
 
-                self.characterBody.SetBuffCount(Charge.instance.BuffDef.buffIndex, self.characterBody.GetBuffCount(Charge.instance.BuffDef) - 6);
-                self.characterBody.maxJumpCount += 1;
-
-                orig(self);
-
-                self.characterBody.maxJumpCount = jumpCount;
+            public void RecalculateStats(CharacterBody body, StatHookEventArgs args) {
+                if (body == this.body) {
+                    args.moveSpeedMultAdd += 0.0125f * body.GetBuffCount(Charge.instance.BuffDef);
+                }
             }
-            else orig(self);
+
+            private void ProcessJump(On.EntityStates.GenericCharacterMain.orig_ProcessJump_bool orig, EntityStates.GenericCharacterMain self, bool ignoreRequirements)
+            {
+                if (!self.characterBody || self.characterBody != body)
+                {
+                    orig(self, ignoreRequirements);
+                    return;
+                }
+
+                int count = self.characterBody.GetBuffCount(Charge.instance.BuffDef);
+
+                if (self.jumpInputReceived && count > 6 && self.characterMotor && self.characterMotor.jumpCount >= self.characterBody.maxJumpCount && !ignoreRequirements)
+                {
+                    self.characterBody.SetBuffCountSynced(Charge.instance.BuffDef.buffIndex, count - 6);
+                    ignoreRequirements = true;
+                }
+
+                orig(self, ignoreRequirements);
+            }
+
+            public void OnDestroy() {
+                RecalculateStatsAPI.GetStatCoefficients -= RecalculateStats;
+                On.EntityStates.GenericCharacterMain.ProcessJump_bool -= ProcessJump;
+            }
         }
     }
 }

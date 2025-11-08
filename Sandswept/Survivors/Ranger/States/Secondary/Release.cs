@@ -142,7 +142,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                 attack.Fire();
             }
 
-            characterBody.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Max(0, buffCount - DirectCurrent.maxCharge));
+            characterBody.SetBuffCountSynced(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Max(0, buffCount - DirectCurrent.maxCharge));
         }
     }
 }
