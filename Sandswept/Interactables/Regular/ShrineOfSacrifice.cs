@@ -43,7 +43,7 @@ namespace Sandswept.Interactables.Regular
         [ConfigField("Director Credit Cost", "", 20)]
         public static int directorCreditCost;
 
-        [ConfigField("Curse Cost", "", 25)]
+        [ConfigField("Curse Cost", "", 30)]
         public static int curseCost;
 
         [ConfigField("Item Count", "", 2)]

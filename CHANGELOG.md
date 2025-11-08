@@ -55,11 +55,11 @@
   <summary>Added Item Display Followers, click to view list</summary>
   Drifting Perception, Sun Fragment, Preserved Atoll, Torn Feather
   </details>
-
 - Enemies
+  - Added Ardent Wisp
   - Fixed Theta Construct Overloading Elite Item Display
 - Interactables
-  - Increased Shrine of Sacrifice Curse Cost from 20 to 25
+  - Increased Shrine of Sacrifice Curse Cost from 20 to 30
 
 ## 1.3.1 Patch Notes
 - Enemies
