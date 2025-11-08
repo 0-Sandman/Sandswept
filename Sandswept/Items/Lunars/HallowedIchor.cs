@@ -75,8 +75,8 @@ namespace Sandswept.Items.Lunars
         public static Color32 hallowedIchorBlue = new(124, 198, 255, 255);
         public static Color32 cachedTimerColor = Color.white;
 
-        public static bool anyoneHadHallowedIchor = false;
-        public static bool anyoneHadHallowedIchorEver = false;
+        public static bool anyoneHadHallowedIchorThisStage = false;
+        public static bool anyoneHadHallowedIchorThisRun = false;
 
         public static int globalReopenCount = 0;
 
@@ -194,7 +194,7 @@ namespace Sandswept.Items.Lunars
         // the code may be unoptimized buuut it doesn't really take up performance
         private void PerformJitterUI(On.RoR2.UI.RunTimerUIController.orig_Update orig, RoR2.UI.RunTimerUIController self)
         {
-            if (anyoneHadHallowedIchorEver)
+            if (anyoneHadHallowedIchorThisRun)
             {
                 double time = 0f;
 
@@ -251,8 +251,8 @@ namespace Sandswept.Items.Lunars
         {
             var runDifficultyDef = DifficultyCatalog.GetDifficultyDef(run.selectedDifficulty);
             runDifficultyDef.scalingValue = cachedDifficultyDefScalingValue;
-            anyoneHadHallowedIchor = false;
-            anyoneHadHallowedIchorEver = false;
+            anyoneHadHallowedIchorThisStage = false;
+            anyoneHadHallowedIchorThisRun = false;
             globalReopenCount = 0;
         }
 
@@ -270,12 +270,12 @@ namespace Sandswept.Items.Lunars
             itemCount = GetPlayerItemCountGlobal(instance.ItemDef.itemIndex, true);
             if (itemCount > 0)
             {
-                anyoneHadHallowedIchor = true;
-                anyoneHadHallowedIchorEver = true;
+                anyoneHadHallowedIchorThisStage = true;
+                anyoneHadHallowedIchorThisRun = true;
             }
             else
             {
-                anyoneHadHallowedIchor = false;
+                anyoneHadHallowedIchorThisStage = false;
             }
         }
 
