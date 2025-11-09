@@ -1,4 +1,5 @@
 ﻿using System;
+using Sandswept.Survivors.Ranger.SkillDefs.Passive;
 
 namespace Sandswept.Buffs
 {
@@ -30,7 +31,9 @@ namespace Sandswept.Buffs
                 amount *= reduction;
             }
             else {
-                
+                if (!procChainMask.HasModdedProc(OverchargedProtection.RangerPassiveOverchargedProtection.OverchargeRegen)) {
+                    amount *= reduction;
+                }
             }
 
             return orig(self, amount, procChainMask, nonRegen);

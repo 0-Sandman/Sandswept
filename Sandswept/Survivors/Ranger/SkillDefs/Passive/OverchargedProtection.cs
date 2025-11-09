@@ -64,11 +64,11 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
                     regenAccumulator += chargeRegen * Time.fixedDeltaTime;
 
                     if (regenAccumulator >= 1f) {
-                        regenAccumulator = 0f;
                         ProcChainMask mask = new();
                         mask.AddModdedProc(OverchargeRegen);
-
                         hc.Heal(regenAccumulator, mask, false);
+                        
+                        regenAccumulator = 0f;
                     }
                 }
             }
