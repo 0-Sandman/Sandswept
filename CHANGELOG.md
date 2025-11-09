@@ -5,43 +5,43 @@
     <summary>Added some Item Displays, click to view list</summary>
     Red Spring Water, Makeshift Plate, Nuclear Salvo, Pocket Plutonium, Sacrificial Band, Smouldering Document, Universal VIP Pass, Armor-Piercing Rounds, Backup Magazine, Bundle of Fireworks,  Cautious Slug, Chronic Expansion, Delicate Watch, Energy Drink, Focus Crystal, Lens-Maker's Glasses, Medkit, Personal Shield Generator, Repulsion Armor Plate, AtG Missile Mk. 1, Bandolier, Hunter's Harpoon, Luminous Shot, Kjaro's Band, Runald's Band, Ukulele, Lost Seer's Lenses, Singularity Band, Plasma Shrimp, Polylute, Brilliant Behemoth, Ceremonial Dagger, Shattering Justice, Symbiotic Scorpion, Preon Accumulator, Primordial Cube, Artificial Void, John Hopoo, Aurelionite's Blessing, Her Biting Embrace, His Reassurance, His Spiteful Boon, Ifrit's Distinction, N'kuhana's Retort, Shared Design, Silence Between Two Strikes, Spectral Circlet
     </details>
-  - Improved Tempest Sphere VFX
-  - Improved Static Snare VFX
-  - Improved Signal Overload VFX
+  - Fixed Static Snare Pylon being set to the mastery model on non-mastery, non-default skins
 - Ranger
   - Added SkinFlavorText Support
+  - Made Heat no longer build up passively during overdrive
+  - Made Enflame build up heat when fired at a rate of 20% per second
+  - Made Heat able to build indefinitely 100%
+  - Made Heat gauge UI now loop around itself multiple times to represent heat, changing color for every interval above 100%
+  - Made Healing Reduction scale linearly with heat, capping at -100% in 100% heat
+  - Made Heat no longer give a base damage bonus based on time spent in 100% heat
+  - Made Enflame attack speed boost based on heat uncapped, scaling at 1 extra bullet per second per 25% heat
+  - Made Exhaust reduce 50% of CURRENT heat, instead of a flat amount of heat
+  - Made Exhaust blast count based on heat uncapped, scaling at 1 extra blast per 25% heat spent
+  - Made Overcharged Protection bypass the healing reduction applied in Overdrive
+  - Made Overcharged Speed extra jumps function more reliably
+  - Made Overcharged Speed able to jump multiple times midair
+  - Made Heat Signature increase dash distance based on heat
+  - Made Heat Signature add 40% heat when used
+  - Fixed Crosshair dot being transparent at full Charge
+  - Fixed Overcharged Protection and Overcharged Speed networking issue
   - Fixed Direct Current not having the lightning damage type (for Broken VOL-T)
   - Fixed Release not having the lightning damage type (for Broken VOL-T)
   - Fixed Galvanize not having the lightning damage type (for Broken VOL-T)
-  - Heat no longer builds up passively during overdrive.
-  - Enflame now builds heat when fired at a rate of 20% per second.
-  - Heat can now indefinitely build past 100%.
-  - Heat gauge UI now loops around itself multiple times to represent heat, changing color for every interval above 100%
-  - Healing Reduction now scales linearly with heat, capping at -100% at 100% heat. 
-  - Healing Reduction is no longer capped to your highest reached reduction and now scales all the way down to -0% if you manage to lose all heat.
-  - Heat no longer gives a base damage bonus based on time spent at max heat.
-  - Enflame attack speed based on heat is now uncapped, and scales at 1 extra bullet/sec per 25% heat.
-  - Exhaust now clears 33% of CURRENT heat, instead of a flat amount of heat.
-  - Exhaust blast count based on heat cleared is now uncapped, and scales at 1 extra blast per 20% heat cleared
-  - Fixed networking issues with Ranger passives.
-  - Overcharged Protection now provides health regeneration which bypasses the healing reduction applied in Overdrive.
-  - Overcharged Speed's extra jumps now more reliably function.
-  - Overcharged Speed now allows using the charge jump multiple times midair.
-  - Heat Signature now increases dash distance based on heat.
-  - Heat Signature now adds 40% heat when used.
 - Items/Equipment
   - Improved Fractured Timepiece VFX
   - Improved Drifting Perception description wording
   - Improved Their Prominence description wording
-  - Nerfed Makeshift Plate Base Percent Plating Gain from 200 to 150
-  - Nerfed Makeshift Plate Stack Percent Plating Gain from 200 to 150
+  - Nerfed Makeshift Plate Base Percent Plating Gain from 200% to 150%
+  - Nerfed Makeshift Plate Stack Percent Plating Gain from 200% to 150%
   - Nerfed Hallowed Ichor Per Player Divisor Add from 0.25 to 0.175 (less difficulty scaling on multiplayer)
   - Nerfed Sequenced Fate Base Extra Items Count from 6 to 5
   - Nerfed Sequenced Fate Stack Extra Items Count from 3 to 1
   - Made The Sand Sweeper non-lethal when used by non-allies (Scavenger instakill moment)
   - Made Galvanic Cell Shield non-lethal when used by non-allies (Scavenger instakill moment)
+  - Fixed Crown's Diamond missing the Healing item tag
   - Fixed Makeshift Plate potentially throwing an NRE
-  - Fixed Makeshift Plate showing the wrong numbers to clients.
+  - Fixed Makeshift Plate showing the wrong numbers to clients
+  - Fixed Makeshift Plate missing the Healing item tag
   - Fixed Hallowed Ichor not showing scaled timer whenever the last player holding Hallowed Ichor died
   - Fixed Hallowed Ichor adding to global stacks with NPCs that inherit items
   - Fixed Hallowed Ichor missing the AIBlacklist and BrotherBlacklist item tags
@@ -50,16 +50,16 @@
   - Fixed Their Prominence adding to global stacks with NPCs that inherit items
   - Fixed Their Prominence missing the AIBlacklist and BrotherBlacklist item tags
 - Interactables
-  - ACTUALLY fixed Voltaic Drone and Inferno Drone appearing as Gunner Drone to clients.
-<details>
-  <summary>- Added Item Display Followers (Click to view list)</summary>
-Drifting Perception, Sun Fragment, Preserved Atoll, Torn Feather
-</details>
-
+  - ACTUALLY fixed Voltaic Drone and Inferno Drone appearing as Gunner Drones to clients
+- <details>
+  <summary>Added Item Display Followers, click to view list</summary>
+  Drifting Perception, Sun Fragment, Preserved Atoll, Torn Feather
+  </details>
 - Enemies
+  - Added Ardent Wisp
   - Fixed Theta Construct Overloading Elite Item Display
 - Interactables
-  - Increased Shrine of Sacrifice Curse Cost from 20 to 25
+  - Increased Shrine of Sacrifice Curse Cost from 20 to 30
 
 ## 1.3.1 Patch Notes
 - Enemies

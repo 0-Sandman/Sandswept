@@ -387,6 +387,8 @@ namespace Sandswept.Survivors.Ranger
             ("RANGER_SKIN_" + trimmedName.ToUpper() + "_NAME").Add(skinName);
             ("RANGER_SKIN_" + trimmedName.ToUpper() + "_DESC").Add(skinDescription);
 
+            Main.ModLogger.LogError("token is " + "RANGER_SKIN_" + trimmedName.ToUpper() + "_DESC");
+
             Skins.AddSkinToCharacter(Body, skinDef);
 
             return skinDef;

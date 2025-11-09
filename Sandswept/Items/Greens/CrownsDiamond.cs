@@ -49,7 +49,7 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texCrownsDiamond.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility };
+        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.Healing];
 
         public override float modelPanelParametersMinDistance => 4f;
         public override float modelPanelParametersMaxDistance => 11f;

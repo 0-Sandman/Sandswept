@@ -30,37 +30,44 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
 
             passive.onUnassigned += (slot) =>
             {
-                if (slot.skillInstanceData != null) {
+                if (slot.skillInstanceData != null)
+                {
                     GameObject.Destroy((slot.skillInstanceData as OverchargedProtectionInstanceData).self);
                 }
             };
         }
 
-        public static float GetRegenForBody(CharacterBody body) {
+        public static float GetRegenForBody(CharacterBody body)
+        {
             var levelScale = 0.125f * 0.2f * (body.level - 1);
             return (0.125f + levelScale) * body.GetBuffCount(Charge.instance.BuffDef);
         }
 
-        public class OverchargedProtectionInstanceData : SkillDef.BaseSkillInstanceData {
+        public class OverchargedProtectionInstanceData : SkillDef.BaseSkillInstanceData
+        {
             public RangerPassiveOverchargedProtection self;
         }
 
-        public class RangerPassiveOverchargedProtection : MonoBehaviour {
+        public class RangerPassiveOverchargedProtection : MonoBehaviour
+        {
             public CharacterBody body;
             public HealthComponent hc;
             public float regenAccumulator;
             public float chargeRegen;
             public static ModdedProcType OverchargeRegen = ProcTypeAPI.ReserveProcType();
 
-            public void Start() {
+            public void Start()
+            {
                 body = GetComponent<CharacterBody>();
                 hc = GetComponent<HealthComponent>();
 
                 RecalculateStatsAPI.GetStatCoefficients += RecalculateStats;
             }
 
-            public void FixedUpdate() {
-                if (hc) {
+            public void FixedUpdate()
+            {
+                if (hc)
+                {
                     regenAccumulator += chargeRegen * Time.fixedDeltaTime;
 
                     if (regenAccumulator >= 1f) {
@@ -73,8 +80,10 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
                 }
             }
 
-            public void RecalculateStats(CharacterBody body, StatHookEventArgs args) {
-                if (body == this.body) {
+            public void RecalculateStats(CharacterBody body, StatHookEventArgs args)
+            {
+                if (body == this.body)
+                {
                     int count = body.GetBuffCount(Charge.instance.BuffDef);
                     float levelScale = 0.125f * 0.2f * (body.level - 1);
                     chargeRegen = (0.125f + levelScale) * count;
@@ -82,7 +91,8 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
                 }
             }
 
-            public void OnDestroy() {
+            public void OnDestroy()
+            {
                 RecalculateStatsAPI.GetStatCoefficients -= RecalculateStats;
             }
         }

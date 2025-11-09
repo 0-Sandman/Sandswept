@@ -47,7 +47,7 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.assets.LoadAsset<Sprite>("texIconPlate.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist, ItemTag.CannotCopy };
+        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.Healing, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist, ItemTag.CannotCopy];
 
         [ConfigField("Base Percent Plating Gain", "", 150f)]
         public static float basePercentPlatingGain;
@@ -90,7 +90,8 @@ namespace Sandswept.Items.Greens
             if (itemIndex == ItemDef.itemIndex && self.TryGetComponent<CharacterMaster>(out CharacterMaster cm) && cm.bodyInstanceObject)
             {
                 PlatingManager manager = cm.bodyInstanceObject.GetComponent<PlatingManager>();
-                if (!manager) {
+                if (!manager)
+                {
                     manager = cm.bodyInstanceObject.AddComponent<PlatingManager>();
                 }
 
@@ -100,7 +101,8 @@ namespace Sandswept.Items.Greens
                 int plating = Mathf.RoundToInt((cb.maxHealth + cb.maxShield) * platingMult);
 
                 manager.CurrentPlating += plating;
-                if (manager.MaxPlating == 0) {
+                if (manager.MaxPlating == 0)
+                {
                     manager.MaxPlating = plating;
                 }
                 manager.CurrentPlating = Mathf.Min(manager.CurrentPlating, manager.MaxPlating);
@@ -305,7 +307,7 @@ namespace Sandswept.Items.Greens
 
             public void OnReceived()
             {
-                Process();   
+                Process();
             }
 
             public MakeshiftPlateAddSync()
@@ -340,7 +342,8 @@ namespace Sandswept.Items.Greens
                 else
                 {
                     PlatingManager manager = target.GetComponent<PlatingManager>();
-                    if (!manager) {
+                    if (!manager)
+                    {
                         manager = target.AddComponent<PlatingManager>();
                     }
                     manager.MaxPlating = maxPlating;

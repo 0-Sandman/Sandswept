@@ -167,15 +167,16 @@ namespace Sandswept.Survivors.Electrician
             lightningEffect.SetActive(false);
 
             // the code below swaps out VOL-T's Utility skill mesh and material based on the skin selected
-            if (skin == skin1)
-            {
-                mesh.sharedMesh = mesh1;
-                mesh.sharedMaterial = mat1;
-            }
-            else
+            // reversed ifs for other skin fix
+            if (skin == skin2)
             {
                 mesh.sharedMesh = mesh2;
                 mesh.sharedMaterial = mat2;
+            }
+            else
+            {
+                mesh.sharedMesh = mesh1;
+                mesh.sharedMaterial = mat1;
             }
 
             indicatorInstance = UnityEngine.Object.Instantiate(indicatorPrefab, base.transform);

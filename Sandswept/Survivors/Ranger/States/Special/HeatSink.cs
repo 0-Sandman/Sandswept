@@ -112,10 +112,12 @@ namespace Sandswept.Survivors.Ranger.States.Special
 
             FireNova(false);
 
+            /*
             if (characterBody)
             {
                 characterBody.AddTimedBuffAuthority(HeatAttackSpeedBoost.instance.BuffDef.buffIndex, 0.05f * Mathf.Pow(heat.currentHeat / 1.51991108f, 1.1f));
             }
+            */
 
             heat.currentHeat = 0f;
         }
