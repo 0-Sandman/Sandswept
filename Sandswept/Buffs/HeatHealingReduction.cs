@@ -26,11 +26,13 @@ namespace Sandswept.Buffs
 
             reduction = Mathf.Max(0, reduction);
 
-            if (nonRegen) {
+            if (nonRegen)
+            {
                 amount *= reduction;
             }
-            else {
-                
+            else
+            {
+
             }
 
             return orig(self, amount, procChainMask, nonRegen);

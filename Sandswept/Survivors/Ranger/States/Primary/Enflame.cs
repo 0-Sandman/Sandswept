@@ -5,8 +5,8 @@ namespace Sandswept.Survivors.Ranger.States.Primary
 {
     public class Enflame : BaseState
     {
-        public static float procCoefficient = 0.9f;
-        public static float damageCoefficient = 0.75f;
+        public static float procCoefficient = 1f;
+        public static float damageCoefficient = 0.9f;
 
         public static float baseShotDistance = 200f;
         public static float shotDistanceScaling = -15f;

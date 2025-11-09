@@ -267,11 +267,16 @@ namespace Sandswept.Items.Lunars
 
         private void TrackStackCount(CharacterBody body)
         {
+            if (GetPlayerItemCountGlobal(instance.ItemDef.itemIndex, false) > 0)
+            {
+                anyoneHadHallowedIchorThisRun = true;
+            }
+
             itemCount = GetPlayerItemCountGlobal(instance.ItemDef.itemIndex, true);
+            Main.ModLogger.LogError("TrackStatCount: itemCount set to " + itemCount);
             if (itemCount > 0)
             {
                 anyoneHadHallowedIchorThisStage = true;
-                anyoneHadHallowedIchorThisRun = true;
             }
             else
             {
@@ -419,7 +424,7 @@ namespace Sandswept.Items.Lunars
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
-            
+
             var itemDisplay = SetUpFollowerIDRS(0.6f, 33f);
 
             return new ItemDisplayRuleDict(new ItemDisplayRule()

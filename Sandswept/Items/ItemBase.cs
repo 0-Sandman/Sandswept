@@ -375,8 +375,7 @@ namespace Sandswept.Items
         {
             int totalItemCount = 0;
             var playerCharacterMasterControllerReadOnlyInstances = PlayerCharacterMasterController._instancesReadOnly;
-            int i = 0;
-            for (int count = playerCharacterMasterControllerReadOnlyInstances.Count; i < count; i++)
+            for (int i = 0; i < playerCharacterMasterControllerReadOnlyInstances.Count; i++)
             {
                 var playerCharacterMasterController = playerCharacterMasterControllerReadOnlyInstances[i];
                 var inventory = playerCharacterMasterController.GetComponent<Inventory>();

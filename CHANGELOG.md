@@ -15,12 +15,12 @@
   - Made Healing Reduction scale linearly with heat, capping at -100% in 100% heat
   - Made Heat no longer give a base damage bonus based on time spent in 100% heat
   - Made Enflame attack speed boost based on heat uncapped, scaling at 1 extra bullet per second per 25% heat
-  - Made Exhaust reduce 30% of CURRENT heat, instead of a flat amount of heat
+  - Made Exhaust reduce 50% of CURRENT heat, instead of a flat amount of heat
   - Made Exhaust blast count based on heat uncapped, scaling at 1 extra blast per 25% heat spent
   - Made Overcharged Protection bypass the healing reduction applied in Overdrive
   - Made Overcharged Speed extra jumps function more reliably
   - Made Overcharged Speed able to jump multiple times midair
-  - Made Heat Signature now increases dash distance based on heat
+  - Made Heat Signature increase dash distance based on heat
   - Made Heat Signature add 40% heat when used
   - Fixed Crosshair dot being transparent at full Charge
   - Fixed Overcharged Protection and Overcharged Speed networking issue

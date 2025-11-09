@@ -24,8 +24,8 @@ namespace Sandswept.Survivors.Ranger
 
         public bool isInFullHeat = false;
 
-        public float selfDamageAtMax = 0.05f;
-        public float selfDamageInterval = 0.2f;
+        public float selfDamageAtMax = 0.04f;
+        public float selfDamageInterval = 0.25f;
         public float selfDamageTimer;
 
         public float chargeLossTimer = 0f;
@@ -59,7 +59,9 @@ namespace Sandswept.Survivors.Ranger
             var buffCount = cb.GetBuffCount(Buffs.Charge.instance.BuffDef);
 
             if (buffCount > 0)
+            {
                 chargeLossTimer += Time.fixedDeltaTime;
+            }
 
             if (chargeLossTimer >= chargeLossInterval)
             {
@@ -100,8 +102,11 @@ namespace Sandswept.Survivors.Ranger
 
             if (cb)
             {
-                cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, 0);
-                cb.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, 0);
+                // cb.SetBuffCount(OverheatDamageBoost.instance.BuffDef.buffIndex, 0);
+
+                // thoughts on this below
+                // cb.SetBuffCount(Buffs.Charge.instance.BuffDef.buffIndex, 0);
+
                 Invoke(nameof(RemoveHealingReduction), 2f);
             }
 
@@ -334,44 +339,52 @@ namespace Sandswept.Survivors.Ranger
                 return;
             }
 
-            if (!target.isInOverdrive) {
+            if (!target.isInOverdrive)
+            {
                 image.transform.parent.gameObject.SetActive(false);
             }
-            else {
+            else
+            {
                 image.transform.parent.gameObject.SetActive(true);
             }
 
             var heatPercent = target.currentHeat / RangerHeatController.maxHeat;
+            // Main.ModLogger.LogError("target.currentHeat: " + target.currentHeat + ", RangerHeatController.maxHeat: " + RangerHeatController.maxHeat + ", heatPercent: " + heatPercent);
+            // all seems correct with these values, the previous heat value is shown when first entering overdrive and not doing anything probably because it instantiates first and THEN pops?
 
             colorUpdateTimer += Time.fixedDeltaTime;
             if (colorUpdateTimer >= colorUpdateInterval)
             {
                 // image.color = Color32.Lerp(lowHeatColor, inHeatColor, heatPercent);
-                backdropImage.color = new Color32(53, 53, 53, (byte)Mathf.Lerp(0, 190, heatPercent));
+                backdropImage.color = new Color32(53, 53, 53, (byte)Mathf.Lerp(60, 190, heatPercent));
                 colorUpdateTimer = 0f;
             }
 
             int iterations = (int)Mathf.Ceil(heatPercent);
-            if (iterations > heatSprites.Count) {
+            if (iterations > heatSprites.Count)
+            {
                 for (int i = heatSprites.Count; i < iterations; i++)
                 {
                     GameObject newGauge = GameObject.Instantiate(heatGaugeRef, image.transform.parent);
                     heatSprites.Push(newGauge.GetComponent<Image>());
                 }
             }
-            else if (heatSprites.Count > iterations && heatSprites.Peek() != image) {
-                for (int i = iterations; i < heatSprites.Count; i++) {
+            else if (heatSprites.Count > iterations && heatSprites.Peek() != image)
+            {
+                for (int i = iterations; i < heatSprites.Count; i++)
+                {
                     Image gauge = heatSprites.Pop();
                     GameObject.Destroy(gauge.gameObject);
                 }
             }
 
             // int iterations = (int)Mathf.Ceil(heatPercent);
-            for (int i = iterations - 1; i >= 0; i--) {
-                float perct = i >= 1 ? 1f : heatPercent % 1f;
-                Image im = heatSprites.ElementAt(i);
-                im.fillAmount = Mathf.Clamp01(perct);
-                im.color = Color.Lerp(lowHeatColor, Color.red, (heatPercent - i) / 5f);
+            for (int i = iterations - 1; i >= 0; i--)
+            {
+                float fillAmount = i >= 1 ? 1f : heatPercent;
+                Image image = heatSprites.ElementAt(i);
+                image.fillAmount = Mathf.Clamp01(fillAmount);
+                image.color = Color.Lerp(lowHeatColor, inHeatColor, (heatPercent - i) / 3f);
             }
         }
     }

@@ -9,16 +9,16 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
         public static float procCoefficient = 1f;
         public static float baseDurationPerVolley = 0.3f;
         public static int baseVolleyCount = 1;
-        public static float heatPerExtraVolley = 25f;
-        public static float heatReduction = 0.3f;
+        public static float heatPerExtraVolley = 20f;
+        public static float heatReduction = 0.5f;
         public int finalVolleyCount;
         public float durationPerVolley;
         public float finalDuration;
-        public bool shot = false;
-        private GameObject tracerEffect;
-        private GameObject impactEffect;
-        private RangerHeatController rangerHeatController;
-        private Transform modelTransform;
+        public GameObject tracerEffect;
+        public GameObject impactEffect;
+        public RangerHeatController rangerHeatController;
+        public Transform modelTransform;
+        public bool canExitState = false;
 
         public override void OnEnter()
         {
@@ -27,13 +27,12 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
             rangerHeatController = GetComponent<RangerHeatController>();
 
             float heatRemoved = rangerHeatController.currentHeat * heatReduction;
-            rangerHeatController.currentHeat -= heatRemoved;
+            rangerHeatController.currentHeat -= Mathf.Max(0, heatRemoved);
 
             durationPerVolley = baseDurationPerVolley / attackSpeedStat;
 
             finalVolleyCount = baseVolleyCount + Mathf.FloorToInt(heatRemoved / heatPerExtraVolley);
-
-            finalDuration = durationPerVolley * finalVolleyCount;
+            Main.ModLogger.LogError("final volley count is " + finalVolleyCount);
 
             Util.PlaySound("Play_mage_m2_charge", gameObject);
             Util.PlaySound("Play_mage_m2_charge", gameObject);
@@ -71,7 +70,6 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
             }
 
             outer.StartCoroutine(FireShot());
-            rangerHeatController.currentHeat -= heatReduction;
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -88,7 +86,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                 characterBody.isSprinting = false;
             }
 
-            if (fixedAge < finalDuration || !isAuthority)
+            if (!canExitState || !isAuthority)
             {
                 return;
             }
@@ -98,9 +96,11 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 
         public IEnumerator FireShot()
         {
+            Main.ModLogger.LogError("running FireShot()");
             for (int i = 0; i < finalVolleyCount; i++)
             {
-                yield return new WaitForSeconds(durationPerVolley / i);
+                yield return new WaitForSeconds(durationPerVolley / (i + 1));
+                Main.ModLogger.LogError("shooting volley");
                 characterBody.SetAimTimer(0.3f);
 
                 var aimDirection = GetAimRay().direction;
@@ -139,6 +139,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                 AddRecoil(4.5f, 4.5f, 0f, 0f);
                 characterMotor?.ApplyForce(-2000f * aimDirection, false, false);
             }
+            canExitState = true;
         }
     }
 }
