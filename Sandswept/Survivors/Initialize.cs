@@ -1,13 +1,10 @@
-﻿using Sandswept.Elites.VFX;
+﻿
 using Sandswept.Survivors.Electrician.Crate;
 using Sandswept.Survivors.Electrician.VFX;
 using Sandswept.Survivors.Ranger.Hooks;
 using Sandswept.Survivors.Ranger.Pod;
 using Sandswept.Survivors.Ranger.Projectiles;
 using Sandswept.Survivors.Ranger.VFX;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Sandswept.Survivors
 {
@@ -15,28 +12,31 @@ namespace Sandswept.Survivors
     {
         public static void Init()
         {
-            RangerPod.Init();
-            Ranger.Crosshairs.Ranger.Init();
+            if (SurvivorBase.DefaultEnabledCallback(Ranger.Ranger.instance))
+            {
+                RangerPod.Init();
+                Ranger.Crosshairs.Ranger.Init();
 
-            RangerVFX.Init();
-            EliteVFX.Init();
+                RangerVFX.Init();
 
-            DirectCurrent.Init();
-            TheFuckingBFG.Init();
-            Sandswept.Survivors.Ranger.Projectiles.Char.Init();
-            ChargeGain.Init();
-            // Based.Init();
+                DirectCurrent.Init();
+                TheFuckingBFG.Init();
+                Sandswept.Survivors.Ranger.Projectiles.Char.Init();
+                ChargeGain.Init();
 
-            Material matRanger = Main.assets.LoadAsset<Material>("matRanger.mat");
-            matRanger.shader = Utils.Assets.Shader.HGStandard;
-            matRanger.SetColor("_EmColor", Color.white);
-            matRanger.SetFloat("_EmPower", 2.5f);
-            matRanger.EnableKeyword("DITHER");
+                Material matRanger = Main.assets.LoadAsset<Material>("matRanger.mat");
+                matRanger.shader = Utils.Assets.Shader.HGStandard;
+                matRanger.SetColor("_EmColor", Color.white);
+                matRanger.SetFloat("_EmPower", 2.5f);
+                matRanger.EnableKeyword("DITHER");
+            }
 
-            VoltCrate.Init();
-            Electrician.Hooks.ShieldOverlay.Init();
-            VoltVFX.Init();
-
+            if (SurvivorBase.DefaultEnabledCallback(Electrician.Electrician.instance))
+            {
+                VoltCrate.Init();
+                Electrician.Hooks.ShieldOverlay.Init();
+                VoltVFX.Init();
+            }
         }
     }
 }

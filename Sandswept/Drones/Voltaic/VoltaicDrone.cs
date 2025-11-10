@@ -18,8 +18,6 @@ namespace Sandswept.Drones.Voltaic
             {"SANDSWEPT_VOLTAIC_DRONE_CONTEXT", "Repair?"}
         };
 
-        public override string ConfigName => "Voltaic Drone";
-
         public override GameObject DroneBroken => Main.assets.LoadAsset<GameObject>("VoltaicDroneBroken.prefab");
 
         [ConfigField("Director Credit Cost", "", 35)]

@@ -49,8 +49,13 @@ namespace Sandswept.Survivors
             }
         }
 
-        public virtual void Init()
+        public void Initialize()
         {
+            if (!DefaultEnabledCallback(this))
+            {
+                return;
+            }
+
             LoadAssets();
             CreateLang();
 
