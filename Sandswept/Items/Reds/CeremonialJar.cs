@@ -44,16 +44,16 @@ namespace Sandswept.Items.Reds
         [ConfigField("Linked Enemies Requirement", "", 3)]
         public static int linkedEnemiesRequirement;
 
-        [ConfigField("Base Damage", "Decimal.", 15f)]
+        [ConfigField("Base Damage", "Decimal.", 20f)]
         public static float baseDamage;
 
-        [ConfigField("Stack Damage", "Decimal.", 15f)]
+        [ConfigField("Stack Damage", "Decimal.", 20f)]
         public static float stackDamage;
 
         [ConfigField("Linked Enemy Cooldown", "", 5f)]
         public static float linkedEnemyCooldown;
 
-        [ConfigField("Proc Coefficient", "", 0.33f)]
+        [ConfigField("Proc Coefficient", "", 1f)]
         public static float procCoefficient;
 
         public static Material matCeremonialJarTar;
@@ -260,7 +260,7 @@ namespace Sandswept.Items.Reds
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
-            
+
             var itemDisplay = SetUpFollowerIDRS(0.45f, 20f, true, 3f, false, 0f, true, 22f);
 
             return new ItemDisplayRuleDict(new ItemDisplayRule()

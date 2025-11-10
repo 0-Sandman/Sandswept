@@ -31,8 +31,13 @@
   - Improved Fractured Timepiece VFX
   - Improved Drifting Perception description wording
   - Improved Their Prominence description wording
+  - Buffed Ceremonial Jar Base Damage from 1500% to 2000%
+  - Buffed Ceremonial Jar Stack Damage from 1500% to 2000%
+  - Buffed Ceremonial Proc Coefficient from 0.33 to 1
+  - Buffed Glacial Plasma to also count Shock
   - Nerfed Makeshift Plate Base Percent Plating Gain from 200% to 150%
   - Nerfed Makeshift Plate Stack Percent Plating Gain from 200% to 150%
+  - Nerfed Glacial Plasma Stunned Enemy Freeze Chance from 8% to 6%
   - Nerfed Hallowed Ichor Per Player Divisor Add from 0.25 to 0.175 (less difficulty scaling on multiplayer)
   - Nerfed Sequenced Fate Base Extra Items Count from 6 to 5
   - Nerfed Sequenced Fate Stack Extra Items Count from 3 to 1

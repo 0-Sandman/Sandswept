@@ -63,7 +63,7 @@ namespace Sandswept.Items.Reds
         [ConfigField("Cooldown", "", 10f)]
         public static float cooldown;
 
-        [ConfigField("Stunned Enemy Freeze Chance", "", 8f)]
+        [ConfigField("Stunned Enemy Freeze Chance", "", 6f)]
         public static float stunToFreezeChance;
 
         [ConfigField("Stun To Freeze Duration", "", 3f)]
@@ -249,7 +249,7 @@ namespace Sandswept.Items.Reds
 
             if (victimBody.TryGetComponent<SetStateOnHurt>(out var setStateOnHurt))
             {
-                if (Util.CheckRoll(stunToFreezeChance, attackerMaster) && setStateOnHurt.targetStateMachine.state is StunState)
+                if (Util.CheckRoll(stunToFreezeChance, attackerMaster) && (setStateOnHurt.targetStateMachine.state is StunState || setStateOnHurt.targetStateMachine.state is ShockState))
                 {
                     // var stunState = setStateOnHurt.targetStateMachine.state as StunState;
                     setStateOnHurt.SetFrozen(3f);
@@ -260,7 +260,7 @@ namespace Sandswept.Items.Reds
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
-            
+
             var itemDisplay = SetUpFollowerIDRS(0.36f, 66f, false, 0f, true, 20f, false, 0f);
 
             return new ItemDisplayRuleDict(new ItemDisplayRule()
