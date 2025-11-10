@@ -12,7 +12,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-  		<Compile Remove="**\Megalomaniac\**;**\Renegade\**" />
+  		<Compile Remove="**\Megalomaniac\**;**\Renegade\**;**\ArdentWisp\**" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -59,7 +59,7 @@ namespace Sandswept.Items.Lunars
             sequencedFateTracker = new GameObject("Sequenced Fate Tracker", typeof(SetDontDestroyOnLoad), typeof(SequencedFateController));
         }
 
-        [ConfigField("Base Extra Items Count", "", 5)]
+        [ConfigField("Base Extra Items Count", "", 6)]
         public static int baseExtraItemsCount;
 
         [ConfigField("Stack Extra Items Count", "", 1)]
@@ -262,7 +262,7 @@ namespace Sandswept.Items.Lunars
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
-            
+
             var itemDisplay = SetUpFollowerIDRS(1f, 60f);
 
             return new ItemDisplayRuleDict(new ItemDisplayRule()

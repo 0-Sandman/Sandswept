@@ -39,7 +39,6 @@
   - Nerfed Makeshift Plate Stack Percent Plating Gain from 200% to 150%
   - Nerfed Glacial Plasma Stunned Enemy Freeze Chance from 8% to 6%
   - Nerfed Hallowed Ichor Per Player Divisor Add from 0.25 to 0.175 (less difficulty scaling on multiplayer)
-  - Nerfed Sequenced Fate Base Extra Items Count from 6 to 5
   - Nerfed Sequenced Fate Stack Extra Items Count from 3 to 1
   - Made The Sand Sweeper non-lethal when used by non-allies (Scavenger instakill moment)
   - Made Galvanic Cell Shield non-lethal when used by non-allies (Scavenger instakill moment)
@@ -61,7 +60,6 @@
   Drifting Perception, Sun Fragment, Preserved Atoll, Torn Feather
   </details>
 - Enemies
-  - Added Ardent Wisp
   - Fixed Theta Construct Overloading Elite Item Display
 - Interactables
   - Increased Shrine of Sacrifice Curse Cost from 20 to 30
