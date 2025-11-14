@@ -55,14 +55,11 @@ namespace Sandswept.Items.Greens
 
         public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist, ItemTag.CannotCopy, ItemTag.BrotherBlacklist];
 
-        public static GameObject universalVipPassTracker;
-
         public static int itemCount = 0;
 
         public override void Init()
         {
             base.Init();
-            universalVipPassTracker = new GameObject("Universal VIP Pass Tracker", typeof(SetDontDestroyOnLoad), typeof(UniversalVipPassController));
             SetUpVFX();
         }
 
@@ -137,29 +134,18 @@ namespace Sandswept.Items.Greens
         public override void Hooks()
         {
             On.RoR2.GlobalEventManager.OnInteractionBegin += GlobalEventManager_OnInteractionBegin;
+            Run.onRunDestroyGlobal += OnRunEnd;
+            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
         }
 
         private void OnRunEnd(Run run)
         {
-            if (universalVipPassTracker)
-            {
-                universalVipPassTracker.GetComponent<UniversalVipPassController>().lastItemCount = 0;
-            }
             itemCount = 0;
         }
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
         {
             itemCount = GetPlayerItemCountGlobal(instance.ItemDef.itemIndex, true);
-            if (itemCount <= 0)
-            {
-                // Main.ModLogger.LogError("item count below or equal to 0, returning");
-                return;
-            }
-
-            // Main.ModLogger.LogError("setting last item count to item count");
-
-            universalVipPassTracker.GetComponent<UniversalVipPassController>().lastItemCount = itemCount;
         }
 
         private void GlobalEventManager_OnInteractionBegin(On.RoR2.GlobalEventManager.orig_OnInteractionBegin orig, GlobalEventManager self, Interactor interactor, IInteractable interactable, GameObject interactableObject)
@@ -186,12 +172,11 @@ namespace Sandswept.Items.Greens
                         var interactorBody = interactor.GetComponent<CharacterBody>();
                         if (interactorBody)
                         {
-                            var stack = GetCount(interactorBody);
                             var scale = 0.5f + Run.instance.participatingPlayerCount * 0.5f;
 
-                            var chance = MathHelpers.InverseHyperbolicScaling(baseChance, stackChance, 1f, stack) * 100f;
+                            var chance = MathHelpers.InverseHyperbolicScaling(baseChance, stackChance, 1f, itemCount) * 100f;
 
-                            if (stack > 0 && Util.CheckRoll(chance / scale))
+                            if (itemCount > 0 && Util.CheckRoll(chance / scale))
                             {
                                 var isCategoryChestFinal = interactableObject.name.ToLower().Contains("category") || isCategoryChest;
                                 if (isCategoryChestFinal)

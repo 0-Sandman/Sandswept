@@ -27,6 +27,7 @@
   - Fixed Overcharged Protection and Overcharged Speed networking issue
   - Fixed Direct Current not having the lightning damage type (for Broken VOL-T)
   - Fixed Release not having the lightning damage type (for Broken VOL-T)
+  - Fixed Release shooting from the feet (what kinda freak wrote that???)
   - Fixed Galvanize not having the lightning damage type (for Broken VOL-T)
 - Items/Equipment
   - Buffed Ceremonial Jar Base Damage from 1500% to 2000%
@@ -46,6 +47,7 @@
   - Made Galvanic Cell Shield non-lethal when used by non-allies (Scavenger instakill moment)
   - Improved Fractured Timepiece VFX
   - Improved Drifting Perception description wording
+  - Improved Sacrificial Band VFX
   - Improved Their Prominence description wording
   - Fixed LookingGlass showing local stack calculations for global-counted item stacks
   - Fixed Crown's Diamond missing the Healing item tag

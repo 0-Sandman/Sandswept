@@ -120,7 +120,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                     maxSpread = 0,
                     owner = gameObject,
                     muzzleName = "MuzzleR",
-                    origin = transform.position,
+                    origin = GetAimRay().origin,
                     tracerEffectPrefab = tracerEffect,
                     hitEffectPrefab = impactEffect,
                     procCoefficient = procCoefficient,
