@@ -20,8 +20,59 @@ namespace Sandswept.Items.VoidWhites
 
         public override string ItemFullDescription => $"Activating your $suSecondary skill$se also swings $sdThe Endless Pierce$se for $sd{baseDamage * 100f}%$se base damage and grants $sh{basePlatingGain}$se $ss(+{stackPlatingGain} per stack)$se plating. $sdThe Endless Pierce$se renews over $sd{cooldown}$se seconds. $svCorrupts all Amber Knives$se.".AutoFormat();
 
-        public override string ItemLore => "<style=cMono>//--AUTO-TRANSCRIPTION FROM ROOM 211 OF HALL OF THE REVERED --//\r\n</style>\r\n\"New relic came in today. We can't get stuff shipped through UES anymore, so we had a courier pick it up. Be careful with this one, it's dangerous.\"\r\n\r\n\"How so? Seems pretty unassuming.\"\r\n\r\n\"We got it from a ruptured cell. This was the only thing from it that made it back to our plane. Examinations suggest it was there for trillions of years, by far the oldest sample the void's ever given us. It didn't come out unscathed, either.\"\r\n\r\n\"By the heavens, trillions? ...wait, what do you mean, it didn't come out unscathed? I thought the cells encoded their contents perfectly.\"\r\n\r\n\"As did everyone else. This...item exists as a counterpoint. Kind of hard to see on the surface, but there's all kinds of life forms attached to it. They're like nothing we've ever seen. I guess it was there long enough for an entire ecosystem to evolve around it.\"\r\n\r\n\"How? I was under the impression the cells don't store the actual objects, just compressed data or something.\"\r\n\r\n\"That's the question on everyone's mind. Seems like the voidborne organisms found a way to adapt to an environment of even that complexity. I suppose there's a lot of stuff to feed off in the cells, after all. Artifacts from other cells are being investigated, but no similar phenomena have been found -- then again, this is a very special case.\"\r\n\r\n\"What's this ecosystem do, then? Is it useful?\"\r\n\r\n\"So far, nothing. Examinations have proven the organisms have complex structures and capabilities, but so far they haven't used any of them. They just sit there, like borderline-invisible barnacles. They haven't dulled its edge at all, either.\"\r\n\r\n\"So what, it's just an ordinary sword with some fancy ornaments to appeal to the scientists? What do you want me to do with it?\"\r\n\r\n\"Well, you're the most competent with weapons here, obviously. We thought you could, y'know, swing it around a bit. See if it does anything interesting.\"\r\n\r\n\"Okay. I'll take it to the tr-- whoa!\"\r\n\r\n\"Heavens, what's it doing? Drop it already! It could be dangerous!\"\r\n\r\n\"Sorry, I just...I don't know, something came over me. Seems like it's settled down, though.\"\r\n\r\n\"Yeah. Well, I guess we figured out what those organisms do. Seems like they're active now. We should take it in for examination.\r\n\r\n...\r\n\r\n\"That means give it to me.\"\r\n\r\n\"Right, sorry.\"\r\n\r\n\"Thanks. Wait, what? Where...?\"\r\n\r\n\"Here, give it back to me for a minute.\"\r\n\r\n\"Okay, sure. Are y-- Whoa! How're you making it do that?\"\r\n\r\n\"I'm not doing anything. I guess it just likes me more than you and your sterile science pals.\"\r\n\r\n\"If you say so. Can you take it into the lab, then?\"\r\n\r\n\"Sure, I guess. This thing wants to be a weapon, though, not a microscope slide. I can tell. Should be a great addition to my arsenal for Project Bulwark.\"\r\n";
+        public override string ItemLore =>
+        """
+        <style=cMono>//--AUTO-TRANSCRIPTION FROM ROOM 211 OF HALL OF THE REVERED --//</style>
 
+        "New relic came in today. We can't get stuff shipped through UES anymore, so we had a courier pick it up. Be careful with this one, it's dangerous."
+
+        "How so? Seems pretty unassuming."
+
+        "We got it from a ruptured cell. This was the only thing from it that made it back to our plane. Examinations suggest it was there for trillions of years, by far the oldest sample the void's ever given us. It didn't come out unscathed, either."
+
+        "By the heavens, trillions? ...wait, what do you mean, it didn't come out unscathed? I thought the cells encoded their contents perfectly."
+
+        "As did everyone else. This...item exists as a counterpoint. Kind of hard to see on the surface, but there's all kinds of life forms attached to it. They're like nothing we've ever seen. I guess it was there long enough for an entire ecosystem to evolve around it."
+
+        "How? I was under the impression the cells don't store the actual objects, just compressed data or something."
+
+        "That's the question on everyone's mind. Seems like the voidborne organisms found a way to adapt to an environment of even that complexity. I suppose there's a lot of stuff to feed off in the cells, after all. Artifacts from other cells are being investigated, but no similar phenomena have been found -- then again, this is a very special case."
+
+        "What's this ecosystem do, then? Is it useful?"
+
+        "So far, nothing. Examinations have proven the organisms have complex structures and capabilities, but so far they haven't used any of them. They just sit there, like borderline-invisible barnacles. They haven't dulled its edge at all, either."
+
+        "So what, it's just an ordinary sword with some fancy ornaments to appeal to the scientists? What do you want me to do with it?"
+
+        "Well, you're the most competent with weapons here, obviously. We thought you could, y'know, swing it around a bit. See if it does anything interesting."
+
+        "Okay. I'll take it to the tr-- whoa!"
+
+        "Heavens, what's it doing? Drop it already! It could be dangerous!"
+
+        "Sorry, I just...I don't know, something came over me. Seems like it's settled down, though."
+
+        "Yeah. Well, I guess we figured out what those organisms do. Seems like they're active now. We should take it in for examination.
+
+        ...
+
+        "That means give it to me."
+
+        "Right, sorry."
+
+        "Thanks. Wait, what? Where...?"
+
+        "Here, give it back to me for a minute."
+
+        "Okay, sure. Are y-- Whoa! How're you making it do that?"
+
+        "I'm not doing anything. I guess it just likes me more than you and your sterile science pals."
+
+        "If you say so. Can you take it into the lab, then?"
+
+        "Sure, I guess. This thing wants to be a weapon, though, not a microscope slide. I can tell. Should be a great addition to my arsenal for Project Bulwark."
+        """;
+        
         [ConfigField("Base Damage", "Decimal.", 3f)]
         public static float baseDamage;
 

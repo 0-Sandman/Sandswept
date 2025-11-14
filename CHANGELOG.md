@@ -5,18 +5,19 @@
     <summary>Added some Item Displays, click to view list</summary>
     Red Spring Water, Makeshift Plate, Nuclear Salvo, Pocket Plutonium, Sacrificial Band, Smouldering Document, Universal VIP Pass, Armor-Piercing Rounds, Backup Magazine, Bundle of Fireworks,  Cautious Slug, Chronic Expansion, Delicate Watch, Energy Drink, Focus Crystal, Lens-Maker's Glasses, Medkit, Personal Shield Generator, Repulsion Armor Plate, AtG Missile Mk. 1, Bandolier, Hunter's Harpoon, Luminous Shot, Kjaro's Band, Runald's Band, Ukulele, Lost Seer's Lenses, Singularity Band, Plasma Shrimp, Polylute, Brilliant Behemoth, Ceremonial Dagger, Shattering Justice, Symbiotic Scorpion, Preon Accumulator, Primordial Cube, Artificial Void, John Hopoo, Aurelionite's Blessing, Her Biting Embrace, His Reassurance, His Spiteful Boon, Ifrit's Distinction, N'kuhana's Retort, Shared Design, Silence Between Two Strikes, Spectral Circlet
     </details>
+  - (Jankily) Fixed Galvanic Bolt always missing the Static Snare Pylon with AttackDirectionFix installed - its aim assistance is turned off while AttackDirectionFix is installed...,,,,
   - Fixed Static Snare Pylon being set to the mastery model on non-mastery, non-default skins
 - Ranger
   - Added SkinFlavorText Support
   - Made Heat no longer build up passively during overdrive
   - Made Enflame build up heat when fired at a rate of 20% per second
-  - Made Heat able to build indefinitely 100%
+  - Made Heat able to build indefinitely past 100%
   - Made Heat gauge UI now loop around itself multiple times to represent heat, changing color for every interval above 100%
   - Made Healing Reduction scale linearly with heat, capping at -100% in 100% heat
   - Made Heat no longer give a base damage bonus based on time spent in 100% heat
   - Made Enflame attack speed boost based on heat uncapped, scaling at 1 extra bullet per second per 25% heat
   - Made Exhaust reduce 50% of CURRENT heat, instead of a flat amount of heat
-  - Made Exhaust blast count based on heat uncapped, scaling at 1 extra blast per 25% heat spent
+  - Made Exhaust blast count based on heat uncapped, scaling at 1 extra blast per 20% heat spent
   - Made Overcharged Protection bypass the healing reduction applied in Overdrive
   - Made Overcharged Speed extra jumps function more reliably
   - Made Overcharged Speed able to jump multiple times midair
@@ -28,20 +29,25 @@
   - Fixed Release not having the lightning damage type (for Broken VOL-T)
   - Fixed Galvanize not having the lightning damage type (for Broken VOL-T)
 - Items/Equipment
-  - Improved Fractured Timepiece VFX
-  - Improved Drifting Perception description wording
-  - Improved Their Prominence description wording
   - Buffed Ceremonial Jar Base Damage from 1500% to 2000%
   - Buffed Ceremonial Jar Stack Damage from 1500% to 2000%
   - Buffed Ceremonial Proc Coefficient from 0.33 to 1
   - Buffed Glacial Plasma to also count Shock
+  - Buffed Festering Hunger Movement Speed Buff Duration from 2s to 3s
   - Nerfed Makeshift Plate Base Percent Plating Gain from 200% to 150%
   - Nerfed Makeshift Plate Stack Percent Plating Gain from 200% to 150%
   - Nerfed Glacial Plasma Stunned Enemy Freeze Chance from 8% to 6%
-  - Nerfed Hallowed Ichor Per Player Divisor Add from 0.25 to 0.175 (less difficulty scaling on multiplayer)
+  - Nerfed Festering Hunger Base Movement Speed Gain from 33% to 30%
+  - Nerfed Festering Hunger Stack Movement Speed Gain from 33% to 30%
+  - Nerfed Hallowed Ichor Per Player Divisor Add from 0.25 to 0.1 (less difficulty scaling on multiplayer)
   - Nerfed Sequenced Fate Stack Extra Items Count from 3 to 1
+  - Made Universal VIP Pass count stacks as global
   - Made The Sand Sweeper non-lethal when used by non-allies (Scavenger instakill moment)
   - Made Galvanic Cell Shield non-lethal when used by non-allies (Scavenger instakill moment)
+  - Improved Fractured Timepiece VFX
+  - Improved Drifting Perception description wording
+  - Improved Their Prominence description wording
+  - Fixed LookingGlass showing local stack calculations for global-counted item stacks
   - Fixed Crown's Diamond missing the Healing item tag
   - Fixed Makeshift Plate potentially throwing an NRE
   - Fixed Makeshift Plate showing the wrong numbers to clients
@@ -385,6 +391,7 @@
   - Buffed Pocket Plutonium Pool Radius from 16m to 20m
   - Buffed Universal VIP Pass Chance from 45% to 50%
   - Nerfed Red Spring Water to have diminishing returns scaling with buff count
+  - Made Their Prominence count stacks as global
   - Improved Amber Knife VFX and SFX
   - Improved Pocket Plutonium VFX
   - Improved Sacrificial Band VFX and SFX

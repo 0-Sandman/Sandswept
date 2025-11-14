@@ -15,27 +15,28 @@
         """
         <style=cMono>
         Welcome to DataScraper (v3.1.53 - beta branch)
-        $ Scraping memory... done.
-        $ Resolving... done.
-        $ Combing for relevant data... done.
+        $ Scraping memory...done.
+        $ Resolving...done.
+        $ Combing for relevant data...done.
         Complete!
         </style>
+
         The following is the script for an advertisement by Gell n Vowell™ for the Galvanic Shield, presented in an executive meeting on 4/17/2055 before the company's dissolution by the Mercurian government.
 
         [Scene starts; Burglar 1 attacks Helpless woman on the street]
-        Burglar 1: GRAH!
-        Helpless Woman: AHHHH!!
+        <b>Burglar 1: GRAH!
+        Helpless Woman: AHHHH!!</b>
         [Explosion sfx followed by outsourced lightning vfx]
-        Narrator: Has this ever happened to you? You're just walking down the street, in some back alley place... like Mercury, and then BAM. You're being robbed, burglarized even? This is the product for you.
+        <b>Narrator: Has this ever happened to you? You're just walking down the street, in some back alley place...like Mercury, and then BAM. You're being robbed, burglarized even? This is the product for you.</b>
         [More outsourced lightning sfx and vfx, fading into an ominous orb]
-        Narrator: Introducing... the Galvanized Shield© Max Pro 2™! An all new way to defend yourself from nefarious ne'er do wells. Packed with 1,00,000(kV), your attacker will be atomized the second they lay a finger on you!
+        <b>Narrator: Introducing...the Galvanized Shield© Max Pro 2™! An all new way to defend yourself from nefarious ne'er do wells. Packed with 100,000(kV), your attacker will be atomized the second they lay a finger on you!</b>
         [Scene two starts. Burglar 2 walks up to Helpless woman]
-        Burglar 2: GR-huh-Wait! NO! N- [Zapping noise followed by sand falling]
-        Helpless Woman: Take that- oh-OH MY GOD! DIRECTOR! DIRECTOR!
-        [Noises of the woman panicking are quietly played in the background while the narrator explains the product. The image of Galvanic Shield is shown, it's just a ball of tinfoil)
-        Narrator: The Max Pro 2's design is much more ergonomic... [Awkward silence] The Sphere itself is made purely out of a new material that siphons energy from the atmosphere, into the palm of your hands. We've dubbed this technology... "Statictanium". Statictanium is the next step in military grade self defense products. We took apart a Mercurian Fighter Ship and compacted the materials into Statictanium! Finally, The Max Pro 2 requires the special Max Pro 2 Glove to properly work. This thing's so lethal we accidentally caused a governmental coup on Mercury!
+        <b>Burglar 2: GR-huh-Wait! NO! N-</b> [Zapping noise followed by sand falling]
+        <b>Helpless Woman: Take that- oh-OH MY GOD! DIRECTOR! DIRECTOR!</b>
+        [Noises of the woman panicking are quietly played in the background while the narrator explains the product. The image of Galvanic Shield is shown.]
+        <b>Narrator: The Max Pro 2's design is much more ergonomic...</b> [Awkward silence] <b>The Sphere itself is made purely out of a new material that siphons energy from the atmosphere, into the palm of your hands. We've dubbed this technology..."Statictanium". Statictanium is the next step in military grade self defense products. We took apart a Mercurian Fighter Ship and compacted the materials into Statictanium! Finally, The Max Pro 2 requires the special Max Pro 2 Glove to properly work. This thing's so lethal we accidentally caused a governmental coup on Mercury!</b>
         [Fades into a white screen with text. Text TBD. Currently its "Add Text Here" 5 times descending down the middle]
-        Narrator: Very. Very. Very. Very. Very limited time. We're currently being sued by the Mercurian Military, and the rest of the solar system for this Ground-breaking Breakthrough in Self Defense Technology because THEY don't want you to have it. BUY NOW!
+        <b>Narrator: Very. Very. Very. Very. Very limited time. We're currently being sued by the Mercurian Military, and the rest of the solar system for this Ground-breaking Breakthrough in Self Defense Technology because THEY don't want you to have it. BUY NOW!</b>
         [Screen fades to black]
         """;
         public override GameObject EquipmentModel => Main.assets.LoadAsset<GameObject>("PickupCellShield.prefab");

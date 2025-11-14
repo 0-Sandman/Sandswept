@@ -13,7 +13,7 @@ namespace Sandswept.Items.Reds
 
         public override string ItemPickupDesc => "Activating your primary also conjures a freezing javelin. Chance on hit to freeze stunned enemies.";
 
-        public override string ItemFullDescription => $"Activating your $suPrimary skill$se also conjures a $sdpiercing javelin$se that deals $sd{baseDamage * 100f}$se $ss(+{stackDamage * 100f} per stack)$se damage and $sufreezes$se enemies. Recharges over $su10$se seconds. Your $sustuns$se have a $su{stunToFreezeChance}%$se chance to $sufreeze$se for $su{stunToFreezeDuration}$se seconds.".AutoFormat();
+        public override string ItemFullDescription => $"Activating your $suPrimary skill$se also conjures a $sdpiercing javelin$se that deals $sd{baseDamage * 100f}%$se $ss(+{stackDamage * 100f}% per stack)$se damage and $sufreezes$se enemies. Recharges over $su10$se seconds. Your $sustuns$se have a $su{stunToFreezeChance}%$se chance to $sufreeze$se for $su{stunToFreezeDuration}$se seconds.".AutoFormat();
 
         public override string ItemLore =>
         """

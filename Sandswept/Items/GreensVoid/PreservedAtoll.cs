@@ -21,7 +21,7 @@ namespace Sandswept.Items.VoidGreens
 
         public override string ItemLore =>
         """
-        A memory... Lost to time, records of it wiped from the archives. Pictures of it went missing. Paintings, gone. Stories, removed. A famed atoll, after the incident... Not a soul could remember its name. Nothing, only this one memento remains...
+        A memory...Lost to time, records of it wiped from the archives. Pictures of it went missing. Paintings, gone. Stories, removed. A famed atoll, after the incident...Not a soul could remember its name. Nothing, only this one memento remains...
         """;
 
         [ConfigField("Radius", "", 24f)]

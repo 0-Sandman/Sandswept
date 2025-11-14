@@ -53,11 +53,16 @@ namespace Sandswept.Items.Greens
 
         public static Color32 pink = new(229, 0, 218, 255);
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist, ItemTag.CannotDuplicate };
+        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist, ItemTag.CannotCopy, ItemTag.BrotherBlacklist];
+
+        public static GameObject universalVipPassTracker;
+
+        public static int itemCount = 0;
 
         public override void Init()
         {
             base.Init();
+            universalVipPassTracker = new GameObject("Universal VIP Pass Tracker", typeof(SetDontDestroyOnLoad), typeof(UniversalVipPassController));
             SetUpVFX();
         }
 
@@ -77,7 +82,7 @@ namespace Sandswept.Items.Greens
             {
                 List<float> values = new()
                 {
-                    MathHelpers.InverseHyperbolicScaling(baseChance, stackChance, 1f, stack)
+                    MathHelpers.InverseHyperbolicScaling(baseChance, stackChance, 1f, itemCount)
                 };
 
                 if (Main.cursedConfig.Value)
@@ -132,6 +137,29 @@ namespace Sandswept.Items.Greens
         public override void Hooks()
         {
             On.RoR2.GlobalEventManager.OnInteractionBegin += GlobalEventManager_OnInteractionBegin;
+        }
+
+        private void OnRunEnd(Run run)
+        {
+            if (universalVipPassTracker)
+            {
+                universalVipPassTracker.GetComponent<UniversalVipPassController>().lastItemCount = 0;
+            }
+            itemCount = 0;
+        }
+
+        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
+        {
+            itemCount = GetPlayerItemCountGlobal(instance.ItemDef.itemIndex, true);
+            if (itemCount <= 0)
+            {
+                // Main.ModLogger.LogError("item count below or equal to 0, returning");
+                return;
+            }
+
+            // Main.ModLogger.LogError("setting last item count to item count");
+
+            universalVipPassTracker.GetComponent<UniversalVipPassController>().lastItemCount = itemCount;
         }
 
         private void GlobalEventManager_OnInteractionBegin(On.RoR2.GlobalEventManager.orig_OnInteractionBegin orig, GlobalEventManager self, Interactor interactor, IInteractable interactable, GameObject interactableObject)
@@ -247,5 +275,10 @@ namespace Sandswept.Items.Greens
             return i;
 
         }
+    }
+
+    public class UniversalVipPassController : MonoBehaviour
+    {
+        public int lastItemCount = 0;
     }
 }

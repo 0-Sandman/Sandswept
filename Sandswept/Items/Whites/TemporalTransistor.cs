@@ -19,9 +19,8 @@ namespace Sandswept.Items.Whites
 
         public override string ItemLore =>
         """
-        <style=cMono>
-        //--AUTO-TRANSCRIPTION FROM LOADING BAY 3 OF THE UES [Redacted] --//
-        </style>
+        <style=cMono>//--AUTO-TRANSCRIPTION FROM LOADING BAY 3 OF THE UES [Redacted] --//</style>
+
         "I've got a pretty weird shipment here. Come check it out, I know you love this stuff."
 
         "One sec, I gotta finish packing this. Just describe it to me."
@@ -40,6 +39,7 @@ namespace Sandswept.Items.Whites
 
         "What?"
         """;
+        
         public override string AchievementName => "An Epilogue of Life";
 
         public override string AchievementDesc => "Complete a Shrine of The Future without jumping.";

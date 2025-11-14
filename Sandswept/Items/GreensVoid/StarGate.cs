@@ -23,7 +23,43 @@ namespace Sandswept.Items.VoidGreens
 
         public override string ItemLore =>
         """
+        No one knew what would await us in Zone 5.
 
+        We fear the unknown, yet desire its illumination above almost all else. A fascinating conundrum of our limited instincts.
+
+        "Sharks seek the blood of the flesh as we seek the blood of the stones. A mechanism of chemistry and biology beyond our base understanding of the world -- yet the shark requires no explanation to be brought to its prey."
+
+        ...what majestic horror had the rainfall's afterglow led me to?
+
+        One thing is clear -- despite our intentions, the first intelligent being in this Zone of the universe was not the House Beyond. This planet and its neighbors, though utterly alien and now desolate, could not have been formed through the simple logic of the forces of nature. Crumbling and pockmarked with strange holes though they are, the twisted spires of these places were imbued with intent, more obvious in the strange, small spherical cages embedded into the ground throughout the rocky plain.
+
+        Where that intangible varnish is most plain is in the object in front of me, however. A device, crafted by intelligence. Despite its simplicity, I can describe it only as a bringer of dread. Strange flora surround it that I dare not touch, even within my ENV suit.
+
+        After combing through eleven planets, it seems to be the only thing in this ruined place with a semblance of functionality.
+
+        ...what could cause an entire society to simply disappear?
+
+        "When the Promised Land is found, we will have no need for the mortal trappings of our former civilization."
+
+        Perhaps we were off course, and Precedes were right from the start. Perhaps, in fact, Heaven lies not in the cosmos -- but in another plane of reality.
+
+        A message comes through. Two words.
+
+        "Take it."
+
+        I reach out, eagerness overpowering dread, grasping the metal frame.
+
+        As I do, a vision of a time beyond time is thrust upon me. I drop it in shock, but it doesn't matter now. It is a taunt. We have already invited them.
+
+        As the gate falls onto the blueish rock below, its impact draws no ichor.
+
+        How foolish were we, to think ourselves beyond our own dread?
+
+        If the Precedes spoke truth of Heaven, would it not be rational to assume its counterpart fabled within them, too, slumbers somewhere in the folds of existence?
+
+        "What are you waiting for?"
+
+        ...what could cause an entire society to simply disappear?
         """;
 
         [ConfigField("Base Void Seed Credit Multiplier Add", "Decimal.", 0.5f)]
@@ -66,7 +102,7 @@ namespace Sandswept.Items.VoidGreens
             {
                 List<float> values = new()
                 {
-                    baseVoidSeedCreditMultiplier + stackVoidSeedCreditMultiplier * (stack - 1)
+                    baseVoidSeedCreditMultiplier + stackVoidSeedCreditMultiplier * (itemCount - 1)
                 };
 
                 return values;

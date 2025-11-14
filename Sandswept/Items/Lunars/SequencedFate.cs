@@ -29,12 +29,13 @@ namespace Sandswept.Items.Lunars
 
         What you propose is...interesting. Such a construction would create perfect order, as you say, but there is no use for that on this ivory rock. There is nothing of value to sequence besides my own trinkets. As you note, the effects are only useful when greater variety is present. Nevertheless, you may create one here as a test, if you wish.
 
-        What is most curious, however, is the structure; you know the methods of my designs, for you have worked with them -- but this is arranged differently. The capacity to design this proves you are not so foolish as to create a sculpted defiance of my teachings into my hands. Explain the reason for your deviation.
+        What is most curious, however, is the structure; you know the methods of my designs, for you have worked with them -- but this is arranged differently. The capacity to design this proves you are not so foolish as to create a sculpted defiance of my teachings and place it into my hands. Explain the reason for your deviation.
 
         Fascinating. In my hatred of them, I had not considered using the vermin of the planet for my purposes. I suppose you are proof of their competence. The idea suits me; it would be the ultimate revenge. This shrine is a simple thing, but I -- we -- could create far greater gifts for them. Bind them to my will, and turn them against him. Creating more copies will be trivial. It is nothing but stone, after all, yet within it lies the seeds of this ploy, and my brother's beloved pets will sow them.
 
         Already, you have shown yourself to be a worthy investment. I invite you to oversee the next construction completely -- with the tincture, you proved your capacity to create, and with this, your capacity to design is proven in turn.
         """;
+
         public override ItemTier Tier => ItemTier.Lunar;
 
         public override GameObject ItemModel => Main.sandsweptHIFU.LoadAsset<GameObject>("SequencedFateHolder.prefab");
@@ -91,7 +92,7 @@ namespace Sandswept.Items.Lunars
             {
                 List<float> values = new()
                 {
-                    baseExtraItemsCount + stackExtraItemsCount * (stack - 1)
+                    baseExtraItemsCount + stackExtraItemsCount * (itemCount - 1)
                 };
 
                 return values;

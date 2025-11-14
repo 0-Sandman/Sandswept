@@ -1,4 +1,7 @@
-﻿using HarmonyLib;
+﻿
+// TODO: Implement DoT tick rate increase for nearby enemies (+20% per stack most likely, maybe nerf speed to +25% then too?)
+
+using HarmonyLib;
 using LookingGlass.ItemStatsNameSpace;
 using Sandswept.Items.Greens;
 using System.Collections;
@@ -23,49 +26,50 @@ namespace Sandswept.Items.VoidGreens
         """
         <style=cMono>
         Welcome to DataScraper (v3.1.53 - beta branch)
-        $ Scraping memory... done.
-        $ Resolving... done.
-        $ Combing for relevant data... done.
+        $ Scraping memory...done.
+        $ Resolving...done.
+        $ Combing for relevant data...done.
         Complete!
         </style>
-        Day [null]
+
+        <style=cMono>Day [null]</style>
         It's beautiful here, but terrifying. When we landed on the planet, we already knew what to expect on the surface from the screening. But this...the portal didn't show up in our scans, nor did this vast ecosystem. Ash opted to stay on the surface instead, a choice I thought foolish at first, but I'm now realizing may have been the better of the two.
 
         I'm not even certain where I am. My navigation and communication tools don't seem to be working, and the black sky holds no answers. The dizzying depth I observed when looking up makes me think I might be far underground. VERY far.
 
-        Day [null]
+        <style=cMono>Day [null]</style>
         I found something. Not life -- still no signs of that, but...something. Sort of like a pool, I guess. I don't know what the blackness inside it is, but it seems liquid-ish. I'd take a sample, but I'm far more interested in just getting out of here alive at this point. I can come back later to investigate the wonders of this place. Ideally, someone else will. I'm sure my father can find some overeager xenobiologist.
 
         I don't know why I did it, but I put one of my knives in. I just sort of felt compelled to do it. When I brought it back out, it was...different. Now it looks like everything else, like it was made here. I felt a sharp pain in my hand when I did, though, as if it didn't want me to have it. My suit says there's no injuries, but the pain lingers.
 
-        Day -2
+        <style=cMono>Day -2</style>
         Finally found another portal. I'm out! It was on the other side of the planet, but my distress beacons work now, and the ship should be on its way. They told me over the radio that Ash returned a couple days ago and described the portal. They'd never heard of anything like it before.
 
         How I missed the sunlight, the air, the...finite-ness.
 
         I'm more convinced now than ever that the portal is invasive. There's nothing intelligent enough on this planet to have created something like that, and no signs of a past civilization, either. It's far outside the bounds of human technology. This discovery, whatever it is exactly, will shake things up for sure, though I want nothing to do with that place anymore.
 
-        Day -1
+        <style=cMono>Day -1</style>
         They're running tests on the portal. I've just been watching from far away. After what I described, nobody except the xenobiologists want to go in, and even they're hesitant. My father is enforcing strict regulations around the portal. Either way, they'll be making sure whoever follows in my footsteps is safer than I was.
 
         What was I thinking, just stepping in like that? At least it's over now...
 
-        Day 0
+        <style=cMono>Day 0</style>
         There's a hole in the glass container they used to store the knife. In the camera footage, it just sort of...appeared. Nothing was cut, the footage from that day is the length it should be. They didn't just tape it over, either -- you can see the glass breaking. But nothing caused it.
 
         They're calling it a pressure abnormality. They aren't worried. I don't fully share that, but they're probably right. After being in what we're now calling the void, I'm probably just paranoid.
 
-        Day 1
+        <style=cMono>Day 1</style>
         I woke up feeling a terrible empti?ness. Nothing has quenched it. It's made it hard to be cordial. Every time I talk to someone, I have to push down anger that wells up just from the time wasted on the words -- especially with the way they talk about the [void], as if it were some hellscape.
 
         They've never been there. Only I have. Cowards. They tell me I didn't say it was majestic before, that they're just repeating my wor?ds back to me, but I know my own memories.
 
-        Day 2
+        <style=cMono>Day 2</style>
         They all looked at me with surprise when I said I w?anted to go back. I calmed myself at first, trying to explai?n to them, but they wouldn't get out of the way. Just stood there, slack jawed. When I started yelling, they dragg?ed me away. Unbelievable.
 
         I'm in the med bay now. They're running sc?ans, but I can't let them. Some of my friends came in, talked with soft and concerned voices. They all b?lur together. Any one of them could have let me go, brought m?e to the portal, but they didn't. Some friends they are. I?'ll just have to get out myself.
 
-        Day 3
+        <style=cMono>Day 3</style>
         When they dis?covere?d I'd broken out, I made up something abou?t hating to be confined, and the doctors s?eemed to believe it. I suppressed the em??ptiness, told them I was fine, told them I never really wanted to go back anyw?ay. But it gets worse an?d worse, deeper and d?eeper, every hour.
 
         They let me go. I'm too valuab?le to the ship, apparently, a?nd my fa?ther wanted me out. I'm fr?ee.
@@ -74,25 +78,25 @@ namespace Sandswept.Items.VoidGreens
 
         The captain won't listen. I had to b?ackped?al to avoid being sent to med bay again. I?f I kill him and take control of the ship, we can go back. He leaves me no choic?e.
 
-        Day 4
+        <style=cMono>Day 4</style>
         I l??ooked in the mirror t?oday. The s?kin below my eyes was darker than I've ev?er s?een before. I only then r??ealized I haven't sle?pt since the emptine?ss started. I n?ever feel tired. I can feel my body shaki??ng slightly now, tho?ugh. But I sti?ll fee?l energized.
 
         Toda??y will be the day I do it. I have a pr?ivate lunch scheduled with the h?im in the cockp?it, like we do ev?ery week. He l?ikes to keep up "father-d??aughter bonding time." It's the p?erfect opportun?ity.
 
-        Day 5
+        <style=cMono>Day 5</style>
         He's d?ead. All it took was some sob st?ory about how horrible the v??oid had been, and he came right up and embraced me without a seco?nd thought. Idio?t. I wasted no time rerouting the d?estination. They're at the door now, but th?ey won't get in. Father bragged ab?out the security of the cockpit. U?ES put a lot into that, after Contact L?ight.
 
         The warmth of his blood on m?y skin made the emptiness subside a bi?t. It's nothing compared to w?hat the [void] can offer, of cour?se. They won't follow me will?ingly after this, but maybe I can bring some of the c?rew in with me. They nee?d to see.
 
-        Day 8
+        <style=cMono>Day 8</style>
         Th?ey're trying to st?arve me out. I've been living o?ff his body. It's hard to e??at in the m?omen?t, but it ke?eps me alive. It make??s the emptin?ess a little bette?r, t?oo.
 
         We're on the p??lanet now, near the p?ortal. The terrain is rough, so the shi?p is com??promised, but the cockpit i?s fine. They're guardin?g it, t?hough, and they'll outl?ast me. I have t?o do so??mething.
 
-        Day 9
-        I could feel the [reavers] arriving. Screams from outside, followed by gunfire. The gunfire gradually faded, but the screams didn't. Eventually, the last bullet was shot, and now only the screams fill the silence, along with the [reavers'] songs.
+        <style=cMono>Day 9</style>
+        I co??uld f?eel the [reavers] ar??rivi??ng. Sc?rea?ms fr??om outside, fo??llowe?d b?y gunfir??e. The gunfire g??rad?ua?lly fad?ed, but the screa??ms didn't. Ev??entua??lly, t?he la?st bulle??t was sh?ot, and no?w only th??e sc?ream?s f?ill the silen??ce, al?ong with t?he [reavers'] son??gs.
 
-        Their songs brought tears to my eyes. They're even more beautiful than the screams. They sing of how the ship will be taken and sequenced. How the crew will be [touched] to serve [the one beyond], and sent across the galaxy. Of my valor, and how my essence will finally return to the [void]. The songs drive away the emptiness.
+        h??eir songs br?ought tear??s to my e??yes. They're e?ven more b?eautif?ul than the scre?ams. They s?ing of how the ship will be ta??ken and sequenc?ed. How the cr??ew will be [touched] to serve [the one beyond], and sent acro?ss the galaxy. Of my valor, and ho?w my essence will finally return to the [void]. The songs drive away the emptiness.
 
         I open the doors. The crew is disarmed, bound to the floor by the [reavers]. They gaze upon me in horror, but they don't matter. The [reavers'] gaze is the one that matters. I feel enormous pride. I've served the [void] well.
 
@@ -107,19 +111,18 @@ namespace Sandswept.Items.VoidGreens
         They, who had been with me since the start of this. Choosing them as the one I watch lucidly feels like a message, one emphasized by the blackness that consumes the ship as one of the reavers detonates.
 
         No one escapes.
-
         """;
 
         [ConfigField("Chance", "", 7f)]
         public static float chance;
 
-        [ConfigField("Base Movement Speed Gain", "Decimal.", 0.33f)]
+        [ConfigField("Base Movement Speed Gain", "Decimal.", 0.3f)]
         public static float baseMovementSpeedGain;
 
-        [ConfigField("Stack Movement Speed Gain", "Decimal.", 0.33f)]
+        [ConfigField("Stack Movement Speed Gain", "Decimal.", 0.3f)]
         public static float stackMovementSpeedGain;
 
-        [ConfigField("Movement Speed Buff Duration", "", 2f)]
+        [ConfigField("Movement Speed Buff Duration", "", 3f)]
         public static float movementSpeedBuffDuration;
 
         [ConfigField("Movement Speed Buff Range", "", 16f)]
@@ -268,7 +271,7 @@ namespace Sandswept.Items.VoidGreens
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
-            
+
             var itemDisplay = SetUpFollowerIDRS(0.1f, 1000f, true, -35f, true, 25f, true, -20f);
 
             return new ItemDisplayRuleDict(new ItemDisplayRule()

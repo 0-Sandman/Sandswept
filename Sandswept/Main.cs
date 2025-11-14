@@ -104,6 +104,7 @@ namespace Sandswept
 
         public static bool LookingGlassLoaded = false;
         public static bool ProcSolverLoaded = false;
+        public static bool AttackDirectionFixLoaded = false;
         private static string rangerBoneMapperName;
         public static MPInput input;
         public static event Action onInputAvailable;
@@ -116,6 +117,7 @@ namespace Sandswept
 
             LookingGlassLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("droppod.lookingglass");
             ProcSolverLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.RiskOfBrainrot.ProcSolver");
+            AttackDirectionFixLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Gorakh.AttackDirectionFix");
 
             SOTV = Utils.Assets.ExpansionDef.DLC1;
 

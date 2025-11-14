@@ -20,8 +20,14 @@ namespace Sandswept.Items.Lunars
 
         public override string ItemFullDescription => $"Chests may be $sure-opened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but $sure-opening$se them increases $sudifficulty$se by $su{chestReopenDifficultyCoefficientMultiplierAdd * 300f}%$se permanently. $srDifficulty increase scales with chest rarity$se.".AutoFormat(); // this will be inaccurate no matter what but this is somewhat accurate for the first use on monsoon on singleplayer lmao
 
-        public override string ItemLore => "This will be the most potent creation I give to you, my servant. I have weaved many of these artifacts for vermin like you, but this one was far more costly than the others. It will be given only to a scarce few of my most dedicated servants. If used properly, it will be worth the price spent constructing it.\r\n\r\nIt is my blood, held in a vessel of my design. Superior blood. It grants me -- along with my treacherous brother -- the power to shape the compounds. A transfusion is sufficient to enable its effects. It cannot provide the extent of my abilities in such limited quantity, but it will allow you to create more of the trinkets you cling to so tightly.\r\n\r\nIts use will not go unnoticed, however. He will sense its presence, and send his vermin to hunt you down. Use its power to create suitable weapons and avoid encountering him in the flesh, and I do not suspect you will have any issue dispatching your pursuers.";
+        public override string ItemLore =>
+        """
+        This will be the most potent creation I give to you. I have weaved many of these artifacts for vermin like you, but this one was far more costly than the others. It will be given only to a scarce few of my most dedicated servants. If used properly, it will be worth the price spent constructing it.
 
+        It is my blood, held in a vessel of my design. Superior blood. It grants me -- along with my treacherous brother -- the power to shape the compounds. A transfusion is sufficient to enable its effects. It cannot provide the extent of my abilities in such limited quantity, but it will allow you to create more of the trinkets you cling to so tightly.
+
+        Its use will not go unnoticed, however. He will sense its presence, and send his vermin to hunt you down. If you use its power to create suitable weapons, and avoid encountering him in the flesh, I do not suspect you will have any issue dispatching your pursuers.
+        """;
         public override ItemTier Tier => ItemTier.Lunar;
 
         public override GameObject ItemModel => Main.sandsweptHIFU.LoadAsset<GameObject>("HallowedIchorHolder.prefab");
@@ -42,7 +48,7 @@ namespace Sandswept.Items.Lunars
         [ConfigField("Chest Reopen Difficulty Coefficient Multiplier Add", "Just check the Formula Example..", 0.1f)]
         public static float chestReopenDifficultyCoefficientMultiplierAdd;
 
-        [ConfigField("Per Player Divisor Add", "Just check the Formula Example...", 0.175f)]
+        [ConfigField("Per Player Divisor Add", "Just check the Formula Example...", 0.1f)]
         public static float perPlayerDivisorAdd;
 
         [ConfigField("Chest Reopen Difficulty Coefficient Flat Add Scalar", "Just check the Formula Example....", 0.06f)]
@@ -146,7 +152,7 @@ namespace Sandswept.Items.Lunars
                 List<float> values = new()
                 {
                     globalReopenCount,
-                    baseExtraChestInteractions + stackExtraChestInteractions * (stack - 1),
+                    baseExtraChestInteractions + stackExtraChestInteractions * (itemCount - 1),
                     (currentDifficultyDefScalingValue / rainstormScalingValue) - 1,
                     (currentDifficultyDefScalingValue / cachedDifficultyDefScalingValue) - 1
                 };
@@ -273,7 +279,7 @@ namespace Sandswept.Items.Lunars
             }
 
             itemCount = GetPlayerItemCountGlobal(instance.ItemDef.itemIndex, true);
-            Main.ModLogger.LogError("TrackStatCount: itemCount set to " + itemCount);
+            // Main.ModLogger.LogError("TrackStatCount: itemCount set to " + itemCount);
             if (itemCount > 0)
             {
                 anyoneHadHallowedIchorThisStage = true;
