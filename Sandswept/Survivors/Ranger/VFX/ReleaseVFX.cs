@@ -324,10 +324,10 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             effectData = effectComponent.effectData;
 
-            tracer.beamDensity = 0.1f + (effectData.genericUInt / 200f);
-            tracer.speed = 400 + (5 * effectData.genericUInt);
+            // tracer.beamDensity = 0.1f + (effectData.genericUInt / 200f);
+            // tracer.speed = 400 + (5 * effectData.genericUInt);
             light.range = 20f + effectData.genericUInt;
-            transform.localScale = Vector3.one * (3f + effectData.genericUInt / 20f);
+            transform.localScale = Vector3.one * (2f + (effectData.genericUInt / 10f));
 
             switch (effectData.genericUInt)
             {
