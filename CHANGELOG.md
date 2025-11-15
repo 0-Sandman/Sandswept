@@ -9,6 +9,14 @@
   - Fixed Static Snare Pylon being set to the mastery model on non-mastery, non-default skins
 - Ranger
   - Added SkinFlavorText Support
+  - Buffed Direct Current Minimum Damage from 125% to 150%
+  - Buffed Direct Current Maximum Damage from 375% to 390%
+  - Buffed Enflame Damage from 75% to 90%
+  - Buffed Enflame Proc Coefficient from 0.9 to 1
+  - Buffed Exhaust Damage from 4x200% to 4x300%
+  - Buffed Heat Signature Damage from 250% to 390%
+  - Nerfed Overcharged Speed Extra Jump Cost from 6 to 5
+  - Nerfed Heat Signature Charge Gain from 6 to 5
   - Made Overcharged Protection bypass the healing reduction applied in Overdrive
   - Made Overcharged Speed extra jumps function more reliably
   - Made Overcharged Speed able to jump multiple times midair
@@ -22,14 +30,22 @@
   - Made Enflame attack speed boost based on heat uncapped, scaling at 1 extra bullet per second per 25% heat
   - Made Exhaust reduce 50% of CURRENT heat, instead of a flat amount of heat
   - Made Exhaust blast count based on heat uncapped, scaling at 1 extra blast per 20% heat spent
-  - Made Heat Signature increase dash distance based on heat
+  - Made Exhaust fire faster for each blast
+  - Made Exhaust match Enflame's shot distance scaling
+  - Made Char reduce 50% of CURRENT heat, instead of a flat amount of heat
+  - Made Char damage based on heat uncapped, scaling at per % heat spent
+    - Galvanize and Char will get a rework
+  - Made Heat Signature increase dash distance based on heat, scaling at +17% distance per 20% heat
   - Made Heat Signature add 40% heat when used
+  - Made Heat Sink Damage based on heat uncapped, scaling at +150% per 25% heat
+    - Heat Sink will get a rework
   - Fixed Crosshair dot being transparent at full Charge
   - Fixed Overcharged Protection and Overcharged Speed networking issue
   - Fixed Direct Current not having the lightning damage type (for Broken VOL-T)
   - Fixed Release not having the lightning damage type (for Broken VOL-T)
   - Fixed Release shooting from the feet (what kinda freak wrote that???)
   - Fixed Galvanize not having the lightning damage type (for Broken VOL-T)
+  - Fixed Exhaust networking
 - Items/Equipment
   - Buffed Ceremonial Jar Base Damage from 1500% to 2000%
   - Buffed Ceremonial Jar Stack Damage from 1500% to 2000%
@@ -119,7 +135,7 @@
   - Buffed Direct Current Projectile Speed from 170m/s to 240m/s
   - Buffed Direct Current Explosion Radius from 2.5m to 3m
   - Buffed Direct Current Explosion Radius to scale over distance. Maximum is 4.5m
-  - Buffed Direct Current Minimum Damage Multiplier from 40% to 60% at close range
+  - Buffed Direct Current Minimum Damage from 100% to 125%
   - Buffed Direct Current to give 3 Charge on a direct hit
   - Buffed Sidestep duration from 0.15s to 0.1s
   - Nerfed Direct Current Projectile Size from 0.5m to 0.25m

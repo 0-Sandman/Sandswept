@@ -6,7 +6,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Special
     {
         public override string Name => "Heat Sink";
 
-        public override string Description => "$suAgile$se. $sdIgnite$se. Release a $sdfire nova$se around you that deals $sd300%$se damage, increasing up to $sd900%$se in $srfull heat$se. $suConsume all$se $srheat$se, gaining an $sdattack speed$se boost, and $suexit overdrive$se.".AutoFormat();
+        public override string Description => "$suAgile$se. $sdIgnite$se. $suConsume all heat and exit overdrive$se. Release a $sdfire nova$se around you that deals $sd300%$se damage. $suDamage increases with heat spent$se.".AutoFormat();
 
         // 16m radius?
         public override Type ActivationStateType => typeof(States.Special.HeatSink);
@@ -23,7 +23,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Special
 
         public override bool FullRestockOnAssign => false;
 
-        public override string[] Keywords => new string[] { Utils.Keywords.Agile, Utils.Keywords.Ignite };
+        public override string[] Keywords => [Utils.Keywords.Agile, Utils.Keywords.Ignite];
         public override float GetProcCoefficientData() => 1f;
     }
 }

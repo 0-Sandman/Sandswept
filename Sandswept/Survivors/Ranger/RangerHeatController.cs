@@ -24,7 +24,7 @@ namespace Sandswept.Survivors.Ranger
 
         public bool isInFullHeat = false;
 
-        public float selfDamageAtMax = 0.04f;
+        public float selfDamageAtMax = 0.033f;
         public float selfDamageInterval = 0.25f;
         public float selfDamageTimer;
 

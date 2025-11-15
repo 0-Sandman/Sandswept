@@ -5,9 +5,10 @@ namespace Sandswept.Survivors.Ranger.States.Special
 {
     public class HeatSink : BaseState
     {
-        public static float damageCoefficient = 5f;
+        public static float damageCoefficient = 3f;
         public static float baseDuration = 0.5f;
         private float duration;
+        private float finalDamageCoefficient;
         private RangerHeatController heat;
         private Transform modelTransform;
         private Material overlayMat1;
@@ -42,6 +43,8 @@ namespace Sandswept.Survivors.Ranger.States.Special
             base.skillLocator.special.DeductStock(base.skillLocator.special.maxStock);
 
             heat = GetComponent<RangerHeatController>();
+
+            finalDamageCoefficient = damageCoefficient + (heat.currentHeat / 16.6666f); // makes damage go from 300% to 900% at 100% heat, 1500% at 200% heat, etc
 
             duration = baseDuration / attackSpeedStat;
 
@@ -158,8 +161,8 @@ namespace Sandswept.Survivors.Ranger.States.Special
                 {
                     attacker = gameObject,
                     attackerFiltering = AttackerFiltering.NeverHitSelf,
-                    baseDamage = damageStat * Util.Remap(heat.currentHeat, 0f, 100f, 3f, 9f),
-                    baseForce = 1500f,
+                    baseDamage = damageStat * finalDamageCoefficient,
+                    baseForce = 4000f,
                     bonusForce = Vector3.zero,
                     canRejectForce = true,
                     crit = RollCrit(),

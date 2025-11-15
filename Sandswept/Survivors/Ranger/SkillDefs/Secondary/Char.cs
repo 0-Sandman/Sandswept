@@ -6,7 +6,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Secondary
     {
         public override string Name => "Char";
 
-        public override string Description => "$sdIgnite$se. Fire off a $sdblazing ball$se for $sd600%$se damage that $sdengulfs$se the ground on impact for $sd250%$se damage per second. $suReduce$se $srheat$se by $su50%$se.".AutoFormat();
+        public override string Description => "$sdIgnite$se. $suReduce current heat by 50%$se. Fire off a blazing orb for $sd1200%$se damage that $sdengulfs$se the ground on impact for $sd250%$se damage per second. $suDamage increases with heat spent$se.".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Secondary.Char);
 
@@ -17,7 +17,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Secondary
         public override Sprite Icon => Main.assets.LoadAsset<Sprite>("b2.png");
         public override InterruptPriority InterruptPriority => InterruptPriority.Skill;
 
-        public override string[] Keywords => new string[] { Utils.Keywords.Ignite };
+        public override string[] Keywords => [Utils.Keywords.Ignite];
 
         public override bool FullRestockOnAssign => true;
 

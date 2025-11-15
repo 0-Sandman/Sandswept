@@ -324,10 +324,14 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             effectData = effectComponent.effectData;
 
-            // tracer.beamDensity = 0.1f + (effectData.genericUInt / 200f);
-            // tracer.speed = 400 + (5 * effectData.genericUInt);
+            tracer.beamDensity = 0.1f + (effectData.genericUInt / 200f);
+            tracer.speed = 300 + (10 * effectData.genericUInt);
             light.range = 20f + effectData.genericUInt;
-            transform.localScale = Vector3.one * (2f + (effectData.genericUInt / 10f));
+            var scale = 1f + effectData.genericUInt / (6f + 2 / 3f);
+            transform.localScale = new Vector3(scale, scale, 4f);
+            childLocator.FindChild("TracerHead").GetComponent<Light>().range = 40f + effectData.genericUInt;
+            childLocator.FindChild("TracerTail").GetComponent<Light>().range = 20f + effectData.genericUInt;
+            childLocator.FindChild("Beam, Linger").GetComponent<LineRenderer>().widthMultiplier = 0.5f + (effectData.genericUInt / 40f);
 
             switch (effectData.genericUInt)
             {
