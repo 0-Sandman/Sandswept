@@ -9,18 +9,19 @@
   - Fixed Static Snare Pylon being set to the mastery model on non-mastery, non-default skins
 - Ranger
   - Added SkinFlavorText Support
-  - Made Heat no longer build up passively during overdrive
-  - Made Enflame build up heat when fired at a rate of 20% per second
-  - Made Heat able to build indefinitely past 100%
-  - Made Heat gauge UI now loop around itself multiple times to represent heat, changing color for every interval above 100%
-  - Made Healing Reduction scale linearly with heat, capping at -100% in 100% heat
-  - Made Heat no longer give a base damage bonus based on time spent in 100% heat
-  - Made Enflame attack speed boost based on heat uncapped, scaling at 1 extra bullet per second per 25% heat
-  - Made Exhaust reduce 50% of CURRENT heat, instead of a flat amount of heat
-  - Made Exhaust blast count based on heat uncapped, scaling at 1 extra blast per 20% heat spent
   - Made Overcharged Protection bypass the healing reduction applied in Overdrive
   - Made Overcharged Speed extra jumps function more reliably
   - Made Overcharged Speed able to jump multiple times midair
+  - Made Heat no longer build up passively during overdrive
+  - Made Heat able to build indefinitely past 100%
+  - Made Heat gauge UI now loop around itself multiple times to represent heat, changing color for every interval above 100%
+  - Made Heat no longer give a base damage bonus based on time spent in 100% heat
+  - Made Healing Reduction scale linearly with heat, capping at -100% in 100% heat
+  - Made Release scale VFX intensity with spent Charge
+  - Made Enflame build up heat when fired at a rate of 20% per second
+  - Made Enflame attack speed boost based on heat uncapped, scaling at 1 extra bullet per second per 25% heat
+  - Made Exhaust reduce 50% of CURRENT heat, instead of a flat amount of heat
+  - Made Exhaust blast count based on heat uncapped, scaling at 1 extra blast per 20% heat spent
   - Made Heat Signature increase dash distance based on heat
   - Made Heat Signature add 40% heat when used
   - Fixed Crosshair dot being transparent at full Charge

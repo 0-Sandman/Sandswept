@@ -43,6 +43,13 @@ namespace Sandswept.Survivors.Ranger.VFX
         public static GameObject CreateTracerRecolor(string name, Color32 primaryColor, Color32 emissionAndLightColor)
         {
             var tracerGameObject = Paths.GameObject.TracerRailgunSuper.InstantiateClone("Release Tracer " + name, false);
+            tracerGameObject.AddComponent<ReleaseVFXIntensityController>();
+
+            var childLocator = tracerGameObject.AddComponent<ChildLocator>();
+            foreach (Transform child in tracerGameObject.transform.GetComponentsInChildren<Transform>())
+            {
+                childLocator.AddChild(child.name, child);
+            }
 
             var kurwaJebanyTracerComponentKurwaKtoToPisal = tracerGameObject.AddComponent<TracerComponentSucks>();
 
@@ -297,6 +304,56 @@ namespace Sandswept.Survivors.Ranger.VFX
             ContentAddition.AddEffect(impact);
 
             return impact;
+        }
+    }
+
+    public class ReleaseVFXIntensityController : MonoBehaviour
+    {
+        public EffectComponent effectComponent;
+        public EffectData effectData;
+        public ChildLocator childLocator;
+        public Tracer tracer;
+        public Light light;
+
+        public void Start()
+        {
+            childLocator = GetComponent<ChildLocator>();
+            effectComponent = GetComponent<EffectComponent>();
+            tracer = GetComponent<Tracer>();
+            light = GetComponent<Light>();
+
+            effectData = effectComponent.effectData;
+
+            tracer.beamDensity = 0.1f + (effectData.genericUInt / 200f);
+            tracer.speed = 400 + (5 * effectData.genericUInt);
+            light.range = 20f + effectData.genericUInt;
+            transform.localScale = Vector3.one * (3f + effectData.genericUInt / 20f);
+
+            switch (effectData.genericUInt)
+            {
+                case < 5:
+                    DisableTransform("BeamParticles, Rings");
+                    DisableTransform("Beam, Flash Briefly");
+                    DisableTransform("Beam, Distortion");
+                    DisableTransform("Beam, Glow");
+                    break;
+
+                case >= 5 and < 10:
+                    DisableTransform("Beam, Flash Briefly");
+                    DisableTransform("Beam, Distortion");
+                    DisableTransform("Beam, Glow");
+                    break;
+
+                case >= 10 and < 15:
+                    DisableTransform("Beam, Distortion");
+                    DisableTransform("Beam, Glow");
+                    break;
+            }
+        }
+
+        public void DisableTransform(string transformToDisable)
+        {
+            childLocator.FindChild(transformToDisable).gameObject.SetActive(false);
         }
     }
 }

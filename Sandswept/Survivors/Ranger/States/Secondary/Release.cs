@@ -1,3 +1,4 @@
+using Rewired.Demos;
 using Sandswept.Survivors.Ranger.Projectiles;
 using Sandswept.Survivors.Ranger.VFX;
 
@@ -121,7 +122,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                     owner = gameObject,
                     muzzleName = "MuzzleR",
                     origin = GetAimRay().origin,
-                    tracerEffectPrefab = tracerEffect,
+                    // tracerEffectPrefab = tracerEffect,
                     hitEffectPrefab = impactEffect,
                     procCoefficient = procCoefficient,
                     weapon = gameObject,
@@ -131,6 +132,42 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                     force = 2500f + 125f * buffCount,
                     damageType = DamageType.Generic,
                 };
+
+                // ja pierdole kurwa mac ile trzeba zjebanego opizdzialego gowna kurwa copy paste'owac tylko zeby zeskalowac jebane vfx bo hopoo games ! ! sobie pomyslalo ze effectdata w bulletattack bedzie hardcoded kurwa
+                attack.hitCallback = delegate (BulletAttack bulletAttack, ref BulletAttack.BulletHit bulletHit)
+                {
+                    int muzzleIndex = -1;
+                    if (!attack.weapon)
+                    {
+                        attack.weapon = attack.owner;
+                    }
+                    if (attack.weapon)
+                    {
+                        var modelLocator = attack.weapon.GetComponent<ModelLocator>();
+                        if (modelLocator && modelLocator.modelTransform)
+                        {
+                            var childLocator = modelLocator.modelTransform.GetComponent<ChildLocator>();
+                            if (childLocator)
+                            {
+                                muzzleIndex = childLocator.FindChildIndex(attack.muzzleName);
+                            }
+                        }
+                    }
+                    var defaultHitCallback = BulletAttack.defaultHitCallback(bulletAttack, ref bulletHit);
+                    var aimVector = TrajectoryAimAssist.ApplyTrajectoryAimAssist(attack.aimVector, attack.origin, attack.maxDistance, attack.owner, attack.weapon, attack.trajectoryAimAssistMultiplier).normalized;
+
+                    var stupidFuckingHardcodedIllConsideredBullshit = new EffectData();
+
+                    stupidFuckingHardcodedIllConsideredBullshit.origin = attack.origin + aimVector * attack.maxDistance; // the end position, supposedly
+                    stupidFuckingHardcodedIllConsideredBullshit.start = attack.origin;
+                    stupidFuckingHardcodedIllConsideredBullshit.genericUInt = (uint)buffCount;
+                    stupidFuckingHardcodedIllConsideredBullshit.SetChildLocatorTransformReference(attack.weapon, muzzleIndex);
+                    EffectManager.SpawnEffect(tracerEffect, stupidFuckingHardcodedIllConsideredBullshit, true);
+
+                    return defaultHitCallback;
+                };
+
+                // KURWA MAC ale zjebane gowno kurwa ja pierkurwadole kurwa
 
                 attack.damageType.damageSource = DamageSource.Secondary;
                 attack.damageType.AddModdedDamageType(Electrician.Electrician.LIGHTNING);
