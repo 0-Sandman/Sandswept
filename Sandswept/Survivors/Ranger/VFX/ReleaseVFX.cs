@@ -70,6 +70,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var pizdoKurwaPierdolona = tracer.AddComponent<VFXAttributes>();
             pizdoKurwaPierdolona.DoNotPool = true;
+            pizdoKurwaPierdolona.DoNotCullPool = true;
 
             // kurwa mac jebane kurwa spaghetti code kurwa jak mozna kurwa zrobic ze jebany tracer usuwa sie kurwa
             // i potem kurwa dawac jakies zjebane workaroundy zamiast naprawic problem kurwa?? po co stwarzac sobie problem ja pierdole

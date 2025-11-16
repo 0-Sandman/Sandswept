@@ -57,7 +57,9 @@ namespace Sandswept.Survivors.Ranger.VFX
             var effectComponent = tracer.GetComponent<EffectComponent>();
             effectComponent.soundName = "Play_wHeavyShoot1";
 
-            tracer.AddComponent<VFXAttributes>((x) => {
+            tracer.GetOrAddComponent<VFXAttributes>((x) =>
+            {
+                x.DoNotCullPool = true;
                 x.DoNotPool = true;
             });
 

@@ -9,6 +9,8 @@
   - Fixed Static Snare Pylon being set to the mastery model on non-mastery, non-default skins
 - Ranger
   - Added SkinFlavorText Support
+  - Added muzzle flash to Direct Current, Release, Galvanize, Enflame, Exhaust, Char
+  - Added Recolored VFX to Direct Current's hitsparks
   - Buffed Direct Current Minimum Damage from 125% to 150%
   - Buffed Direct Current Maximum Damage from 375% to 390%
   - Buffed Enflame Damage from 75% to 90%

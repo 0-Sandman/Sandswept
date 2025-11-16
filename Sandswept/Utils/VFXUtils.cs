@@ -88,10 +88,15 @@ namespace Sandswept.Utils
                     var colorKeys = new GradientColorKey[2];
                     colorKeys[0] = new GradientColorKey(Color.white, 0f);
                     colorKeys[1] = new GradientColorKey(Color.white, 1f);
+
                     var alphaKeys = new GradientAlphaKey[2];
                     alphaKeys[0] = new GradientAlphaKey(1f, 0f);
-                    alphaKeys[0] = new GradientAlphaKey(0f, 1f);
-                    particleSystemColorOverLifetime.color.gradient.SetKeys(colorKeys, alphaKeys);
+                    alphaKeys[1] = new GradientAlphaKey(0f, 1f);
+
+                    var gradient = new Gradient();
+                    gradient.SetKeys(colorKeys, alphaKeys);
+
+                    particleSystemColorOverLifetime.color = gradient;
                     // fuck off tbh
                 }
             }

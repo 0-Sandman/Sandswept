@@ -29,6 +29,7 @@ namespace Sandswept.Survivors.Ranger.States.Primary
 
         public GameObject tracerEffect;
         public GameObject tracerEffectHeated;
+        public GameObject muzzleFlash;
 
         public RangerHeatController rangerHeatController;
         public Transform modelTransform;
@@ -53,23 +54,38 @@ namespace Sandswept.Survivors.Ranger.States.Primary
             {
                 var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
 
-                tracerEffect = skinNameToken switch
+                switch (skinNameToken)
                 {
-                    "RANGER_SKIN_MAJOR_NAME" => EnflameVFX.tracerPrefabMajor,
-                    "RANGER_SKIN_RENEGADE_NAME" => EnflameVFX.tracerPrefabRenegade,
-                    "RANGER_SKIN_MILEZERO_NAME" => EnflameVFX.tracerPrefabMileZero,
-                    "RANGER_SKIN_SANDSWEPT_NAME" => EnflameVFX.tracerPrefabSandswept,
-                    _ => EnflameVFX.tracerPrefabDefault
-                };
+                    default:
+                        tracerEffect = EnflameVFX.tracerPrefabDefault;
+                        tracerEffectHeated = EnflameVFX.tracerHeatedPrefabDefault;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabDefaultOverdrive;
+                        break;
 
-                tracerEffectHeated = skinNameToken switch
-                {
-                    "RANGER_SKIN_MAJOR_NAME" => EnflameVFX.tracerHeatedPrefabMajor,
-                    "RANGER_SKIN_RENEGADE_NAME" => EnflameVFX.tracerHeatedPrefabRenegade,
-                    "RANGER_SKIN_MILEZERO_NAME" => EnflameVFX.tracerHeatedPrefabMileZero,
-                    "RANGER_SKIN_SANDSWEPT_NAME" => EnflameVFX.tracerHeatedPrefabSandswept,
-                    _ => EnflameVFX.tracerHeatedPrefabDefault
-                };
+                    case "RANGER_SKIN_MAJOR_NAME":
+                        tracerEffect = EnflameVFX.tracerPrefabMajor;
+                        tracerEffectHeated = EnflameVFX.tracerHeatedPrefabMajor;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabMajorOverdrive;
+                        break;
+
+                    case "RANGER_SKIN_RENEGADE_NAME":
+                        tracerEffect = EnflameVFX.tracerPrefabRenegade;
+                        tracerEffectHeated = EnflameVFX.tracerHeatedPrefabRenegade;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabRenegadeOverdrive;
+                        break;
+
+                    case "RANGER_SKIN_MILEZERO_NAME":
+                        tracerEffect = EnflameVFX.tracerPrefabMileZero;
+                        tracerEffectHeated = EnflameVFX.tracerHeatedPrefabMileZero;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabMileZeroOverdrive;
+                        break;
+
+                    case "RANGER_SKIN_SANDSWEPT_NAME":
+                        tracerEffect = EnflameVFX.tracerPrefabSandswept;
+                        tracerEffectHeated = EnflameVFX.tracerHeatedPrefabSandswept;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabSandsweptOverdrive;
+                        break;
+                }
             }
 
             if (characterBody)
@@ -114,6 +130,8 @@ namespace Sandswept.Survivors.Ranger.States.Primary
             var aimDirection = GetAimRay().direction;
 
             var isHeatedShot = Util.CheckRoll(rangerHeatController.currentHeat * 0.5f);
+
+            EffectManager.SimpleMuzzleFlash(muzzleFlash, gameObject, "Muzzle", transmit: true);
 
             if (isHeatedShot)
             {

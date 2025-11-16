@@ -128,81 +128,107 @@ namespace Sandswept.Survivors.Ranger.Projectiles
                     AkSoundEngine.PostEvent(Events.Play_wCrit, primary.gameObject);
                     AkSoundEngine.PostEvent(Events.Play_mage_m1_cast_lightning, primary.gameObject);
 
-                    EffectManager.SpawnEffect(Paths.GameObject.OmniExplosionVFXRoboBallDeath, new EffectData
+                    var modelLocator = attack.attacker.GetComponent<ModelLocator>();
+                    if (!modelLocator)
+                    {
+                        return;
+                    }
+
+                    var modelTransform = modelLocator.modelTransform;
+
+                    if (!modelTransform)
+                    {
+                        return;
+                    }
+
+                    var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[attack.attacker.GetComponent<CharacterBody>().skinIndex].nameToken;
+
+                    GameObject directHitVFX = null;
+
+                    directHitVFX = skinNameToken switch
+                    {
+                        "RANGER_SKIN_MAJOR_NAME" => DirectCurrentVFX.hitsparkPrefabMajor,
+                        "RANGER_SKIN_RENEGADE_NAME" => DirectCurrentVFX.hitsparkPrefabRenegade,
+                        "RANGER_SKIN_MILEZERO_NAME" => DirectCurrentVFX.hitsparkPrefabMileZero,
+                        "RANGER_SKIN_SANDSWEPT_NAME" => DirectCurrentVFX.hitsparkPrefabSandswept,
+                        _ => DirectCurrentVFX.hitsparkPrefabDefault,
+                    };
+
+                    EffectManager.SpawnEffect(directHitVFX, new EffectData
                     {
                         origin = primary.transform.position,
-                        scale = 0.5f
                     }, false);
                 }
+
             }
         }
+    }
 
-        public class InverseFalloffProjectile : MonoBehaviour
+    public class InverseFalloffProjectile : MonoBehaviour
+    {
+        public Vector3 initialPosition;
+        public float baseDistance = 60f;
+        public float minDamage = 0.6f;
+        public float minRadius = 0.75f;
+        public float maxDamage = 1.4f;
+        public float maxRadius = 1.4f;
+        public int stages = 0;
+        public ProjectileExplosion explosion;
+        public ProjectileDamage damage;
+        public float originalDamage;
+        public float originalRadius;
+        public float[] thresholds;
+
+        public void Start()
         {
-            public Vector3 initialPosition;
-            public float baseDistance = 60f;
-            public float minDamage = 0.6f;
-            public float minRadius = 0.75f;
-            public float maxDamage = 1.4f;
-            public float maxRadius = 1.4f;
-            public int stages = 0;
-            public ProjectileExplosion explosion;
-            public ProjectileDamage damage;
-            public float originalDamage;
-            public float originalRadius;
-            public float[] thresholds;
+            damage = GetComponent<ProjectileDamage>();
+            explosion = GetComponent<ProjectileExplosion>();
+            originalDamage = damage.damage;
 
-            public void Start()
+            if (explosion)
             {
-                damage = GetComponent<ProjectileDamage>();
-                explosion = GetComponent<ProjectileExplosion>();
-                originalDamage = damage.damage;
+                originalRadius = explosion.blastRadius;
+            }
 
-                if (explosion)
-                {
-                    originalRadius = explosion.blastRadius;
-                }
+            initialPosition = base.transform.position;
 
-                initialPosition = base.transform.position;
-
-                thresholds = new float[] {
+            thresholds = [
                     0f, baseDistance, baseDistance * 1.5f
-                };
+                ];
+        }
+
+        public void DollarStoreConstructor(float dist, float minD, float maxD, float minR, float maxR)
+        {
+            this.baseDistance = dist;
+            this.minDamage = minD;
+            this.maxDamage = maxD;
+            this.minRadius = minR;
+            this.maxRadius = maxR;
+        }
+
+        public void FixedUpdate()
+        {
+            float distance = Mathf.Clamp(Vector3.Distance(base.transform.position, initialPosition), 0f, thresholds[2]);
+
+            if (distance < thresholds[1])
+            {
+                stages = 1;
+
+                damage.damage = Util.Remap(distance, 0f, thresholds[1], originalDamage * minDamage, originalDamage);
+                if (explosion) explosion.blastRadius = Util.Remap(distance, 0f, thresholds[1], originalRadius * minRadius, originalRadius);
             }
 
-            public void DollarStoreConstructor(float dist, float minD, float maxD, float minR, float maxR)
+            if (distance > thresholds[1])
             {
-                this.baseDistance = dist;
-                this.minDamage = minD;
-                this.maxDamage = maxD;
-                this.minRadius = minR;
-                this.maxRadius = maxR;
+                stages = 2;
+
+                damage.damage = Util.Remap(distance, thresholds[1], thresholds[2], originalDamage, originalDamage * maxDamage);
+                if (explosion) explosion.blastRadius = Util.Remap(distance, thresholds[1], thresholds[2], originalRadius, originalRadius * maxRadius);
             }
 
-            public void FixedUpdate()
+            if (distance > thresholds[2])
             {
-                float distance = Mathf.Clamp(Vector3.Distance(base.transform.position, initialPosition), 0f, thresholds[2]);
-
-                if (distance < thresholds[1])
-                {
-                    stages = 1;
-
-                    damage.damage = Util.Remap(distance, 0f, thresholds[1], originalDamage * minDamage, originalDamage);
-                    if (explosion) explosion.blastRadius = Util.Remap(distance, 0f, thresholds[1], originalRadius * minRadius, originalRadius);
-                }
-
-                if (distance > thresholds[1])
-                {
-                    stages = 2;
-
-                    damage.damage = Util.Remap(distance, thresholds[1], thresholds[2], originalDamage, originalDamage * maxDamage);
-                    if (explosion) explosion.blastRadius = Util.Remap(distance, thresholds[1], thresholds[2], originalRadius, originalRadius * maxRadius);
-                }
-
-                if (distance > thresholds[2])
-                {
-                    stages = 3;
-                }
+                stages = 3;
             }
         }
     }

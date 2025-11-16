@@ -11,6 +11,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
         public float finalDamageCoefficient;
 
         private GameObject charProjectile;
+        private GameObject muzzleFlash;
         public RangerHeatController rangerHeatController;
 
         public override void OnEnter()
@@ -39,6 +40,16 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                     */
                     _ => Projectiles.TheFuckingBFG.SigmaProjectile
                 };
+
+                muzzleFlash = skinNameToken switch
+                {
+                    "RANGER_SKIN_MAJOR_NAME" => DirectCurrentVFX.muzzleFlashPrefabMajorOverdrive,
+                    "RANGER_SKIN_RENEGADE_NAME" => DirectCurrentVFX.muzzleFlashPrefabRenegadeOverdrive,
+                    "RANGER_SKIN_MILEZERO_NAME" => DirectCurrentVFX.muzzleFlashPrefabMileZeroOverdrive,
+                    "RANGER_SKIN_SANDSWEPT_NAME" => DirectCurrentVFX.muzzleFlashPrefabSandsweptOverdrive,
+                    _ => DirectCurrentVFX.muzzleFlashPrefabDefaultOverdrive
+                };
+
             }
 
             FireShot();
@@ -105,6 +116,8 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
             }
 
             AddRecoil(1.2f, 1.5f, 0.3f, 0.5f);
+
+            EffectManager.SimpleMuzzleFlash(muzzleFlash, gameObject, "Muzzle", transmit: true);
         }
     }
 }

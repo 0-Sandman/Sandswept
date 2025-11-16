@@ -8,65 +8,171 @@ namespace Sandswept.Survivors.Ranger.VFX
     {
         public static GameObject ghostPrefabDefault;
         public static GameObject impactPrefabDefault;
+        public static GameObject hitsparkPrefabDefault;
+        public static GameObject muzzleFlashPrefabDefault;
+        public static GameObject muzzleFlashPrefabDefaultOverdrive;
 
         public static GameObject ghostPrefabMajor;
         public static GameObject impactPrefabMajor;
+        public static GameObject hitsparkPrefabMajor;
+        public static GameObject muzzleFlashPrefabMajor;
+        public static GameObject muzzleFlashPrefabMajorOverdrive;
 
         public static GameObject ghostPrefabRenegade;
         public static GameObject impactPrefabRenegade;
+        public static GameObject hitsparkPrefabRenegade;
+        public static GameObject muzzleFlashPrefabRenegade;
+        public static GameObject muzzleFlashPrefabRenegadeOverdrive;
 
         public static GameObject ghostPrefabMileZero;
         public static GameObject impactPrefabMileZero;
+        public static GameObject hitsparkPrefabMileZero;
+        public static GameObject muzzleFlashPrefabMileZero;
+        public static GameObject muzzleFlashPrefabMileZeroOverdrive;
 
         public static GameObject ghostPrefabRacecar;
         public static GameObject impactPrefabRacecar;
+        public static GameObject hitsparkPrefabRacecar;
+        public static GameObject muzzleFlashPrefabRacecar;
+        public static GameObject muzzleFlashPrefabRacecarOverdrive;
 
         public static GameObject ghostPrefabSandswept;
         public static GameObject impactPrefabSandswept;
+        public static GameObject hitsparkPrefabSandswept;
+        public static GameObject muzzleFlashPrefabSandswept;
+        public static GameObject muzzleFlashPrefabSandsweptOverdrive;
 
         public static void Init()
         {
             ghostPrefabDefault = CreateGhostRecolor("Default", new Color32(0, 255, 167, 255), new Color32(0, 141, 197, 255), new Color32(111, 170, 151, 255));
-
             impactPrefabDefault = CreateImpactRecolor("Default", new Color32(34, 34, 34, 255), new Color32(14, 32, 161, 255), new Color32(25, 67, 255, 255),
                 new Color32(0, 108, 238, 255), new Color32(0, 57, 147, 255), new Color32(20, 255, 168, 255), new Color32(0, 133, 255, 255), new Color32(88, 229, 255, 255),
                 new Color32(54, 71, 214, 255), new Color32(58, 218, 219, 255), new Color32(255, 255, 255, 255), new Color32(39, 140, 144, 255), new Color32(49, 166, 180, 255),
                 new Color32(0, 255, 62, 255), new Color32(0, 255, 90, 255), 1.301445f, 0.07936508f);
+            hitsparkPrefabDefault = CreateHitsparkRecolor("Default", new Color32(0, 255, 167, 255));
+            muzzleFlashPrefabDefault = CreateMuzzleFlashRecolor("Default", new Color32(0, 255, 167, 255));
+            muzzleFlashPrefabDefaultOverdrive = CreateMuzzleFlashRecolor("Default", new Color32(255, 27, 0, 255), true);
 
             ghostPrefabMajor = CreateGhostRecolor("Major", new Color32(43, 94, 134, 255), new Color32(0, 49, 197, 255), new Color32(100, 20, 217, 255));
-
             impactPrefabMajor = CreateImpactRecolor("Major", new Color32(34, 34, 34, 255), new Color32(65, 14, 161, 255), new Color32(90, 25, 255, 255),
                 new Color32(3, 0, 238, 255), new Color32(12, 0, 147, 255), new Color32(34, 20, 255, 255), new Color32(0, 14, 255, 255), new Color32(88, 151, 255, 255),
                 new Color32(112, 54, 214, 255), new Color32(95, 65, 243, 255), new Color32(255, 255, 255, 255), new Color32(96, 71, 255, 255),
                 new Color32(49, 105, 180, 255), new Color32(193, 67, 184, 255), new Color32(108, 0, 255, 255));
+            hitsparkPrefabMajor = CreateHitsparkRecolor("Major", new Color32(43, 94, 134, 255));
+            muzzleFlashPrefabMajor = CreateMuzzleFlashRecolor("Major", new Color32(43, 94, 134, 255));
+            muzzleFlashPrefabMajorOverdrive = CreateMuzzleFlashRecolor("Major", new Color32(22, 28, 56, 255), true);
 
             ghostPrefabRenegade = CreateGhostRecolor("Renegade", new Color32(219, 51, 232, 255), new Color32(187, 0, 197, 255), new Color32(217, 20, 98, 255));
-
             impactPrefabRenegade = CreateImpactRecolor("Renegade", new Color32(34, 34, 34, 255), new Color32(161, 14, 81, 255), new Color32(255, 25, 144, 255),
                 new Color32(238, 0, 187, 255), new Color32(147, 0, 106, 255), new Color32(255, 20, 194, 255), new Color32(255, 0, 218, 255), new Color32(225, 88, 255, 255),
                 new Color32(214, 54, 124, 255), new Color32(85, 65, 243, 255), new Color32(255, 255, 255, 255), new Color32(255, 71, 193, 255),
                 new Color32(150, 49, 180, 255), new Color32(234, 44, 85, 255), new Color32(255, 0, 38, 255), 0.9672766f, 0.1169591f);
+            hitsparkPrefabRenegade = CreateHitsparkRecolor("Renegade", new Color32(219, 51, 232, 255));
+            muzzleFlashPrefabRenegade = CreateMuzzleFlashRecolor("Renegade", new Color32(219, 51, 232, 255));
+            muzzleFlashPrefabRenegadeOverdrive = CreateMuzzleFlashRecolor("Renegade", new Color32(144, 25, 68, 255), true);
 
             ghostPrefabMileZero = CreateGhostRecolor("Mile Zero", new Color32(255, 0, 50, 255), new Color32(197, 0, 13, 255), new Color32(217, 21, 20, 255));
-
             impactPrefabMileZero = CreateImpactRecolor("Mile Zero", new Color32(34, 34, 34, 255), new Color32(167, 0, 0, 255), new Color32(255, 0, 3, 255),
                 new Color32(250, 0, 0, 255), new Color32(154, 0, 0, 255), new Color32(255, 0, 0, 255), new Color32(255, 0, 0, 255), new Color32(255, 19, 19, 255),
                 new Color32(216, 31, 25, 255), new Color32(255, 0, 0, 255), new Color32(255, 255, 255, 255), new Color32(255, 37, 39, 255),
                 new Color32(181, 25, 29, 255), new Color32(170, 5, 2, 255), new Color32(255, 0, 0, 255), 2.639934f, 0.1044277f);
-
-            ghostPrefabRacecar = CreateGhostRecolor("Racecar", new Color32(0, 255, 248, 255), new Color32(0, 180, 197, 255), new Color32(111, 170, 170, 255));
-
-            impactPrefabRacecar = CreateImpactRecolor("Racecar", new Color32(34, 34, 34, 255), new Color32(14, 161, 158, 255), new Color32(25, 186, 255, 255),
-                new Color32(0, 211, 238, 255), new Color32(0, 113, 147, 255), new Color32(20, 190, 255, 255), new Color32(0, 214, 255, 255), new Color32(88, 229, 255, 255),
-                new Color32(54, 178, 214, 255), new Color32(243, 211, 65, 255), new Color32(255, 255, 255, 255), new Color32(39, 140, 144, 255), new Color32(49, 166, 180, 255),
-                new Color32(0, 255, 223, 255), new Color32(0, 255, 251, 255), 1.301445f, 0.07936508f);
+            hitsparkPrefabMileZero = CreateHitsparkRecolor("Mile Zero", new Color32(255, 0, 13, 255));
+            muzzleFlashPrefabMileZero = CreateMuzzleFlashRecolor("Mile Zero", new Color32(255, 0, 13, 255));
+            muzzleFlashPrefabMileZeroOverdrive = CreateMuzzleFlashRecolor("Mile Zero", new Color32(64, 0, 0, 255), true);
 
             ghostPrefabSandswept = CreateGhostRecolor("Sandswept", new Color32(249, 197, 143, 255), new Color32(214, 159, 79, 255), new Color32(87, 87, 87, 255));
-
             impactPrefabSandswept = CreateImpactRecolor("Sandswept", new Color32(34, 34, 34, 255), new Color32(214, 159, 79, 255), new Color32(249, 197, 143, 255),
                 new Color32(214, 159, 79, 255), new Color32(255, 255, 255, 255), new Color32(150, 150, 150, 255), new Color32(255, 255, 255, 255), new Color32(87, 87, 87, 255),
                 new Color32(255, 255, 255, 255), new Color32(255, 255, 255, 255), new Color32(255, 255, 255, 255), new Color32(100, 70, 36, 255),
                 new Color32(59, 45, 23, 255), new Color32(214, 159, 79, 255), new Color32(249, 197, 143, 255));
+            hitsparkPrefabSandswept = CreateHitsparkRecolor("Sandswept", new Color32(249, 197, 143, 255));
+            muzzleFlashPrefabSandswept = CreateMuzzleFlashRecolor("Sandswept", new Color32(249, 197, 143, 255));
+            muzzleFlashPrefabSandsweptOverdrive = CreateMuzzleFlashRecolor("Sandswept", new Color32(255, 132, 0, 255), true);
+
+            /*
+            ghostPrefabRacecar = CreateGhostRecolor("Racecar", new Color32(0, 255, 248, 255), new Color32(0, 180, 197, 255), new Color32(111, 170, 170, 255));
+            impactPrefabRacecar = CreateImpactRecolor("Racecar", new Color32(34, 34, 34, 255), new Color32(14, 161, 158, 255), new Color32(25, 186, 255, 255),
+                new Color32(0, 211, 238, 255), new Color32(0, 113, 147, 255), new Color32(20, 190, 255, 255), new Color32(0, 214, 255, 255), new Color32(88, 229, 255, 255),
+                new Color32(54, 178, 214, 255), new Color32(243, 211, 65, 255), new Color32(255, 255, 255, 255), new Color32(39, 140, 144, 255), new Color32(49, 166, 180, 255),
+                new Color32(0, 255, 223, 255), new Color32(0, 255, 251, 255), 1.301445f, 0.07936508f);
+            */
+        }
+
+        public static GameObject CreateMuzzleFlashRecolor(string name, Color32 mainColor, bool overdrive = false)
+        {
+            var prefab = PrefabAPI.InstantiateClone(Paths.GameObject.Muzzleflash1, "Muzzle Flash " + name, false);
+
+            prefab.GetOrAddComponent<VFXAttributes>((x) =>
+            {
+                x.DoNotPool = true;
+                x.DoNotCullPool = true;
+            });
+
+            VFXUtils.RecolorMaterialsAndLights(prefab, mainColor, mainColor, true);
+            VFXUtils.MultiplyDuration(prefab, 1.66f);
+
+            var starburst = prefab.transform.Find("Starburst");
+
+            var starburstPSR = starburst.GetComponent<ParticleSystemRenderer>();
+            starburstPSR.material.SetTexture("_MainTex", overdrive ? Paths.Texture2D.texBirdHeartRuinMask : Paths.Texture2D.texBbDecalMask1);
+            starburstPSR.material.SetFloat("_Boost", overdrive ? 5f : 4f);
+            starburstPSR.material.SetFloat("_AlphaBoost", 7.25f);
+            starburstPSR.material.SetFloat("_AlphaBias", 0.22f);
+
+            var starburstPS = starburst.GetComponent<ParticleSystem>();
+
+            var main = starburstPS.main;
+            main.maxParticles = overdrive ? 5 : 3;
+
+            var shape = starburstPS.shape;
+            if (overdrive)
+            {
+                shape.arcMode = ParticleSystemShapeMultiModeValue.Random;
+                shape.radiusMode = ParticleSystemShapeMultiModeValue.Random;
+                shape.meshSpawnMode = ParticleSystemShapeMultiModeValue.Random;
+            }
+
+            for (int i = 0; i < prefab.transform.childCount; i++)
+            {
+                var child = prefab.transform.GetChild(i);
+                child.localPosition = new Vector3(0f, -0.33f, -0.15f);
+                child.localEulerAngles = new Vector3(90f, 0f, 0f);
+                child.localScale *= 1.33f;
+            }
+
+            ContentAddition.AddEffect(prefab);
+
+            return prefab;
+        }
+
+        public static GameObject CreateHitsparkRecolor(string name, Color32 mainColor)
+        {
+            var prefab = PrefabAPI.InstantiateClone(Paths.GameObject.HitsparkCommando, "Direct Current Hitspark " + name, false);
+            prefab.GetOrAddComponent<VFXAttributes>((x) =>
+            {
+                x.DoNotPool = true;
+                x.DoNotCullPool = true;
+            });
+
+            prefab.GetComponent<EffectComponent>().applyScale = true;
+
+            VFXUtils.OdpizdzijPierdoloneGownoKurwaCoZaJebanyKurwaSmiecToKurwaDodalPizdaKurwaJebanaKurwa(prefab);
+            VFXUtils.MultiplyScale(prefab, 1.5f);
+            VFXUtils.MultiplyDuration(prefab, 3f);
+            VFXUtils.RecolorMaterialsAndLights(prefab, mainColor, mainColor, true);
+
+            var hitflash = prefab.transform.Find("Particles/HitFlash").GetComponent<ParticleSystemRenderer>();
+            hitflash.material.SetTexture("_MainTex", Paths.Texture2D.texCrackedGroundImpactMask);
+            hitflash.material.SetFloat("_Boost", 8f);
+            hitflash.material.SetFloat("_AlphaBoost", 6f);
+            hitflash.material.SetFloat("_AlphaBias", 0f);
+
+            var triangleSparks = prefab.transform.Find("Particles/TriangleSparks").GetComponent<ParticleSystemRenderer>();
+            triangleSparks.material.SetInt("_ZTest", 7); // GreaterEqual so that it appears in front of bodies it hits
+
+            ContentAddition.AddEffect(prefab);
+
+            return prefab;
         }
 
         public static GameObject CreateImpactRecolor(string name, Color32 darkGreenEquivalent, Color32 darkBlueEquivalent, Color32 saturatedBlueEquivalent, Color32 brightBlueEquivalent, Color32 desaturatedBlueEquivalent, Color32 saturatedBlueEquivalent2, Color32 saturatedBlueEquivalent3, Color32 saturatedBlueEquivalent4, Color32 saturatedDarkBlueEquivalent, Color32 lavenderEquivalent, Color32 tintColor, Color32 saturatedBlueEquivalent5, Color32 lightAquaEquivalent, Color32 lightGrayEquivalent, Color32 whiteEquivalent, float alphaBoost = 3.39f, float alphaBias = 0f)
