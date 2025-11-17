@@ -81,6 +81,7 @@ namespace Sandswept.Utils
                 var particleSystemStartColor = particleSystemMain.startColor;
                 particleSystemStartColor.mode = ParticleSystemGradientMode.Color;
                 particleSystemStartColor.color = primaryColor;
+                particleSystemMain.startColor = particleSystemStartColor;
 
                 var particleSystemColorOverLifetime = particleSystem.colorOverLifetime;
                 if (particleSystemColorOverLifetime.color.gradient != null && particleSystemColorOverLifetime.color.gradient.colorKeys.Length > 0)

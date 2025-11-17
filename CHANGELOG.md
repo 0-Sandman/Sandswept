@@ -48,6 +48,7 @@
   - Fixed Release shooting from the feet (what kinda freak wrote that???)
   - Fixed Galvanize not having the lightning damage type (for Broken VOL-T)
   - Fixed Exhaust networking
+  - Fixed Recolored Pods being assigned to the wrong skins
 - Items/Equipment
   - Buffed Ceremonial Jar Base Damage from 1500% to 2000%
   - Buffed Ceremonial Jar Stack Damage from 1500% to 2000%

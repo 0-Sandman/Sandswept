@@ -52,10 +52,10 @@ namespace Sandswept.Survivors.Ranger.Pod
 
                         body.preferredPodPrefab = loadoutSkinIndex switch
                         {
-                            1 => prefabMajor,
-                            2 => prefabRenegade,
-                            3 => prefabMileZero,
-                            4 => prefabSandswept,
+                            1 => prefabSandswept,
+                            2 => prefabMajor,
+                            3 => prefabRenegade,
+                            4 => prefabMileZero,
                             _ => prefabDefault
                         };
 

@@ -59,8 +59,8 @@ namespace Sandswept.Survivors.Ranger.VFX
                 new Color32(112, 54, 214, 255), new Color32(95, 65, 243, 255), new Color32(255, 255, 255, 255), new Color32(96, 71, 255, 255),
                 new Color32(49, 105, 180, 255), new Color32(193, 67, 184, 255), new Color32(108, 0, 255, 255));
             hitsparkPrefabMajor = CreateHitsparkRecolor("Major", new Color32(43, 94, 134, 255));
-            muzzleFlashPrefabMajor = CreateMuzzleFlashRecolor("Major", new Color32(43, 94, 134, 255));
-            muzzleFlashPrefabMajorOverdrive = CreateMuzzleFlashRecolor("Major", new Color32(22, 28, 56, 255), true);
+            muzzleFlashPrefabMajor = CreateMuzzleFlashRecolor("Major", new Color32(48, 0, 255, 255));
+            muzzleFlashPrefabMajorOverdrive = CreateMuzzleFlashRecolor("Major", new Color32(0, 24, 255, 255), true);
 
             ghostPrefabRenegade = CreateGhostRecolor("Renegade", new Color32(219, 51, 232, 255), new Color32(187, 0, 197, 255), new Color32(217, 20, 98, 255));
             impactPrefabRenegade = CreateImpactRecolor("Renegade", new Color32(34, 34, 34, 255), new Color32(161, 14, 81, 255), new Color32(255, 25, 144, 255),
@@ -69,7 +69,7 @@ namespace Sandswept.Survivors.Ranger.VFX
                 new Color32(150, 49, 180, 255), new Color32(234, 44, 85, 255), new Color32(255, 0, 38, 255), 0.9672766f, 0.1169591f);
             hitsparkPrefabRenegade = CreateHitsparkRecolor("Renegade", new Color32(219, 51, 232, 255));
             muzzleFlashPrefabRenegade = CreateMuzzleFlashRecolor("Renegade", new Color32(219, 51, 232, 255));
-            muzzleFlashPrefabRenegadeOverdrive = CreateMuzzleFlashRecolor("Renegade", new Color32(144, 25, 68, 255), true);
+            muzzleFlashPrefabRenegadeOverdrive = CreateMuzzleFlashRecolor("Renegade", new Color32(255, 17, 174, 255), true);
 
             ghostPrefabMileZero = CreateGhostRecolor("Mile Zero", new Color32(255, 0, 50, 255), new Color32(197, 0, 13, 255), new Color32(217, 21, 20, 255));
             impactPrefabMileZero = CreateImpactRecolor("Mile Zero", new Color32(34, 34, 34, 255), new Color32(167, 0, 0, 255), new Color32(255, 0, 3, 255),
@@ -78,7 +78,7 @@ namespace Sandswept.Survivors.Ranger.VFX
                 new Color32(181, 25, 29, 255), new Color32(170, 5, 2, 255), new Color32(255, 0, 0, 255), 2.639934f, 0.1044277f);
             hitsparkPrefabMileZero = CreateHitsparkRecolor("Mile Zero", new Color32(255, 0, 13, 255));
             muzzleFlashPrefabMileZero = CreateMuzzleFlashRecolor("Mile Zero", new Color32(255, 0, 13, 255));
-            muzzleFlashPrefabMileZeroOverdrive = CreateMuzzleFlashRecolor("Mile Zero", new Color32(64, 0, 0, 255), true);
+            muzzleFlashPrefabMileZeroOverdrive = CreateMuzzleFlashRecolor("Mile Zero", new Color32(21, 0, 0, 255), true);
 
             ghostPrefabSandswept = CreateGhostRecolor("Sandswept", new Color32(249, 197, 143, 255), new Color32(214, 159, 79, 255), new Color32(87, 87, 87, 255));
             impactPrefabSandswept = CreateImpactRecolor("Sandswept", new Color32(34, 34, 34, 255), new Color32(214, 159, 79, 255), new Color32(249, 197, 143, 255),
@@ -87,7 +87,7 @@ namespace Sandswept.Survivors.Ranger.VFX
                 new Color32(59, 45, 23, 255), new Color32(214, 159, 79, 255), new Color32(249, 197, 143, 255));
             hitsparkPrefabSandswept = CreateHitsparkRecolor("Sandswept", new Color32(249, 197, 143, 255));
             muzzleFlashPrefabSandswept = CreateMuzzleFlashRecolor("Sandswept", new Color32(249, 197, 143, 255));
-            muzzleFlashPrefabSandsweptOverdrive = CreateMuzzleFlashRecolor("Sandswept", new Color32(255, 132, 0, 255), true);
+            muzzleFlashPrefabSandsweptOverdrive = CreateMuzzleFlashRecolor("Sandswept", new Color32(255, 181, 66, 255), true);
 
             /*
             ghostPrefabRacecar = CreateGhostRecolor("Racecar", new Color32(0, 255, 248, 255), new Color32(0, 180, 197, 255), new Color32(111, 170, 170, 255));
@@ -100,7 +100,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
         public static GameObject CreateMuzzleFlashRecolor(string name, Color32 mainColor, bool overdrive = false)
         {
-            var prefab = PrefabAPI.InstantiateClone(Paths.GameObject.Muzzleflash1, "Muzzle Flash " + name, false);
+            var prefab = PrefabAPI.InstantiateClone(Paths.GameObject.Muzzleflash1, "Muzzle Flash " + name + (overdrive ? " Overdrive" : ""), false);
 
             prefab.GetOrAddComponent<VFXAttributes>((x) =>
             {
@@ -122,7 +122,7 @@ namespace Sandswept.Survivors.Ranger.VFX
             var starburstPS = starburst.GetComponent<ParticleSystem>();
 
             var main = starburstPS.main;
-            main.maxParticles = overdrive ? 5 : 3;
+            main.maxParticles = overdrive ? 6 : 4;
 
             var shape = starburstPS.shape;
             if (overdrive)
@@ -139,6 +139,8 @@ namespace Sandswept.Survivors.Ranger.VFX
                 child.localEulerAngles = new Vector3(90f, 0f, 0f);
                 child.localScale *= 1.33f;
             }
+
+            prefab.transform.Find("Point light").GetComponent<Light>().range = 7f;
 
             ContentAddition.AddEffect(prefab);
 
@@ -436,7 +438,12 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             trail.material = newTrailMat;
 
-            ghost.AddComponent<DetachTrailOnDestroy>().targetTrailRenderers = new TrailRenderer[] { trail };
+            ghost.AddComponent<DetachTrailOnDestroy>().targetTrailRenderers = [trail];
+
+            var onSpawnPopParticle = particles.Find("OnSpawnPopParticle").gameObject;
+            VFXUtils.RecolorMaterialsAndLights(onSpawnPopParticle, mutedAquaEquivalent, mutedAquaEquivalent, true);
+            VFXUtils.MultiplyDuration(onSpawnPopParticle, 1.4f);
+            VFXUtils.MultiplyScale(onSpawnPopParticle, 1.25f);
 
             return ghost;
         }
