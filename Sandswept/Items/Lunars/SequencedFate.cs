@@ -77,7 +77,7 @@ namespace Sandswept.Items.Lunars
             Run.onRunDestroyGlobal += OnRunEnd;
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
             On.RoR2.ShrineRestackBehavior.AddShrineStack += ShrineRestackBehavior_AddShrineStack;
-            IL.RoR2.Inventory.ShrineRestackInventory += Inventory_ShrineRestackInventory;
+            // IL.RoR2.Inventory.ShrineRestackInventory += Inventory_ShrineRestackInventory;
             On.RoR2.ClassicStageInfo.RebuildCards += ClassicStageInfo_RebuildCards;
         }
 
