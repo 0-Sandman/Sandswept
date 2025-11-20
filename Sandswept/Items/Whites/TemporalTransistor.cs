@@ -1,8 +1,5 @@
 ﻿using LookingGlass.ItemStatsNameSpace;
-using MoreStats;
 using RoR2.Orbs;
-using System.Reflection;
-using static MoreStats.StatHooks;
 
 namespace Sandswept.Items.Whites
 {
@@ -39,7 +36,7 @@ namespace Sandswept.Items.Whites
 
         "What?"
         """;
-        
+
         public override string AchievementName => "An Epilogue of Life";
 
         public override string AchievementDesc => "Complete a Shrine of The Future without jumping.";

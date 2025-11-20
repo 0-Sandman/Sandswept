@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using UnityEngine.Events;
 using static Rewired.UI.ControlMapper.ControlMapper;
+using static RoR2.CostTypeDef;
 
 namespace Sandswept.Interactables.Regular
 {
@@ -70,16 +71,16 @@ namespace Sandswept.Interactables.Regular
                     return true;
                 },
 
-                payCost = delegate (CostTypeDef def, CostTypeDef.PayCostContext c)
+                payCost = delegate (PayCostContext payCostContext, PayCostResults payCostResults)
                 {
-                    if (c.activatorBody)
+                    if (payCostContext.activatorBody)
                     {
-                        int count = c.activatorBody.GetBuffCount(RoR2Content.Buffs.PermanentCurse);
-                        c.activatorBody.SetBuffCount(RoR2Content.Buffs.PermanentCurse.buffIndex, count + curseCost);
+                        int count = payCostContext.activatorBody.GetBuffCount(RoR2Content.Buffs.PermanentCurse);
+                        payCostContext.activatorBody.SetBuffCount(RoR2Content.Buffs.PermanentCurse.buffIndex, count + curseCost);
 
                         Chat.SendBroadcastChat(new Chat.SubjectFormatChatMessage
                         {
-                            subjectAsCharacterBody = c.activatorBody,
+                            subjectAsCharacterBody = payCostContext.activatorBody,
                             baseToken = "SANDSWEPT_SHRINE_SACRIFICE_USE_MESSAGE",
                         });
                     }

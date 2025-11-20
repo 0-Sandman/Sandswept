@@ -1,4 +1,6 @@
 ## 1.3.2 Patch Notes
+- General
+  - Updated for AC patch
 - VOL-T
   - Added SkinFlavorText Support
   - <details>
