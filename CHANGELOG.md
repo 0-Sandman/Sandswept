@@ -39,7 +39,7 @@
   - Made Char reduce 50% of CURRENT heat, instead of a flat amount of heat
   - Made Char damage based on heat uncapped, scaling at per % heat spent
     - Galvanize and Char will get a rework
-  - Made Heat Signature increase dash distance based on heat, scaling at +17% distance per 20% heat
+  - Made Heat Signature increase dash distance based on heat, scaling at +17% distance per 40% heat
   - Made Heat Signature add 40% heat when used
   - Made Heat Sink Damage based on heat uncapped, scaling at +150% per 25% heat
     - Heat Sink will get a rework

@@ -166,7 +166,8 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 
                 EffectManager.SimpleMuzzleFlash(muzzleFlash, gameObject, "Muzzle", transmit: true);
 
-                characterMotor?.ApplyForce(-2000f * aimDirection, false, false);
+                characterMotor?.ApplyForce(-750f * aimDirection, false, false);
+                // sowwy
             }
 
             canExitState = true;
