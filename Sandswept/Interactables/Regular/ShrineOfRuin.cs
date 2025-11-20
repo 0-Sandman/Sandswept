@@ -12,6 +12,7 @@ using System.Runtime.Serialization;
 using ThreeEyedGames;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
+using static RoR2.CostTypeDef;
 
 namespace Sandswept.Interactables.Regular
 {
@@ -164,7 +165,7 @@ namespace Sandswept.Interactables.Regular
 
             def = new()
             {
-                buildCostString = delegate (CostTypeDef def, CostTypeDef.BuildCostStringContext c)
+                buildCostString = delegate (CostTypeDef def, BuildCostStringContext c)
                 {
                     c.stringBuilder.Append(whiteItemCost + " Common Items");
                 },
@@ -184,7 +185,7 @@ namespace Sandswept.Interactables.Regular
                     return false;
                 },
 
-                payCost = delegate (CostTypeDef def, CostTypeDef.PayCostContext c)
+                payCost = delegate (PayCostContext context, PayCostResults results)
                 {
                 },
                 colorIndex = ColorCatalog.ColorIndex.Tier1Item
@@ -296,10 +297,21 @@ namespace Sandswept.Interactables.Regular
             On.RoR2.SceneExitController.Begin += SetNextSceneToSimulacrum;
             On.RoR2.Run.PickNextStageSceneFromCurrentSceneDestinations += HandleSceneAndCache;
             On.RoR2.SceneDirector.Start += Gyatttttt;
-            On.RoR2.BasicPickupDropTable.GenerateDropPreReplacement += OnGenerateDrop;
+            On.RoR2.BasicPickupDropTable.GeneratePickupPreReplacement += OnGeneratePickup;
             On.RoR2.Run.Start += ResetShrineOfRuin;
 
             PostInit();
+        }
+
+        private UniquePickup OnGeneratePickup(On.RoR2.BasicPickupDropTable.orig_GeneratePickupPreReplacement orig, BasicPickupDropTable self, Xoroshiro128Plus rng)
+        {
+            if (shouldReplaceDrops && self.bossWeight == 0f && self.equipmentWeight < 1f)
+            {
+                VoidedPickupTable table = new(self, rng);
+                return table.GenerateDrop();
+            }
+
+            return orig(self, rng);
         }
 
         private void ResetShrineOfRuin(On.RoR2.Run.orig_Start orig, Run self)
@@ -316,17 +328,6 @@ namespace Sandswept.Interactables.Regular
             teleporterLanguageOverlays.Clear();
 
             Language.SetCurrentLanguage(Language.currentLanguageName);
-        }
-
-        private PickupIndex OnGenerateDrop(On.RoR2.BasicPickupDropTable.orig_GenerateDropPreReplacement orig, BasicPickupDropTable self, Xoroshiro128Plus rng)
-        {
-            if (shouldReplaceDrops && self.bossWeight == 0f && self.equipmentWeight < 1f)
-            {
-                VoidedPickupTable table = new(self, rng);
-                return table.GenerateDrop();
-            }
-
-            return orig(self, rng);
         }
 
         [ConCommand(commandName = "sandswept_add_ruin_stack", helpText = "Forcefully triggers Shrine of Ruin effect.", flags = ConVarFlags.SenderMustBeServer)]
@@ -508,9 +509,15 @@ namespace Sandswept.Interactables.Regular
                 this.rng = rng;
             }
 
-            public PickupIndex GenerateDrop()
+            public UniquePickup GenerateDrop()
             {
-                return TierSelection.Evaluate(rng.nextNormalizedFloat);
+                var pickupIndex = TierSelection.Evaluate(rng.nextNormalizedFloat);
+                return new UniquePickup()
+                {
+                    pickupIndex = pickupIndex,
+                    decayValue = 0f,
+                    upgradeValue = 0
+                };
             }
 
             public ItemTierDef GetTierForSelection(List<PickupIndex> selection)

@@ -8,15 +8,15 @@ namespace Sandswept.Unlocks
         public override void OnInstall()
         {
             base.OnInstall();
-            On.RoR2.ScrapperController.BeginScrapping += ScrapperController_BeginScrapping;
+            On.RoR2.ScrapperController.BeginScrapping_UniquePickup += OnScrap;
         }
 
-        private void ScrapperController_BeginScrapping(On.RoR2.ScrapperController.orig_BeginScrapping orig, ScrapperController self, int intPickupIndex)
+        private void OnScrap(On.RoR2.ScrapperController.orig_BeginScrapping_UniquePickup orig, ScrapperController self, UniquePickup pickupToTake)
         {
-            orig(self, intPickupIndex);
+            orig(self, pickupToTake);
             PickupIndex planula = PickupCatalog.FindPickupIndex(RoR2Content.Items.ParentEgg.itemIndex);
 
-            if (new PickupIndex(intPickupIndex) == planula)
+            if (pickupToTake.pickupIndex == planula)
             {
                 Grant();
             }
@@ -25,7 +25,7 @@ namespace Sandswept.Unlocks
         public override void OnUninstall()
         {
             base.OnUninstall();
-            On.RoR2.ScrapperController.BeginScrapping -= ScrapperController_BeginScrapping;
+            On.RoR2.ScrapperController.BeginScrapping_UniquePickup -= OnScrap;
         }
     }
 }
