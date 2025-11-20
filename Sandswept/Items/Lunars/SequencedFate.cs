@@ -194,6 +194,7 @@ namespace Sandswept.Items.Lunars
             c.EmitDelegate<Func<ItemDef, bool>>((x) => { return x == ItemDef; });
             c.Emit(OpCodes.Brtrue, sigma);
         }
+        // hell
 
         private void ShrineRestackBehavior_AddShrineStack(On.RoR2.ShrineRestackBehavior.orig_AddShrineStack orig, ShrineRestackBehavior self, Interactor interactor)
         {
