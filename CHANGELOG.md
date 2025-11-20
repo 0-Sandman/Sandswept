@@ -57,6 +57,9 @@
   - Buffed Ceremonial Proc Coefficient from 0.33 to 1
   - Buffed Glacial Plasma to also count Shock
   - Buffed Festering Hunger Movement Speed Buff Duration from 2s to 3s
+  - Buffed Amber Knife Base Damage from 150% to 180%
+  - Buffed Amber Knife Stack Damage from 150% to 180%
+  - Nerfed Amber Knife Chance from 15% to 12%
   - Nerfed Makeshift Plate Base Percent Plating Gain from 200% to 150%
   - Nerfed Makeshift Plate Stack Percent Plating Gain from 200% to 150%
   - Nerfed Glacial Plasma Stunned Enemy Freeze Chance from 8% to 6%

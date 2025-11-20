@@ -68,7 +68,7 @@ namespace Sandswept.Items.Greens
             On.RoR2.CharacterBody.Start += OnBodySpawn;
             On.RoR2.HealthComponent.TakeDamage += TakeDamage;
             IL.RoR2.UI.HealthBar.ApplyBars += UpdatePlatingUI;
-            IL.RoR2.UI.HealthBar.UpdateHealthbar += UpdateHealthBar;
+            // IL.RoR2.UI.HealthBar.UpdateHealthbar += UpdateHealthBar;
             On.RoR2.Inventory.GiveItem_ItemIndex_int += GiveItem;
             On.RoR2.CharacterBody.OnInventoryChanged += OnInventoryChanged;
         }
