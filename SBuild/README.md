@@ -64,5 +64,13 @@
 <br>
 <img src="https://i.postimg.cc/FKfyBPPS/megarex.png"/>
 <br>
+<img src="https://i.postimg.cc/LXD1y01N/image.png"/>
+<br>
+<img src="https://i.postimg.cc/d3XDpMtn/image.png"/>
+<br>
+<img src="https://i.ibb.co/zH6yFzRp/image.png"/>
+<br>
+<img src="https://i.ibb.co/V0znKJLY/image.png"/>
+<br>
 
 </details>

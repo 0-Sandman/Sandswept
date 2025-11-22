@@ -68,9 +68,22 @@ namespace Sandswept.Items.Greens
             On.RoR2.CharacterBody.Start += OnBodySpawn;
             On.RoR2.HealthComponent.TakeDamage += TakeDamage;
             IL.RoR2.UI.HealthBar.ApplyBars += UpdatePlatingUI;
-            // IL.RoR2.UI.HealthBar.UpdateHealthbar += UpdateHealthBar;
-            On.RoR2.Inventory.GiveItem_ItemIndex_int += GiveItem;
+            IL.RoR2.UI.HealthBar.UpdateHealthbar += UpdateHealthBar;
+            On.RoR2.Inventory.GiveItemTemp += GiveItem;
+            On.RoR2.Inventory.GiveItemPermanent_ItemIndex_int += GiveItemPermanent;
             On.RoR2.CharacterBody.OnInventoryChanged += OnInventoryChanged;
+        }
+
+        private void GiveItem(On.RoR2.Inventory.orig_GiveItemTemp orig, Inventory self, ItemIndex itemIndex, float countToAdd)
+        {
+            orig(self, itemIndex, countToAdd);
+            HandleItemGain(self, itemIndex, Mathf.CeilToInt(countToAdd));
+        }
+
+        private void GiveItemPermanent(On.RoR2.Inventory.orig_GiveItemPermanent_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int countToAdd)
+        {
+            orig(self, itemIndex, countToAdd);
+            HandleItemGain(self, itemIndex, countToAdd);
         }
 
         private void OnInventoryChanged(On.RoR2.CharacterBody.orig_OnInventoryChanged orig, CharacterBody self)
@@ -83,10 +96,7 @@ namespace Sandswept.Items.Greens
             }
         }
 
-        private void GiveItem(On.RoR2.Inventory.orig_GiveItem_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int count)
-        {
-            orig(self, itemIndex, count);
-
+        private void HandleItemGain(Inventory self, ItemIndex itemIndex, int count) {
             if (itemIndex == ItemDef.itemIndex && self.TryGetComponent<CharacterMaster>(out CharacterMaster cm) && cm.bodyInstanceObject)
             {
                 PlatingManager manager = cm.bodyInstanceObject.GetComponent<PlatingManager>();
@@ -156,9 +166,6 @@ namespace Sandswept.Items.Greens
             c.TryGotoNext(MoveType.After,
                 x => x.MatchLdarg(0),
                 x => x.MatchLdloc(4),
-                x => x.MatchStfld(out _),
-                x => x.MatchLdarg(0),
-                x => x.MatchLdloc(3),
                 x => x.MatchStfld(out cur)
             );
 
