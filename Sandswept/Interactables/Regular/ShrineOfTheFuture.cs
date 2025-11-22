@@ -76,7 +76,7 @@ namespace Sandswept.Interactables.Regular
             mdl.AddComponent<ChildLocator>().transformPairs = new ChildLocator.NameTransformPair[] { new() { name = "FireworkOrigin", transform = prefab.transform.Find("Symbol") } };
 
             var areYouFuckingKiddingMe = mdl.GetComponent<MeshRenderer>();
-            areYouFuckingKiddingMe.material.shader = Paths.Shader.HGStandard;
+            areYouFuckingKiddingMe.material.shader = Paths.Shader.HopooGamesDeferredStandard;
 
             var from = modelBase.Find("mdlShrineCombat").GetComponent<BoxCollider>();
             var to = mdl.AddComponent<BoxCollider>();
@@ -86,7 +86,7 @@ namespace Sandswept.Interactables.Regular
 
             var stemMeshRenderer = stem.GetComponent<MeshRenderer>();
             var mat = stemMeshRenderer.material;
-            mat.shader = Paths.Shader.HGStandard;
+            mat.shader = Paths.Shader.HopooGamesDeferredStandard;
             mat.SetColor("_TintColor", Color.white);
             mat.SetColor("_EmColor", new Color32(15, 19, 38, 255));
             mat.SetTexture("_NormalTex", Paths.Texture2D.texNormalBumpyRock);

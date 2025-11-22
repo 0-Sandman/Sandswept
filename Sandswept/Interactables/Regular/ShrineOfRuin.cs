@@ -212,10 +212,10 @@ namespace Sandswept.Interactables.Regular
             mdl.AddComponent<EntityLocator>().entity = prefab;
             mdl.AddComponent<ChildLocator>().transformPairs = new ChildLocator.NameTransformPair[] { new() { name = "FireworkOrigin", transform = prefab.transform.Find("Symbol") } };
             var areYouFuckingKiddingMe = mdl.GetComponent<MeshRenderer>();
-            areYouFuckingKiddingMe.material.shader = Paths.Shader.HGStandard;
+            areYouFuckingKiddingMe.material.shader = Paths.Shader.HopooGamesDeferredStandard;
             var areYouFuckingKiddngMe2 = mdl.transform.Find("shrineRuinInner");
             var mat = areYouFuckingKiddngMe2.GetComponent<MeshRenderer>().material;
-            mat.shader = Paths.Shader.HGStandard;
+            mat.shader = Paths.Shader.HopooGamesDeferredStandard;
             mat.SetColor("_Color", new Color32(255, 0, 173, 255));
             mat.SetFloat("_EmPower", 5f);
 

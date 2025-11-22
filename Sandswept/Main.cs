@@ -455,7 +455,7 @@ namespace Sandswept
                 switch (val.shader.name)
                 {
                     case "Hopoo Games/FX/Cloud Remap":
-                        val.shader = Utils.Assets.Shader.HGCloudRemap;
+                        val.shader = Utils.Assets.Shader.HopooGamesFXCloudRemap;
                         break;
 
                     case "Stubbed Hopoo Games/Deferred/Standard":
@@ -463,7 +463,7 @@ namespace Sandswept
                         break;
 
                     case "StubbedShader/deferred/hgstandard":
-                        val.shader = Utils.Assets.Shader.HGStandard;
+                        val.shader = Utils.Assets.Shader.HopooGamesDeferredStandard;
                         break;
 
                     case "StubbedShader/fx/hgintersectioncloudremap":
@@ -503,7 +503,7 @@ namespace Sandswept
                         break;
 
                     case "StubbedRoR2/Base/Shaders/HGCloudRemap":
-                        val.shader = Utils.Assets.Shader.HGCloudRemap;
+                        val.shader = Utils.Assets.Shader.HopooGamesFXCloudRemap;
                         break;
 
                     case "StubbedRoR2/Base/Shaders/HGIntersectionCloudRemap":
