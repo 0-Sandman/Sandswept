@@ -24,7 +24,7 @@ namespace Sandswept.Survivors.Ranger
 
         public bool isInFullHeat = false;
 
-        public float selfDamageAtMax = 0.04f;
+        public float selfDamageAtMax = 0.033f;
         public float selfDamageInterval = 0.25f;
         public float selfDamageTimer;
 
@@ -315,11 +315,11 @@ namespace Sandswept.Survivors.Ranger
 
                 lowHeatColor = skinNameToken switch
                 {
-                    "RANGER_SKIN_MAJOR_NAME" => new Color32(0, 130, 224, 255),
-                    "RANGER_SKIN_RENEGADE_NAME" => new Color32(244, 95, 197, 255),
-                    "RANGER_SKIN_MILEZERO_NAME" => new Color32(153, 0, 23, 255),
-                    "RANGER_SKIN_SANDSWEPT_NAME" => new Color32(214, 159, 79, 255),
-                    _ => new Color32(255, 200, 0, 255),
+                    "RANGER_SKIN_MAJOR_NAME" => new Color32(0, 130, 224, 200),
+                    "RANGER_SKIN_RENEGADE_NAME" => new Color32(244, 95, 197, 200),
+                    "RANGER_SKIN_MILEZERO_NAME" => new Color32(153, 0, 23, 200),
+                    "RANGER_SKIN_SANDSWEPT_NAME" => new Color32(214, 159, 79, 200),
+                    _ => new Color32(255, 200, 0, 200),
                 };
                 inHeatColor = skinNameToken switch
                 {

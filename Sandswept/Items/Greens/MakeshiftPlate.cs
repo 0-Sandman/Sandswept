@@ -38,7 +38,7 @@ namespace Sandswept.Items.Greens
         Shipping Address: 707th Penthouse Suite, Earth
         Shipping Details:
 
-        A real, genuine plate of armor from the War of 2019, Somehow managed to survive what looks like gunshots, bombing runs, laser tech, and all sorts of other things. This thing would be a fine centerpiece to a collection I'd reckon. You paid a hefty price for this thing, hope it's worth it!
+        A real, genuine plate of armor from the War of 2019. Somehow managed to survive what looks like gunshots, bombing runs, laser tech, and all sorts of other things. This thing would be a fine centerpiece to a collection I'd reckon. You paid a hefty price for this thing, hope it's worth it!
         """;
 
         public override ItemTier Tier => ItemTier.Tier2;
@@ -68,7 +68,7 @@ namespace Sandswept.Items.Greens
             On.RoR2.CharacterBody.Start += OnBodySpawn;
             On.RoR2.HealthComponent.TakeDamage += TakeDamage;
             IL.RoR2.UI.HealthBar.ApplyBars += UpdatePlatingUI;
-            IL.RoR2.UI.HealthBar.UpdateHealthbar += UpdateHealthBar;
+            // IL.RoR2.UI.HealthBar.UpdateHealthbar += UpdateHealthBar;
             On.RoR2.Inventory.GiveItem_ItemIndex_int += GiveItem;
             On.RoR2.CharacterBody.OnInventoryChanged += OnInventoryChanged;
         }

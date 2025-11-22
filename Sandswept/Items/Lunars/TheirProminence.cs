@@ -40,7 +40,7 @@ namespace Sandswept.Items.Lunars
         [ConfigField("Count stacks as global?", "This makes everyone able to proc Their Prominence if any player has it, and stacks add to a global counter instead.", true)]
         public static bool countStacksAsGlobal;
 
-        public static int itemCount;
+        public static int itemCount = 0;
 
         public static GameObject vfx;
 
@@ -63,7 +63,7 @@ namespace Sandswept.Items.Lunars
             {
                 List<float> values = new()
                 {
-                    MathHelpers.InverseHyperbolicScaling(baseChance, stackChance, 1f, stack)
+                    MathHelpers.InverseHyperbolicScaling(baseChance, stackChance, 1f, countStacksAsGlobal ? itemCount : stack)
                 };
 
                 return values;
@@ -200,7 +200,7 @@ namespace Sandswept.Items.Lunars
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
-            
+
             var itemDisplay = SetUpFollowerIDRS(0.5f, 120f);
 
             return new ItemDisplayRuleDict(new ItemDisplayRule()

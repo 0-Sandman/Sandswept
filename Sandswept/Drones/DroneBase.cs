@@ -23,7 +23,6 @@ namespace Sandswept.Drones
         public abstract GameObject DroneBody { get; }
         public abstract GameObject DroneMaster { get; }
         public abstract Dictionary<string, string> Tokens { get; }
-        public abstract string ConfigName { get; }
 
         public abstract GameObject DroneBroken { get; }
         public abstract int Weight { get; }

@@ -54,13 +54,13 @@ namespace Sandswept.Items.Whites
         public override float modelPanelParametersMinDistance => 4f;
         public override float modelPanelParametersMaxDistance => 12f;
 
-        [ConfigField("Chance", "", 15f)]
+        [ConfigField("Chance", "", 12f)]
         public static float chance;
 
-        [ConfigField("Base Damage", "Decimal.", 1.5f)]
+        [ConfigField("Base Damage", "Decimal.", 1.8f)]
         public static float baseDamage;
 
-        [ConfigField("Stack Damage", "Decimal.", 1.5f)]
+        [ConfigField("Stack Damage", "Decimal.", 1.8f)]
         public static float stackDamage;
 
         [ConfigField("Proc Coefficient", "", 1f)]
@@ -313,7 +313,6 @@ namespace Sandswept.Items.Whites
                 }
 
             );
-            */
 
             i.Add("ElectricianBody",
 
@@ -331,6 +330,7 @@ namespace Sandswept.Items.Whites
                 }
 
             );
+            */
 
             #endregion
 

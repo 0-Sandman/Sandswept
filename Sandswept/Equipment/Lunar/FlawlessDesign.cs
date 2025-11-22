@@ -28,7 +28,7 @@ namespace Sandswept.Equipment.Lunar
         """
         This was her final design. The ultimatum of her training. Design itself, at a cost -- a fitting end to her work. That the end should be now, however, is an irreparable misdoing.
 
-        They all thirsted for my knowledge, forbidden to them by you, when they came to me. Yet her thirst was not merely of the mind, but of the soul you so treasure. While the rest drowned in the gifts of my wisdom, she weathered the tides, and emerged a master of design and construction. No others could match her. NO OTHERS.
+        They all thirsted for my knowledge, forbidden to them by you, when they came to me. Yet her thirst was not merely of the mind, but of the soul you so treasure. While the other vultures drowned in the gifts of my wisdom, she weathered the tides, and emerged a master of design and construction. No others could match her. NO OTHERS.
 
         She was a more competent designer than you, and a better constructor than me. A vermin, weaving the compounds according to her own designs. Such a miracle deserves the preservation you dole out so freely to the most pathetic and useless creatures you can find.
 
@@ -43,7 +43,6 @@ namespace Sandswept.Equipment.Lunar
         This has made your intentions clearer to me than pure soul. I will carry out the ploy as I, as WE, designed it. I see it as her last wish, to complete her life's work; to take your beloved pets into my thrall, and with them, destroy you.
 
         In that moment, you may ask for my forgiveness, but I will not grant it. Such is a grace given only by brothers.
-
         """;
         public override GameObject EquipmentModel => Main.sandsweptHIFU.LoadAsset<GameObject>("FlawlessDesignHolder.prefab");
         public override bool IsLunar => true;

@@ -51,6 +51,7 @@
         public static BuffDef cooldownBuff;
 
         public static GameObject vfx;
+        public static Material bleedingMat;
 
         public override void Init()
         {
@@ -104,7 +105,19 @@
             var lightIntensityCurve = pointLight.GetComponent<LightIntensityCurve>();
             lightIntensityCurve.timeMax = 0.5f;
 
+            VFXUtils.MultiplyDuration(vfx, 1.5f);
+
             ContentAddition.AddEffect(vfx);
+
+            bleedingMat = new Material(Paths.Material.matBlighted);
+            bleedingMat.SetColor("_TintColor", new Color32(193, 2, 0, 209));
+            bleedingMat.SetTexture("_MainTex", null);
+            bleedingMat.SetTexture("_RemapTex", Paths.Texture2D.texRampAncientWisp);
+            bleedingMat.SetFloat("_Boost", 1f);
+            bleedingMat.SetFloat("_AlphaBoost", 7.711387f);
+            bleedingMat.SetFloat("_AlphaBias", 1f);
+            bleedingMat.SetFloat("_FresnelPower", 0.4284072f);
+            bleedingMat.name = "matBleeding";
         }
 
         public override void Hooks()
@@ -167,6 +180,22 @@
                             Util.PlaySound("Play_vulture_death_land_thud", attacker);
 
                             EffectManager.SpawnEffect(vfx, new EffectData() { origin = victimBody.corePosition, rotation = Quaternion.identity }, true);
+
+                            var modelLocator = victimBody.modelLocator;
+                            if (modelLocator)
+                            {
+                                var modelTransform = modelLocator.modelTransform;
+                                if (modelTransform)
+                                {
+                                    var temporaryOverlay = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
+                                    temporaryOverlay.duration = 3f;
+                                    temporaryOverlay.animateShaderAlpha = true;
+                                    temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                                    temporaryOverlay.destroyComponentOnEnd = true;
+                                    temporaryOverlay.originalMaterial = bleedingMat;
+                                    temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
+                                }
+                            }
                         }
                     }
                 }

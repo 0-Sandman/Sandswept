@@ -13,6 +13,7 @@ using RoR2.Stats;
 
 namespace Sandswept.Survivors.Electrician
 {
+    [ConfigSection("Survivors :: VOL-T")]
     public class Electrician : SurvivorBase<Electrician>
     {
         public override string Name => "VOL-T";
@@ -89,7 +90,7 @@ namespace Sandswept.Survivors.Electrician
             var kcm = Body.GetComponent<KinematicCharacterController.KinematicCharacterMotor>();
             kcm.playerCharacter = true;
 
-            if (Ranger.Ranger.instance != null)
+            if (DefaultEnabledCallback(Ranger.Ranger.instance))
             {
                 SurvivorDef.desiredSortPosition = Ranger.Ranger.instance.SurvivorDef.desiredSortPosition + Mathf.Epsilon;
             }

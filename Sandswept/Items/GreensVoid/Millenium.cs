@@ -20,7 +20,7 @@ namespace Sandswept.Items.VoidGreens
         """
         Transcript from the last known log of the UES "Shimmer Mark"
 
-        "Outside, it's so... so purple, that's the only way I can explain it, I can feel the fog from inside the ship... it's... It would be quite peaceful if I even knew where I was. It's making a cool breeze in the ship, like a nice summer's day at the beach... But, but it also hurts somehow... Not physically at least. Something inside of me just can't... take it. It's a searing pain, except not. My body feels like it should be on fire but... it's just a cool breeze... I've been wandering the ship recently, it's not the same ship. It's not. The same. Ship. The halls go on forever, twisting and turning l?ike a maze. Every time I turn around the halls change again and again, over and over again, left turns right forward goes backward. It's ma?ddenin?g. I was barely able to find the br?idge to record this. My body feels like its fa?lling constantly, wind brushing past my suit, I can tell the win?d is real, but I'm not falling. The wind, whist?ling into my e?ars, I can't think s?traig?ht with this n?oise, it's almost like a v?oi?ce. ?I can so?met?imes hear the? wind [WH?ISPE?RIN?G}, Whis?perin?g a tongue ?I dont kn?ow, but I st?ill un?derstand. Th?is [HEL?L] Is mad?denin?g. B?ut I must g?o dee?per. Ro?ckete?er of the [~2@#!@($*&%] signing off"
+        "Outside, it's so...so purple, that's the only way I can explain it, I can feel the fog from inside the ship...it's...It would be quite peaceful if I even knew where I was. It's making a cool breeze in the ship, like a nice summer's day at the beach...But, but it also hurts somehow...Not physically at least. Something inside of me just can't...take it. It's a searing pain, except not. My body feels like it should be on fire but...it's just a cool breeze...I've been wandering the ship recently, it's not the same ship. It's not. The same. Ship. The halls go on forever, twisting and turning l?ike a maze. Every time I turn around the halls change again and again, over and over again, left turns right forward goes backward. It's ma?ddenin?g. I was barely able to find the br?idge to record this. My body feels like its fa?lling constantly, wind brushing past my suit, I can tell the win?d is real, but I'm not falling. The wind, whist?ling into my e?ars, I can't think s?traig?ht with this n?oise, it's almost like a v?oi?ce. ?I can so?met?imes hear the? wind [WH?ISPE?RIN?G}, Whis?perin?g a tongue ?I dont kn?ow, but I st?ill un?derstand. Th?is [HEL?L] Is mad?denin?g. B?ut I must g?o dee?per. Ro?ckete?er of the [~2@#!@($*&%] signing off."
         """;
 
         [ConfigField("Chance", "", 7f)]
@@ -268,7 +268,7 @@ namespace Sandswept.Items.VoidGreens
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
-            
+
             var itemDisplay = SetUpFollowerIDRS(0.7f, 120f, true, -7f, true, -10f, true, -35f);
 
             return new ItemDisplayRuleDict(new ItemDisplayRule()

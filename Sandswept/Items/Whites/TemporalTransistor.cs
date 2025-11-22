@@ -1,8 +1,5 @@
 ﻿using LookingGlass.ItemStatsNameSpace;
-using MoreStats;
 using RoR2.Orbs;
-using System.Reflection;
-using static MoreStats.StatHooks;
 
 namespace Sandswept.Items.Whites
 {
@@ -19,9 +16,8 @@ namespace Sandswept.Items.Whites
 
         public override string ItemLore =>
         """
-        <style=cMono>
-        //--AUTO-TRANSCRIPTION FROM LOADING BAY 3 OF THE UES [Redacted] --//
-        </style>
+        <style=cMono>//--AUTO-TRANSCRIPTION FROM LOADING BAY 3 OF THE UES [Redacted] --//</style>
+
         "I've got a pretty weird shipment here. Come check it out, I know you love this stuff."
 
         "One sec, I gotta finish packing this. Just describe it to me."
@@ -40,6 +36,7 @@ namespace Sandswept.Items.Whites
 
         "What?"
         """;
+
         public override string AchievementName => "An Epilogue of Life";
 
         public override string AchievementDesc => "Complete a Shrine of The Future without jumping.";
@@ -182,7 +179,8 @@ namespace Sandswept.Items.Whites
 
             if (self.jumpInputReceived && extraJumps > 0 && self.characterMotor && self.characterMotor.jumpCount >= self.characterBody.maxJumpCount && !ignoreRequirements)
             {
-                if (self.isAuthority) {
+                if (self.isAuthority)
+                {
                     self.characterBody.SetBuffCountSynced(extraJump.buffIndex, extraJumps - 1);
                 }
 
@@ -229,7 +227,7 @@ namespace Sandswept.Items.Whites
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
-            
+
             var itemDisplay = SetUpFollowerIDRS(0.72f, 132f, true, 30f, false, 0f, true, 20f);
 
             return new ItemDisplayRuleDict(new ItemDisplayRule()

@@ -43,6 +43,13 @@ namespace Sandswept.Survivors.Ranger.VFX
         public static GameObject CreateTracerRecolor(string name, Color32 primaryColor, Color32 emissionAndLightColor)
         {
             var tracerGameObject = Paths.GameObject.TracerRailgunSuper.InstantiateClone("Release Tracer " + name, false);
+            tracerGameObject.AddComponent<ReleaseVFXIntensityController>();
+
+            var childLocator = tracerGameObject.AddComponent<ChildLocator>();
+            foreach (Transform child in tracerGameObject.transform.GetComponentsInChildren<Transform>())
+            {
+                childLocator.AddChild(child.name, child);
+            }
 
             var kurwaJebanyTracerComponentKurwaKtoToPisal = tracerGameObject.AddComponent<TracerComponentSucks>();
 
@@ -63,6 +70,7 @@ namespace Sandswept.Survivors.Ranger.VFX
 
             var pizdoKurwaPierdolona = tracer.AddComponent<VFXAttributes>();
             pizdoKurwaPierdolona.DoNotPool = true;
+            pizdoKurwaPierdolona.DoNotCullPool = true;
 
             // kurwa mac jebane kurwa spaghetti code kurwa jak mozna kurwa zrobic ze jebany tracer usuwa sie kurwa
             // i potem kurwa dawac jakies zjebane workaroundy zamiast naprawic problem kurwa?? po co stwarzac sobie problem ja pierdole
@@ -297,6 +305,60 @@ namespace Sandswept.Survivors.Ranger.VFX
             ContentAddition.AddEffect(impact);
 
             return impact;
+        }
+    }
+
+    public class ReleaseVFXIntensityController : MonoBehaviour
+    {
+        public EffectComponent effectComponent;
+        public EffectData effectData;
+        public ChildLocator childLocator;
+        public Tracer tracer;
+        public Light light;
+
+        public void Start()
+        {
+            childLocator = GetComponent<ChildLocator>();
+            effectComponent = GetComponent<EffectComponent>();
+            tracer = GetComponent<Tracer>();
+            light = GetComponent<Light>();
+
+            effectData = effectComponent.effectData;
+
+            tracer.beamDensity = 0.1f + (effectData.genericUInt / 200f);
+            tracer.speed = 300 + (10 * effectData.genericUInt);
+            light.range = 20f + effectData.genericUInt;
+            var scale = 1f + effectData.genericUInt / (6f + 2 / 3f);
+            transform.localScale = new Vector3(scale, scale, 4f);
+            childLocator.FindChild("TracerHead").GetComponent<Light>().range = 40f + effectData.genericUInt;
+            childLocator.FindChild("TracerTail").GetComponent<Light>().range = 20f + effectData.genericUInt;
+            childLocator.FindChild("Beam, Linger").GetComponent<LineRenderer>().widthMultiplier = 0.5f + (effectData.genericUInt / 40f);
+
+            switch (effectData.genericUInt)
+            {
+                case < 5:
+                    DisableTransform("BeamParticles, Rings");
+                    DisableTransform("Beam, Flash Briefly");
+                    DisableTransform("Beam, Distortion");
+                    DisableTransform("Beam, Glow");
+                    break;
+
+                case >= 5 and < 10:
+                    DisableTransform("Beam, Flash Briefly");
+                    DisableTransform("Beam, Distortion");
+                    DisableTransform("Beam, Glow");
+                    break;
+
+                case >= 10 and < 15:
+                    DisableTransform("Beam, Distortion");
+                    DisableTransform("Beam, Glow");
+                    break;
+            }
+        }
+
+        public void DisableTransform(string transformToDisable)
+        {
+            childLocator.FindChild(transformToDisable).gameObject.SetActive(false);
         }
     }
 }

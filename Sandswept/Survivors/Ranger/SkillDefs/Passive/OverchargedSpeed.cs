@@ -6,7 +6,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
     public class OverchargedSpeed : SkillBase<OverchargedSpeed>
     {
         public override string Name => "Overcharged Speed";
-        public override string Description => "Hold up to " + Projectiles.DirectCurrent.maxCharge + " $rcCharge$ec. $rcCharge$ec increases $sumovement speed$se by up to $su25%$se. Consume $rc6$ec Charge to $sudouble jump$se. $rcCharge decays over time$ec.".AutoFormat();
+        public override string Description => "Hold up to " + Projectiles.DirectCurrent.maxCharge + " $rcCharge$ec. $rcCharge$ec increases $sumovement speed$se by up to $su25%$se. Consume $rc5$ec Charge to $sudouble jump$se. $rcCharge decays over time$ec.".AutoFormat();
         public override Type ActivationStateType => typeof(GenericCharacterMain);
         public override string ActivationMachineName => "Body";
         public override float Cooldown => 0f;
@@ -18,7 +18,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
         {
             skillDef = ScriptableObject.CreateInstance<RangerPassiveDef>();
             var passive = (RangerPassiveDef)skillDef;
-            
+
             passive.onAssigned += (slot) =>
             {
                 var component = slot.AddComponent<RangerPassiveOverchargedSpeed>();
@@ -31,28 +31,34 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
 
             passive.onUnassigned += (slot) =>
             {
-                if (slot.skillInstanceData != null) {
+                if (slot.skillInstanceData != null)
+                {
                     GameObject.Destroy((slot.skillInstanceData as OverchargedSpeedInstanceData).self);
                 }
             };
         }
 
-        public class OverchargedSpeedInstanceData : SkillDef.BaseSkillInstanceData {
+        public class OverchargedSpeedInstanceData : SkillDef.BaseSkillInstanceData
+        {
             public RangerPassiveOverchargedSpeed self;
         }
 
-        public class RangerPassiveOverchargedSpeed : MonoBehaviour {
+        public class RangerPassiveOverchargedSpeed : MonoBehaviour
+        {
             public CharacterBody body;
 
-            public void Start() {
+            public void Start()
+            {
                 body = GetComponent<CharacterBody>();
 
                 RecalculateStatsAPI.GetStatCoefficients += RecalculateStats;
                 On.EntityStates.GenericCharacterMain.ProcessJump_bool += ProcessJump;
             }
 
-            public void RecalculateStats(CharacterBody body, StatHookEventArgs args) {
-                if (body == this.body) {
+            public void RecalculateStats(CharacterBody body, StatHookEventArgs args)
+            {
+                if (body == this.body)
+                {
                     args.moveSpeedMultAdd += 0.0125f * body.GetBuffCount(Charge.instance.BuffDef);
                 }
             }
@@ -67,16 +73,17 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
 
                 int count = self.characterBody.GetBuffCount(Charge.instance.BuffDef);
 
-                if (self.jumpInputReceived && count > 6 && self.characterMotor && self.characterMotor.jumpCount >= self.characterBody.maxJumpCount && !ignoreRequirements)
+                if (self.jumpInputReceived && count >= 5 && self.characterMotor && self.characterMotor.jumpCount >= self.characterBody.maxJumpCount && !ignoreRequirements)
                 {
-                    self.characterBody.SetBuffCountSynced(Charge.instance.BuffDef.buffIndex, count - 6);
+                    self.characterBody.SetBuffCountSynced(Charge.instance.BuffDef.buffIndex, count - 5);
                     ignoreRequirements = true;
                 }
 
                 orig(self, ignoreRequirements);
             }
 
-            public void OnDestroy() {
+            public void OnDestroy()
+            {
                 RecalculateStatsAPI.GetStatCoefficients -= RecalculateStats;
                 On.EntityStates.GenericCharacterMain.ProcessJump_bool -= ProcessJump;
             }

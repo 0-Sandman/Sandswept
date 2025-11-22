@@ -53,7 +53,9 @@ namespace Sandswept.Items.Greens
 
         public static Color32 pink = new(229, 0, 218, 255);
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist, ItemTag.CannotDuplicate };
+        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist, ItemTag.CannotCopy, ItemTag.BrotherBlacklist];
+
+        public static int itemCount = 0;
 
         public override void Init()
         {
@@ -77,7 +79,7 @@ namespace Sandswept.Items.Greens
             {
                 List<float> values = new()
                 {
-                    MathHelpers.InverseHyperbolicScaling(baseChance, stackChance, 1f, stack)
+                    MathHelpers.InverseHyperbolicScaling(baseChance, stackChance, 1f, itemCount)
                 };
 
                 if (Main.cursedConfig.Value)
@@ -132,6 +134,18 @@ namespace Sandswept.Items.Greens
         public override void Hooks()
         {
             On.RoR2.GlobalEventManager.OnInteractionBegin += GlobalEventManager_OnInteractionBegin;
+            Run.onRunDestroyGlobal += OnRunEnd;
+            CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
+        }
+
+        private void OnRunEnd(Run run)
+        {
+            itemCount = 0;
+        }
+
+        private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)
+        {
+            itemCount = GetPlayerItemCountGlobal(instance.ItemDef.itemIndex, true);
         }
 
         private void GlobalEventManager_OnInteractionBegin(On.RoR2.GlobalEventManager.orig_OnInteractionBegin orig, GlobalEventManager self, Interactor interactor, IInteractable interactable, GameObject interactableObject)
@@ -158,12 +172,11 @@ namespace Sandswept.Items.Greens
                         var interactorBody = interactor.GetComponent<CharacterBody>();
                         if (interactorBody)
                         {
-                            var stack = GetCount(interactorBody);
                             var scale = 0.5f + Run.instance.participatingPlayerCount * 0.5f;
 
-                            var chance = MathHelpers.InverseHyperbolicScaling(baseChance, stackChance, 1f, stack) * 100f;
+                            var chance = MathHelpers.InverseHyperbolicScaling(baseChance, stackChance, 1f, itemCount) * 100f;
 
-                            if (stack > 0 && Util.CheckRoll(chance / scale))
+                            if (itemCount > 0 && Util.CheckRoll(chance / scale))
                             {
                                 var isCategoryChestFinal = interactableObject.name.ToLower().Contains("category") || isCategoryChest;
                                 if (isCategoryChestFinal)
@@ -247,5 +260,10 @@ namespace Sandswept.Items.Greens
             return i;
 
         }
+    }
+
+    public class UniversalVipPassController : MonoBehaviour
+    {
+        public int lastItemCount = 0;
     }
 }

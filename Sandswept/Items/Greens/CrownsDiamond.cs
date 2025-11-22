@@ -63,7 +63,23 @@ namespace Sandswept.Items.Greens
         {
             // IL.RoR2.HealthComponent.ServerFixedUpdate += HealthComponent_ServerFixedUpdate;
             CharacterBody.onBodyInventoryChangedGlobal += CharacterBody_onBodyInventoryChangedGlobal;
-            MoreStats.StatHooks.GetMoreStatCoefficients += StatHooks_GetMoreStatCoefficients;
+            // MoreStats.StatHooks.GetMoreStatCoefficients += StatHooks_GetMoreStatCoefficients;
+            RecalculateStatsAPI.GetStatCoefficients += OnGetStatCoefficients;
+        }
+
+        private void OnGetStatCoefficients(CharacterBody sender, StatHookEventArgs args)
+        {
+            if (sender)
+            {
+                var stack = GetCount(sender);
+                if (stack > 0 && (sender.outOfCombat || sender.outOfDanger))
+                {
+                    var reduction = 1f - MathHelpers.InverseHyperbolicScaling(baseBarrierDecayReduction, stackBarrierDecayReduction, 1f, stack);
+                    // 0.85f
+
+                    args.barrierDecayMult += reduction;
+                }
+            }
         }
 
         public override object GetItemStatsDef()

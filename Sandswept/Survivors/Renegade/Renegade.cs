@@ -1,3 +1,4 @@
+
 using System;
 
 namespace Sandswept.Survivors.Renegade
@@ -16,11 +17,6 @@ namespace Sandswept.Survivors.Renegade
         public static DamageAPI.ModdedDamageType ShrapnelBullet = DamageAPI.ReserveDamageType();
         public static DamageAPI.ModdedDamageType GravSlam = DamageAPI.ReserveDamageType();
 
-        //
-        public override void Init()
-        {
-            return; // dont load
-        }
         public override void LoadAssets()
         {
             base.LoadAssets();

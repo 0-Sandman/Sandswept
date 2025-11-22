@@ -32,6 +32,7 @@ using System.IO;
 using ProcSolver;
 using Rebindables;
 using RoR2.UI;
+using Sandswept.Survivors.Electrician;
 // using Sandswept.Mechanics;
 
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
@@ -52,7 +53,7 @@ namespace Sandswept
     [BepInDependency(DirectorAPI.PluginGUID, DirectorAPI.PluginVersion)]
     [BepInDependency(SkillsAPI.PluginGUID, SkillsAPI.PluginVersion)]
     [BepInDependency(ProcTypeAPI.PluginGUID, ProcTypeAPI.PluginVersion)]
-    [BepInDependency(MoreStats.MoreStatsPlugin.guid, MoreStats.MoreStatsPlugin.version)]
+    // [BepInDependency(MoreStats.MoreStatsPlugin.guid, MoreStats.MoreStatsPlugin.version)]
     [BepInDependency("com.weliveinasociety.CustomEmotesAPI", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("droppod.lookingglass", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.RiskOfBrainrot.ProcSolver", BepInDependency.DependencyFlags.SoftDependency)]
@@ -103,6 +104,7 @@ namespace Sandswept
 
         public static bool LookingGlassLoaded = false;
         public static bool ProcSolverLoaded = false;
+        public static bool AttackDirectionFixLoaded = false;
         private static string rangerBoneMapperName;
         public static MPInput input;
         public static event Action onInputAvailable;
@@ -115,6 +117,7 @@ namespace Sandswept
 
             LookingGlassLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("droppod.lookingglass");
             ProcSolverLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.RiskOfBrainrot.ProcSolver");
+            AttackDirectionFixLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("Gorakh.AttackDirectionFix");
 
             SOTV = Utils.Assets.ExpansionDef.DLC1;
 
@@ -185,11 +188,8 @@ namespace Sandswept
 
         public void SetUpContent()
         {
-            Survivors.SelfDamageHook.Init();
-            Sandswept.Utils.Keywords.SetupKeywords();
             Decay.Init();
             GenerateExpansionDef();
-            Survivors.Initialize.Init();
             DamageColourHelper.Init();
             Enemies.SpawnAndDeath.Init();
             var ArtifactTypes = Assembly.GetExecutingAssembly().GetTypes().Where(type => !type.IsAbstract && type.IsSubclassOf(typeof(ArtifactBase)));
@@ -255,7 +255,20 @@ namespace Sandswept
             }
 
             ScanTypes<SkillBase>((x) => x.Init());
-            ScanTypes<SurvivorBase>((x) => x.Init());
+            ScanTypes<SurvivorBase>((x) => x.Initialize());
+
+            if (SurvivorBase.DefaultEnabledCallback(Ranger.instance) || SurvivorBase.DefaultEnabledCallback(Electrician.instance))
+            {
+                Survivors.SelfDamageHook.Init();
+            }
+
+            if (SurvivorBase.DefaultEnabledCallback(Ranger.instance))
+            {
+                Sandswept.Utils.Keywords.SetupKeywords();
+            }
+
+            Survivors.Initialize.Init();
+
             ScanTypes<EnemyBase>((x) => x.Create());
             ScanTypes<InteractableBase>((x) =>
             {
@@ -283,9 +296,19 @@ namespace Sandswept
             SandsweptTemporaryEffects.ApplyHooks();
             On.RoR2.RoR2Content.Init += OnWwiseInit;
             IL.EntityStates.Drone.DeathState.OnImpactServer += DroneDropFix;
-            // On.RoR2.Items.ContagiousItemManager.Init += CorruptItems;
+            On.RoR2.SurvivorCatalog.Init += OnSurvivorCatalogFinished;
+        }
+        private void OnSurvivorCatalogFinished(On.RoR2.SurvivorCatalog.orig_Init orig)
+        {
+            orig();
+            if (BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.weliveinasociety.CustomEmotesAPI") && SurvivorBase.DefaultEnabledCallback(Ranger.instance))
+            {
+                // ModLogger.LogError("custom emotes api is loaded");
+                AddRangerEmotes();
+            }
         }
 
+        /*
         [SystemInitializer(typeof(SurvivorCatalog))]
         public static void SetUpEmotes()
         {
@@ -296,6 +319,7 @@ namespace Sandswept
                 AddRangerEmotes();
             }
         }
+        */
 
         public AssetBundle LoadAssetBundle(string assetBundleName)
         {

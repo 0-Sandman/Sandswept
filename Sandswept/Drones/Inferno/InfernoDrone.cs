@@ -18,8 +18,6 @@ namespace Sandswept.Drones.Inferno
             {"SANDSWEPT_INFERNO_DRONE_CONTEXT", "Repair?"}
         };
 
-        public override string ConfigName => "Inferno Drone";
-
         public override GameObject DroneBroken => Main.assets.LoadAsset<GameObject>("InfernoDroneBroken.prefab");
 
         [ConfigField("Director Credit Cost", "", 35)]

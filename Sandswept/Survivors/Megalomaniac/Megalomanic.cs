@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections;
 using System.Linq;
@@ -26,11 +27,6 @@ namespace Sandswept.Survivors.Megalomaniac
         public static GameObject LunarCoreProjectile;
         public static GameObject QuickSunderWave;
         public static GameObject MegaloHeadProjectile;
-
-        public override void Init()
-        {
-            return; // dont load
-        }
 
         public override void CreateLang()
         {

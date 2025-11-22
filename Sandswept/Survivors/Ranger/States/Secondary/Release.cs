@@ -1,3 +1,4 @@
+using Rewired.Demos;
 using Sandswept.Survivors.Ranger.Projectiles;
 using Sandswept.Survivors.Ranger.VFX;
 
@@ -13,6 +14,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
         public bool hasFired = false;
         private GameObject tracerEffect;
         private GameObject impactEffect;
+        private GameObject muzzleFlash;
         private Transform modelTransform;
 
         public override void OnEnter()
@@ -44,26 +46,31 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                     default:
                         tracerEffect = ReleaseVFX.tracerPrefabDefault;
                         impactEffect = ReleaseVFX.impactPrefabDefault;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabDefault;
                         break;
 
                     case "RANGER_SKIN_MAJOR_NAME":
                         tracerEffect = ReleaseVFX.tracerPrefabMajor;
                         impactEffect = ReleaseVFX.impactPrefabMajor;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabMajor;
                         break;
 
                     case "RANGER_SKIN_RENEGADE_NAME":
                         tracerEffect = ReleaseVFX.tracerPrefabRenegade;
                         impactEffect = ReleaseVFX.impactPrefabRenegade;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabRenegade;
                         break;
 
                     case "RANGER_SKIN_MILEZERO_NAME":
                         tracerEffect = ReleaseVFX.tracerPrefabMileZero;
                         impactEffect = ReleaseVFX.impactPrefabMileZero;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabMileZero;
                         break;
 
                     case "RANGER_SKIN_SANDSWEPT_NAME":
                         tracerEffect = ReleaseVFX.tracerPrefabSandswept;
                         impactEffect = ReleaseVFX.impactPrefabSandswept;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabSandswept;
                         break;
                 }
             }
@@ -120,8 +127,8 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                     maxSpread = 0,
                     owner = gameObject,
                     muzzleName = "MuzzleR",
-                    origin = transform.position,
-                    tracerEffectPrefab = tracerEffect,
+                    origin = GetAimRay().origin,
+                    // tracerEffectPrefab = tracerEffect,
                     hitEffectPrefab = impactEffect,
                     procCoefficient = procCoefficient,
                     weapon = gameObject,
@@ -132,15 +139,53 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                     damageType = DamageType.Generic,
                 };
 
+                // ja pierdole kurwa mac ile trzeba zjebanego opizdzialego gowna kurwa copy paste'owac tylko zeby zeskalowac jebane vfx bo hopoo games ! ! sobie pomyslalo ze effectdata w bulletattack bedzie hardcoded kurwa
+                attack.hitCallback = delegate (BulletAttack bulletAttack, ref BulletAttack.BulletHit bulletHit)
+                {
+                    int muzzleIndex = -1;
+                    if (!attack.weapon)
+                    {
+                        attack.weapon = attack.owner;
+                    }
+                    if (attack.weapon)
+                    {
+                        var modelLocator = attack.weapon.GetComponent<ModelLocator>();
+                        if (modelLocator && modelLocator.modelTransform)
+                        {
+                            var childLocator = modelLocator.modelTransform.GetComponent<ChildLocator>();
+                            if (childLocator)
+                            {
+                                muzzleIndex = childLocator.FindChildIndex(attack.muzzleName);
+                            }
+                        }
+                    }
+                    var defaultHitCallback = BulletAttack.defaultHitCallback(bulletAttack, ref bulletHit);
+                    var aimVector = TrajectoryAimAssist.ApplyTrajectoryAimAssist(attack.aimVector, attack.origin, attack.maxDistance, attack.owner, attack.weapon, attack.trajectoryAimAssistMultiplier).normalized;
+
+                    var stupidFuckingHardcodedIllConsideredBullshit = new EffectData();
+
+                    stupidFuckingHardcodedIllConsideredBullshit.origin = attack.origin + aimVector * attack.maxDistance; // the end position, supposedly
+                    stupidFuckingHardcodedIllConsideredBullshit.start = attack.origin;
+                    stupidFuckingHardcodedIllConsideredBullshit.genericUInt = (uint)buffCount;
+                    stupidFuckingHardcodedIllConsideredBullshit.SetChildLocatorTransformReference(attack.weapon, muzzleIndex);
+                    EffectManager.SpawnEffect(tracerEffect, stupidFuckingHardcodedIllConsideredBullshit, true);
+
+                    return defaultHitCallback;
+                };
+
+                // KURWA MAC ale zjebane gowno kurwa ja pierkurwadole kurwa
+
                 attack.damageType.damageSource = DamageSource.Secondary;
                 attack.damageType.AddModdedDamageType(Electrician.Electrician.LIGHTNING);
-
-                AddRecoil(3f + 0.15f * buffCount, 3f + 0.15f * buffCount, 0f, 0f);
 
                 characterMotor?.ApplyForce((-4500f - 175f * buffCount) * aimDirection, false, false);
 
                 attack.Fire();
             }
+
+            EffectManager.SimpleMuzzleFlash(muzzleFlash, gameObject, "Muzzle", transmit: true);
+
+            AddRecoil(3f + 0.15f * buffCount, 3f + 0.15f * buffCount, 0f, 0f);
 
             characterBody.SetBuffCountSynced(Buffs.Charge.instance.BuffDef.buffIndex, Mathf.Max(0, buffCount - DirectCurrent.maxCharge));
         }

@@ -50,7 +50,11 @@
             // salmonEquivalent = new Color32(158, 14, 0, 255);
             var tracer = Paths.GameObject.TracerHuntressSnipe.InstantiateClone("Exhaust Tracer " + name, false);
 
-            tracer.AddComponent<VFXAttributes>();
+            tracer.GetOrAddComponent<VFXAttributes>((x) =>
+            {
+                x.DoNotPool = true;
+                x.DoNotCullPool = true;
+            });
 
             var destroyOnTimer = tracer.AddComponent<DestroyOnTimer>();
             destroyOnTimer.duration = 3f;

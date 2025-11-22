@@ -16,6 +16,7 @@ using UnityEngine.UI;
 
 namespace Sandswept.Survivors.Ranger
 {
+    [ConfigSection("Survivors :: Ranger")]
     public class Ranger : SurvivorBase<Ranger>
     {
         public override string Name => "Ranger";
@@ -93,11 +94,6 @@ namespace Sandswept.Survivors.Ranger
 
             SurvivorDef = Main.assets.LoadAsset<SurvivorDef>("sdRanger.asset");
             SurvivorDef.cachedName = "Ranger"; // for eclipse fix
-
-            if (Electrician.Electrician.instance != null)
-            {
-                SurvivorDef.desiredSortPosition = Electrician.Electrician.instance.SurvivorDef.desiredSortPosition - Mathf.Epsilon;
-            }
 
             _modelTransform = Body.GetComponent<ModelLocator>()._modelTransform;
 
@@ -333,6 +329,8 @@ namespace Sandswept.Survivors.Ranger
             newMat.SetTexture("_MainTex", mainTex);
             newMat.SetTexture("_EmTex", emTex);
             newMat.SetFloat("_EmPower", emissionValue);
+            newMat.SetColor("_EmColor", Color.white);
+            newMat.EnableKeyword("DITHER");
             newMat.name = "matRanger" + skinName;
 
             var trans = mdl.transform;
@@ -387,7 +385,7 @@ namespace Sandswept.Survivors.Ranger
             ("RANGER_SKIN_" + trimmedName.ToUpper() + "_NAME").Add(skinName);
             ("RANGER_SKIN_" + trimmedName.ToUpper() + "_DESC").Add(skinDescription);
 
-            Main.ModLogger.LogError("token is " + "RANGER_SKIN_" + trimmedName.ToUpper() + "_DESC");
+            // Main.ModLogger.LogError("token is " + "RANGER_SKIN_" + trimmedName.ToUpper() + "_NAME");
 
             Skins.AddSkinToCharacter(Body, skinDef);
 

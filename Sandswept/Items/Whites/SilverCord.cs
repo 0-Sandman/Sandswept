@@ -16,8 +16,20 @@ namespace Sandswept.Items.Whites
 
         public override string ItemFullDescription => $"$suGain a Shock Drone.$se Your drones have a $sd{chance}%$se chance to $sushock$se up to $sd{baseMaxTargets}$se $ss(+{stackMaxTargets} per stack)$se targets for $sd{damage * 100f}% TOTAL damage$se.".AutoFormat();
 
-        public override string ItemLore => "the silver cord is a king gizzard and the lizard wizard reference. you can make it related to that or just do whatever I guess";
+        public override string ItemLore =>
+        """
+        Transcripted call from the Head Executive of UES and the Head Executive of HDTF Inc.
 
+        "Mr. [Redacted] how the FUCK did you lose EVERY FUCKING DRONE WE SENT YOU?! EVERY. LAST. ONE. HOW?!"
+
+        "Mr. [Redacted], please calm down, I assure you it's a very unfortunate series of events! I-"
+
+        "I need a better explanation than 'Whoopsies can't do anything', how do you lose 10,000 of each drone, 20,000 boxes of spare parts, 5,000 companion drones we didn't even GIVE you, 800 new nuclear salvos, and FIVE TC-prototypes in the span of a god damn year. If you lose this next batch of electrician drones I will have your head as decoration in my penthouse, do you understand me [Redacted], You owe me so much money it's not funny"
+
+        "Have you not heard of the Contact L-"
+
+        "Contact my fucking ass- I want double the amount of credits those cost. We called it the "Silver Cord" package because your asses over at that over glorified pigeon carrier service are going to have to PRAY we don't slam you with lawsuits"
+        """;
         public override ItemTier Tier => ItemTier.Tier1;
 
         public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("FracturedTimepieceHolder.prefab");

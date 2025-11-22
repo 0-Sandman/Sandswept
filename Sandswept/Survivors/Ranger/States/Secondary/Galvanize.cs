@@ -1,4 +1,5 @@
-﻿using Sandswept.Survivors.Ranger.Projectiles;
+﻿using RoR2BepInExPack.GameAssetPaths;
+using Sandswept.Survivors.Ranger.Projectiles;
 using Sandswept.Survivors.Ranger.VFX;
 using System;
 using System.Collections;
@@ -15,6 +16,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
         public bool hasFired = false;
         private GameObject tracerEffect;
         private GameObject impactEffect;
+        private GameObject muzzleFlash;
         private Transform modelTransform;
         private int projectilesFired = 0;
 
@@ -38,7 +40,6 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
             if (characterBody)
                 characterBody.SetAimTimer(1.5f);
 
-            /*
             modelTransform = GetModelTransform();
 
             if (modelTransform)
@@ -48,32 +49,36 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                 switch (skinNameToken)
                 {
                     default:
-                        tracerEffect = ReleaseVFX.tracerPrefabDefault;
-                        impactEffect = ReleaseVFX.impactPrefabDefault;
+                        // tracerEffect = ReleaseVFX.tracerPrefabDefault;
+                        // impactEffect = ReleaseVFX.impactPrefabDefault;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabDefault;
                         break;
 
                     case "RANGER_SKIN_MAJOR_NAME":
-                        tracerEffect = ReleaseVFX.tracerPrefabMajor;
-                        impactEffect = ReleaseVFX.impactPrefabMajor;
+                        // tracerEffect = ReleaseVFX.tracerPrefabMajor;
+                        // impactEffect = ReleaseVFX.impactPrefabMajor;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabMajor;
                         break;
 
                     case "RANGER_SKIN_RENEGADE_NAME":
-                        tracerEffect = ReleaseVFX.tracerPrefabRenegade;
-                        impactEffect = ReleaseVFX.impactPrefabRenegade;
+                        // tracerEffect = ReleaseVFX.tracerPrefabRenegade;
+                        // impactEffect = ReleaseVFX.impactPrefabRenegade;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabRenegade;
                         break;
 
                     case "RANGER_SKIN_MILEZERO_NAME":
-                        tracerEffect = ReleaseVFX.tracerPrefabMileZero;
-                        impactEffect = ReleaseVFX.impactPrefabMileZero;
+                        // tracerEffect = ReleaseVFX.tracerPrefabMileZero;
+                        // impactEffect = ReleaseVFX.impactPrefabMileZero;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabMileZero;
                         break;
 
                     case "RANGER_SKIN_SANDSWEPT_NAME":
-                        tracerEffect = ReleaseVFX.tracerPrefabSandswept;
-                        impactEffect = ReleaseVFX.impactPrefabSandswept;
+                        // tracerEffect = ReleaseVFX.tracerPrefabSandswept;
+                        // impactEffect = ReleaseVFX.impactPrefabSandswept;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabSandswept;
                         break;
                 }
             }
-            */
         }
 
         public override InterruptPriority GetMinimumInterruptPriority()
@@ -152,6 +157,8 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                 }
 
                 AddRecoil(1f + 0.05f * buffCount, 1f + 0.05f * buffCount, 0f, 0f);
+
+                EffectManager.SimpleMuzzleFlash(muzzleFlash, gameObject, "Muzzle", transmit: true);
 
                 characterMotor?.ApplyForce((-150f - 7.5f * buffCount) * aimDirection, false, false);
                 projectilesFired++;

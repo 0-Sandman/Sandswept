@@ -4,11 +4,15 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 {
     public class Char : BaseState
     {
-        public static float damageCoefficient = 6f;
+        public static float damageCoefficient = 15f;
         public static float baseDuration = 0.5f;
+        public static float heatReduction = 0.5f;
         private float duration;
+        public float finalDamageCoefficient;
 
         private GameObject charProjectile;
+        private GameObject muzzleFlash;
+        public RangerHeatController rangerHeatController;
 
         public override void OnEnter()
         {
@@ -16,7 +20,11 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 
             var modelTransform = GetModelTransform();
 
-            GetComponent<RangerHeatController>().currentHeat -= 50f;
+            rangerHeatController = GetComponent<RangerHeatController>();
+            float heatRemoved = rangerHeatController.currentHeat * heatReduction;
+            rangerHeatController.currentHeat -= Mathf.Max(0, heatRemoved);
+
+            finalDamageCoefficient = damageCoefficient + (heatRemoved / 2.5f);
 
             if (modelTransform)
             {
@@ -32,6 +40,16 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                     */
                     _ => Projectiles.TheFuckingBFG.SigmaProjectile
                 };
+
+                muzzleFlash = skinNameToken switch
+                {
+                    "RANGER_SKIN_MAJOR_NAME" => DirectCurrentVFX.muzzleFlashPrefabMajorOverdrive,
+                    "RANGER_SKIN_RENEGADE_NAME" => DirectCurrentVFX.muzzleFlashPrefabRenegadeOverdrive,
+                    "RANGER_SKIN_MILEZERO_NAME" => DirectCurrentVFX.muzzleFlashPrefabMileZeroOverdrive,
+                    "RANGER_SKIN_SANDSWEPT_NAME" => DirectCurrentVFX.muzzleFlashPrefabSandsweptOverdrive,
+                    _ => DirectCurrentVFX.muzzleFlashPrefabDefaultOverdrive
+                };
+
             }
 
             FireShot();
@@ -81,7 +99,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
             {
                 var fpi = new FireProjectileInfo()
                 {
-                    damage = damageStat * damageCoefficient,
+                    damage = damageStat * finalDamageCoefficient,
                     crit = RollCrit(),
                     damageColorIndex = DamageColorIndex.Default,
                     owner = gameObject,
@@ -98,6 +116,8 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
             }
 
             AddRecoil(1.2f, 1.5f, 0.3f, 0.5f);
+
+            EffectManager.SimpleMuzzleFlash(muzzleFlash, gameObject, "Muzzle", transmit: true);
         }
     }
 }

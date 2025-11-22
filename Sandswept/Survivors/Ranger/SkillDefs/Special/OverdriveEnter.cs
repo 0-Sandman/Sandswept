@@ -6,7 +6,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Special
     {
         public override string Name => "Overdrive";
 
-        public override string Description => "$suAgile$se. $srScorching$se. $sdTransform$se your rifle, replacing all of your skills with $sdscorching forms$se.".AutoFormat();
+        public override string Description => "$suAgile$se. $sdTransform$se your rifle, replacing all of your skills with $sdoverdriven forms$se.".AutoFormat();
 
         public override Type ActivationStateType => typeof(States.Special.OverdriveEnter);
 
@@ -15,7 +15,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Special
         public override float Cooldown => 13f;
 
         public override Sprite Icon => Main.prodAssets.LoadAsset<Sprite>("Assets/Sandswept/texRangerSkillIcon_spc.png");
-        public override string[] Keywords => new string[] { Utils.Keywords.Agile, Utils.Keywords.OverdriveFormHeat, Utils.Keywords.OverdriveFormSpecial };
+        public override string[] Keywords => new string[] { Utils.Keywords.Agile, Utils.Keywords.OverdriveFormSpecial };
 
         public override bool Agile => true;
         public override bool IsCombat => false;

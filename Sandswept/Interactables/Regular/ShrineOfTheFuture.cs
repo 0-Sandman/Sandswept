@@ -69,18 +69,7 @@ namespace Sandswept.Interactables.Regular
             Object.Destroy(prefab.GetComponent<Highlight>());
             var hightlight = prefab.AddComponent<MultiHighlight>();
             hightlight.targetRenderer = mdl.GetComponent<Renderer>();
-            hightlight.others = new[] { mdl.transform.Find("Stem").GetComponent<Renderer>(), mdl.transform.Find("Stem/Crystal").GetComponent<Renderer>() };
-            On.RoR2.InteractionDriver.OnPreRenderOutlineHighlight += (orig, highlight) =>
-            {
-                var cnt = highlight.highlightQueue.Count;
-                orig(highlight);
-                if (highlight.highlightQueue.Count == cnt) return;
-                var info = highlight.highlightQueue.Last();
-                var source = Highlight.readonlyHighlightList.FirstOrDefault(x => x.targetRenderer == info.renderer);
-                if (source == null || source is not MultiHighlight mhl) return;
-                foreach (var r in mhl.others) highlight.highlightQueue.Enqueue(new OutlineHighlight.HighlightInfo
-                { renderer = r, color = info.color });
-            };
+            hightlight.others = [mdl.transform.Find("Stem").GetComponent<Renderer>(), mdl.transform.Find("Stem/Crystal").GetComponent<Renderer>()];
             mdl.name = "mdlShrineOfTheFuture";
             mdl.transform.localScale = Vector3.one * 70;
             mdl.AddComponent<EntityLocator>().entity = prefab;

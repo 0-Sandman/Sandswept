@@ -9,6 +9,7 @@ namespace Sandswept.Survivors.Ranger.States.Primary
         private float duration;
 
         private GameObject directCurrentProjectile;
+        private GameObject muzzleFlash;
 
         public override void OnEnter()
         {
@@ -20,14 +21,33 @@ namespace Sandswept.Survivors.Ranger.States.Primary
             {
                 var skinNameToken = modelTransform.GetComponentInChildren<ModelSkinController>().skins[characterBody.skinIndex].nameToken;
 
-                directCurrentProjectile = skinNameToken switch
+                switch (skinNameToken)
                 {
-                    "RANGER_SKIN_MAJOR_NAME" => Projectiles.DirectCurrent.prefabMajor,
-                    "RANGER_SKIN_RENEGADE_NAME" => Projectiles.DirectCurrent.prefabRenegade,
-                    "RANGER_SKIN_MILEZERO_NAME" => Projectiles.DirectCurrent.prefabMileZero,
-                    "RANGER_SKIN_SANDSWEPT_NAME" => Projectiles.DirectCurrent.prefabSandswept,
-                    _ => Projectiles.DirectCurrent.prefabDefault,
-                };
+                    default:
+                        directCurrentProjectile = Projectiles.DirectCurrent.prefabDefault;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabDefault;
+                        break;
+
+                    case "RANGER_SKIN_MAJOR_NAME":
+                        directCurrentProjectile = Projectiles.DirectCurrent.prefabMajor;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabMajor;
+                        break;
+
+                    case "RANGER_SKIN_RENEGADE_NAME":
+                        directCurrentProjectile = Projectiles.DirectCurrent.prefabRenegade;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabRenegade;
+                        break;
+
+                    case "RANGER_SKIN_MILEZERO_NAME":
+                        directCurrentProjectile = Projectiles.DirectCurrent.prefabMileZero;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabMileZero;
+                        break;
+
+                    case "RANGER_SKIN_SANDSWEPT_NAME":
+                        directCurrentProjectile = Projectiles.DirectCurrent.prefabSandswept;
+                        muzzleFlash = DirectCurrentVFX.muzzleFlashPrefabSandswept;
+                        break;
+                }
             }
 
             FireShot();
@@ -94,6 +114,7 @@ namespace Sandswept.Survivors.Ranger.States.Primary
             }
 
             AddRecoil(1.2f, 1.5f, 0.3f, 0.5f);
+            EffectManager.SimpleMuzzleFlash(muzzleFlash, gameObject, "Muzzle", transmit: true);
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Sandswept.Survivors.Electrician.States
                     FireProjectileInfo info = MiscUtils.GetProjectile(galvanicBoltProjectile, 2f, characterBody, DamageTypeCombo.GenericPrimary);
 
                     GameObject pylon = SearchPylon();
-                    if (pylon)
+                    if (pylon && !Main.AttackDirectionFixLoaded)
                     {
                         info.rotation = Util.QuaternionSafeLookRotation((pylon.transform.position - info.position).normalized);
                     }

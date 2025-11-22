@@ -66,9 +66,11 @@ namespace Sandswept.Survivors.Electrician
             {
                 stopwatch = 0f;
 
+                /*
                 EffectManager.SpawnEffect(Main.assets.LoadAsset<GameObject>("GalvanicSparks.prefab"),
                 new EffectData() { rotation = Quaternion.identity, scale = 8f, origin = transform.position },
                 true);
+                */
 
                 if (NetworkServer.active)
                 {
