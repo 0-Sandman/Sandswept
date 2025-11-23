@@ -77,7 +77,7 @@ namespace Sandswept.Items.Reds
         [ConfigField("Stack DoT Healing", "Decimal.", 0.0033f)]
         public static float stackDoTHealing;
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Healing };
+        public override ItemTag[] ItemTags => [ItemTag.Damage, ItemTag.Healing, ItemTag.CanBeTemporary];
 
         public override float modelPanelParametersMinDistance => 7f;
         public override float modelPanelParametersMaxDistance => 15f;
@@ -179,7 +179,7 @@ namespace Sandswept.Items.Reds
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {
             return new ItemDisplayRuleDict();
-            
+
             var itemDisplay = SetUpFollowerIDRS(0.3f, 90f, true, 10f, false, 0f, true, 5f);
 
             return new ItemDisplayRuleDict(new ItemDisplayRule()

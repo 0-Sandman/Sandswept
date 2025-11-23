@@ -51,7 +51,7 @@ namespace Sandswept.Survivors.Ranger.VFX
                 new Color32(0, 255, 62, 255), new Color32(0, 255, 90, 255), 1.301445f, 0.07936508f);
             hitsparkPrefabDefault = CreateHitsparkRecolor("Default", new Color32(0, 255, 167, 255));
             muzzleFlashPrefabDefault = CreateMuzzleFlashRecolor("Default", new Color32(0, 255, 167, 255));
-            muzzleFlashPrefabDefaultOverdrive = CreateMuzzleFlashRecolor("Default", new Color32(255, 27, 0, 255), true);
+            muzzleFlashPrefabDefaultOverdrive = CreateMuzzleFlashRecolor("Default", new Color32(255, 151, 0, 255), true);
 
             ghostPrefabMajor = CreateGhostRecolor("Major", new Color32(43, 94, 134, 255), new Color32(0, 49, 197, 255), new Color32(100, 20, 217, 255));
             impactPrefabMajor = CreateImpactRecolor("Major", new Color32(34, 34, 34, 255), new Color32(65, 14, 161, 255), new Color32(90, 25, 255, 255),

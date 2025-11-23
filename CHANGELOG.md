@@ -1,12 +1,17 @@
 ## 1.3.2 Patch Notes
 - General
   - Updated for AC patch
+      - This is just an unfinished update we had before we knew of Alloyed Collective's release date, not much was done just yet and there will be later additions, like recipes and better item categories.
+      - Ranger's Galvanize, Char and Heat Sink will get reworks as well, and hopefully her model (and then new animations) can be finished in a few months time.. Here is a sneak peak for anyone reading this! ![#1](https://i.postimg.cc/vBL1p7Gd/image.png) ![#2](https://i.postimg.cc/V6crGZQG/image.png) I still want to add more detail and textures if possible.
+      - Some content "overlap" with AC will be kept in because it's distinct enough, like Pocket Plutonium and Osmium elites. Parry equipment might get a rework.
 - VOL-T
   - Added SkinFlavorText Support
   - <details>
     <summary>Added some Item Displays, click to view list</summary>
     Red Spring Water, Makeshift Plate, Nuclear Salvo, Pocket Plutonium, Sacrificial Band, Smouldering Document, Universal VIP Pass, Armor-Piercing Rounds, Backup Magazine, Bundle of Fireworks,  Cautious Slug, Chronic Expansion, Delicate Watch, Energy Drink, Focus Crystal, Lens-Maker's Glasses, Medkit, Personal Shield Generator, Repulsion Armor Plate, AtG Missile Mk. 1, Bandolier, Hunter's Harpoon, Luminous Shot, Kjaro's Band, Runald's Band, Ukulele, Lost Seer's Lenses, Singularity Band, Plasma Shrimp, Polylute, Brilliant Behemoth, Ceremonial Dagger, Shattering Justice, Symbiotic Scorpion, Preon Accumulator, Primordial Cube, Artificial Void, John Hopoo, Aurelionite's Blessing, Her Biting Embrace, His Reassurance, His Spiteful Boon, Ifrit's Distinction, N'kuhana's Retort, Shared Design, Silence Between Two Strikes, Spectral Circlet
     </details>
+  - Improved Galvanic Bolt VFX
+  - Improved Signal Overload VFX
   - (Jankily) Fixed Galvanic Bolt always missing the Static Snare Pylon with AttackDirectionFix installed - its aim assistance is turned off while AttackDirectionFix is installed...,,,,
   - Fixed Static Snare Pylon being set to the mastery model on non-mastery, non-default skins
 - Ranger
@@ -38,11 +43,9 @@
   - Made Exhaust match Enflame's shot distance scaling
   - Made Char reduce 50% of CURRENT heat, instead of a flat amount of heat
   - Made Char damage based on heat uncapped, scaling at per % heat spent
-    - Galvanize and Char will get a rework
   - Made Heat Signature increase dash distance based on heat, scaling at +17% distance per 40% heat
   - Made Heat Signature add 40% heat when used
   - Made Heat Sink Damage based on heat uncapped, scaling at +150% per 25% heat
-    - Heat Sink will get a rework
   - Fixed Crosshair dot being transparent at full Charge
   - Fixed Overcharged Protection and Overcharged Speed networking issue
   - Fixed Direct Current not having the lightning damage type (for Broken VOL-T)

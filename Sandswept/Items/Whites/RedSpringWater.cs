@@ -38,7 +38,7 @@ namespace Sandswept.Items.Whites
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texRedSpringWater.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Healing };
+        public override ItemTag[] ItemTags => [ItemTag.Healing, ItemTag.CanBeTemporary, ItemTag.FoodRelated];
 
         public override float modelPanelParametersMinDistance => 4f;
         public override float modelPanelParametersMaxDistance => 12f;

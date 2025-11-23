@@ -30,7 +30,7 @@ namespace Sandswept.Survivors.Electrician.VFX
 
         public static void Init()
         {
-            indicatorDefault = CreateIndicatorRecolor("Default", new Color32(0, 77, 255, 255), new Color32(0, 42, 255, 255), new Color32(0, 54, 140, 255), new Color32(0, 77, 255, 255));
+            indicatorDefault = CreateIndicatorRecolor("Default", new Color32(0, 77, 255, 255), new Color32(0, 42, 255, 255), new Color32(140, 69, 0, 255), new Color32(0, 77, 255, 255));
             indicatorCovenant = CreateIndicatorRecolor("Covenant", new Color32(255, 179, 0, 255), new Color32(255, 150, 0, 255), new Color32(13, 0, 42, 255), new Color32(0, 0, 255, 255));
 
             matShieldBreakDefault = CreateOverlayRecolor(new Color32(0, 77, 255, 255));
@@ -80,8 +80,13 @@ namespace Sandswept.Survivors.Electrician.VFX
 
             flare2.sharedMaterials = newFlare2Materials;
 
+            var newSparksMaterial = new Material(newFlare2Material);
+            newSparksMaterial.SetTexture("_MainTex", Paths.Texture2D.texLightning2Mask);
+            newSparksMaterial.SetTextureScale("_MainTex", new Vector2(2f, 1f));
+            newSparksMaterial.SetFloat("_AlphaBoost", 1.5f);
+
             var sparksWiggly1 = flare.Find("Sparks,Wiggly").GetComponent<ParticleSystemRenderer>();
-            sparksWiggly1.material = newFlare2Material;
+            sparksWiggly1.material = newSparksMaterial;
 
             var fire = laser.Find("End/EndEffect/Particles/Fire");
             var firePSR = fire.GetComponent<ParticleSystemRenderer>();

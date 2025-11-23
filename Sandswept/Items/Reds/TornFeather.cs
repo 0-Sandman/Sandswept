@@ -52,7 +52,7 @@ namespace Sandswept.Items.Reds
         """;
         public override ItemTier Tier => ItemTier.Tier3;
 
-        public override ItemTag[] ItemTags => [ItemTag.Utility];
+        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.CanBeTemporary, ItemTag.MobilityRelated];
 
         public override GameObject ItemModel => Main.hifuSandswept.LoadAsset<GameObject>("TornFeatherHolder.prefab");
 

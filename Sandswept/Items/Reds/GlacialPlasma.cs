@@ -78,7 +78,7 @@ namespace Sandswept.Items.Reds
         public static BuffDef javelinCooldown;
         public static GameObject SpawnEffect;
 
-        public override ItemTag[] ItemTags => [ItemTag.Damage, ItemTag.Utility];
+        public override ItemTag[] ItemTags => [ItemTag.Damage, ItemTag.Utility, ItemTag.CanBeTemporary];
 
         public override void Init()
         {

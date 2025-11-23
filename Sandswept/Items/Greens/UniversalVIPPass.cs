@@ -53,7 +53,7 @@ namespace Sandswept.Items.Greens
 
         public static Color32 pink = new(229, 0, 218, 255);
 
-        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist, ItemTag.CannotCopy, ItemTag.BrotherBlacklist];
+        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist, ItemTag.CannotCopy, ItemTag.BrotherBlacklist, ItemTag.CanBeTemporary]; // since rusted key is temp, should this be too? ...
 
         public static int itemCount = 0;
 

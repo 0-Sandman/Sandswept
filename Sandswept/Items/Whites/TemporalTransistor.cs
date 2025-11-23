@@ -46,7 +46,7 @@ namespace Sandswept.Items.Whites
         public override GameObject ItemModel => Main.assets.LoadAsset<GameObject>("TransistorPickup.prefab");
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texTemporalTransistor.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.OnKillEffect, ItemTag.Utility };
+        public override ItemTag[] ItemTags => [ItemTag.OnKillEffect, ItemTag.Utility, ItemTag.MobilityRelated, ItemTag.Technology]; // no CanBeTemporary because I can't be bothered to clamp buffs to item count for now
 
         [ConfigField("Chance", "", 25f)]
         public static float chance;
