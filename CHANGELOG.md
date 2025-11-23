@@ -1,9 +1,18 @@
 ## 1.3.2 Patch Notes
 - General
   - Updated for AC patch
-      - This is just an unfinished update we had before we knew of Alloyed Collective's release date, not much was done just yet and there will be later additions, like recipes and better item categories.
-      - Ranger's Galvanize, Char and Heat Sink will get reworks as well, and hopefully her model (and then new animations) can be finished in a few months time.. Here is a sneak peak for anyone reading this! ![#1](https://i.postimg.cc/vBL1p7Gd/image.png) ![#2](https://i.postimg.cc/V6crGZQG/image.png) I still want to add more detail and textures if possible.
+      - This is just an unfinished update we had before we knew of Alloyed Collective's release date, not much was done just yet and there will be later additions.
       - Some content "overlap" with AC will be kept in because it's distinct enough, like Pocket Plutonium and Osmium elites. Parry equipment might get a rework.
+      - Ranger's Galvanize, Char and Heat Sink will get reworks as well, and hopefully her model (and then new animations) can be finished in a few months time..
+      - <details>
+        <summary>Here is a sneak peak, click to to view</summary>
+
+        ![#1](https://i.postimg.cc/vBL1p7Gd/image.png)
+
+        ![#2](https://i.postimg.cc/V6crGZQG/image.png)
+
+        I still want to add more detail and textures if possible.
+        </details>
 - VOL-T
   - Added SkinFlavorText Support
   - <details>
