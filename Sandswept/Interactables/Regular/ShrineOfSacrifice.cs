@@ -103,24 +103,23 @@ namespace Sandswept.Interactables.Regular
             var mdl = prefab.transform.Find("Base/mdlShrineHealing").gameObject;
             mdl.name = "mdlShrineSacrifice";
 
-            mdl.GetComponent<MeshFilter>().sharedMesh = Main.prodAssets.LoadAsset<Mesh>("assets/sandswept/shrinesacrifice.fbx");
-            mdl.GetComponent<MeshRenderer>().sharedMaterial = Main.prodAssets.LoadAsset<Material>("assets/sandswept/shrinesacrifice.fbx");
+            // mdl.GetComponent<MeshFilter>().sharedMesh = Main.prodAssets.LoadAsset<Mesh>("assets/sandswept/shrinesacrifice.fbx");
+            // mdl.GetComponent<MeshRenderer>().sharedMaterial = Main.prodAssets.LoadAsset<Material>("assets/sandswept/shrinesacrifice.fbx");
 
-            /*
             mdl.GetComponent<MeshFilter>().sharedMesh = Main.sandsweptHIFU.LoadAsset<Mesh>("meshRangerComparison.fbx");
             var mdlMeshRenderer = mdl.GetComponent<MeshRenderer>();
 
             Material[] newMaterials = [
                 Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyNew.mat"),
-                Main.sandsweptHIFU.LoadAsset<Material>("matRangerGunOld.mat"),
                 Main.sandsweptHIFU.LoadAsset<Material>("matRangerGunNew.mat"),
+                Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyNew.mat"),
                 Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyOld.mat"),
-                Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyOld.mat")];
+                Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyOld.mat"),
+                Main.sandsweptHIFU.LoadAsset<Material>("matRangerGunOld.mat")];
 
             mdlMeshRenderer.materials = newMaterials;
 
             mdl.transform.localScale = Vector3.one * 115f;
-            */
 
             var symbol = prefab.transform.Find("Symbol");
             symbol.localPosition = new(0, 4, 0);

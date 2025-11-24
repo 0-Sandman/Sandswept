@@ -137,6 +137,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                     stopperMask = LayerIndex.world.mask,
                     force = 2500f + 125f * buffCount,
                     damageType = DamageType.Generic,
+                    maxDistance = 99999f
                 };
 
                 // ja pierdole kurwa mac ile trzeba zjebanego opizdzialego gowna kurwa copy paste'owac tylko zeby zeskalowac jebane vfx bo hopoo games ! ! sobie pomyslalo ze effectdata w bulletattack bedzie hardcoded kurwa
@@ -160,11 +161,11 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                         }
                     }
                     var defaultHitCallback = BulletAttack.defaultHitCallback(bulletAttack, ref bulletHit);
-                    var aimVector = TrajectoryAimAssist.ApplyTrajectoryAimAssist(attack.aimVector, attack.origin, attack.maxDistance, attack.owner, attack.weapon, attack.trajectoryAimAssistMultiplier).normalized;
+                    var aimVector = TrajectoryAimAssist.ApplyTrajectoryAimAssist(attack.aimVector, attack.origin, 99999f, attack.owner, attack.weapon, attack.trajectoryAimAssistMultiplier).normalized;
 
                     var stupidFuckingHardcodedIllConsideredBullshit = new EffectData();
 
-                    stupidFuckingHardcodedIllConsideredBullshit.origin = attack.origin + aimVector * attack.maxDistance; // the end position, supposedly
+                    stupidFuckingHardcodedIllConsideredBullshit.origin = attack.origin + aimVector * 99999f; // the end position, supposedly
                     stupidFuckingHardcodedIllConsideredBullshit.start = attack.origin;
                     stupidFuckingHardcodedIllConsideredBullshit.genericUInt = (uint)buffCount;
                     stupidFuckingHardcodedIllConsideredBullshit.SetChildLocatorTransformReference(attack.weapon, muzzleIndex);
