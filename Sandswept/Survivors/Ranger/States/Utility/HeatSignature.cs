@@ -8,7 +8,7 @@ namespace Sandswept.Survivors.Ranger.States.Utility
         public float duration = 0.2f;
         public static float BuffDuration = 1f;
         public static float SpeedCoefficient = 6f;
-        public static float HeatPerExtraCoeff = 40f;
+        public static float HeatPerExtraCoeff = 33f;
         public static float HeatGain = 40f;
         private float coeff;
         private Vector3 stepVector;
