@@ -51,6 +51,13 @@ namespace Sandswept.Survivors.Ranger.VFX
                 childLocator.AddChild(child.name, child);
             }
 
+            tracerGameObject.GetOrAddComponent<VFXAttributes>((x) =>
+            {
+                x.DoNotCullPool = true;
+                x.DoNotPool = true;
+                x.vfxPriority = VFXAttributes.VFXPriority.Always;
+            });
+
             var kurwaJebanyTracerComponentKurwaKtoToPisal = tracerGameObject.AddComponent<TracerComponentSucks>();
 
             var tracer = tracerGameObject.GetComponent<Tracer>();

@@ -83,7 +83,7 @@ namespace Sandswept.Survivors.Electrician.States
 
                 var percent = healthComponent.fullHealth * baseMax;
 
-                radiusMultiplierParam = Util.Remap(shieldDrained, 0f, percent, 1f, 2f);
+                radiusMultiplierParam = Util.Remap(shieldDrained, 0f, percent, 1f, 1.4f);
                 damageMultiplierParam = Util.Remap(shieldDrained, 0f, percent, 1f, 1.611f);
 
                 outer.SetNextState(new SignalOverloadDischarge());

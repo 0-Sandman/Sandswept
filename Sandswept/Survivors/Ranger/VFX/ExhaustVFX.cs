@@ -54,6 +54,7 @@
             {
                 x.DoNotPool = true;
                 x.DoNotCullPool = true;
+                x.vfxPriority = VFXAttributes.VFXPriority.Always;
             });
 
             var destroyOnTimer = tracer.AddComponent<DestroyOnTimer>();

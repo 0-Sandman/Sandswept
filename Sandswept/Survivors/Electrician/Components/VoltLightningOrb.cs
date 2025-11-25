@@ -14,14 +14,15 @@ namespace Sandswept.Survivors.Electrician
 
         public override void Begin()
         {
-            // base.Begin();
-            // fuck you, bitch.
+            base.lightningType = LightningType.Loader;
+            base.Begin();
 
             duration = 0.1f;
+
             // var effectData = new EffectData();
             // effectData.origin = victimBody.corePosition;
             // effectData.scale = Mathf.Sqrt(victimBody.radius * 9f);
-            if (!attackerBody)
+            /*if (!attackerBody)
             {
                 return;
             }
@@ -44,7 +45,7 @@ namespace Sandswept.Survivors.Electrician
                     // EffectManager.SpawnEffect(impactVFX, effectData, transmit: true);
                     // Util.PlayAttackSpeedSound("Play_mage_m1_cast_lightning", victimBody.gameObject, 2f);
                 }
-            }
+            }*/
         }
 
         public override void OnArrival()
@@ -54,11 +55,11 @@ namespace Sandswept.Survivors.Electrician
                 return;
             }
 
-            var effectData = new EffectData();
-            effectData.origin = victimBody.corePosition;
-            effectData.scale = 0.3f + Mathf.Sqrt(victimBody.bestFitActualRadius * 12f);
+            // var effectData = new EffectData();
+            // effectData.origin = victimBody.corePosition;
+            // effectData.scale = 0.3f + Mathf.Sqrt(victimBody.bestFitActualRadius * 12f);
 
-            EffectManager.SpawnEffect(impactVFX, effectData, transmit: true);
+            // EffectManager.SpawnEffect(impactVFX, effectData, transmit: true);
             Util.PlayAttackSpeedSound("Play_mage_m1_cast_lightning", victimBody.gameObject, 2f);
 
             HealthComponent healthComponent = target.healthComponent;

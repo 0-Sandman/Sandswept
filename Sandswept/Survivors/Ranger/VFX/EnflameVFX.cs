@@ -61,6 +61,7 @@ namespace Sandswept.Survivors.Ranger.VFX
             {
                 x.DoNotCullPool = true;
                 x.DoNotPool = true;
+                x.vfxPriority = VFXAttributes.VFXPriority.Always;
             });
 
             var lineRenderer = tracer.GetComponent<LineRenderer>();

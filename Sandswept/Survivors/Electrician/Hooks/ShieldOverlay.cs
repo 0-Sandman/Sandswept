@@ -28,19 +28,18 @@ namespace Sandswept.Survivors.Electrician.Hooks
 
         private static void TryModifyOverlay(ILCursor c, int hookNumber)
         {
-            if (c.TryGotoNext(MoveType.Before,
+            if (c.TryGotoNext(MoveType.After,
                 x => x.MatchLdfld<HealthComponent>("shield"),
-                x => x.MatchLdcR4(0f)))
+                x => x.MatchLdcR4(0f),
+                x => x.MatchCgt()))
             {
-                c.Index += 2;
                 c.Emit(OpCodes.Ldarg_0);
-                c.EmitDelegate<Func<float, CharacterModel, float>>((orig, characterModel) =>
+                c.EmitDelegate<Func<bool, CharacterModel, bool>>((orig, characterModel) =>
                 {
                     var characterBody = characterModel.body;
-                    if (characterBody.bodyIndex == Electrician.ElectricianIndex)
+                    if (characterBody && characterBody.bodyIndex == Electrician.ElectricianIndex)
                     {
-                        // Main.ModLogger.LogError("playing electrician, updating shield overlay - hook #1");
-                        return characterBody.baseMaxShield + characterBody.levelMaxShield * (characterBody.level - 1);
+                        return characterBody.healthComponent.shield > 0 && characterBody.maxShield > (characterBody.baseMaxShield + characterBody.levelMaxShield * (characterBody.level - 1));
                     }
                     return orig;
                 });

@@ -64,6 +64,7 @@
   - Fixed Galvanize not having the lightning damage type (for Broken VOL-T)
   - Fixed Exhaust networking
   - Fixed Recolored Pods being assigned to the wrong skins
+  - Fixed Enflame and Release having their VFX get culled even if literally nothing else was in the scene.
 - Items/Equipment
   - Buffed Ceremonial Jar Base Damage from 1500% to 2000%
   - Buffed Ceremonial Jar Stack Damage from 1500% to 2000%
@@ -108,7 +109,7 @@
 - Enemies
   - Fixed Theta Construct Overloading Elite Item Display
 - Interactables
-  - Increased Shrine of Sacrifice Curse Cost from 20 to 30
+  - Increased Shrine of Sacrifice Curse Cost from 20 to 35
 
 ## 1.3.1 Patch Notes
 - Enemies
