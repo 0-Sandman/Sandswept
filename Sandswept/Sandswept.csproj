@@ -39,6 +39,7 @@
 	<PackageReference Include="R2API.Director" Version="*" />
 	<PackageReference Include="R2API.ProcType" Version="*" />
 	<PackageReference Include="R2API.Skills" Version="*" />
+	<PackageReference Include="R2API.CharacterBody" Version="*" />
   </ItemGroup>
 
 	<ItemGroup>
