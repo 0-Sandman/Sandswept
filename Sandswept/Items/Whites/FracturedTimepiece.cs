@@ -34,7 +34,7 @@ namespace Sandswept.Items.Whites
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texFracturedTimepiece.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Healing, ItemTag.Utility, ItemTag.AIBlacklist };
+        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Healing, ItemTag.Utility, ItemTag.AIBlacklist, ItemTag.CanBeTemporary };
 
         public override float modelPanelParametersMinDistance => 4f;
         public override float modelPanelParametersMaxDistance => 12f;

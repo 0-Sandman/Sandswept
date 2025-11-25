@@ -44,7 +44,7 @@ namespace Sandswept.Items.VoidGreens
 
         public override Sprite ItemIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texPreservedAtoll.png");
 
-        public override ItemTag[] ItemTags => [ItemTag.Damage, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist];
+        public override ItemTag[] ItemTags => [ItemTag.Damage, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist, ItemTag.CanBeTemporary];
 
         public override ItemDef ItemToCorrupt => SacrificialBand.instance.ItemDef;
 

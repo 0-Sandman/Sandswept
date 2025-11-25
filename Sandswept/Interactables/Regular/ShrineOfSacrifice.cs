@@ -105,20 +105,22 @@ namespace Sandswept.Interactables.Regular
 
             mdl.GetComponent<MeshFilter>().sharedMesh = Main.prodAssets.LoadAsset<Mesh>("assets/sandswept/shrinesacrifice.fbx");
             mdl.GetComponent<MeshRenderer>().sharedMaterial = Main.prodAssets.LoadAsset<Material>("assets/sandswept/shrinesacrifice.fbx");
+
             /*
-            mdl.GetComponent<MeshFilter>().sharedMesh = Main.sandsweptHIFU.LoadAsset<Mesh>("meshNewRangerTest.fbx");
+            mdl.GetComponent<MeshFilter>().sharedMesh = Main.sandsweptHIFU.LoadAsset<Mesh>("meshRangerComparison.fbx");
             var mdlMeshRenderer = mdl.GetComponent<MeshRenderer>();
 
-            Material[] newMaterials = [Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyTest.mat"), Main.sandsweptHIFU.LoadAsset<Material>("matRangerGunTest.mat")];
+            Material[] newMaterials = [
+                Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyNew.mat"),
+                Main.sandsweptHIFU.LoadAsset<Material>("matRangerGunNew.mat"),
+                Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyNew.mat"),
+                Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyOld.mat"),
+                Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyOld.mat"),
+                Main.sandsweptHIFU.LoadAsset<Material>("matRangerGunOld.mat")];
 
             mdlMeshRenderer.materials = newMaterials;
 
-            mdl.GetComponent<MeshFilter>().sharedMesh = Main.sandsweptHIFU.LoadAsset<Mesh>("meshNewRangerGunTest.fbx");
-            var mdlMeshRenderer = mdl.GetComponent<MeshRenderer>();
-
-            var newMaterial = Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyTest.mat");
-
-            mdlMeshRenderer.material = newMaterial;
+            mdl.transform.localScale = Vector3.one * 115f;
             */
 
             var symbol = prefab.transform.Find("Symbol");
@@ -292,26 +294,6 @@ namespace Sandswept.Interactables.Regular
                 symbolTransform.gameObject.SetActive(false);
                 CallRpcSetPingable(false);
             }
-
-            /*
-            var mdl = GetComponent<ModelLocator>().modelTransform;
-
-            mdl.GetComponent<MeshFilter>().sharedMesh = Main.sandsweptHIFU.LoadAsset<Mesh>("meshOldRangerTest.fbx");
-            var mdlMeshRenderer = mdl.GetComponent<MeshRenderer>();
-
-            var newMaterial = Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyTest.mat");
-
-            mdlMeshRenderer.material = newMaterial;
-
-            var mdl = GetComponent<ModelLocator>().modelTransform;
-
-            mdl.GetComponent<MeshFilter>().sharedMesh = Main.sandsweptHIFU.LoadAsset<Mesh>("meshOldRangerGunTest.fbx");
-            var mdlMeshRenderer = mdl.GetComponent<MeshRenderer>();
-
-            var newMaterial = Main.sandsweptHIFU.LoadAsset<Material>("matRangerBodyTest.mat");
-
-            mdlMeshRenderer.material = newMaterial;
-            */
         }
 
         private void UNetVersion()

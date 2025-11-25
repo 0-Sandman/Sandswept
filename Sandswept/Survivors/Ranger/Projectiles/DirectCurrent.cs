@@ -77,7 +77,7 @@ namespace Sandswept.Survivors.Ranger.Projectiles
 
             projectileController.ghostPrefab = newGhost;
 
-            prefab.AddComponent<InverseFalloffProjectile>().DollarStoreConstructor(50f, 0.6f, 1.3f, 0.6f, 1.56f);
+            prefab.AddComponent<InverseFalloffProjectile>().DollarStoreConstructor(50f, 0.6f, 1.56f, 0.6f, 2f);
             prefab.AddComponent<DirectImpactBoost>();
 
             prefab.RegisterNetworkPrefab();

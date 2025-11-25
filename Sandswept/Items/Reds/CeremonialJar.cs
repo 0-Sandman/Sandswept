@@ -35,7 +35,7 @@ namespace Sandswept.Items.Reds
 
         public override string ItemName => "Ceremonial Jar";
 
-        public override ItemTag[] ItemTags => [ItemTag.Damage, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist];
+        public override ItemTag[] ItemTags => [ItemTag.Damage, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist, ItemTag.CanBeTemporary];
 
         public static BuffDef linkedBuff;
         public static BuffDef cooldownBuff;

@@ -49,8 +49,11 @@ namespace Sandswept.Survivors.Electrician.VFX
             newSparksMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone);
             newSparksMaterial.SetColor("_TintColor", sparksColor);
             newSparksMaterial.SetFloat("_Boost", 5.534081f);
-            newSparksMaterial.SetFloat("_AlphaBoost", 0.0640615f);
+            newSparksMaterial.SetFloat("_AlphaBoost", 0.068f);
             newSparksMaterial.SetFloat("_AlphaBias", 0.2367508f);
+
+            VFXUtils.MultiplyScale(sparks.gameObject, 1.2f);
+            VFXUtils.MultiplyDuration(sparks.gameObject, 1.5f);
 
             var newSparksMaterials = new Material[2] { newSparksMaterial, newSparksMaterial };
             sparks.materials = newSparksMaterials;
@@ -58,10 +61,16 @@ namespace Sandswept.Survivors.Electrician.VFX
             var flashes = transform.Find("Particles, Flashes").GetComponent<ParticleSystemRenderer>();
 
             var newFlashesMaterial = new Material(flashes.material);
+            newFlashesMaterial.SetTexture("_MainTex", Paths.Texture2D.texRocketFlare);
             newFlashesMaterial.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone);
             newFlashesMaterial.SetColor("_TintColor", sparksColor);
+            newFlashesMaterial.SetFloat("_Boost", 1.9f);
+            newFlashesMaterial.SetFloat("_AlphaBoost", 2f);
+            newFlashesMaterial.SetFloat("_AlphaBias", 0f);
 
             flashes.material = newFlashesMaterial;
+
+            VFXUtils.MultiplyScale(flashes.gameObject, 1.2f);
 
             // god what a fucking piece of shit unity is, imagine having to do this thing that should be fucking default
             var sparksMain = sparks.GetComponent<ParticleSystem>().main;

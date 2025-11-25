@@ -63,7 +63,7 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texDriftingPerception.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility };
+        public override ItemTag[] ItemTags => [ItemTag.Damage, ItemTag.Utility, ItemTag.MobilityRelated, ItemTag.CanBeTemporary]; // not sure if it should be technology or not.
 
         public override void Init()
         {

@@ -34,7 +34,7 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.hifuSandswept.LoadAsset<Sprite>("texPocketPlutonium.png");
 
-        public override ItemTag[] ItemTags => new ItemTag[] { ItemTag.Damage, ItemTag.Utility, ItemTag.BrotherBlacklist, ItemTag.AIBlacklist };
+        public override ItemTag[] ItemTags => [ItemTag.Damage, ItemTag.Utility, ItemTag.BrotherBlacklist, ItemTag.AIBlacklist, ItemTag.CanBeTemporary, ItemTag.Technology];
         public override float modelPanelParametersMinDistance => 7f;
         public override float modelPanelParametersMaxDistance => 15f;
 

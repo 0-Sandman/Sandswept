@@ -48,7 +48,7 @@ namespace Sandswept.Items.Greens
 
         public override Sprite ItemIcon => Main.assets.LoadAsset<Sprite>("texIconPlate.png");
 
-        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.Healing, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist, ItemTag.CannotCopy];
+        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.Healing, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist, ItemTag.CannotCopy]; // shouldnt be temporary because it mostly bypasses the downside of temporary items
 
         [ConfigField("Base Percent Plating Gain", "", 150f)]
         public static float basePercentPlatingGain;

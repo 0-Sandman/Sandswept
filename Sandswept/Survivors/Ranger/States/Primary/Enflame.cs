@@ -25,7 +25,7 @@ namespace Sandswept.Survivors.Ranger.States.Primary
         public float finalDurationPerShot;
         public float shotTimer = 0f;
 
-        public float heatPerSecond = 20f;
+        public float heatPerSecond = 25f;
 
         public GameObject tracerEffect;
         public GameObject tracerEffectHeated;
@@ -90,7 +90,9 @@ namespace Sandswept.Survivors.Ranger.States.Primary
 
             if (characterBody)
             {
-                characterBody.isSprinting = false;
+                // characterBody.isSprinting = false;
+                // characterBody.bodyFlags |= CharacterBody.BodyFlags.SprintAnyDirection;
+                characterBody.isSprinting = true;
                 characterBody.SetAimTimer(1f);
             }
         }
@@ -113,6 +115,12 @@ namespace Sandswept.Survivors.Ranger.States.Primary
                 shotTimer = 0f;
                 FireShot();
                 outer.SetNextStateToMain();
+                /*
+                if (characterBody)
+                {
+                    characterBody.bodyFlags &= CharacterBody.BodyFlags.SprintAnyDirection;
+                }
+                */
             }
         }
 
