@@ -42,7 +42,7 @@ namespace Sandswept.Items.Lunars
 
         public override Sprite ItemIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texSequencedFate.png");
 
-        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist, ItemTag.CannotCopy, ItemTag.BrotherBlacklist];
+        public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.InteractableRelated, ItemTag.AIBlacklist, ItemTag.CannotCopy, ItemTag.BrotherBlacklist, ItemTag.ObjectiveRelated];
 
         public override string AchievementName => "A Fool Moon [...]";
 
@@ -172,29 +172,6 @@ namespace Sandswept.Items.Lunars
                 Main.ModLogger.LogError($"item count: {itemCount}, last item count: {lastItemCount}, stage: {SceneCatalog.mostRecentSceneDef.cachedName}, shrine of order count: {shrineOfOrderCountAfterApplying - shrineOfOrderCountBeforeApplying}");
             }
         }
-
-        private void Inventory_ShrineRestackInventory(ILContext il)
-        {
-            ILCursor c = new(il);
-
-            ILLabel sigma = null;
-
-            c.TryGotoNext(MoveType.After,
-                x => x.MatchBneUn(out _)
-            );
-
-            c.TryGotoNext(MoveType.Before, x => x.MatchLdloc(6));
-            int index = c.Index;
-            c.TryGotoNext(MoveType.After,
-            x => x.MatchLdarg(0), x => x.MatchLdloc(7));
-            c.Index++;
-            sigma = c.MarkLabel();
-            c.Index = index;
-            c.Emit(OpCodes.Ldloc, 8);
-            c.EmitDelegate<Func<ItemDef, bool>>((x) => { return x == ItemDef; });
-            c.Emit(OpCodes.Brtrue, sigma);
-        }
-        // hell
 
         private void ShrineRestackBehavior_AddShrineStack(On.RoR2.ShrineRestackBehavior.orig_AddShrineStack orig, ShrineRestackBehavior self, Interactor interactor)
         {
