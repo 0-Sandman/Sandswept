@@ -80,7 +80,7 @@ namespace Sandswept.Survivors.Ranger
                     TakeDamage(self);
                     selfDamageTimer = 0f;
 
-                    cb.SetBuffCount(HeatHealingReduction.instance.BuffDef.buffIndex, Mathf.Clamp(Mathf.RoundToInt((currentHeat / maxHeat) * 100f), 0, 100));
+                    cb.SetBuffCount(HeatHealingReduction.instance.BuffDef.buffIndex, Mathf.Clamp(Mathf.RoundToInt((currentHeat / maxHeat * 2.5f) * 100f), 0, 100));
                 }
             }
 
@@ -274,6 +274,9 @@ namespace Sandswept.Survivors.Ranger
         public Color32 inHeatColor;
         public Stack<Image> heatSprites = new();
         public GameObject heatGaugeRef;
+        public float smoothingTime = 0.2f;
+        public float targetPercent;
+        public float heatPercent;
 
         public void Start()
         {
@@ -315,11 +318,11 @@ namespace Sandswept.Survivors.Ranger
 
                 lowHeatColor = skinNameToken switch
                 {
-                    "RANGER_SKIN_MAJOR_NAME" => new Color32(0, 130, 224, 200),
-                    "RANGER_SKIN_RENEGADE_NAME" => new Color32(244, 95, 197, 200),
-                    "RANGER_SKIN_MILEZERO_NAME" => new Color32(153, 0, 23, 200),
-                    "RANGER_SKIN_SANDSWEPT_NAME" => new Color32(214, 159, 79, 200),
-                    _ => new Color32(255, 200, 0, 200),
+                    "RANGER_SKIN_MAJOR_NAME" => new Color32(0, 130, 224, 255),
+                    "RANGER_SKIN_RENEGADE_NAME" => new Color32(244, 95, 197, 255),
+                    "RANGER_SKIN_MILEZERO_NAME" => new Color32(153, 0, 23, 255),
+                    "RANGER_SKIN_SANDSWEPT_NAME" => new Color32(214, 159, 79, 255),
+                    _ => new Color32(255, 200, 0, 255),
                 };
                 inHeatColor = skinNameToken switch
                 {
@@ -341,14 +344,17 @@ namespace Sandswept.Survivors.Ranger
 
             if (!target.isInOverdrive)
             {
+                targetPercent = 0f;
+                heatPercent = 0f;
                 image.transform.parent.gameObject.SetActive(false);
             }
             else
             {
                 image.transform.parent.gameObject.SetActive(true);
             }
-
-            var heatPercent = target.currentHeat / RangerHeatController.maxHeat;
+            
+            targetPercent = target.currentHeat / RangerHeatController.maxHeat;
+            heatPercent = Mathf.MoveTowards(heatPercent, targetPercent, (Mathf.Abs(targetPercent - heatPercent) / smoothingTime) * Time.fixedDeltaTime);
             // Main.ModLogger.LogError("target.currentHeat: " + target.currentHeat + ", RangerHeatController.maxHeat: " + RangerHeatController.maxHeat + ", heatPercent: " + heatPercent);
             // all seems correct with these values, the previous heat value is shown when first entering overdrive and not doing anything probably because it instantiates first and THEN pops?
 
@@ -378,13 +384,20 @@ namespace Sandswept.Survivors.Ranger
                 }
             }
 
-            // int iterations = (int)Mathf.Ceil(heatPercent);
-            for (int i = iterations - 1; i >= 0; i--)
+            /* for (int i = iterations - 1; i >= 0; i--)
             {
-                float fillAmount = i >= 1 ? 1f : heatPercent;
+                float fillAmount = i > 0 ? 1f : heatPercent;
                 Image image = heatSprites.ElementAt(i);
                 image.fillAmount = Mathf.Clamp01(fillAmount);
                 image.color = Color.Lerp(lowHeatColor, inHeatColor, (heatPercent - i) / 3f);
+            } */
+
+            for (int i = 0; i < heatSprites.Count; i++) {
+                Image image = heatSprites.ElementAt(i);
+                float fillAmount = heatPercent - i;
+                if (i != Mathf.FloorToInt(heatPercent)) fillAmount = 1f;
+                image.fillAmount = Mathf.Clamp01(fillAmount);
+                image.color = Color.Lerp(lowHeatColor, inHeatColor, i / 3f);
             }
         }
     }
