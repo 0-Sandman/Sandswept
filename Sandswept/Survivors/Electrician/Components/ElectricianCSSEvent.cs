@@ -19,6 +19,10 @@ namespace Sandswept.Survivors.Electrician
 
         public void ElecBlast()
         {
+            if (!Util.CheckRoll(50)) {
+                return;
+            }
+            
             var skinNameToken = modelSkinController.skins[modelSkinController.currentSkinIndex].nameToken;
 
             effect = skinNameToken switch

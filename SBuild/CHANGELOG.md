@@ -1,3 +1,9 @@
+## 1.3.3 Patch Notes
+- VOL-T 
+  - Fixed the swivel rod cutting off or being discolored at the top depending on skin.
+  - Made the click sound in lobby play less often.
+  - Made Galvanic Bolt actually have a projectile ghost so that it doesnt visually come from the camera when AttackDirectionFix is installed.
+
 ## 1.3.2 Patch Notes
 - General
   - Updated for AC patch
