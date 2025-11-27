@@ -30,7 +30,9 @@ namespace Sandswept.Drones
         public abstract DirectorAPI.Stage[] Stages { get; }
         public abstract string iscName { get; }
         public abstract string inspectInfoDescription { get; }
+        public abstract Texture2D icon { get; }
         public InteractableSpawnCard iscBroken;
+        public DroneDef droneDef;
 
         public void Initialize()
         {
@@ -73,11 +75,11 @@ namespace Sandswept.Drones
 
             var genericDisplayNameProvider = DroneBroken.GetComponent<GenericDisplayNameProvider>();
 
-            var descToken = Tokens.Where(x => x.Key.Contains("BROKEN")).First().Key; // gets something like SANDSWEPT_VOLTAIC_DRONE_BROKEN_NAME
-            genericDisplayNameProvider.displayToken = descToken; // pseudopulse ! ! voltaic had inferno's name token
-            descToken = descToken.Replace("_NAME", "_DESCRIPTION"); // changes _NAME suffix to _DESCRIPTION
+            var brokenDroneDescriptionToken = Tokens.Where(x => x.Key.Contains("BROKEN")).First().Key; // gets something like SANDSWEPT_VOLTAIC_DRONE_BROKEN_NAME
+            genericDisplayNameProvider.displayToken = brokenDroneDescriptionToken; // pseudopulse ! ! voltaic had inferno's name token
+            brokenDroneDescriptionToken = brokenDroneDescriptionToken.Replace("_NAME", "_DESCRIPTION"); // changes _NAME suffix to _DESCRIPTION
 
-            descToken.Add(inspectInfoDescription);
+            brokenDroneDescriptionToken.Add(inspectInfoDescription);
 
             var droneIcon = Addressables.LoadAssetAsync<Sprite>("bf6ab7be6a9954e43a786c5d88ea5585").WaitForCompletion();
             // guid is tex drone icon outlined
@@ -87,7 +89,7 @@ namespace Sandswept.Drones
             var inspectInfo = inspectDef.Info = new()
             {
                 TitleToken = genericDisplayNameProvider.displayToken,
-                DescriptionToken = descToken,
+                DescriptionToken = brokenDroneDescriptionToken,
                 FlavorToken = "sanswep",
                 isConsumedItem = false,
                 Visual = droneIcon,
@@ -96,6 +98,7 @@ namespace Sandswept.Drones
 
             genericInspectInfoProvider.InspectInfo = inspectDef;
             genericInspectInfoProvider.InspectInfo.Info = inspectInfo;
+
         }
 
         public static NetworkHash128 GetNetworkedObjectAssetId(GameObject gameObject)
@@ -156,6 +159,18 @@ namespace Sandswept.Drones
 #pragma warning restore
 
             iscBroken = isc;
+
+            var droneSprite = Sprite.Create(icon, new Rect(0f, 0f, icon.width, icon.height), Vector2.zero);
+
+            droneDef = ScriptableObject.CreateInstance<DroneDef>();
+            droneDef.bodyPrefab = DroneBody;
+            droneDef.displayPrefab = DroneBody;
+            droneDef.iconSprite = droneSprite;
+            droneDef.remoteOpBody = DroneBody;
+            droneDef.remoteOpCost = 1;
+            droneDef.droneBrokenSpawnCard = iscBroken;
+            droneDef.nameToken = DroneBody.GetComponent<CharacterBody>().baseNameToken;
+            droneDef.descriptionToken =
         }
 
         public void AssignIfExists(GenericSkill slot, SkillInfo info)

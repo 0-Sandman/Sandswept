@@ -298,8 +298,8 @@
 - General
   - Added LookingGlass Support
 - Ranger
-  - Reworked Direct Current - now has inverse damage falloff (deals less damage up close, but ramps up to more than before at range; this change is to help mitigate base form being so all-rounder good that you never bother using heat)
-  - Reworked Heat Mechanic - self damage and base damage gain is now almost immediate
+  - Made Direct Current have inverse damage falloff (deals less damage up close, but ramps up to more than before at range; this change is to help mitigate base form being so all-rounder good that you never bother using heat)
+  - Made Heat Mechanic do self damage and add base damage almost immediately
   - Updated log (fuck Google Docs)
   - Fixed Loadout bugs
   - Removed jumpscare easter egg
@@ -347,7 +347,7 @@
   - Now has a charge indicator on the crosshair
 - Items/Equipment
   - Added Universal VIP Pass VFX
-  - Reworked Universal VIP Pass to have a 40% (+40% per stack, hyperbolic) chance of dropping 1 extra item.
+  - Made Universal VIP Pass have a 40% (+40% per stack, hyperbolic) chance of dropping 1 extra item
   - Made Ceremonial Jar only trigger with skill damage
   - Improved Their Prominence VFX
   - Improved Nuclear Salvo textures

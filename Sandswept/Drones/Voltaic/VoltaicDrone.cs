@@ -15,7 +15,8 @@ namespace Sandswept.Drones.Voltaic
         new() {
             {"SANDSWEPT_VOLTAIC_DRONE_BODY", "Voltaic Drone"},
             {"SANDSWEPT_VOLTAIC_DRONE_BROKEN_NAME", "Broken Voltaic Drone"},
-            {"SANDSWEPT_VOLTAIC_DRONE_CONTEXT", "Repair?"}
+            {"SANDSWEPT_VOLTAIC_DRONE_CONTEXT", "Repair?"},
+            {"SANDSWEPT_VOLTAIC_DRONE_DESC", "sampel description Expansión"},
         };
 
         public override GameObject DroneBroken => Main.assets.LoadAsset<GameObject>("VoltaicDroneBroken.prefab");
@@ -37,6 +38,8 @@ namespace Sandswept.Drones.Voltaic
         public override string iscName => "iscVoltaicDroneBroken";
 
         public override string inspectInfoDescription => "A companion bought with gold that will follow the survivor at a close distance shooting out a bolt that zaps nearby targets.";
+
+        public override Texture2D icon => Main.hifuSandswept.LoadAsset<Texture2D>("texInfernoDrone.png");
 
         public static GameObject SpikeProjectile;
 

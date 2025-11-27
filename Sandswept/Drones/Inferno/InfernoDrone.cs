@@ -38,6 +38,8 @@ namespace Sandswept.Drones.Inferno
 
         public override string inspectInfoDescription => "A companion bought with gold that will follow the survivor at a close distance shooting out molotov cocktails.";
 
+        public override Texture2D icon => Main.hifuSandswept.LoadAsset<Texture2D>("texInfernoDrone.png");
+
         public static GameObject MortarProjectile;
         private static GameObject SigmaProjectile;
         private static GameObject SigmaProjectile2;
@@ -79,8 +81,6 @@ namespace Sandswept.Drones.Inferno
             var meshSMR = trans.Find("InfernoDroneMesh").GetComponent<SkinnedMeshRenderer>();
             meshSMR.material.SetColor("_EmColor", new Color32(255, 88, 0, 255));
             meshSMR.material.SetFloat("_EmPower", 5f);
-
-            DroneBody.GetComponent<CharacterBody>().portraitIcon = Main.hifuSandswept.LoadAsset<Texture2D>("texInfernoDrone.png");
 
             ContentAddition.AddProjectile(MortarProjectile);
             ContentAddition.AddProjectile(SigmaProjectile);
