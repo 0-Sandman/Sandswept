@@ -9,6 +9,7 @@ namespace Sandswept.Enemies.CannonballJellyfish
     public class CannonballJellyfish : EnemyBase<CannonballJellyfish>
     {
         public static GameObject JellyCoreProjectile;
+        public static Material matTell;
 
         [ConfigField("Director Credit Cost", "", 115)]
         public static int directorCreditCost;
@@ -24,6 +25,15 @@ namespace Sandswept.Enemies.CannonballJellyfish
             JellyCoreProjectile = Main.assets.LoadAsset<GameObject>("JellyCoreProjectile.prefab");
             JellyCoreProjectile.GetComponent<ProjectileImpactExplosion>().explosionEffect = Paths.GameObject.SojournExplosionVFX;
             ContentAddition.AddProjectile(JellyCoreProjectile);
+
+            SetUpVFX();
+        }
+
+        public void SetUpVFX()
+        {
+            matTell = new Material(Paths.Material.matHuntressFlashExpanded);
+
+            matTell.SetColor("_TintColor", new Color32(148, 29, 0, 200));
         }
 
         public override void PostCreation()

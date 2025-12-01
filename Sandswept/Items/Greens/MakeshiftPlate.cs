@@ -13,6 +13,7 @@ using Debug = UnityEngine.Debug;
 using LookingGlass.ItemStatsNameSpace;
 using R2API.Networking.Interfaces;
 using R2API.Networking;
+using R2API;
 
 namespace Sandswept.Items.Greens
 {
@@ -56,19 +57,43 @@ namespace Sandswept.Items.Greens
         public static float stackPercentPlatingGain;
 
         public static Sprite texPlatingBar => Main.sandsweptHIFU.LoadAsset<Sprite>("texPlatingBar.png");
-
+        public static HealthBarAPI.BarOverlayIndex MakeshiftPlateOverlay;
         public override void Init()
         {
             base.Init();
 
             NetworkingAPI.RegisterMessageType<MakeshiftPlateAddSync>();
+
+            MakeshiftPlateOverlay = HealthBarAPI.RegisterBarOverlay(new HealthBarAPI.BarOverlayInfo() {
+                BarInfo = new HealthBar.BarInfo {
+                    color = Color.white,
+                    sprite = texPlatingBar,
+                    imageType = Image.Type.Sliced,
+                    sizeDelta = 25f,
+                    normalizedXMax = 0f,
+                    normalizedXMin = 0f
+                },
+                BodySpecific = true,
+                ModifyBarInfo = (HealthBar bar, ref HealthBar.BarInfo info) => {
+                    PlatingManager manager = bar.source.GetComponent<PlatingManager>();
+                    info.enabled = manager && manager.CurrentPlating > 0;
+                    if (manager) {
+                        info.normalizedXMin = 0f;
+                        info.normalizedXMax = manager.CurrentPlating / manager.MaxPlating;
+                    }
+                },
+                ModifyHealthValues = (HealthBar bar, ref float cur, ref float max) => {
+                    PlatingManager manager = bar.source.GetComponent<PlatingManager>();
+                    if (manager) {
+                        cur += manager.CurrentPlating;
+                    }
+                }
+            });
         }
         public override void Hooks()
         {
             On.RoR2.CharacterBody.Start += OnBodySpawn;
             On.RoR2.HealthComponent.TakeDamage += TakeDamage;
-            IL.RoR2.UI.HealthBar.ApplyBars += UpdatePlatingUI;
-            IL.RoR2.UI.HealthBar.UpdateHealthbar += UpdateHealthBar;
             On.RoR2.Inventory.GiveItemTemp += GiveItem;
             On.RoR2.Inventory.GiveItemPermanent_ItemIndex_int += GiveItemPermanent;
             On.RoR2.CharacterBody.OnInventoryChanged += OnInventoryChanged;
@@ -240,13 +265,27 @@ namespace Sandswept.Items.Greens
             MakeshiftPlateCount.iconSprite = Main.mainAssets.LoadAsset<Sprite>("MakeshiftPlateBuffIcon.png");
             ContentAddition.AddBuffDef(MakeshiftPlateCount);
         }
-        /*
+        
         public class PlatingManager : MonoBehaviour
         {
             public float CurrentPlating = 0;
             public float MaxPlating = 0;
+            public CharacterBody body;
+
+            public void Start() {
+                body = GetComponent<CharacterBody>();
+
+                if (body) {
+                    HealthBarAPI.AddOverlayToBody(body, MakeshiftPlateOverlay);
+                }
+            }
+
+            public void OnDestroy() {
+                if (body) {
+                    HealthBarAPI.RemoveOverlayFromBody(body, MakeshiftPlateOverlay);
+                }
+            }
         }
-        */
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
         {

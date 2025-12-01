@@ -18,6 +18,8 @@ namespace Sandswept.Enemies.GammaConstruct
         public override DirectorCardCategorySelection family => Paths.FamilyDirectorCardCategorySelection.dccsConstructFamily;
         public override MonsterCategory cat => MonsterCategory.Minibosses;
 
+        public static Material matTell;
+
         public override void LoadPrefabs()
         {
             prefab = Main.assets.LoadAsset<GameObject>("GammaConstructBody.prefab");
@@ -90,6 +92,14 @@ namespace Sandswept.Enemies.GammaConstruct
             sigmaBlast = PrefabAPI.InstantiateClone(Paths.GameObject.ExplosionMinorConstruct, "SigmaBlast");
             sigmaBlast.RemoveComponent<ShakeEmitter>();
             ContentAddition.AddEffect(sigmaBlast);
+            SetUpVFX();
+        }
+
+        public void SetUpVFX()
+        {
+            matTell = new Material(Paths.Material.matHuntressFlashExpanded);
+
+            matTell.SetColor("_TintColor", new Color32(127, 96, 51, 255));
         }
 
         public override void PostCreation()

@@ -54,6 +54,12 @@ namespace Sandswept.Survivors.Electrician
             // what is the point ? ? ?
         }
 
+        public void OnDestroy() {
+            if (controller.ghost) {
+                GameObject.Destroy(controller.ghost.gameObject);
+            }
+        }
+
         public Transform GetModelTransform()
         {
             if (!owner || !owner.modelLocator)
@@ -172,7 +178,9 @@ namespace Sandswept.Survivors.Electrician
                         base.GetComponentInChildren<ParticleSystem>().Play();
                         hasStuck = true;
 
-                        base.gameObject.FindComponent<MeshRenderer>("Radius").enabled = true;
+                        if (controller.ghost) {
+                            controller.ghost.gameObject.FindComponent<MeshRenderer>("Radius").enabled = true;
+                        }
                     }
                     else
                     {

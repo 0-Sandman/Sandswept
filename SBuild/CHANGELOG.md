@@ -1,12 +1,32 @@
+## 1.3.3 Patch Notes
+- VOL-T 
+  - Fixed the swivel rod cutting off or being discolored at the top depending on skin.
+  - Made the click sound in lobby play less often.
+  - Made Galvanic Bolt actually have a projectile ghost so that it doesnt visually come from the camera when AttackDirectionFix is installed.
+
 ## 1.3.2 Patch Notes
 - General
   - Updated for AC patch
+      - This is just an unfinished update we had before we knew of Alloyed Collective's release date, not much was done just yet and there will be later additions.
+      - Some content "overlap" with AC will be kept in because it's distinct enough, like Pocket Plutonium and Osmium elites. Parry equipment might get a rework.
+      - Ranger's Galvanize, Char and Heat Sink will get reworks as well, and hopefully her model (and then new animations) can be finished in a few months time..
+      - <details>
+        <summary>Here is a sneak peak, click to to view</summary>
+
+        ![#1](https://i.postimg.cc/vBL1p7Gd/image.png)
+
+        ![#2](https://i.postimg.cc/V6crGZQG/image.png)
+
+        I still want to add more detail and textures if possible.
+        </details>
 - VOL-T
   - Added SkinFlavorText Support
   - <details>
     <summary>Added some Item Displays, click to view list</summary>
     Red Spring Water, Makeshift Plate, Nuclear Salvo, Pocket Plutonium, Sacrificial Band, Smouldering Document, Universal VIP Pass, Armor-Piercing Rounds, Backup Magazine, Bundle of Fireworks,  Cautious Slug, Chronic Expansion, Delicate Watch, Energy Drink, Focus Crystal, Lens-Maker's Glasses, Medkit, Personal Shield Generator, Repulsion Armor Plate, AtG Missile Mk. 1, Bandolier, Hunter's Harpoon, Luminous Shot, Kjaro's Band, Runald's Band, Ukulele, Lost Seer's Lenses, Singularity Band, Plasma Shrimp, Polylute, Brilliant Behemoth, Ceremonial Dagger, Shattering Justice, Symbiotic Scorpion, Preon Accumulator, Primordial Cube, Artificial Void, John Hopoo, Aurelionite's Blessing, Her Biting Embrace, His Reassurance, His Spiteful Boon, Ifrit's Distinction, N'kuhana's Retort, Shared Design, Silence Between Two Strikes, Spectral Circlet
     </details>
+  - Improved Galvanic Bolt VFX
+  - Improved Signal Overload VFX
   - (Jankily) Fixed Galvanic Bolt always missing the Static Snare Pylon with AttackDirectionFix installed - its aim assistance is turned off while AttackDirectionFix is installed...,,,,
   - Fixed Static Snare Pylon being set to the mastery model on non-mastery, non-default skins
 - Ranger
@@ -15,6 +35,7 @@
   - Added Recolored VFX to Direct Current's hitsparks
   - Buffed Direct Current Minimum Damage from 125% to 150%
   - Buffed Direct Current Maximum Damage from 375% to 390%
+  - Buffed Direct Current Maximum Radius from 6m to 8m
   - Buffed Enflame Damage from 75% to 90%
   - Buffed Enflame Proc Coefficient from 0.9 to 1
   - Buffed Exhaust Damage from 4x200% to 4x300%
@@ -30,7 +51,7 @@
   - Made Heat no longer give a base damage bonus based on time spent in 100% heat
   - Made Healing Reduction scale linearly with heat, capping at -100% in 100% heat
   - Made Release scale VFX intensity with spent Charge
-  - Made Enflame build up heat when fired at a rate of 20% per second
+  - Made Enflame build up heat when fired at a rate of 25% per second
   - Made Enflame attack speed boost based on heat uncapped, scaling at 1 extra bullet per second per 25% heat
   - Made Exhaust reduce 50% of CURRENT heat, instead of a flat amount of heat
   - Made Exhaust blast count based on heat uncapped, scaling at 1 extra blast per 20% heat spent
@@ -38,11 +59,9 @@
   - Made Exhaust match Enflame's shot distance scaling
   - Made Char reduce 50% of CURRENT heat, instead of a flat amount of heat
   - Made Char damage based on heat uncapped, scaling at per % heat spent
-    - Galvanize and Char will get a rework
-  - Made Heat Signature increase dash distance based on heat, scaling at +17% distance per 40% heat
+  - Made Heat Signature increase dash distance based on heat, scaling at +17% distance per 33% heat
   - Made Heat Signature add 40% heat when used
   - Made Heat Sink Damage based on heat uncapped, scaling at +150% per 25% heat
-    - Heat Sink will get a rework
   - Fixed Crosshair dot being transparent at full Charge
   - Fixed Overcharged Protection and Overcharged Speed networking issue
   - Fixed Direct Current not having the lightning damage type (for Broken VOL-T)
@@ -51,6 +70,7 @@
   - Fixed Galvanize not having the lightning damage type (for Broken VOL-T)
   - Fixed Exhaust networking
   - Fixed Recolored Pods being assigned to the wrong skins
+  - Fixed Enflame and Release having their VFX get culled even if literally nothing else was in the scene.
 - Items/Equipment
   - Buffed Ceremonial Jar Base Damage from 1500% to 2000%
   - Buffed Ceremonial Jar Stack Damage from 1500% to 2000%
@@ -95,7 +115,7 @@
 - Enemies
   - Fixed Theta Construct Overloading Elite Item Display
 - Interactables
-  - Increased Shrine of Sacrifice Curse Cost from 20 to 30
+  - Increased Shrine of Sacrifice Curse Cost from 20 to 35
 
 ## 1.3.1 Patch Notes
 - Enemies
@@ -142,7 +162,7 @@
   - Removed Sidestep's small jump at the end
   - Buffed Direct Current Projectile Speed from 170m/s to 240m/s
   - Buffed Direct Current Explosion Radius from 2.5m to 3m
-  - Buffed Direct Current Explosion Radius to scale over distance. Maximum is 4.5m
+  - Buffed Direct Current Explosion Radius to scale over distance. Maximum is 6m
   - Buffed Direct Current Minimum Damage from 100% to 125%
   - Buffed Direct Current to give 3 Charge on a direct hit
   - Buffed Sidestep duration from 0.15s to 0.1s

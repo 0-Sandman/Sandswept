@@ -91,7 +91,7 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
                     temporaryOverlay.animateShaderAlpha = true;
                     temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
                     temporaryOverlay.destroyComponentOnEnd = true;
-                    temporaryOverlay.originalMaterial = Survivors.Ranger.VFX.HeatSignatureVFX.heatDashMat2Default;
+                    temporaryOverlay.originalMaterial = CannonballJellyfish.matTell;
                     temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
 
                     showedTelegraph = true;

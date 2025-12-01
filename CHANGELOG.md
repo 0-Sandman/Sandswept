@@ -1,5 +1,21 @@
+## 1.3.4 Patch Notes
+- General
+  - Fixed Survivor toggle config causing enemies to spam NREs
+- Items/Equipment
+  - Fixed Nuclear Salvo activating while in Computational Exchange
+  - Fixed Hallowed Ichor activating while in The Bazaar and Computational Exchange
+- Interactables
+  - Reduced Shrine of Sacrifice Curse Cost from 35 to 30
+
+## 1.3.3 Patch Notes
+- VOL-T
+  - Made the click sound in lobby play less often
+  - Made Galvanic Bolt actually have a projectile ghost so that it doesn't visually come from the camera when AttackDirectionFix is installed
+  - Fixed the swivel rod cutting off or being discolored at the top depending on skin
+
 ## 1.3.2 Patch Notes
 - General
+  - Added Survivor toggle config
   - Updated for AC patch
       - This is just an unfinished update we had before we knew of Alloyed Collective's release date, not much was done just yet and there will be later additions.
       - Some content "overlap" with AC will be kept in because it's distinct enough, like Pocket Plutonium and Osmium elites. Parry equipment might get a rework.
@@ -64,6 +80,7 @@
   - Fixed Galvanize not having the lightning damage type (for Broken VOL-T)
   - Fixed Exhaust networking
   - Fixed Recolored Pods being assigned to the wrong skins
+  - Fixed Enflame and Release having their VFX get culled even if literally nothing else was in the scene.
 - Items/Equipment
   - Buffed Ceremonial Jar Base Damage from 1500% to 2000%
   - Buffed Ceremonial Jar Stack Damage from 1500% to 2000%
@@ -108,7 +125,7 @@
 - Enemies
   - Fixed Theta Construct Overloading Elite Item Display
 - Interactables
-  - Increased Shrine of Sacrifice Curse Cost from 20 to 30
+  - Increased Shrine of Sacrifice Curse Cost from 20 to 35
 
 ## 1.3.1 Patch Notes
 - Enemies
@@ -395,9 +412,9 @@
   - Made Sidestep keep your momentum
   - Made Heat Signature extend its dash on hit
   - Made Heat Sink launch you upward a little bit
-  - Reworked Enflame to have lower fire rate, slightly lower damage, but gain fire rate, ignite chance and reduce its bullet range scaling with heat
-  - Reworked Exhaust to fire 2-4 bursts, burst count scaling with heat
-  - Reworked Heat Mechanic to be more manageable and intuitive
+  - Made Enflame have a lower fire rate, slightly lower damage, but gain fire rate, ignite chance and reduce its bullet range scaling with heat
+  - Made Exhaust fire 2-4 bursts, burst count scaling with heat
+  - Made Heat Mechanic be more manageable and intuitive
   - Improved Direct Current VFX
   - Improved Release VFX
   - Improved Sidestep VFX
@@ -667,7 +684,7 @@
   - Nerfed Sun Fragment Stun Duration from 2s to 1.5s
   - Nerfed Nuclear Salvo Missile Range from 10000m to 60m
   - Nerfed Bleeding Witness Base DoT Healing from 0.5% to 0.4%
-  - Reworked Universal VIP Paws to have a chance of dropping extra items from category chests
+  - Made Universal VIP Paws have a chance of dropping extra items from category chests
   - Made Fractured Timepiece scale Healing and Special Cooldown Reduction with Utility Skill Base Max Stock
   - Fixed Fractured Timepiece working too well with Thermal Harpoons
   - Fixed Smouldering Document throwing an NRE

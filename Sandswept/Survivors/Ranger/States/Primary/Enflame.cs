@@ -90,9 +90,9 @@ namespace Sandswept.Survivors.Ranger.States.Primary
 
             if (characterBody)
             {
-                // characterBody.isSprinting = false;
+                characterBody.isSprinting = false;
                 // characterBody.bodyFlags |= CharacterBody.BodyFlags.SprintAnyDirection;
-                characterBody.isSprinting = true;
+                // characterBody.isSprinting = true;
                 characterBody.SetAimTimer(1f);
             }
         }
@@ -115,12 +115,6 @@ namespace Sandswept.Survivors.Ranger.States.Primary
                 shotTimer = 0f;
                 FireShot();
                 outer.SetNextStateToMain();
-                /*
-                if (characterBody)
-                {
-                    characterBody.bodyFlags &= CharacterBody.BodyFlags.SprintAnyDirection;
-                }
-                */
             }
         }
 
@@ -143,8 +137,8 @@ namespace Sandswept.Survivors.Ranger.States.Primary
 
             if (isHeatedShot)
             {
-                Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
-                Util.PlayAttackSpeedSound("Play_lunar_wisp_attack1_shoot_bullet", gameObject, attackSpeedStat);
+               Util.PlayAttackSpeedSound("Play_drone_attack", gameObject, attackSpeedStat);
+               Util.PlayAttackSpeedSound("Play_lunar_wisp_attack1_shoot_bullet", gameObject, attackSpeedStat);
             }
 
             BulletAttack attack = new()

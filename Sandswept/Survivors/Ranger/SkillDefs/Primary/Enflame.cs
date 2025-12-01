@@ -16,7 +16,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Primary
 
         public override Sprite Icon => Main.prodAssets.LoadAsset<Sprite>("Assets/Sandswept/texRangerSkillIcon_hm1.png");
         public override string[] Keywords => [Utils.Keywords.Agile];
-        public override bool Agile => true;
+        public override bool Agile => false;
         public override int StockToConsume => 0;
         public override InterruptPriority InterruptPriority => InterruptPriority.Any;
         public override float GetProcCoefficientData() => 0.9f;

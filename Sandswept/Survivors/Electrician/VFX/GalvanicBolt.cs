@@ -84,9 +84,9 @@ namespace Sandswept.Survivors.Electrician.VFX
 
         public static GameObject CreateProjectileRecolor(string name, Color32 ballColor, Color32 radiusIndicatorColor, Color32 lightningColor, Color32 beamStartColor, Color32 beamEndColor)
         {
-            var projectile = Main.assets.LoadAsset<GameObject>("GalvanicBallProjectile.prefab").InstantiateClone("Galvanic Bolt Projectile " + name, true);
-            projectile.GetComponent<GalvanicBallController>().damage = 2f; // im not launching unity lmao
-            projectile.GetComponent<ProjectileDamage>().damageType.AddModdedDamageType(Electrician.ReallyShittyGrounding);
+            var projectile = Main.assets.LoadAsset<GameObject>("GalvanicBallProjectile.prefab").GetComponent<ProjectileController>().ghostPrefab.InstantiateClone("Galvanic Bolt Projectile Ghost" + name, false);
+            var actualProjectile = Main.assets.LoadAsset<GameObject>("GalvanicBallProjectile.prefab").InstantiateClone("Galvanic Bolt Projectile " + name, true);
+            actualProjectile.GetComponent<ProjectileController>().ghostPrefab = projectile;
             projectile.FindComponent<MeshRenderer>("Radius").sharedMaterial = Paths.Material.matTeamAreaIndicatorIntersectionPlayer;
 
             var transform = projectile.transform;
@@ -154,10 +154,10 @@ namespace Sandswept.Survivors.Electrician.VFX
             light.intensity = 15f;
             light.range = 9f;
 
-            ContentAddition.AddNetworkedObject(projectile);
-            PrefabAPI.RegisterNetworkPrefab(projectile);
-            ContentAddition.AddProjectile(projectile);
-            return projectile;
+            ContentAddition.AddNetworkedObject(actualProjectile);
+            PrefabAPI.RegisterNetworkPrefab(actualProjectile);
+            ContentAddition.AddProjectile(actualProjectile);
+            return actualProjectile;
         }
 
         public static GameObject CreateImpactRecolor(string name, Color32 smallDetailsColor, Color32 ringColor)

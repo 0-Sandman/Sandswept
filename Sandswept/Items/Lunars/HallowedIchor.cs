@@ -6,6 +6,7 @@ using R2API.Networking.Interfaces;
 using RoR2.UI;
 using System.Collections;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 namespace Sandswept.Items.Lunars
 {
@@ -87,6 +88,8 @@ namespace Sandswept.Items.Lunars
         public static int globalReopenCount = 0;
 
         public static GameObject vfx;
+
+        public static List<string> stageBlacklist = ["bazaar", "computationalexchange"];
 
         public override void Init()
         {
@@ -268,7 +271,6 @@ namespace Sandswept.Items.Lunars
             rainstormScalingValue = DifficultyCatalog.GetDifficultyDef(DifficultyIndex.Normal).scalingValue;
             cachedDifficultyDefScalingValue = runDifficultyDef.scalingValue;
             currentDifficultyDefScalingValue = cachedDifficultyDefScalingValue;
-
         }
 
         private void TrackStackCount(CharacterBody body)
@@ -311,6 +313,12 @@ namespace Sandswept.Items.Lunars
                 // Main.ModLogger.LogError("opened count BEFORE is " + hallowedIchorChestController.openedCount);
                 hallowedIchorChestController.openedCount++;
                 // Main.ModLogger.LogError("opened count AFTREERERERR is " + hallowedIchorChestController.openedCount);
+
+                var sceneName = SceneManager.GetActiveScene().name;
+                if (stageBlacklist.Contains(sceneName))
+                {
+                    return;
+                }
 
                 if (hallowedIchorChestController.openedCount > 1)
                 {

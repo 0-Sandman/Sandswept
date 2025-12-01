@@ -50,7 +50,7 @@
 
         public static Material CreateMat1Recolor(Color32 blueEquivalent)
         {
-            var mat = Object.Instantiate(Paths.Material.matHuntressFlashBright);
+            var mat = new Material(Paths.Material.matHuntressFlashBright);
 
             mat.SetColor("_TintColor", blueEquivalent);
 
@@ -59,7 +59,7 @@
 
         public static Material CreateMat2Recolor(Color32 blueEquivalent)
         {
-            var mat = Object.Instantiate(Paths.Material.matHuntressFlashExpanded);
+            var mat = new Material(Paths.Material.matHuntressFlashExpanded);
 
             mat.SetColor("_TintColor", blueEquivalent);
 

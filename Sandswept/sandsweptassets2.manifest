@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2177679131
+CRC: 3241153319
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 9394846c5faddcb1a3da4f63e4440b80
+    Hash: 625d7650d55480a24b2c3011ce962024
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 826983beb74451458e7ad72f984a5c6a
+    Hash: dc7bcefa0b3b9dd07363b9fa87e0ef67
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -98,8 +98,6 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 664490745, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
-  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-- Class: 114
   Script: {fileID: 1024779430, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 1246913829, guid: ca6fb10b837101520834a90b90b15080, type: 3}
@@ -110,11 +108,7 @@ ClassTypes:
 - Class: 114
   Script: {fileID: -1568778350, guid: 050936fea8909af15a3fd3b64da1ff83, type: 3}
 - Class: 114
-  Script: {fileID: -2028682152, guid: ca6fb10b837101520834a90b90b15080, type: 3}
-- Class: 114
-  Script: {fileID: 766313180, guid: ca6fb10b837101520834a90b90b15080, type: 3}
-- Class: 114
-  Script: {fileID: -1454195969, guid: ca6fb10b837101520834a90b90b15080, type: 3}
+  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
 - Class: 114
   Script: {fileID: 337599609, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
@@ -131,10 +125,6 @@ ClassTypes:
   Script: {fileID: -2143919341, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
   Script: {fileID: 79497396, guid: ca6fb10b837101520834a90b90b15080, type: 3}
-- Class: 114
-  Script: {fileID: -2119253084, guid: ca6fb10b837101520834a90b90b15080, type: 3}
-- Class: 114
-  Script: {fileID: 1384451184, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
   Script: {fileID: 1068319814, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 114
@@ -295,9 +285,23 @@ ClassTypes:
   Script: {fileID: 52559370, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
 - Class: 114
   Script: {fileID: 105922711, guid: 951ce57ad999ac1f040a4dceb5f8b763, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+- Class: 114
+  Script: {fileID: 1384451184, guid: ca6fb10b837101520834a90b90b15080, type: 3}
+- Class: 114
+  Script: {fileID: 766313180, guid: ca6fb10b837101520834a90b90b15080, type: 3}
+- Class: 114
+  Script: {fileID: -2119253084, guid: ca6fb10b837101520834a90b90b15080, type: 3}
+- Class: 114
+  Script: {fileID: -2028682152, guid: ca6fb10b837101520834a90b90b15080, type: 3}
+- Class: 114
+  Script: {fileID: -1454195969, guid: ca6fb10b837101520834a90b90b15080, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 120
+  Script: {instanceID: 0}
+- Class: 128
   Script: {instanceID: 0}
 - Class: 134
   Script: {instanceID: 0}
@@ -358,6 +362,8 @@ SerializeReferenceClassIdentifiers:
   ClassName: UnityEngine.Events.PersistentListenerMode
 - AssemblyName: UnityEngine.CoreModule
   ClassName: UnityEngine.Events.UnityEvent
+- AssemblyName: UnityEngine.UI
+  ClassName: UnityEngine.UI.FontData
 - AssemblyName: UnityEngine.UI
   ClassName: UnityEngine.UI.MaskableGraphic/CullStateChangedEvent
 - AssemblyName: com.unity.multiplayer-hlapi.Runtime
@@ -435,7 +441,6 @@ Assets:
 - Assets/Sandswept/Base/Characters/Megalomaniac/mdl/matMegaloRock.mat
 - Assets/Sandswept/Base/Characters/ArdentWisp/fx/ArdentFlameProjectile.prefab
 - Assets/Sandswept/Base/Characters/Ranger/mdl/mastery/matRangerMastery.mat
-- Assets/Sandswept/Base/Characters/Electrician/projectiles/galvanic bolt/GalvanicBallGhost.prefab
 - Assets/Sandswept/Base/Characters/Ranger/OverlayRanger.prefab
 - Assets/Sandswept/Base/Items/LunarCatalyst/matCatalystCore.mat
 - Assets/Sandswept/Base/Characters/Electrician/mdl/interatable/BrokenElectricianBody.prefab

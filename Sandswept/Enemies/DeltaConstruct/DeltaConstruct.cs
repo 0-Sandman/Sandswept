@@ -19,6 +19,8 @@ namespace Sandswept.Enemies.DeltaConstruct
         public override DirectorCardCategorySelection family => Paths.FamilyDirectorCardCategorySelection.dccsConstructFamily;
         public override MonsterCategory cat => MonsterCategory.Minibosses;
 
+        public static Material matTell;
+
         public override void LoadPrefabs()
         {
             prefab = Main.assets.LoadAsset<GameObject>("DeltaConstructBody.prefab");
@@ -68,6 +70,14 @@ namespace Sandswept.Enemies.DeltaConstruct
             particleSystemMain.startLifetime = 10f;
             // how the fuck does increasing all this to 10s make it last 5s???
             ContentAddition.AddNetworkedObject(DeltaBurnyTrail);
+            SetUpVFX();
+        }
+
+        public void SetUpVFX()
+        {
+            matTell = new Material(Paths.Material.matHuntressFlashExpanded);
+
+            matTell.SetColor("_TintColor", new Color32(127, 0, 4, 255));
         }
 
         public override void PostCreation()

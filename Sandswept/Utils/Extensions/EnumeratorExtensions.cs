@@ -52,6 +52,7 @@ namespace Sandswept.Utils
 
         public static T ElementAt<T>(this Stack<T> collection, int index)
         {
+            index = collection.Count - index - 1;
             foreach (var item in collection)
             {
                 if (index == 0)

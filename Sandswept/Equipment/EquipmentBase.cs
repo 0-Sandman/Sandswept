@@ -83,14 +83,14 @@ namespace Sandswept.Equipment
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         private void LGWrapper()
         {
-            ItemStatsDef def = GetItemStatsDef() as ItemStatsDef;
+            ItemCatalog.availability.CallWhenAvailable(OnItemCatalogAvailable);
+        }
 
-            if (def != null)
+        private void OnItemCatalogAvailable()
+        {
+            if (GetItemStatsDef() is ItemStatsDef itemStatsDef)
             {
-                ItemCatalog.availability.CallWhenAvailable(() =>
-                {
-                    LookingGlass.ItemStatsNameSpace.ItemDefinitions.allEquipmentDefinitions.Add((int)EquipmentDef.equipmentIndex, def);
-                });
+                ItemDefinitions.allEquipmentDefinitions.Add((int)EquipmentDef.equipmentIndex, itemStatsDef);
             }
         }
 

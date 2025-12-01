@@ -68,7 +68,7 @@ namespace Sandswept.Items.Greens
         [ConfigField("Missile Explosion Radius", "", 16f)]
         public static float missileExplosionRadius;
 
-        public static List<string> stageBlacklist = new();
+        public static List<string> stageBlacklist = ["bazaar", "computationalexchange"];
 
         // uncomment for aoe
 
@@ -79,7 +79,6 @@ namespace Sandswept.Items.Greens
         public override void Init()
         {
             base.Init();
-            stageBlacklist.Add("bazaar");
             SetUpVFX();
         }
 

@@ -98,7 +98,7 @@ namespace Sandswept.Enemies.DeltaConstruct
                 temporaryOverlay.animateShaderAlpha = true;
                 temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
                 temporaryOverlay.destroyComponentOnEnd = true;
-                temporaryOverlay.originalMaterial = Survivors.Ranger.VFX.SidestepVFX.dashMat2MileZero;
+                temporaryOverlay.originalMaterial = DeltaConstruct.matTell;
                 temporaryOverlay.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
             }
         }
