@@ -113,7 +113,7 @@ namespace Sandswept.Items.VoidGreens
         No one escapes.
         """;
 
-        [ConfigField("Chance", "", 7f)]
+        [ConfigField("Chance", "", 8f)]
         public static float chance;
 
         [ConfigField("Base Movement Speed Gain", "Decimal.", 0.3f)]

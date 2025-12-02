@@ -14,6 +14,7 @@ using LookingGlass.ItemStatsNameSpace;
 using R2API.Networking.Interfaces;
 using R2API.Networking;
 using R2API;
+using static Sandswept.Items.Greens.MakeshiftPlate;
 
 namespace Sandswept.Items.Greens
 {
@@ -58,14 +59,19 @@ namespace Sandswept.Items.Greens
 
         public static Sprite texPlatingBar => Main.sandsweptHIFU.LoadAsset<Sprite>("texPlatingBar.png");
         public static HealthBarAPI.BarOverlayIndex MakeshiftPlateOverlay;
+
+        public static GameObject platingOverlayPrefab;
         public override void Init()
         {
             base.Init();
+            SetUpVFX();
 
             NetworkingAPI.RegisterMessageType<MakeshiftPlateAddSync>();
 
-            MakeshiftPlateOverlay = HealthBarAPI.RegisterBarOverlay(new HealthBarAPI.BarOverlayInfo() {
-                BarInfo = new HealthBar.BarInfo {
+            MakeshiftPlateOverlay = HealthBarAPI.RegisterBarOverlay(new HealthBarAPI.BarOverlayInfo()
+            {
+                BarInfo = new HealthBar.BarInfo
+                {
                     color = Color.white,
                     sprite = texPlatingBar,
                     imageType = Image.Type.Sliced,
@@ -74,17 +80,21 @@ namespace Sandswept.Items.Greens
                     normalizedXMin = 0f
                 },
                 BodySpecific = true,
-                ModifyBarInfo = (HealthBar bar, ref HealthBar.BarInfo info) => {
+                ModifyBarInfo = (HealthBar bar, ref HealthBar.BarInfo info) =>
+                {
                     PlatingManager manager = bar.source.GetComponent<PlatingManager>();
-                    info.enabled = manager && manager.CurrentPlating > 0;
-                    if (manager) {
+                    info.enabled = manager && manager.CurrentPlating > 0 && GetCount(bar.source.body) > 0;
+                    if (manager)
+                    {
                         info.normalizedXMin = 0f;
                         info.normalizedXMax = manager.CurrentPlating / manager.MaxPlating;
                     }
                 },
-                ModifyHealthValues = (HealthBar bar, ref float cur, ref float max) => {
+                ModifyHealthValues = (HealthBar bar, ref float cur, ref float max) =>
+                {
                     PlatingManager manager = bar.source.GetComponent<PlatingManager>();
-                    if (manager) {
+                    if (manager && GetCount(bar.source.body) > 0)
+                    {
                         cur += manager.CurrentPlating;
                     }
                 }
@@ -99,10 +109,43 @@ namespace Sandswept.Items.Greens
             On.RoR2.CharacterBody.OnInventoryChanged += OnInventoryChanged;
         }
 
+        private void SetUpVFX()
+        {
+            platingOverlayPrefab = PrefabAPI.InstantiateClone(Paths.GameObject.BarrierEffect, "Plating Overlay", false);
+
+            platingOverlayPrefab.AddComponent<UpdateAlphaBoostToPlating>();
+
+            var meshHolder = platingOverlayPrefab.transform.Find("MeshHolder");
+            meshHolder.GetComponent<Billboard>().enabled = false;
+            meshHolder.localPosition = new Vector3(0f, 0.2f, 0f);
+
+            var shieldMesh = meshHolder.Find("ShieldMesh");
+            shieldMesh.AddComponent<AdjustShieldMeshLocalScale>();
+
+            VFXUtils.AddLight(shieldMesh.gameObject, new Color32(85, 144, 164, 255), 0f, 0f);
+
+            var meshFilter = shieldMesh.GetComponent<MeshFilter>();
+            meshFilter.sharedMesh = Addressables.LoadAssetAsync<GameObject>("a0ce346ce1a826e4a912f35f9ef705a0").WaitForCompletion().GetComponent<MeshFilter>().mesh; // 66 verts donut3Mesh from mdlVFXDonut3 from Assets/RoR2/Base/Common/VFX/Mesh_ Particle/
+
+            var meshRenderer = shieldMesh.GetComponent<MeshRenderer>();
+
+            var newMat = new Material(Paths.Material.matBarrier);
+            newMat.SetColor("_TintColor", new Color32(0, 3, 3, 255));
+            newMat.SetTexture("_MainTex", Paths.Texture2D.texCompExchangeGridE);
+            newMat.SetTextureScale("_MainTex", Vector2.one * 2f);
+            newMat.SetTexture("_RemapTex", Paths.Texture2D.texRampTritoneSmoothed);
+            newMat.SetFloat("_InvFade", 0.237792f);
+            newMat.SetFloat("_Boost", 20f);
+            newMat.SetFloat("_AlphaBoost", 10f);
+            newMat.SetFloat("_AlphaBias", 0.5379356f);
+
+            meshRenderer.material = newMat;
+        }
+
         private void GiveItem(On.RoR2.Inventory.orig_GiveItemTemp orig, Inventory self, ItemIndex itemIndex, float countToAdd)
         {
             orig(self, itemIndex, countToAdd);
-            HandleItemGain(self, itemIndex, Mathf.CeilToInt(countToAdd));
+            HandleItemGain(self, itemIndex, Mathf.CeilToInt(countToAdd), true);
         }
 
         private void GiveItemPermanent(On.RoR2.Inventory.orig_GiveItemPermanent_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int countToAdd)
@@ -121,7 +164,8 @@ namespace Sandswept.Items.Greens
             }
         }
 
-        private void HandleItemGain(Inventory self, ItemIndex itemIndex, int count) {
+        private void HandleItemGain(Inventory self, ItemIndex itemIndex, int count, bool useLastAvailablePlating = false)
+        {
             if (itemIndex == ItemDef.itemIndex && self.TryGetComponent<CharacterMaster>(out CharacterMaster cm) && cm.bodyInstanceObject)
             {
                 PlatingManager manager = cm.bodyInstanceObject.GetComponent<PlatingManager>();
@@ -132,14 +176,19 @@ namespace Sandswept.Items.Greens
 
                 CharacterBody cb = cm.bodyInstanceObject.GetComponent<CharacterBody>();
 
-                float platingMult = (stackPercentPlatingGain / 100f) * count;
+                float platingMult = stackPercentPlatingGain / 100f * count;
                 int plating = Mathf.RoundToInt((cb.maxHealth + cb.maxShield) * platingMult);
 
-                manager.CurrentPlating += plating;
-                if (manager.MaxPlating == 0)
+                if (!useLastAvailablePlating)
+                {
+                    manager.CurrentPlating += plating;
+                }
+
+                if (manager.MaxPlating == 0 && !useLastAvailablePlating)
                 {
                     manager.MaxPlating = plating;
                 }
+
                 manager.CurrentPlating = Mathf.Min(manager.CurrentPlating, manager.MaxPlating);
 
                 new MakeshiftPlateAddSync(cb.gameObject, manager.CurrentPlating, manager.MaxPlating, false).Send(NetworkDestination.Clients);
@@ -165,50 +214,6 @@ namespace Sandswept.Items.Greens
             return itemStatsDef;
         }
 
-        private void UpdateHealthBar(ILContext il)
-        {
-            ILCursor c = new(il);
-
-            FieldReference cur = null;
-
-            c.TryGotoNext(MoveType.After,
-                x => x.MatchLdloc(4),
-                x => x.MatchLdarg(0),
-                x => x.MatchLdfld(out _)
-            );
-
-            c.Emit(OpCodes.Ldarg, 0);
-            c.EmitDelegate<Func<float, HealthBar, float>>((orig, self) =>
-            {
-                if (self.source && self.source.TryGetComponent<PlatingManager>(out var p))
-                {
-                    return orig + p.MaxPlating;
-                }
-
-                return orig;
-            });
-
-            c.TryGotoNext(MoveType.After,
-                x => x.MatchLdarg(0),
-                x => x.MatchLdloc(4),
-                x => x.MatchStfld(out cur)
-            );
-
-            c.Emit(OpCodes.Ldarg, 0);
-            c.Emit(OpCodes.Ldloc, 3);
-            c.Emit(OpCodes.Ldarg, 0);
-            c.EmitDelegate<Func<float, HealthBar, float>>((orig, self) =>
-            {
-                if (self.source && self.source.TryGetComponent<PlatingManager>(out var p))
-                {
-                    return orig + p.CurrentPlating;
-                }
-
-                return orig;
-            });
-            c.Emit(OpCodes.Stfld, cur);
-        }
-
         public void OnBodySpawn(On.RoR2.CharacterBody.orig_Start orig, CharacterBody self)
         {
             orig(self);
@@ -230,7 +235,7 @@ namespace Sandswept.Items.Greens
 
         public void TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
         {
-            if (self.body && self.body.TryGetComponent<PlatingManager>(out PlatingManager platingManager))
+            if (self.body && GetCount(self.body) > 0 && self.body.TryGetComponent(out PlatingManager platingManager))
             {
                 float plating = platingManager.CurrentPlating;
                 float toRemove = 0;
@@ -265,23 +270,27 @@ namespace Sandswept.Items.Greens
             MakeshiftPlateCount.iconSprite = Main.mainAssets.LoadAsset<Sprite>("MakeshiftPlateBuffIcon.png");
             ContentAddition.AddBuffDef(MakeshiftPlateCount);
         }
-        
+
         public class PlatingManager : MonoBehaviour
         {
             public float CurrentPlating = 0;
             public float MaxPlating = 0;
             public CharacterBody body;
 
-            public void Start() {
+            public void Start()
+            {
                 body = GetComponent<CharacterBody>();
 
-                if (body) {
+                if (body)
+                {
                     HealthBarAPI.AddOverlayToBody(body, MakeshiftPlateOverlay);
                 }
             }
 
-            public void OnDestroy() {
-                if (body) {
+            public void OnDestroy()
+            {
+                if (body)
+                {
                     HealthBarAPI.RemoveOverlayFromBody(body, MakeshiftPlateOverlay);
                 }
             }
@@ -397,70 +406,78 @@ namespace Sandswept.Items.Greens
                 }
             }
         }
+    }
 
-        private void UpdatePlatingUI(ILContext il)
+    public class UpdateAlphaBoostToPlating : MonoBehaviour
+    {
+        public float timer;
+        public float interval = 0.2f;
+        public MeshRenderer targetMeshRenderer;
+        public Light targetLight;
+        public TemporaryVisualEffect temporaryVisualEffect;
+        public PlatingManager platingManager;
+        public float alphaBoostMinimum = 0.5f;
+        public float lightIntensityMinimum = 2f;
+
+        public void Start()
         {
-            // NRE at IL_0007 in <UpdatePlatingUI>b__29_2
-            ILCursor c = new(il);
+            var shieldMesh = transform.Find("MeshHolder/ShieldMesh");
 
-            MethodReference handleBar = null;
-            VariableDefinition allocator = null;
-            int allocIndex = -1;
+            targetMeshRenderer = shieldMesh.GetComponent<MeshRenderer>();
+            targetLight = shieldMesh.GetComponent<Light>();
+            temporaryVisualEffect = GetComponent<TemporaryVisualEffect>();
 
-            c.TryGotoNext(x => x.MatchCallOrCallvirt(out handleBar) && handleBar != null && handleBar.Name != null && handleBar.Name.StartsWith("<ApplyBars>g__HandleBar|"));
-            c.TryGotoPrev(x => x.MatchLdloca(out allocIndex));
-            allocator = il.Method.Body.Variables[allocIndex];
-
-            VariableDefinition platingInfo = new(il.Import(typeof(HealthBar.BarInfo)));
-            il.Method.Body.Variables.Add(platingInfo);
-
-            c.Index = 0;
-
-            c.Emit(OpCodes.Ldarg_0);
-            c.EmitDelegate<Func<HealthBar, HealthBar.BarInfo>>((bar) =>
+            var modelPart = temporaryVisualEffect.parentTransform;
+            if (modelPart)
             {
-                PlatingManager manager = bar.source ? bar.source.GetComponent<PlatingManager>() : null;
-                HealthBar.BarInfo info = new()
+                var topmostModel = modelPart.root;
+                var characterModel = topmostModel.GetComponent<CharacterModel>();
+                if (characterModel)
                 {
-                    enabled = manager && manager.CurrentPlating > 0,
-                    color = Color.white,
-                    sprite = texPlatingBar,
-                    imageType = bar.style.barrierBarStyle.imageType,
-                    sizeDelta = 25f,
-                    normalizedXMax = 0f,
-                    normalizedXMin = 0f
-                };
-
-                if (info.enabled)
-                {
-                    float hp = manager.CurrentPlating / manager.MaxPlating;
-                    float max = 1f;
-
-                    info.normalizedXMin = 0f;
-                    info.normalizedXMax = hp;
+                    var body = characterModel.body;
+                    if (body)
+                    {
+                        platingManager = body.GetComponent<PlatingManager>();
+                    }
                 }
+            }
+        }
 
-                return info;
-            });
-            c.Emit(OpCodes.Stloc, platingInfo);
+        public void FixedUpdate()
+        {
+            timer += Time.fixedDeltaTime;
 
-            c.TryGotoNext(MoveType.After, x => x.MatchCallOrCallvirt<HealthBar.BarInfoCollection>(nameof(HealthBar.BarInfoCollection.GetActiveCount)));
-            c.Emit(OpCodes.Ldloca, platingInfo);
-            c.EmitDelegate((int count, in HealthBar.BarInfo info) =>
+            if (timer <= interval || platingManager == null)
             {
-                if (info.enabled)
-                {
-                    count++;
-                }
+                return;
+            }
 
-                return count;
-            });
+            var materialPropertyBlock = new MaterialPropertyBlock();
 
-            c.TryGotoNext(MoveType.Before, x => x.MatchRet());
-            c.Emit(OpCodes.Ldarg_0);
-            c.Emit(OpCodes.Ldloca, platingInfo);
-            c.Emit(OpCodes.Ldloca, allocator);
-            c.Emit(OpCodes.Call, handleBar);
+            var platingPercent = platingManager.CurrentPlating / platingManager.MaxPlating;
+
+            materialPropertyBlock.SetFloat("_AlphaBoost", Mathf.Max(alphaBoostMinimum, platingPercent * 7f));
+
+            targetMeshRenderer.SetPropertyBlock(materialPropertyBlock);
+
+            targetLight.intensity = Mathf.Max(lightIntensityMinimum, platingPercent * 10f);
+
+            timer = 0f;
+        }
+    }
+
+    public class AdjustShieldMeshLocalScale : MonoBehaviour
+    {
+        public TemporaryVisualEffect temporaryVisualEffect;
+        public void Start()
+        {
+            temporaryVisualEffect = transform.root.GetComponent<TemporaryVisualEffect>();
+            var rootScale = temporaryVisualEffect.radius;
+            transform.localScale = new Vector3(rootScale * 0.1373f, rootScale * 0.1373f, rootScale * 0.9615f);
+            // magic numbers; I just did 0.25, 0.25, 1.75 for commando at his 1.82 bestFitRadius used for barrier and it looked fine so I multiplied the values to be the same here by default
+
+            GetComponent<Light>().range = rootScale * 2.7472f;
+            // same magic number explanation here, to get roughly 5f with mando, which looked nice in-game
         }
     }
 }

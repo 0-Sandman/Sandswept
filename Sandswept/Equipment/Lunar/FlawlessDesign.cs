@@ -274,7 +274,11 @@ namespace Sandswept.Equipment.Lunar
 
         public class FlawlessDesignMarker : MonoBehaviour
         {
+#pragma warning disable CS0169
+#pragma warning disable IDE0044
             private bool slur; // having a class with nothing in it causes omnisharp to bug out
+#pragma warning restore IDE0044
+#pragma warning restore CS0169
         }
     }
 }

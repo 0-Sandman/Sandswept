@@ -121,9 +121,54 @@ namespace Sandswept.Utils
             return baseValue + (maxValue - baseValue) * (1 - 1 / (1 + additionalValue * (itemCount - 1)));
         }
 
-        public static float CustomHyperbolic(float amplificationPercentage, float max = 100f)
+        public static float GetHyperbolic(float baseValueDecimal, float cap, float totalBasePlusStackValueDecimal) // Util.ConvertAmplificationPercentageIntoReductionPercentage but Better :zanysoup:
         {
-            return (1f - max / (max + amplificationPercentage)) * max;
+            if (baseValueDecimal >= cap) return cap * (totalBasePlusStackValueDecimal / baseValueDecimal); // should not happen, but failsafe
+            float count = totalBasePlusStackValueDecimal / baseValueDecimal;
+            float coeff = 100 * baseValueDecimal / (cap - baseValueDecimal); // should be good
+            return cap * (1 - (100 / ((count * coeff) + 100)));
+        }
+
+        public static float BestBestFitRadius(CharacterBody body)
+        {
+            float bestFitRadius = body.bestFitRadius;
+
+            var hurtBoxGroup = body.hurtBoxGroup;
+            var hurtBoxes = hurtBoxGroup.hurtBoxes;
+
+            Bounds totalBounds = default;
+
+            var grabbedFirstAvailableBounds = false;
+
+            for (int i = 0; i < hurtBoxes.Length; i++)
+            {
+                var hurtBox = hurtBoxes[i];
+
+                var collider = hurtBox.GetComponent<Collider>();
+                if (!collider)
+                {
+                    continue;
+                }
+
+                if (!collider.enabled)
+                {
+                    continue;
+                }
+
+                if (!grabbedFirstAvailableBounds)
+                {
+                    totalBounds = collider.bounds;
+                    grabbedFirstAvailableBounds = true;
+                }
+                else
+                {
+                    totalBounds.Encapsulate(collider.bounds);
+                }
+            }
+
+            var bestBestFitRadius = totalBounds.extents.magnitude;
+
+            return bestBestFitRadius > bestFitRadius ? bestBestFitRadius : bestFitRadius;
         }
     }
 }

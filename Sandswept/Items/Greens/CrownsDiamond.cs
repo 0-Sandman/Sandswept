@@ -74,10 +74,9 @@ namespace Sandswept.Items.Greens
                 var stack = GetCount(sender);
                 if (stack > 0 && (sender.outOfCombat || sender.outOfDanger))
                 {
-                    var reduction = 1f - MathHelpers.InverseHyperbolicScaling(baseBarrierDecayReduction, stackBarrierDecayReduction, 1f, stack);
-                    // 0.85f
+                    var reduction = MathHelpers.GetHyperbolic(baseBarrierDecayReduction, 100f, baseBarrierDecayReduction + stackBarrierDecayReduction * (stack - 1));
 
-                    args.barrierDecayMult += reduction;
+                    args.barrierDecayMult -= reduction;
                 }
             }
         }
@@ -92,29 +91,13 @@ namespace Sandswept.Items.Greens
             {
                 List<float> values = new()
                 {
-                    MathHelpers.InverseHyperbolicScaling(baseBarrierDecayReduction, stackBarrierDecayReduction, 1f, stack)
+                    MathHelpers.GetHyperbolic(baseBarrierDecayReduction, 100f, baseBarrierDecayReduction + stackBarrierDecayReduction * (stack - 1))
                 };
 
                 return values;
             };
 
             return itemStatsDef;
-        }
-
-        private void StatHooks_GetMoreStatCoefficients(CharacterBody sender, MoreStats.StatHooks.MoreStatHookEventArgs args)
-        {
-            if (sender)
-            {
-                var stack = GetCount(sender);
-                if (stack > 0 && (sender.outOfCombat || sender.outOfDanger))
-                {
-                    var reduction = MathHelpers.InverseHyperbolicScaling(baseBarrierDecayReduction, stackBarrierDecayReduction, 1f, stack);
-
-                    args.barrierDecayRatePercentDecreaseDiv += reduction;
-                    // 1f results in 50% decay :pray:
-                    // 1 - (1 / (1 + 0.5))
-                }
-            }
         }
 
         private void CharacterBody_onBodyInventoryChangedGlobal(CharacterBody body)

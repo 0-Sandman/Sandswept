@@ -2,6 +2,9 @@
 - General
   - Fixed Survivor toggle config causing enemies to spam NREs
 - Items/Equipment
+  - Added VFX to Makeshift Plate
+  - Buffed Festering Hunger Chance from 7% to 8%
+  - Fixed Crown's Diamond speeding up barrier decay instead of reducing it (MoreStats -> RecalculateStats difference,,)
   - Fixed Nuclear Salvo activating while in Computational Exchange
   - Fixed Hallowed Ichor activating while in The Bazaar and Computational Exchange
 - Interactables

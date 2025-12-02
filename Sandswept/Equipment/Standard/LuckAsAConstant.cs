@@ -25,11 +25,9 @@ namespace Sandswept.Equipment
         [ConfigField("Item Upgrade Count", "", 2)]
         public static int maxUpgradeCount;
 
-        public override void Init(ConfigFile config)
+        public override void Init()
         {
-            CreateConfig(config);
-            CreateLang();
-            CreateEquipment();
+            base.Init();
         }
 
         protected override bool ActivateEquipment(EquipmentSlot slot)

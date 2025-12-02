@@ -142,6 +142,11 @@ namespace Sandswept.Utils
             {
                 match = "$lc",
                 expanded = "<color=#FF7F7F>"
+            },
+            new Format
+            {
+                match = "$kn",
+                expanded = "<style=cKeywordName>"
             }
         };
 

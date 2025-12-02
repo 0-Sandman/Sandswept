@@ -160,6 +160,7 @@ namespace Sandswept.Drones
 
             iscBroken = isc;
 
+            /*
             var droneSprite = Sprite.Create(icon, new Rect(0f, 0f, icon.width, icon.height), Vector2.zero);
 
             droneDef = ScriptableObject.CreateInstance<DroneDef>();
@@ -171,6 +172,7 @@ namespace Sandswept.Drones
             droneDef.droneBrokenSpawnCard = iscBroken;
             droneDef.nameToken = DroneBody.GetComponent<CharacterBody>().baseNameToken;
             droneDef.descriptionToken =
+            */
         }
 
         public void AssignIfExists(GenericSkill slot, SkillInfo info)

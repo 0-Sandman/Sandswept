@@ -99,6 +99,7 @@ namespace Sandswept
         public ConfigEntry<string> latestVersion { get; private set; }
 
         public static ConfigEntry<bool> cursedConfig { get; private set; }
+        public static ConfigEntry<bool> enableUnfinishedContent { get; private set; }
 
         public static Main Instance;
 
@@ -152,6 +153,7 @@ namespace Sandswept
             latestVersion = config.Bind("Config", "Latest Version", ModVersion, "DO NOT CHANGE THIS");
 
             cursedConfig = config.Bind("Config", "Enable Cursed Config?", false, "just dumb shit");
+            enableUnfinishedContent = config.Bind("Config", "Enable Unfinished Content?", false, "Enables some disabled content that (supposedly) works but is missing assets.");
 
             if (enableAutoConfig.Value && (_preVersioning || (latestVersion.Value != ModVersion)))
             {

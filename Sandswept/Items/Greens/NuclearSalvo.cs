@@ -494,8 +494,6 @@ namespace Sandswept.Items.Greens
                     isCrit = body.RollCrit(),
                     damageType = DamageType.IgniteOnHit,
                     damageValue = body.damage * NuclearSalvo.missileDamage,
-                    // comment above and uncomment below, and the blastattack code for aoe
-                    // damageValue = 0,
                     procChainMask = default,
                     speed = 45f,
                     teamIndex = TeamComponent.GetObjectTeam(body.gameObject),

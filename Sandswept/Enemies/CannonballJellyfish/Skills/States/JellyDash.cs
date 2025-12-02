@@ -22,7 +22,6 @@ namespace Sandswept.Enemies.CannonballJellyfish.States
         private float durationToPlayWarnSound;
 
         private OverlapAttack attack;
-        private float duration;
         private float baseDurationToAttack = 1.5f;
         private bool dashedAlready = false;
         private bool showedTelegraph = false;

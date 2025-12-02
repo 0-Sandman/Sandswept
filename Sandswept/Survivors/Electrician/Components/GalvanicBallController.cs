@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using IL.RoR2.Items;
+using R2API.Networking.Interfaces;
 using RoR2.Orbs;
 
 namespace Sandswept.Survivors.Electrician
@@ -45,17 +46,19 @@ namespace Sandswept.Survivors.Electrician
 
             GetComponent<ProjectileProximityBeamController>().attackInterval /= owner.attackSpeed;
 
-            var p = GetComponent<ProjectileProximityBeamController>();
-            damageCoeff = p.damageCoefficient;
-            interval = p.attackInterval;
-            range = p.attackRange;
-            maxTargets = p.attackFireCount;
-            p.enabled = false;
+            var projectileProximityBeamController = GetComponent<ProjectileProximityBeamController>();
+            damageCoeff = projectileProximityBeamController.damageCoefficient;
+            interval = projectileProximityBeamController.attackInterval;
+            range = projectileProximityBeamController.attackRange;
+            maxTargets = projectileProximityBeamController.attackFireCount;
+            projectileProximityBeamController.enabled = false;
             // what is the point ? ? ?
         }
 
-        public void OnDestroy() {
-            if (controller.ghost) {
+        public void OnDestroy()
+        {
+            if (controller.ghost)
+            {
                 GameObject.Destroy(controller.ghost.gameObject);
             }
         }
@@ -178,7 +181,8 @@ namespace Sandswept.Survivors.Electrician
                         base.GetComponentInChildren<ParticleSystem>().Play();
                         hasStuck = true;
 
-                        if (controller.ghost) {
+                        if (controller.ghost)
+                        {
                             controller.ghost.gameObject.FindComponent<MeshRenderer>("Radius").enabled = true;
                         }
                     }

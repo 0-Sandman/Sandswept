@@ -407,24 +407,14 @@ namespace Sandswept.Survivors.Electrician.States
     public class SignalOverloadFire : BaseSkillState
     {
         public float recoilDuration = 0.8f;
-        public float effectMultiplier = 1f;
         public float damageCoeff = 2.5f;
         public float radius = 36f;
         public Transform modelTransform;
         public Material overlayMat;
 
-        public SignalOverloadFire(float modifier)
-        {
-            // effectMultiplier = modifier;
-        }
-
         public override void OnEnter()
         {
             base.OnEnter();
-
-            recoilDuration *= effectMultiplier;
-            damageCoeff *= effectMultiplier;
-            radius *= effectMultiplier;
 
             PlayAnimation("Fullbody, Override", "Discharge", "Generic.playbackRate", recoilDuration);
 
