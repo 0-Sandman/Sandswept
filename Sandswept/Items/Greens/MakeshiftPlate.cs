@@ -104,9 +104,15 @@ namespace Sandswept.Items.Greens
         {
             On.RoR2.CharacterBody.Start += OnBodySpawn;
             On.RoR2.HealthComponent.TakeDamage += TakeDamage;
-            On.RoR2.Inventory.GiveItemTemp += GiveItem;
             On.RoR2.Inventory.GiveItemPermanent_ItemIndex_int += GiveItemPermanent;
+            On.RoR2.Inventory.GiveItemChanneled += GiveItemChanneled;
             On.RoR2.CharacterBody.OnInventoryChanged += OnInventoryChanged;
+        }
+
+        private void GiveItemChanneled(On.RoR2.Inventory.orig_GiveItemChanneled orig, Inventory self, ItemIndex itemIndex, int countToAdd)
+        {
+            orig(self, itemIndex, countToAdd);
+            HandleItemGain(self, itemIndex, countToAdd);
         }
 
         private void SetUpVFX()
@@ -142,12 +148,6 @@ namespace Sandswept.Items.Greens
             meshRenderer.material = newMat;
         }
 
-        private void GiveItem(On.RoR2.Inventory.orig_GiveItemTemp orig, Inventory self, ItemIndex itemIndex, float countToAdd)
-        {
-            orig(self, itemIndex, countToAdd);
-            HandleItemGain(self, itemIndex, Mathf.CeilToInt(countToAdd), true);
-        }
-
         private void GiveItemPermanent(On.RoR2.Inventory.orig_GiveItemPermanent_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int countToAdd)
         {
             orig(self, itemIndex, countToAdd);
@@ -160,38 +160,46 @@ namespace Sandswept.Items.Greens
 
             if (self.GetComponent<PlatingManager>() && self.inventory.GetItemCount(ItemDef) == 0)
             {
-                new MakeshiftPlateAddSync(self.gameObject, 0f, 0f, true).Send(NetworkDestination.Clients);
+                // new MakeshiftPlateAddSync(self.gameObject, 0f, 0f, true).Send(NetworkDestination.Clients);
+                new MakeshiftPlateAddSync(self.gameObject, 0f, 0f, false).Send(NetworkDestination.Clients);
             }
         }
 
-        private void HandleItemGain(Inventory self, ItemIndex itemIndex, int count, bool useLastAvailablePlating = false)
+        private void HandleItemGain(Inventory self, ItemIndex itemIndex, int count)
         {
-            if (itemIndex == ItemDef.itemIndex && self.TryGetComponent<CharacterMaster>(out CharacterMaster cm) && cm.bodyInstanceObject)
+            if (itemIndex == ItemDef.itemIndex && self.TryGetComponent(out CharacterMaster characterMaster) && characterMaster.bodyInstanceObject)
             {
-                PlatingManager manager = cm.bodyInstanceObject.GetComponent<PlatingManager>();
-                if (!manager)
+                PlatingManager platingManager = characterMaster.bodyInstanceObject.GetComponent<PlatingManager>();
+                if (!platingManager)
                 {
-                    manager = cm.bodyInstanceObject.AddComponent<PlatingManager>();
+                    platingManager = characterMaster.AddComponent<PlatingManager>();
                 }
 
-                CharacterBody cb = cm.bodyInstanceObject.GetComponent<CharacterBody>();
+                CharacterBody characterBody = characterMaster.bodyInstanceObject.GetComponent<CharacterBody>();
 
                 float platingMult = stackPercentPlatingGain / 100f * count;
-                int plating = Mathf.RoundToInt((cb.maxHealth + cb.maxShield) * platingMult);
 
-                if (!useLastAvailablePlating)
+                Main.ModLogger.LogError($"plating mult is {platingMult}");
+
+                int plating = Mathf.RoundToInt((characterBody.maxHealth + characterBody.maxShield) * platingMult);
+
+                Main.ModLogger.LogError($"plating is {plating}");
+                Main.ModLogger.LogError($"platingManager.CurrentPlating BEFORE ADDING is {platingManager.CurrentPlating}");
+
+                platingManager.CurrentPlating += plating;
+
+                Main.ModLogger.LogError($"adding to currentPlating");
+                Main.ModLogger.LogError($"platingManager.CurrentPlating AFTERRRRR ADDING is {platingManager.CurrentPlating}");
+
+                if (platingManager.MaxPlating <= 0)
                 {
-                    manager.CurrentPlating += plating;
+                    Main.ModLogger.LogError("platingManager.MaxPlating is less than or equal to 0");
+                    platingManager.MaxPlating = plating;
                 }
 
-                if (manager.MaxPlating == 0 && !useLastAvailablePlating)
-                {
-                    manager.MaxPlating = plating;
-                }
+                platingManager.CurrentPlating = Mathf.Min(platingManager.CurrentPlating, platingManager.MaxPlating);
 
-                manager.CurrentPlating = Mathf.Min(manager.CurrentPlating, manager.MaxPlating);
-
-                new MakeshiftPlateAddSync(cb.gameObject, manager.CurrentPlating, manager.MaxPlating, false).Send(NetworkDestination.Clients);
+                new MakeshiftPlateAddSync(characterBody.gameObject, platingManager.CurrentPlating, platingManager.MaxPlating, false).Send(NetworkDestination.Clients);
             }
         }
 
@@ -222,14 +230,14 @@ namespace Sandswept.Items.Greens
             {
                 float platingMult = (stackPercentPlatingGain / 100f) * self.inventory.GetItemCount(ItemDef);
 
-                int plating = Mathf.RoundToInt((self.maxHealth + self.maxShield) * platingMult);
+                int platingManager = Mathf.RoundToInt((self.maxHealth + self.maxShield) * platingMult);
 
-                if (plating == 0)
+                if (platingManager == 0)
                 {
                     return;
                 }
 
-                new MakeshiftPlateAddSync(self.gameObject, plating, plating, false).Send(NetworkDestination.Clients);
+                new MakeshiftPlateAddSync(self.gameObject, platingManager, platingManager, false).Send(NetworkDestination.Clients);
             }
         }
 
@@ -237,7 +245,9 @@ namespace Sandswept.Items.Greens
         {
             if (self.body && GetCount(self.body) > 0 && self.body.TryGetComponent(out PlatingManager platingManager))
             {
+                Main.ModLogger.LogError("TakeDamage called");
                 float plating = platingManager.CurrentPlating;
+                Main.ModLogger.LogError($"platingManager.CurrentPlating BEFORE removing is {platingManager.CurrentPlating}");
                 float toRemove = 0;
 
                 if (plating > info.damage)
@@ -252,7 +262,9 @@ namespace Sandswept.Items.Greens
                 }
 
                 platingManager.CurrentPlating -= toRemove;
+                Main.ModLogger.LogError($"platingManager.CurrentPlating AFTERRR removing is {platingManager.CurrentPlating}");
                 platingManager.CurrentPlating = Mathf.Clamp(platingManager.CurrentPlating, 0, platingManager.MaxPlating);
+                Main.ModLogger.LogError($"platingManager.CurrentPlating AFTERRR CLAMPINGG is {platingManager.CurrentPlating}");
 
                 new MakeshiftPlateAddSync(self.gameObject, platingManager.CurrentPlating, platingManager.MaxPlating, false).Send(NetworkDestination.Clients);
             }

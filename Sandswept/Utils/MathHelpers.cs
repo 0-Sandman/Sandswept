@@ -131,6 +131,11 @@ namespace Sandswept.Utils
 
         public static float BestBestFitRadius(CharacterBody body)
         {
+            if (body == null)
+            {
+                return 0f;
+            }
+
             float bestFitRadius = body.bestFitRadius;
 
             var hurtBoxGroup = body.hurtBoxGroup;

@@ -9,6 +9,9 @@
   - Fixed Hallowed Ichor activating while in The Bazaar and Computational Exchange
 - Interactables
   - Reduced Shrine of Sacrifice Curse Cost from 35 to 30
+- Enemies
+  - Made Delta Construct VFX less eyerapey
+  - Fixed not all of Delta Construct VFX being red
 
 ## 1.3.3 Patch Notes
 - VOL-T

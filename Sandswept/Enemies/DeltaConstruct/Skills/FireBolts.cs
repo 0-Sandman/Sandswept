@@ -33,8 +33,8 @@ namespace Sandswept.Enemies.DeltaConstruct
             initDelay = duration * 0.3f;
             secondDelay = (duration - initDelay) * 0.3f;
 
-            back = new Transform[] { FindModelChild("Muzzle1"), FindModelChild("Muzzle2") };
-            front = new Transform[] { FindModelChild("Muzzle3"), FindModelChild("Muzzle4") };
+            back = [FindModelChild("Muzzle1"), FindModelChild("Muzzle2")];
+            front = [FindModelChild("Muzzle3"), FindModelChild("Muzzle4")];
 
             base.characterBody.StartCoroutine(HandleBolts());
 

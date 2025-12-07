@@ -1,4 +1,5 @@
 using System;
+using HG;
 using Sandswept.Equipment.Standard;
 using Sandswept.Items.Greens;
 using static Sandswept.Items.Greens.MakeshiftPlate;
@@ -22,11 +23,11 @@ namespace Sandswept
         private static void OnUpdateVisualEffects(On.RoR2.CharacterBody.orig_UpdateAllTemporaryVisualEffects orig, CharacterBody self)
         {
             orig(self);
-
-            SandsweptTemporaryEffects effects = self.GetComponent<SandsweptTemporaryEffects>();
-            if (!effects) effects = self.AddComponent<SandsweptTemporaryEffects>();
-
-            effects.UpdateTemporaryEffects(self);
+            if (self != null)
+            {
+                var sandsweptTemporaryEffects = self.EnsureComponent<SandsweptTemporaryEffects>();
+                sandsweptTemporaryEffects.UpdateTemporaryEffects(self);
+            }
         }
     }
 }

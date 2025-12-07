@@ -40,36 +40,79 @@ namespace Sandswept.Enemies.DeltaConstruct
              - Giving something soul gives it free will; the free will to decide we are not the construct's supreme creators. Our constructs do not need to make that decision, only us.
             """);
             matDeltaBeamStrong = Main.assets.LoadAsset<Material>("matDeltaBeamStrong.mat");
+            matDeltaBeamStrong.SetTexture("_RemapTex", Paths.Texture2D.texRampTritone);
+            matDeltaBeamStrong.SetColor("_TintColor", Color.red);
+            matDeltaBeamStrong.SetFloat("_Boost", 5.388472f);
+            matDeltaBeamStrong.SetFloat("_AlphaBoost", 5.388472f);
+            matDeltaBeamStrong.SetFloat("_AlphaBias", 1f);
+            matDeltaBeamStrong.SetFloat("_InvFade", 0.5f);
+            matDeltaBeamStrong.SetInt("_ZTest", 4);
+            matDeltaBeamStrong.SetInt("_DstBlend", 1);
+            matDeltaBeamStrong.SetInt("_SrcBlend", 1);
 
-            bolt = PrefabAPI.InstantiateClone(Paths.GameObject.MinorConstructProjectile, "DeltaBoltProjectile");
-            GameObject boltGhost = PrefabAPI.InstantiateClone(Paths.GameObject.MinorConstructProjectileGhost, "DeltaBoltGhost");
-            Renderer[] renderers = boltGhost.GetComponentsInChildren<Renderer>(true);
-            foreach (Renderer renderer in renderers)
-            {
-                if (!renderer.sharedMaterial.shader.name.Contains("Cloud Remap")) continue;
-                Material mat = Object.Instantiate(renderer.sharedMaterial);
-                mat.SetTexture("_RemapTex", matDeltaBeamStrong.GetTexture("_RemapTex"));
-                mat.SetColor("_TintColor", Color.red);
-                mat.SetFloat("_Boost", mat.GetFloat("_Boost") * 7f);
-                mat.SetFloat("_AlphaBias", mat.GetFloat("_AlphaBias") * 3f);
-                renderer.material = mat;
-                renderer.sharedMaterial = mat;
-            }
+            bolt = PrefabAPI.InstantiateClone(Paths.GameObject.MinorConstructProjectile, "Delta Construct Bolt Projectile");
+            GameObject boltGhost = PrefabAPI.InstantiateClone(Paths.GameObject.MinorConstructProjectileGhost, "Delta Construct Bolt Ghost", false);
+
+            VFXUtils.RecolorMaterialsAndLights(boltGhost.transform.Find("Trail").gameObject, new Color32(255, 40, 40, 255), new Color32(255, 40, 40, 255), true);
+
+            boltGhost.transform.Find("SoftGlow").gameObject.SetActive(false);
+
+            var pyramid = boltGhost.transform.Find("Pyramid");
+            VFXUtils.RecolorMaterialsAndLights(pyramid.gameObject, Color.red, Color.red, true);
+            var pyramidPSR = pyramid.GetComponent<ParticleSystemRenderer>();
+            pyramidPSR.material.SetFloat("_Boost", 7.208117f);
+            pyramidPSR.material.SetFloat("_AlphaBoost", 2.51821f);
+            pyramidPSR.material.SetFloat("_AlphaBias", 0f);
+
             bolt.GetComponent<ProjectileController>().ghostPrefab = boltGhost;
             ContentAddition.AddProjectile(bolt);
 
-            muzzleFlash = Paths.GameObject.MuzzleflashMinorConstruct;
+            muzzleFlash = PrefabAPI.InstantiateClone(Paths.GameObject.MuzzleflashMinorConstruct, "Delta Construct Muzzle Flash", false);
+            muzzleFlash.transform.Find("Chunks").gameObject.SetActive(false); // shitass broken shader that I can't see therefore I don't know how to recolor it
+            VFXUtils.RecolorMaterialsAndLights(muzzleFlash.gameObject, new Color32(201, 20, 20, 255), new Color32(201, 20, 20, 255), true);
+
+            ContentAddition.AddEffect(muzzleFlash);
 
             beam = Main.assets.LoadAsset<GameObject>("DeltaBeam.prefab");
+            var faggotDispersers = beam.transform.Find("Particle System, Sparks (1)").GetComponent<ParticleSystemRenderer>();
+            VFXUtils.RecolorMaterialsAndLights(faggotDispersers.gameObject, Color.red, Color.red, true);
+            faggotDispersers.material.SetFloat("_Boost", 12.0718f);
+            faggotDispersers.material.SetFloat("_AlphaBoost", 2.420291f);
+            faggotDispersers.material.SetFloat("_AlphaBias", 0.044f);
+            // zjebana pizda pierdolona dziwka kurwa co nadal jest pomaranczowa po recolorze
 
             DeltaBurnyTrail = Main.assets.LoadAsset<GameObject>("DeltaBurnyTrail.prefab");
+
             var destroyOnTimer = DeltaBurnyTrail.GetComponent<DestroyOnTimer>();
-            destroyOnTimer.duration = 10f;
+            destroyOnTimer.duration = 16f;
+
             var particleSystemMain = DeltaBurnyTrail.GetComponent<ParticleSystem>().main;
-            particleSystemMain.duration = 10f;
-            particleSystemMain.startLifetime = 10f;
+            particleSystemMain.duration = 16f;
+            particleSystemMain.startLifetime = 16f;
+
+            // visuals fade bumped up to ~8s due to invfade
+
+            var particleSystemRenderer = DeltaBurnyTrail.GetComponent<ParticleSystemRenderer>();
+            var newTrailMat = new Material(particleSystemRenderer.material);
+
+            newTrailMat.SetColor("_TintColor", new Color32(255, 0, 0, 27));
+            // newTrailMat.SetFloat("_InvFade", 0f);
+            newTrailMat.SetFloat("_Boost", 1f);
+            newTrailMat.SetFloat("_AlphaBoost", 11.21f);
+
+            particleSystemRenderer.material = newTrailMat;
+
+            var newImpactEffect = PrefabAPI.InstantiateClone(Paths.GameObject.OmniExplosionVFXMinorConstruct, "Delta Construct Impact VFX", false);
+            VFXUtils.RecolorMaterialsAndLights(newImpactEffect, Color.red, Color.red, true);
+            newImpactEffect.transform.Find("Fire").GetComponent<ParticleSystemRenderer>().material.SetFloat("_AlphaBias", 0f);
+
+            ContentAddition.AddEffect(newImpactEffect);
+
+            bolt.GetComponent<ProjectileSingleTargetImpact>().impactEffect = newImpactEffect;
+
             // how the fuck does increasing all this to 10s make it last 5s???
-            ContentAddition.AddNetworkedObject(DeltaBurnyTrail);
+            // ContentAddition.AddNetworkedObject(DeltaBurnyTrail);
+            // commented this out in hopes of it not breaking anything, since the error was annoying
             SetUpVFX();
         }
 
