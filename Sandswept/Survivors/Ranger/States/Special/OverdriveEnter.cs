@@ -120,8 +120,12 @@ namespace Sandswept.Survivors.Ranger.States.Special
                     // {
                     // return;
                     // }
+
                     // TemporaryOverlayManager.RemoveOverlay(tempOverlayInstance.managerIndex);
+
                     // temporaryOverlay.RemoveFromCharacterModel();
+
+                    /*
                     var characterModel = modelTransform.GetComponent<CharacterModel>();
                     if (characterModel)
                     {
@@ -143,7 +147,10 @@ namespace Sandswept.Survivors.Ranger.States.Special
                             }
                         }
                     }
+                    */
+
                     // Destroy(temporaryOverlay);
+
                     // none of these work
                 }
 
