@@ -26,6 +26,8 @@ namespace Sandswept.Survivors.Ranger.States.Special
         public Dictionary<SkillDef, SkillDef> originalToOverheatUtilitySkillDefMap = new();
         public Dictionary<SkillDef, SkillDef> originalToOverheatSpecialSkillDefMap = new();
 
+        public TemporaryOverlay temporaryOverlay;
+
         public override void OnEnter()
         {
             base.OnEnter();
@@ -70,6 +72,17 @@ namespace Sandswept.Survivors.Ranger.States.Special
                     tempOverlayInstance.originalMaterial = heatMat;
                     tempOverlayInstance.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
                     */
+
+                    var characterModel = modelTransform.GetComponent<CharacterModel>();
+
+                    temporaryOverlay = gameObject.AddComponent<TemporaryOverlay>();
+                    temporaryOverlay.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                    temporaryOverlay.animateShaderAlpha = true;
+                    temporaryOverlay.destroyComponentOnEnd = true;
+                    temporaryOverlay.duration = 99999f;
+                    temporaryOverlay.originalMaterial = heatMat;
+                    temporaryOverlay.inspectorCharacterModel = characterModel;
+                    temporaryOverlay.AddToCharacerModel(characterModel);
                 }
             }
 
@@ -97,12 +110,13 @@ namespace Sandswept.Survivors.Ranger.States.Special
             {
                 var crosshairOverrideBehavior = characterBody.GetComponent<RoR2.UI.CrosshairUtils.CrosshairOverrideBehavior>();
                 crosshairOverrideBehavior.RemoveRequest(crosshairRequest);
-                /*
+
                 if (modelTransform)
                 {
-                    TemporaryOverlayManager.RemoveOverlay(tempOverlayInstance.managerIndex);
+                    // TemporaryOverlayManager.RemoveOverlay(tempOverlayInstance.managerIndex);
+                    temporaryOverlay.RemoveFromCharacterModel();
                 }
-                */
+
             }
 
             heat.ExitOverdrive();
