@@ -72,6 +72,7 @@ namespace Sandswept.Survivors.Ranger.States.Special
                     tempOverlayInstance.originalMaterial = heatMat;
                     tempOverlayInstance.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
                     */
+                    // does not work either
 
                     var characterModel = modelTransform.GetComponent<CharacterModel>();
 
@@ -113,8 +114,37 @@ namespace Sandswept.Survivors.Ranger.States.Special
 
                 if (modelTransform)
                 {
+                    // TemporaryOverlayManager.Destroy();
+                    // this could maybe work if not for this shitty ass garbage code:
+                    // if (!destroyObjectOnEnd && !destroyComponentOnEnd)
+                    // {
+                    // return;
+                    // }
                     // TemporaryOverlayManager.RemoveOverlay(tempOverlayInstance.managerIndex);
-                    temporaryOverlay.RemoveFromCharacterModel();
+                    // temporaryOverlay.RemoveFromCharacterModel();
+                    var characterModel = modelTransform.GetComponent<CharacterModel>();
+                    if (characterModel)
+                    {
+                        for (int i = 0; i < characterModel.baseRendererInfos.Length; i++)
+                        {
+                            var baseRendererInfo = characterModel.baseRendererInfos[i];
+                            var renderer = baseRendererInfo.renderer;
+                            if (renderer != null)
+                            {
+                                var sharedMaterials = renderer.sharedMaterials;
+                                for (int j = 0; j < sharedMaterials.Length; j++)
+                                {
+                                    var sharedMaterial = sharedMaterials[j];
+                                    if (sharedMaterial == heatMat)
+                                    {
+                                        HG.ArrayUtils.ArrayRemoveAtAndResize(ref sharedMaterials, j);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    // Destroy(temporaryOverlay);
+                    // none of these work
                 }
 
             }
