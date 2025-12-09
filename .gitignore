@@ -11,6 +11,7 @@
 *.sln.docstates
 
 Sandswept/libs
+Sandswept/*.manifest
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
