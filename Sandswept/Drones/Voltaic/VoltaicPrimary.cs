@@ -1,4 +1,5 @@
 using System;
+using EntityStates.Drone.Command;
 
 namespace Sandswept.Drones.Voltaic
 {
@@ -47,4 +48,31 @@ namespace Sandswept.Drones.Voltaic
             return InterruptPriority.Skill;
         }
     }
+
+    public class CommandVoltaicShot : BaseCommandState {
+        public float duration = 1.5f;
+        public override void OnEnter()
+        {
+            base.OnEnter();
+
+            PlayAnimation("Gesture, Override", "Blast", "Generic.playbackRate", duration / 3f);
+
+            Util.PlaySound("Play_MULT_m1_grenade_launcher_shoot", base.gameObject);
+            Util.PlaySound("Play_MULT_m1_grenade_launcher_explo", base.gameObject);
+            Util.PlaySound("Play_MULT_m1_grenade_launcher_beep", base.gameObject);
+
+            EffectManager.SimpleMuzzleFlash(Paths.GameObject.NanoPistolMuzzleFlashVFX, base.gameObject, "MuzzleCannon", false);
+
+            if (isAuthority)
+            {
+                FireProjectileInfo info = MiscUtils.GetProjectile(VoltaicDrone.SpikeProjectile, 6f, GetAttackerBody());
+                info.damageTypeOverride = DamageTypeCombo.GenericSecondary | DamageType.Shock5s;
+                info.position = GetAttackerBody().aimOrigin;
+                info.rotation = Util.QuaternionSafeLookRotation((GetTargetPosition() - GetAttackerBody().aimOrigin).normalized);
+                ProjectileManager.instance.FireProjectile(info);
+            }
+
+            outer.SetNextStateToMain();
+        }
+    } 
 }

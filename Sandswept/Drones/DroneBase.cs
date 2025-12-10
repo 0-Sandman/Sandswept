@@ -33,6 +33,9 @@ namespace Sandswept.Drones
         public abstract Texture2D icon { get; }
         public InteractableSpawnCard iscBroken;
         public DroneDef droneDef;
+        public GameObject RemoteOperationBody;
+        private GameObject _clonedMaster;
+        private GameObject _display;
 
         public void Initialize()
         {
@@ -41,7 +44,36 @@ namespace Sandswept.Drones
                 return;
             }
 
+            SetupInteractables();
             Setup();
+
+            droneDef = GetDroneDef();
+            droneDef.name = "dd" + DroneBody.name;
+            // var pack = Main.Instance.contentPack.GetOrCreateContentPack();
+            // pack.droneDefs.Add(new DroneDef[] { droneDef });
+            Main.droneDefs.Add(droneDef);
+
+            if (droneDef.canRemoteOp) {
+                RemoteOperationBody = PrefabAPI.InstantiateClone(DroneBody, DroneBody.name.Replace("Body", "RemoteOpBody"));
+                DroneBody.GetComponent<CharacterBody>()._defaultCrosshairPrefab = Paths.GameObject.StandardCrosshair;
+                DroneBody.GetComponent<CameraTargetParams>().cameraParams = Paths.CharacterCameraParams.ccpDroneStandard;
+                ContentAddition.AddBody(RemoteOperationBody);
+                ContentAddition.AddNetworkedObject(RemoteOperationBody);
+                droneDef.remoteOpBody = RemoteOperationBody;
+            }
+            
+            DroneBody.GetComponent<CharacterBody>().bodyFlags = CharacterBody.BodyFlags.Mechanical | CharacterBody.BodyFlags.Drone;
+
+            _display = PrefabAPI.InstantiateClone(DroneBody.GetComponent<ModelLocator>()._modelTransform.gameObject, DroneBody.name.Replace("Body", "Display"));
+            _display.RemoveComponent<CharacterModel>();
+            _display.RemoveComponent<AimAnimator>();
+            droneDef.displayPrefab = _display;
+
+            if (!droneDef.iconSprite) {
+                droneDef.iconSprite = icon.MakeSprite();
+            }
+
+            PostCreation();
 
             ContentAddition.AddBody(DroneBody);
             ContentAddition.AddMaster(DroneMaster);
@@ -58,8 +90,6 @@ namespace Sandswept.Drones
             {
                 LanguageAPI.Add(kvp.Key, kvp.Value);
             }
-
-            SetupInteractables();
 
             DroneBroken.FindComponent<ParticleSystemRenderer>("Smoke, Point").sharedMaterial = Paths.Material.matOpaqueDustLargeDirectional;
 
@@ -98,6 +128,20 @@ namespace Sandswept.Drones
 
             genericInspectInfoProvider.InspectInfo = inspectDef;
             genericInspectInfoProvider.InspectInfo.Info = inspectInfo;
+        }
+
+        public abstract DroneDef GetDroneDef();
+        public GameObject CopyDrone1MasterIfDoesntExist() {
+            if (!_clonedMaster) {
+                _clonedMaster = PrefabAPI.InstantiateClone(Paths.GameObject.Drone1Master, DroneBody.name.Replace("Body", "Master"));
+                _clonedMaster.GetComponent<CharacterMaster>().bodyPrefab = DroneBody;
+                DroneBroken.GetComponent<SummonMasterBehavior>().masterPrefab = _clonedMaster;
+            }
+
+            return _clonedMaster;
+        }
+
+        public virtual void PostCreation() {
 
         }
 
@@ -139,7 +183,6 @@ namespace Sandswept.Drones
         public void SetupInteractables()
         {
             DirectorCard card = new();
-
             InteractableSpawnCard isc = ScriptableObject.CreateInstance<InteractableSpawnCard>();
             isc.directorCreditCost = Credits;
             isc.nodeGraphType = RoR2.Navigation.MapNodeGroup.GraphType.Ground;
@@ -159,20 +202,6 @@ namespace Sandswept.Drones
 #pragma warning restore
 
             iscBroken = isc;
-
-            /*
-            var droneSprite = Sprite.Create(icon, new Rect(0f, 0f, icon.width, icon.height), Vector2.zero);
-
-            droneDef = ScriptableObject.CreateInstance<DroneDef>();
-            droneDef.bodyPrefab = DroneBody;
-            droneDef.displayPrefab = DroneBody;
-            droneDef.iconSprite = droneSprite;
-            droneDef.remoteOpBody = DroneBody;
-            droneDef.remoteOpCost = 1;
-            droneDef.droneBrokenSpawnCard = iscBroken;
-            droneDef.nameToken = DroneBody.GetComponent<CharacterBody>().baseNameToken;
-            droneDef.descriptionToken =
-            */
         }
 
         public void AssignIfExists(GenericSkill slot, SkillInfo info)
@@ -189,9 +218,27 @@ namespace Sandswept.Drones
             slot._skillFamily = family;
         }
 
+        public void AddOperatorSkill(SkillInfo info, float targetDist, DroneCommandReceiver.TargetType targetType) {
+            GenericSkill slot = DroneBody.AddComponent<GenericSkill>();
+            AssignIfExists(slot, info);
+
+            DroneCommandReceiver receiver = DroneBody.AddComponent<DroneCommandReceiver>();
+            receiver.bodyStateMachine = EntityStateMachine.FindByCustomName(DroneBody, "Body");
+            receiver.characterBody = DroneBody.GetComponent<CharacterBody>();
+            receiver.commandSkill = slot;
+            receiver.targetDistance = targetDist;
+            receiver.targetType = targetType;
+        }
+
         public class SkillInfo
         {
             public float cooldown;
+            public string slot;
+            public string nameToken;
+            public string descToken;
+            public string name;
+            public string desc;
+            public Sprite icon;
             public int stockToConsume = 1;
             public SerializableEntityStateType type;
             public string activationMachine = "Weapon";
@@ -207,6 +254,13 @@ namespace Sandswept.Drones
                 skillDef.activationStateMachineName = activationMachine;
                 skillDef.interruptPriority = priority;
                 skillDef.beginSkillCooldownOnSkillEnd = true;
+                skillDef.icon = icon;
+                if (nameToken != null) {
+                    skillDef.skillNameToken = nameToken.Add(name);
+                }
+                if (descToken != null) {
+                    skillDef.skillDescriptionToken = descToken.Add(desc);
+                }
 
                 ContentAddition.AddSkillDef(skillDef);
 

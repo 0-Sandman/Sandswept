@@ -33,6 +33,8 @@ using ProcSolver;
 using Rebindables;
 using RoR2.UI;
 using Sandswept.Survivors.Electrician;
+using R2API.ScriptableObjects;
+using HG;
 // using Sandswept.Mechanics;
 
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
@@ -109,12 +111,14 @@ namespace Sandswept
         private static string rangerBoneMapperName;
         public static MPInput input;
         public static event Action onInputAvailable;
+        internal static List<DroneDef> droneDefs = new();
 
         private void Awake()
         {
             Instance = this;
-
             var stopwatch = Stopwatch.StartNew();
+
+            On.RoR2.DroneCatalog.SetDroneDefs += OnSetDroneDefs;
 
             LookingGlassLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("droppod.lookingglass");
             ProcSolverLoaded = BepInEx.Bootstrap.Chainloader.PluginInfos.ContainsKey("com.RiskOfBrainrot.ProcSolver");
@@ -141,6 +145,14 @@ namespace Sandswept
             };
 
             // NewtReflection.Initialize();
+        }
+
+        private void OnSetDroneDefs(On.RoR2.DroneCatalog.orig_SetDroneDefs orig, DroneDef[] newDroneDefs)
+        {
+            foreach (DroneDef def in droneDefs) {
+                ArrayUtils.ArrayAppend(ref newDroneDefs, def);
+            }
+            orig(newDroneDefs);
         }
 
         public void SetUpConfig()

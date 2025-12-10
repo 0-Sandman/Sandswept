@@ -9,7 +9,7 @@ namespace Sandswept.Drones.Inferno
     {
         public override GameObject DroneBody => Main.assets.LoadAsset<GameObject>("InfernoDroneBody.prefab");
 
-        public override GameObject DroneMaster => Main.assets.LoadAsset<GameObject>("InfernoDroneMaster.prefab");
+        public override GameObject DroneMaster => CopyDrone1MasterIfDoesntExist();
 
         public override Dictionary<string, string> Tokens =>
         new() {
@@ -38,15 +38,17 @@ namespace Sandswept.Drones.Inferno
 
         public override string inspectInfoDescription => "A companion bought with gold that will follow the survivor at a close distance shooting out molotov cocktails.";
 
-        public override Texture2D icon => Main.hifuSandswept.LoadAsset<Texture2D>("texInfernoDrone.png");
+        public override Texture2D icon => Main.assets.LoadAsset<Texture2D>("texInfernoDroneBody.png");
 
         public static GameObject MortarProjectile;
         private static GameObject SigmaProjectile;
-        private static GameObject SigmaProjectile2;
+        public static GameObject SigmaProjectile2;
 
         public override void Setup()
         {
             base.Setup();
+
+            DroneBody.GetComponent<CharacterBody>().portraitIcon = icon;
 
             MortarProjectile = PrefabAPI.InstantiateClone(Paths.GameObject.ToolbotGrenadeLauncherProjectile, "InfernoMortar");
             SigmaProjectile = PrefabAPI.InstantiateClone(Paths.GameObject.MolotovClusterProjectile, "InfernoShell");
@@ -74,7 +76,11 @@ namespace Sandswept.Drones.Inferno
             {
                 type = new(typeof(InfernoPrimary)),
                 cooldown = 6f,
-                stockToConsume = 1
+                stockToConsume = 1,
+                nameToken = "SANDSWEPT_INFERNO_PRIM_NAME",
+                descToken = "SANDSWEPT_INFERNO_PRIM_DESC",
+                name = "Scorch",
+                desc = "Shoot a rocket that leaves a <style=cIsDamage>napalm pool<lstyle> for <style=cIsDamage>300% damage per second</style>."
             });
 
             var trans = DroneBody.GetComponent<ModelLocator>()._modelTransform;
@@ -88,6 +94,38 @@ namespace Sandswept.Drones.Inferno
 
             ContentAddition.AddEntityState(typeof(InfernoPrimary), out _);
             ContentAddition.AddEntityState(typeof(DeathState), out _);
+        }
+
+        public override void PostCreation()
+        {
+            base.PostCreation();
+
+            AddOperatorSkill(new SkillInfo()
+            {
+                type = new(typeof(CommandInfernoTrail)),
+                descToken = "SANDSWEPT_INFERNO_OPERATOR_DESC",
+                desc = "Charge forward and carpet the ground, leaving behind napalm pools for <style=cIsUtility>7x300% damage</style>. Scales with attack speed."
+            }, 50f, DroneCommandReceiver.TargetType.Enemy | DroneCommandReceiver.TargetType.Ground);
+        }
+
+        public override DroneDef GetDroneDef()
+        {
+            DroneDef def = ScriptableObject.CreateInstance<DroneDef>();
+            def._masterPrefab = DroneMaster;
+            def.bodyPrefab = DroneBody;
+            def.canCombine = true;
+            def.canDrop = true;
+            def.canScrap = true;
+            def.tier = ItemTier.Tier2;
+            def.remoteOpBody = DroneBody;
+            def.droneBrokenSpawnCard = iscBroken;
+            def.nameToken = def.bodyPrefab.GetComponent<CharacterBody>().baseNameToken;
+            def.descriptionToken = "SANDSWEPT_INFERNO_DESC".Add("Fires rockets at targets that create <style=cIsDamage>napalm pools<lstyle> for <style=cIsDamage>300% damage per second</style>.");
+            def.skillDescriptionToken = "SANDSWEPT_INFERNO_DESC";
+            def.remoteOpCost = 40;
+            def.droneType = DroneType.Combat;
+            def.iconSprite = Main.assets.LoadAsset<Sprite>("texInfernoDroneBody.png");
+            return def;
         }
     }
 }

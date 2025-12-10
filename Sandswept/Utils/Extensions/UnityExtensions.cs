@@ -96,11 +96,49 @@ namespace Sandswept.Utils
         {
             T x = self.EnsureComponent<T>();
             modification(x);
+
         }
 
-        public static Sprite MakeSprite(this Texture2D self)
+        public static Texture2D ToTexture2D(this Texture texture)
         {
-            return Sprite.Create(new(0, 0, 512, 512), new(512 / 2, 512 / 2), 1, self);
+            return Texture2D.CreateExternalTexture(
+                texture.width,
+                texture.height,
+                TextureFormat.RGB24,
+                false, false,
+                texture.GetNativeTexturePtr());
+        }
+
+        public static Sprite MakeSprite(this Texture2D tex)
+        {
+            // unity absoutely sucks so we need to make a square sprite and pad it manually to preserve aspect ratio
+            int width = tex.width;
+            int height = tex.height;
+            int padding = Math.Max(width, height);
+
+            int xOff = (padding - width) / 2;
+            int yOff = (padding - height) / 2;
+
+            Texture2D padded = tex;
+            if (width != height)
+            {
+                padded = new Texture2D(padding, padding, tex.format, false);
+                Color transparent = new Color(0, 0, 0, 0);
+
+                for (int y = 0; y < padding; y++)
+                {
+                    for (int x = 0; x < padding; x++) padded.SetPixel(x, y, transparent);
+                }
+
+                for (int y = 0; y < height; y++)
+                {
+                    for (int x = 0; x < width; x++) padded.SetPixel(x + xOff, y + yOff, tex.GetPixel(x, y));
+                }
+
+                padded.Apply(false, false);
+            }
+
+            return Sprite.Create(padded, new Rect(0f, 0f, padded.width, padded.height), new(0.5f, 0.5f), 100f, 0, SpriteMeshType.FullRect);
         }
 
         public static Vector3 Nullify(this Vector3 v, bool x = false, bool y = false, bool z = false)

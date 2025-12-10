@@ -29,16 +29,21 @@
 
 ### Support us on KOFI! https://linktr.ee/SandsweptTeam
 
-- Code: HIFU, pseudopulse, Sandman, prod, dgosling
-- Models: Smxrez, Sandman, Synodii, GEMO, Bog, pseudopulse, prod, HIFU
-- Animations: IcieTea, Bog, Synodii, unmatchedpowerofthesun
-- VFX: HIFU, Sandman, prod
-- SFX: HIFU, pseudopulse
-- Skill Icons: prod, HIFU
-- Additional Help: swuff★, DuhDoesNothing
-- Concept Art: yorikobear, IcieTea, Sandman, Shepd
-- Playtesters: .score, BubbleTanks, Interlink, JimKas, Fyrebw42, James, Jaysian, Phreel, swuff★, Sage, Saucy Wench, Soylar, TheViralMelon, Tizi, Yarrowyeen, Zynthesizer
+- Code: HIFU, Pseudopulse
+  - With small contributions from: Prod, Sandman, dgosling
+- Models: Smxrez, Synodii, Pseudopulse, HIFU, Sandman
+  - Formerly: GEMO
+  - With small contributions from: Prod
+- Animations: Snonepe, Pseudopulse, Synodii
+  - Formerly: IcieTea, Bog, Unmatchedpowerofthesun
+- VFX: HIFU, Pseudopulse
+  - With small former contributions from: Sandman, Prod
+- SFX: HIFU, Pseudopulse
+- Skill Icons: Prod
+- Concepts and art: yorikobear, IcieTea, Sandman, Shepd
+  - With small contributions from: Swuff, DuhDoesNothing, Pseudopulse, Smxrez, Synodii, HIFU
 - Lore: TheViralMelon, Zynthesizer
+- Playtesters: .Score, BubbleTanks, Interlink, JimKas, Fyrebw42, James, Jaysian, Phreel, Swuff, Sage, Saucy Wench, Soylar, TheViralMelon, Tizi, Yarrowyeen, Zynthesizer, All public playtesters
 
 <details><summary></summary>
 
@@ -71,6 +76,8 @@
 <img src="https://i.ibb.co/zH6yFzRp/image.png"/>
 <br>
 <img src="https://i.ibb.co/V0znKJLY/image.png"/>
+<br>
+<img src="https://i.postimg.cc/h4MJskcC/image-psd(148).png"/>
 <br>
 
 </details>

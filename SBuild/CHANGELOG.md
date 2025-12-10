@@ -1,11 +1,27 @@
+## 1.3.4 Patch Notes
+- General
+  - Fixed Survivor toggle config causing enemies to spam NREs
+- Items/Equipment
+  - Added VFX to Makeshift Plate
+  - Buffed Festering Hunger Chance from 7% to 8%
+  - Fixed Crown's Diamond speeding up barrier decay instead of reducing it (MoreStats -> RecalculateStats difference,,)
+  - Fixed Nuclear Salvo activating while in Computational Exchange
+  - Fixed Hallowed Ichor activating while in The Bazaar and Computational Exchange
+- Interactables
+  - Reduced Shrine of Sacrifice Curse Cost from 35 to 30
+- Enemies
+  - Made Delta Construct VFX less eyerapey
+  - Fixed not all of Delta Construct VFX being red
+
 ## 1.3.3 Patch Notes
-- VOL-T 
-  - Fixed the swivel rod cutting off or being discolored at the top depending on skin.
-  - Made the click sound in lobby play less often.
-  - Made Galvanic Bolt actually have a projectile ghost so that it doesnt visually come from the camera when AttackDirectionFix is installed.
+- VOL-T
+  - Made the click sound in lobby play less often
+  - Made Galvanic Bolt actually have a projectile ghost so that it doesn't visually come from the camera when AttackDirectionFix is installed
+  - Fixed the swivel rod cutting off or being discolored at the top depending on skin
 
 ## 1.3.2 Patch Notes
 - General
+  - Added Survivor toggle config
   - Updated for AC patch
       - This is just an unfinished update we had before we knew of Alloyed Collective's release date, not much was done just yet and there will be later additions.
       - Some content "overlap" with AC will be kept in because it's distinct enough, like Pocket Plutonium and Osmium elites. Parry equipment might get a rework.
@@ -305,8 +321,8 @@
 - General
   - Added LookingGlass Support
 - Ranger
-  - Reworked Direct Current - now has inverse damage falloff (deals less damage up close, but ramps up to more than before at range; this change is to help mitigate base form being so all-rounder good that you never bother using heat)
-  - Reworked Heat Mechanic - self damage and base damage gain is now almost immediate
+  - Made Direct Current have inverse damage falloff (deals less damage up close, but ramps up to more than before at range; this change is to help mitigate base form being so all-rounder good that you never bother using heat)
+  - Made Heat Mechanic do self damage and add base damage almost immediately
   - Updated log (fuck Google Docs)
   - Fixed Loadout bugs
   - Removed jumpscare easter egg
@@ -354,7 +370,7 @@
   - Now has a charge indicator on the crosshair
 - Items/Equipment
   - Added Universal VIP Pass VFX
-  - Reworked Universal VIP Pass to have a 40% (+40% per stack, hyperbolic) chance of dropping 1 extra item.
+  - Made Universal VIP Pass have a 40% (+40% per stack, hyperbolic) chance of dropping 1 extra item
   - Made Ceremonial Jar only trigger with skill damage
   - Improved Their Prominence VFX
   - Improved Nuclear Salvo textures
@@ -402,9 +418,9 @@
   - Made Sidestep keep your momentum
   - Made Heat Signature extend its dash on hit
   - Made Heat Sink launch you upward a little bit
-  - Reworked Enflame to have lower fire rate, slightly lower damage, but gain fire rate, ignite chance and reduce its bullet range scaling with heat
-  - Reworked Exhaust to fire 2-4 bursts, burst count scaling with heat
-  - Reworked Heat Mechanic to be more manageable and intuitive
+  - Made Enflame have a lower fire rate, slightly lower damage, but gain fire rate, ignite chance and reduce its bullet range scaling with heat
+  - Made Exhaust fire 2-4 bursts, burst count scaling with heat
+  - Made Heat Mechanic be more manageable and intuitive
   - Improved Direct Current VFX
   - Improved Release VFX
   - Improved Sidestep VFX
@@ -674,7 +690,7 @@
   - Nerfed Sun Fragment Stun Duration from 2s to 1.5s
   - Nerfed Nuclear Salvo Missile Range from 10000m to 60m
   - Nerfed Bleeding Witness Base DoT Healing from 0.5% to 0.4%
-  - Reworked Universal VIP Paws to have a chance of dropping extra items from category chests
+  - Made Universal VIP Paws have a chance of dropping extra items from category chests
   - Made Fractured Timepiece scale Healing and Special Cooldown Reduction with Utility Skill Base Max Stock
   - Fixed Fractured Timepiece working too well with Thermal Harpoons
   - Fixed Smouldering Document throwing an NRE
