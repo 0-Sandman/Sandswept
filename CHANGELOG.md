@@ -9,6 +9,9 @@
   - Fixed Hallowed Ichor activating while in The Bazaar and Computational Exchange
 - Interactables
   - Reduced Shrine of Sacrifice Curse Cost from 35 to 30
+  - Added Remote Operation support for drones.
+  - Added Operator support for drones.
+  - Made drones use the new improved drone AI (no more voltaic drone humping the floor for 3 hours straight)
 - Enemies
   - Made Delta Construct VFX less eyerapey
   - Fixed not all of Delta Construct VFX being red

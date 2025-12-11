@@ -80,7 +80,8 @@ namespace Sandswept.Drones.Inferno
                 nameToken = "SANDSWEPT_INFERNO_PRIM_NAME",
                 descToken = "SANDSWEPT_INFERNO_PRIM_DESC",
                 name = "Scorch",
-                desc = "Shoot a rocket that leaves a <style=cIsDamage>napalm pool<lstyle> for <style=cIsDamage>300% damage per second</style>."
+                desc = "Shoot a rocket that leaves <style=cIsDamage>napalm pools<lstyle> for <style=cIsDamage>3x300% damage per second</style>.",
+                icon = Main.assets.LoadAsset<Sprite>("Scorch.png")
             });
 
             var trans = DroneBody.GetComponent<ModelLocator>()._modelTransform;
