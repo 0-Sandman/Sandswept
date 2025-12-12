@@ -139,6 +139,11 @@ namespace Sandswept.Utils
             float bestFitRadius = body.bestFitRadius;
 
             var hurtBoxGroup = body.hurtBoxGroup;
+            if (!hurtBoxGroup)
+            {
+                return 0.0f;
+            }
+            
             var hurtBoxes = hurtBoxGroup.hurtBoxes;
 
             Bounds totalBounds = default;

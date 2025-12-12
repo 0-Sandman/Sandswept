@@ -1,3 +1,4 @@
+using R2API.Utils;
 using Sandswept.Buffs;
 using Sandswept.Survivors.Ranger.SkillDefs.Primary;
 using Sandswept.Survivors.Ranger.SkillDefs.Secondary;
@@ -27,6 +28,8 @@ namespace Sandswept.Survivors.Ranger.States.Special
         public Dictionary<SkillDef, SkillDef> originalToOverheatSpecialSkillDefMap = new();
 
         public TemporaryOverlay temporaryOverlay;
+
+        public bool temporaryOverlayAlreadyAdded = false;
 
         public override void OnEnter()
         {
@@ -63,17 +66,52 @@ namespace Sandswept.Survivors.Ranger.States.Special
                         "RANGER_SKIN_SANDSWEPT_NAME" => HeatVFX.heatMatSandswept,
                         _ => HeatVFX.heatMatDefault
                     };
-                    /*
-                    tempOverlayInstance = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
-                    tempOverlayInstance.duration = 9999f;
-                    tempOverlayInstance.animateShaderAlpha = true;
-                    tempOverlayInstance.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
-                    tempOverlayInstance.destroyComponentOnEnd = true;
-                    tempOverlayInstance.originalMaterial = heatMat;
-                    tempOverlayInstance.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
-                    */
-                    // does not work either
+                    
+                    var characterModel = modelTransform.GetComponent<CharacterModel>();
+                    if (characterModel)
+                    {
+                        for (int i = 0; i < characterModel.baseRendererInfos.Length; i++)
+                        {
+                            var baseRendererInfo = characterModel.baseRendererInfos[i];
+                            var renderer = baseRendererInfo.renderer;
+                            if (renderer == null)
+                            {
+                                continue;
+                            }
+                            var sharedMaterials = renderer.sharedMaterials;
+                            for (int j = 0; j < sharedMaterials.Length; j++)
+                            {
+                                var sharedMaterial = sharedMaterials[j];
+                                if (sharedMaterial != heatMat)
+                                {
+                                    Main.ModLogger.LogError($"sharedMaterial {sharedMaterial.name} is not heatMat!!!");
+                                    continue;
+                                }
 
+                                temporaryOverlayAlreadyAdded = true;
+
+                                var materialPropertyBlock = new MaterialPropertyBlock();
+                                var originalColor = sharedMaterial.GetColor("_TintColor");
+                                materialPropertyBlock.SetColor("_TintColor", new Color(originalColor.r, originalColor.g, originalColor.b, 100));
+
+                                renderer.SetPropertyBlock(materialPropertyBlock);
+                            }
+                        }
+                    }
+                    characterModel.materialsDirty = true;
+                    
+                    if (!temporaryOverlayAlreadyAdded)
+                    {
+                        tempOverlayInstance = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
+                        tempOverlayInstance.duration = 9999f;
+                        tempOverlayInstance.animateShaderAlpha = true;
+                        tempOverlayInstance.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
+                        tempOverlayInstance.destroyComponentOnEnd = true;
+                        tempOverlayInstance.originalMaterial = heatMat;
+                        tempOverlayInstance.inspectorCharacterModel = modelTransform.GetComponent<CharacterModel>();
+                    }
+
+                    /*
                     var characterModel = modelTransform.GetComponent<CharacterModel>();
 
                     temporaryOverlay = gameObject.AddComponent<TemporaryOverlay>();
@@ -84,6 +122,8 @@ namespace Sandswept.Survivors.Ranger.States.Special
                     temporaryOverlay.originalMaterial = heatMat;
                     temporaryOverlay.inspectorCharacterModel = characterModel;
                     temporaryOverlay.AddToCharacerModel(characterModel);
+                    */
+
                 }
             }
 
@@ -114,17 +154,16 @@ namespace Sandswept.Survivors.Ranger.States.Special
 
                 if (modelTransform)
                 {
-                    // TemporaryOverlayManager.Destroy();
-                    // this could maybe work if not for this shitty ass garbage code:
-                    // if (!destroyObjectOnEnd && !destroyComponentOnEnd)
-                    // {
-                    // return;
-                    // }
+                    // tempOverlayInstance.RemoveFromCharacterModel();
+
+                    // tempOverlayInstance.Destroy();
 
                     // TemporaryOverlayManager.RemoveOverlay(tempOverlayInstance.managerIndex);
 
                     // temporaryOverlay.RemoveFromCharacterModel();
 
+                    // Destroy(temporaryOverlay);
+                    
                     /*
                     var characterModel = modelTransform.GetComponent<CharacterModel>();
                     if (characterModel)
@@ -133,27 +172,57 @@ namespace Sandswept.Survivors.Ranger.States.Special
                         {
                             var baseRendererInfo = characterModel.baseRendererInfos[i];
                             var renderer = baseRendererInfo.renderer;
-                            if (renderer != null)
+                            if (renderer == null)
                             {
-                                var sharedMaterials = renderer.sharedMaterials;
-                                for (int j = 0; j < sharedMaterials.Length; j++)
+                                continue;
+                            }
+                            var sharedMaterials = renderer.sharedMaterials;
+                            for (int j = 0; j < sharedMaterials.Length; j++)
+                            {
+                                var sharedMaterial = sharedMaterials[j];
+                                if (sharedMaterial != heatMat)
                                 {
-                                    var sharedMaterial = sharedMaterials[j];
-                                    if (sharedMaterial == heatMat)
-                                    {
-                                        HG.ArrayUtils.ArrayRemoveAtAndResize(ref sharedMaterials, j);
-                                    }
+                                    continue;
                                 }
+
+                                HG.ArrayUtils.ArrayRemoveAtAndResize(ref sharedMaterials, j);
                             }
                         }
                     }
+                    characterModel.materialsDirty = true;
                     */
 
-                    // Destroy(temporaryOverlay);
+                    var characterModel = modelTransform.GetComponent<CharacterModel>();
+                    if (characterModel)
+                    {
+                        for (int i = 0; i < characterModel.baseRendererInfos.Length; i++)
+                        {
+                            var baseRendererInfo = characterModel.baseRendererInfos[i];
+                            var renderer = baseRendererInfo.renderer;
+                            if (renderer == null)
+                            {
+                                continue;
+                            }
+                            var sharedMaterials = renderer.sharedMaterials;
+                            for (int j = 0; j < sharedMaterials.Length; j++)
+                            {
+                                var sharedMaterial = sharedMaterials[j];
+                                if (sharedMaterial != heatMat)
+                                {
+                                    Main.ModLogger.LogError($"sharedMaterial {sharedMaterial.name} is not heatMat!!!");
+                                    continue;
+                                }
 
-                    // none of these work
+                                var materialPropertyBlock = new MaterialPropertyBlock();
+                                var originalColor = sharedMaterial.GetColor("_TintColor");
+                                materialPropertyBlock.SetColor("_TintColor", new Color(originalColor.r, originalColor.g, originalColor.b, 0));
+
+                                renderer.SetPropertyBlock(materialPropertyBlock);
+                            }
+                        }
+                    }
+                    characterModel.materialsDirty = true;
                 }
-
             }
 
             heat.ExitOverdrive();
