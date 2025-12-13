@@ -1,5 +1,6 @@
 ## 1.3.4 Patch Notes
 - General
+  - Added Temporary, Partial Russian translation (Language file support with configs will come in a later update)
   - Fixed Survivor toggle config causing enemies to spam NREs
 - Ranger
   - Fixed Mastery Skin timing issue making it get unlocked automatically
