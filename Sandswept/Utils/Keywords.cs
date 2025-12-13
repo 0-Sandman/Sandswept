@@ -31,7 +31,7 @@ namespace Sandswept.Utils
 
         public static void SetupKeywords()
         {
-            Surging.Add("$knSurging$se$suDamage and blast radius increase with distance.$se").AutoFormat();
+            Surging.Add("$knSurging$se$suDamage and blast radius increase with distance.$se".AutoFormat());
             OverdriveFormPrimary.Add("$knOverdriven Form$se$suAgile$se. Fire a rapid stream of bullets for $sd90% damage$se. $suFire rate and ignite chance increase with heat$se.".AutoFormat());
             OverdriveFormSecondary.Add("$knOverdriven Form$se$sdIgnite$se. $suReduce current heat by 50%$se. Fire a spread of heat for $sd4x300% damage$se. $suBurst count increases with heat spent$se.".AutoFormat());
             OverdriveFormAltSecondary.Add("$knOverdriven Form$se$sdIgnite$se. $suReduce current heat by 50%$se. Fire off a blazing orb for $sd1200%$se damage that $sdengulfs$se the ground on impact for $sd250%$se damage per second. $suDamage increases with heat spent$se.".AutoFormat());

@@ -61,6 +61,10 @@ namespace Sandswept.Items.Greens
         public static HealthBarAPI.BarOverlayIndex MakeshiftPlateOverlay;
 
         public static GameObject platingOverlayPrefab;
+
+        public static GameObject fewParticles;
+        public static GameObject lotsParticles;
+
         public override void Init()
         {
             base.Init();
@@ -114,6 +118,7 @@ namespace Sandswept.Items.Greens
             orig(self, itemIndex, countToAdd);
             HandleItemGain(self, itemIndex, countToAdd);
         }
+        // give item channeled is likely it
 
         private void SetUpVFX()
         {
@@ -146,6 +151,57 @@ namespace Sandswept.Items.Greens
             newMat.SetFloat("_AlphaBias", 0.5379356f);
 
             meshRenderer.material = newMat;
+
+            fewParticles = PrefabAPI.InstantiateClone(Paths.GameObject.Bandit2SmokeBomb, "Makeshift Plate On Hurt VFX", false);
+
+            fewParticles.GetComponent<EffectComponent>().applyScale = true;
+            VFXUtils.OdpizdzijPierdoloneGownoKurwaCoZaJebanyKurwaSmiecToKurwaDodalPizdaKurwaJebanaKurwa(fewParticles);
+
+            fewParticles.GetComponent<ShakeEmitter>().enabled = false;
+
+            VFXUtils.RecolorMaterialsAndLights(fewParticles, new Color32(15, 99, 39, 255), new Color32(0, 192, 255, 255), true, true);
+
+            var core = fewParticles.transform.Find("Core");
+
+            core.Find("Point Light").GetComponent<Light>().range = 4f;
+
+            core.Find("Smoke, Edge Circle").gameObject.SetActive(false);
+            core.Find("Dust, CenterSphere").gameObject.SetActive(false);
+            core.Find("Dust, CenterTube").gameObject.SetActive(false);
+
+            var sparks = core.Find("Sparks");
+
+            sparks.GetComponent<ParticleSystemRenderer>().material.SetTexture("_MainTex", Paths.Texture2D.texConstructMask);
+
+            var sparksPS = sparks.GetComponent<ParticleSystem>();
+            var sparksMain = sparksPS.main;
+            sparksMain.maxParticles = 10;
+            var sparksEmission = sparksPS.emission;
+            var sparksBurst = new ParticleSystem.Burst(0f, 10, 10, 1, 0.01f)
+            {
+                probability = 1f
+            };
+            sparksEmission.SetBurst(0, sparksBurst);
+
+            ContentAddition.AddEffect(fewParticles);
+
+            lotsParticles = PrefabAPI.InstantiateClone(fewParticles, "Makeshift Plate On Break VFX", false);
+
+            var core2 = lotsParticles.transform.Find("Core");
+
+            var sparks2 = core2.Find("Sparks");
+
+            var sparks2PS = sparks2.GetComponent<ParticleSystem>();
+            var sparks2Main = sparks2PS.main;
+            sparks2Main.maxParticles = 300;
+            var sparks2Emission = sparksPS.emission;
+            var sparks2Burst = new ParticleSystem.Burst(0f, 300, 300, 1, 0.01f)
+            {
+                probability = 1f
+            };
+            sparks2Emission.SetBurst(0, sparks2Burst);
+
+            ContentAddition.AddEffect(lotsParticles);
         }
 
         private void GiveItemPermanent(On.RoR2.Inventory.orig_GiveItemPermanent_ItemIndex_int orig, Inventory self, ItemIndex itemIndex, int countToAdd)
@@ -179,25 +235,30 @@ namespace Sandswept.Items.Greens
 
                 float platingMult = stackPercentPlatingGain / 100f * count;
 
-                Main.ModLogger.LogError($"plating mult is {platingMult}");
+                // Main.ModLogger.LogError($"plating mult is {platingMult}");
 
                 int plating = Mathf.RoundToInt((characterBody.maxHealth + characterBody.maxShield) * platingMult);
 
-                Main.ModLogger.LogError($"plating is {plating}");
-                Main.ModLogger.LogError($"platingManager.CurrentPlating BEFORE ADDING is {platingManager.CurrentPlating}");
+                // Main.ModLogger.LogError($"plating is {plating}");
+                // Main.ModLogger.LogError($"platingManager.CurrentPlating BEFORE ADDING is {platingManager.CurrentPlating}");
 
                 platingManager.CurrentPlating += plating;
 
-                Main.ModLogger.LogError($"adding to currentPlating");
-                Main.ModLogger.LogError($"platingManager.CurrentPlating AFTERRRRR ADDING is {platingManager.CurrentPlating}");
+                // Main.ModLogger.LogError($"adding to currentPlating");
+                // Main.ModLogger.LogError($"platingManager.CurrentPlating AFTERRRRR ADDING is {platingManager.CurrentPlating}");
 
                 if (platingManager.MaxPlating <= 0)
                 {
-                    Main.ModLogger.LogError("platingManager.MaxPlating is less than or equal to 0");
+                    // Main.ModLogger.LogError("platingManager.MaxPlating is less than or equal to 0");
                     platingManager.MaxPlating = plating;
                 }
 
                 platingManager.CurrentPlating = Mathf.Min(platingManager.CurrentPlating, platingManager.MaxPlating);
+
+                Util.PlaySound("Play_loader_m1_shield", characterBody.gameObject);
+                Util.PlaySound("Play_loader_m1_shield", characterBody.gameObject);
+
+                platingManager.usedUpAllPlatingThisPickup = false;
 
                 new MakeshiftPlateAddSync(characterBody.gameObject, platingManager.CurrentPlating, platingManager.MaxPlating, false).Send(NetworkDestination.Clients);
             }
@@ -230,14 +291,22 @@ namespace Sandswept.Items.Greens
             {
                 float platingMult = (stackPercentPlatingGain / 100f) * self.inventory.GetItemCount(ItemDef);
 
-                int platingManager = Mathf.RoundToInt((self.maxHealth + self.maxShield) * platingMult);
+                int plating = Mathf.RoundToInt((self.maxHealth + self.maxShield) * platingMult);
 
-                if (platingManager == 0)
+                if (plating == 0)
                 {
                     return;
                 }
 
-                new MakeshiftPlateAddSync(self.gameObject, platingManager, platingManager, false).Send(NetworkDestination.Clients);
+                if (self.TryGetComponent<PlatingManager>(out var platingManager))
+                {
+                    Util.PlaySound("Play_loader_m1_shield", self.gameObject);
+                    Util.PlaySound("Play_loader_m1_shield", self.gameObject);
+
+                    platingManager.usedUpAllPlatingThisPickup = false;
+                }
+
+                new MakeshiftPlateAddSync(self.gameObject, plating, plating, false).Send(NetworkDestination.Clients);
             }
         }
 
@@ -245,9 +314,9 @@ namespace Sandswept.Items.Greens
         {
             if (self.body && GetCount(self.body) > 0 && self.body.TryGetComponent(out PlatingManager platingManager))
             {
-                Main.ModLogger.LogError("TakeDamage called");
+                // Main.ModLogger.LogError("TakeDamage called");
                 float plating = platingManager.CurrentPlating;
-                Main.ModLogger.LogError($"platingManager.CurrentPlating BEFORE removing is {platingManager.CurrentPlating}");
+                // Main.ModLogger.LogError($"platingManager.CurrentPlating BEFORE removing is {platingManager.CurrentPlating}");
                 float toRemove = 0;
 
                 if (plating > info.damage)
@@ -262,9 +331,26 @@ namespace Sandswept.Items.Greens
                 }
 
                 platingManager.CurrentPlating -= toRemove;
-                Main.ModLogger.LogError($"platingManager.CurrentPlating AFTERRR removing is {platingManager.CurrentPlating}");
+                // Main.ModLogger.LogError($"platingManager.CurrentPlating AFTERRR removing is {platingManager.CurrentPlating}");
                 platingManager.CurrentPlating = Mathf.Clamp(platingManager.CurrentPlating, 0, platingManager.MaxPlating);
-                Main.ModLogger.LogError($"platingManager.CurrentPlating AFTERRR CLAMPINGG is {platingManager.CurrentPlating}");
+                // Main.ModLogger.LogError($"platingManager.CurrentPlating AFTERRR CLAMPINGG is {platingManager.CurrentPlating}");
+
+                if (!platingManager.usedUpAllPlatingThisPickup)
+                {
+                    if (platingManager.CurrentPlating <= 0)
+                    {
+                        Util.PlaySound("Play_loader_m1_shield", self.gameObject);
+                        Util.PlaySound("Play_loader_m1_shield", self.gameObject);
+                        EffectManager.SpawnEffect(lotsParticles, new EffectData() { scale = MathHelpers.BestBestFitRadius(self.body), origin = self.body.corePosition }, true);
+                        platingManager.usedUpAllPlatingThisPickup = true;
+                    }
+                    else
+                    {
+                        Util.PlaySound("Play_item_proc_personal_shield_end", self.gameObject);
+                        Util.PlaySound("Play_item_proc_personal_shield_end", self.gameObject);
+                        EffectManager.SpawnEffect(fewParticles, new EffectData() { scale = MathHelpers.BestBestFitRadius(self.body), origin = self.body.corePosition }, true);
+                    }
+                }
 
                 new MakeshiftPlateAddSync(self.gameObject, platingManager.CurrentPlating, platingManager.MaxPlating, false).Send(NetworkDestination.Clients);
             }
@@ -288,6 +374,7 @@ namespace Sandswept.Items.Greens
             public float CurrentPlating = 0;
             public float MaxPlating = 0;
             public CharacterBody body;
+            public bool usedUpAllPlatingThisPickup = false;
 
             public void Start()
             {

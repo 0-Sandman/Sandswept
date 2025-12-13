@@ -1,17 +1,20 @@
 ## 1.3.4 Patch Notes
 - General
   - Fixed Survivor toggle config causing enemies to spam NREs
+- Ranger
+  - Fixed Mastery Skin timing issue making it get unlocked automatically
+  - Fixed Surging keyword
 - Items/Equipment
-  - Added VFX to Makeshift Plate
+  - Added VFX and SFX to Makeshift Plate
   - Buffed Festering Hunger Chance from 7% to 8%
   - Fixed Crown's Diamond speeding up barrier decay instead of reducing it (MoreStats -> RecalculateStats difference,,)
   - Fixed Nuclear Salvo activating while in Computational Exchange
   - Fixed Hallowed Ichor activating while in The Bazaar and Computational Exchange
 - Interactables
+  - Added Remote Operation support for drones
+  - Added Operator support for drones
+  - Made drones use the new improved drone AI (no more Voltaic Drone humping the floor for 3 hours straight, what a freak..)
   - Reduced Shrine of Sacrifice Curse Cost from 35 to 30
-  - Added Remote Operation support for drones.
-  - Added Operator support for drones.
-  - Made drones use the new improved drone AI (no more voltaic drone humping the floor for 3 hours straight)
 - Enemies
   - Made Delta Construct VFX less eyerapey
   - Fixed not all of Delta Construct VFX being red

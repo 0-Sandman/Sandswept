@@ -159,6 +159,8 @@ namespace Sandswept.Survivors.Ranger
             });
             childLocator.transformPairs = sigma.ToArray();
 
+            Achievements.UnlockableDefs.Init();
+
             AddSkins();
 
             RegisterStuff();
@@ -236,7 +238,7 @@ namespace Sandswept.Survivors.Ranger
                 new Color32(74, 79, 77, 255),
                 new Color32(108, 68, 45, 255)
             );
-            masteryDef.unlockableDef = Achievements.UnlockableDefs.masteryUnlock;
+            masteryDef.unlockableDef = UnlockableDefs.masteryUnlock;
 
             "RANGER_SKIN_DEFAULT_NAME".Add("Default");
             "RANGER_SKIN_DEFAULT_DESC".Add("This survivor's default skin.");

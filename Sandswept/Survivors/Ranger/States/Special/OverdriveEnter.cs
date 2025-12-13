@@ -67,6 +67,7 @@ namespace Sandswept.Survivors.Ranger.States.Special
                         _ => HeatVFX.heatMatDefault
                     };
                     
+                    /*
                     var characterModel = modelTransform.GetComponent<CharacterModel>();
                     if (characterModel)
                     {
@@ -99,11 +100,12 @@ namespace Sandswept.Survivors.Ranger.States.Special
                         }
                     }
                     characterModel.materialsDirty = true;
+                    */
                     
-                    if (!temporaryOverlayAlreadyAdded)
+                    // if (!temporaryOverlayAlreadyAdded)
                     {
                         tempOverlayInstance = TemporaryOverlayManager.AddOverlay(modelTransform.gameObject);
-                        tempOverlayInstance.duration = 9999f;
+                        // tempOverlayInstance.duration = 9999f;
                         tempOverlayInstance.animateShaderAlpha = true;
                         tempOverlayInstance.alphaCurve = AnimationCurve.EaseInOut(0f, 1f, 1f, 0f);
                         tempOverlayInstance.destroyComponentOnEnd = true;
@@ -158,7 +160,7 @@ namespace Sandswept.Survivors.Ranger.States.Special
 
                     // tempOverlayInstance.Destroy();
 
-                    // TemporaryOverlayManager.RemoveOverlay(tempOverlayInstance.managerIndex);
+                    TemporaryOverlayManager.RemoveOverlay(tempOverlayInstance.managerIndex);
 
                     // temporaryOverlay.RemoveFromCharacterModel();
 
@@ -192,6 +194,7 @@ namespace Sandswept.Survivors.Ranger.States.Special
                     characterModel.materialsDirty = true;
                     */
 
+                    /*
                     var characterModel = modelTransform.GetComponent<CharacterModel>();
                     if (characterModel)
                     {
@@ -213,6 +216,8 @@ namespace Sandswept.Survivors.Ranger.States.Special
                                     continue;
                                 }
 
+                                Main.ModLogger.LogError("found heatMat!! !!!!11? 1 1");
+
                                 var materialPropertyBlock = new MaterialPropertyBlock();
                                 var originalColor = sharedMaterial.GetColor("_TintColor");
                                 materialPropertyBlock.SetColor("_TintColor", new Color(originalColor.r, originalColor.g, originalColor.b, 0));
@@ -222,6 +227,7 @@ namespace Sandswept.Survivors.Ranger.States.Special
                         }
                     }
                     characterModel.materialsDirty = true;
+                    */
                 }
             }
 
