@@ -64,6 +64,7 @@ namespace Sandswept.Items.Greens
 
         [ConfigField("Stack TOTAL Damage", "Decimal.", 1.5f)]
         public static float stackTotalDamage;
+        //
 
         public override ItemTier Tier => ItemTier.Tier2;
 
