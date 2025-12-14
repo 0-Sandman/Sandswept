@@ -19,6 +19,6 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Primary
         public override bool Agile => false;
         public override int StockToConsume => 0;
         public override InterruptPriority InterruptPriority => InterruptPriority.Any;
-        public override float GetProcCoefficientData() => 0.9f;
+        public override float GetProcCoefficientData() => 1f;
     }
 }
