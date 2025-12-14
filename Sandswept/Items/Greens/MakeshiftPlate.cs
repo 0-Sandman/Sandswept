@@ -29,7 +29,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Gain plating on stage entry. Plating absorbs damage, but cannot be recovered.";
 
-        public override string ItemFullDescription => $"Begin each stage with $sh{basePercentPlatingGain}%$se $ss(+{stackPercentPlatingGain}% per stack)$se plating. Plating acts as $shsecondary health$se, but cannot be recovered in any way.".AutoFormat();
+        public override string ItemFullDescription => $"Begin each stage with $sh{basePercentPlatingGain}%$se $ss(+{stackPercentPlatingGain}% per stack)$se $shplating$se. $shPlating$se acts as $shsecondary health$se, but cannot be recovered in any way.".AutoFormat();
 
         public override string ItemLore =>
         """

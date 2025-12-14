@@ -291,9 +291,13 @@ namespace Sandswept.Survivors.Ranger
             }
 
             clickCount++;
-            if (clickCount >= 25 || (Main.cursedConfig.Value && clickCount >= 2))
+            if (clickCount >= 100 || (Main.cursedConfig.Value && clickCount >= 2))
             {
-                GameObject.Instantiate(Main.assets.LoadAsset<GameObject>("EggPrefab.prefab"), canvas.transform).GetComponent<EggController>().velocity = Random.insideUnitCircle.normalized * 50f;
+                for (int i = 0; i < 5; i++)
+                {
+                    GameObject.Instantiate(Main.assets.LoadAsset<GameObject>("EggPrefab.prefab"), canvas.transform).GetComponent<EggController>().velocity = Random.insideUnitCircle.normalized * 50f;
+                }
+
                 clickCount = 0;
             }
         }
@@ -379,7 +383,7 @@ namespace Sandswept.Survivors.Ranger
                 RendererInfos = newRendererInfos,
                 RootObject = mdl.gameObject,
                 UnlockableDef = unlockableDef,
-                BaseSkins = new SkinDef[] { modelSkinController.skins[0] }
+                BaseSkins = [modelSkinController.skins[0]]
             };
 
             var skinDef = Skins.CreateNewSkinDef(newSkinDefInfo);

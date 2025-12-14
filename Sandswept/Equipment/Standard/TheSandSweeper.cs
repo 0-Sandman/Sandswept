@@ -12,7 +12,7 @@ namespace Sandswept.Equipment.Standard
 
         public override string EquipmentPickupDesc => "Sweeps sand around you.";
 
-        public override string EquipmentFullDescription => $"Pushes all enemies within $sd{range}m$se, dealing up to $sd{maxDamage * 100f}% damage$se and $sustunning$se for up to $su{maxStun} seconds$se based on the distance.".AutoFormat();
+        public override string EquipmentFullDescription => $"Pushes all enemies within $sd{range}m$se, dealing up to $sd{maxDamage * 100f}% damage$se and $sustunning$se for up to $su{maxStun}$se seconds based on the distance.".AutoFormat();
 
         public override string EquipmentLore =>
         """

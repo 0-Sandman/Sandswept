@@ -19,7 +19,7 @@ namespace Sandswept.Items.Lunars
 
         public override string ItemPickupDesc => "Chests may be re-opened an additional time... $lcBUT re-opening them increases difficulty permanently.$ec".AutoFormat();
 
-        public override string ItemFullDescription => $"Chests may be $sure-opened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but $sure-opening$se them increases $sudifficulty$se by $su{chestReopenDifficultyCoefficientMultiplierAdd * 300f}%$se permanently. $srDifficulty increase scales with chest rarity$se.".AutoFormat(); // this will be inaccurate no matter what but this is somewhat accurate for the first use on monsoon on singleplayer lmao
+        public override string ItemFullDescription => $"Chests may be $sure-opened {baseExtraChestInteractions}$se $ss(+{stackExtraChestInteractions} per stack)$se additional times, but $sure-opening$se them increases $sudifficulty$se by $sr{chestReopenDifficultyCoefficientMultiplierAdd * 300f}%$se permanently. $srDifficulty increase scales with chest rarity$se.".AutoFormat(); // this will be inaccurate no matter what but this is somewhat accurate for the first use on monsoon on singleplayer lmao
 
         public override string ItemLore =>
         """

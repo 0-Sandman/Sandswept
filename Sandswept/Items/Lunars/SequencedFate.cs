@@ -17,9 +17,9 @@ namespace Sandswept.Items.Lunars
 
         public override string ItemLangTokenName => "SEQUENCED_FATE";
 
-        public override string ItemPickupDesc => "Shrines of Order appear more often and grant extra items.";
+        public override string ItemPickupDesc => "Shrines of Order appear more often and grant additional random items.";
 
-        public override string ItemFullDescription => $"Using a Shrine of Order grants $su{baseExtraItemsCount}$se $ss(+{stackExtraItemsCount} per stack)$se extra items. $suShrines of order appear more frequently$se.".AutoFormat();
+        public override string ItemFullDescription => $"Using a Shrine of Order grants $su{baseExtraItemsCount}$se $ss(+{stackExtraItemsCount} per stack)$se additional random items. $suShrines of order appear more frequently$se.".AutoFormat();
 
         public override string ItemLore =>
         """

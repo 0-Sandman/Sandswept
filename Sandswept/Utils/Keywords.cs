@@ -34,7 +34,7 @@ namespace Sandswept.Utils
             Surging.Add("$knSurging$se$suDamage and blast radius increase with distance.$se".AutoFormat());
             OverdriveFormPrimary.Add("$knOverdriven Form$se$suAgile$se. Fire a rapid stream of bullets for $sd90% damage$se. $suFire rate and ignite chance increase with heat$se.".AutoFormat());
             OverdriveFormSecondary.Add("$knOverdriven Form$se$sdIgnite$se. $suReduce current heat by 50%$se. Fire a spread of heat for $sd4x300% damage$se. $suBurst count increases with heat spent$se.".AutoFormat());
-            OverdriveFormAltSecondary.Add("$knOverdriven Form$se$sdIgnite$se. $suReduce current heat by 50%$se. Fire off a blazing orb for $sd1200%$se damage that $sdengulfs$se the ground on impact for $sd250%$se damage per second. $suDamage increases with heat spent$se.".AutoFormat());
+            OverdriveFormAltSecondary.Add("$knOverdriven Form$se$sdIgnite$se. $suReduce current heat by 50%$se. Fire off a blazing orb for $sd200%$se damage that $sdengulfs$se the ground on impact for $sd200%$se damage per second. $suDamage increases with heat spent$se.".AutoFormat());
             OverdriveFormUtility.Add("$knOverdriven Form$se$suAgile$se. $sdStunning$se. $suSidestep$se a short distance and deal $sd390% damage$se. Hitting enemies generates $rc5 Charge$ec and $sdextends$se the dash. $suDash distance increases with heat$se.".AutoFormat());
             OverdriveFormSpecial.Add("$knOverdriven Form$se$suAgile$se. $sdIgnite$se. $suConsume all heat and exit overdrive$se. Release a $sdfire nova$se around you that deals $sd300%$se damage. $suDamage increases with heat spent$se.".AutoFormat());
         }

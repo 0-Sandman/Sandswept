@@ -20,8 +20,7 @@ namespace Sandswept.Survivors
                 RangerVFX.Init();
 
                 DirectCurrent.Init();
-                TheFuckingBFG.Init();
-                Sandswept.Survivors.Ranger.Projectiles.Char.Init();
+                AltSecondaries.Init();
                 ChargeGain.Init();
 
                 Material matRanger = Main.assets.LoadAsset<Material>("matRanger.mat");

@@ -18,7 +18,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Mechanical allies fire nuclear warheads periodically.";
 
-        public override string ItemFullDescription => $"Every $sd{interval} seconds$se, all mechanical allies fire $sd{baseMissileCount}$se $ss(+{stackMissileCount} per stack)$se $sdnuclear missiles$se that deal $sd{baseMissileDamage * 100f}%$se base damage each in a $sd{missileExplosionRadius}m$se radius.".AutoFormat();
+        public override string ItemFullDescription => $"Every $sd{interval}$se seconds, all mechanical allies fire $sd{baseMissileCount}$se $ss(+{stackMissileCount} per stack)$se $sdnuclear missiles$se that deal $sd{baseMissileDamage * 100f}%$se base damage each in a $sd{missileExplosionRadius}m$se radius.".AutoFormat();
 
         public override string ItemLore =>
         """

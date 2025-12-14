@@ -4,7 +4,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
 {
     public class Char : BaseState
     {
-        public static float damageCoefficient = 15f;
+        public static float damageCoefficient = 2f;
         public static float baseDuration = 0.5f;
         public static float heatReduction = 0.5f;
         private float duration;
@@ -24,7 +24,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
             float heatRemoved = rangerHeatController.currentHeat * heatReduction;
             rangerHeatController.currentHeat -= Mathf.Max(0, heatRemoved);
 
-            finalDamageCoefficient = damageCoefficient + (heatRemoved / 2.5f);
+            finalDamageCoefficient = damageCoefficient + (heatRemoved / 25f);
 
             if (modelTransform)
             {
@@ -38,7 +38,7 @@ namespace Sandswept.Survivors.Ranger.States.Secondary
                     "RANGER_SKIN_MILEZERO_NAME" => Projectiles.DirectCurrent.prefabMileZero,
                     "RANGER_SKIN_SANDSWEPT_NAME" => Projectiles.DirectCurrent.prefabSandswept,
                     */
-                    _ => Projectiles.TheFuckingBFG.SigmaProjectile
+                    _ => Projectiles.AltSecondaries.charBallProjectile
                 };
 
                 muzzleFlash = skinNameToken switch

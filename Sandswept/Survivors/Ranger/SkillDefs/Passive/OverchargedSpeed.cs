@@ -6,7 +6,7 @@ namespace Sandswept.Survivors.Ranger.SkillDefs.Passive
     public class OverchargedSpeed : SkillBase<OverchargedSpeed>
     {
         public override string Name => "Overcharged Speed";
-        public override string Description => "Hold up to " + Projectiles.DirectCurrent.maxCharge + " $rcCharge$ec. $rcCharge$ec increases $sumovement speed$se by up to $su25%$se. Consume $rc5$ec Charge to $sudouble jump$se. $rcCharge decays over time$ec.".AutoFormat();
+        public override string Description => "Hold up to " + Projectiles.DirectCurrent.maxCharge + " $rcCharge$ec. $rcCharge$ec increases $sumovement speed$se by up to $su25%$se. Consume $rc5$ec Charge to $sudouble jump$se. $suCharge decays over time$se.".AutoFormat();
         public override Type ActivationStateType => typeof(GenericCharacterMain);
         public override string ActivationMachineName => "Body";
         public override float Cooldown => 0f;

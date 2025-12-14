@@ -3,9 +3,13 @@
   - Added Temporary, Partial Russian translation (Language file support with configs will come in a later update)
   - Fixed Survivor toggle config causing enemies to spam NREs
 - Ranger
+  - Made Char have the same projectile arc and speed as Direct Current
   - Buffed Overdrive Percent Max Health Self Damage from 13.32% to 16%
+  - Nerfed Char Damage from ~9001% to 200%
   - Fixed Mastery Skin timing issue making it get unlocked automatically
   - Fixed Surging keyword
+  - Fixed Char doing way too much damage and multihitting enemies
+  - Fixed Heat Signature getting stuck in its state
 - Items/Equipment
   - Added VFX and SFX to Makeshift Plate
   - Buffed Festering Hunger Chance from 7% to 8%
