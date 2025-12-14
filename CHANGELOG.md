@@ -3,11 +3,14 @@
   - Added Temporary, Partial Russian translation (Language file support with configs will come in a later update)
   - Fixed Survivor toggle config causing enemies to spam NREs
 - Ranger
+  - Buffed Overdrive Percent Max Health Self Damage from 13.32% to 16%
   - Fixed Mastery Skin timing issue making it get unlocked automatically
   - Fixed Surging keyword
 - Items/Equipment
   - Added VFX and SFX to Makeshift Plate
   - Buffed Festering Hunger Chance from 7% to 8%
+  - Made Nuclear Salvo no longer have a Missile cap of 60/s (effective cap with it and Pocket I.C.B.M. is 50, otherwise 150)
+  - Made Nuclear Salvo work with Pocket I.C.B.M. 
   - Fixed Crown's Diamond speeding up barrier decay instead of reducing it (MoreStats -> RecalculateStats difference,,)
   - Fixed Nuclear Salvo activating while in Computational Exchange
   - Fixed Hallowed Ichor activating while in The Bazaar and Computational Exchange

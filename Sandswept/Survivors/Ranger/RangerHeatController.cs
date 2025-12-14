@@ -24,7 +24,7 @@ namespace Sandswept.Survivors.Ranger
 
         public bool isInFullHeat = false;
 
-        public float selfDamageAtMax = 0.033f;
+        public float selfDamageAtMax = 0.04f;
         public float selfDamageInterval = 0.25f;
         public float selfDamageTimer;
 
@@ -80,7 +80,7 @@ namespace Sandswept.Survivors.Ranger
                     TakeDamage(self);
                     selfDamageTimer = 0f;
 
-                    cb.SetBuffCount(HeatHealingReduction.instance.BuffDef.buffIndex, Mathf.Clamp(Mathf.RoundToInt((currentHeat / maxHeat * 2.5f) * 100f), 0, 100));
+                    cb.SetBuffCount(HeatHealingReduction.instance.BuffDef.buffIndex, Mathf.Clamp(Mathf.RoundToInt(currentHeat / maxHeat * 2.5f * 100f), 0, 100));
                 }
             }
 
@@ -352,7 +352,7 @@ namespace Sandswept.Survivors.Ranger
             {
                 image.transform.parent.gameObject.SetActive(true);
             }
-            
+
             targetPercent = target.currentHeat / RangerHeatController.maxHeat;
             heatPercent = Mathf.MoveTowards(heatPercent, targetPercent, (Mathf.Abs(targetPercent - heatPercent) / smoothingTime) * Time.fixedDeltaTime);
             // Main.ModLogger.LogError("target.currentHeat: " + target.currentHeat + ", RangerHeatController.maxHeat: " + RangerHeatController.maxHeat + ", heatPercent: " + heatPercent);
@@ -392,7 +392,8 @@ namespace Sandswept.Survivors.Ranger
                 image.color = Color.Lerp(lowHeatColor, inHeatColor, (heatPercent - i) / 3f);
             } */
 
-            for (int i = 0; i < heatSprites.Count; i++) {
+            for (int i = 0; i < heatSprites.Count; i++)
+            {
                 Image image = heatSprites.ElementAt(i);
                 float fillAmount = heatPercent - i;
                 if (i != Mathf.FloorToInt(heatPercent)) fillAmount = 1f;

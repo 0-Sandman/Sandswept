@@ -1,3 +1,4 @@
+using HG;
 using LookingGlass.ItemStatsNameSpace;
 using MonoMod.Cil;
 using RoR2.Orbs;
@@ -17,7 +18,7 @@ namespace Sandswept.Items.Greens
 
         public override string ItemPickupDesc => "Mechanical allies fire nuclear warheads periodically.";
 
-        public override string ItemFullDescription => $"Every $sd{interval} seconds$se, all mechanical allies fire $sd{baseMissileCount}$se $ss(+{stackMissileCount} per stack)$se $sdnuclear missiles$se that deal $sd{missileDamage * 100f}%$se base damage each in a $sd{missileExplosionRadius}m$se radius.".AutoFormat();
+        public override string ItemFullDescription => $"Every $sd{interval} seconds$se, all mechanical allies fire $sd{baseMissileCount}$se $ss(+{stackMissileCount} per stack)$se $sdnuclear missiles$se that deal $sd{baseMissileDamage * 100f}%$se base damage each in a $sd{missileExplosionRadius}m$se radius.".AutoFormat();
 
         public override string ItemLore =>
         """
@@ -59,8 +60,8 @@ namespace Sandswept.Items.Greens
         [ConfigField("Stack Missile Count", "", 2)]
         public static int stackMissileCount;
 
-        [ConfigField("Missile Damage", "Decimal.", 0.5f)]
-        public static float missileDamage;
+        [ConfigField("Base Missile Damage", "Decimal.", 0.5f)]
+        public static float baseMissileDamage;
 
         [ConfigField("Missile Proc Coefficient", "", 0.33f)]
         public static float missileProcCoefficient;
@@ -88,7 +89,10 @@ namespace Sandswept.Items.Greens
             itemStatsDef.descriptions.Add("Missile Count: ");
             itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
             itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Number);
-            itemStatsDef.descriptions.Add("Maximum Missile Count: ");
+            itemStatsDef.descriptions.Add("Maximum Missile Count Per Second: ");
+            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
+            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Number);
+            itemStatsDef.descriptions.Add("Maximum Missile Count Before Each Interval: ");
             itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
             itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Number);
             itemStatsDef.calculateValues = (master, stack) =>
@@ -96,7 +100,8 @@ namespace Sandswept.Items.Greens
                 List<float> values = new()
                 {
                     baseMissileCount + stackMissileCount * (stack - 1),
-                    60
+                    60,
+                    interval / 1f / 60f
                 };
 
                 return values;
@@ -367,10 +372,14 @@ namespace Sandswept.Items.Greens
             if (npcBody && (npcBody.bodyFlags & CharacterBody.BodyFlags.Mechanical) > CharacterBody.BodyFlags.None)
             {
                 // Main.ModLogger.LogError("member is mechanical");
-                var salvo = npcMaster.GetComponent<SalvoBehaviour>();
-                if (salvo == null)
+                var salvo = npcMaster.EnsureComponent<SalvoBehaviour>();
+                if (body.inventory && body.inventory.GetItemCountEffective(DLC1Content.Items.MoreMissile) > 0)
                 {
-                    npcMaster.AddComponent<SalvoBehaviour>();
+                    salvo.hasPocketICBM = true;
+                }
+                else
+                {
+                    salvo.hasPocketICBM = false;
                 }
 
                 var playerItemCount = body.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
@@ -400,6 +409,7 @@ namespace Sandswept.Items.Greens
         public float enemyCheckTimer = 0f;
         public float stopwatch = 0f;
         public bool shouldFire = false;
+        public bool hasPocketICBM = false;
 
         public void Start()
         {
@@ -482,8 +492,12 @@ namespace Sandswept.Items.Greens
 
         public IEnumerator FireMissiles(CharacterBody enemyBody, int stack)
         {
-            var missileCount = Mathf.Min(60, NuclearSalvo.baseMissileCount + NuclearSalvo.stackMissileCount * (stack - 1));
-            // var missileCount = NuclearSalvo.baseMissileCount + NuclearSalvo.stackMissileCount * (stack - 1);
+            var missileCount = NuclearSalvo.baseMissileCount + NuclearSalvo.stackMissileCount * (stack - 1);
+            if (hasPocketICBM)
+            {
+                missileCount *= 3;
+            }
+
             for (int i = 0; i < missileCount; i++)
             {
                 var nuclearSalvoOrb = new NuclearSalvoOrb
@@ -493,7 +507,7 @@ namespace Sandswept.Items.Greens
                     attacker = gameObject,
                     isCrit = body.RollCrit(),
                     damageType = DamageType.IgniteOnHit,
-                    damageValue = body.damage * NuclearSalvo.missileDamage,
+                    damageValue = body.damage * NuclearSalvo.baseMissileDamage,
                     procChainMask = default,
                     speed = 45f,
                     teamIndex = TeamComponent.GetObjectTeam(body.gameObject),
@@ -506,8 +520,10 @@ namespace Sandswept.Items.Greens
                     OrbManager.instance.AddOrb(nuclearSalvoOrb);
                 }
 
-                // yield return new WaitForSeconds(Mathf.Min(1f / 60f, 1f / missileCount));
-                yield return new WaitForSeconds(1f / missileCount);
+                if (missileCount <= 60)
+                {
+                    yield return new WaitForSeconds(1f / missileCount);
+                }
             }
             yield return null;
         }
@@ -515,17 +531,14 @@ namespace Sandswept.Items.Greens
 
     public class NuclearSalvoOrb : GenericDamageOrb
     {
-        // uncomment these for aoe, too
         public CharacterMaster master;
         public CharacterBody body;
         public override void Begin()
         {
             base.Begin();
-            // uncomment these for aoe, too
             master = attacker.GetComponent<CharacterMaster>();
             body = master.GetBody();
             speed = 45f;
-            // duration = Mathf.Min(1f / 60f, duration);
 
             duration = Time.fixedDeltaTime + (distanceToTarget / speed);
             var effectData = new EffectData
@@ -538,14 +551,6 @@ namespace Sandswept.Items.Greens
             EffectManager.SpawnEffect(NuclearSalvo.orbEffect, effectData, true);
 
         }
-        // code below mimicks the aoe behavior of the original, but is much laggier
-
-        /*
-        public override GameObject GetOrbEffect()
-        {
-            return NuclearSalvo.orbEffect;
-        }
-        */
 
         public override void OnArrival()
         {
@@ -562,7 +567,7 @@ namespace Sandswept.Items.Greens
 
             BlastAttack blastAttack = new();
 
-            blastAttack.baseDamage = body.damage * NuclearSalvo.missileDamage;
+            blastAttack.baseDamage = body.damage * NuclearSalvo.baseMissileDamage;
             blastAttack.inflictor = attacker;
             blastAttack.falloffModel = BlastAttack.FalloffModel.None;
             blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
