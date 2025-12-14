@@ -11,7 +11,7 @@
 # Content
 
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
-![](https://i.postimg.cc/C17yD5bF/RangerUI.png)
+![](https://i.postimg.cc/h4Y6p2md/Ranger-UI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
 ![](https://i.postimg.cc/mDBftCzX/VOLTUI.png)
 ![](https://i.postimg.cc/4dQSXLCW/Divider-UI.png)
