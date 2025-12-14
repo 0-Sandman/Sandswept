@@ -205,15 +205,15 @@ namespace Sandswept.Interactables.Regular
 
         public Transform symbolTransform;
 
-        private PurchaseInteraction purchaseInteraction;
+        public PurchaseInteraction purchaseInteraction;
 
-        private int purchaseCount;
+        public int purchaseCount = 0;
 
-        private float refreshTimer;
+        public float refreshTimer = 2f;
 
-        private const float refreshDuration = 2f;
+        public const float refreshDuration = 2f;
 
-        private bool waitingForRefresh;
+        public bool waitingForRefresh;
 
         public ScriptedCombatEncounter scriptedCombatEncounter;
         public CombatSquad combatSquad;

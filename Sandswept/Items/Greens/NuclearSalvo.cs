@@ -89,19 +89,23 @@ namespace Sandswept.Items.Greens
             itemStatsDef.descriptions.Add("Missile Count: ");
             itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
             itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Number);
-            itemStatsDef.descriptions.Add("Maximum Missile Count Per Second: ");
+            itemStatsDef.descriptions.Add("Maximum Missile Count: ");
             itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
             itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Number);
-            itemStatsDef.descriptions.Add("Maximum Missile Count Before Each Interval: ");
-            itemStatsDef.valueTypes.Add(ItemStatsDef.ValueType.Damage);
-            itemStatsDef.measurementUnits.Add(ItemStatsDef.MeasurementUnits.Number);
+
             itemStatsDef.calculateValues = (master, stack) =>
             {
+                int missileMultiplier = 1;
+                var inventory = master.inventory;
+                if (inventory && inventory.GetItemCountEffective(DLC1Content.Items.MoreMissile) > 0)
+                {
+                    missileMultiplier = 3;
+                }
+
                 List<float> values = new()
                 {
-                    baseMissileCount + stackMissileCount * (stack - 1),
-                    60,
-                    interval / 1f / 60f
+                    (baseMissileCount + stackMissileCount * (stack - 1)) * missileMultiplier,
+                    interval / (1f/60f)
                 };
 
                 return values;
@@ -373,13 +377,9 @@ namespace Sandswept.Items.Greens
             {
                 // Main.ModLogger.LogError("member is mechanical");
                 var salvo = npcMaster.EnsureComponent<SalvoBehaviour>();
-                if (body.inventory && body.inventory.GetItemCountEffective(DLC1Content.Items.MoreMissile) > 0)
+                if (body.inventory)
                 {
-                    salvo.hasPocketICBM = true;
-                }
-                else
-                {
-                    salvo.hasPocketICBM = false;
+                    salvo.pocketIcbmCount = body.inventory.GetItemCountEffective(DLC1Content.Items.MoreMissile);
                 }
 
                 var playerItemCount = body.inventory.GetItemCount(NuclearSalvo.instance.ItemDef);
@@ -409,7 +409,9 @@ namespace Sandswept.Items.Greens
         public float enemyCheckTimer = 0f;
         public float stopwatch = 0f;
         public bool shouldFire = false;
-        public bool hasPocketICBM = false;
+        public int pocketIcbmCount = 0;
+
+        public float finalDamageCoefficient = 0f;
 
         public void Start()
         {
@@ -493,9 +495,11 @@ namespace Sandswept.Items.Greens
         public IEnumerator FireMissiles(CharacterBody enemyBody, int stack)
         {
             var missileCount = NuclearSalvo.baseMissileCount + NuclearSalvo.stackMissileCount * (stack - 1);
-            if (hasPocketICBM)
+            finalDamageCoefficient = NuclearSalvo.baseMissileDamage;
+            if (pocketIcbmCount > 0)
             {
                 missileCount *= 3;
+                finalDamageCoefficient = NuclearSalvo.baseMissileDamage * MissileUtils.GetMoreMissileDamageMultiplier(pocketIcbmCount);
             }
 
             for (int i = 0; i < missileCount; i++)
@@ -507,7 +511,7 @@ namespace Sandswept.Items.Greens
                     attacker = gameObject,
                     isCrit = body.RollCrit(),
                     damageType = DamageType.IgniteOnHit,
-                    damageValue = body.damage * NuclearSalvo.baseMissileDamage,
+                    damageValue = body.damage * finalDamageCoefficient,
                     procChainMask = default,
                     speed = 45f,
                     teamIndex = TeamComponent.GetObjectTeam(body.gameObject),
@@ -520,10 +524,7 @@ namespace Sandswept.Items.Greens
                     OrbManager.instance.AddOrb(nuclearSalvoOrb);
                 }
 
-                if (missileCount <= 60)
-                {
-                    yield return new WaitForSeconds(1f / missileCount);
-                }
+                yield return new WaitForSeconds(1f / missileCount);
             }
             yield return null;
         }

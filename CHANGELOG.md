@@ -13,7 +13,6 @@
 - Items/Equipment
   - Added VFX and SFX to Makeshift Plate
   - Buffed Festering Hunger Chance from 7% to 8%
-  - Made Nuclear Salvo no longer have a Missile cap of 60/s (effective cap with it and Pocket I.C.B.M. is 50, otherwise 150)
   - Made Nuclear Salvo work with Pocket I.C.B.M. 
   - Fixed Crown's Diamond speeding up barrier decay instead of reducing it (MoreStats -> RecalculateStats difference,,)
   - Fixed Nuclear Salvo activating while in Computational Exchange

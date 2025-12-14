@@ -194,15 +194,13 @@ namespace Sandswept.Interactables.Regular
 
         public Transform symbolTransform;
 
-        private PurchaseInteraction purchaseInteraction;
+        public PurchaseInteraction purchaseInteraction;
 
-        private int purchaseCount;
+        public int purchaseCount;
 
-        private float refreshTimer;
+        public float refreshTimer = 1f;
 
-        private const float refreshDuration = 2f;
-
-        private bool waitingForRefresh;
+        public bool waitingForRefresh;
 
         public int itemCount = ShrineOfSacrifice.itemCount;
 
