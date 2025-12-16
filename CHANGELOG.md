@@ -13,7 +13,11 @@
 - Items/Equipment
   - Added VFX and SFX to Makeshift Plate
   - Buffed Festering Hunger Chance from 7% to 8%
-  - Made Nuclear Salvo work with Pocket I.C.B.M. 
+  - Made Nuclear Salvo work with Pocket I.C.B.M.
+  - Increased Nuclear Salvo damage from 50% to 100%
+  - Reduced Nuclear Salvo blast radius from 16m to 8m
+  - Changed Nuclear Salvo to scale missile travel times so that the entire volley impacts the target at the same time (they still fire in a staggered salvo)
+  - Nuclear Salvo now spawns an explosion effect when the missiles impact (one explosion effect per volley, each individual missile still deals damage though)
   - Fixed Crown's Diamond speeding up barrier decay instead of reducing it (MoreStats -> RecalculateStats difference,,)
   - Fixed Nuclear Salvo activating while in Computational Exchange
   - Fixed Hallowed Ichor activating while in The Bazaar and Computational Exchange

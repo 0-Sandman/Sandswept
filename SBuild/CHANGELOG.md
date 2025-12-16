@@ -1,13 +1,28 @@
 ## 1.3.4 Patch Notes
 - General
+  - Added Temporary, Partial Russian translation (Language file support with configs will come in a later update)
   - Fixed Survivor toggle config causing enemies to spam NREs
+- Ranger
+  - Made Char have the same projectile arc and speed as Direct Current
+  - Buffed Overdrive Percent Max Health Self Damage from 13.32% to 16%
+  - Nerfed Char Damage from ~9001% to 200%
+  - Fixed Mastery Skin timing issue making it get unlocked automatically
+  - Fixed Surging keyword
+  - Fixed Char doing way too much damage and multihitting enemies
+  - Fixed Heat Signature getting stuck in its state
 - Items/Equipment
-  - Added VFX to Makeshift Plate
+  - Added VFX and SFX to Makeshift Plate
   - Buffed Festering Hunger Chance from 7% to 8%
+  - Made Nuclear Salvo work with Pocket I.C.B.M.
+  - Increased Nuclear Salvo damage from 50% to 100%
+  - Reduced Nuclear Salvo blast radius from 16m to 8m
   - Fixed Crown's Diamond speeding up barrier decay instead of reducing it (MoreStats -> RecalculateStats difference,,)
   - Fixed Nuclear Salvo activating while in Computational Exchange
   - Fixed Hallowed Ichor activating while in The Bazaar and Computational Exchange
 - Interactables
+  - Added Remote Operation support for drones
+  - Added Operator support for drones
+  - Made drones use the new improved drone AI (no more Voltaic Drone humping the floor for 3 hours straight, what a freak..)
   - Reduced Shrine of Sacrifice Curse Cost from 35 to 30
 - Enemies
   - Made Delta Construct VFX less eyerapey

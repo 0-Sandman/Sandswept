@@ -60,13 +60,13 @@ namespace Sandswept.Items.Greens
         [ConfigField("Stack Missile Count", "", 2)]
         public static int stackMissileCount;
 
-        [ConfigField("Base Missile Damage", "Decimal.", 0.5f)]
+        [ConfigField("Base Missile Damage", "Decimal.", 1f)]
         public static float baseMissileDamage;
 
         [ConfigField("Missile Proc Coefficient", "", 0.33f)]
         public static float missileProcCoefficient;
 
-        [ConfigField("Missile Explosion Radius", "", 16f)]
+        [ConfigField("Missile Explosion Radius", "", 8f)]
         public static float missileExplosionRadius;
 
         public static List<string> stageBlacklist = ["bazaar", "computationalexchange"];
@@ -74,6 +74,7 @@ namespace Sandswept.Items.Greens
         // uncomment for aoe
 
         public static GameObject orbEffect;
+        public static GameObject explosionEffect;
 
         // for salvo display you can instantiate Main.hifuSandswept.LoadAsset<GameObject>("NuclearSalvoHolder.prefab");
 
@@ -208,7 +209,11 @@ namespace Sandswept.Items.Greens
 
             ContentAddition.AddEffect(newImpact);
 
+            explosionEffect = newImpact;
+
             orbEffect.GetComponent<OrbEffect>().endEffect = newImpact;
+
+            //
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()
@@ -502,8 +507,14 @@ namespace Sandswept.Items.Greens
                 finalDamageCoefficient = NuclearSalvo.baseMissileDamage * MissileUtils.GetMoreMissileDamageMultiplier(pocketIcbmCount);
             }
 
+            float baseDuration = Vector3.Distance(body.corePosition, Util.FindBodyMainHurtBox(enemyBody).transform.position) / 45f;
+
             for (int i = 0; i < missileCount; i++)
             {
+                if (!enemyBody || (enemyBody.healthComponent && !enemyBody.healthComponent.alive)) {
+                    continue;
+                }
+
                 var nuclearSalvoOrb = new NuclearSalvoOrb
                 {
                     origin = body.corePosition,
@@ -513,10 +524,11 @@ namespace Sandswept.Items.Greens
                     damageType = DamageType.IgniteOnHit,
                     damageValue = body.damage * finalDamageCoefficient,
                     procChainMask = default,
-                    speed = 45f,
+                    travelTime = baseDuration - ((1f / missileCount) * i),
                     teamIndex = TeamComponent.GetObjectTeam(body.gameObject),
                     procCoefficient = NuclearSalvo.missileProcCoefficient,
-                    damageColorIndex = DamageColorIndex.Poison
+                    damageColorIndex = DamageColorIndex.Poison,
+                    spawnExplosionEffect = i == 0,
                 };
 
                 if (Util.HasEffectiveAuthority(gameObject))
@@ -534,14 +546,15 @@ namespace Sandswept.Items.Greens
     {
         public CharacterMaster master;
         public CharacterBody body;
+        public float travelTime;
+        public bool spawnExplosionEffect = false;
         public override void Begin()
         {
             base.Begin();
             master = attacker.GetComponent<CharacterMaster>();
             body = master.GetBody();
-            speed = 45f;
 
-            duration = Time.fixedDeltaTime + (distanceToTarget / speed);
+            duration = travelTime;
             var effectData = new EffectData
             {
                 scale = scale,
@@ -566,26 +579,34 @@ namespace Sandswept.Items.Greens
                 return;
             }
 
-            BlastAttack blastAttack = new();
+            if (NetworkServer.active) {
+                BlastAttack blastAttack = new();
 
-            blastAttack.baseDamage = body.damage * NuclearSalvo.baseMissileDamage;
-            blastAttack.inflictor = attacker;
-            blastAttack.falloffModel = BlastAttack.FalloffModel.None;
-            blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
-            blastAttack.baseForce = 0f;
-            blastAttack.bonusForce = Vector3.zero;
-            blastAttack.damageColorIndex = damageColorIndex;
-            blastAttack.damageType = DamageType.IgniteOnHit;
-            blastAttack.crit = isCrit;
-            blastAttack.procCoefficient = procCoefficient;
-            blastAttack.teamIndex = teamIndex;
-            blastAttack.radius = NuclearSalvo.missileExplosionRadius;
-            blastAttack.procChainMask = default;
-            blastAttack.position = target.transform.position;
-            blastAttack.attacker = attacker;
+                blastAttack.baseDamage = body.damage * NuclearSalvo.baseMissileDamage;
+                blastAttack.inflictor = attacker;
+                blastAttack.falloffModel = BlastAttack.FalloffModel.None;
+                blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
+                blastAttack.baseForce = 0f;
+                blastAttack.bonusForce = Vector3.zero;
+                blastAttack.damageColorIndex = damageColorIndex;
+                blastAttack.damageType = DamageType.IgniteOnHit;
+                blastAttack.crit = isCrit;
+                blastAttack.procCoefficient = procCoefficient;
+                blastAttack.teamIndex = teamIndex;
+                blastAttack.radius = NuclearSalvo.missileExplosionRadius;
+                blastAttack.procChainMask = default;
+                blastAttack.position = target.transform.position;
+                blastAttack.attacker = attacker;
 
-            blastAttack.Fire();
+                blastAttack.Fire();
 
+                if (spawnExplosionEffect) {
+                    EffectManager.SpawnEffect(NuclearSalvo.explosionEffect, new EffectData {
+                        origin = blastAttack.position,
+                        scale = blastAttack.radius * 2f
+                    }, true);
+                }
+            }
         }
 
     }
