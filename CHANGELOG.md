@@ -12,6 +12,7 @@
   - Fixed Heat Signature getting stuck in its state
 - Items/Equipment
   - Added VFX and SFX to Makeshift Plate
+  - Added a Telegraph to Their Prominence's Lunar Fissures
   - Buffed Festering Hunger Chance from 7% to 8%
   - Made Nuclear Salvo work with Pocket I.C.B.M. 
   - Fixed Crown's Diamond speeding up barrier decay instead of reducing it (MoreStats -> RecalculateStats difference,,)

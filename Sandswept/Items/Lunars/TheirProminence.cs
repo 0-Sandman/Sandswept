@@ -1,4 +1,6 @@
 ﻿using LookingGlass.ItemStatsNameSpace;
+using Rewired.ComponentControls.Effects;
+using System.Collections;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -45,6 +47,8 @@ namespace Sandswept.Items.Lunars
         public static GameObject vfx;
 
         public static Color32 darkBlue = new(0, 2, 255, 255);
+
+        public static GameObject telegraphVFX;
 
         public override void Init()
         {
@@ -103,6 +107,25 @@ namespace Sandswept.Items.Lunars
             coloredDustBalance.material = newColoredDustBalanceMat;
 
             ContentAddition.AddEffect(vfx);
+
+            telegraphVFX = PrefabAPI.InstantiateClone(Paths.GameObject.ChargeTPHealingNova, "Their Prominence Telegraph VFX", false);
+
+            telegraphVFX.GetComponent<EffectComponent>().applyScale = true;
+
+            VFXUtils.RecolorMaterialsAndLights(telegraphVFX, darkBlue, darkBlue, true);
+            VFXUtils.OdpizdzijPierdoloneGownoKurwaCoZaJebanyKurwaSmiecToKurwaDodalPizdaKurwaJebanaKurwa(telegraphVFX);
+            VFXUtils.MultiplyScale(telegraphVFX, 2f);
+
+            GameObject.DestroyImmediate(telegraphVFX.GetComponent<AkEvent>());
+            GameObject.DestroyImmediate(telegraphVFX.GetComponent<AkGameObj>());
+
+            var garbage = telegraphVFX.transform.Find("Point light");
+            garbage.GetComponent<Light>().range = 60f;
+            var garbage2 = garbage.GetComponent<LightIntensityCurve>();
+            garbage2.timeMax = 1f;
+            garbage2.curve = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(1f, 0f));
+
+            ContentAddition.AddEffect(telegraphVFX);
         }
 
         public override void Hooks()
@@ -242,6 +265,8 @@ namespace Sandswept.Items.Lunars
 
         public float secondsUntilPulseAvailable;
         private static bool modifiedTheSigma = false;
+        public bool ranTelegraph = false;
+        public GameObject theirProminenceModelInstance;
 
         public void Start()
         {
@@ -254,22 +279,41 @@ namespace Sandswept.Items.Lunars
                 fissureL.Asset.AddComponent<ForceMonster>();
                 fissureR.Asset.AddComponent<ForceMonster>();
             }
-        }
 
-        private float GetCurrentTeleporterChargeFraction()
-        {
-            return holdoutZone.charge;
+            theirProminenceModelInstance = GameObject.Instantiate(TheirProminence.instance.ItemModel, transform);
+
+            var rotateAroundX = theirProminenceModelInstance.AddComponent<RotateAroundAxis>();
+            rotateAroundX.speed = RotateAroundAxis.Speed.Fast;
+            rotateAroundX.slowRotationSpeed = 15f;
+            rotateAroundX.rotateAroundAxis = RotateAroundAxis.RotationAxis.X;
+            rotateAroundX.relativeTo = Space.Self;
+            rotateAroundX.reverse = false;
+
+            var rotateAroundY = theirProminenceModelInstance.AddComponent<RotateAroundAxis>();
+            rotateAroundY.speed = RotateAroundAxis.Speed.Fast;
+            rotateAroundY.slowRotationSpeed = 7.5f;
+            rotateAroundY.rotateAroundAxis = RotateAroundAxis.RotationAxis.Y;
+            rotateAroundY.relativeTo = Space.Self;
+            rotateAroundY.reverse = false;
+
+            var light = theirProminenceModelInstance.AddComponent<Light>();
+            light.color = TheirProminence.darkBlue;
+            light.range = 30f;
+            light.intensity = 10f;
+
+            theirProminenceModelInstance.transform.localPosition = new Vector3(0f, 8f, 0f);
         }
 
         public void FixedUpdate()
         {
-            if (!NetworkServer.active)
+            if (!NetworkServer.active || !holdoutZone)
             {
                 return;
             }
 
-            if (!holdoutZone || holdoutZone.charge >= 1f)
+            if (holdoutZone.charge >= 1f)
             {
+                StartCoroutine(DestroyEffects());
                 return;
             }
 
@@ -282,12 +326,26 @@ namespace Sandswept.Items.Lunars
             pulseCount = CalculatePulseCount();
 
             float nextPulseFraction = CalculateNextPulseFraction(pulseCount, previousPulseFraction);
-            float currentTeleporterChargeFraction = GetCurrentTeleporterChargeFraction();
-            if (nextPulseFraction < currentTeleporterChargeFraction)
+            var oneSecondBefore = holdoutZone.charge -
+
+            // i dont even have the brainpower for this anymore, I wanted it to show a telegraph like 2s or 1s before it happens consistently (and just not play if the attack rate cap is reached, and stop the loop sound just before the big spinny happens . . . )
+            if ()
+            {
+                Util.PlaySound("Play_lunar_wisp_attack1_windDown", gameObject);
+                Util.PlaySound("Play_randomDamageZone_disappear", gameObject);
+                Util.PlaySound("Play_randomDamageZone_disappear", gameObject);
+                StartCoroutine(ToggleLoopSound());
+                EffectManager.SpawnEffect(TheirProminence.telegraphVFX, new EffectData() { origin = gameObject.transform.position + new Vector3(0f, 12f, 0f), scale = 3f, }, true);
+
+                ranTelegraph = true;
+            }
+
+            if (holdoutZone.charge >= nextPulseFraction)
             {
                 Pulse();
                 previousPulseFraction = nextPulseFraction;
                 secondsUntilPulseAvailable = minSecondsBetweenPulses;
+                ranTelegraph = false;
             }
         }
 
@@ -337,6 +395,22 @@ namespace Sandswept.Items.Lunars
 
                 ProjectileManager.instance.FireProjectile(info);
             }
+        }
+
+        public IEnumerator ToggleLoopSound()
+        {
+            Util.PlaySound("Play_moonBrother_phase4_itemSuck_start", gameObject);
+
+            yield return new WaitForSeconds(0.8f);
+
+            Util.PlaySound("Stop_moonBrother_phase4_itemSuck_loop", gameObject);
+        }
+
+        public IEnumerator DestroyEffects()
+        {
+            yield return new WaitForSeconds(3f);
+            Util.PlaySound("Stop_moonBrother_phase4_itemSuck_loop", gameObject);
+            Destroy(theirProminenceModelInstance);
         }
     }
 }

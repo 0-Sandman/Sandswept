@@ -159,7 +159,7 @@ namespace Sandswept.Items.Greens
 
             fewParticles.GetComponent<ShakeEmitter>().enabled = false;
 
-            VFXUtils.RecolorMaterialsAndLights(fewParticles, new Color32(15, 99, 39, 255), new Color32(0, 192, 255, 255), true, true);
+            VFXUtils.RecolorMaterialsAndLights(fewParticles, new Color32(0, 70, 255, 255), new Color32(0, 181, 255, 255), true, true);
 
             var core = fewParticles.transform.Find("Core");
 
@@ -194,7 +194,7 @@ namespace Sandswept.Items.Greens
             var sparks2PS = sparks2.GetComponent<ParticleSystem>();
             var sparks2Main = sparks2PS.main;
             sparks2Main.maxParticles = 300;
-            var sparks2Emission = sparksPS.emission;
+            var sparks2Emission = sparks2PS.emission;
             var sparks2Burst = new ParticleSystem.Burst(0f, 300, 300, 1, 0.01f)
             {
                 probability = 1f
@@ -346,9 +346,13 @@ namespace Sandswept.Items.Greens
                     }
                     else
                     {
-                        Util.PlaySound("Play_item_proc_personal_shield_end", self.gameObject);
-                        Util.PlaySound("Play_item_proc_personal_shield_end", self.gameObject);
-                        EffectManager.SpawnEffect(fewParticles, new EffectData() { scale = MathHelpers.BestBestFitRadius(self.body), origin = self.body.corePosition }, true);
+                        if (platingManager.canSpawnEffects)
+                        {
+                            Util.PlaySound("Play_item_proc_personal_shield_end", self.gameObject);
+                            Util.PlaySound("Play_item_proc_personal_shield_end", self.gameObject);
+                            EffectManager.SpawnEffect(fewParticles, new EffectData() { scale = MathHelpers.BestBestFitRadius(self.body), origin = self.body.corePosition }, true);
+                            platingManager.canSpawnEffects = false;
+                        }
                     }
                 }
 
@@ -375,6 +379,9 @@ namespace Sandswept.Items.Greens
             public float MaxPlating = 0;
             public CharacterBody body;
             public bool usedUpAllPlatingThisPickup = false;
+            public bool canSpawnEffects = true;
+            public float effectTimer = 0f;
+            public float effectInterval = 0.33f;
 
             public void Start()
             {
@@ -383,6 +390,16 @@ namespace Sandswept.Items.Greens
                 if (body)
                 {
                     HealthBarAPI.AddOverlayToBody(body, MakeshiftPlateOverlay);
+                }
+            }
+
+            public void FixedUpdate()
+            {
+                effectTimer += Time.fixedDeltaTime;
+                if (effectTimer >= effectInterval)
+                {
+                    canSpawnEffects = true;
+                    effectTimer = 0f;
                 }
             }
 
