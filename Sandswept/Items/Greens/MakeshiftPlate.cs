@@ -51,10 +51,10 @@ namespace Sandswept.Items.Greens
 
         public override ItemTag[] ItemTags => [ItemTag.Utility, ItemTag.Healing, ItemTag.AIBlacklist, ItemTag.BrotherBlacklist, ItemTag.CannotCopy]; // shouldnt be temporary because it mostly bypasses the downside of temporary items
 
-        [ConfigField("Base Percent Plating Gain", "", 150f)]
+        [ConfigField("Base Percent Plating Gain", "", 100f)]
         public static float basePercentPlatingGain;
 
-        [ConfigField("Stack Percent Plating Gain", "", 150f)]
+        [ConfigField("Stack Percent Plating Gain", "", 100f)]
         public static float stackPercentPlatingGain;
 
         public static Sprite texPlatingBar => Main.sandsweptHIFU.LoadAsset<Sprite>("texPlatingBar.png");
@@ -64,12 +64,13 @@ namespace Sandswept.Items.Greens
 
         public static GameObject fewParticles;
         public static GameObject lotsParticles;
-
+        public static MethodInfo TakeDamageInfo;
+        public static DamageAPI.ModdedDamageType BypassPlating = DamageAPI.ReserveDamageType();
         public override void Init()
         {
             base.Init();
             SetUpVFX();
-
+        
             NetworkingAPI.RegisterMessageType<MakeshiftPlateAddSync>();
 
             MakeshiftPlateOverlay = HealthBarAPI.RegisterBarOverlay(new HealthBarAPI.BarOverlayInfo()
@@ -106,8 +107,9 @@ namespace Sandswept.Items.Greens
         }
         public override void Hooks()
         {
+            TakeDamageInfo = typeof(MakeshiftPlate).GetMethod(nameof(TakeDamageHandler), BindingFlags.Public | BindingFlags.Static);
             On.RoR2.CharacterBody.Start += OnBodySpawn;
-            On.RoR2.HealthComponent.TakeDamage += TakeDamage;
+            IL.RoR2.HealthComponent.TakeDamageProcess += TakeDamage;
             On.RoR2.Inventory.GiveItemPermanent_ItemIndex_int += GiveItemPermanent;
             On.RoR2.Inventory.GiveItemChanneled += GiveItemChanneled;
             On.RoR2.CharacterBody.OnInventoryChanged += OnInventoryChanged;
@@ -310,30 +312,53 @@ namespace Sandswept.Items.Greens
             }
         }
 
-        public void TakeDamage(On.RoR2.HealthComponent.orig_TakeDamage orig, HealthComponent self, DamageInfo info)
+        public void TakeDamage(ILContext il) {
+            ILCursor c = new(il);
+            int index = -1;
+            c.TryGotoNext(
+                x => x.MatchLdloc(out _),
+                x => x.MatchStloc(out index),
+                x => x.MatchLdloc(out _),
+                x => x.MatchLdcR4(out _)
+            );
+            c.TryGotoNext(x => x.MatchLdsfld(typeof(RoR2Content.Buffs), nameof(RoR2Content.Buffs.PermanentCurse)));
+
+            if (index != -1) {
+                c.TryGotoNext(x => x.MatchLdfld(typeof(HealthComponent), nameof(HealthComponent.shield)));
+                c.TryGotoPrev(MoveType.After, x => x.MatchLdloc(index));
+                c.Emit(OpCodes.Pop);
+                c.Emit(OpCodes.Ldarg_0);
+                c.Emit(OpCodes.Ldarg_1);
+                c.Emit(OpCodes.Ldloc, index);
+                c.Emit(OpCodes.Call, TakeDamageInfo);
+                c.Emit(OpCodes.Stloc, index);
+                c.Emit(OpCodes.Ldloc, index);
+            }
+            else {
+                Main.ModLogger.LogError("Failed to apply Makeshift Plate IL hook.");
+            }
+        }
+
+        public static float TakeDamageHandler(HealthComponent self, DamageInfo info, float input)
         {
-            if (self.body && GetCount(self.body) > 0 && self.body.TryGetComponent(out PlatingManager platingManager))
+            if (!info.HasModdedDamageType(BypassPlating) && self.body && MakeshiftPlate.instance.GetCount(self.body) > 0 && self.body.TryGetComponent(out PlatingManager platingManager) && !self.body.inventory.inventoryDisabled)
             {
-                // Main.ModLogger.LogError("TakeDamage called");
                 float plating = platingManager.CurrentPlating;
-                // Main.ModLogger.LogError($"platingManager.CurrentPlating BEFORE removing is {platingManager.CurrentPlating}");
                 float toRemove = 0;
 
-                if (plating > info.damage)
+                if (plating > input)
                 {
-                    toRemove = info.damage;
-                    info.damage = 0;
+                    toRemove = input;
+                    input = 0f;
                 }
                 else
                 {
-                    toRemove = info.damage - plating;
-                    info.damage -= plating;
+                    toRemove = input - plating;
+                    input -= plating;
                 }
 
                 platingManager.CurrentPlating -= toRemove;
-                // Main.ModLogger.LogError($"platingManager.CurrentPlating AFTERRR removing is {platingManager.CurrentPlating}");
                 platingManager.CurrentPlating = Mathf.Clamp(platingManager.CurrentPlating, 0, platingManager.MaxPlating);
-                // Main.ModLogger.LogError($"platingManager.CurrentPlating AFTERRR CLAMPINGG is {platingManager.CurrentPlating}");
 
                 if (!platingManager.usedUpAllPlatingThisPickup)
                 {
@@ -359,7 +384,7 @@ namespace Sandswept.Items.Greens
                 new MakeshiftPlateAddSync(self.gameObject, platingManager.CurrentPlating, platingManager.MaxPlating, false).Send(NetworkDestination.Clients);
             }
 
-            orig(self, info);
+            return input;
         }
 
         public void CreateBuff()

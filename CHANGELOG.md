@@ -10,8 +10,14 @@
   - Fixed Surging keyword
   - Fixed Char doing way too much damage and multihitting enemies
   - Fixed Heat Signature getting stuck in its state
+- VOL-T
+  - Signal Overload shield drain now ignores plating and drains shield directly.
+  - Signal Overload now properly has its shield drain absorbed by barrier.
 - Items/Equipment
   - Added VFX and SFX to Makeshift Plate
+  - Makeshift Plate now properly interacts with damage reduction effects and on-damage-taken effects.
+  - Makeshift Plate now gets consumed AFTER barrier.
+  - Makeshift Plate plating reduced from 150% to 100% (this is still a big overall buff now that it is affected by armor and such)
   - Added a Telegraph to Their Prominence's Lunar Fissures
   - Buffed Festering Hunger Chance from 7% to 8%
   - Made Nuclear Salvo work with Pocket I.C.B.M.

@@ -1,4 +1,5 @@
 using RoR2.Orbs;
+using Sandswept.Items.Greens;
 
 namespace Sandswept.Survivors.Electrician.States
 {
@@ -49,7 +50,7 @@ namespace Sandswept.Survivors.Electrician.States
 
             if (fixedAge >= baseDuration)
             {
-                if (base.healthComponent.shield > 0)
+                if (base.healthComponent.shield > 0 && shieldDrained <= base.healthComponent.shield * 0.8f)
                 {
                     float shieldToDrain = base.healthComponent.shield;
 
@@ -75,6 +76,7 @@ namespace Sandswept.Survivors.Electrician.States
                             };
 
                             damageInfo.AddModdedDamageType(Main.eclipseSelfDamage);
+                            damageInfo.AddModdedDamageType(MakeshiftPlate.BypassPlating);
 
                             healthComponent.TakeDamage(damageInfo);
                         }
@@ -118,6 +120,7 @@ namespace Sandswept.Survivors.Electrician.States
                         };
 
                         damageInfo.AddModdedDamageType(Main.eclipseSelfDamage);
+                        damageInfo.AddModdedDamageType(MakeshiftPlate.BypassPlating);
 
                         healthComponent.TakeDamage(damageInfo);
 

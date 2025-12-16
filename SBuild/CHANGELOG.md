@@ -10,12 +10,21 @@
   - Fixed Surging keyword
   - Fixed Char doing way too much damage and multihitting enemies
   - Fixed Heat Signature getting stuck in its state
+- VOL-T
+  - Signal Overload shield drain now ignores plating and drains shield directly.
+  - Signal Overload now properly has its shield drain absorbed by barrier.
 - Items/Equipment
   - Added VFX and SFX to Makeshift Plate
+  - Makeshift Plate now properly interacts with damage reduction effects and on-damage-taken effects.
+  - Makeshift Plate now gets consumed AFTER barrier.
+  - Makeshift Plate plating reduced from 150% to 100% (this is still a big overall buff now that it is affected by armor and such)
+  - Added a Telegraph to Their Prominence's Lunar Fissures
   - Buffed Festering Hunger Chance from 7% to 8%
   - Made Nuclear Salvo work with Pocket I.C.B.M.
   - Increased Nuclear Salvo damage from 50% to 100%
   - Reduced Nuclear Salvo blast radius from 16m to 8m
+  - Changed Nuclear Salvo to scale missile travel times so that the entire volley impacts the target at the same time (they still fire in a staggered salvo)
+  - Nuclear Salvo now spawns an explosion effect when the missiles impact (one explosion effect per volley, each individual missile still deals damage though)
   - Fixed Crown's Diamond speeding up barrier decay instead of reducing it (MoreStats -> RecalculateStats difference,,)
   - Fixed Nuclear Salvo activating while in Computational Exchange
   - Fixed Hallowed Ichor activating while in The Bazaar and Computational Exchange
