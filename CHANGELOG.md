@@ -1,32 +1,34 @@
-## 1.3.4 Patch Notes
+## 1.4.0 Patch Notes
 - General
   - Added Temporary, Partial Russian translation (Language file support with configs will come in a later update)
   - Fixed Survivor toggle config causing enemies to spam NREs
 - Ranger
-  - Made Char have the same projectile arc and speed as Direct Current
   - Buffed Overdrive Percent Max Health Self Damage from 13.32% to 16%
   - Nerfed Char Damage from ~9001% to 200%
+  - Made Char have the same projectile arc and speed as Direct Current
   - Fixed Mastery Skin timing issue making it get unlocked automatically
   - Fixed Surging keyword
   - Fixed Char doing way too much damage and multihitting enemies
   - Fixed Heat Signature getting stuck in its state
 - VOL-T
-  - Signal Overload shield drain now ignores plating and drains shield directly.
-  - Signal Overload now properly has its shield drain absorbed by barrier.
+  - Made Signal Overload shield drain ignore plating and drain shield directly
+  - Fixed Signal Overload draining all barrier and then all shield instead of barrier absorbing it
 - Items/Equipment
   - Added VFX and SFX to Makeshift Plate
-  - Makeshift Plate now properly interacts with damage reduction effects and on-damage-taken effects.
-  - Makeshift Plate now gets consumed AFTER barrier.
-  - Makeshift Plate plating reduced from 150% to 100% (this is still a big overall buff now that it is affected by armor and such)
   - Added a Telegraph to Their Prominence's Lunar Fissures
   - Buffed Festering Hunger Chance from 7% to 8%
+  - Buffed Nuclear Salvo Damage from 50% to 100%
+  - Nerfed Nuclear Salvo Explosion Radius from 16m to 8m
+  - Nerfed Makeshift Plate Base Percent Plating Gain from 150% to 100%
+  - Nerfed Makeshift Plate Stack Percent Plating Gain from 150% to 100%
+  - Made Makeshift Plate get consumed AFTER barrier
   - Made Nuclear Salvo work with Pocket I.C.B.M.
-  - Increased Nuclear Salvo damage from 50% to 100%
-  - Reduced Nuclear Salvo blast radius from 16m to 8m
-  - Changed Nuclear Salvo to scale missile travel times so that the entire volley impacts the target at the same time (they still fire in a staggered salvo)
-  - Nuclear Salvo now spawns an explosion effect when the missiles impact (one explosion effect per volley, each individual missile still deals damage though)
+  - Made Nuclear Salvo scale missile travel times so that the entire volley impacts the target at the same time (they still fire in a staggered salvo)
+  - Made Nuclear Salvo spawn just a single explosion effect on missiles' impact (one explosion effect per volley, each individual missile still deals damage though)
   - Fixed Nuclear Salvo kills not giving gold
   - Fixed Crown's Diamond speeding up barrier decay instead of reducing it (MoreStats -> RecalculateStats difference,,)
+  - Fixed Makeshift Plate not proccing on-damage-taken effects
+  - Fixed Makeshift Plate not being affected by armor
   - Fixed Nuclear Salvo activating while in Computational Exchange
   - Fixed Hallowed Ichor activating while in The Bazaar and Computational Exchange
 - Interactables
@@ -284,7 +286,7 @@
   - Added Tempest Sphere looping SFX
   - Scaled up hit impact VFX
 - Items/Equipment
-  - Fixed Makeshift Plate giving you the full stack worth of plating when getting another Makeshift Plate.
+  - Fixed Makeshift Plate giving you the full stack worth of plating when getting another Makeshift Plate
   - Fixed Makeshift Plate networking issues
 - Enemies
   - Fixed Cannonball Jellyfish wandering off into the skybox
