@@ -583,7 +583,7 @@ namespace Sandswept.Items.Greens
                 BlastAttack blastAttack = new();
 
                 blastAttack.baseDamage = body.damage * NuclearSalvo.baseMissileDamage;
-                blastAttack.inflictor = attacker;
+                blastAttack.inflictor = body.gameObject;
                 blastAttack.falloffModel = BlastAttack.FalloffModel.None;
                 blastAttack.attackerFiltering = AttackerFiltering.NeverHitSelf;
                 blastAttack.baseForce = 0f;
@@ -596,7 +596,7 @@ namespace Sandswept.Items.Greens
                 blastAttack.radius = NuclearSalvo.missileExplosionRadius;
                 blastAttack.procChainMask = default;
                 blastAttack.position = target.transform.position;
-                blastAttack.attacker = attacker;
+                blastAttack.attacker = body.gameObject;
 
                 blastAttack.Fire();
 
