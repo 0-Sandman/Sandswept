@@ -149,7 +149,8 @@ namespace Sandswept
 
         private void OnSetDroneDefs(On.RoR2.DroneCatalog.orig_SetDroneDefs orig, DroneDef[] newDroneDefs)
         {
-            foreach (DroneDef def in droneDefs) {
+            foreach (DroneDef def in droneDefs)
+            {
                 ArrayUtils.ArrayAppend(ref newDroneDefs, def);
             }
             orig(newDroneDefs);
@@ -568,6 +569,35 @@ namespace Sandswept
 
             ContentAddition.AddItemRelationshipProvider(itemRelationshipProvider);
         }
+
+        /*
+        private void CreateRecipes()
+        {
+            // no ContentAddition.AddCraftableDef() yet
+        }
+
+        private bool ValidateAndGetRecipeIngredients(ItemDef itemDefIn, EquipmentDef equipmentDefIn, out ItemDef itemDef, out EquipmentDef equipmentDef)
+        {
+            itemDef = null;
+            equipmentDef = null;
+            var itemIndex = ItemCatalog.FindItemIndex();
+            var equipmentIndex = EquipmentCatalog.FindEquipmentIndex();
+
+            if (itemIndex != (ItemIndex)(-1))
+            {
+                itemDef = ItemCatalog.GetItemDef(itemIndex);
+                return true;
+            }
+
+            if (equipmentIndex != (EquipmentIndex)(-1))
+            {
+                equipmentDef = EquipmentCatalog.GetEquipmentDef(equipmentIndex);
+                return true;
+            }
+
+            return false;
+        }
+        */
 
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         public static void AddRangerEmotes()
