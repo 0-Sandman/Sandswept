@@ -13,6 +13,7 @@
 - VOL-T
   - Made Signal Overload shield drain ignore plating and drain shield directly
   - Fixed Signal Overload draining all barrier and then all shield instead of barrier absorbing it
+  - Fixed certain animations being way faster than intended.
 - Items/Equipment
   - Added VFX and SFX to Makeshift Plate
   - Added a Telegraph to Their Prominence's Lunar Fissures
