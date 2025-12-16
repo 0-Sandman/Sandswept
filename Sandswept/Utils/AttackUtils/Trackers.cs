@@ -53,6 +53,11 @@ namespace Sandswept.Utils {
             }
         }
 
+        public void OnDestroy() {
+            indicator.DestroyVisualizer();
+            indicator = null;
+        }
+
         public abstract Transform SearchForTarget();
     }
 

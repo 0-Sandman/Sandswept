@@ -261,7 +261,7 @@ namespace Sandswept.Equipment.Lunar
                 base.searchDelay = 0.1f;
                 base.isActiveCallback = () =>
                 {
-                    return base.body && base.body.isEquipmentActivationAllowed;
+                    return base.body && base.body.isEquipmentActivationAllowed && base.body.inventory.GetEquipmentIndex() == FlawlessDesign.instance.EquipmentDef.equipmentIndex;
                 };
                 base.validFilter = (x) =>
                 {
