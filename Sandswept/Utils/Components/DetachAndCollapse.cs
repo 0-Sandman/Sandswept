@@ -8,10 +8,15 @@ namespace Sandswept.Utils.Components
         public Transform target;
         private Vector3 originalScale;
         private bool isDecaying = false;
+        public string ghostPath;
         private float fullCollapseTime;
 
         public void Start()
         {
+            if (!target) {
+                target = GetComponent<ProjectileController>().ghost.transform.Find(ghostPath);
+            }
+            
             originalScale = target.localScale;
             fullCollapseTime = collapseTime;
         }

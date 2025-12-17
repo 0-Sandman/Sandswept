@@ -216,9 +216,8 @@ namespace Sandswept.Items.Greens
         {
             orig(self);
 
-            if (self.GetComponent<PlatingManager>() && self.inventory.GetItemCount(ItemDef) == 0)
+            if (self.GetComponent<PlatingManager>() && self.inventory.GetItemCountEffective(ItemDef) == 0 && !self.inventory.inventoryDisabled)
             {
-                // new MakeshiftPlateAddSync(self.gameObject, 0f, 0f, true).Send(NetworkDestination.Clients);
                 new MakeshiftPlateAddSync(self.gameObject, 0f, 0f, false).Send(NetworkDestination.Clients);
             }
         }

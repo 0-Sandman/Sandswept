@@ -53,6 +53,8 @@ namespace Sandswept.Survivors.Electrician
             maxTargets = projectileProximityBeamController.attackFireCount;
             projectileProximityBeamController.enabled = false;
             // what is the point ? ? ?
+
+            controller.ghost.GetComponentInChildren<ParticleSystem>().Stop();
         }
 
         public void OnDestroy()
@@ -178,11 +180,11 @@ namespace Sandswept.Survivors.Electrician
                         rb.isKinematic = true;
                         rb.velocity = Vector3.zero;
                         base.transform.up = collision.contacts[0].normal;
-                        base.GetComponentInChildren<ParticleSystem>().Play();
                         hasStuck = true;
 
                         if (controller.ghost)
                         {
+                            controller.ghost.GetComponentInChildren<ParticleSystem>().Play();
                             controller.ghost.gameObject.FindComponent<MeshRenderer>("Radius").enabled = true;
                         }
                     }
