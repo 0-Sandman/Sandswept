@@ -32,6 +32,9 @@
   - Fixed Makeshift Plate not being affected by armor
   - Fixed Nuclear Salvo activating while in Computational Exchange
   - Fixed Hallowed Ichor activating while in The Bazaar and Computational Exchange
+  - Flawless Design indicator is now centered on the target item
+  - Flawless Design indicator now correctly disappears when the equipment is removed or switched out
+  - Flawless Design now uses a custom indicator instead of the recycler indicator
 - Interactables
   - Added Remote Operation support for drones
   - Added Operator support for drones

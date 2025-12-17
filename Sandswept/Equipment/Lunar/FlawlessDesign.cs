@@ -9,6 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
+using TMPro;
 using UnityEngine.PlayerLoop;
 using UnityEngine.VFX;
 
@@ -88,6 +89,16 @@ namespace Sandswept.Equipment.Lunar
         public void SetUpIndicator()
         {
             DesignIndicator = PrefabAPI.InstantiateClone(Paths.GameObject.RecyclerIndicator, "DesignPickupIndicator", false);
+            foreach (var renderer in DesignIndicator.GetComponentsInChildren<SpriteRenderer>(true)) {
+                renderer.gameObject.SetActive(false);
+            }
+            DesignIndicator.GetComponentInChildren<TextMeshPro>(true).gameObject.SetActive(false);
+            DesignIndicator.transform.Find("Holder/Brackets").EditComponent<SpriteRenderer>((x) => {
+                x.sprite = Main.assets.LoadAsset<Sprite>("texFlawlessDesignIndicator.png");
+                x.gameObject.SetActive(true);
+                x.color = Color.white;
+                x.transform.localScale = Vector3.one;
+            });
         }
 
         public override void Hooks()
@@ -269,6 +280,11 @@ namespace Sandswept.Equipment.Lunar
                 };
                 base.targetingIndicatorPrefab = DesignIndicator;
                 base.Start();
+            }
+
+            public override Transform OverrideTargetTransform(Transform transform)
+            {
+                return transform.GetComponent<GenericPickupController>()?.pickupDisplay?.modelObject?.transform ?? transform;
             }
         }
 

@@ -202,6 +202,8 @@ namespace Sandswept.Drones
 #pragma warning restore
 
             iscBroken = isc;
+
+            DroneBroken.GetComponent<SummonMasterBehavior>().destroyAfterSummoning = true;
         }
 
         public void AssignIfExists(GenericSkill slot, SkillInfo info)
@@ -228,6 +230,8 @@ namespace Sandswept.Drones
             receiver.commandSkill = slot;
             receiver.targetDistance = targetDist;
             receiver.targetType = targetType;
+
+            droneDef.droneTechCommandToken = info.descToken;
         }
 
         public class SkillInfo

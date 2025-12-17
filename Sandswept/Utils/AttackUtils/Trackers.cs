@@ -48,9 +48,13 @@ namespace Sandswept.Utils {
                 stopwatch = 0f;
                 target = SearchForTarget();
                 if (target) {
-                    indicator.targetTransform = target;
+                    indicator.targetTransform = OverrideTargetTransform(target);
                 }
             }
+        }
+
+        public virtual Transform OverrideTargetTransform(Transform transform) {
+            return transform;
         }
 
         public void OnDestroy() {

@@ -80,7 +80,7 @@ namespace Sandswept.Drones.Inferno
                 nameToken = "SANDSWEPT_INFERNO_PRIM_NAME",
                 descToken = "SANDSWEPT_INFERNO_PRIM_DESC",
                 name = "Scorch",
-                desc = "Shoot a rocket that leaves <style=cIsDamage>napalm pools<lstyle> for <style=cIsDamage>3x300% damage per second</style>.",
+                desc = "Shoot a rocket that leaves <style=cIsDamage>napalm pools</style> for <style=cIsDamage>3x300% damage per second</style>.",
                 icon = Main.assets.LoadAsset<Sprite>("Scorch.png")
             });
 
@@ -123,6 +123,7 @@ namespace Sandswept.Drones.Inferno
             def.nameToken = def.bodyPrefab.GetComponent<CharacterBody>().baseNameToken;
             def.descriptionToken = "SANDSWEPT_INFERNO_DESC".Add("Fires rockets at targets that create <style=cIsDamage>napalm pools<lstyle> for <style=cIsDamage>300% damage per second</style>.");
             def.skillDescriptionToken = "SANDSWEPT_INFERNO_DESC";
+            def.pickupToken = "SANDSWEPT_INFERNO_PICKUP".Add("Fires rockets at targets that leave behind napalm pools.");
             def.remoteOpCost = 40;
             def.droneType = DroneType.Combat;
             def.iconSprite = Main.assets.LoadAsset<Sprite>("texInfernoDroneBody.png");

@@ -1,5 +1,6 @@
 using RoR2.ExpansionManagement;
 using System;
+using System.Collections;
 using static Rewired.UI.ControlMapper.ControlMapper;
 
 namespace Sandswept.Drones.Voltaic
@@ -48,8 +49,12 @@ namespace Sandswept.Drones.Voltaic
             base.Setup();
 
             SpikeProjectile = Main.assets.LoadAsset<GameObject>("VoltaicSpikeProjectile.prefab");
-            SpikeProjectile.GetComponent<ProjectileImpactExplosion>().impactEffect = Paths.GameObject.ImpactSpear;
-            SpikeProjectile.GetComponent<ProjectileSimple>().lifetimeExpiredEffect = Paths.GameObject.OmniImpactVFXLoaderLightning;
+            SpikeProjectile.GetComponent<ProjectileImpactExplosion>().impactEffect = Paths.GameObject.LoaderGroundSlam;
+            SpikeProjectile.GetComponent<ProjectileSimple>().lifetimeExpiredEffect = Paths.GameObject.RoboCratePodGroundImpact;
+            SpikeProjectile.AddComponent<VoltaicRodController>();
+            // idfk im disabling this for now
+            SpikeProjectile.layer = LayerIndex.debris.intVal;
+            SpikeProjectile.GetComponent<ProjectileStickOnImpact>().ignoreCharacters = true;
             ContentAddition.AddProjectile(SpikeProjectile);
 
             SkillLocator loc = DroneBody.GetComponent<SkillLocator>();
@@ -77,7 +82,7 @@ namespace Sandswept.Drones.Voltaic
                 type = new(typeof(CommandVoltaicShot)),
                 descToken = "SANDSWEPT_VOLTAIC_OPERATOR_DESC",
                 desc = "Fire an embedding rod that <style=cIsUtility>shocks</style> targets for <style=cIsDamage>600% damage</style> repeatedly, locking them in place."
-            }, 80f, DroneCommandReceiver.TargetType.Enemy | DroneCommandReceiver.TargetType.Ground);
+            }, 250f, DroneCommandReceiver.TargetType.Ground);
         }
 
         public override DroneDef GetDroneDef()
@@ -92,11 +97,53 @@ namespace Sandswept.Drones.Voltaic
             def.droneBrokenSpawnCard = iscBroken;
             def.nameToken = def.bodyPrefab.GetComponent<CharacterBody>().baseNameToken;
             def.descriptionToken = "SANDSWEPT_VOLTAIC_DESC".Add("Blasts embedding rods that <style=cIsUtility>arc</style> an electric current to nearby targets for <style=cIsDamage>200% damage</style>.");
+            def.pickupToken = "SANDSWEPT_VOLTAIC_PICKUP".Add("Blasts embedding rods that zap targets.");
             def.skillDescriptionToken = "SANDSWEPT_VOLTAIC_DESC";
             def.remoteOpCost = 40;
             def.remoteOpBody = DroneBody;
             def.droneType = DroneType.Combat;
             return def;
+        }
+
+        public class VoltaicRodController : MonoBehaviour {
+            public ProjectileStickOnImpact stick;
+            public Rigidbody rb;
+            public bool hasStuck = false;
+            public Vector3 forward;
+
+            public void Start() {
+                stick = GetComponent<ProjectileStickOnImpact>();
+                rb = GetComponent<Rigidbody>();
+                stick.stickEvent.AddListener(OnStick);
+            }
+
+            public void OnStick() {
+                StartCoroutine(OnStickHandler());
+            }
+
+            public IEnumerator OnStickHandler() {
+                base.gameObject.layer = LayerIndex.noCollision.intVal;
+                yield return new WaitForEndOfFrame();
+                if (stick.stuckBody && stick.stuckBody.mainHurtBox) {
+                    stick.stuckTransform = stick.stuckBody.mainHurtBox.transform;
+                    stick.NetworklocalPosition = Vector3.zero;
+                }
+                hasStuck = true;
+            }
+
+            public void FixedUpdate() {
+                if (hasStuck && !stick.stuckTransform) {
+                    GameObject.Destroy(base.gameObject);
+                }
+
+                if (rb.velocity != Vector3.zero && !hasStuck) {
+                    base.transform.forward = rb.velocity.normalized;
+                    forward = base.transform.forward;
+                }
+                else if (hasStuck) {
+                    base.transform.forward = forward;
+                }
+            }
         }
     }
 }
