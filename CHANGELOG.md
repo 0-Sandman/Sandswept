@@ -1,3 +1,9 @@
+## 1.4.1 Patch Notes
+- Elites
+  - Flying enemies can no longer spawn as Osmium.
+- Interactables
+  - Shrine of Ruin now properly persists when using mods such as ProperSave.
+
 ## 1.4.0 Patch Notes
 - General
   - Added Temporary, Partial Russian translation (Language file support with configs will come in a later update)

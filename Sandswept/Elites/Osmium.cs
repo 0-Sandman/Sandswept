@@ -74,22 +74,9 @@ namespace Sandswept.Elites
 
         public static DamageColorIndex outsideColor = DamageColourHelper.RegisterDamageColor(new Color32(100, 100, 100, 255));
 
-        public override void Init(ConfigFile config)
+        public override bool CheckEliteRequirement(SpawnCard card)
         {
-            CreateConfig(config);
-            CreateLang();
-            CreateEquipment();
-            CreateEliteTiers();
-            CreateElite();
-            Hooks();
-        }
-
-        private void CreateConfig(ConfigFile config)
-        {
-        }
-
-        private void CreateEliteTiers()
-        {
+            return card.nodeGraphType == RoR2.Navigation.MapNodeGroup.GraphType.Ground;
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()

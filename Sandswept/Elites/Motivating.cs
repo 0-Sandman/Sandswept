@@ -66,17 +66,6 @@ namespace Sandswept.Elites
         [ConfigField("On Hit Buff Radius", "", 20f)]
         public static float onHitBuffRadius;
 
-        public override void Init(ConfigFile config)
-        {
-            CreateConfig(config);
-
-            CreateLang();
-            CreateEquipment();
-            CreateEliteTiers();
-            CreateElite();
-            Hooks();
-        }
-
         private void CreateCrown()
         {
             Crown = PrefabAPI.InstantiateClone(Utils.Assets.GameObject.DisplayColossusItem, "Motivating Crown", false);
@@ -101,14 +90,6 @@ namespace Sandswept.Elites
             Crown.transform.localScale = new Vector3(10, 10, 10);
             Crown.transform.localRotation = Quaternion.Euler(90, 0, 0);
             Crown.transform.Find("meshColossusBuffCrownGlow").GetComponent<MeshRenderer>().material = Utils.Assets.Material.matColossusItemGlow;
-        }
-
-        private void CreateConfig(ConfigFile config)
-        {
-        }
-
-        private void CreateEliteTiers()
-        {
         }
 
         public override ItemDisplayRuleDict CreateItemDisplayRules()

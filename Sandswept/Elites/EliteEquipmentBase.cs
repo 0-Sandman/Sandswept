@@ -1,5 +1,7 @@
 ﻿using System.Linq;
 using System.Reflection;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
 using static RoR2.CombatDirector;
 
 namespace Sandswept.Elites
@@ -81,20 +83,58 @@ namespace Sandswept.Elites
         /// Elite stat multiplier, defaults to 2 (Tier 1) here.
         /// </summary>
         public virtual float DamageMultiplier { get; set; } = 2;
+        private static bool hasAppliedHook = false;
+        public static Dictionary<EliteDef, EliteEquipmentBase> EliteMap = new();
 
-        /// <summary>
-        /// This method structures your code execution of this class. An example implementation inside of it would be:
-        /// <para>CreateConfig(config);</para>
-        /// <para>CreateLang();</para>
-        /// <para>CreateBuff();</para>
-        /// <para>CreateEquipment();</para>
-        /// <para>CreateElite();</para>
-        /// <para>Hooks();</para>
-        /// <para>This ensures that these execute in this order, one after another, and is useful for having things available to be used in later methods.</para>
-        /// <para>P.S. CreateItemDisplayRules(); does not have to be called in this, as it already gets called in CreateEquipment();</para>
-        /// </summary>
-        /// <param name="config">The config file that will be passed into this from the main class.</param>
-        public abstract void Init(ConfigFile config);
+        public virtual void Init() {
+            CreateLang();
+            CreateEquipment();
+            CreateElite();
+            Hooks();
+
+            if (!hasAppliedHook) {
+                hasAppliedHook = true;
+                IL.RoR2.CombatDirector.PrepareNewMonsterWave += CheckEliteReqs;
+            }
+        }
+
+        private void CheckEliteReqs(ILContext il)
+        {
+            ILCursor c = new(il);
+            c.TryGotoNext(MoveType.Before, x => x.MatchCallOrCallvirt(typeof(EliteTierDef), nameof(EliteTierDef.GetRandomAvailableEliteDef)));
+            c.Next.OpCode = OpCodes.Nop;
+            c.Next.Operand = null;
+            c.Emit(OpCodes.Ldarg_1);
+            c.EmitDelegate<Func<EliteTierDef, Xoroshiro128Plus, DirectorCard, EliteDef>>((tier, rng, card) => {
+                return GetRandomAvailableEliteDef(tier, rng, card);
+            });
+        }
+
+        private static EliteDef GetRandomAvailableEliteDef(EliteTierDef tier, Xoroshiro128Plus rng, DirectorCard card)
+        {
+            List<EliteDef> available = new();
+            EliteDef[] array = tier.eliteTypes;
+
+            foreach (EliteDef eliteDef in array)
+            {
+                if (eliteDef && eliteDef.IsAvailable())
+                {
+                    if (EliteMap.ContainsKey(eliteDef)) {
+                        if (!EliteMap[eliteDef].CheckEliteRequirement(card.spawnCard)) {
+                            continue;
+                        }
+                    }
+
+                    available.Add(eliteDef);
+                }
+            }
+
+            if (available.Count > 0)
+            {
+                return rng.NextElementUniform(available);
+            }
+            return null;
+        }
 
         private static GameObject hauntedPrefab = Addressables.LoadAssetAsync<GameObject>("RoR2/Base/EliteHaunted/PickupEliteHaunted.prefab").WaitForCompletion();
 
@@ -184,6 +224,10 @@ namespace Sandswept.Elites
             }
         }
 
+        public virtual bool CheckEliteRequirement(SpawnCard card) {
+            return true;
+        }
+
         protected void CreateLang()
         {
             LanguageAPI.Add("ELITE_EQUIPMENT_" + EliteAffixToken + "_NAME", EliteEquipmentName);
@@ -235,6 +279,8 @@ namespace Sandswept.Elites
             EliteDef.healthBoostCoefficient = HealthMultiplier;
             EliteDef.damageBoostCoefficient = DamageMultiplier;
             EliteDef.shaderEliteRampIndex = 0;
+
+            EliteMap.Add(EliteDef, this);
 
             List<EliteTierDef> tiers = new();
 

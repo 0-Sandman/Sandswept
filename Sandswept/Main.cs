@@ -254,7 +254,7 @@ namespace Sandswept
                 EliteEquipmentBase eliteEquipment = (EliteEquipmentBase)Activator.CreateInstance(eliteEquipmentType);
                 if (LoadEliteEquipment(eliteEquipment, EliteEquipments))
                 {
-                    eliteEquipment.Init(Config);
+                    eliteEquipment.Init();
                 }
             }
 

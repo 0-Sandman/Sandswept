@@ -1,3 +1,9 @@
+## 1.4.1 Patch Notes
+- Elites
+  - Flying enemies can no longer spawn as Osmium.
+- Interactables
+  - Shrine of Ruin now properly persists when using mods such as ProperSave.
+
 ## 1.4.0 Patch Notes
 - General
   - Added Temporary, Partial Russian translation (Language file support with configs will come in a later update)
@@ -13,7 +19,8 @@
 - VOL-T
   - Made Signal Overload shield drain ignore plating and drain shield directly
   - Fixed Signal Overload draining all barrier and then all shield instead of barrier absorbing it
-  - Fixed certain animations being way faster than intended.
+  - Fixed certain animations being way faster than intended
+  - Fixed missing functionality and nullref spam on Galvanic Bolt after a previous change
 - Items/Equipment
   - Added VFX and SFX to Makeshift Plate
   - Added a Telegraph to Their Prominence's Lunar Fissures
@@ -30,6 +37,7 @@
   - Fixed Crown's Diamond speeding up barrier decay instead of reducing it (MoreStats -> RecalculateStats difference,,)
   - Fixed Makeshift Plate not proccing on-damage-taken effects
   - Fixed Makeshift Plate not being affected by armor
+  - Fixed Makeshift Plate interacting weirdly when having your inventory disabled
   - Fixed Nuclear Salvo activating while in Computational Exchange
   - Fixed Hallowed Ichor activating while in The Bazaar and Computational Exchange
   - Flawless Design indicator is now centered on the target item

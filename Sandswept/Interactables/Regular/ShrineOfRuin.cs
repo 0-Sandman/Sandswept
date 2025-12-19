@@ -61,7 +61,25 @@ namespace Sandswept.Interactables.Regular
 
         public static GameObject shrineVFX;
 
-        public static bool shouldCorruptNextStage = false;
+        public static bool shouldCorruptNextStage {
+            get {
+                if (Run.instance) {
+                    return Run.instance.GetEventFlag("ShrineRuinActive");
+                }
+
+                return false;
+            }
+            set {
+                if (Run.instance) {
+                    if (value) {
+                        Run.instance.SetEventFlag("ShrineRuinActive");
+                    }
+                    else {
+                        Run.instance.ResetEventFlag("ShrineRuinActive");
+                    }
+                }
+            }
+        }
 
         public static bool shouldReplaceDrops = false;
 
@@ -298,7 +316,7 @@ namespace Sandswept.Interactables.Regular
             On.RoR2.Run.PickNextStageSceneFromCurrentSceneDestinations += HandleSceneAndCache;
             On.RoR2.SceneDirector.Start += Gyatttttt;
             On.RoR2.BasicPickupDropTable.GeneratePickupPreReplacement += OnGeneratePickup;
-            On.RoR2.Run.Start += ResetShrineOfRuin;
+            // On.RoR2.Run.Start += ResetShrineOfRuin;
 
             PostInit();
         }
@@ -347,7 +365,6 @@ namespace Sandswept.Interactables.Regular
         {
             if (shouldCorruptNextStage && SceneManager.GetActiveScene().name.StartsWith("it"))
             {
-                shouldCorruptNextStage = false;
                 self.teleporterSpawnCard = Paths.InteractableSpawnCard.iscTeleporter;
                 if (Run.instance && (Run.instance.stageClearCount + 1) % 5 == 0)
                 {
@@ -421,7 +438,7 @@ namespace Sandswept.Interactables.Regular
 
         private void SetNextSceneToSimulacrum(On.RoR2.SceneExitController.orig_Begin orig, SceneExitController self)
         {
-            if (shouldCorruptNextStage)
+            if (shouldCorruptNextStage && !shouldReplaceDrops)
             {
                 Run.instance.PickNextStageSceneFromCurrentSceneDestinations();
 
@@ -447,7 +464,12 @@ namespace Sandswept.Interactables.Regular
         {
             if (shouldCorruptNextStage)
             {
-                if (!newScene.name.StartsWith("it"))
+                if (oldScene != null && oldScene.name != null && oldScene.name.StartsWith("it")) {
+                    shouldCorruptNextStage = false;
+                    return;
+                }
+
+                if (newScene != null && newScene.name != null && !newScene.name.StartsWith("it"))
                 {
                     return;
                 }
