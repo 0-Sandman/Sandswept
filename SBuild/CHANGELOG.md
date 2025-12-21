@@ -1,6 +1,9 @@
 ## 1.4.1 Patch Notes
 - Elites
   - Flying enemies can no longer spawn as Osmium.
+- Items
+  - Nuclear Salvo now ACTUALLY no longer fires in Computational Exchange / Bazaar
+  - Fixed Nuclear Salvo missiles airstalling indefinitely when fired from certain ranges.
 - Interactables
   - Shrine of Ruin now properly persists when using mods such as ProperSave.
 

@@ -5,6 +5,7 @@ using RoR2.Orbs;
 using System;
 using System.Collections;
 using System.Linq;
+using UnityEngine.SceneManagement;
 using static RoR2.MasterSummon;
 
 namespace Sandswept.Items.Greens
@@ -70,6 +71,7 @@ namespace Sandswept.Items.Greens
         public static float missileExplosionRadius;
 
         public static List<string> stageBlacklist = ["bazaar", "computationalexchange"];
+        public static bool salvoAllowedToFire = true;
 
         // uncomment for aoe
 
@@ -82,6 +84,12 @@ namespace Sandswept.Items.Greens
         {
             base.Init();
             SetUpVFX();
+            SceneManager.activeSceneChanged += OnSceneChange;
+        }
+
+        private void OnSceneChange(Scene arg0, Scene arg1)
+        {
+            salvoAllowedToFire = !stageBlacklist.Contains(SceneManager.GetActiveScene().name);
         }
 
         public override object GetItemStatsDef()
@@ -296,7 +304,7 @@ namespace Sandswept.Items.Greens
         {
             body = GetComponent<CharacterBody>();
             master = body.master;
-            if (RoR2.Stage.instance && !NuclearSalvo.stageBlacklist.Contains(RoR2.Stage.instance.sceneDef.cachedName))
+            if (NetworkServer.active)
             {
                 body.onInventoryChanged += Body_onInventoryChanged;
             }
@@ -304,7 +312,7 @@ namespace Sandswept.Items.Greens
 
         public void OnEnable()
         {
-            if (NetworkServer.active && RoR2.Stage.instance && !NuclearSalvo.stageBlacklist.Contains(RoR2.Stage.instance.sceneDef.cachedName))
+            if (NetworkServer.active)
             {
                 // Main.ModLogger.LogError("subscribinbingign to master summon");
                 onServerMasterSummonGlobal += MasterSummon_onServerMasterSummonGlobal;
@@ -443,6 +451,10 @@ namespace Sandswept.Items.Greens
                 Destroy(this);
             }
 
+            if (!NuclearSalvo.salvoAllowedToFire) {
+                return;
+            }
+
             if (enemyCheckTimer >= enemyCheckInterval)
             {
                 shouldFire = false;
@@ -507,8 +519,8 @@ namespace Sandswept.Items.Greens
                 finalDamageCoefficient = NuclearSalvo.baseMissileDamage * MissileUtils.GetMoreMissileDamageMultiplier(pocketIcbmCount);
             }
 
-            float baseDuration = Vector3.Distance(body.corePosition, Util.FindBodyMainHurtBox(enemyBody).transform.position) / 45f;
-
+            float baseDuration = Mathf.Max(Vector3.Distance(body.corePosition, Util.FindBodyMainHurtBox(enemyBody).transform.position) / 45f, 0.33f);
+            float waitDelay = 0.33f + (1f / Math.Clamp(missileCount - 1, 1, missileCount));
             for (int i = 0; i < missileCount; i++)
             {
                 if (!enemyBody || (enemyBody.healthComponent && !enemyBody.healthComponent.alive)) {
@@ -524,7 +536,7 @@ namespace Sandswept.Items.Greens
                     damageType = DamageType.IgniteOnHit,
                     damageValue = body.damage * finalDamageCoefficient,
                     procChainMask = default,
-                    travelTime = baseDuration - ((1f / missileCount) * i),
+                    travelTime = Mathf.Clamp(baseDuration - (waitDelay * i), waitDelay, baseDuration),
                     teamIndex = TeamComponent.GetObjectTeam(body.gameObject),
                     procCoefficient = NuclearSalvo.missileProcCoefficient,
                     damageColorIndex = DamageColorIndex.Poison,
@@ -536,7 +548,7 @@ namespace Sandswept.Items.Greens
                     OrbManager.instance.AddOrb(nuclearSalvoOrb);
                 }
 
-                yield return new WaitForSeconds(1f / missileCount);
+                yield return new WaitForSeconds(waitDelay);
             }
             yield return null;
         }
@@ -563,7 +575,6 @@ namespace Sandswept.Items.Greens
             };
             effectData.SetHurtBoxReference(target);
             EffectManager.SpawnEffect(NuclearSalvo.orbEffect, effectData, true);
-
         }
 
         public override void OnArrival()
