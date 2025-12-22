@@ -11,6 +11,7 @@ using Sandswept.Utils.Components;
 using UnityEngine.SceneManagement;
 using RoR2.Stats;
 using UnityEngine;
+using System.Runtime.CompilerServices;
 
 namespace Sandswept.Survivors.Electrician.VFX
 {
@@ -35,7 +36,6 @@ namespace Sandswept.Survivors.Electrician.VFX
 
             impactDefault = CreateImpactRecolor("Default", new Color32(255, 213, 0, 255), new Color32(255, 213, 0, 255));
             impactCovenant = CreateImpactRecolor("Covenant", new Color32(98, 28, 113, 255), new Color32(120, 70, 255, 255));
-
         }
 
         public static GameObject CreateMuzzleFlashRecolor(string name, Color32 sparksColor)
@@ -84,7 +84,7 @@ namespace Sandswept.Survivors.Electrician.VFX
 
         public static GameObject CreateProjectileRecolor(string name, Color32 ballColor, Color32 radiusIndicatorColor, Color32 lightningColor, Color32 beamStartColor, Color32 beamEndColor)
         {
-            var projectile = Main.assets.LoadAsset<GameObject>("GalvanicBallProjectile.prefab").GetComponent<ProjectileController>().ghostPrefab.InstantiateClone("Galvanic Bolt Projectile Ghost" + name, false);
+            var projectile = Main.assets.LoadAsset<GameObject>("GalvanicBallProjectile.prefab").GetComponent<ProjectileController>().ghostPrefab.InstantiateClone("Galvanic Bolt Projectile Ghost " + name, false);
             var actualProjectile = Main.assets.LoadAsset<GameObject>("GalvanicBallProjectile.prefab").InstantiateClone("Galvanic Bolt Projectile " + name, true);
             actualProjectile.GetComponent<ProjectileController>().ghostPrefab = projectile;
             projectile.FindComponent<MeshRenderer>("Radius").sharedMaterial = Paths.Material.matTeamAreaIndicatorIntersectionPlayer;
@@ -157,6 +157,9 @@ namespace Sandswept.Survivors.Electrician.VFX
             ContentAddition.AddNetworkedObject(actualProjectile);
             PrefabAPI.RegisterNetworkPrefab(actualProjectile);
             ContentAddition.AddProjectile(actualProjectile);
+
+            Utils.Projectile.BlacklistAttackDirectionFix(actualProjectile);
+
             return actualProjectile;
         }
 

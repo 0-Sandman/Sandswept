@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using UnityEngine;
 using static Sandswept.Utils.TotallyNotStolenUtils;
 
 namespace Sandswept.Items
@@ -112,14 +113,14 @@ namespace Sandswept.Items
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         private void LGWrapper()
         {
-            ItemStatsDef def = GetItemStatsDef() as ItemStatsDef;
+            ItemCatalog.availability.CallWhenAvailable(OnItemCatalogAvailable);
+        }
 
-            if (def != null)
+        private void OnItemCatalogAvailable()
+        {
+            if (GetItemStatsDef() is ItemStatsDef itemStatsDef)
             {
-                ItemCatalog.availability.CallWhenAvailable(() =>
-                {
-                    LookingGlass.ItemStatsNameSpace.ItemDefinitions.RegisterItemStatsDef(def, ItemDef.itemIndex);
-                });
+                LookingGlass.ItemStatsNameSpace.ItemDefinitions.RegisterItemStatsDef(itemStatsDef, ItemDef.itemIndex);
             }
         }
 

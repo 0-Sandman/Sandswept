@@ -35,6 +35,7 @@ using RoR2.UI;
 using Sandswept.Survivors.Electrician;
 using R2API.ScriptableObjects;
 using HG;
+
 // using Sandswept.Mechanics;
 
 [assembly: HG.Reflection.SearchableAttribute.OptIn]
@@ -59,6 +60,7 @@ namespace Sandswept
     [BepInDependency("com.weliveinasociety.CustomEmotesAPI", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("droppod.lookingglass", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency("com.RiskOfBrainrot.ProcSolver", BepInDependency.DependencyFlags.SoftDependency)]
+    [BepInDependency("Gorakh.AttackDirectionFix", BepInDependency.DependencyFlags.SoftDependency)]
     [BepInDependency(Rebindables.Rebindables.PluginGUID)]
     [NetworkCompatibility(CompatibilityLevel.EveryoneMustHaveMod, VersionStrictness.EveryoneNeedSameModVersion)]
     public class Main : BaseUnityPlugin
@@ -110,7 +112,9 @@ namespace Sandswept
         public static bool AttackDirectionFixLoaded = false;
         private static string rangerBoneMapperName;
         public static MPInput input;
+
         public static event Action onInputAvailable;
+
         internal static List<DroneDef> droneDefs = new();
 
         private void Awake()
@@ -306,6 +310,7 @@ namespace Sandswept
             SwepSwepTheSandy.Init();
             NetworkingAPI.RegisterMessageType<CallNetworkedMethod>();
         }
+
         public void SetUpHooks()
         {
             SandsweptTemporaryEffects.ApplyHooks();
@@ -313,6 +318,7 @@ namespace Sandswept
             IL.EntityStates.Drone.DeathState.OnImpactServer += DroneDropFix;
             On.RoR2.SurvivorCatalog.Init += OnSurvivorCatalogFinished;
         }
+
         private void OnSurvivorCatalogFinished(On.RoR2.SurvivorCatalog.orig_Init orig)
         {
             orig();
@@ -624,9 +630,10 @@ namespace Sandswept
                     gun.SetActive(false);
                 }
                 else
+                {
                     gun.SetActive(true);
+                }
             }
-
         }
 
         private void DroneDropFix(ILContext il)

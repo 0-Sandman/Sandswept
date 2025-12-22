@@ -43,7 +43,7 @@ namespace Sandswept.Survivors.Electrician.States
                     FireProjectileInfo info = MiscUtils.GetProjectile(galvanicBoltProjectile, 2f, characterBody, DamageTypeCombo.GenericPrimary);
 
                     GameObject pylon = SearchPylon();
-                    if (pylon && !Main.AttackDirectionFixLoaded)
+                    if (pylon /*&& !Main.AttackDirectionFixLoaded*/)
                     {
                         info.rotation = Util.QuaternionSafeLookRotation((pylon.transform.position - info.position).normalized);
                     }
@@ -60,7 +60,6 @@ namespace Sandswept.Survivors.Electrician.States
             // Util.PlayAttackSpeedSound("Play_voidman_m1_shoot", base.gameObject, 0.7f);
 
             Util.PlaySound("Play_elec_m1_shoot", gameObject);
-
         }
 
         public GameObject SearchPylon()

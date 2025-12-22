@@ -1,11 +1,13 @@
 ## 1.4.1 Patch Notes
+- VOL-T
+  - Fixed Galvanic Bolt always missing with AttackDirectionFix installed (not jankily this time, has aim assistance again)
 - Elites
-  - Flying enemies can no longer spawn as Osmium.
+  - Made flying enemies no longer able to spawn as Osmium
 - Items
-  - Nuclear Salvo now ACTUALLY no longer fires in Computational Exchange / Bazaar
-  - Fixed Nuclear Salvo missiles airstalling indefinitely when fired from certain ranges.
+  - Fixed Nuclear Salvo activating while in the Bazaar and Computational Exchange (for eel this time)
+  - Fixed Nuclear Salvo missiles airstalling indefinitely when fired from certain ranges
 - Interactables
-  - Shrine of Ruin now properly persists when using mods such as ProperSave.
+  - Fixed Shrine of Ruin stage corruption not persisting when using mods such as ProperSave
 
 ## 1.4.0 Patch Notes
 - General

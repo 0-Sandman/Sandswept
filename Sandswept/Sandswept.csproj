@@ -71,5 +71,8 @@
 	  <Reference Include="Rebindables">
 	  	<HintPath>libs/Rebindables.dll</HintPath>
 	  </Reference>
+	  <Reference Include="AttackDirectionFix">
+	  	<HintPath>libs/AttackDirectionFix.dll</HintPath>
+	  </Reference>
 	</ItemGroup>
 </Project>

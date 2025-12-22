@@ -83,10 +83,10 @@ namespace Sandswept.Equipment
         [MethodImpl(MethodImplOptions.NoInlining | MethodImplOptions.NoOptimization)]
         private void LGWrapper()
         {
-            ItemCatalog.availability.CallWhenAvailable(OnItemCatalogAvailable);
+            EquipmentCatalog.availability.CallWhenAvailable(OnEquipmentCatalogAvailable);
         }
 
-        private void OnItemCatalogAvailable()
+        private void OnEquipmentCatalogAvailable()
         {
             if (GetItemStatsDef() is ItemStatsDef itemStatsDef)
             {
