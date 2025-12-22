@@ -1,6 +1,6 @@
-
 using IL.RoR2.Items;
 using LookingGlass.ItemStatsNameSpace;
+using Rewired.ComponentControls.Effects;
 using RoR2.ContentManagement;
 using RoR2BepInExPack.GameAssetPaths;
 using Sandswept.Items.VoidGreens;
@@ -25,6 +25,7 @@ namespace Sandswept.Equipment.Lunar
         public override string EquipmentPickupDesc => "Permanently sacrifice $srmaximum health$se to duplicate items.".AutoFormat();
 
         public override string EquipmentFullDescription => $"$srPermanently$se sacrifice $sr{baseHealthCost}%$se of your $srmaximum health$se to $suduplicate$se a targeted item. $srHealth cost increases with item rarity$se.".AutoFormat();
+
         public override string EquipmentLore =>
         """
         This was her final design. The ultimatum of her training. Design itself, at a cost -- a fitting end to her work. That the end should be now, however, is an irreparable misdoing.
@@ -45,6 +46,7 @@ namespace Sandswept.Equipment.Lunar
 
         In that moment, you may ask for my forgiveness, but I will not grant it. Such is a grace given only by brothers.
         """;
+
         public override GameObject EquipmentModel => Main.sandsweptHIFU.LoadAsset<GameObject>("FlawlessDesignHolder.prefab");
         public override bool IsLunar => true;
         public override Sprite EquipmentIcon => Main.sandsweptHIFU.LoadAsset<Sprite>("texFlawlessDesign.png");
@@ -89,15 +91,36 @@ namespace Sandswept.Equipment.Lunar
         public void SetUpIndicator()
         {
             DesignIndicator = PrefabAPI.InstantiateClone(Paths.GameObject.RecyclerIndicator, "DesignPickupIndicator", false);
-            foreach (var renderer in DesignIndicator.GetComponentsInChildren<SpriteRenderer>(true)) {
+            foreach (var renderer in DesignIndicator.GetComponentsInChildren<SpriteRenderer>(true))
+            {
                 renderer.gameObject.SetActive(false);
             }
-            DesignIndicator.GetComponentInChildren<TextMeshPro>(true).gameObject.SetActive(false);
-            DesignIndicator.transform.Find("Holder/Brackets").EditComponent<SpriteRenderer>((x) => {
+            var text = DesignIndicator.transform.Find("TextMeshPro");
+            var textMeshPro = text.GetComponent<TextMeshPro>();
+            textMeshPro.color = new Color32(84, 160, 199, 255);
+            var icon = DesignIndicator.transform.Find("Holder/Brackets");
+            icon.EditComponent<SpriteRenderer>((x) =>
+            {
                 x.sprite = Main.assets.LoadAsset<Sprite>("texFlawlessDesignIndicator.png");
                 x.gameObject.SetActive(true);
                 x.color = Color.white;
                 x.transform.localScale = Vector3.one;
+            });
+
+            icon.AddComponent<RotateAroundAxis>((x) =>
+            {
+                x.rotateAroundAxis = RotateAroundAxis.RotationAxis.X;
+                x.speed = RotateAroundAxis.Speed.Slow;
+                x.slowRotationSpeed = 10f;
+            });
+
+            DesignIndicator.AddComponent<ObjectScaleCurve>((x) =>
+            {
+                x.baseScale = Vector3.one;
+                x.useOverallCurveOnly = true;
+                x.overallCurve = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(0.25f, 0.9f), new Keyframe(0.5f, 1.1f), new Keyframe(0.75f, 0.9f), new Keyframe(1f, 1f));
+                x.timeMax = 5f;
+                x.loop = true;
             });
         }
 

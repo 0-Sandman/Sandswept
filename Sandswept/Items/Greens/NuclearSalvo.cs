@@ -236,10 +236,27 @@ namespace Sandswept.Items.Greens
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Core",
-                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
-                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
-                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+                    childName = "Head",
+                    localPos = new Vector3(1.17741F, -0.05964F, 0.02783F),
+                    localAngles = new Vector3(359.8272F, 174.1985F, 271.4879F),
+                    localScale = new Vector3(0.75818F, 0.70797F, 0.66F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("Drone1BodyRemoteOp",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Head",
+                    localPos = new Vector3(1.17741F, -0.05964F, 0.02783F),
+                    localAngles = new Vector3(359.8272F, 174.1985F, 271.4879F),
+                    localScale = new Vector3(0.75818F, 0.70797F, 0.66F),
 
                     followerPrefab = itemDisplay,
                     limbMask = LimbFlags.None,
@@ -253,10 +270,27 @@ namespace Sandswept.Items.Greens
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Core",
-                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
-                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
-                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+                    childName = "HeadCenter",
+                    localPos = new Vector3(-0.01513F, 0.31381F, 0.89382F),
+                    localAngles = new Vector3(67.61651F, 179.1048F, 359.6941F),
+                    localScale = new Vector3(0.66889F, 0.66889F, 0.66889F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("Drone2BodyRemoteOp",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "HeadCenter",
+                    localPos = new Vector3(-0.01513F, 0.31381F, 0.89382F),
+                    localAngles = new Vector3(67.61651F, 179.1048F, 359.6941F),
+                    localScale = new Vector3(0.66889F, 0.66889F, 0.66889F),
 
                     followerPrefab = itemDisplay,
                     limbMask = LimbFlags.None,
@@ -270,7 +304,7 @@ namespace Sandswept.Items.Greens
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Core",
+                    childName = "Muzzle",
                     localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
                     localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
                     localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
@@ -282,12 +316,46 @@ namespace Sandswept.Items.Greens
 
             );
 
+            i.Add("JunkDroneBodyRemoteOp",
+
+               new ItemDisplayRule()
+               {
+                   ruleType = ItemDisplayRuleType.ParentedPrefab,
+                   childName = "Muzzle",
+                   localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                   localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                   localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                   followerPrefab = itemDisplay,
+                   limbMask = LimbFlags.None,
+                   followerPrefabAddress = new AssetReferenceGameObject("")
+               }
+
+           );
+
             i.Add("EmergencyDroneBody",
 
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Core",
+                    childName = "Muzzle",
+                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("EmergencyDroneBodyRemoteOp",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Muzzle",
                     localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
                     localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
                     localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
@@ -304,7 +372,24 @@ namespace Sandswept.Items.Greens
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Core",
+                    childName = "Muzzle",
+                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("FlameDroneBodyRemoteOp",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Muzzle",
                     localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
                     localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
                     localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
@@ -321,7 +406,23 @@ namespace Sandswept.Items.Greens
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Core",
+                    childName = "Muzzle",
+                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+            );
+
+            i.Add("MissileDroneBodyRemoteOp",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Muzzle",
                     localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
                     localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
                     localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
@@ -337,7 +438,24 @@ namespace Sandswept.Items.Greens
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Core",
+                    childName = "Muzzle",
+                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("CleanupDroneBodyRemoteOp",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Muzzle",
                     localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
                     localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
                     localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
@@ -354,7 +472,24 @@ namespace Sandswept.Items.Greens
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Core",
+                    childName = "Muzzle",
+                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("JailerDroneBodyRemoteOp",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Muzzle",
                     localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
                     localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
                     localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
@@ -371,7 +506,24 @@ namespace Sandswept.Items.Greens
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Core",
+                    childName = "Muzzle",
+                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("RechargeDroneBodyRemoteOp",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Muzzle",
                     localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
                     localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
                     localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
@@ -388,7 +540,24 @@ namespace Sandswept.Items.Greens
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Core",
+                    childName = "Muzzle",
+                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("BombardmentDroneBodyRemoteOp",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Muzzle",
                     localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
                     localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
                     localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
@@ -405,7 +574,24 @@ namespace Sandswept.Items.Greens
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Core",
+                    childName = "Muzzle",
+                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("CopycatDroneBodyRemoteOp",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Muzzle",
                     localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
                     localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
                     localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
@@ -422,10 +608,180 @@ namespace Sandswept.Items.Greens
                 new ItemDisplayRule()
                 {
                     ruleType = ItemDisplayRuleType.ParentedPrefab,
-                    childName = "Core",
+                    childName = "Muzzle",
                     localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
                     localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
                     localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("MegaDroneBodyRemoteOp",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Muzzle",
+                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("DroneBomberBody",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Muzzle",
+                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("DroneCommanderBody",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Muzzle",
+                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("EquipmentDroneBody",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Muzzle",
+                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("EquipmentDroneBodyRemoteOp",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Muzzle",
+                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("BackupDroneBody",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Muzzle",
+                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("BackupDroneBodyRemoteOp",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Muzzle",
+                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("DTGunnerDroneBody",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Head",
+                    localPos = new Vector3(1.17741F, -0.05964F, 0.02783F),
+                    localAngles = new Vector3(359.8272F, 174.1985F, 271.4879F),
+                    localScale = new Vector3(0.75818F, 0.70797F, 0.66F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("DTHaulerDroneBody",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "Muzzle",
+                    localPos = new Vector3(0.01214F, 0.1681F, -0.27857F),
+                    localAngles = new Vector3(16.31142F, 188.3025F, 3.37207F),
+                    localScale = new Vector3(0.38187F, 0.35658F, 0.33242F),
+
+                    followerPrefab = itemDisplay,
+                    limbMask = LimbFlags.None,
+                    followerPrefabAddress = new AssetReferenceGameObject("")
+                }
+
+            );
+
+            i.Add("DTHealingDroneBody",
+
+                new ItemDisplayRule()
+                {
+                    ruleType = ItemDisplayRuleType.ParentedPrefab,
+                    childName = "HeadCenter",
+                    localPos = new Vector3(-0.01513F, 0.31381F, 0.89382F),
+                    localAngles = new Vector3(67.61651F, 179.1048F, 359.6941F),
+                    localScale = new Vector3(0.66889F, 0.66889F, 0.66889F),
 
                     followerPrefab = itemDisplay,
                     limbMask = LimbFlags.None,
