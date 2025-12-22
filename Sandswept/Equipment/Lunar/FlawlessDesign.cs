@@ -109,7 +109,7 @@ namespace Sandswept.Equipment.Lunar
 
             icon.AddComponent<RotateAroundAxis>((x) =>
             {
-                x.rotateAroundAxis = RotateAroundAxis.RotationAxis.X;
+                x.rotateAroundAxis = RotateAroundAxis.RotationAxis.Z;
                 x.speed = RotateAroundAxis.Speed.Slow;
                 x.slowRotationSpeed = 10f;
             });
@@ -119,7 +119,7 @@ namespace Sandswept.Equipment.Lunar
                 x.baseScale = Vector3.one;
                 x.useOverallCurveOnly = true;
                 x.overallCurve = new AnimationCurve(new Keyframe(0f, 1f), new Keyframe(0.25f, 0.9f), new Keyframe(0.5f, 1.1f), new Keyframe(0.75f, 0.9f), new Keyframe(1f, 1f));
-                x.timeMax = 5f;
+                x.timeMax = 8f;
                 x.loop = true;
             });
             // the gig economy is full
